@@ -41,7 +41,6 @@ public class TrottiULMain {
 
             LOGGER.info("Application started.%nStop the application using CTRL+C");
 
-            // block and wait shut down signal, like CTRL+C
             Thread.currentThread().join();
 
         } catch (InterruptedException e) {

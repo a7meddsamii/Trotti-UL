@@ -105,12 +105,6 @@
             <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty.ee10</groupId>
-            <artifactId>jetty-ee10-servlet</artifactId>
-            <version>${jetty-ee10.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
