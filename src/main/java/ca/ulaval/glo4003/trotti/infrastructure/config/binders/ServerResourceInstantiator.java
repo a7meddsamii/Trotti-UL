@@ -5,26 +5,26 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import java.util.List;
 import java.util.Objects;
 
-public class ServerResourceFactory {
+public class ServerResourceInstantiator {
 	
-	private static ServerResourceFactory instance;
+	private static ServerResourceInstantiator instance;
 	private final ServerResourceLocator locator;
 	private boolean resourcesCreated;
 	
-	public static ServerResourceFactory getInstance() {
+	public static ServerResourceInstantiator getInstance() {
 		if (!Objects.isNull(instance)) {
 			return instance;
 		}
 		
-		return instance = new ServerResourceFactory();
+		return instance = new ServerResourceInstantiator();
 	}
 	
-	private ServerResourceFactory() {
+	private ServerResourceInstantiator() {
 		this.locator = ServerResourceLocator.getInstance();
 		this.resourcesCreated = false;
 	}
 	
-	public void create() {
+	public void initiate() {
 		if (resourcesCreated) {
 			return;
 		}
