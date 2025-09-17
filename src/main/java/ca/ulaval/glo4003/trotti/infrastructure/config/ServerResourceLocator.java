@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ServerResourceLocator {
 	
@@ -9,7 +10,10 @@ public class ServerResourceLocator {
 	private static ServerResourceLocator singleton;
 	
 	public static ServerResourceLocator getInstance() {
-		if (singleton != null) return singleton;
+		if (!Objects.isNull(singleton)) {
+			return singleton;
+		}
+		
 		return singleton = new ServerResourceLocator();
 	}
 	
