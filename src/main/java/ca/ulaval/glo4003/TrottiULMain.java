@@ -37,6 +37,9 @@ public class TrottiULMain {
                 } catch (Exception e) {
                     LOGGER.error("Error shutting down the server", e);
                 }
+				finally {
+					server.destroy();
+                }
             }));
 
             LOGGER.info("Application started.%nStop the application using CTRL+C");
