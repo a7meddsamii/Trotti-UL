@@ -54,7 +54,7 @@ jobs:
           PR_PATH="https://github.com/$REPO_NAME/pull/$PR_NUMBER"
           PR_EFFECTIVE_AT="${PR_UPDATED_AT:-$PR_CREATED_AT}"
           PR_CREATED_TS=$(date -d "$PR_EFFECTIVE_AT" +%s)
-          REVIEW_TS=$((PR_CREATED_TS + 129600))
+          REVIEW_TS=$((PR_CREATED_TS + 172800))
           REVIEW_BY_DATE=$(TZ="America/Toronto" date -d @"$REVIEW_TS" '+%B %d, %Y %I:%M %p %Z')
           FOOTER="📝 Must be reviewed by: $REVIEW_BY_DATE"
           DESCRIPTION="\`$PR_HEAD_REF\` ⟶ \`$PR_BASE_REF\`"
