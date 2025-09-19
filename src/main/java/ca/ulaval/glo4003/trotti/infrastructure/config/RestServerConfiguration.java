@@ -10,6 +10,5 @@ public class RestServerConfiguration extends AbstractBinder {
 	protected void configure() {
 		ServerResourceInstantiator.getInstance().initiate();
 		install(new ExternalServiceBinder());
-		// Add more binders as needed here
 	}
 }
