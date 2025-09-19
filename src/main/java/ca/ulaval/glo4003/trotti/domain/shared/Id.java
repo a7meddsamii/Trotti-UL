@@ -7,7 +7,7 @@ public class Id {
 	
 	private final UUID value;
 	
-	public Id from(String value) {
+	public static Id from(String value) {
 		return new Id(value);
 	}
 	

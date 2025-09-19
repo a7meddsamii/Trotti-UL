@@ -6,7 +6,7 @@ public class Idul {
 	
 	private final String value;
 	
-	private static Idul from(String value) {
+	public static Idul from(String value) {
 		return new Idul(value);
 	}
 	

@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.time.Clock;
 import java.time.Duration;
@@ -25,10 +26,10 @@ public class AuthenticatorAdapter implements Authenticator {
 		this.clock = clock;
 	}
 	
-	public String generateToken(Idul accountId) {
+	public AuthToken generateToken(Idul accountId) {
 		Instant now = Instant.now(clock);
 		
-		return Jwts
+		String tokenValue = Jwts
 				.builder()
 				.id(Id.randomId().toString())
 				.subject(accountId.toString())
@@ -36,15 +37,19 @@ public class AuthenticatorAdapter implements Authenticator {
 				.expiration(Date.from(now.plus(expirationDuration)))
 				.signWith(SECRET_KEY, Jwts.SIG.HS256)
 				.compact();
+		
+		return AuthToken.from(tokenValue);
 	}
 	
-	public Idul authenticate(String token) {
-		/* TODO authentication process
-			- lancer une exception si le token est invalide
-			- lancer une exception si la période est expiré
-			- extrait le subject (idul) du token et le retourner si tout est ok
-		 */
-				
-		return null;
+	public Idul authenticate(AuthToken token) {
+		String idulValue = Jwts
+				.parser()
+				.verifyWith(SECRET_KEY)
+				.build()
+				.parseSignedClaims(token.getValue())
+				.getPayload()
+				.getSubject();
+		
+		return Idul.from(idulValue);
 	}
 }
