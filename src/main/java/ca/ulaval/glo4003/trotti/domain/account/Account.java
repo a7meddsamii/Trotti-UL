@@ -5,9 +5,9 @@ import java.time.Period;
 
 public class Account {
   private final String name;
+  private final Password hashedPassword;
   private final LocalDate birthDate;
-  private final String idul;
-  private final String hashedPassword; //"23edbwywbdhysgshshs"
+  private final Idul idul;
   private Gender gender;
   private Email email;
 
@@ -15,9 +15,9 @@ public class Account {
     String name,
     LocalDate birthDate,
     Gender gender,
-    String idul,
+    Idul idul,
     Email email,
-    String hashedPassword
+    Password hashedPassword
   ) {
     this.name = name;
     this.gender = gender;
@@ -44,7 +44,7 @@ public class Account {
     return Period.between(this.birthDate, today).getYears();
   }
 
-  public String getIdul() {
+  public Idul getIdul() {
     return idul;
   }
 
@@ -52,7 +52,7 @@ public class Account {
     return email;
   }
 
-  public String getHashedPassword() {
+  public Password getHashedPassword() {
     return hashedPassword;
   }
 }

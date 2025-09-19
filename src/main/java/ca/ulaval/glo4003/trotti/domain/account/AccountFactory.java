@@ -8,10 +8,10 @@ public class AccountFactory {
     String name,
     LocalDate birthDate,
     Gender gender,
-    String idul,
+    Idul idul,
     Email email,
-    String hashedPassword
+    Password password
   ) {
-    return new Account(name, birthDate, gender, idul, email, hashedPassword);
+    return new Account(name, birthDate, gender, idul, email, password);
   }
 }

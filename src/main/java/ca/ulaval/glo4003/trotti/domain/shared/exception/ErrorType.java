@@ -2,11 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.shared.exception;
 
 public enum ErrorType {
   INVALID_EMAIL,
-  EMAIL_ALREADY_EXISTS,
-  IDUL_ALREADY_EXISTS,
-  INVALID_CREDENTIALS,
-  SESSION_EXPIRED,
   INVALID_PASSWORD,
   INVALID_GENDER,
-  CONFIGURATION_ERROR
+  INVALID_IDUL
 }
