@@ -6,10 +6,10 @@ import java.time.Period;
 public class Account {
   private final String name;
   private final LocalDate birthDate;
-  private Gender gender;
   private final String idul;
-  private Email email;
   private final String hashedPassword; //"23edbwywbdhysgshshs"
+  private Gender gender;
+  private Email email;
 
   public Account(
     String name,
