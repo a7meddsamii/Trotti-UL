@@ -27,7 +27,8 @@ public class TrottiULMain {
 
         try {
             LOGGER.info("Setup http server");
-            final Server server = JettyHttpContainerFactory.createServer(URI.create(BASE_URI), config);
+            final Server server =
+                    JettyHttpContainerFactory.createServer(URI.create(BASE_URI), config);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
@@ -36,9 +37,8 @@ public class TrottiULMain {
                     LOGGER.info("Done, exit.");
                 } catch (Exception e) {
                     LOGGER.error("Error shutting down the server", e);
-                }
-				finally {
-					server.destroy();
+                } finally {
+                    server.destroy();
                 }
             }));
 

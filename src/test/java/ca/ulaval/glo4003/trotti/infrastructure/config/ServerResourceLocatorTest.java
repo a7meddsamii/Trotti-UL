@@ -1,15 +1,14 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ServerResourceLocatorTest {
 
     @BeforeEach
-    void setUp() {
-    }
+    void setUp() {}
 
     @Test
     void alwaysPasses() {
