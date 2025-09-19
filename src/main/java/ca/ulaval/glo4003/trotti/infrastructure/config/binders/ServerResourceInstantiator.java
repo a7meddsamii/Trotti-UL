@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 import ca.ulaval.glo4003.trotti.infrastructure.auth.AuthenticatorAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import io.jsonwebtoken.Jwts;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +40,9 @@ public class ServerResourceInstantiator {
 			Clock authenticatorClock = Clock.systemDefaultZone();
 			AuthenticatorAdapter authenticator = new AuthenticatorAdapter(expirationDuration, authenticatorClock, SECRET_KEY);
 			locator.register(AuthenticatorAdapter.class, authenticator);
-		} catch (DateTimeParseException exception) {
-			LOGGER.error("Invalid token expiration duration", exception);
+			LOGGER.info("Token expiration duration set to {}", DurationFormatUtils.formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
+		} catch (DateTimeParseException | NullPointerException exception) {
+			LOGGER.error("Invalid or missing token expiration duration environment variable", exception);
 			System.exit(-1);
 		}
 	}
