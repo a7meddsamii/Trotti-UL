@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.shared.exception;
 
 public class InvalidParameterException extends RuntimeException {
-
   private final ErrorType errorType;
 
   public InvalidParameterException(ErrorType errorType, String description) {
