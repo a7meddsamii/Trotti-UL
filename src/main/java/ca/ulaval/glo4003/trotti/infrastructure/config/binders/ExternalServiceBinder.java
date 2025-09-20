@@ -6,10 +6,10 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 public class ExternalServiceBinder extends AbstractBinder {
-	
-	@Override
-	protected void configure() {
-		ServerResourceLocator locator = ServerResourceLocator.getInstance();
-		bind(locator.resolve(AuthenticatorAdapter.class)).to(Authenticator.class);
-	}
+
+    @Override
+    protected void configure() {
+        ServerResourceLocator locator = ServerResourceLocator.getInstance();
+        bind(locator.resolve(AuthenticatorAdapter.class)).to(Authenticator.class);
+    }
 }

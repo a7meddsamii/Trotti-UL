@@ -5,10 +5,10 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.binders.ServerResourceInst
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 public class RestServerConfiguration extends AbstractBinder {
-	
-	@Override
-	protected void configure() {
-		ServerResourceInstantiator.getInstance().initiate();
-		install(new ExternalServiceBinder());
-	}
+
+    @Override
+    protected void configure() {
+        ServerResourceInstantiator.getInstance().initiate();
+        install(new ExternalServiceBinder());
+    }
 }
