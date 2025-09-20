@@ -27,10 +27,6 @@ public class Id {
         }
     }
 
-    public String getValue() {
-        return value.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

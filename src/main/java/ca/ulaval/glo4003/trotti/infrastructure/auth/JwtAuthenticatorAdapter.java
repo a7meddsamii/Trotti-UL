@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.auth;
 
-import ca.ulaval.glo4003.trotti.domain.account.Authenticator;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.auth.AuthToken;
+import ca.ulaval.glo4003.trotti.domain.account.auth.Authenticator;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -11,14 +12,14 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 
-public class AuthenticatorAdapter implements Authenticator {
+public class JwtAuthenticatorAdapter implements Authenticator {
 
     private final Duration expirationDuration;
     private final Clock clock;
     private final SecretKey secretKey;
 
 
-    public AuthenticatorAdapter(Duration expirationDuration, Clock clock, SecretKey secretKey) {
+    public JwtAuthenticatorAdapter(Duration expirationDuration, Clock clock, SecretKey secretKey) {
         this.expirationDuration = expirationDuration;
         this.clock = clock;
         this.secretKey = secretKey;

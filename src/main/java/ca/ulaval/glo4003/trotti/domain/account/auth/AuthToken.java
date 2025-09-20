@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.auth;
+package ca.ulaval.glo4003.trotti.domain.account.auth;
 
 import java.util.Objects;
 
