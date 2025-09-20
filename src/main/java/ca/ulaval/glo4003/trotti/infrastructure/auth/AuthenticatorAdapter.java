@@ -22,11 +22,11 @@ public class AuthenticatorAdapter implements Authenticator {
 	public AuthenticatorAdapter(Duration expirationDuration, Clock clock, SecretKey secretKey) {
 		this.expirationDuration = expirationDuration;
 		this.clock = clock;
-        this.secretKey = secretKey;
+		this.secretKey = secretKey;
 	}
 	
 	public AuthToken generateToken(Idul accountId) {
-		Instant now = Instant.now(clock);
+		Instant now = clock.instant();
 		
 		String tokenValue = Jwts
 				.builder()
@@ -44,6 +44,7 @@ public class AuthenticatorAdapter implements Authenticator {
 		String idulValue = Jwts
 				.parser()
 				.verifyWith(secretKey)
+				.clock(() -> Date.from(clock.instant()))
 				.build()
 				.parseSignedClaims(token.getValue())
 				.getPayload()
