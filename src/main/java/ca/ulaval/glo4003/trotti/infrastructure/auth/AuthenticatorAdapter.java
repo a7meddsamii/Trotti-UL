@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.auth;
 
 import ca.ulaval.glo4003.trotti.domain.account.Authenticator;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.shared.Id;
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.shared;
+package ca.ulaval.glo4003.trotti.domain.commons;
 
 import java.util.Objects;
 import java.util.UUID;
