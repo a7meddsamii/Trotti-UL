@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.auth;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -14,7 +15,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class AuthenticatorAdapterTest {
 	private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
@@ -38,7 +38,7 @@ class AuthenticatorAdapterTest {
 	void givenIdul_whenGenerateToken_thenReturnsAuthToken() {
 		AuthToken token = authenticatorAdapter.generateToken(AN_IDUL);
 		
-		assertNotNull(token);
+		Assertions.assertNotNull(token);
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ class AuthenticatorAdapterTest {
 		
 		Idul idul = authenticatorAdapter.authenticate(token);
 		
-		assertEquals(AN_IDUL, idul);
+		Assertions.assertEquals(AN_IDUL, idul);
 	}
 	
 	@Test
@@ -59,8 +59,9 @@ class AuthenticatorAdapterTest {
 		
 		Executable authenticationAction = () -> authenticatorAdapter.authenticate(token);
 		
-		assertThrows(ExpiredJwtException.class, authenticationAction);
+		Assertions.assertThrows(ExpiredJwtException.class, authenticationAction);
 	}
+	
 	
 	
 	@Test
@@ -81,20 +82,20 @@ class AuthenticatorAdapterTest {
 				.getPayload();
 		
 		Instant now = Instant.now();
-		assertEquals("equi10", claims.getSubject());
-		assertNotNull(claims.getId());
+		Assertions.assertEquals("equi10", claims.getSubject());
+		Assertions.assertNotNull(claims.getId());
 		
 		Instant iat = claims.getIssuedAt().toInstant();
 		Instant exp = claims.getExpiration().toInstant();
 		
-		assertTrue(
+		Assertions.assertTrue(
 				!iat.isAfter(now.plusSeconds(2)) && !iat.isBefore(now.minusSeconds(2)),
 				"iat should be ~now"
 		);
 		
 		// exp should be iat + expiry (±2s)
 		Instant expectedExp = iat.plus(expiry);
-		assertTrue(
+		Assertions.assertTrue(
 				!exp.isAfter(expectedExp.plusSeconds(2)) && !exp.isBefore(expectedExp.minusSeconds(2)),
 				"exp should be iat + expiry (±2s)"
 		);
@@ -109,7 +110,7 @@ class AuthenticatorAdapterTest {
 		AuthToken token = sut.generateToken(idul);
 		Idul parsed = sut.authenticate(token);
 		
-		assertEquals(idul, parsed);
+		Assertions.assertEquals(idul, parsed);
 	}
 	
 	@Test
@@ -121,7 +122,7 @@ class AuthenticatorAdapterTest {
 		
 		Thread.sleep(30);
 		
-		assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> sut.authenticate(token));
+		Assertions.assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> sut.authenticate(token));
 	}
 	
 	@Test
@@ -130,7 +131,7 @@ class AuthenticatorAdapterTest {
 		var sut = new AuthenticatorAdapter(Duration.ofMinutes(10), Clock.systemUTC(), key);
 		var bad = AuthToken.from("this-is-not-a-jwt");
 		
-		assertThrows(io.jsonwebtoken.JwtException.class, () -> sut.authenticate(bad));
+		Assertions.assertThrows(io.jsonwebtoken.JwtException.class, () -> sut.authenticate(bad));
 	}
 	
 	@Test
@@ -144,12 +145,12 @@ class AuthenticatorAdapterTest {
 		char flipped = last == 'a' ? 'b' : 'a';
 		var tampered = AuthToken.from(v.substring(0, v.length() - 1) + flipped);
 		
-		assertThrows(io.jsonwebtoken.JwtException.class, () -> sut.authenticate(tampered));
+		Assertions.assertThrows(io.jsonwebtoken.JwtException.class, () -> sut.authenticate(tampered));
 	}
 	
 	@Test
 	void authToken_from_throwsOnNullOrBlank() {
-		assertThrows(IllegalArgumentException.class, () -> AuthToken.from(null));
-		assertThrows(IllegalArgumentException.class, () -> AuthToken.from(""));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> AuthToken.from(null));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> AuthToken.from(""));
 	}
 }
