@@ -22,6 +22,7 @@ class GenderTest {
   private static final String FEMALE_LABEL = "Female";
   private static final String NON_BINARY_LABEL = "Non-binary";
   private static final String UNSPECIFIED_LABEL = "Unspecified";
+  private static final String SEPARATOR = ", ";
 
   @Test
   void givenMaleString_whenFromString_thenReturnMaleEnum() {
@@ -62,5 +63,18 @@ class GenderTest {
     assertEquals(FEMALE_LABEL, Gender.FEMALE.toString());
     assertEquals(NON_BINARY_LABEL, Gender.NON_BINARY.toString());
     assertEquals(UNSPECIFIED_LABEL, Gender.UNSPECIFIED.toString());
+  }
+
+  @Test
+  void whenAcceptedValues_thenReturnAllLabelsAsCommaSeparatedString() {
+    String expected = String.join(
+      SEPARATOR,
+      FEMALE_LABEL,
+      MALE_LABEL,
+      NON_BINARY_LABEL,
+      UNSPECIFIED_LABEL
+    );
+
+    assertEquals(expected, Gender.acceptedValues());
   }
 }
