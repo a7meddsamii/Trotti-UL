@@ -34,12 +34,12 @@ public class AccountService {
     accountRepository.save(account);
   }
   
-  public String login(CreateAccount request) {
-    Email email = new Email(request.email());
+  public String login(String emailInput, String password) {
+    Email email = new Email(emailInput);
 
     Account account = accountRepository.findByEmail(email);
     
-    passwordhasher(request.password(), account.getHashedPassword());
+    passwordhasher(password, account.getHashedPassword());
     return token.generateToken(account.getIdul());
   }
   

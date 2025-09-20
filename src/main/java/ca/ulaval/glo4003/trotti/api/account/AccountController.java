@@ -1,0 +1,37 @@
+package ca.ulaval.glo4003.trotti.api.account;
+
+import ca.ulaval.glo4003.trotti.api.account.dto.request.LoginRequest;
+import ca.ulaval.glo4003.trotti.api.account.dto.response.LoginResponse;
+import ca.ulaval.glo4003.trotti.application.account.AccountService;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+
+@Path("/api/auth")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class AccountController {
+
+    private final AccountService accountService;
+
+    @Inject
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @POST
+    @Path("/login")
+    public Response login(@Valid LoginRequest request) {
+        String token = accountService.login(request.email(), request.password());
+
+        LoginResponse response = new LoginResponse(token);
+
+        return Response.ok(response).build();
+    }
+}
