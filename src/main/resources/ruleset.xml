@@ -1,0 +1,22 @@
+<ruleset name="Custom / Internet Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+                             https://pmd.github.io/pmd-6.55.0/ruleset_xml_schema.xsd">
+
+    <description>
+        Rules inspired by standard PMD best practices, code style, performance and security.
+    </description>
+
+    <!-- Best Practices / Error Prone -->
+    <rule ref="category/java/errorprone.xml"/>
+
+    <!-- Code Style / Naming -->
+    <rule ref="category/java/codestyle.xml"/>
+    <!-- Design / Maintenance -->
+    <rule ref="category/java/design.xml"/>
+    <!-- Performance -->
+    <rule ref="category/java/performance.xml"/>
+    <!-- Security / Potential Risks -->
+    <rule ref="category/java/security.xml"/>
+</ruleset>
