@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.account.dto.dto.request;
+package ca.ulaval.glo4003.trotti.api.account.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
