@@ -1,15 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidGenderException;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum Gender {
-    FEMALE("Female"),
-    MALE("Male"),
-    NON_BINARY("Non-binary"),
-    UNSPECIFIED("Unspecified");
+    FEMALE("Female"), MALE("Male"), NON_BINARY("Non-binary"), UNSPECIFIED("Unspecified");
 
     private final String label;
 
@@ -33,8 +29,7 @@ public enum Gender {
     }
 
     public static String acceptedValues() {
-        return Arrays.stream(Gender.values())
-                .map(Gender::toString)
+        return Arrays.stream(Gender.values()).map(Gender::toString)
                 .collect(Collectors.joining(", "));
     }
 }

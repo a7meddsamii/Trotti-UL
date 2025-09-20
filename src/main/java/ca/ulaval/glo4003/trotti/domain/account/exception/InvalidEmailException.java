@@ -5,10 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class InvalidEmailException extends InvalidParameterException {
 
-  public InvalidEmailException(String value) {
-    super(
-      ErrorType.INVALID_EMAIL,
-      "Invalid email or incorrect domain: " + value
-    );
-  }
+    public InvalidEmailException(String value) {
+        super(ErrorType.INVALID_EMAIL, "Invalid email or incorrect domain: " + value);
+    }
 }
