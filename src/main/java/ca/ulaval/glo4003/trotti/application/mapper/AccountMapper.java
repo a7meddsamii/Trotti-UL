@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.application.mapper;
 
-import ca.ulaval.glo4003.trotti.api.dto.request.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
 import ca.ulaval.glo4003.trotti.domain.account.*;
 
@@ -13,24 +12,19 @@ public class AccountMapper {
   }
 
   public Account create(CreateAccount request) {
-    String passwordHash = hashValidatedPassword(request);
+    
     Email email = new Email(request.email());
+    Password password = new Password(request.password());
     Gender gender = Gender.fromString(request.gender());
+    Idul idul = Idul.from(request.idul());
 
     return accountFactory.create(
       request.name(),
       request.birthDate(),
       gender,
-      request.idul(),
+            idul,
       email,
-      passwordHash
+            password
     );
-  }
-
-  private String hashValidatedPassword(CreateAccount request) {
-    Password password = new Password(request.password());
-    String hashedPassword = "passwordHasher.hashPassword(rawPassword.value())"; // TODO
-
-    return hashedPassword;
   }
 }
