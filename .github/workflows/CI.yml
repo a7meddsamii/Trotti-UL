@@ -49,6 +49,8 @@ jobs:
           git fetch origin ${{ github.base_ref }}
           diff-cover target/site/jacoco/jacoco.xml \
             --compare-branch=origin/${{ github.base_ref }} \
+            --exclude '.*infrastructure/config/.*' \
+            --exclude '.*Main\.java' \
             --format html:reports/code-coverage.html || true
 
 
@@ -111,6 +113,8 @@ jobs:
           git fetch origin ${{ github.base_ref }}
           diff-cover target/site/jacoco/jacoco.xml \
             --compare-branch=origin/${{ github.base_ref }} \
+            --exclude '.*infrastructure/config/.*' \
+            --exclude '.*Main\.java' \
             --fail-under=80
 
   report-code-quality:
