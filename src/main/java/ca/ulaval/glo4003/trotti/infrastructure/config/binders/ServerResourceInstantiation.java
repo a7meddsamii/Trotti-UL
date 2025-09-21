@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.domain.account.auth.AuthenticatorService;
-import ca.ulaval.glo4003.trotti.infrastructure.auth.JwtAuthenticatorServiceAdapter;
+import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -12,24 +12,24 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServerResourceInstantiator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiator.class);
+public class ServerResourceInstantiation {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiation.class);
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
-    private static ServerResourceInstantiator instance;
+    private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
 
-    public static ServerResourceInstantiator getInstance() {
+    public static ServerResourceInstantiation getInstance() {
         if (instance != null) {
             return instance;
         }
 
-        return instance = new ServerResourceInstantiator();
+        return instance = new ServerResourceInstantiation();
     }
 
-    private ServerResourceInstantiator() {
+    private ServerResourceInstantiation() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
     }
@@ -38,9 +38,9 @@ public class ServerResourceInstantiator {
         try {
             Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
             Clock authenticatorClock = Clock.systemDefaultZone();
-            AuthenticatorService authenticator = new JwtAuthenticatorServiceAdapter(
+            AuthenticationService authenticator = new JwtAuthenticationServiceAdapter(
                     expirationDuration, authenticatorClock, SECRET_KEY);
-            locator.register(AuthenticatorService.class, authenticator);
+            locator.register(AuthenticationService.class, authenticator);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
         } catch (DateTimeParseException | NullPointerException exception) {

@@ -1,18 +1,18 @@
-package ca.ulaval.glo4003.trotti.domain.account.auth;
+package ca.ulaval.glo4003.trotti.domain.account.authentication;
 
-import ca.ulaval.glo4003.trotti.domain.account.exception.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
-public class AuthToken {
+public class AuthenticationToken {
 
     private final String value;
 
-    public static AuthToken from(String value) {
-        return new AuthToken(value);
+    public static AuthenticationToken from(String value) {
+        return new AuthenticationToken(value);
     }
 
-    private AuthToken(String value) {
+    private AuthenticationToken(String value) {
         if (StringUtils.isBlank(value)) {
             throw new MalformedTokenException(
                     "The authentication token is missing, it cannot be null or empty");
@@ -27,8 +27,8 @@ public class AuthToken {
             return false;
         }
 
-        AuthToken authToken = (AuthToken) o;
-        return value.equals(authToken.value);
+        AuthenticationToken authenticationToken = (AuthenticationToken) o;
+        return value.equals(authenticationToken.value);
     }
 
     @Override
