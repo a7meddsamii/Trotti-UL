@@ -21,7 +21,7 @@ public class Email {
     private void validate(String value) {
 
         if (StringUtils.isBlank(value)) {
-            throw new InvalidParameterException("Email cannot be null or empty");
+            throw new InvalidParameterException("Email cannot be null or empty" + value);
         }
 
         boolean goodFormat = EmailValidator.getInstance().isValid(value)

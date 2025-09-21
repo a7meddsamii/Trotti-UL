@@ -20,7 +20,7 @@ class EmailTest {
     }
 
     @Test
-    void givenEmailwithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
+    void givenEmailWithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
         Assertions.assertThrows(InvalidParameterException.class,
                 () -> Email.from(INVALID_DOMAIN_EMAIL));
     }

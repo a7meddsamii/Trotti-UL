@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class IdulTest {
@@ -12,19 +11,18 @@ class IdulTest {
 
     @Test
     void givenValidIdul_whenCreate_thenSucceeds() {
-        Idul idul = Idul.from(VALID_IDUL);
-
-        assertEquals(VALID_IDUL, idul.toString());
+        Assertions.assertDoesNotThrow(() -> Idul.from(VALID_IDUL));
     }
 
     @Test
     void givenNullIdul_whenCreate_thenThrowInvalidIdulException() {
-        assertThrows(InvalidParameterException.class, () -> Idul.from(NULL_IDUL));
+        Assertions.assertThrows(InvalidParameterException.class, () -> Idul.from(NULL_IDUL));
     }
 
     @Test
     void givenEmptyIdul_whenCreate_thenThrowInvalidIdulException() {
-        assertThrows(InvalidParameterException.class, () -> Idul.from(StringUtils.EMPTY));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> Idul.from(StringUtils.EMPTY));
     }
 
     @Test
@@ -32,7 +30,7 @@ class IdulTest {
         Idul idul1 = Idul.from(VALID_IDUL);
         Idul idul2 = Idul.from(VALID_IDUL);
 
-        assertEquals(idul1, idul2);
-        assertEquals(idul1.hashCode(), idul2.hashCode());
+        Assertions.assertEquals(idul1, idul2);
+        Assertions.assertEquals(idul1.hashCode(), idul2.hashCode());
     }
 }

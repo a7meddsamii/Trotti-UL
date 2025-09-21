@@ -14,8 +14,8 @@ class PasswordTest {
     private static final String MISSING_SPECIAL_CHAR = "StrongPass1";
     private static final String MISSING_NUMBER = "StrongPass!";
     private static final String NULL_PASSWORD = null;
+    private static final String HASHED_PASSWORD = "hashed-password";
 
-    private Password password;
     private PasswordHasher hasher;
 
     @BeforeEach
@@ -64,5 +64,14 @@ class PasswordTest {
     void givenNullPassword_whenCreatePassword_thenThrowInvalidParameterException() {
         Assertions.assertThrows(InvalidParameterException.class,
                 () -> new Password(NULL_PASSWORD, hasher));
+    }
+
+    @Test
+    void givenTwoPasswordsWithSameRawValue_whenCompare_thenTheyAreEqual() {
+        Password password1 = new Password(VALID_PASSWORD, hasher);
+        Password password2 = new Password(VALID_PASSWORD, hasher);
+
+        Assertions.assertEquals(password1, password2);
+        Assertions.assertEquals(password1.hashCode(), password2.hashCode());
     }
 }
