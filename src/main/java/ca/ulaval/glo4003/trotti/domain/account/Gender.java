@@ -26,7 +26,7 @@ public enum Gender {
         };
     }
 
-    public static String acceptedValues() {
+    private static String acceptedValues() {
         return Arrays.stream(Gender.values()).map(Gender::toString)
                 .collect(Collectors.joining(", "));
     }

@@ -2,13 +2,14 @@ package ca.ulaval.glo4003.trotti.domain.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 class AccountFactoryTest {
 
@@ -31,25 +32,16 @@ class AccountFactoryTest {
     @Test
     void givenBirthDateToday_whenCreateAccount_thenThrowInvalidParameterException() {
 
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> factory.create(AccountFixture.A_NAME, TODAY, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                        AccountFixture.A_PASSWORD));
-    }
-
-    @Test
-    void givenBirthDateToday_whenCreateAccount_thenThrowsInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> factory.create(AccountFixture.A_NAME, TODAY, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                        AccountFixture.A_PASSWORD));
+        Assertions.assertThrows(InvalidParameterException.class, () -> factory.create(AccountFixture.A_NAME, TODAY, AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD));
     }
 
     @Test
     void givenFutureBirthDate_whenCreateAccount_thenThrowsInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                        AccountFixture.A_PASSWORD));
+        Assertions.assertThrows(InvalidParameterException.class, () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD));
+    }
+
+    @Test
+    void givenPastBirthDate_whenCreateAccount_thenSucceeds() {
+        Assertions.assertDoesNotThrow(() -> factory.create(AccountFixture.A_NAME, PAST_DATE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD));
     }
 }

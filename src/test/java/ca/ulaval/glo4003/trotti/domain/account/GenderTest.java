@@ -20,7 +20,6 @@ class GenderTest {
     private static final String FEMALE_LABEL = "Female";
     private static final String NON_BINARY_LABEL = "Non-binary";
     private static final String UNSPECIFIED_LABEL = "Unspecified";
-    private static final String SEPARATOR = ", ";
 
     @Test
     void givenMaleString_whenFromString_thenReturnMaleEnum() {
@@ -62,10 +61,15 @@ class GenderTest {
     }
 
     @Test
-    void whenAcceptedValues_thenReturnAllLabelsAsCommaSeparatedString() {
-        String expected = String.join(SEPARATOR, FEMALE_LABEL, MALE_LABEL, NON_BINARY_LABEL,
-                UNSPECIFIED_LABEL);
+    void givenInvalidString_whenFromString_thenThrowInvalidGenderExceptionWithAcceptedValuesInMessage() {
+        InvalidParameterException exception = Assertions.assertThrows(
+                InvalidParameterException.class,
+                () -> Gender.fromString(INVALID_STRING));
 
-        Assertions.assertEquals(expected, Gender.acceptedValues());
+        Assertions.assertTrue(exception.getMessage().contains(Gender.MALE.toString()));
+        Assertions.assertTrue(exception.getMessage().contains(Gender.FEMALE.toString()));
+        Assertions.assertTrue(exception.getMessage().contains(Gender.NON_BINARY.toString()));
+        Assertions.assertTrue(exception.getMessage().contains(Gender.UNSPECIFIED.toString()));
     }
+
 }

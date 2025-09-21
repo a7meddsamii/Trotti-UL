@@ -10,19 +10,26 @@ public class Email {
     private final String value;
 
     private Email(String value) {
-        boolean isEmpty = StringUtils.isBlank(value);
-        boolean goodFormat = EmailValidator.getInstance().isValid(value)
-                && value.toLowerCase().endsWith(ULAVAL_DOMAIN);
-
-        if (isEmpty || !goodFormat) {
-            throw new InvalidParameterException("Invalid email or incorrect domain: ");
-        }
-
+        validate(value);
         this.value = value;
     }
 
     public static Email from(String value) {
         return new Email(value);
+    }
+
+    private void validate(String value) {
+
+        if (StringUtils.isBlank(value)) {
+            throw new InvalidParameterException("Email cannot be null or empty");
+        }
+
+        boolean goodFormat = EmailValidator.getInstance().isValid(value)
+                && value.toLowerCase().endsWith(ULAVAL_DOMAIN);
+
+        if (!goodFormat) {
+            throw new InvalidParameterException("Invalid email or incorrect domain: ");
+        }
     }
 
     @Override
