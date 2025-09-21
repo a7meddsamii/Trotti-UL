@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidPasswordException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class PasswordTest {
     private static final String VALID_PASSWORD = "StrongPass1!";
@@ -15,40 +15,54 @@ class PasswordTest {
     private static final String EMPTY_PASSWORD = "";
     private static final String NULL_PASSWORD = null;
 
-    @Test
-    void givenValidPassword_whenCreatePassword_thenSucceeds() {
-        Password password = new Password(VALID_PASSWORD);
+    private Password password;
+    private PasswordHasher hasher;
 
-        assertEquals(VALID_PASSWORD, password.value());
+    @BeforeEach
+    void setup() {
+        hasher = Mockito.mock(PasswordHasher.class);
+    }
+
+    @Test
+    void givenValidPassword_whenCreatePassword_thenHasherIsCalled() {
+        new Password(VALID_PASSWORD, hasher);
+
+        Mockito.verify(hasher).hash(VALID_PASSWORD);
     }
 
     @Test
     void givenTooShortPassword_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(TOO_SHORT_PASSWORD));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(TOO_SHORT_PASSWORD, hasher));
     }
 
     @Test
     void givenPasswordWithoutUppercase_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(MISSING_UPPERCASE));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(MISSING_UPPERCASE, hasher));
     }
 
     @Test
     void givenPasswordWithoutNumber_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(MISSING_NUMBER));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(MISSING_UPPERCASE, hasher));
     }
 
     @Test
     void givenPasswordWithoutSpecialCharacter_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(MISSING_SPECIAL_CHAR));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(MISSING_SPECIAL_CHAR, hasher));
     }
 
     @Test
     void givenEmptyPassword_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(EMPTY_PASSWORD));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(EMPTY_PASSWORD, hasher));
     }
 
     @Test
     void givenNullPassword_whenCreatePassword_thenThrowInvalidPasswordException() {
-        assertThrows(InvalidPasswordException.class, () -> new Password(NULL_PASSWORD));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> new Password(NULL_PASSWORD, hasher));
     }
 }

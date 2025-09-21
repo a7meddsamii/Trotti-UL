@@ -5,7 +5,7 @@ import java.time.Period;
 
 public class Account {
     private final String name;
-    private final Password hashedPassword;
+    private final Password password;
     private final LocalDate birthDate;
     private final Idul idul;
     private Gender gender;
@@ -17,13 +17,13 @@ public class Account {
             Gender gender,
             Idul idul,
             Email email,
-            Password hashedPassword) {
+            Password password) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.idul = idul;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
     }
 
     public String getName() {
@@ -38,11 +38,6 @@ public class Account {
         return gender;
     }
 
-    public int getAge() {
-        LocalDate today = LocalDate.now();
-        return Period.between(this.birthDate, today).getYears();
-    }
-
     public Idul getIdul() {
         return idul;
     }
@@ -51,7 +46,12 @@ public class Account {
         return email;
     }
 
-    public Password getHashedPassword() {
-        return hashedPassword;
+    public Password getPassword() {
+        return password;
+    }
+
+    public int getAge() {
+        LocalDate today = LocalDate.now();
+        return Period.between(this.birthDate, today).getYears();
     }
 }

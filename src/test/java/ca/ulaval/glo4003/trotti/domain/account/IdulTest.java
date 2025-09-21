@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.account;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidIdulException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.junit.jupiter.api.Test;
 
 class IdulTest {
@@ -15,18 +15,17 @@ class IdulTest {
     void givenValidIdul_whenCreate_thenSucceeds() {
         Idul idul = Idul.from(VALID_IDUL);
 
-        assertEquals(VALID_IDUL, idul.getValue());
         assertEquals(VALID_IDUL, idul.toString());
     }
 
     @Test
     void givenNullIdul_whenCreate_thenThrowInvalidIdulException() {
-        assertThrows(InvalidIdulException.class, () -> Idul.from(NULL_IDUL));
+        assertThrows(InvalidParameterException.class, () -> Idul.from(NULL_IDUL));
     }
 
     @Test
     void givenEmptyIdul_whenCreate_thenThrowInvalidIdulException() {
-        assertThrows(InvalidIdulException.class, () -> Idul.from(EMPTY_IDUL));
+        assertThrows(InvalidParameterException.class, () -> Idul.from(EMPTY_IDUL));
     }
 
     @Test

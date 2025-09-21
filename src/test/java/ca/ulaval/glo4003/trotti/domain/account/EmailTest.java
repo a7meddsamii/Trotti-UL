@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidEmailException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class EmailTest {
@@ -11,32 +10,34 @@ class EmailTest {
     private static final String INVALID_DOMAIN_EMAIL = "john.david@gmail.com";
     private static final String EMPTY_EMAIL = "";
     private static final String NULL_EMAIL = null;
-    private static final String INVALID_CHAR_EMAIL = "glo!vachon@ulaval.ca";
+    private static final String INVALID_CHAR_EMAIL = "glovac@hon@ulaval.ca";
 
     @Test
     void givenValidUlavalEmail_whenCreateEmail_thenSucceeds() {
-        Email email = new Email(VALID_EMAIL);
+        Email email = Email.from(VALID_EMAIL);
 
-        assertEquals(VALID_EMAIL, email.value());
+        Assertions.assertEquals(VALID_EMAIL, email.toString());
     }
 
     @Test
     void givenEmailwithWrongdomain_whenCreateEmail_thenThrowInvalidEmailException() {
-        assertThrows(InvalidEmailException.class, () -> new Email(INVALID_DOMAIN_EMAIL));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> Email.from(INVALID_DOMAIN_EMAIL));
     }
 
     @Test
     void givenEmptyEmail_whenCreateEmail_thenThrowInvalidEmailException() {
-        assertThrows(InvalidEmailException.class, () -> new Email(EMPTY_EMAIL));
+        Assertions.assertThrows(InvalidParameterException.class, () -> Email.from(EMPTY_EMAIL));
     }
 
     @Test
     void givenNullEmail_whenCreateEmail_thenThrowInvalidEmailException() {
-        assertThrows(InvalidEmailException.class, () -> new Email(NULL_EMAIL));
+        Assertions.assertThrows(InvalidParameterException.class, () -> Email.from(NULL_EMAIL));
     }
 
     @Test
     void givenEmailWithInvalidCharacters_whenCreateEmail_thenThrowInvalidEmailException() {
-        assertThrows(InvalidEmailException.class, () -> new Email(INVALID_CHAR_EMAIL));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> Email.from(INVALID_CHAR_EMAIL));
     }
 }

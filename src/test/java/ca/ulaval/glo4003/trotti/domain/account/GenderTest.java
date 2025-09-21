@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidGenderException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class GenderTest {
@@ -26,40 +24,41 @@ class GenderTest {
 
     @Test
     void givenMaleString_whenFromString_thenReturnMaleEnum() {
-        assertEquals(Gender.MALE, Gender.fromString(MALE_STRING));
-        assertEquals(Gender.MALE, Gender.fromString(MALE_SHORTCUT));
+        Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_STRING));
+        Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_SHORTCUT));
     }
 
     @Test
     void givenFemaleString_whenFromString_thenReturnFemaleEnum() {
-        assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_STRING));
-        assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_SHORTCUT));
+        Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_STRING));
+        Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_SHORTCUT));
     }
 
     @Test
     void givenNonBinaryString_whenFromString_thenReturnNonBinaryEnum() {
-        assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_STRING));
-        assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_ALT));
-        assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_SHORTCUT));
+        Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_STRING));
+        Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_ALT));
+        Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_SHORTCUT));
     }
 
     @Test
     void givenUnspecifiedString_whenFromString_thenReturnUnspecifiedEnum() {
-        assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_STRING));
-        assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_SHORTCUT));
+        Assertions.assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_STRING));
+        Assertions.assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_SHORTCUT));
     }
 
     @Test
     void givenInvalidString_whenFromString_thenThrowInvalidGenderException() {
-        assertThrows(InvalidGenderException.class, () -> Gender.fromString(INVALID_STRING));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> Gender.fromString(INVALID_STRING));
     }
 
     @Test
     void givenEnumConstant_whenToString_thenReturnExpectedLabel() {
-        assertEquals(MALE_LABEL, Gender.MALE.toString());
-        assertEquals(FEMALE_LABEL, Gender.FEMALE.toString());
-        assertEquals(NON_BINARY_LABEL, Gender.NON_BINARY.toString());
-        assertEquals(UNSPECIFIED_LABEL, Gender.UNSPECIFIED.toString());
+        Assertions.assertEquals(MALE_LABEL, Gender.MALE.toString());
+        Assertions.assertEquals(FEMALE_LABEL, Gender.FEMALE.toString());
+        Assertions.assertEquals(NON_BINARY_LABEL, Gender.NON_BINARY.toString());
+        Assertions.assertEquals(UNSPECIFIED_LABEL, Gender.UNSPECIFIED.toString());
     }
 
     @Test
@@ -67,6 +66,6 @@ class GenderTest {
         String expected = String.join(SEPARATOR, FEMALE_LABEL, MALE_LABEL, NON_BINARY_LABEL,
                 UNSPECIFIED_LABEL);
 
-        assertEquals(expected, Gender.acceptedValues());
+        Assertions.assertEquals(expected, Gender.acceptedValues());
     }
 }

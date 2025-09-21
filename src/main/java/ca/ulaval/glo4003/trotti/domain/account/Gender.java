@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidGenderException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -13,23 +13,26 @@ public enum Gender {
         this.label = label;
     }
 
-    @Override
-    public String toString() {
-        return label;
-    }
-
     public static Gender fromString(String value) {
-        return switch (value.trim().toLowerCase()) {
+        String normalizedValue = value.trim().toLowerCase().replaceAll("[\\s_]", "-");
+
+        return switch (normalizedValue) {
             case "male", "m" -> MALE;
             case "female", "f" -> FEMALE;
             case "non-binary", "non_binary", "nb" -> NON_BINARY;
             case "unspecified", "u" -> UNSPECIFIED;
-            default -> throw new InvalidGenderException(value);
+            default -> throw new InvalidParameterException(
+                    "Invalid gender: " + value + ". Accepted values are: " + acceptedValues());
         };
     }
 
     public static String acceptedValues() {
         return Arrays.stream(Gender.values()).map(Gender::toString)
                 .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public String toString() {
+        return label;
     }
 }
