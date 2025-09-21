@@ -2,7 +2,10 @@ package ca.ulaval.glo4003.trotti.infrastructure.auth;
 
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.auth.AuthToken;
-import io.jsonwebtoken.ExpiredJwtException;
+import ca.ulaval.glo4003.trotti.domain.account.exception.AuthenticationException;
+import ca.ulaval.glo4003.trotti.domain.account.exception.ExpiredTokenException;
+import ca.ulaval.glo4003.trotti.domain.account.exception.MalformedTokenException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
@@ -20,6 +23,7 @@ class JwtAuthenticatorServiceAdapterTest {
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final Duration AN_EXPIRATION_DURATION = Duration.ofMinutes(60);
     private static final Idul AN_IDUL = Idul.from("anIdul");
+    private static final AuthToken MALFORMED_TOKEN = AuthToken.from("malformedToken");
     private static final Instant START_MOMENT = Instant.parse("2025-09-19T10:00:00Z");
     private static final Instant FUTURE_TIME_WITHIN_EXPIRATION_DURATION =
             START_MOMENT.plus(AN_EXPIRATION_DURATION).minusSeconds(4);
@@ -62,6 +66,24 @@ class JwtAuthenticatorServiceAdapterTest {
 
         Executable authenticationAction = () -> jwtAuthenticatorAdapter.authenticate(token);
 
-        Assertions.assertThrows(ExpiredJwtException.class, authenticationAction);
+        Assertions.assertThrows(ExpiredTokenException.class, authenticationAction);
+    }
+
+    @Test
+    void givenMalformedToken_whenAuthenticate_thenThrowsException() {
+        Executable authenticationAction =
+                () -> jwtAuthenticatorAdapter.authenticate(MALFORMED_TOKEN);
+
+        Assertions.assertThrows(MalformedTokenException.class, authenticationAction);
+    }
+
+    @Test
+    void givenAnyValidAuthTokenAndUnknownMalfunction_whenAuthenticate_thenThrowsGeneralException() {
+        AuthToken anyToken = jwtAuthenticatorAdapter.generateToken(AN_IDUL);
+        Mockito.when(clock.instant()).thenThrow(JwtException.class);
+
+        Executable authenticationAction = () -> jwtAuthenticatorAdapter.authenticate(anyToken);
+
+        Assertions.assertThrows(AuthenticationException.class, authenticationAction);
     }
 }

@@ -38,8 +38,8 @@ public class ServerResourceInstantiator {
         try {
             Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
             Clock authenticatorClock = Clock.systemDefaultZone();
-			AuthenticatorService authenticator =
-                    new JwtAuthenticatorServiceAdapter(expirationDuration, authenticatorClock, SECRET_KEY);
+            AuthenticatorService authenticator = new JwtAuthenticatorServiceAdapter(
+                    expirationDuration, authenticatorClock, SECRET_KEY);
             locator.register(AuthenticatorService.class, authenticator);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));

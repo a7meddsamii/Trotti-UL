@@ -13,7 +13,7 @@ public class Idul {
 
     private Idul(String value) {
         if (StringUtils.isBlank(value)) {
-            throw new IllegalArgumentException("IDUL cannot be null or empty");
+            throw new IllegalArgumentException("Idul is missing, it cannot be null or empty");
         }
 
         this.value = value;
