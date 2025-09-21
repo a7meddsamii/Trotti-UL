@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.domain.account.auth.Authenticator;
-import ca.ulaval.glo4003.trotti.infrastructure.auth.JwtAuthenticatorAdapter;
+import ca.ulaval.glo4003.trotti.domain.account.auth.AuthenticatorService;
+import ca.ulaval.glo4003.trotti.infrastructure.auth.JwtAuthenticatorServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -38,9 +38,9 @@ public class ServerResourceInstantiator {
         try {
             Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
             Clock authenticatorClock = Clock.systemDefaultZone();
-            JwtAuthenticatorAdapter authenticator =
-                    new JwtAuthenticatorAdapter(expirationDuration, authenticatorClock, SECRET_KEY);
-            locator.register(Authenticator.class, authenticator);
+            JwtAuthenticatorServiceAdapter authenticator =
+                    new JwtAuthenticatorServiceAdapter(expirationDuration, authenticatorClock, SECRET_KEY);
+            locator.register(AuthenticatorService.class, authenticator);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
         } catch (DateTimeParseException | NullPointerException exception) {

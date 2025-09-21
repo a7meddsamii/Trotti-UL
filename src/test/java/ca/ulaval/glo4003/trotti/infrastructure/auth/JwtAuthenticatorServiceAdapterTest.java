@@ -16,7 +16,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 
-class JwtAuthenticatorAdapterTest {
+class JwtAuthenticatorServiceAdapterTest {
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final Duration AN_EXPIRATION_DURATION = Duration.ofMinutes(60);
     private static final Idul AN_IDUL = Idul.from("anIdul");
@@ -27,14 +27,14 @@ class JwtAuthenticatorAdapterTest {
             START_MOMENT.plus(AN_EXPIRATION_DURATION).plusSeconds(4);
     private static final ZoneOffset UTC = ZoneOffset.UTC;
 
-    private JwtAuthenticatorAdapter jwtAuthenticatorAdapter;
+    private JwtAuthenticatorServiceAdapter jwtAuthenticatorAdapter;
     private Clock clock;
 
     @BeforeEach
     void setup() {
         clock = Mockito.spy(Clock.fixed(START_MOMENT, UTC));
         jwtAuthenticatorAdapter =
-                new JwtAuthenticatorAdapter(AN_EXPIRATION_DURATION, clock, SECRET_KEY);
+                new JwtAuthenticatorServiceAdapter(AN_EXPIRATION_DURATION, clock, SECRET_KEY);
     }
 
     @Test
