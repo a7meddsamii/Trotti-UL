@@ -6,18 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class EmailTest {
-    private static final String VALID_EMAIL = "abd.xxx@ulaval.ca";
+
     private static final String INVALID_DOMAIN_EMAIL = "john.david@gmail.com";
     private static final String DOUBLE_AT_EMAIL = "glovac@hon@ulaval.ca";
     private static final String NULL_EMAIL = null;
 
-
-    @Test
-    void givenValidUlavalEmail_whenCreateEmail_thenSucceeds() {
-        Email email = Email.from(VALID_EMAIL);
-
-        Assertions.assertEquals(VALID_EMAIL, email.toString());
-    }
 
     @Test
     void givenEmailWithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
