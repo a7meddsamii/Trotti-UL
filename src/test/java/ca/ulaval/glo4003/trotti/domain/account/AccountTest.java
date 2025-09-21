@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 class AccountTest {
 
@@ -13,9 +12,7 @@ class AccountTest {
 
     @Test
     void givenBirthDate_whenGetAge_thenReturnCorrectAge() {
-        Account account = new AccountFixture()
-                .withBirthDate(A_GIVEN_BIRTHDAY)
-                .build();
+        Account account = new AccountFixture().withBirthDate(A_GIVEN_BIRTHDAY).build();
 
         Assertions.assertEquals(EXPECTED_AGE, account.getAge());
     }

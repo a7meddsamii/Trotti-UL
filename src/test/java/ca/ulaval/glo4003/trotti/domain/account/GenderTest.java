@@ -63,8 +63,7 @@ class GenderTest {
     @Test
     void givenInvalidString_whenFromString_thenThrowInvalidGenderExceptionWithAcceptedValuesInMessage() {
         InvalidParameterException exception = Assertions.assertThrows(
-                InvalidParameterException.class,
-                () -> Gender.fromString(INVALID_STRING));
+                InvalidParameterException.class, () -> Gender.fromString(INVALID_STRING));
 
         Assertions.assertTrue(exception.getMessage().contains(Gender.MALE.toString()));
         Assertions.assertTrue(exception.getMessage().contains(Gender.FEMALE.toString()));

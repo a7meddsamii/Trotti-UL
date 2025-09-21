@@ -27,7 +27,8 @@ class EmailTest {
 
     @Test
     void givenEmptyEmail_whenCreateEmail_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class, () -> Email.from(StringUtils.EMPTY));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> Email.from(StringUtils.EMPTY));
     }
 
     @Test

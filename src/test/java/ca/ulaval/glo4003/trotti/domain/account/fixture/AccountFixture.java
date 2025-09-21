@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.account.fixture;
 
 import ca.ulaval.glo4003.trotti.domain.account.*;
-import org.mockito.Mockito;
-
 import java.time.LocalDate;
+import org.mockito.Mockito;
 
 public class AccountFixture {
     public static final String A_NAME = "Camavinga";
