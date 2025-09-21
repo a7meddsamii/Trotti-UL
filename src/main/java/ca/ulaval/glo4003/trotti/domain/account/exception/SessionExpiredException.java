@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class SessionExpiredException extends InvalidParameterException {
 
-  public SessionExpiredException() {
-    super(ErrorType.SESSION_EXPIRED, "Session has expired. Please log in again.");
-  }
+    public SessionExpiredException() {
+        super(ErrorType.SESSION_EXPIRED, "Session has expired. Please log in again.");
+    }
 }

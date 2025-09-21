@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class EmailAlreadyExistsException extends InvalidParameterException {
 
-  public EmailAlreadyExistsException(String value) {
-    super(ErrorType.EMAIL_ALREADY_EXISTS, "Email already exists: " + value);
-  }
+    public EmailAlreadyExistsException(String value) {
+        super(ErrorType.EMAIL_ALREADY_EXISTS, "Email already exists: " + value);
+    }
 }

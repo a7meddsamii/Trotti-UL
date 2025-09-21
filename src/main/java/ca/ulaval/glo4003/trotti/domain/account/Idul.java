@@ -5,41 +5,41 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public class Idul {
-  private final String value;
-  
-  private Idul(String value) {
-    if (StringUtils.isBlank(value)) {
-      throw new InvalidIdulException(value);
+    private final String value;
+
+    private Idul(String value) {
+        if (StringUtils.isBlank(value)) {
+            throw new InvalidIdulException(value);
+        }
+
+        this.value = value;
     }
-    
-    this.value = value;
-  }
-  
-  public static Idul from(String value) {
-    return new Idul(value);
-  }
-  
-  @Override
-  public boolean equals(Object o) {
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public static Idul from(String value) {
+        return new Idul(value);
     }
-    
-    Idul idul = (Idul) o;
-    return value.equals(idul.value);
-  }
-  
-  @Override
-  public int hashCode() {
-    return Objects.hash(value);
-  }
-  
-  public String getValue() {
-    return value;
-  }
-  
-  @Override
-  public String toString() {
-    return value;
-  }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Idul idul = (Idul) o;
+        return value.equals(idul.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

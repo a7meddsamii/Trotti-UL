@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class IdulAlreadyExistsException extends InvalidParameterException {
 
-  public IdulAlreadyExistsException(String value) {
-    super(ErrorType.IDUL_ALREADY_EXISTS, "IDUL already exists: " + value);
-  }
+    public IdulAlreadyExistsException(String value) {
+        super(ErrorType.IDUL_ALREADY_EXISTS, "IDUL already exists: " + value);
+    }
 }

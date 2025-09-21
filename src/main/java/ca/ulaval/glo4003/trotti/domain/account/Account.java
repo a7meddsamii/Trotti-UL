@@ -4,55 +4,54 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Account {
-  private final String name;
-  private final Password hashedPassword;
-  private final LocalDate birthDate;
-  private final Idul idul;
-  private Gender gender;
-  private Email email;
+    private final String name;
+    private final Password hashedPassword;
+    private final LocalDate birthDate;
+    private final Idul idul;
+    private Gender gender;
+    private Email email;
 
-  public Account(
-    String name,
-    LocalDate birthDate,
-    Gender gender,
-    Idul idul,
-    Email email,
-    Password hashedPassword
-  ) {
-    this.name = name;
-    this.gender = gender;
-    this.birthDate = birthDate;
-    this.idul = idul;
-    this.email = email;
-    this.hashedPassword = hashedPassword;
-  }
+    public Account(
+            String name,
+            LocalDate birthDate,
+            Gender gender,
+            Idul idul,
+            Email email,
+            Password hashedPassword) {
+        this.name = name;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.idul = idul;
+        this.email = email;
+        this.hashedPassword = hashedPassword;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public LocalDate getBirthDate() {
-    return birthDate;
-  }
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 
-  public Gender getGender() {
-    return gender;
-  }
+    public Gender getGender() {
+        return gender;
+    }
 
-  public int getAge() {
-    LocalDate today = LocalDate.now();
-    return Period.between(this.birthDate, today).getYears();
-  }
+    public int getAge() {
+        LocalDate today = LocalDate.now();
+        return Period.between(this.birthDate, today).getYears();
+    }
 
-  public Idul getIdul() {
-    return idul;
-  }
+    public Idul getIdul() {
+        return idul;
+    }
 
-  public Email getEmail() {
-    return email;
-  }
+    public Email getEmail() {
+        return email;
+    }
 
-  public Password getHashedPassword() {
-    return hashedPassword;
-  }
+    public Password getHashedPassword() {
+        return hashedPassword;
+    }
 }

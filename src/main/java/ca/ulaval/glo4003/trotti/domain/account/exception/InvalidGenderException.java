@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class InvalidGenderException extends InvalidParameterException {
 
-  public InvalidGenderException(String value) {
-    super(ErrorType.INVALID_GENDER, "Invalid gender: " + value);
-  }
+    public InvalidGenderException(String value) {
+        super(ErrorType.INVALID_GENDER, "Invalid gender: " + value);
+    }
 }

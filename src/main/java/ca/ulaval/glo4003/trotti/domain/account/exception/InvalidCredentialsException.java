@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class InvalidCredentialsException extends InvalidParameterException {
 
-  public InvalidCredentialsException() {
-    super(ErrorType.INVALID_CREDENTIALS, "Invalid email or password.");
-  }
+    public InvalidCredentialsException() {
+        super(ErrorType.INVALID_CREDENTIALS, "Invalid email or password.");
+    }
 }

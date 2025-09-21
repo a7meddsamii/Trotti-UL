@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 
 public class InvalidIdulException extends InvalidParameterException {
 
-  public InvalidIdulException(String value) {
-    super(ErrorType.INVALID_IDUL, "Invalid idul: " + value);
-  }
+    public InvalidIdulException(String value) {
+        super(ErrorType.INVALID_IDUL, "Invalid idul: " + value);
+    }
 }

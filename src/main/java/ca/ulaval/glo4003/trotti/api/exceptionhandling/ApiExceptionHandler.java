@@ -7,20 +7,14 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class ApiExceptionHandler
-  implements ExceptionMapper<InvalidParameterException> {
+public class ApiExceptionHandler implements ExceptionMapper<InvalidParameterException> {
 
-  @Override
-  public Response toResponse(InvalidParameterException exception) {
-    ApiErrorResponse errorResponse = new ApiErrorResponse(
-      exception.getErrorType(),
-      exception.getMessage()
-    );
+    @Override
+    public Response toResponse(InvalidParameterException exception) {
+        ApiErrorResponse errorResponse =
+                new ApiErrorResponse(exception.getErrorType(), exception.getMessage());
 
-    return Response
-      .status(Response.Status.BAD_REQUEST)
-      .type(MediaType.APPLICATION_JSON)
-      .entity(errorResponse)
-      .build();
-  }
+        return Response.status(Response.Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON)
+                .entity(errorResponse).build();
+    }
 }
