@@ -5,35 +5,36 @@ import java.util.List;
 import java.util.Objects;
 
 public class ServerResourceInstantiator {
-  private static ServerResourceInstantiator instance;
-  private final ServerResourceLocator locator;
-  private boolean resourcesCreated;
 
-  public static ServerResourceInstantiator getInstance() {
-    if (!Objects.isNull(instance)) {
-      return instance;
+    private static ServerResourceInstantiator instance;
+    private final ServerResourceLocator locator;
+    private boolean resourcesCreated;
+
+    public static ServerResourceInstantiator getInstance() {
+        if (!Objects.isNull(instance)) {
+            return instance;
+        }
+
+        return instance = new ServerResourceInstantiator();
     }
 
-    return instance = new ServerResourceInstantiator();
-  }
-
-  private ServerResourceInstantiator() {
-    this.locator = ServerResourceLocator.getInstance();
-    this.resourcesCreated = false;
-  }
-
-  public void initiate() {
-    if (resourcesCreated) {
-      return;
+    private ServerResourceInstantiator() {
+        this.locator = ServerResourceLocator.getInstance();
+        this.resourcesCreated = false;
     }
 
-    // example of a server resource creation requiring a dependency injection
-    List<Integer> someIntegers = List.of(1234, 5678);
-    DummyClass myServerResource = new DummyClass(someIntegers);
-    locator.register(DummyClass.class, myServerResource);
+    public void initiate() {
+        if (resourcesCreated) {
+            return;
+        }
 
-    // add more resources as needed here
+        // example of a server resource creation requiring a dependency injection
+        List<Integer> someIntegers = List.of(1234, 5678);
+        DummyClass myServerResource = new DummyClass(someIntegers);
+        locator.register(DummyClass.class, myServerResource);
 
-    resourcesCreated = true;
-  }
+        // add more resources as needed here
+
+        resourcesCreated = true;
+    }
 }
