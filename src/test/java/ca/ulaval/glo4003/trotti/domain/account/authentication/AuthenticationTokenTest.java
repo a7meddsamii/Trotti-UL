@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.account.authentication;
 
-
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;

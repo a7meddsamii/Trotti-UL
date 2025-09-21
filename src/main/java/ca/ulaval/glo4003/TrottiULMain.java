@@ -13,7 +13,6 @@ public class TrottiULMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(TrottiULMain.class);
     public static final String BASE_URI = "http://localhost:8080/";
 
-
     public static void main(String[] args) {
         LOGGER.info("Setup resources (API)");
         final ResourceConfig config = new ResourceConfig();

@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-
 class JwtAuthenticationServiceAdapterTest {
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final Duration AN_EXPIRATION_DURATION = Duration.ofMinutes(60);
