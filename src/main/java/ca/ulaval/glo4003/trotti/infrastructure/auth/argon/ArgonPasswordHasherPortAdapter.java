@@ -5,6 +5,7 @@ import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
 import java.util.Arrays;
+import org.eclipse.jetty.util.StringUtil;
 
 public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
 
@@ -34,7 +35,7 @@ public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
 
     @Override
     public boolean verify(char[] password, String storedHashedPassword) {
-        if (storedHashedPassword == null || storedHashedPassword.isBlank())
+        if (StringUtil.isBlank(storedHashedPassword))
             return false;
         if (password == null || password.length ==0)
             return false;
