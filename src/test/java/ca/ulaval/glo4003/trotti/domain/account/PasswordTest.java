@@ -21,6 +21,7 @@ class PasswordTest {
     @BeforeEach
     void setup() {
         hasher = Mockito.mock(PasswordHasher.class);
+        Mockito.when(hasher.hash(Mockito.anyString())).thenReturn(HASHED_PASSWORD);
     }
 
     @Test
