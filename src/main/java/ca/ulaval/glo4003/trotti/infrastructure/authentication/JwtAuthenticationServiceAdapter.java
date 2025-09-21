@@ -17,13 +17,11 @@ import java.time.Instant;
 import java.util.Date;
 import javax.crypto.SecretKey;
 
-
 public class JwtAuthenticationServiceAdapter implements AuthenticationService {
 
     private final Duration expirationDuration;
     private final Clock clock;
     private final SecretKey secretKey;
-
 
     public JwtAuthenticationServiceAdapter(
             Duration expirationDuration,
