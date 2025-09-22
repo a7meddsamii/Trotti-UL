@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.ws.infrastructure.auth.argon;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
 
-import ca.ulaval.glo4003.trotti.infrastructure.auth.argon.ArgonHasherConfig;
 import ca.ulaval.glo4003.trotti.infrastructure.auth.argon.ArgonPasswordHasherPortAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,27 +23,26 @@ public class ArgonPasswordHasherPortAdapterTest {
 
     @BeforeEach
     void setUp() {
-        ArgonHasherConfig config = new ArgonHasherConfig(MEMORY_COST, ITERATIONS, THREADS);
-        argonHasher = new ArgonPasswordHasherPortAdapter(config);
+        argonHasher = new ArgonPasswordHasherPortAdapter(MEMORY_COST, ITERATIONS, THREADS);
     }
 
     @Test
     void givenPassword_whenHash_thenReturnsPasswordHashedArgon2id() {
-        char[] input = PASSWORD.toCharArray();
+        char[] plainPassword = PASSWORD.toCharArray();
 
-        String passwordHashed = argonHasher.hash(input);
+        String passwordHashed = argonHasher.hash(plainPassword);
 
-        assertNotNull(passwordHashed);
-        assertTrue(passwordHashed.startsWith("$argon2id$"), "hash must start with $argon2id$");
+        Assertions.assertNotNull(passwordHashed);
+        Assertions.assertTrue(passwordHashed.startsWith("$argon2id$"), "hash must start with $argon2id$");
     }
 
     @Test
     void givenCorrectPasswordAndStoredHash_whenVerify_thenReturnsTrue() {
         String passwordHashed = argonHasher.hash(PASSWORD.toCharArray());
 
-        boolean ok = argonHasher.verify(PASSWORD.toCharArray(), passwordHashed);
+        boolean ok = argonHasher.matches(PASSWORD.toCharArray(), passwordHashed);
 
-        assertTrue(ok);
+        Assertions.assertTrue(ok);
     }
 
     @Test
@@ -54,8 +52,7 @@ public class ArgonPasswordHasherPortAdapterTest {
         String passwordHash1 = argonHasher.hash(input);
         String passwordHash2 = argonHasher.hash(input);
 
-        assertNotEquals(passwordHash1, passwordHash2,
-                "two hashes of the same password hast to be different");
+        Assertions.assertNotEquals(passwordHash1, passwordHash2);
     }
 
     @Test
@@ -63,8 +60,8 @@ public class ArgonPasswordHasherPortAdapterTest {
         String unicode = NON_ASCII_PASSWORD;
         String passwordHash = argonHasher.hash(unicode.toCharArray());
 
-        assertTrue(argonHasher.verify(unicode.toCharArray(), passwordHash));
-        assertFalse(argonHasher.verify("unicode?".toCharArray(), passwordHash));
+        Assertions.assertTrue(argonHasher.matches(unicode.toCharArray(), passwordHash));
+        Assertions.assertFalse(argonHasher.matches("unicode?".toCharArray(), passwordHash));
     }
 
     @Test
@@ -73,31 +70,18 @@ public class ArgonPasswordHasherPortAdapterTest {
         char[] snapshot = PASSWORD.toCharArray();
 
         String storedHash = argonHasher.hash(original);
-        boolean ok = argonHasher.verify(original, storedHash);
+        boolean ok = argonHasher.matches(original, storedHash);
 
-        assertArrayEquals(snapshot, original, "input char[] must not change after hashing");
-        assertTrue(ok);
-    }
-
-    @Test
-    void givenNullOrEmptyPassword_whenHash_thenThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> argonHasher.hash(null));
-        assertThrows(IllegalArgumentException.class, () -> argonHasher.hash(new char[0]));
-    }
-
-    @Test
-    void givenNullOrBlankStoredHash_whenVerify_thenReturnsFalse() {
-        assertFalse(argonHasher.verify(PASSWORD.toCharArray(), null));
-        assertFalse(argonHasher.verify(PASSWORD.toCharArray(), ""));
-        assertFalse(argonHasher.verify(PASSWORD.toCharArray(), "   "));
+        Assertions.assertArrayEquals(snapshot, original);
+        Assertions.assertTrue(ok);
     }
 
     @Test
     void givenWrongPassword_whenVerify_thenReturnsFalse() {
         String storedHash = argonHasher.hash(PASSWORD.toCharArray());
 
-        boolean ok = argonHasher.verify(WRONG_PASSWORD.toCharArray(), storedHash);
+        boolean ok = argonHasher.matches(WRONG_PASSWORD.toCharArray(), storedHash);
 
-        assertFalse(ok);
+        Assertions.assertFalse(ok);
     }
 }

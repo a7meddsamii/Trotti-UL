@@ -8,22 +8,23 @@ import org.eclipse.jetty.util.StringUtil;
 
 public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
 
-    private final ArgonHasherConfig config;
+    private final int memoryCost;
+    private final int iterations;
+    private final int threads;
     private final Argon2 argon2;
 
-    public ArgonPasswordHasherPortAdapter(ArgonHasherConfig config) {
-        this.config = config;
+    public ArgonPasswordHasherPortAdapter(int memoryCost, int iterations, int threads) {
+        this.memoryCost = memoryCost;
+        this.iterations = iterations;
+        this.threads = threads;
         this.argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
     }
 
     @Override
     public String hash(char[] password) {
-        if (password == null || password.length == 0) {
-            throw new IllegalArgumentException(" Password must not be empty");
-        }
         char[] material = password.clone();
         try {
-            return argon2.hash(config.iterations(), config.memoryCost(), config.threads(),
+            return argon2.hash(iterations, memoryCost, threads,
                     material);
         } finally {
             Arrays.fill(material, '\0');
@@ -31,7 +32,7 @@ public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
     }
 
     @Override
-    public boolean verify(char[] password, String storedHashedPassword) {
+    public boolean matches(char[] password, String storedHashedPassword) {
         if (StringUtil.isBlank(storedHashedPassword))
             return false;
         if (password == null || password.length == 0)
