@@ -6,9 +6,8 @@ import ca.ulaval.glo4003.trotti.application.port.TokenPort;
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.account.Password;
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 
 public class AccountService {
 
@@ -16,10 +15,7 @@ public class AccountService {
     private final TokenPort token;
     private final AccountRepository repository;
 
-    public AccountService(
-            AccountRepository repository,
-            AccountMapper mapper,
-            TokenPort token) {
+    public AccountService(AccountRepository repository, AccountMapper mapper, TokenPort token) {
         this.repository = repository;
         this.mapper = mapper;
         this.token = token;
@@ -33,20 +29,14 @@ public class AccountService {
         repository.save(account);
     }
 
-    public String login(String emailInput, String password) {
+    public String login(String emailInput, String rawPassword) {
         Email email = Email.from(emailInput);
-
         Account account = repository.findByEmail(email);
 
-        passwordhasher(password, account.getPassword());
-        return token.generateToken(account.getIdul());
-    }
-
-    private void passwordhasher(String password, Password passwordHash) {
-        // boolean ok = passwordHasher.verify(password, passwordHash);
-        boolean ok = true; // Temporarily bypassing password verification
-        if (!ok) {
-            throw new InvalidCredentialsException();
+        if (!account.getPassword().matches(rawPassword)) {
+            throw new InvalidParameterException("");
         }
+
+        return token.generateToken(account.getIdul());
     }
 }

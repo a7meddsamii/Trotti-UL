@@ -19,6 +19,14 @@ public class Password {
         this.value = hasher.hash(value);
     }
 
+    public boolean matches(String rawPassword) {
+        return hasher.verify(rawPassword, this.value);
+    }
+
+    public String getHashedValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
