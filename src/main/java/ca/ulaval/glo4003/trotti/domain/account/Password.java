@@ -12,7 +12,6 @@ public class Password {
     private final PasswordHasher hasher;
     private final String value;
 
-
     public Password(String value, PasswordHasher hasher) {
         validate(value);
         this.hasher = hasher;

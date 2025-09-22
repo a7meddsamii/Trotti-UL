@@ -12,7 +12,6 @@ class EmailTest {
     private static final String DOUBLE_AT_EMAIL = "glovac@hon@ulaval.ca";
     private static final String NULL_EMAIL = null;
 
-
     @Test
     void givenEmailWithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
 

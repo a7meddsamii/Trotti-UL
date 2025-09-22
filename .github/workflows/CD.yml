@@ -62,7 +62,7 @@ jobs:
 
       - name: Generate Story tag
         run: |
-          raw=$(git log -1 --pretty=%s)
+          raw=$(git log -1 --pretty=%b | head -n1)
           
           sanitized=$(printf '%s' "$raw" \
             | tr '[:upper:]' '[:lower:]' \

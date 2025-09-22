@@ -18,6 +18,7 @@
         <junit-jupiter.version>5.11.0</junit-jupiter.version>
         <rest-assured.version>5.3.2</rest-assured.version>
         <slf4j.version>2.0.16</slf4j.version>
+        <jsonwebtoken.version>0.13.0</jsonwebtoken.version>
     </properties>
 
     <dependencies>
@@ -28,7 +29,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.18.0</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
         <dependency>
             <groupId>commons-validator</groupId>
@@ -119,6 +120,25 @@
             <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--   JWT Token dependencies     -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jsonwebtoken.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -181,6 +201,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/infrastructure/config/**</exclude>
+                        <exclude>**/TrottiULMain.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
