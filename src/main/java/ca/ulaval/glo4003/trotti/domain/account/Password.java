@@ -7,7 +7,7 @@ import org.apache.commons.validator.routines.RegexValidator;
 public class Password {
 
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{10,}$";
-    private static final RegexValidator VALIDATOR = new RegexValidator(PASSWORD_PATTERN);
+    private static final RegexValidator REGEX_VALIDATOR = new RegexValidator(PASSWORD_PATTERN);
 
     private final PasswordHasher hasher;
     private final String value;
@@ -17,14 +17,6 @@ public class Password {
         validate(value);
         this.hasher = hasher;
         this.value = hasher.hash(value);
-    }
-
-
-    private void validate(String password) {
-        if (!VALIDATOR.isValid(password)) {
-            throw new InvalidParameterException(
-                    "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
-        }
     }
 
     @Override
@@ -44,5 +36,12 @@ public class Password {
     @Override
     public String toString() {
         return value;
+    }
+
+    private void validate(String password) {
+        if (!REGEX_VALIDATOR.isValid(password)) {
+            throw new InvalidParameterException(
+                    "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
+        }
     }
 }
