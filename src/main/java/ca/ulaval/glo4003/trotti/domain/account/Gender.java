@@ -19,20 +19,20 @@ public enum Gender {
         return switch (normalizedValue) {
             case "male", "m" -> MALE;
             case "female", "f" -> FEMALE;
-            case "non-binary", "non_binary", "nb" -> NON_BINARY;
+            case "non-binary", "nb" -> NON_BINARY;
             case "unspecified", "u" -> UNSPECIFIED;
             default -> throw new InvalidParameterException(
                     "Invalid gender: " + value + ". Accepted values are: " + acceptedValues());
         };
     }
 
-    private static String acceptedValues() {
-        return Arrays.stream(Gender.values()).map(Gender::toString)
-                .collect(Collectors.joining(", "));
-    }
-
     @Override
     public String toString() {
         return label;
+    }
+
+    private static String acceptedValues() {
+        return Arrays.stream(Gender.values()).map(Gender::toString)
+                .collect(Collectors.joining(", "));
     }
 }

@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.account;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class GenderTest {
     private static final String MALE_STRING = "MAlE";
@@ -23,18 +24,21 @@ class GenderTest {
 
     @Test
     void givenMaleString_whenFromString_thenReturnMaleEnum() {
+
         Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_STRING));
         Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_SHORTCUT));
     }
 
     @Test
     void givenFemaleString_whenFromString_thenReturnFemaleEnum() {
+
         Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_STRING));
         Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_SHORTCUT));
     }
 
     @Test
     void givenNonBinaryString_whenFromString_thenReturnNonBinaryEnum() {
+
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_STRING));
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_ALT));
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_SHORTCUT));
@@ -48,12 +52,15 @@ class GenderTest {
 
     @Test
     void givenInvalidString_whenFromString_thenThrowInvalidGenderException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> Gender.fromString(INVALID_STRING));
+
+        Executable executable = () -> Gender.fromString(INVALID_STRING);
+
+        Assertions.assertThrows(InvalidParameterException.class, executable);
     }
 
     @Test
     void givenEnumConstant_whenToString_thenReturnExpectedLabel() {
+
         Assertions.assertEquals(MALE_LABEL, Gender.MALE.toString());
         Assertions.assertEquals(FEMALE_LABEL, Gender.FEMALE.toString());
         Assertions.assertEquals(NON_BINARY_LABEL, Gender.NON_BINARY.toString());
@@ -62,9 +69,11 @@ class GenderTest {
 
     @Test
     void givenInvalidString_whenFromString_thenThrowInvalidGenderExceptionWithAcceptedValuesInMessage() {
-        InvalidParameterException exception = Assertions.assertThrows(
-                InvalidParameterException.class, () -> Gender.fromString(INVALID_STRING));
 
+        Executable executable = () -> Gender.fromString(INVALID_STRING);
+
+        InvalidParameterException exception =
+                Assertions.assertThrows(InvalidParameterException.class, executable);
         Assertions.assertTrue(exception.getMessage().contains(Gender.MALE.toString()));
         Assertions.assertTrue(exception.getMessage().contains(Gender.FEMALE.toString()));
         Assertions.assertTrue(exception.getMessage().contains(Gender.NON_BINARY.toString()));

@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class EmailTest {
 
@@ -14,23 +15,33 @@ class EmailTest {
 
     @Test
     void givenEmailWithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> Email.from(INVALID_DOMAIN_EMAIL));
+
+        Executable emailCreationAttempt = () -> Email.from(INVALID_DOMAIN_EMAIL);
+
+        Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenEmptyEmail_whenCreateEmail_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> Email.from(StringUtils.EMPTY));
+
+        Executable emailCreationAttempt = () -> Email.from(StringUtils.EMPTY);
+
+        Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenNullEmail_whenCreateEmail_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class, () -> Email.from(NULL_EMAIL));
+
+        Executable emailCreationAttempt = () -> Email.from(NULL_EMAIL);
+
+        Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenEmailWithDoubleAt_whenCreateEmail_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class, () -> Email.from(DOUBLE_AT_EMAIL));
+
+        Executable emailCreationAttempt = () -> Email.from(DOUBLE_AT_EMAIL);
+
+        Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 }

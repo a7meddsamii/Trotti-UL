@@ -4,25 +4,34 @@ import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterExceptio
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class IdulTest {
     private static final String VALID_IDUL = "CM1B2G45";
     private static final String NULL_IDUL = null;
 
     @Test
-    void givenValidIdul_whenCreate_thenSucceeds() {
-        Assertions.assertDoesNotThrow(() -> Idul.from(VALID_IDUL));
+    void givenValidIdul_whenCreate_thenIdulIsCreated() {
+
+        Executable idulCreation = () -> Idul.from(VALID_IDUL);
+
+        Assertions.assertDoesNotThrow(idulCreation);
     }
 
     @Test
     void givenNullIdul_whenCreate_thenThrowInvalidIdulException() {
-        Assertions.assertThrows(InvalidParameterException.class, () -> Idul.from(NULL_IDUL));
+
+        Executable idulCreation = () -> Idul.from(NULL_IDUL);
+
+        Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test
     void givenEmptyIdul_whenCreate_thenThrowInvalidIdulException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> Idul.from(StringUtils.EMPTY));
+
+        Executable idulCreation = () -> Idul.from(StringUtils.EMPTY);
+
+        Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class PasswordTest {
@@ -33,38 +34,50 @@ class PasswordTest {
 
     @Test
     void givenTooShortPassword_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(TOO_SHORT_PASSWORD, hasher));
+
+        Executable passwordCreation = () -> new Password(TOO_SHORT_PASSWORD, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test
     void givenPasswordWithoutUppercase_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(MISSING_UPPERCASE, hasher));
+
+        Executable passwordCreation = () -> new Password(MISSING_UPPERCASE, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test
     void givenPasswordWithoutNumber_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(MISSING_NUMBER, hasher));
+
+        Executable passwordCreation = () -> new Password(MISSING_NUMBER, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test
     void givenPasswordWithoutSpecialCharacter_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(MISSING_SPECIAL_CHAR, hasher));
+
+        Executable passwordCreation = () -> new Password(MISSING_SPECIAL_CHAR, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test
     void givenEmptyPassword_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(StringUtils.EMPTY, hasher));
+
+        Executable passwordCreation = () -> new Password(StringUtils.EMPTY, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test
     void givenNullPassword_whenCreatePassword_thenThrowInvalidParameterException() {
-        Assertions.assertThrows(InvalidParameterException.class,
-                () -> new Password(NULL_PASSWORD, hasher));
+
+        Executable passwordCreation = () -> new Password(NULL_PASSWORD, hasher);
+
+        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
 
     @Test

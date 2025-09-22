@@ -18,20 +18,6 @@ public class Email {
         return new Email(value);
     }
 
-    private void validate(String value) {
-
-        if (StringUtils.isBlank(value)) {
-            throw new InvalidParameterException("Email cannot be null or empty" + value);
-        }
-
-        boolean goodFormat = EmailValidator.getInstance().isValid(value)
-                && value.toLowerCase().endsWith(ULAVAL_DOMAIN);
-
-        if (!goodFormat) {
-            throw new InvalidParameterException("Invalid email or incorrect domain: ");
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -50,5 +36,19 @@ public class Email {
     @Override
     public String toString() {
         return value;
+    }
+
+    private void validate(String value) {
+
+        if (StringUtils.isBlank(value)) {
+            throw new InvalidParameterException("Email cannot be null or empty" + value);
+        }
+
+        boolean isValidEmail = EmailValidator.getInstance().isValid(value)
+                && value.toLowerCase().endsWith(ULAVAL_DOMAIN);
+
+        if (!isValidEmail) {
+            throw new InvalidParameterException("Invalid email or incorrect domain: ");
+        }
     }
 }
