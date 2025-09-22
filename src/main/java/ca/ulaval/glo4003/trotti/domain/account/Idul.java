@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidIdulException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +9,7 @@ public class Idul {
 
     private Idul(String value) {
         if (StringUtils.isBlank(value)) {
-            throw new InvalidIdulException(value);
+            throw new InvalidParameterException("Invalid idul: " + value);
         }
 
         this.value = value;
@@ -32,10 +32,6 @@ public class Idul {
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    public String getValue() {
-        return value;
     }
 
     @Override

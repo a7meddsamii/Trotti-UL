@@ -6,15 +6,17 @@ import ca.ulaval.glo4003.trotti.domain.account.*;
 public class AccountMapper {
 
     private final AccountFactory accountFactory;
+    private final PasswordHasher passwordHasher;
 
-    private AccountMapper(AccountFactory accountFactory) {
+    private AccountMapper(AccountFactory accountFactory, PasswordHasher passwordHasher) {
         this.accountFactory = accountFactory;
+        this.passwordHasher = passwordHasher;
     }
 
     public Account create(CreateAccount request) {
 
-        Email email = new Email(request.email());
-        Password password = new Password(request.password());
+        Email email = Email.from(request.email());
+        Password password = new Password(request.password(), passwordHasher);
         Gender gender = Gender.fromString(request.gender());
         Idul idul = Idul.from(request.idul());
 

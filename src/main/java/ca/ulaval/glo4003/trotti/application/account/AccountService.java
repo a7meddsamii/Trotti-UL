@@ -8,37 +8,37 @@ import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import ca.ulaval.glo4003.trotti.domain.account.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.trotti.domain.account.port.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 
 public class AccountService {
 
-    private final ca.ulaval.glo4003.trotti.domain.account.port.AccountRepository accountRepository;
-    private final AccountMapper accountMapper;
+    private final AccountMapper mapper;
     private final TokenPort token;
+    private final AccountRepository repository;
 
     public AccountService(
-            AccountRepository accountRepository,
-            AccountMapper accountMapper,
+            AccountRepository repository,
+            AccountMapper mapper,
             TokenPort token) {
-        this.accountRepository = accountRepository;
-        this.accountMapper = accountMapper;
+        this.repository = repository;
+        this.mapper = mapper;
         this.token = token;
     }
 
     public void createAccount(CreateAccount request) {
-        Email email = new Email(request.email());
+        Email email = Email.from(request.email());
         Idul idul = Idul.from(request.idul());
 
-        Account account = accountMapper.create(request);
-        accountRepository.save(account);
+        Account account = mapper.create(request);
+        repository.save(account);
     }
 
     public String login(String emailInput, String password) {
-        Email email = new Email(emailInput);
+        Email email = Email.from(emailInput);
 
-        Account account = accountRepository.findByEmail(email);
+        Account account = repository.findByEmail(email);
 
-        passwordhasher(password, account.getHashedPassword());
+        passwordhasher(password, account.getPassword());
         return token.generateToken(account.getIdul());
     }
 

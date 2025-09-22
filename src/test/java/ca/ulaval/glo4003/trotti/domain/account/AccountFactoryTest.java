@@ -1,40 +1,60 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class AccountFactoryTest {
-    private static final String A_NAME = "Camavinga";
-    private static final LocalDate A_BIRTHDATE = LocalDate.of(2005, 2, 11);
-    private static final Gender A_GENDER = Gender.MALE;
-    private static final Idul AN_IDUL = Idul.from("CM1B2G45");
-    private static final Email AN_EMAIL = new Email("ahdhhd@ulaval.ca");
-    private static final String VALID_PASSWORD = "StrongPass1!";
 
-    Password A_Password = new Password(VALID_PASSWORD);
+    private static final Instant START_MOMENT = Instant.parse("2025-09-20T00:00:00Z");
+    private static final ZoneOffset UTC = ZoneOffset.UTC;
+
+    private static final LocalDate TODAY = LocalDate.ofInstant(START_MOMENT, UTC);
+    private static final LocalDate FUTURE_DATE = TODAY.plusDays(1);
+    private static final LocalDate PAST_DATE = TODAY.minusYears(20);
 
     private AccountFactory factory;
+    private Clock clock;
 
     @BeforeEach
-    void setUp() {
-        factory = new AccountFactory();
+    void setpu() {
+        clock = Clock.fixed(START_MOMENT, UTC);
+        factory = new AccountFactory(clock);
     }
 
     @Test
-    void givenValidParameters_whenCreateAccount_thenReturnAccountWithExpectedValues() {
-        Account account =
-                factory.create(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, AN_EMAIL, A_Password);
+    void givenBirthDateToday_whenCreateAccount_thenThrowInvalidParameterException() {
+        Executable executable =
+                () -> factory.create(AccountFixture.A_NAME, TODAY, AccountFixture.A_GENDER,
+                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
 
-        assertNotNull(account);
-        assertEquals(A_NAME, account.getName());
-        assertEquals(A_BIRTHDATE, account.getBirthDate());
-        assertEquals(A_GENDER, account.getGender());
-        assertEquals(AN_IDUL, account.getIdul());
-        assertEquals(AN_EMAIL, account.getEmail());
-        assertEquals(A_Password, account.getHashedPassword());
+        Assertions.assertThrows(InvalidParameterException.class, executable);
+    }
+
+    @Test
+    void givenFutureBirthDate_whenCreateAccount_thenThrowsInvalidParameterException() {
+
+        Executable executable =
+                () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE, AccountFixture.A_GENDER,
+                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
+
+        Assertions.assertThrows(InvalidParameterException.class, executable);
+    }
+
+    @Test
+    void givenPastBirthDate_whenCreateAccount_thenNoExceptionIsThrow() {
+
+        Executable executable =
+                () -> factory.create(AccountFixture.A_NAME, PAST_DATE, AccountFixture.A_GENDER,
+                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
+
+        Assertions.assertDoesNotThrow(executable);
     }
 }
