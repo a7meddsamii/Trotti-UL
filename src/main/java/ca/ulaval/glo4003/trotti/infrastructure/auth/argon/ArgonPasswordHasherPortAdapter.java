@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.trotti.infrastructure.auth.argon;
 
-import ca.ulaval.glo4003.trotti.application.port.PasswordHasherPort;
+import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import java.util.Arrays;
 import org.eclipse.jetty.util.StringUtil;
 
-public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
+public class ArgonPasswordHasherPortAdapter implements PasswordHasher {
 
     private final int memoryCost;
     private final int iterations;
@@ -21,23 +21,20 @@ public class ArgonPasswordHasherPortAdapter implements PasswordHasherPort {
     }
 
     @Override
-    public String hash(char[] password) {
-        char[] material = password.clone();
+    public String hash(String password) {
+        char[] material = password.toCharArray();
         try {
-            return argon2.hash(iterations, memoryCost, threads,
-                    material);
+            return argon2.hash(iterations, memoryCost, threads, material);
         } finally {
             Arrays.fill(material, '\0');
         }
     }
 
     @Override
-    public boolean matches(char[] password, String storedHashedPassword) {
+    public boolean matches(String password, String storedHashedPassword) {
         if (StringUtil.isBlank(storedHashedPassword))
             return false;
-        if (password == null || password.length == 0)
-            return false;
-        char[] material = password.clone();
+        char[] material = password.toCharArray();
         try {
             return argon2.verify(storedHashedPassword, material);
         } finally {
