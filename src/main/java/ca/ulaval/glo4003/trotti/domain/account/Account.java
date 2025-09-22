@@ -8,8 +8,8 @@ public class Account {
     private final Password password;
     private final LocalDate birthDate;
     private final Idul idul;
-    private Gender gender;
-    private Email email;
+    private final Gender gender;
+    private final Email email;
 
     public Account(
             String name,
