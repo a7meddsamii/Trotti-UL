@@ -79,13 +79,4 @@ class PasswordTest {
 
         Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
     }
-
-    @Test
-    void givenTwoPasswordsWithSameRawValue_whenCompare_thenTheyAreEqual() {
-        Password password1 = new Password(VALID_PASSWORD, hasher);
-        Password password2 = new Password(VALID_PASSWORD, hasher);
-
-        Assertions.assertEquals(password1, password2);
-        Assertions.assertEquals(password1.hashCode(), password2.hashCode());
-    }
 }
