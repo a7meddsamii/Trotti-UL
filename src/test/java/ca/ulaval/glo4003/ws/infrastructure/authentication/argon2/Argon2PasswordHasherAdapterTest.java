@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 public class Argon2PasswordHasherAdapterTest {
 
     private static final String PLAIN_PASSWORD = "SecretTest1!";
@@ -54,7 +53,6 @@ public class Argon2PasswordHasherAdapterTest {
         Assertions.assertTrue(argon2Hasher.matches(NON_ASCII_PASSWORD, hashedPassword));
         Assertions.assertFalse(argon2Hasher.matches("unicode?", hashedPassword));
     }
-
 
     @Test
     void givenWrongPassword_whenVerify_thenReturnsFalse() {
