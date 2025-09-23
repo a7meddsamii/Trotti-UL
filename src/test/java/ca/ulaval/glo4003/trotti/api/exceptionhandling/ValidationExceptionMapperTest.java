@@ -14,7 +14,6 @@ class ValidationExceptionMapperTest {
 
     private static final String EXPECTED_ERROR_MESSAGE = "Invalid Request";
 
-
     @Test
     void whenConstraintViolation_thenReturns400WithBody() {
         ValidationExceptionMapper mapper = new ValidationExceptionMapper();

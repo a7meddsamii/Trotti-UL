@@ -5,9 +5,8 @@ import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
-import org.mockito.Mockito;
-
 import java.time.LocalDate;
+import org.mockito.Mockito;
 
 public class AccountServiceFixture {
     public static final String A_NAME = "Camavinga";
@@ -24,13 +23,7 @@ public class AccountServiceFixture {
     public static final Password A_PASSWORD = Mockito.mock(Password.class);
 
     public static CreateAccount aCreateAccountRequest() {
-        return new CreateAccount(
-                A_NAME,
-                A_BIRTHDATE,
-                A_GENDER_STRING,
-                AN_IDUL_STRING,
-                AN_EMAIL_STRING,
-                A_RAW_PASSWORD
-        );
+        return new CreateAccount(A_NAME, A_BIRTHDATE, A_GENDER_STRING, AN_IDUL_STRING,
+                AN_EMAIL_STRING, A_RAW_PASSWORD);
     }
 }

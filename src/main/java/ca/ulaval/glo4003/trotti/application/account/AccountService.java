@@ -16,7 +16,10 @@ public class AccountService {
     private final AuthenticationService authService;
     private final AccountRepository repository;
 
-    public AccountService(AccountRepository repository, AccountMapper mapper, AuthenticationService authService) {
+    public AccountService(
+            AccountRepository repository,
+            AccountMapper mapper,
+            AuthenticationService authService) {
         this.repository = repository;
         this.mapper = mapper;
         this.authService = authService;

@@ -12,5 +12,6 @@ public interface AccountRepository {
     Account findByIdul(Idul idul);
 
     boolean existsByEmail(Email email);
+
     boolean existsByIdul(Idul idul);
 }

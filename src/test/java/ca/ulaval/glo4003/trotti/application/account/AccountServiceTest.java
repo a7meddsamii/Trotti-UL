@@ -55,7 +55,6 @@ public class AccountServiceTest {
         Mockito.verify(repository).save(account);
     }
 
-
     @Test
     void givenExistingEmail_whenCreateAccount_thenThrowInvalidParameterException() {
         Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(true);
@@ -79,10 +78,8 @@ public class AccountServiceTest {
     void givenInvalidPassword_whenLogin_thenThrowInvalidParameterException() {
         mockInvalidLoginSetup();
 
-        Executable loginAttempt = () -> service.login(
-                AccountServiceFixture.AN_EMAIL_STRING,
-                AccountServiceFixture.A_RAW_PASSWORD
-        );
+        Executable loginAttempt = () -> service.login(AccountServiceFixture.AN_EMAIL_STRING,
+                AccountServiceFixture.A_RAW_PASSWORD);
 
         Assertions.assertThrows(InvalidParameterException.class, loginAttempt);
     }
@@ -91,10 +88,8 @@ public class AccountServiceTest {
     void givenValidCredentials_whenLogin_thenReturnAuthenticationToken() {
         mockValidLoginSetup();
 
-        AuthenticationToken token = service.login(
-                AccountServiceFixture.AN_EMAIL_STRING,
-                AccountServiceFixture.A_RAW_PASSWORD
-        );
+        AuthenticationToken token = service.login(AccountServiceFixture.AN_EMAIL_STRING,
+                AccountServiceFixture.A_RAW_PASSWORD);
 
         Assertions.assertEquals(AccountServiceFixture.AN_AUTH_TOKEN, token);
     }
@@ -102,7 +97,8 @@ public class AccountServiceTest {
     private void mockInvalidLoginSetup() {
         Mockito.when(repository.findByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(account);
         Mockito.when(account.getPassword()).thenReturn(AccountServiceFixture.A_PASSWORD);
-        Mockito.when(AccountServiceFixture.A_PASSWORD.matches(AccountServiceFixture.A_RAW_PASSWORD)).thenReturn(false);
+        Mockito.when(AccountServiceFixture.A_PASSWORD.matches(AccountServiceFixture.A_RAW_PASSWORD))
+                .thenReturn(false);
     }
 
     private void mockValidLoginSetup() {
