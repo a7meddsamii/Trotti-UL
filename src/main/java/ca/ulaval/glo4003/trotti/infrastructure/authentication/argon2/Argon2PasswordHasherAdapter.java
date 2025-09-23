@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.auth.argon;
+package ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2;
 
 import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import de.mkammerer.argon2.Argon2;
@@ -6,14 +6,14 @@ import de.mkammerer.argon2.Argon2Factory;
 import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 
-public class Argon2PasswordHasherPortAdapter implements PasswordHasher {
+public class Argon2PasswordHasherAdapter implements PasswordHasher {
 
     private final int memoryCost;
     private final int iterations;
     private final int threads;
     private final Argon2 argon2;
 
-    public Argon2PasswordHasherPortAdapter(int memoryCost, int iterations, int threads) {
+    public Argon2PasswordHasherAdapter(int memoryCost, int iterations, int threads) {
         this.memoryCost = memoryCost;
         this.iterations = iterations;
         this.threads = threads;

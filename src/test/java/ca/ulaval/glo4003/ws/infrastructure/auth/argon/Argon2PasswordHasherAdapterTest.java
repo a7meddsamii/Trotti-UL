@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.infrastructure.auth.argon;
+package ca.ulaval.glo4003.ws.infrastructure.authentication.argon2;
 
-import ca.ulaval.glo4003.trotti.infrastructure.auth.argon.Argon2PasswordHasherPortAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2PasswordHasherAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +16,11 @@ public class Argon2PasswordHasherAdapterTest {
     private static final int ITERATIONS = 3;
     private static final int THREADS = 2;
 
-    private Argon2PasswordHasherPortAdapter argon2Hasher;
+    private Argon2PasswordHasherAdapter argon2Hasher;
 
     @BeforeEach
     void setUp() {
-        argon2Hasher = new Argon2PasswordHasherPortAdapter(MEMORY_COST, ITERATIONS, THREADS);
+        argon2Hasher = new Argon2PasswordHasherAdapter(MEMORY_COST, ITERATIONS, THREADS);
     }
 
     @Test
