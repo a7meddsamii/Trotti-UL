@@ -4,10 +4,8 @@ import ca.ulaval.glo4003.trotti.infrastructure.auth.argon.Argon2PasswordHasherPo
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
+
 public class Argon2PasswordHasherAdapterTest {
 
     private static final String PLAIN_PASSWORD = "SecretTest1!";
