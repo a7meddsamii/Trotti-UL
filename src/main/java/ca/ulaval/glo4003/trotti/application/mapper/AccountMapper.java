@@ -8,7 +8,7 @@ public class AccountMapper {
     private final AccountFactory accountFactory;
     private final PasswordHasher passwordHasher;
 
-    private AccountMapper(AccountFactory accountFactory, PasswordHasher passwordHasher) {
+    public AccountMapper(AccountFactory accountFactory, PasswordHasher passwordHasher) {
         this.accountFactory = accountFactory;
         this.passwordHasher = passwordHasher;
     }

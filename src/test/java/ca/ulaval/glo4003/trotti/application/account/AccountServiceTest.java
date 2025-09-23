@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.ConflictException;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,22 +57,22 @@ public class AccountServiceTest {
     }
 
     @Test
-    void givenExistingEmail_whenCreateAccount_thenThrowInvalidParameterException() {
+    void givenExistingEmail_whenCreateAccount_thenThrowConflictException() {
         Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(true);
 
         Executable act = () -> service.createAccount(request);
 
-        Assertions.assertThrows(InvalidParameterException.class, act);
+        Assertions.assertThrows(ConflictException.class, act);
     }
 
     @Test
-    void givenExistingIdul_whenCreateAccount_thenThrowInvalidParameterException() {
+    void givenExistingIdul_whenCreateAccount_thenThrowConflictException() {
         Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(false);
         Mockito.when(repository.existsByIdul(AccountServiceFixture.AN_IDUL)).thenReturn(true);
 
         Executable accountCreationAttempt = () -> service.createAccount(request);
 
-        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+        Assertions.assertThrows(ConflictException.class, accountCreationAttempt);
     }
 
     @Test

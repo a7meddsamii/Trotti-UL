@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.ConflictException;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 
 public class AccountService {
@@ -25,13 +26,14 @@ public class AccountService {
         this.authService = authService;
     }
 
-    public void createAccount(CreateAccount request) {
+    public Idul createAccount(CreateAccount request) {
         Email email = Email.from(request.email());
         Idul idul = Idul.from(request.idul());
         validateAccountDoesNotExist(email, idul);
 
         Account account = mapper.create(request);
         repository.save(account);
+        return account.getIdul();
     }
 
     public AuthenticationToken login(String emailInput, String rawPassword) {
@@ -47,10 +49,10 @@ public class AccountService {
 
     private void validateAccountDoesNotExist(Email email, Idul idul) {
         if (repository.existsByEmail(email)) {
-            throw new InvalidParameterException("");
+            throw new ConflictException("The email " + email + " is already used");
         }
         if (repository.existsByIdul(idul)) {
-            throw new InvalidParameterException("");
+            throw new ConflictException("The idul " + idul + " is already used");
         }
     }
 }
