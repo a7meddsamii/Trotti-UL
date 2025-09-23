@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.api;
 
-
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
 import jakarta.ws.rs.container.ContainerResponseFilter;
