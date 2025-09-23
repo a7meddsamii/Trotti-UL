@@ -21,8 +21,8 @@ public class Argon2PasswordHasherPortAdapter implements PasswordHasher {
     }
 
     @Override
-    public String hash(String password) {
-        char[] material = password.toCharArray();
+    public String hash(String plainPassword) {
+        char[] material = plainPassword.toCharArray();
         try {
             return argon2.hash(iterations, memoryCost, threads, material);
         } finally {
@@ -31,12 +31,12 @@ public class Argon2PasswordHasherPortAdapter implements PasswordHasher {
     }
 
     @Override
-    public boolean matches(String password, String storedHashedPassword) {
-        if (StringUtils.isBlank(storedHashedPassword))
+    public boolean matches(String plainPassword, String hashedPassword) {
+        if (StringUtils.isBlank(hashedPassword))
             return false;
-        char[] material = password.toCharArray();
+        char[] material = plainPassword.toCharArray();
         try {
-            return argon2.verify(storedHashedPassword, material);
+            return argon2.verify(hashedPassword, material);
         } finally {
             Arrays.fill(material, '\0');
         }
