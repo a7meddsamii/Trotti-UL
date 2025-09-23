@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ArgonPasswordHasherAdapterTest {
+public class Argon2PasswordHasherAdapterTest {
 
     private static final String PLAIN_PASSWORD = "SecretTest1!";
     private static final String WRONG_PASSWORD = "SecretTest2!";
@@ -18,51 +18,51 @@ public class ArgonPasswordHasherAdapterTest {
     private static final int ITERATIONS = 3;
     private static final int THREADS = 2;
 
-    private Argon2PasswordHasherPortAdapter argonHasher;
+    private Argon2PasswordHasherPortAdapter argon2Hasher;
 
     @BeforeEach
     void setUp() {
-        argonHasher = new Argon2PasswordHasherPortAdapter(MEMORY_COST, ITERATIONS, THREADS);
+        argon2Hasher = new Argon2PasswordHasherPortAdapter(MEMORY_COST, ITERATIONS, THREADS);
     }
 
     @Test
     void givenPassword_whenHash_thenReturnsPasswordHashedArgon2id() {
-        String hashedPassword = argonHasher.hash(PLAIN_PASSWORD);
+        String hashedPassword = argon2Hasher.hash(PLAIN_PASSWORD);
 
         Assertions.assertNotEquals(PLAIN_PASSWORD, hashedPassword);
     }
 
     @Test
     void givenCorrectPasswordAndStoredHash_whenVerify_thenReturnsTrue() {
-        String hashedPassword = argonHasher.hash(PLAIN_PASSWORD);
+        String hashedPassword = argon2Hasher.hash(PLAIN_PASSWORD);
 
-        boolean ok = argonHasher.matches(PLAIN_PASSWORD, hashedPassword);
+        boolean ok = argon2Hasher.matches(PLAIN_PASSWORD, hashedPassword);
 
         Assertions.assertTrue(ok);
     }
 
     @Test
     void givenSamePassword_whenHashedTwice_thenHashesDifferBecauseOfRandomSalt() {
-        String hashedPassword1 = argonHasher.hash(PLAIN_PASSWORD);
-        String hashedPassword2 = argonHasher.hash(PLAIN_PASSWORD);
+        String hashedPassword1 = argon2Hasher.hash(PLAIN_PASSWORD);
+        String hashedPassword2 = argon2Hasher.hash(PLAIN_PASSWORD);
 
         Assertions.assertNotEquals(hashedPassword1, hashedPassword2);
     }
 
     @Test
     void givenUnicodePassword_whenHashAndVerify_thenWorks() {
-        String hashedPassword = argonHasher.hash(NON_ASCII_PASSWORD);
+        String hashedPassword = argon2Hasher.hash(NON_ASCII_PASSWORD);
 
-        Assertions.assertTrue(argonHasher.matches(NON_ASCII_PASSWORD, hashedPassword));
-        Assertions.assertFalse(argonHasher.matches("unicode?", hashedPassword));
+        Assertions.assertTrue(argon2Hasher.matches(NON_ASCII_PASSWORD, hashedPassword));
+        Assertions.assertFalse(argon2Hasher.matches("unicode?", hashedPassword));
     }
 
 
     @Test
     void givenWrongPassword_whenVerify_thenReturnsFalse() {
-        String storedHash = argonHasher.hash(PLAIN_PASSWORD);
+        String storedHash = argon2Hasher.hash(PLAIN_PASSWORD);
 
-        boolean ok = argonHasher.matches(WRONG_PASSWORD, storedHash);
+        boolean ok = argon2Hasher.matches(WRONG_PASSWORD, storedHash);
 
         Assertions.assertFalse(ok);
     }
