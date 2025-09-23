@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.api.account;
 import ca.ulaval.glo4003.trotti.api.account.dto.request.LoginRequest;
 import ca.ulaval.glo4003.trotti.api.account.dto.response.LoginResponse;
 import ca.ulaval.glo4003.trotti.application.account.AccountService;
+import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -28,7 +29,7 @@ public class AccountController {
     @POST
     @Path("/login")
     public Response login(@Valid LoginRequest request) {
-        String token = accountService.login(request.email(), request.password());
+        AuthenticationToken token = accountService.login(request.email(), request.password());
 
         LoginResponse response = new LoginResponse(token);
 
