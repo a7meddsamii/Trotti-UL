@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.application.mapper.AccountMapper;
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.ConflictException;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
@@ -32,13 +33,14 @@ public class AccountServiceTest {
         service = new AccountService(repository, mapper, authService);
 
         account = Mockito.mock(Account.class);
-        request = AccountServiceFixture.aCreateAccountRequest();
+        request = aCreateAccountRequest();
     }
 
     @Test
     void givenNewAccount_whenCreateAccount_thenMapperCreateIsCalled() {
-        Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountServiceFixture.AN_IDUL)).thenReturn(false);
+        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
+        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(false);
+        Mockito.when(mapper.create(request)).thenReturn(account);
 
         service.createAccount(request);
 
@@ -47,8 +49,8 @@ public class AccountServiceTest {
 
     @Test
     void givenNewAccount_whenCreateAccount_thenRepositorySaveIsCalled() {
-        Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountServiceFixture.AN_IDUL)).thenReturn(false);
+        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
+        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(false);
         Mockito.when(mapper.create(request)).thenReturn(account);
 
         service.createAccount(request);
@@ -58,7 +60,7 @@ public class AccountServiceTest {
 
     @Test
     void givenExistingEmail_whenCreateAccount_thenThrowConflictException() {
-        Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(true);
+        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(true);
 
         Executable act = () -> service.createAccount(request);
 
@@ -67,8 +69,8 @@ public class AccountServiceTest {
 
     @Test
     void givenExistingIdul_whenCreateAccount_thenThrowConflictException() {
-        Mockito.when(repository.existsByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountServiceFixture.AN_IDUL)).thenReturn(true);
+        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
+        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(true);
 
         Executable accountCreationAttempt = () -> service.createAccount(request);
 
@@ -79,8 +81,8 @@ public class AccountServiceTest {
     void givenInvalidPassword_whenLogin_thenThrowInvalidParameterException() {
         mockInvalidLoginSetup();
 
-        Executable loginAttempt = () -> service.login(AccountServiceFixture.AN_EMAIL_STRING,
-                AccountServiceFixture.A_RAW_PASSWORD);
+        Executable loginAttempt =
+                () -> service.login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
 
         Assertions.assertThrows(InvalidParameterException.class, loginAttempt);
     }
@@ -89,29 +91,34 @@ public class AccountServiceTest {
     void givenValidCredentials_whenLogin_thenReturnAuthenticationToken() {
         mockValidLoginSetup();
 
-        AuthenticationToken token = service.login(AccountServiceFixture.AN_EMAIL_STRING,
-                AccountServiceFixture.A_RAW_PASSWORD);
+        AuthenticationToken token =
+                service.login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
 
-        Assertions.assertEquals(AccountServiceFixture.AN_AUTH_TOKEN, token);
+        Assertions.assertEquals(AccountFixture.AN_AUTH_TOKEN, token);
     }
 
     private void mockInvalidLoginSetup() {
-        Mockito.when(repository.findByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(account);
-        Mockito.when(account.getPassword()).thenReturn(AccountServiceFixture.A_PASSWORD);
-        Mockito.when(AccountServiceFixture.A_PASSWORD.matches(AccountServiceFixture.A_RAW_PASSWORD))
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(account);
+        Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
+        Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
                 .thenReturn(false);
     }
 
     private void mockValidLoginSetup() {
-        Mockito.when(repository.findByEmail(AccountServiceFixture.AN_EMAIL)).thenReturn(account);
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(account);
 
-        Mockito.when(account.getPassword()).thenReturn(AccountServiceFixture.A_PASSWORD);
-        Mockito.when(AccountServiceFixture.A_PASSWORD.matches(AccountServiceFixture.A_RAW_PASSWORD))
+        Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
+        Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
                 .thenReturn(true);
 
-        Mockito.when(account.getIdul()).thenReturn(AccountServiceFixture.AN_IDUL);
-        Mockito.when(authService.generateToken(AccountServiceFixture.AN_IDUL))
-                .thenReturn(AccountServiceFixture.AN_AUTH_TOKEN);
+        Mockito.when(account.getIdul()).thenReturn(AccountFixture.AN_IDUL);
+        Mockito.when(authService.generateToken(AccountFixture.AN_IDUL))
+                .thenReturn(AccountFixture.AN_AUTH_TOKEN);
     }
 
+    private CreateAccount aCreateAccountRequest() {
+        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+                AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
+                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+    }
 }
