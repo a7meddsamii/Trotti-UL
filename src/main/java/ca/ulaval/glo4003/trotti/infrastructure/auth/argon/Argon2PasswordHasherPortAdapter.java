@@ -4,16 +4,16 @@ import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import java.util.Arrays;
-import org.eclipse.jetty.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
-public class ArgonPasswordHasherPortAdapter implements PasswordHasher {
+public class Argon2PasswordHasherPortAdapter implements PasswordHasher {
 
     private final int memoryCost;
     private final int iterations;
     private final int threads;
     private final Argon2 argon2;
 
-    public ArgonPasswordHasherPortAdapter(int memoryCost, int iterations, int threads) {
+    public Argon2PasswordHasherPortAdapter(int memoryCost, int iterations, int threads) {
         this.memoryCost = memoryCost;
         this.iterations = iterations;
         this.threads = threads;
@@ -32,7 +32,7 @@ public class ArgonPasswordHasherPortAdapter implements PasswordHasher {
 
     @Override
     public boolean matches(String password, String storedHashedPassword) {
-        if (StringUtil.isBlank(storedHashedPassword))
+        if (StringUtils.isBlank(storedHashedPassword))
             return false;
         char[] material = password.toCharArray();
         try {
