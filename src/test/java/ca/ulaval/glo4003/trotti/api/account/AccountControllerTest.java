@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.api.account.dto.request.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.application.account.AccountService;
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import jakarta.ws.rs.core.Response;
+import java.net.URI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class AccountControllerTest {
+    private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
+
     private AccountService service;
     private AccountController controller;
 
@@ -23,12 +26,14 @@ class AccountControllerTest {
     }
 
     @Test
-    void givenValidRequest_whenCreateAccount_thenReturnCreatedResponse() {
+    void givenValidRequest_whenCreateAccount_thenReturnCreatedResponseWithLocation() {
         CreateAccountRequest request = buildValidRequest();
 
         Response response = controller.createAccount(request);
 
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + request.idul()),
+                response.getLocation());
     }
 
     @Test
