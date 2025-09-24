@@ -6,12 +6,21 @@ import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class AccountMapperTest {
+
+    private static final String TOO_SHORT_PASSWORD = "Ab1!";
+    private static final String MISSING_UPPERCASE = "strongpass1!";
+    private static final String MISSING_SPECIAL_CHAR = "StrongPass1";
+    private static final String MISSING_NUMBER = "StrongPass!";
+    private static final String NULL_PASSWORD = null;
+
     private AccountFactory factory;
     private PasswordHasher hasher;
     private AccountMapper mapper;
@@ -50,8 +59,77 @@ class AccountMapperTest {
         Assertions.assertEquals(account, result);
     }
 
+    @Test
+    void givenTooShortPassword_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest = buildRequestWithPassword(TOO_SHORT_PASSWORD);
+
+        Executable accountCreationAttempt = () -> mapper.create(invalidRequest);
+
+        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenPasswordWithoutUppercase_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest = buildRequestWithPassword(MISSING_UPPERCASE);
+
+        Executable accountCreationAttempt = () -> mapper.create(invalidRequest);
+
+        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenPasswordWithoutNumber_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest = buildRequestWithPassword(MISSING_NUMBER);
+
+        Executable accountCreationAttempt = () -> mapper.create(invalidRequest);
+
+        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenPasswordWithoutSpecialCharacter_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest = buildRequestWithPassword(MISSING_SPECIAL_CHAR);
+
+        Executable accountCreationAttempt = () -> mapper.create(invalidRequest);
+
+        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenNullPassword_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest = buildRequestWithPassword(NULL_PASSWORD);
+
+        Executable accountCreationAttempt = () -> mapper.create(invalidRequest);
+
+        Assertions.assertThrows(InvalidParameterException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenValidPassword_whenCreate_thenDoesNotThrow() {
+        CreateAccount validRequest = buildRequestWithPassword(AccountFixture.A_RAW_PASSWORD);
+
+        Executable accountCreationAttempt = () -> mapper.create(validRequest);
+
+        Assertions.assertDoesNotThrow(accountCreationAttempt);
+    }
+
+    @Test
+    void givenValidPassword_whenCreate_thenHasherIsCalled() {
+        CreateAccount validRequest = buildRequestWithPassword(AccountFixture.A_RAW_PASSWORD);
+
+        mapper.create(validRequest);
+
+        Mockito.verify(hasher).hash(AccountFixture.A_RAW_PASSWORD);
+    }
+
     private void mockFactoryToReturnAccount() {
         Mockito.when(factory.create(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(),
                 Mockito.any(), Mockito.any())).thenReturn(account);
+    }
+
+    private CreateAccount buildRequestWithPassword(String password) {
+        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+                AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
+                AccountFixture.AN_EMAIL_STRING, password);
     }
 }

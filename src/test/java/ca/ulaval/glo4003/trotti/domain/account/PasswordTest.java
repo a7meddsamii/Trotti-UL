@@ -1,82 +1,58 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
-import org.apache.commons.lang3.StringUtils;
+import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class PasswordTest {
-    private static final String VALID_PASSWORD = "StrongPass1!";
-    private static final String TOO_SHORT_PASSWORD = "Ab1!";
-    private static final String MISSING_UPPERCASE = "strongpass1!";
-    private static final String MISSING_SPECIAL_CHAR = "StrongPass1";
-    private static final String MISSING_NUMBER = "StrongPass!";
-    private static final String NULL_PASSWORD = null;
     private static final String HASHED_PASSWORD = "hashed-password";
+    private static final String DIFFERENT_HASHED_PASSWORD = "different-hashed-password";
 
     private PasswordHasher hasher;
 
     @BeforeEach
     void setup() {
         hasher = Mockito.mock(PasswordHasher.class);
-        Mockito.when(hasher.hash(Mockito.anyString())).thenReturn(HASHED_PASSWORD);
     }
 
     @Test
-    void givenValidPassword_whenCreatePassword_thenHasherIsCalled() {
-        new Password(VALID_PASSWORD, hasher);
+    void givenTwoPasswordsWithSameValue_whenCompare_thenTheyAreEqual() {
+        Password password1 = new Password(HASHED_PASSWORD, hasher);
+        Password password2 = new Password(HASHED_PASSWORD, hasher);
 
-        Mockito.verify(hasher).hash(VALID_PASSWORD);
+        Assertions.assertEquals(password1, password2);
+        Assertions.assertEquals(password1.hashCode(), password2.hashCode());
     }
 
     @Test
-    void givenTooShortPassword_whenCreatePassword_thenThrowInvalidParameterException() {
+    void givenTwoPasswordsWithDifferentValue_whenCompare_thenTheyAreNotEqual() {
+        Password password1 = new Password(HASHED_PASSWORD, hasher);
+        Password password2 = new Password(DIFFERENT_HASHED_PASSWORD, hasher);
 
-        Executable passwordCreation = () -> new Password(TOO_SHORT_PASSWORD, hasher);
-
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
+        Assertions.assertNotEquals(password1, password2);
     }
 
     @Test
-    void givenPasswordWithoutUppercase_whenCreatePassword_thenThrowInvalidParameterException() {
+    void givenMatchingRawPassword_whenMatches_thenReturnTrue() {
+        Password password = new Password(HASHED_PASSWORD, hasher);
+        Mockito.when(hasher.verify(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
+                .thenReturn(true);
 
-        Executable passwordCreation = () -> new Password(MISSING_UPPERCASE, hasher);
+        boolean result = password.matches(AccountFixture.A_RAW_PASSWORD);
 
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
+        Assertions.assertTrue(result);
     }
 
     @Test
-    void givenPasswordWithoutNumber_whenCreatePassword_thenThrowInvalidParameterException() {
+    void givenNonMatchingRawPassword_whenMatches_thenReturnFalse() {
+        Password password = new Password(HASHED_PASSWORD, hasher);
+        Mockito.when(hasher.verify(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
+                .thenReturn(false);
 
-        Executable passwordCreation = () -> new Password(MISSING_NUMBER, hasher);
+        boolean result = password.matches(AccountFixture.A_RAW_PASSWORD);
 
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
-    }
-
-    @Test
-    void givenPasswordWithoutSpecialCharacter_whenCreatePassword_thenThrowInvalidParameterException() {
-
-        Executable passwordCreation = () -> new Password(MISSING_SPECIAL_CHAR, hasher);
-
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
-    }
-
-    @Test
-    void givenEmptyPassword_whenCreatePassword_thenThrowInvalidParameterException() {
-
-        Executable passwordCreation = () -> new Password(StringUtils.EMPTY, hasher);
-
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
-    }
-
-    @Test
-    void givenNullPassword_whenCreatePassword_thenThrowInvalidParameterException() {
-
-        Executable passwordCreation = () -> new Password(NULL_PASSWORD, hasher);
-
-        Assertions.assertThrows(InvalidParameterException.class, passwordCreation);
+        Assertions.assertFalse(result);
     }
 }
