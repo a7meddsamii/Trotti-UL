@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.commons;
 
 public class EmailRequest {
 
-    private  String to;
-    private  String subject;
-    private  String body;
+    private final String to;
+    private final String subject;
+    private final String body;
 
     public EmailRequest(Email to, String subject, String body) {
 

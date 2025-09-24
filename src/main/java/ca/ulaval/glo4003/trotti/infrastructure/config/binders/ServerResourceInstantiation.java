@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.JakartaEmailSenderAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -36,7 +38,7 @@ public class ServerResourceInstantiation {
 
     private void loadAuthenticatorResource() {
         try {
-            Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
+            Duration expirationDuration =Duration.ofMinutes(60);
             Clock authenticatorClock = Clock.systemDefaultZone();
             AuthenticationService authenticator = new JwtAuthenticationServiceAdapter(
                     expirationDuration, authenticatorClock, SECRET_KEY);
@@ -48,6 +50,10 @@ public class ServerResourceInstantiation {
                     exception);
             throw exception;
         }
+    }
+
+    private void loadEmailSender(){
+        EmailSender emailSender = new JakartaEmailSenderAdapter("noreply@trottiul.ca");
     }
 
     public void initiate() {
