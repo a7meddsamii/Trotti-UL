@@ -19,7 +19,7 @@ public class AccountFixture {
     public static final AuthenticationToken AN_AUTH_TOKEN = AuthenticationToken.from(A_TOKEN_VALUE);
 
     public static final PasswordHasher A_HASHER = Mockito.mock(PasswordHasher.class);
-    public static final Password A_PASSWORD = new Password(A_RAW_PASSWORD, A_HASHER);
+    public static final Password A_PASSWORD = Password.fromHashed(A_RAW_PASSWORD, A_HASHER); // TODO a revoir
 
     private String name = A_NAME;
     private LocalDate birthDate = A_BIRTHDATE;

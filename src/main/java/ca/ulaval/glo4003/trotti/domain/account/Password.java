@@ -23,7 +23,7 @@ public class Password {
 	}
 	
 	public boolean matches(String rawPassword) {
-		return hasher.verify(rawPassword, this.hashedValue);
+		return hasher.matches(rawPassword, this.hashedValue);
 	}
 	
 	@Override
