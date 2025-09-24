@@ -37,7 +37,7 @@ class PasswordTest {
     @Test
     void givenMatchingRawPassword_whenMatches_thenReturnTrue() {
         Password password = new Password(HASHED_PASSWORD, hasher);
-        Mockito.when(hasher.verify(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
+        Mockito.when(hasher.matches(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
                 .thenReturn(true);
 
         boolean result = password.matches(AccountFixture.A_RAW_PASSWORD);
@@ -48,7 +48,7 @@ class PasswordTest {
     @Test
     void givenNonMatchingRawPassword_whenMatches_thenReturnFalse() {
         Password password = new Password(HASHED_PASSWORD, hasher);
-        Mockito.when(hasher.verify(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
+        Mockito.when(hasher.matches(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
                 .thenReturn(false);
 
         boolean result = password.matches(AccountFixture.A_RAW_PASSWORD);
