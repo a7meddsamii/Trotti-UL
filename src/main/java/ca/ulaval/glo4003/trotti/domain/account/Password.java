@@ -10,16 +10,19 @@ public class Password {
 	private final String hashedValue;
 	
 	public static Password fromHashed(String hashedPassword, PasswordHasher hasher) {
-		if (StringUtils.isBlank(hashedPassword)) {
-			throw new InvalidParameterException("Password cannot be null or empty.");
-		}
-		
 		return new Password(hashedPassword, hasher);
 	}
 	
 	private Password(String hashedValue, PasswordHasher hasher) {
+		validate(hashedValue);
 		this.hasher = hasher;
 		this.hashedValue = hashedValue;
+	}
+	
+	private void validate(String hashedPassword) {
+		if (StringUtils.isBlank(hashedPassword)) {
+			throw new InvalidParameterException("Password cannot be null or empty.");
+		}
 	}
 	
 	public boolean matches(String rawPassword) {
