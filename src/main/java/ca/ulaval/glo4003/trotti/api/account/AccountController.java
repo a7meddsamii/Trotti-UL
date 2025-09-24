@@ -11,11 +11,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.net.URI;
 
 @Path("/api/accounts")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountController {
+    private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
 
     private final AccountService accountService;
 
@@ -30,6 +32,7 @@ public class AccountController {
                 request.gender(), request.idul(), request.email(), request.password());
         accountService.createAccount(createAccount);
 
-        return Response.status(Response.Status.CREATED).build();
+        URI location = URI.create(ACCOUNTS_ENDPOINT + request.idul());
+        return Response.created(location).build();
     }
 }

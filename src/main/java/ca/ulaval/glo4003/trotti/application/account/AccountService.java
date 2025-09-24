@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.shared.exception.ConflictException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.AlreadyExistsException;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 
 public class AccountService {
@@ -38,21 +38,22 @@ public class AccountService {
 
     public AuthenticationToken login(String emailInput, String rawPassword) {
         Email email = Email.from(emailInput);
-        Account account = repository.findByEmail(email);
+        Account account = repository.findByEmail(email)
+                .orElseThrow(() -> new InvalidParameterException("Invalid email or password"));
 
         if (!account.getPassword().matches(rawPassword)) {
-            throw new InvalidParameterException("");
+            throw new InvalidParameterException("Invalid email or password");
         }
 
         return authService.generateToken(account.getIdul());
     }
 
     private void validateAccountDoesNotExist(Email email, Idul idul) {
-        if (repository.existsByEmail(email)) {
-            throw new ConflictException("The email " + email + " is already used");
+        if (repository.findByEmail(email).isPresent()) {
+            throw new AlreadyExistsException("The email " + email + " is already used");
         }
-        if (repository.existsByIdul(idul)) {
-            throw new ConflictException("The idul " + idul + " is already used");
+        if (repository.findByIdul(idul).isPresent()) {
+            throw new AlreadyExistsException("The idul " + idul + " is already used");
         }
     }
 }
