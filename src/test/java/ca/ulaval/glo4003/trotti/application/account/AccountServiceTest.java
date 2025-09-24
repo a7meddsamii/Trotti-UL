@@ -7,8 +7,9 @@ import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationServ
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.shared.exception.ConflictException;
+import ca.ulaval.glo4003.trotti.domain.shared.exception.AlreadyExistsException;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,8 @@ public class AccountServiceTest {
 
     @Test
     void givenNewAccount_whenCreateAccount_thenMapperCreateIsCalled() {
-        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(false);
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(Optional.empty());
+        Mockito.when(repository.findByIdul(AccountFixture.AN_IDUL)).thenReturn(Optional.empty());
         Mockito.when(mapper.create(request)).thenReturn(account);
 
         service.createAccount(request);
@@ -49,8 +50,8 @@ public class AccountServiceTest {
 
     @Test
     void givenNewAccount_whenCreateAccount_thenRepositorySaveIsCalled() {
-        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(false);
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(Optional.empty());
+        Mockito.when(repository.findByIdul(AccountFixture.AN_IDUL)).thenReturn(Optional.empty());
         Mockito.when(mapper.create(request)).thenReturn(account);
 
         service.createAccount(request);
@@ -59,26 +60,28 @@ public class AccountServiceTest {
     }
 
     @Test
-    void givenExistingEmail_whenCreateAccount_thenThrowConflictException() {
-        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(true);
+    void givenExistingEmail_whenCreateAccount_thenThrowAlreadyExistsException() {
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL))
+                .thenReturn(Optional.of(account));
 
         Executable act = () -> service.createAccount(request);
 
-        Assertions.assertThrows(ConflictException.class, act);
+        Assertions.assertThrows(AlreadyExistsException.class, act);
     }
 
     @Test
-    void givenExistingIdul_whenCreateAccount_thenThrowConflictException() {
-        Mockito.when(repository.existsByEmail(AccountFixture.AN_EMAIL)).thenReturn(false);
-        Mockito.when(repository.existsByIdul(AccountFixture.AN_IDUL)).thenReturn(true);
+    void givenExistingIdul_whenCreateAccount_thenThrowAlreadyExistsException() {
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(Optional.empty());
+        Mockito.when(repository.findByIdul(AccountFixture.AN_IDUL))
+                .thenReturn((Optional.of(account)));
 
         Executable accountCreationAttempt = () -> service.createAccount(request);
 
-        Assertions.assertThrows(ConflictException.class, accountCreationAttempt);
+        Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
 
     @Test
-    void givenInvalidPassword_whenLogin_thenThrowInvalidParameterException() {
+    void givenInvalidCredentials_whenLogin_thenThrowException() {
         mockInvalidLoginSetup();
 
         Executable loginAttempt =
@@ -97,15 +100,26 @@ public class AccountServiceTest {
         Assertions.assertEquals(AccountFixture.AN_AUTH_TOKEN, token);
     }
 
+    @Test
+    void givenValidCredentials_whenLogin_thenAuthServiceGenerateTokenIsCalled() {
+        mockValidLoginSetup();
+
+        service.login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+
+        Mockito.verify(authService).generateToken(AccountFixture.AN_IDUL);
+    }
+
     private void mockInvalidLoginSetup() {
-        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(account);
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL))
+                .thenReturn(Optional.of(account));
         Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
         Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
                 .thenReturn(false);
     }
 
     private void mockValidLoginSetup() {
-        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL)).thenReturn(account);
+        Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL))
+                .thenReturn(Optional.of(account));
 
         Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
         Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
