@@ -6,12 +6,10 @@ import java.util.List;
 public class Order {
     private final Idul idul;
     private final List<Pass> passList;
-    private final BillingFrequency billingFrequency;
 
-    public Order(Idul idul, List<Pass> passList, BillingFrequency billingFrequency) {
+    public Order(Idul idul, List<Pass> passList) {
         this.idul = idul;
         this.passList = passList;
-        this.billingFrequency = billingFrequency;
     }
 
     public Idul getIdul() {
@@ -20,9 +18,5 @@ public class Order {
 
     public List<Pass> getPassList() {
         return passList;
-    }
-
-    public BillingFrequency getBillingFrequency() {
-        return billingFrequency;
     }
 }
