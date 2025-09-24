@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
