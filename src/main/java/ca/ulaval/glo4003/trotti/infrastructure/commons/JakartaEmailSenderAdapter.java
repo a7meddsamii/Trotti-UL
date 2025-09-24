@@ -21,7 +21,7 @@ public class JakartaEmailSenderAdapter implements EmailSender {
 
     @Override
     public void sendEmail(EmailRequest emailRequest) {
-        Session session = Session.getInstance(JavaMailSenderConfiguration.getInstance());
+        Session session = Session.getInstance(JakartaMailSenderConfiguration.getInstance());
 
         try{
             Message message = new MimeMessage(session);
