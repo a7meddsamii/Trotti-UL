@@ -1,39 +1,47 @@
-// src/test/java/ca/ulaval/glo4003/trotti/api/account/AccountAuthControllerTest.java
 package ca.ulaval.glo4003.trotti.api.account;
 
+import ca.ulaval.glo4003.trotti.api.account.dto.request.CreateAccountRequest;
+import ca.ulaval.glo4003.trotti.application.account.AccountService;
+import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
+import jakarta.ws.rs.core.Response;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class AccountControllerTest {
+    private AccountService service;
+    private AccountController controller;
 
-    // private static final String EMAIL = "equipe10@example.com";
-    // private static final String PASSWORD = "Équipedix2025$";
-    // private static final String TOKEN = "jwt-token-value";
-    //
-    // @Mock
-    // private AccountService accountService;
-    //
-    // @InjectMocks
-    // private AccountController controller;
-    //
-    // @Test
-    // void whenLogin_ok_returns200WithBody() {
-    // LoginRequest request = new LoginRequest(EMAIL, PASSWORD);
-    // when(accountService.login(EMAIL, PASSWORD)).thenReturn(TOKEN);
-    //
-    // Response response = controller.login(request);
-    //
-    // assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
-    // assertThat(response.getEntity()).isInstanceOf(LoginResponse.class);
-    //
-    // LoginResponse body = (LoginResponse) response.getEntity();
-    // assertThat(body.token()).isEqualTo(TOKEN);
-    //
-    // ArgumentCaptor<String> emailCaptor = ArgumentCaptor.forClass(String.class);
-    // ArgumentCaptor<String> pwdCaptor = ArgumentCaptor.forClass(String.class);
-    // verify(accountService).login(emailCaptor.capture(), pwdCaptor.capture());
-    // assertThat(emailCaptor.getValue()).isEqualTo(EMAIL);
-    // assertThat(pwdCaptor.getValue()).isEqualTo(PASSWORD);
-    // }
+    @BeforeEach
+    void setup() {
+        service = Mockito.mock(AccountService.class);
+        controller = new AccountController(service);
+    }
+
+    @Test
+    void givenValidRequest_whenCreateAccount_thenReturnCreatedResponse() {
+        CreateAccountRequest request = buildValidRequest();
+
+        Response response = controller.createAccount(request);
+
+        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void givenValidRequest_whenCreateAccount_thenServiceIsCalled() {
+        CreateAccountRequest request = buildValidRequest();
+
+        controller.createAccount(request);
+        Mockito.verify(service).createAccount(Mockito.any());
+    }
+
+    private CreateAccountRequest buildValidRequest() {
+        return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+                AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
+                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+    }
 }
