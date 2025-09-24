@@ -1,20 +1,21 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import java.util.List;
 
 public class Order {
+    private final Idul idul;
     private final List<Pass> passList;
     private final BillingFrequency billingFrequency;
-    private final OrderStatus orderStatus;
 
-    public Order(
-            List<Pass> passList,
-            BillingFrequency billingFrequency,
-            OrderStatus orderStatus
-    ) {
+    public Order(Idul idul, List<Pass> passList, BillingFrequency billingFrequency) {
+        this.idul = idul;
         this.passList = passList;
         this.billingFrequency = billingFrequency;
-        this.orderStatus = orderStatus;
+    }
+
+    public Idul getIdul() {
+        return idul;
     }
 
     public List<Pass> getPassList() {
@@ -23,9 +24,5 @@ public class Order {
 
     public BillingFrequency getBillingFrequency() {
         return billingFrequency;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
     }
 }

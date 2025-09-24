@@ -1,11 +1,14 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Objects;
-
 public class Session {
+    private static final List<String> correctSessions = List.of("A2025", "H2026", "E2026"); // A
+                                                                                            // possible
+                                                                                            // solution
     private final String value;
 
     private Session(String value) {
@@ -40,11 +43,12 @@ public class Session {
     private void validate(String value) {
 
         if (StringUtils.isBlank(value)) {
-            throw new InvalidParameterException("Pass session is missing, it cannot be null or empty");
+            throw new InvalidParameterException(
+                    "Pass session is missing, it cannot be null or empty");
         }
 
-        if(value.matches("^[AHE]\\d{4}$")) {
-            throw new InvalidParameterException("Pass session invalid");
+        if (correctSessions.contains(value)) {
+            throw new InvalidParameterException("Pass session is invalid");
         }
     }
 }
