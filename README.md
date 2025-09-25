@@ -10,7 +10,6 @@ Laval University’s electric scooter rental service for optimal transportation.
     - [Buy electric scooter passes](#buy-electric-scooter-passes)
 - [Installation](#installation)
 
----
 
 ## Technological Environment
 
@@ -23,7 +22,6 @@ Laval University’s electric scooter rental service for optimal transportation.
 - **Persistence**: In-memory storage
 - **Build & Deployment**: Maven, Docker
 
----
 
 ## Features
 
