@@ -2,12 +2,9 @@ package ca.ulaval.glo4003.trotti.infrastructure.repository;
 
 import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AccountDuplicateException;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AccountNotFoundException;
-import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
+
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
@@ -27,7 +24,6 @@ public class UserInMemoryDatabase {
     }
 
     public void insertIntoBuyerTable(BuyerEntity buyer) {
-        enforceAccountForeignKeyConstraint(buyer.idul());
         buyerTable.put(buyer.idul(), buyer);
     }
 
@@ -41,13 +37,6 @@ public class UserInMemoryDatabase {
     }
 
     public Optional<BuyerEntity> selectFromBuyerTable(Idul idul) {
-        enforceAccountForeignKeyConstraint(idul);
         return Optional.ofNullable(buyerTable.get(idul));
-    }
-
-    private void enforceAccountForeignKeyConstraint(Idul idul) {
-        if (!accountTable.containsKey(idul)) {
-            throw new AccountNotFoundException("");
-        }
     }
 }
