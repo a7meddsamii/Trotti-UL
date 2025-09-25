@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.email;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Email;
-import ca.ulaval.glo4003.trotti.domain.commons.EmailRequest;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailSenderConfiguration;
@@ -20,13 +20,13 @@ public class JakartaEmailService implements EmailSender {
     }
 
     @Override
-    public void sendEmail(EmailRequest emailRequest) {
+    public void sendEmail(EmailMessage emailMessage) {
         try{
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(session.getProperty("FromMail")));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailRequest.getTo()));
-            message.setSubject(emailRequest.getSubject());
-            message.setText(emailRequest.getBody());
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailMessage.getTo()));
+            message.setSubject(emailMessage.getSubject());
+            message.setText(emailMessage.getBody());
             Transport.send(message);
         }catch (MessagingException e){
             throw new EmailSendException("Failed to send email." + e.getMessage());
@@ -35,7 +35,7 @@ public class JakartaEmailService implements EmailSender {
 
     public static void main(String[] args) {
         EmailSender emailSender = new JakartaEmailService(JakartaMailSenderConfiguration.getSession());
-        EmailRequest emailRequest = new EmailRequest(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
-        emailSender.sendEmail(emailRequest);
+        EmailMessage emailMessage = new EmailMessage(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
+        emailSender.sendEmail(emailMessage);
     }
 }
