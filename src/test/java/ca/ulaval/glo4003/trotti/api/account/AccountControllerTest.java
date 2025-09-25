@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class AccountControllerTest {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
+    private static final String PATH_SEPARATOR = "/";
 
     private AccountService service;
     private AccountController controller;
@@ -32,7 +33,7 @@ class AccountControllerTest {
         Response response = controller.createAccount(request);
 
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + request.idul()),
+        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
     }
 

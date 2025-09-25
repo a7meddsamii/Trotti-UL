@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.api.account;
 import ca.ulaval.glo4003.trotti.api.account.dto.request.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.application.account.AccountService;
 import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -18,10 +17,10 @@ import java.net.URI;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountController {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
+    private static final String PATH_SEPARATOR = "/";
 
     private final AccountService accountService;
 
-    @Inject
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
@@ -32,7 +31,7 @@ public class AccountController {
                 request.gender(), request.idul(), request.email(), request.password());
         accountService.createAccount(createAccount);
 
-        URI location = URI.create(ACCOUNTS_ENDPOINT + request.idul());
+        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
         return Response.created(location).build();
     }
 }
