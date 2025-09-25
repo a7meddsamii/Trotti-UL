@@ -11,11 +11,11 @@ public class AccountFixture {
     public static final Idul AN_IDUL = Idul.from("CM1B2G45");
     public static final Email AN_EMAIL = Email.from("camavinga.123@ulaval.ca");
     public static final String A_RAW_PASSWORD = "StrongPass1!";
+    public static final String A_HASHED_PASSWORD =
+            "$2a$10$Dow1L9nQe5jFh7vZpY0xeu1f4f5r6t7u8v9w0x1y2z3a4b5c6d7e8";
 
     public static final PasswordHasher A_HASHER = Mockito.mock(PasswordHasher.class);
-    public static final Password A_PASSWORD = Password.fromHashed(A_RAW_PASSWORD, A_HASHER); // TODO
-                                                                                             // a
-                                                                                             // revoir
+    public static final Password A_PASSWORD = Password.fromHashed(A_HASHED_PASSWORD, A_HASHER);
 
     private String name = A_NAME;
     private LocalDate birthDate = A_BIRTHDATE;
