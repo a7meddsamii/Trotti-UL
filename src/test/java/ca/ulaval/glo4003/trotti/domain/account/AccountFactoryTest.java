@@ -24,7 +24,7 @@ class AccountFactoryTest {
     private Clock clock;
 
     @BeforeEach
-    void setpu() {
+    void setup() {
         clock = Clock.fixed(START_MOMENT, UTC);
         factory = new AccountFactory(clock);
     }
