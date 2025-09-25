@@ -1,9 +1,10 @@
-package ca.ulaval.glo4003.trotti.infrastructure.commons;
+package ca.ulaval.glo4003.trotti.infrastructure.email;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailRequest;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
+import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailSenderConfiguration;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -11,10 +12,10 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-public class JakartaEmailSenderAdapter implements EmailSender {
+public class JakartaEmailService implements EmailSender {
     private final Session session;
 
-    public JakartaEmailSenderAdapter(Session session) {
+    public JakartaEmailService(Session session) {
         this.session = session;
     }
 
@@ -28,12 +29,12 @@ public class JakartaEmailSenderAdapter implements EmailSender {
             message.setText(emailRequest.getBody());
             Transport.send(message);
         }catch (MessagingException e){
-            throw new EmailSendException("Failed to send email.");
+            throw new EmailSendException("Failed to send email." + e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        EmailSender emailSender = new JakartaEmailSenderAdapter(JakartaMailSenderConfiguration.getSession());
+        EmailSender emailSender = new JakartaEmailService(JakartaMailSenderConfiguration.getSession());
         EmailRequest emailRequest = new EmailRequest(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
         emailSender.sendEmail(emailRequest);
     }

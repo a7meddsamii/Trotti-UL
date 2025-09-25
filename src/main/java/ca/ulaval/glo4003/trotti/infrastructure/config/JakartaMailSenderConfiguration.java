@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.infrastructure.commons;
+package ca.ulaval.glo4003.trotti.infrastructure.config;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.Authenticator;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
@@ -7,8 +8,13 @@ import jakarta.mail.Session;
 import java.util.Properties;
 
 public class JakartaMailSenderConfiguration {
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
+    private static final Dotenv dotenv = Dotenv.load();
+
+    public static final String USERNAME = dotenv.get("SMTP_USER");
+    public static final String PASSWORD = dotenv.get("SMTP_PASS");
+
+    public static final String MAIL_SMTP_USERNAME = "FromMail";
+    public static final String MAIL_SMTP_USERNAME_VALUE = USERNAME;
 
     private static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     private static final String MAIL_TRANSPORT_PROTOCOL_VALUE = "smtp";
