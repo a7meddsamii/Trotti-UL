@@ -44,7 +44,6 @@ public class AccountService {
         if (!account.getPassword().matches(rawPassword)) {
             throw new InvalidParameterException("Invalid email or password");
         }
-
         return authService.generateToken(account.getIdul());
     }
 

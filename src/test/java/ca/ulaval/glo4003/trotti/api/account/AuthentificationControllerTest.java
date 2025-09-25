@@ -10,23 +10,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class AuthControllerTest {
+class AuthentificationControllerTest {
 
     private AccountService service;
-    private AuthController controller;
+    private AuthentificationController controller;
+    private LoginRequest request;
 
     @BeforeEach
     void setup() {
         service = Mockito.mock(AccountService.class);
-        controller = new AuthController(service);
+        controller = new AuthentificationController(service);
+        request = buildValidLoginRequest();
+        Mockito.when(service.login(request.email(), request.password()))
+                .thenReturn(AccountFixture.AN_AUTH_TOKEN);
     }
 
     @Test
     void givenValidCredentials_whenLogin_thenReturnOkResponse() {
-        LoginRequest request = buildValidLoginRequest();
-        Mockito.when(service.login(request.email(), request.password()))
-                .thenReturn(AccountFixture.AN_AUTH_TOKEN);
-
         Response response = controller.login(request);
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -34,20 +34,14 @@ class AuthControllerTest {
 
     @Test
     void givenValidCredentials_whenLogin_thenReturnLoginResponseWithToken() {
-        LoginRequest request = buildValidLoginRequest();
-        Mockito.when(service.login(request.email(), request.password()))
-                .thenReturn(AccountFixture.AN_AUTH_TOKEN);
-
         Response response = controller.login(request);
         LoginResponse loginResponse = (LoginResponse) response.getEntity();
 
-        Assertions.assertEquals(AccountFixture.AN_AUTH_TOKEN, loginResponse.token());
+        Assertions.assertEquals(AccountFixture.AN_AUTH_TOKEN.toString(), loginResponse.token());
     }
 
     @Test
     void givenValidCredentials_whenLogin_thenServiceIsCalled() {
-        LoginRequest request = buildValidLoginRequest();
-
         controller.login(request);
 
         Mockito.verify(service).login(request.email(), request.password());

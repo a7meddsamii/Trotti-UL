@@ -7,9 +7,9 @@ public class Password {
     private final PasswordHasher hasher;
     private final String hasedvalue;
 
-    public Password(String hasedvalue, PasswordHasher hasher) {
+    public Password(String hashedvalue, PasswordHasher hasher) {
         this.hasher = hasher;
-        this.hasedvalue = hasedvalue;
+        this.hasedvalue = hashedvalue;
     }
 
     public boolean matches(String rawPassword) {

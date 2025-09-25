@@ -15,10 +15,10 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class AuthController {
+public class AuthentificationController {
     private final AccountService service;
 
-    public AuthController(AccountService service) {
+    public AuthentificationController(AccountService service) {
         this.service = service;
     }
 
