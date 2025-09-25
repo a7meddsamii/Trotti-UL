@@ -67,7 +67,7 @@ The **Scooter Pass** module enables students to purchase passes for using electr
 
 The app can be run in a Docker Environment or directly with Maven.
 
-### Running with only Maven
+### Running with Maven
 
 - Compile the project:
    ```bash
