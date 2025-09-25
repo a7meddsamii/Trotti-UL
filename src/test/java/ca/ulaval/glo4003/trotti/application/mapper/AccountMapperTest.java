@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-
 class AccountMapperTest {
 
     private static final String TOO_SHORT_PASSWORD = "Ab1!";

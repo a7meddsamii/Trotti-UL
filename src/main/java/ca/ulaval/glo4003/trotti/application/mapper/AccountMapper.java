@@ -3,10 +3,9 @@ package ca.ulaval.glo4003.trotti.application.mapper;
 import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
 import ca.ulaval.glo4003.trotti.domain.account.*;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
-import org.apache.commons.validator.routines.RegexValidator;
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import org.apache.commons.validator.routines.RegexValidator;
 
 public class AccountMapper {
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{10,}$";
@@ -30,8 +29,7 @@ public class AccountMapper {
 
         LocalDate birthDate = parseBirthDate(request.birthDate());
 
-        return accountFactory.create(request.name(), birthDate, gender, idul, email,
-                password);
+        return accountFactory.create(request.name(), birthDate, gender, idul, email, password);
     }
 
     private void validate(String password) {
@@ -44,7 +42,7 @@ public class AccountMapper {
     private LocalDate parseBirthDate(String birthDate) {
         try {
             return LocalDate.parse(birthDate);
-        } catch (DateTimeException exception){
+        } catch (DateTimeException exception) {
             throw new InvalidParameterException("Invalid date format. Expected yyyy-MM-dd.");
         }
     }
