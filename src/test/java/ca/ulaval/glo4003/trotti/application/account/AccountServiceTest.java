@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.trotti.application.account;
 import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
 import ca.ulaval.glo4003.trotti.application.mapper.AccountMapper;
 import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.Password;
+import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 public class AccountServiceTest {
+    private PasswordHasher hasher;
+    private Password password;
 
     private AccountRepository repository;
     private AccountMapper mapper;
@@ -28,6 +32,9 @@ public class AccountServiceTest {
 
     @BeforeEach
     void setup() {
+        hasher = Mockito.mock(PasswordHasher.class);
+        password = Mockito.mock(Password.class);
+
         repository = Mockito.mock(AccountRepository.class);
         mapper = Mockito.mock(AccountMapper.class);
         authService = Mockito.mock(AuthenticationService.class);
@@ -112,18 +119,16 @@ public class AccountServiceTest {
     private void mockInvalidLoginSetup() {
         Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(account));
-        Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
-        Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
-                .thenReturn(false);
+        Mockito.when(account.getPassword()).thenReturn(password);
+        Mockito.when(password.matches(AccountFixture.A_RAW_PASSWORD)).thenReturn(false);
     }
 
     private void mockValidLoginSetup() {
         Mockito.when(repository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(account));
 
-        Mockito.when(account.getPassword()).thenReturn(AccountFixture.A_PASSWORD);
-        Mockito.when(AccountFixture.A_PASSWORD.matches(AccountFixture.A_RAW_PASSWORD))
-                .thenReturn(true);
+        Mockito.when(account.getPassword()).thenReturn(password);
+        Mockito.when(password.matches(AccountFixture.A_RAW_PASSWORD)).thenReturn(true);
 
         Mockito.when(account.getIdul()).thenReturn(AccountFixture.AN_IDUL);
         Mockito.when(authService.generateToken(AccountFixture.AN_IDUL))

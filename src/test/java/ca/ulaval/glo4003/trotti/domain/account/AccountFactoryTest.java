@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mockito;
 
 class AccountFactoryTest {
 
@@ -22,18 +23,19 @@ class AccountFactoryTest {
 
     private AccountFactory factory;
     private Clock clock;
+    private Password password;
 
     @BeforeEach
     void setup() {
+        password = Mockito.mock(Password.class);
         clock = Clock.fixed(START_MOMENT, UTC);
         factory = new AccountFactory(clock);
     }
 
     @Test
     void givenBirthDateToday_whenCreateAccount_thenThrowInvalidParameterException() {
-        Executable executable =
-                () -> factory.create(AccountFixture.A_NAME, TODAY, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
+        Executable executable = () -> factory.create(AccountFixture.A_NAME, TODAY,
+                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
@@ -41,9 +43,8 @@ class AccountFactoryTest {
     @Test
     void givenFutureBirthDate_whenCreateAccount_thenThrowsInvalidParameterException() {
 
-        Executable executable =
-                () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
+        Executable executable = () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE,
+                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
@@ -51,9 +52,8 @@ class AccountFactoryTest {
     @Test
     void givenPastBirthDate_whenCreateAccount_thenNoExceptionIsThrow() {
 
-        Executable executable =
-                () -> factory.create(AccountFixture.A_NAME, PAST_DATE, AccountFixture.A_GENDER,
-                        AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
+        Executable executable = () -> factory.create(AccountFixture.A_NAME, PAST_DATE,
+                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
 
         Assertions.assertDoesNotThrow(executable);
     }
