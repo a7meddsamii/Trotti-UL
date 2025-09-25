@@ -97,8 +97,8 @@ The app can be run in a Docker Environment or directly with Maven.
     ```bash
     docker run -p 8080:8080 application-glo4002 # with default token expiration duration (PT60M)
     ```
-
-> **Note:** The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
+> [!IMPORTANT]
+> The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
 > The value required follows the [ISO-8601 format](https://en.wikipedia.org/wiki/ISO_8601) for durations.
 > <br>For example :
 > * **PT20M** → Period of Time: 20 Minutes
