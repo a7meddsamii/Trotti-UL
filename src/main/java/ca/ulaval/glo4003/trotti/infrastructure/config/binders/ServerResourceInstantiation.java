@@ -13,10 +13,12 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2Passw
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryRepository;
 import io.jsonwebtoken.Jwts;
+
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import javax.crypto.SecretKey;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,14 @@ public class ServerResourceInstantiation {
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
 
+    private PasswordHasher hasher;
+    private AccountRepository accountRepository;
+    private AccountFactory accountFactory;
+    private AccountMapper accountMapper;
+
+    private AuthenticationService authenticationService;
+    private AccountService accountService;
+
     public static ServerResourceInstantiation getInstance() {
         if (instance != null) {
             return instance;
@@ -48,9 +58,9 @@ public class ServerResourceInstantiation {
         this.resourcesCreated = false;
     }
 
-    private void loadAuthenticatorResource() {
+    private void loadAuthenticationService() {
         try {
-            Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
+            Duration expirationDuration = Duration.parse(System.getProperty(EXPIRATION_DURATION));
              authenticationService = new JwtAuthenticationServiceAdapter(
                     DEFAULT_EXPIRATION, SEVER_CLOCK, SECRET_KEY);
             locator.register(AuthenticationService.class, authenticationService);
@@ -63,12 +73,44 @@ public class ServerResourceInstantiation {
         }
     }
 
+    private void loadPasswordHasher() {
+        hasher = new Argon2PasswordHasherAdapter(HASHER_MEMORY_COST, HASHER_ITERATIONS, HASHER_NUMBER_OF_THREADS);
+        locator.register(PasswordHasher.class, hasher);
+    }
+
+    private void loadAccountFactory() {
+        accountFactory = new AccountFactory(SEVER_CLOCK);
+        locator.register(AccountFactory.class, accountFactory);
+    }
+
+    private void loadAccountMapper() {
+         accountMapper = new AccountMapper(accountFactory, hasher);
+        locator.register(AccountMapper.class, accountMapper);
+    }
+
+    private void loadAccountService() {
+         accountService = new AccountService(accountRepository, accountMapper, authenticationService);
+        locator.register(AccountService.class, accountService);
+    }
+
+    private void loadEndpoints() {
+        AccountController accountController = new AccountController(accountService);
+        AuthentificationController authentificationController = new AuthentificationController(accountService);
+        locator.register(AccountController.class,accountController);
+        locator.register(AuthentificationController.class, authentificationController);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
-        loadAuthenticatorResource();
+        loadAuthenticationService();
+        loadPasswordHasher();
+        loadAccountFactory();
+        loadAccountMapper();
+        loadAccountService();
+        loadEndpoints();
         resourcesCreated = true;
     }
 }
