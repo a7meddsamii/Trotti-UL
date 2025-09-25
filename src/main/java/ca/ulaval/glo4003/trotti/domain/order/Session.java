@@ -47,7 +47,7 @@ public class Session {
                     "Pass session is missing, it cannot be null or empty");
         }
 
-        if (correctSessions.contains(value)) {
+        if (!correctSessions.contains(value)) {
             throw new InvalidParameterException("Pass session is invalid");
         }
     }
