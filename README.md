@@ -65,7 +65,7 @@ The **Scooter Pass** module enables students to purchase passes for using electr
    git https://github.com/GLO4003UL/a25-projet-trotti-ul-a25-eq-10.git
    cd a25-projet-trotti-ul-a25-eq-10
     ```
-## Starting the project
+## Starting the app
 
 The app can be run in a Docker Environment or directly with Maven.
 
