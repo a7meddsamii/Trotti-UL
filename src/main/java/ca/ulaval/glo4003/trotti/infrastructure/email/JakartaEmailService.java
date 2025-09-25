@@ -35,7 +35,7 @@ public class JakartaEmailService implements EmailSender {
 
     public static void main(String[] args) {
         EmailSender emailSender = new JakartaEmailService(JakartaMailServiceConfiguration.getSession());
-        EmailMessage emailMessage = new EmailMessage(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
+        EmailMessage emailMessage = new EmailMessage(Email.from("trotiul@ulaval.ca"), "test", "hello world");
         emailSender.sendEmail(emailMessage);
     }
 }
