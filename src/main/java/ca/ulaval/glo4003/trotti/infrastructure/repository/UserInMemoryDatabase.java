@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
-
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 

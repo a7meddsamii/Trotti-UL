@@ -57,22 +57,23 @@ public class ServerResourceInstantiation {
             throw exception;
         }
     }
-	
-	private void loadAccountRepository() {
-		ConcurrentMap<Idul, AccountEntity> accountTable = new ConcurrentHashMap<>();
-		ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
-		UserInMemoryDatabase userInMemoryDatabase = new UserInMemoryDatabase(accountTable, buyerTable);
-		AccountRepository accountRepository = new InMemoryAccountRepository(userInMemoryDatabase);
-		locator.register(AccountRepository.class, accountRepository);
-	}
-	
+
+    private void loadAccountRepository() {
+        ConcurrentMap<Idul, AccountEntity> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
+        UserInMemoryDatabase userInMemoryDatabase =
+                new UserInMemoryDatabase(accountTable, buyerTable);
+        AccountRepository accountRepository = new InMemoryAccountRepository(userInMemoryDatabase);
+        locator.register(AccountRepository.class, accountRepository);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
         loadAuthenticationService();
-		loadAccountRepository();
-		resourcesCreated = true;
+        loadAccountRepository();
+        resourcesCreated = true;
     }
 }

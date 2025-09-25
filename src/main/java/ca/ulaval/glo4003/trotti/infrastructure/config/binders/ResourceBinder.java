@@ -11,6 +11,6 @@ public class ResourceBinder extends AbstractBinder {
     protected void configure() {
         ServerResourceLocator locator = ServerResourceLocator.getInstance();
         bind(locator.resolve(AuthenticationService.class)).to(AuthenticationService.class);
-		bind(locator.resolve(AccountRepository.class)).to(AccountRepository.class);
+        bind(locator.resolve(AccountRepository.class)).to(AccountRepository.class);
     }
 }
