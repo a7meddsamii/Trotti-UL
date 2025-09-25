@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.account.AccountController;
-import ca.ulaval.glo4003.trotti.api.account.AuthentificationController;
 import ca.ulaval.glo4003.trotti.application.account.AccountService;
 import ca.ulaval.glo4003.trotti.application.mapper.AccountMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
@@ -92,14 +90,6 @@ public class ServerResourceInstantiation {
         locator.register(AccountService.class, accountService);
     }
 
-    private void loadEndpoints() {
-        AccountController accountController = new AccountController(accountService);
-        AuthentificationController authentificationController =
-                new AuthentificationController(accountService);
-        locator.register(AccountController.class, accountController);
-        locator.register(AuthentificationController.class, authentificationController);
-    }
-
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -110,7 +100,6 @@ public class ServerResourceInstantiation {
         loadAccountFactory();
         loadAccountMapper();
         loadAccountService();
-        loadEndpoints();
         resourcesCreated = true;
     }
 }
