@@ -75,9 +75,11 @@ The app can be run in a Docker Environment or directly with Maven.
     ```
 - Run the application:
    ```bash
-   TOKEN_EXPIRATION_DURATION=PT60M mvn exec:java # with custom token expiration duration
+   # with custom token expiration duration
+   TOKEN_EXPIRATION_DURATION=PT60M mvn exec:java
     ```
    ```bash
+    # with default token expiration duration (PT60M)
     mvn exec:java # with default token expiration duration (PT60M)
     ```
 
@@ -89,11 +91,13 @@ The app can be run in a Docker Environment or directly with Maven.
     ```
 - Run the Docker container:
    ```bash
-    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4002 # with custom token expiration duration
+    # with custom token expiration duration
+    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4002 
     ```
 
     ```bash
-    docker run -p 8080:8080 application-glo4002 # with default token expiration duration (PT60M)
+    # with default token expiration duration (PT60M)
+    docker run -p 8080:8080 application-glo4002 
     ```
 > [!IMPORTANT]
 > The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
