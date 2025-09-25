@@ -5,6 +5,9 @@ import ca.ulaval.glo4003.trotti.domain.account.*;
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import org.apache.commons.validator.routines.RegexValidator;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
 public class AccountMapper {
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{10,}$";
     private static final RegexValidator REGEX_VALIDATOR = new RegexValidator(PASSWORD_PATTERN);
@@ -25,7 +28,9 @@ public class AccountMapper {
         Gender gender = Gender.fromString(request.gender());
         Idul idul = Idul.from(request.idul());
 
-        return accountFactory.create(request.name(), request.birthDate(), gender, idul, email,
+        LocalDate birthDate = parseBirthDate(request.birthDate());
+
+        return accountFactory.create(request.name(), birthDate, gender, idul, email,
                 password);
     }
 
@@ -33,6 +38,14 @@ public class AccountMapper {
         if (!REGEX_VALIDATOR.isValid(password)) {
             throw new InvalidParameterException(
                     "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
+        }
+    }
+
+    private LocalDate parseBirthDate(String birthDate) {
+        try {
+            return LocalDate.parse(birthDate);
+        } catch (DateTimeException exception){
+            throw new InvalidParameterException("Invalid date format. Expected yyyy-MM-dd.");
         }
     }
 }

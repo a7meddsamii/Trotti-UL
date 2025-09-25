@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
+
 class AccountMapperTest {
 
     private static final String TOO_SHORT_PASSWORD = "Ab1!";
@@ -36,7 +37,7 @@ class AccountMapperTest {
         Mockito.when(hasher.hash(Mockito.anyString())).thenReturn(A_HASHED_PASSWORD);
 
         mapper = new AccountMapper(factory, hasher);
-        request = new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+        request = new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE_STRING,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
                 AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
         account = Mockito.mock(Account.class);
@@ -130,7 +131,7 @@ class AccountMapperTest {
     }
 
     private CreateAccount buildRequestWithPassword(String password) {
-        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE_STRING,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
                 AccountFixture.AN_EMAIL_STRING, password);
     }

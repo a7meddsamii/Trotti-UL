@@ -131,7 +131,7 @@ public class AccountServiceTest {
     }
 
     private CreateAccount aCreateAccountRequest() {
-        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE_STRING,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
                 AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
     }
