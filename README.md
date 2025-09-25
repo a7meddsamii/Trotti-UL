@@ -1,4 +1,4 @@
-# A25 GLO-4003 - Projet Trotti-ul
+# A25 GLO-4003 - Projet Trotti-ul EQ-10
 
 Laval University’s electric scooter rental service for optimal transportation.
 
