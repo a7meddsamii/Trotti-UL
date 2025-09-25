@@ -29,7 +29,7 @@ Laval University’s electric scooter rental service for optimal transportation.
 
 The **Account Management** module allows students to create and manage their accounts for the electric scooter service. Features include:
 
-- Create a personal account with identity details (name, birth date, gender, age, University Laval ID)
+- Create a personal account with identity details (name, birthdate, gender, age, University Laval ID)
 - Set up login credentials (email and secure password) with sessions expiring after 60 minutes
 
 
