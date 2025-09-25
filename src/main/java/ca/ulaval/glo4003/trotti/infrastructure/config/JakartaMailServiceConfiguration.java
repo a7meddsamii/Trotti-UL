@@ -7,7 +7,7 @@ import jakarta.mail.Session;
 
 import java.util.Properties;
 
-public class JakartaMailSenderConfiguration {
+public class JakartaMailServiceConfiguration {
     private static final Dotenv dotenv = Dotenv.load();
 
     public static final String USERNAME = dotenv.get("SMTP_USER");
@@ -47,12 +47,12 @@ public class JakartaMailSenderConfiguration {
     }
 
     public static Session getSession(){
-       return Session.getInstance(JakartaMailSenderConfiguration.getProperties(),new Authenticator() {
+       return Session.getInstance(JakartaMailServiceConfiguration.getProperties(),new Authenticator() {
            @Override
            protected PasswordAuthentication getPasswordAuthentication() {
                return new PasswordAuthentication(
-                       JakartaMailSenderConfiguration.USERNAME,
-                       JakartaMailSenderConfiguration.PASSWORD
+                       JakartaMailServiceConfiguration.USERNAME,
+                       JakartaMailServiceConfiguration.PASSWORD
                );
            }
        });

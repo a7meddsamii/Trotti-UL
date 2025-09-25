@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
-import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailSenderConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -34,7 +34,7 @@ public class JakartaEmailService implements EmailSender {
     }
 
     public static void main(String[] args) {
-        EmailSender emailSender = new JakartaEmailService(JakartaMailSenderConfiguration.getSession());
+        EmailSender emailSender = new JakartaEmailService(JakartaMailServiceConfiguration.getSession());
         EmailMessage emailMessage = new EmailMessage(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
         emailSender.sendEmail(emailMessage);
     }
