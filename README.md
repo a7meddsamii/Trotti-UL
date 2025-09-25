@@ -1,31 +1,109 @@
-# Telephony WS
+# A25 GLO-4003 - Projet Trotti-ul
 
-## Qu'est-ce que c'est
+Laval University’s electric scooter rental service for optimal transportation.
 
-Un exemple de projet pour créer un API Web Rest en utilisant Java, Jetty et Jersey seulement.
+## Table of Contents
 
-## Contexte
+- [Technological Environment](#technological-environment)
+- [Features](#features)
+    - [Account management](#account-management)
+    - [Buy electric scooter passes](#buy-electric-scooter-passes)
+- [Installation](#installation)
 
-Voici une structure de projet qui n'utilise pas de plateforme d'injection de dépendances et qui explicite
-la création de l'application et de ses composantes. C'est une petite application, mais complète, qui sera une base de
-projet pour un travail à l'Université. La couverture des tests est minimale, et ce, pour encourager les étudiants à explorer.
-L'objectif de l'exercice est de comprendre comment le tout fonctionne pour mieux bâtir une application en utilisant
-l'injection de dépendances.
+---
 
-## Comment l'utiliser
-* Vous pouvez installer manuellement Java 21 et mettre à jour la variable `JAVA_HOME`. Cependant, nous vous recommandons d'utiliser
-  [SDKMAN](https://sdkman.io/) pour gérer Java ainsi que plusieurs outils et *frameworks* reliés à la JVM. Cet outil va vous
-  faciliter énormément la gestion des versions de Java et des outils annexes surtout si vous en voulez plusieurs sur votre machine.
-* Avec Java 21 et Maven d'installés et de configurés;
-  * Pour lancer l'aplication:
-    * Dans un terminal, exécutez `start.sh` si vous êtes sur Linux / OSX
-    * Dans un terminal, exécutez `start.bat` si vous êtes sur Windows
-    * Dans un IDE, exécutez la classe `TelephonyWsMain` en tant que "Java Application"
-  * Une fois l'application démarrée, vous trouverez les données aux URLs suivantes:
-    * [http://localhost:8080/api/telephony/contacts](http://localhost:8080/api/telephony/contacts)
-    * [http://localhost:8080/api/telephony/calllogs](http://localhost:8080/api/telephony/calllogs)
-  * Afin de valider votre projet, vous pouvez:
-    * Exécuter les tests unitaires avec la commande `mvn test`
-    * Exécuter tous les tests (unitaires et d'intégrations) avec `mvn integration-test`
-    * Exécuter toutes les vérifications (test, dependency-check, etc...) et produire un *artifact* pour votre application (se trouvant sous
-      `target/application.jar`) avec `mvn verify` que vous pouvez invoquer directement avec `java -jar target/application.jar`
+## Technological Environment
+
+- **Language**: Java 21+
+- **Web Server**:
+    - Jetty (servlet container to run the app)
+- **Frameworks**:
+    - **Jersey** for REST API
+    - **Jackson** for JSON processing
+- **Persistence**: In-memory storage
+- **Build & Deployment**: Maven, Docker
+
+---
+
+## Features
+
+### Account management
+
+The **Account Management** module allows students to create and manage their accounts for the electric scooter service. Features include:
+
+- Create a personal account with identity details (name, birth date, gender, age, University Laval ID)
+- Set up login credentials (email and secure password) with sessions expiring after 60 minutes
+
+
+### Buy electric scooter passes
+
+The **Scooter Pass** module enables students to purchase passes for using electric scooters on campus. Features include:
+
+- Initiate a session pass purchase and select the academic session
+- Choose daily travel duration and billing method (per trip or monthly)
+- Complete payment by credit card
+- Handle failed transactions and store payment info for future trips
+- Receive a transaction invoice
+- Pass is valid for a single academic session (from session start to the next session)
+
+
+## Installation
+
+### Prerequisites
+
+- **Java 21+**
+- **Docker**
+- **Maven** (optional, see note below)
+
+> **Note:** Maven is required only if you want to run the application without Docker.
+
+
+### Clone the repository:
+
+-
+   ```bash
+   git https://github.com/GLO4003UL/a25-projet-trotti-ul-a25-eq-10.git
+   cd a25-projet-trotti-ul-a25-eq-10
+    ```
+## Starting the project
+
+The app can be run in a Docker Environment or directly with Maven.
+
+### Running with only Maven
+
+- Compile the project:
+   ```bash
+   mvn clean install
+    ```
+- Run the application:
+   ```bash
+   TOKEN_EXPIRATION_DURATION=PT60M mvn exec:java # with custom token expiration duration
+    ```
+   ```bash
+    mvn exec:java # with default token expiration duration (PT60M)
+    ```
+
+### Running in Docker
+
+- Build the Docker image:
+   ```bash
+   docker build -t application-glo4002 .
+    ```
+- Run the Docker container:
+   ```bash
+    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4002 # with custom token expiration duration
+    ```
+
+    ```bash
+    docker run -p 8080:8080 application-glo4002 # with default token expiration duration (PT60M)
+    ```
+
+> **Note:** The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
+> The value required follows the [ISO-8601 format](https://en.wikipedia.org/wiki/ISO_8601) for durations.
+> <br>For example :
+> * **PT20M** → Period of Time: 20 Minutes
+> * **PT1H30M** → Period of Time: 1 Hour 30 Minutes
+> * **P2D** → Period of 2 Days (no T, because no time part)
+> * **P1DT2H** → Period of 1 Day and 2 Hours
+>
+> The default value for our app is **PT60M** (60 minutes).
