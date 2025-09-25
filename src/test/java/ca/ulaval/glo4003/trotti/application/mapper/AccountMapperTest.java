@@ -19,6 +19,7 @@ class AccountMapperTest {
     private static final String MISSING_UPPERCASE = "strongpass1!";
     private static final String MISSING_SPECIAL_CHAR = "StrongPass1";
     private static final String MISSING_NUMBER = "StrongPass!";
+    public static final String A_HASHED_PASSWORD = "hashed-password";
     private static final String NULL_PASSWORD = null;
 
     private AccountFactory factory;
@@ -32,6 +33,7 @@ class AccountMapperTest {
     void setup() {
         factory = Mockito.mock(AccountFactory.class);
         hasher = Mockito.mock(PasswordHasher.class);
+        Mockito.when(hasher.hash(Mockito.anyString())).thenReturn(A_HASHED_PASSWORD);
 
         mapper = new AccountMapper(factory, hasher);
         request = new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,

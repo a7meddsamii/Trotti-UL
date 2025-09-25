@@ -20,6 +20,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(locator.resolve(AccountMapper.class)).to(AccountMapper.class);
         bind(locator.resolve(AccountService.class)).to(AccountService.class);
         bind(locator.resolve(AccountController.class)).to(AccountController.class);
-        bind(locator.resolve(AuthentificationController.class)).to(AuthentificationController.class);
+        bind(locator.resolve(AuthentificationController.class))
+                .to(AuthentificationController.class);
     }
 }

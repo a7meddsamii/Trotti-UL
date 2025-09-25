@@ -20,10 +20,8 @@ public class AccountMapper {
     public Account create(CreateAccount request) {
         validate(request.password());
         Email email = Email.from(request.email());
-
-        String hashedPassword = passwordHasher.hash(request.password());
-        Password password = new Password(hashedPassword, passwordHasher);
-
+        Password password =
+                Password.fromHashed(passwordHasher.hash(request.password()), passwordHasher);
         Gender gender = Gender.fromString(request.gender());
         Idul idul = Idul.from(request.idul());
 

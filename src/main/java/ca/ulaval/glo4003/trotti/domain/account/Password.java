@@ -1,19 +1,31 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
+import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class Password {
-
     private final PasswordHasher hasher;
-    private final String hasedvalue;
+    private final String hashedValue;
 
-    public Password(String hashedvalue, PasswordHasher hasher) {
+    public static Password fromHashed(String hashedPassword, PasswordHasher hasher) {
+        return new Password(hashedPassword, hasher);
+    }
+
+    private Password(String hashedValue, PasswordHasher hasher) {
+        validate(hashedValue);
         this.hasher = hasher;
-        this.hasedvalue = hashedvalue;
+        this.hashedValue = hashedValue;
+    }
+
+    private void validate(String hashedPassword) {
+        if (StringUtils.isBlank(hashedPassword)) {
+            throw new InvalidParameterException("Password cannot be null or empty.");
+        }
     }
 
     public boolean matches(String rawPassword) {
-        return hasher.matches(rawPassword, this.hasedvalue);
+        return hasher.matches(rawPassword, this.hashedValue);
     }
 
     @Override
@@ -22,16 +34,16 @@ public class Password {
             return false;
         }
         Password password = (Password) o;
-        return hasedvalue.equals(password.hasedvalue);
+        return hashedValue.equals(password.hashedValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(hasedvalue);
+        return Objects.hash(hashedValue);
     }
 
     @Override
     public String toString() {
-        return hasedvalue;
+        return hashedValue;
     }
 }

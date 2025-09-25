@@ -19,8 +19,8 @@ class PasswordTest {
 
     @Test
     void givenTwoPasswordsWithSameValue_whenCompare_thenTheyAreEqual() {
-        Password password1 = new Password(HASHED_PASSWORD, hasher);
-        Password password2 = new Password(HASHED_PASSWORD, hasher);
+        Password password1 = Password.fromHashed(HASHED_PASSWORD, hasher);
+        Password password2 = Password.fromHashed(HASHED_PASSWORD, hasher);
 
         Assertions.assertEquals(password1, password2);
         Assertions.assertEquals(password1.hashCode(), password2.hashCode());
@@ -28,15 +28,15 @@ class PasswordTest {
 
     @Test
     void givenTwoPasswordsWithDifferentValue_whenCompare_thenTheyAreNotEqual() {
-        Password password1 = new Password(HASHED_PASSWORD, hasher);
-        Password password2 = new Password(DIFFERENT_HASHED_PASSWORD, hasher);
+        Password password1 = Password.fromHashed(HASHED_PASSWORD, hasher);
+        Password password2 = Password.fromHashed(DIFFERENT_HASHED_PASSWORD, hasher);
 
         Assertions.assertNotEquals(password1, password2);
     }
 
     @Test
     void givenMatchingRawPassword_whenMatches_thenReturnTrue() {
-        Password password = new Password(HASHED_PASSWORD, hasher);
+        Password password = Password.fromHashed(HASHED_PASSWORD, hasher);
         Mockito.when(hasher.matches(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
                 .thenReturn(true);
 
@@ -47,7 +47,7 @@ class PasswordTest {
 
     @Test
     void givenNonMatchingRawPassword_whenMatches_thenReturnFalse() {
-        Password password = new Password(HASHED_PASSWORD, hasher);
+        Password password = Password.fromHashed(HASHED_PASSWORD, hasher);
         Mockito.when(hasher.matches(AccountFixture.A_RAW_PASSWORD, HASHED_PASSWORD))
                 .thenReturn(false);
 
