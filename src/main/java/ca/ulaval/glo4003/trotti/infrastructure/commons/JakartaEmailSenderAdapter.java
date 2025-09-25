@@ -12,20 +12,17 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 public class JakartaEmailSenderAdapter implements EmailSender {
-    private static final String ENCODING = "UTF-8";
-    private final String fromEmail;
+    private final Session session;
 
-    public JakartaEmailSenderAdapter(String fromEmail) {
-        this.fromEmail = fromEmail;
+    public JakartaEmailSenderAdapter(Session session) {
+        this.session = session;
     }
 
     @Override
     public void sendEmail(EmailRequest emailRequest) {
-        Session session = Session.getInstance(JakartaMailSenderConfiguration.getInstance());
-
         try{
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
+            message.setFrom(new InternetAddress(session.getProperty("FromMail")));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailRequest.getTo()));
             message.setSubject(emailRequest.getSubject());
             message.setText(emailRequest.getBody());
@@ -36,8 +33,8 @@ public class JakartaEmailSenderAdapter implements EmailSender {
     }
 
     public static void main(String[] args) {
-        EmailSender emailSender = new JakartaEmailSenderAdapter("noreply@trottiul.ca");
-        EmailRequest emailRequest = new EmailRequest(Email.from("ahmed.sami.1@ulaval.ca"), "test", "hello world");
+        EmailSender emailSender = new JakartaEmailSenderAdapter(JakartaMailSenderConfiguration.getSession());
+        EmailRequest emailRequest = new EmailRequest(Email.from("samy.khalfallah.1@ulaval.ca"), "test", "hello world");
         emailSender.sendEmail(emailRequest);
     }
 }
