@@ -1,12 +1,20 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
@@ -34,7 +42,7 @@ public class ServerResourceInstantiation {
         this.resourcesCreated = false;
     }
 
-    private void loadAuthenticatorResource() {
+    private void loadAuthenticationService() {
         try {
             Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
             Clock authenticatorClock = Clock.systemDefaultZone();
@@ -49,13 +57,22 @@ public class ServerResourceInstantiation {
             throw exception;
         }
     }
-
+	
+	private void loadAccountRepository() {
+		ConcurrentMap<Idul, AccountEntity> accountTable = new ConcurrentHashMap<>();
+		ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
+		UserInMemoryDatabase userInMemoryDatabase = new UserInMemoryDatabase(accountTable, buyerTable);
+		AccountRepository accountRepository = new InMemoryAccountRepository(userInMemoryDatabase);
+		locator.register(AccountRepository.class, accountRepository);
+	}
+	
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
-        loadAuthenticatorResource();
-        resourcesCreated = true;
+        loadAuthenticationService();
+		loadAccountRepository();
+		resourcesCreated = true;
     }
 }
