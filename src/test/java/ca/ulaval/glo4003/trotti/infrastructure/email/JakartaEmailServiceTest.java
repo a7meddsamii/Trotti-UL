@@ -14,13 +14,12 @@ class JakartaEmailServiceTest {
     private static final String A_SUBJECT = "a_subject";
     private static final String A_BODY = "a_body";
 
-    private Session session;
     private JakartaEmailService emailService;
     
     
     @BeforeEach
     void setUp() {
-        session = JakartaMailServiceConfiguration.getSession();
+        Session session = JakartaMailServiceConfiguration.getSession();
         emailService = new JakartaEmailService(session);
     }
 
