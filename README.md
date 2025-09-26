@@ -87,17 +87,17 @@ The app can be run in a Docker Environment or directly with Maven.
 
 - Build the Docker image:
    ```bash
-   docker build -t application-glo4002 .
+   docker build -t application-glo4003 .
     ```
 - Run the Docker container:
    ```bash
     # with custom token expiration duration
-    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4002 
+    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4003
     ```
 
     ```bash
     # with default token expiration duration (PT60M)
-    docker run -p 8080:8080 application-glo4002 
+    docker run -p 8080:8080 application-glo4003 
     ```
 > [!IMPORTANT]
 > The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
