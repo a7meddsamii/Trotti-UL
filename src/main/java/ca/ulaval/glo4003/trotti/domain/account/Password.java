@@ -18,16 +18,10 @@ public class Password {
         this.hashedValue = hashedValue;
     }
 
-    private void validate(String hashedPassword) {
-        if (StringUtils.isBlank(hashedPassword)) {
-            throw new InvalidParameterException("Password cannot be null or empty.");
-        }
-    }
-
     public boolean matches(String rawPassword) {
         return hasher.matches(rawPassword, this.hashedValue);
     }
-
+	
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -36,14 +30,20 @@ public class Password {
         Password password = (Password) o;
         return hashedValue.equals(password.hashedValue);
     }
-
+	
     @Override
     public int hashCode() {
         return Objects.hash(hashedValue);
     }
-
+	
     @Override
     public String toString() {
         return hashedValue;
     }
+	
+	private void validate(String hashedPassword) {
+		if (StringUtils.isBlank(hashedPassword)) {
+			throw new InvalidParameterException("Password cannot be null or empty.");
+		}
+	}
 }
