@@ -21,6 +21,7 @@ class AccountMapperTest {
     private static final String MISSING_NUMBER = "StrongPass!";
     public static final String A_HASHED_PASSWORD = "hashed-password";
     private static final String NULL_PASSWORD = null;
+    private static final String INVALID_BIRTHDATE_STRING = "01-01-2000";
 
     private AccountFactory factory;
     private PasswordHasher hasher;
@@ -122,6 +123,15 @@ class AccountMapperTest {
         mapper.create(validRequest);
 
         Mockito.verify(hasher).hash(AccountFixture.A_RAW_PASSWORD);
+    }
+
+    @Test
+    void givenInvalidBirthDateFormat_whenCreate_thenThrowInvalidParameterException() {
+        CreateAccount invalidRequest =
+                new CreateAccount(AccountFixture.A_NAME, INVALID_BIRTHDATE_STRING,
+                        AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
+                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+
     }
 
     private void mockFactoryToReturnAccount() {
