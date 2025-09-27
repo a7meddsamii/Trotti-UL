@@ -50,7 +50,7 @@ class JakartaEmailServiceIntegrationTest {
     void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
         EmailMessage emailMessage = new EmailMessage(Email.from(A_EMAIL), A_SUBJECT, A_BODY);
 
-        emailService.sendEmail(emailMessage);
+        emailService.send(emailMessage);
 
         MimeMessage[] mimeMessages = greenMail.getReceivedMessages();
         Assertions.assertThat(mimeMessages).hasSize(1);

@@ -18,7 +18,7 @@ public class JakartaEmailService implements EmailService {
     }
 
     @Override
-    public void sendEmail(EmailMessage emailMessage) {
+    public void send(EmailMessage emailMessage) {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(session.getProperty("FromMail")));
