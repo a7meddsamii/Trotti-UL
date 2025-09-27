@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
+import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -53,5 +54,15 @@ public class Account {
     public int getAge() {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
+    }
+
+    private boolean isPasswordMatch(String rawPassword) {
+        return this.password.matches(rawPassword);
+    }
+
+    public void authenticate(String rawPassword) {
+        if (!this.isPasswordMatch(rawPassword)) {
+            throw new AuthenticationException("Invalid email or password");
+        }
     }
 }
