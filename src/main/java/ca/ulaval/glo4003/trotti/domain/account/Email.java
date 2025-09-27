@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;

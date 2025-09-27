@@ -15,7 +15,7 @@ public class AccountFixture {
     public static final String AN_EMAIL_STRING = "john.doe@ulaval.ca";
     public static final LocalDate A_BIRTHDATE = LocalDate.of(2000, 1, 1);
 
-    public static final Gender A_GENDER = Gender.MALE;
+    public static final Gender A_GENDER = Gender.fromString(A_GENDER_STRING);
     public static final Idul AN_IDUL = Idul.from(AN_IDUL_STRING);
     public static final Email AN_EMAIL = Email.from(AN_EMAIL_STRING);
     public static final AuthenticationToken AN_AUTH_TOKEN = AuthenticationToken.from(A_TOKEN_VALUE);
