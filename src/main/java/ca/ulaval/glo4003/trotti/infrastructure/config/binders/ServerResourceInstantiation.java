@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
@@ -73,8 +73,8 @@ public class ServerResourceInstantiation {
 
         JakartaMailServiceConfiguration emailConfiguration =
                 JakartaMailServiceConfiguration.create(username, password, host, port);
-        EmailSender emailSender = new JakartaEmailService(emailConfiguration.connect());
-        locator.register(EmailSender.class, emailSender);
+        EmailService emailService = new JakartaEmailService(emailConfiguration.connect());
+        locator.register(EmailService.class, emailService);
     }
 
     public void initiate() {

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.email;
 
 import ca.ulaval.glo4003.trotti.domain.commons.EmailMessage;
-import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -10,7 +10,7 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-public class JakartaEmailService implements EmailSender {
+public class JakartaEmailService implements EmailService {
     private final Session session;
 
     public JakartaEmailService(Session session) {
