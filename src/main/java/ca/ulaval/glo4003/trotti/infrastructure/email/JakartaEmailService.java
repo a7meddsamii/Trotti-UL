@@ -19,14 +19,15 @@ public class JakartaEmailService implements EmailSender {
 
     @Override
     public void sendEmail(EmailMessage emailMessage) {
-        try{
+        try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(session.getProperty("FromMail")));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailMessage.getTo()));
+            message.setRecipient(Message.RecipientType.TO,
+                    new InternetAddress(emailMessage.getTo()));
             message.setSubject(emailMessage.getSubject());
             message.setText(emailMessage.getBody());
             Transport.send(message);
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new EmailSendException("Failed to send email." + e.getMessage());
         }
     }

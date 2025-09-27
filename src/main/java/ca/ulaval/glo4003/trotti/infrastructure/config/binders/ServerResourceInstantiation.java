@@ -3,16 +3,15 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailSender;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailService;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import javax.crypto.SecretKey;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
@@ -49,8 +48,10 @@ public class ServerResourceInstantiation {
 
     private void loadAuthenticatorResource() {
         try {
-            String durationValue = StringUtils.isEmpty(dotenv.get(EXPIRATION_DURATION)) ? DEFAULT_TOKEN_EXPIRATION.toString() : dotenv.get(EXPIRATION_DURATION);
-            Duration expirationDuration =   Duration.parse(durationValue);
+            String durationValue = StringUtils.isEmpty(dotenv.get(EXPIRATION_DURATION))
+                    ? DEFAULT_TOKEN_EXPIRATION.toString()
+                    : dotenv.get(EXPIRATION_DURATION);
+            Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             AuthenticationService authenticator = new JwtAuthenticationServiceAdapter(
                     expirationDuration, authenticatorClock, SECRET_KEY);
@@ -64,13 +65,14 @@ public class ServerResourceInstantiation {
         }
     }
 
-    private void loadEmailSender(){
+    private void loadEmailSender() {
         String username = dotenv.get(EMAIL_USER);
         String password = dotenv.get(EMAIL_PASSWORD);
         String host = dotenv.get(EMAIL_HOST);
         String port = dotenv.get(EMAIL_PORT);
 
-        JakartaMailServiceConfiguration emailConfiguration = JakartaMailServiceConfiguration.create(username, password, host, port);
+        JakartaMailServiceConfiguration emailConfiguration =
+                JakartaMailServiceConfiguration.create(username, password, host, port);
         EmailSender emailSender = new JakartaEmailService(emailConfiguration.connect());
         locator.register(EmailSender.class, emailSender);
     }

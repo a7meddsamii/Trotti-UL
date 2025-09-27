@@ -7,14 +7,12 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-
 
 class JakartaEmailServiceTest {
 
@@ -30,7 +28,7 @@ class JakartaEmailServiceTest {
 
     @BeforeAll
     static void setUpClass() {
-        greenMail =  new GreenMail(ServerSetupTest.SMTP);
+        greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
     }
 
@@ -38,7 +36,7 @@ class JakartaEmailServiceTest {
     static void tearDownClass() {
         greenMail.stop();
     }
-    
+
     @BeforeEach
     void setUp() {
         Session session = Session.getInstance(System.getProperties());
@@ -48,10 +46,9 @@ class JakartaEmailServiceTest {
         emailService = new JakartaEmailService(session);
     }
 
-
     @Test
     void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
-        EmailMessage emailMessage = new EmailMessage( Email.from(A_EMAIL), A_SUBJECT, A_BODY);
+        EmailMessage emailMessage = new EmailMessage(Email.from(A_EMAIL), A_SUBJECT, A_BODY);
 
         emailService.sendEmail(emailMessage);
 
