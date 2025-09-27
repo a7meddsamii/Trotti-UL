@@ -34,21 +34,21 @@ class SessionTest {
     }
 
     @Test
-    void givenNullSession_whenCreate_thenThrowInvalidParameterException() {
+    void givenNullSession_whenCreate_thenThrowsException() {
         Executable creation = () -> Session.from(null);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
-    void givenEmptySession_whenCreate_thenThrowInvalidParameterException() {
+    void givenEmptySession_whenCreate_thenThrowsException() {
         Executable creation = () -> Session.from(StringUtils.EMPTY);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
-    void givenInvalidSession_whenCreate_thenThrowInvalidParameterException() {
+    void givenInvalidSession_whenCreate_thenThrowsException() {
         Executable creation = () -> Session.from(INVALID_SESSION);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);

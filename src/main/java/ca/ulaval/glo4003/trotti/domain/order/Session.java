@@ -6,9 +6,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public class Session {
-    private static final List<String> correctSessions = List.of("A2025", "H2026", "E2026"); // A
-                                                                                            // possible
-                                                                                            // solution
+    private static final List<String> correctSessions = List.of("A2025", "H2026", "E2026");
     private final String value;
 
     private Session(String value) {

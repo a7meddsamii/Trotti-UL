@@ -19,14 +19,14 @@ class MaximumTravelingTimeTest {
     }
 
     @Test
-    void givenNegativeTime_whenCreate_thenThrowInvalidParameterException() {
+    void givenNegativeTime_whenCreate_thenThrowsException() {
         Executable creation = () -> MaximumTravelingTime.from(NEGATIVE_TIME);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
-    void givenNotMultipleOfTen_whenCreate_thenThrowInvalidParameterException() {
+    void givenNotMultipleOfTen_whenCreate_thenThrowsException() {
         Executable creation = () -> MaximumTravelingTime.from(NOT_MULTIPLE_OF_TEN);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);

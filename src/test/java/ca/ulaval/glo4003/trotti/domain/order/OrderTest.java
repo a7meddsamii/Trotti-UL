@@ -15,6 +15,7 @@ public class OrderTest {
     public void givenValidParameters_whenCreation_thenObjectIsCreated() {
         Executable creation = () -> new Order(VALID_IDUL, List.of(
                 new Pass(VALID_MAXIMUM_TRAVELING_TIME, VALID_SESSION, VALID_BILLING_FREQUENCY)));
+
         Assertions.assertDoesNotThrow(creation);
     }
 }

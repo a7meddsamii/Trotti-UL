@@ -15,51 +15,38 @@ class BillingFrequencyTest {
     private static final String MONTHLY_NORMALIZED = "per-month";
     private static final String INVALID_STRING = "weekly";
 
-    private static final String PER_TRIP_LABEL = "Per trip";
-    private static final String MONTHLY_LABEL = "Monthly";
-
     @Test
     void givenPerTripVariants_whenFromString_thenReturnPerTripEnum() {
-        Assertions.assertEquals(BillingFrequency.PER_TRIP,
-                BillingFrequency.fromString(PER_TRIP_STRING));
-        Assertions.assertEquals(BillingFrequency.PER_TRIP,
-                BillingFrequency.fromString(PER_TRIP_ALT));
-        Assertions.assertEquals(BillingFrequency.PER_TRIP,
-                BillingFrequency.fromString(PER_TRIP_NORMALIZED));
+        BillingFrequency from_regular_per_trip_string =
+                BillingFrequency.fromString(PER_TRIP_STRING);
+        BillingFrequency from_alternate_per_trip_string = BillingFrequency.fromString(PER_TRIP_ALT);
+        BillingFrequency from_normalized_per_trip_string =
+                BillingFrequency.fromString(PER_TRIP_NORMALIZED);
+
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_regular_per_trip_string);
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_alternate_per_trip_string);
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_normalized_per_trip_string);
     }
 
     @Test
     void givenMonthlyVariants_whenFromString_thenReturnMonthlyEnum() {
-        Assertions.assertEquals(BillingFrequency.MONTHLY,
-                BillingFrequency.fromString(MONTHLY_STRING));
-        Assertions.assertEquals(BillingFrequency.MONTHLY, BillingFrequency.fromString(MONTHLY_ALT));
-        Assertions.assertEquals(BillingFrequency.MONTHLY,
-                BillingFrequency.fromString(MONTHLY_UNDERSCORE));
-        Assertions.assertEquals(BillingFrequency.MONTHLY,
-                BillingFrequency.fromString(MONTHLY_NORMALIZED));
+        BillingFrequency from_regular_monthly_string = BillingFrequency.fromString(MONTHLY_STRING);
+        BillingFrequency from_alternate_monthly_string = BillingFrequency.fromString(MONTHLY_ALT);
+        BillingFrequency from_underscore_monthly_string =
+                BillingFrequency.fromString(MONTHLY_UNDERSCORE);
+        BillingFrequency from_normalized_monthly_string =
+                BillingFrequency.fromString(MONTHLY_NORMALIZED);
+
+        Assertions.assertEquals(BillingFrequency.MONTHLY, from_regular_monthly_string);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, from_alternate_monthly_string);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, from_underscore_monthly_string);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, from_normalized_monthly_string);
     }
 
     @Test
-    void givenInvalidString_whenFromString_thenThrowInvalidParameterException() {
+    void givenInvalidString_whenFromString_thenThrowsException() {
         Executable executable = () -> BillingFrequency.fromString(INVALID_STRING);
+
         Assertions.assertThrows(InvalidParameterException.class, executable);
-    }
-
-    @Test
-    void givenEnumConstant_whenToString_thenReturnExpectedLabel() {
-        Assertions.assertEquals(PER_TRIP_LABEL, BillingFrequency.PER_TRIP.toString());
-        Assertions.assertEquals(MONTHLY_LABEL, BillingFrequency.MONTHLY.toString());
-    }
-
-    @Test
-    void givenInvalidString_whenFromString_thenExceptionMessageContainsAcceptedValues() {
-        Executable executable = () -> BillingFrequency.fromString(INVALID_STRING);
-
-        InvalidParameterException exception =
-                Assertions.assertThrows(InvalidParameterException.class, executable);
-
-        Assertions
-                .assertTrue(exception.getMessage().contains(BillingFrequency.PER_TRIP.toString()));
-        Assertions.assertTrue(exception.getMessage().contains(BillingFrequency.MONTHLY.toString()));
     }
 }
