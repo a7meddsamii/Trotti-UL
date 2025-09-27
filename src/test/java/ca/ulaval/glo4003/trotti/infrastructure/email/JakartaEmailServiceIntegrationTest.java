@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class JakartaEmailServiceTest {
+class JakartaEmailServiceIntegrationTest {
 
     private static final String HOST = "localhost";
     private static final String PORT = "3025";
