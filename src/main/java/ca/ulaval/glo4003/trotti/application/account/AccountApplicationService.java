@@ -29,13 +29,13 @@ public class AccountApplicationService {
         this.passwordHasher = passwordHasher;
     }
 
-    public Idul createAccount(AccountRegistration request) {
-        Email email = Email.from(request.email());
-        Idul idul = Idul.from(request.idul());
+    public Idul createAccount(AccountRegistration registration) {
+        Email email = Email.from(registration.email());
+        Idul idul = Idul.from(registration.idul());
 
         validateAccountDoesNotExist(email, idul);
 
-        Account account = createDomainAccount(request, email, idul);
+        Account account = createDomainAccount(registration, email, idul);
         accountRepository.save(account);
 
         return account.getIdul();
@@ -51,11 +51,11 @@ public class AccountApplicationService {
         return authenticationService.generateToken(account.getIdul());
     }
 
-    private Account createDomainAccount(AccountRegistration request, Email email, Idul idul) {
+    private Account createDomainAccount(AccountRegistration registration, Email email, Idul idul) {
 
-        return accountFactory.create(request.name(), parseBirthDate(request.birthDate()),
-                Gender.fromString(request.gender()), idul, email,
-                Password.createNew(request.password(), passwordHasher));
+        return accountFactory.create(registration.name(), parseBirthDate(registration.birthDate()),
+                Gender.fromString(registration.gender()), idul, email,
+                Password.createNew(registration.password(), passwordHasher));
     }
 
     private void validateAccountDoesNotExist(Email email, Idul idul) {
