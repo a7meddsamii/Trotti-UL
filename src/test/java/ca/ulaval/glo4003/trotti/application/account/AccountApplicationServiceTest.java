@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
-import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
+import ca.ulaval.glo4003.trotti.application.account.dto.AccountRegistration;
 import ca.ulaval.glo4003.trotti.domain.account.*;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
@@ -27,7 +27,7 @@ public class AccountApplicationServiceTest {
     private PasswordHasher passwordHasher;
     private AccountApplicationService accountApplicationService;
 
-    private CreateAccount validCreateAccountRequest;
+    private AccountRegistration validAccountRegistrationRequest;
     private Account mockAccount;
 
     @BeforeEach
@@ -42,7 +42,7 @@ public class AccountApplicationServiceTest {
         accountApplicationService = new AccountApplicationService(accountRepository,
                 authenticationService, accountFactory, passwordHasher);
 
-        validCreateAccountRequest = aCreateAccountRequest();
+        validAccountRegistrationRequest = aCreateAccountRequest();
         mockAccount = Mockito.mock(Account.class);
     }
 
@@ -51,7 +51,7 @@ public class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createAccount(validCreateAccountRequest);
+        accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Mockito.verify(accountRepository).save(mockAccount);
     }
@@ -61,7 +61,7 @@ public class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createAccount(validCreateAccountRequest);
+        accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Mockito.verify(accountFactory).create(Mockito.eq(AccountFixture.A_NAME),
                 Mockito.eq(AccountFixture.A_BIRTHDATE), Mockito.eq(AccountFixture.A_GENDER),
@@ -74,7 +74,7 @@ public class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createAccount(validCreateAccountRequest);
+        accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Mockito.verify(passwordHasher).hash(AccountFixture.A_RAW_PASSWORD);
     }
@@ -85,7 +85,7 @@ public class AccountApplicationServiceTest {
         mockFactoryToReturnValidAccount();
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
 
-        Idul idul = accountApplicationService.createAccount(validCreateAccountRequest);
+        Idul idul = accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Assertions.assertEquals(AccountFixture.AN_IDUL, idul);
     }
@@ -96,7 +96,7 @@ public class AccountApplicationServiceTest {
                 .thenReturn(Optional.of(mockAccount));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createAccount(validCreateAccountRequest);
+                () -> accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
@@ -109,7 +109,7 @@ public class AccountApplicationServiceTest {
                 .thenReturn((Optional.of(mockAccount)));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createAccount(validCreateAccountRequest);
+                () -> accountApplicationService.createAccount(validAccountRegistrationRequest);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
@@ -117,7 +117,7 @@ public class AccountApplicationServiceTest {
     @Test
     void givenInvalidBirthDateFormat_whenCreateAccount_thenThrowInvalidParameterException() {
         mockRepositoryToReturnNoExistingAccount();
-        CreateAccount invalidRequest = createCreateAccountWithInvalidBirthDate();
+        AccountRegistration invalidRequest = createCreateAccountWithInvalidBirthDate();
 
         Executable accountCreationAttempt =
                 () -> accountApplicationService.createAccount(invalidRequest);
@@ -206,14 +206,14 @@ public class AccountApplicationServiceTest {
         Assertions.assertDoesNotThrow(login);
     }
 
-    private CreateAccount aCreateAccountRequest() {
-        return new CreateAccount(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE_STRING,
+    private AccountRegistration aCreateAccountRequest() {
+        return new AccountRegistration(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE_STRING,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
                 AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
     }
 
-    private CreateAccount createCreateAccountWithInvalidBirthDate() {
-        return new CreateAccount(AccountFixture.A_NAME, INVALID_DATE_FORMAT,
+    private AccountRegistration createCreateAccountWithInvalidBirthDate() {
+        return new AccountRegistration(AccountFixture.A_NAME, INVALID_DATE_FORMAT,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
                 AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
     }

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
-import ca.ulaval.glo4003.trotti.application.account.dto.CreateAccount;
+import ca.ulaval.glo4003.trotti.application.account.dto.AccountRegistration;
 import ca.ulaval.glo4003.trotti.domain.account.*;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
@@ -29,7 +29,7 @@ public class AccountApplicationService {
         this.passwordHasher = passwordHasher;
     }
 
-    public Idul createAccount(CreateAccount request) {
+    public Idul createAccount(AccountRegistration request) {
         Email email = Email.from(request.email());
         Idul idul = Idul.from(request.idul());
 
@@ -51,7 +51,7 @@ public class AccountApplicationService {
         return authenticationService.generateToken(account.getIdul());
     }
 
-    private Account createDomainAccount(CreateAccount request, Email email, Idul idul) {
+    private Account createDomainAccount(AccountRegistration request, Email email, Idul idul) {
 
         return accountFactory.create(request.name(), parseBirthDate(request.birthDate()),
                 Gender.fromString(request.gender()), idul, email,
