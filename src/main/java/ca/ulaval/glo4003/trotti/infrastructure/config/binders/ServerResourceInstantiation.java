@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.application.account.AccountService;
-import ca.ulaval.glo4003.trotti.application.mapper.AccountMapper;
+import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
@@ -35,10 +34,9 @@ public class ServerResourceInstantiation {
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
-    private AccountMapper accountMapper;
 
     private AuthenticationService authenticationService;
-    private AccountService accountService;
+    private AccountApplicationService accountApplicationService;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance != null) {
@@ -79,15 +77,10 @@ public class ServerResourceInstantiation {
         locator.register(AccountFactory.class, accountFactory);
     }
 
-    private void loadAccountMapper() {
-        accountMapper = new AccountMapper(accountFactory, hasher);
-        locator.register(AccountMapper.class, accountMapper);
-    }
-
     private void loadAccountService() {
-        accountService =
-                new AccountService(accountRepository, accountMapper, authenticationService);
-        locator.register(AccountService.class, accountService);
+        accountApplicationService = new AccountApplicationService(accountRepository,
+                authenticationService, accountFactory, hasher);
+        locator.register(AccountApplicationService.class, accountApplicationService);
     }
 
     public void initiate() {
@@ -98,7 +91,6 @@ public class ServerResourceInstantiation {
         loadAuthenticationService();
         loadPasswordHasher();
         loadAccountFactory();
-        loadAccountMapper();
         loadAccountService();
         resourcesCreated = true;
     }
