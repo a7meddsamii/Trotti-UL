@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 public class Pass {
-    private MaximumTravelingTime maximumTravelingTime; // In minutes per day
-    private Session session;
+    private final MaximumTravelingTime maximumTravelingTime; // In minutes per day
+    private final Session session;
     private final BillingFrequency billingFrequency;
 
     public Pass(

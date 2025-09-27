@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import static ca.ulaval.glo4003.trotti.domain.order.SessionTest.*;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -7,7 +9,8 @@ import org.junit.jupiter.api.function.Executable;
 public class PassTest {
     public static final MaximumTravelingTime VALID_MAXIMUM_TRAVELING_TIME =
             MaximumTravelingTime.from(20);
-    public static final Session VALID_SESSION = Session.from("A2025");
+    public static final Session VALID_SESSION =
+            new Session(VALID_SESSION_A, VALID_START_DATE, VALID_END_DATE);
     public static final BillingFrequency VALID_BILLING_FREQUENCY = BillingFrequency.PER_TRIP;
 
     @Test
