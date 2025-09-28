@@ -7,6 +7,7 @@ import java.net.URI;
 
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.Scheduler;
+import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -21,6 +22,7 @@ public class TrottiULMain {
 		LOGGER.info("Setup resources (API)");
 		final ResourceConfig config = new ResourceConfig();
 		config.register(RestServerConfiguration.class);
+		config.register(ServerLifeCycleListener.class);
 		config.register(CORSResponseFilter.class);
 		config.packages("ca.ulaval.glo4003.trotti.api");
 		
@@ -37,10 +39,6 @@ public class TrottiULMain {
 				} catch (Exception e) {
 					LOGGER.error("Error shutting down the server", e);
 				} finally {
-					Scheduler jobScheduler = ServerResourceLocator.getInstance().resolve(Scheduler.class);
-					if (jobScheduler != null) {
-						jobScheduler.shutdown();
-					}
 					server.destroy();
 				}
 			}));
