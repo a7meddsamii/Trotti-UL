@@ -38,7 +38,7 @@ public class Scheduler {
                 LOGGER.warn("Failed to cancel scheduled job", e);
             }
         });
-		
+
         scheduledFutures.clear();
         executorService.shutdownNow();
     }
