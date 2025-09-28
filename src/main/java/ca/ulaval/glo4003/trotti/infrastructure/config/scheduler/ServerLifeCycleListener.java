@@ -32,7 +32,6 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
             default:
                 break;
         }
-
     }
 
     @Override
