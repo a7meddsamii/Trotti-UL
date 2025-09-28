@@ -22,13 +22,12 @@ class AccountFactoryTest {
     private static final LocalDate PAST_DATE = TODAY.minusYears(20);
 
     private AccountFactory factory;
-    private Clock clock;
     private Password password;
 
     @BeforeEach
     void setup() {
         password = Mockito.mock(Password.class);
-        clock = Clock.fixed(START_MOMENT, UTC);
+        Clock clock = Clock.fixed(START_MOMENT, UTC);
         factory = new AccountFactory(clock);
     }
 

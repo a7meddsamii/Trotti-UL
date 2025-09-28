@@ -7,9 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToke
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.AlreadyExistsException;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 
 public class AccountApplicationService {
 
@@ -35,7 +32,7 @@ public class AccountApplicationService {
 
         validateAccountDoesNotExist(email, idul);
 
-        Account account = createDomainAccount(registration, email, idul);
+        Account account = buildAccountFromRegistration(registration, email, idul);
         accountRepository.save(account);
 
         return account.getIdul();
@@ -46,14 +43,15 @@ public class AccountApplicationService {
 
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
-        account.authenticate(rawPassword);
+        account.verifyPasswordMatches(rawPassword);
 
         return authenticationService.generateToken(account.getIdul());
     }
 
-    private Account createDomainAccount(AccountRegistration registration, Email email, Idul idul) {
+    private Account buildAccountFromRegistration(AccountRegistration registration, Email email,
+            Idul idul) {
 
-        return accountFactory.create(registration.name(), parseBirthDate(registration.birthDate()),
+        return accountFactory.create(registration.name(), registration.birthDate(),
                 Gender.fromString(registration.gender()), idul, email,
                 Password.createNew(registration.password(), passwordHasher));
     }
@@ -63,14 +61,6 @@ public class AccountApplicationService {
                 || accountRepository.findByIdul(idul).isPresent()) {
             throw new AlreadyExistsException(
                     "The email or idul used is already linked to an existing account");
-        }
-    }
-
-    private LocalDate parseBirthDate(String birthDate) {
-        try {
-            return LocalDate.parse(birthDate);
-        } catch (DateTimeException exception) {
-            throw new InvalidParameterException("Invalid date format. Expected yyyy-MM-dd.");
         }
     }
 }
