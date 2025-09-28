@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
 public class UserInMemoryDatabase {
-    ConcurrentMap<Idul, AccountEntity> accountTable;
-    ConcurrentMap<Idul, BuyerEntity> buyerTable;
+    private final ConcurrentMap<Idul, AccountEntity> accountTable;
+    private final ConcurrentMap<Idul, BuyerEntity> buyerTable;
 
     public UserInMemoryDatabase(
             ConcurrentMap<Idul, AccountEntity> accountTable,
@@ -23,6 +23,7 @@ public class UserInMemoryDatabase {
     }
 
     public void insertIntoBuyerTable(BuyerEntity buyer) {
+        enforceForeignKeyConstraint(buyer);
         buyerTable.put(buyer.idul(), buyer);
     }
 
@@ -37,5 +38,12 @@ public class UserInMemoryDatabase {
 
     public Optional<BuyerEntity> selectFromBuyerTable(Idul idul) {
         return Optional.ofNullable(buyerTable.get(idul));
+    }
+
+    private void enforceForeignKeyConstraint(BuyerEntity buyer) {
+        if (!accountTable.containsKey(buyer.idul())) {
+            throw new IllegalStateException(
+                    "Foreign key constraint violation: Account does not exist for the given Idul");
+        }
     }
 }
