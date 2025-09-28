@@ -33,29 +33,29 @@ class AccountTest {
     }
 
     @Test
-    void givenMatchingPassword_whenAuthenticate_thenNoExceptionThrown() {
+    void givenMatchingPassword_whenVerifyPasswordMatches_thenNoExceptionThrown() {
         Mockito.when(mockPassword.matches(VALID_RAW_PASSWORD)).thenReturn(true);
 
-        Executable authenticate = () -> account.authenticate(VALID_RAW_PASSWORD);
+        Executable authenticate = () -> account.verifyPasswordMatches(VALID_RAW_PASSWORD);
 
         Assertions.assertDoesNotThrow(authenticate);
     }
 
     @Test
-    void givenNonMatchingPassword_whenAuthenticate_thenThrowAuthenticationException() {
+    void givenNonMatchingPassword_whenVerifyPasswordMatches_thenThrowAuthenticationException() {
 
         Mockito.when(mockPassword.matches(INVALID_RAW_PASSWORD)).thenReturn(false);
 
-        Executable authenticate = () -> account.authenticate(INVALID_RAW_PASSWORD);
+        Executable authenticate = () -> account.verifyPasswordMatches(INVALID_RAW_PASSWORD);
 
         Assertions.assertThrows(AuthenticationException.class, authenticate);
     }
 
     @Test
-    void givenPassword_whenAuthenticate_thenPasswordMatchIsCalled() {
+    void givenPassword_whenVerifyPasswordMatches_thenPasswordMatchIsCalled() {
         Mockito.when(mockPassword.matches(VALID_RAW_PASSWORD)).thenReturn(true);
 
-        account.authenticate(VALID_RAW_PASSWORD);
+        account.verifyPasswordMatches(VALID_RAW_PASSWORD);
 
         Mockito.verify(mockPassword).matches(VALID_RAW_PASSWORD);
     }
