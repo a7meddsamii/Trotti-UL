@@ -36,10 +36,15 @@ public class MaximumDailyTravelTime {
         return duration.toMinutes() + " minutes";
     }
 
-    private void validate(Duration value) {
-        long travelTimeInMinutes = value.toMinutes();
+    private void validate(Duration duration) {
+        if (duration == null) {
+            throw new InvalidParameterException(
+                    "Maximum daily travel time in minutes cannot be null");
+        }
 
-        if (travelTimeInMinutes < 0 || travelTimeInMinutes % 10 != 0) {
+        long travelTimeInMinutes = duration.toMinutes();
+
+        if (travelTimeInMinutes <= 0 || travelTimeInMinutes % 10 != 0) {
             throw new InvalidParameterException(
                     "Maximum daily travel time in minutes must be positive and multiple of 10");
         }

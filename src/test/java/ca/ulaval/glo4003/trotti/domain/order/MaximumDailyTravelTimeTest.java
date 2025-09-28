@@ -13,6 +13,13 @@ class MaximumDailyTravelTimeTest {
     private static final Duration NOT_MULTIPLE_OF_TEN = Duration.ofMinutes(25);
 
     @Test
+    void givenNullTime_whenCreate_thenThrowsException() {
+        Executable creation = () -> MaximumDailyTravelTime.from(null);
+
+        Assertions.assertThrows(InvalidParameterException.class, creation);
+    }
+
+    @Test
     void givenValidTime_whenCreate_thenObjectIsCreated() {
         Executable creation = () -> MaximumDailyTravelTime.from(VALID_TIME);
 
