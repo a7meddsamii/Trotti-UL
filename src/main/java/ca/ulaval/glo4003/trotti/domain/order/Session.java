@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -10,12 +8,10 @@ public class Session {
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    @JsonCreator
     public Session(
-            @JsonProperty("semester_code") String semesterCode,
-            @JsonProperty("start_date") LocalDate startDate,
-            @JsonProperty("end_date") LocalDate endDate
-    ) {
+            final String semesterCode,
+            final LocalDate startDate,
+            final LocalDate endDate) {
         this.semesterCode = semesterCode;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -39,6 +35,10 @@ public class Session {
     @Override
     public String toString() {
         return semesterCode;
+    }
+
+    public boolean includes(LocalDate date) {
+        return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
     public String getSemesterCode() {
