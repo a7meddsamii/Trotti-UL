@@ -1,41 +1,42 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import java.time.Duration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-class MaximumTravelingTimeTest {
-    private static final int VALID_TIME = 30;
-    private static final int ANOTHER_VALID_TIME = 60;
-    private static final int NEGATIVE_TIME = -10;
-    private static final int NOT_MULTIPLE_OF_TEN = 25;
+class MaximumDailyTravelTimeTest {
+    private static final Duration VALID_TIME = Duration.ofMinutes(30);
+    private static final Duration ANOTHER_VALID_TIME = Duration.ofMinutes(60);
+    private static final Duration NEGATIVE_TIME = Duration.ofMinutes(-10);
+    private static final Duration NOT_MULTIPLE_OF_TEN = Duration.ofMinutes(25);
 
     @Test
     void givenValidTime_whenCreate_thenObjectIsCreated() {
-        Executable creation = () -> MaximumTravelingTime.from(VALID_TIME);
+        Executable creation = () -> MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertDoesNotThrow(creation);
     }
 
     @Test
     void givenNegativeTime_whenCreate_thenThrowsException() {
-        Executable creation = () -> MaximumTravelingTime.from(NEGATIVE_TIME);
+        Executable creation = () -> MaximumDailyTravelTime.from(NEGATIVE_TIME);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenNotMultipleOfTen_whenCreate_thenThrowsException() {
-        Executable creation = () -> MaximumTravelingTime.from(NOT_MULTIPLE_OF_TEN);
+        Executable creation = () -> MaximumDailyTravelTime.from(NOT_MULTIPLE_OF_TEN);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenTwoObjectsWithSameValue_whenCompare_thenTheyAreEqual() {
-        MaximumTravelingTime time1 = MaximumTravelingTime.from(VALID_TIME);
-        MaximumTravelingTime time2 = MaximumTravelingTime.from(VALID_TIME);
+        MaximumDailyTravelTime time1 = MaximumDailyTravelTime.from(VALID_TIME);
+        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertEquals(time1, time2);
         Assertions.assertEquals(time1.hashCode(), time2.hashCode());
@@ -43,16 +44,16 @@ class MaximumTravelingTimeTest {
 
     @Test
     void givenTwoObjectsWithDifferentValues_whenCompare_thenTheyAreNotEqual() {
-        MaximumTravelingTime time1 = MaximumTravelingTime.from(VALID_TIME);
-        MaximumTravelingTime time2 = MaximumTravelingTime.from(ANOTHER_VALID_TIME);
+        MaximumDailyTravelTime time1 = MaximumDailyTravelTime.from(VALID_TIME);
+        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(ANOTHER_VALID_TIME);
 
         Assertions.assertNotEquals(time1, time2);
     }
 
     @Test
     void givenValidTime_whenToString_thenReturnStringValue() {
-        MaximumTravelingTime time = MaximumTravelingTime.from(VALID_TIME);
+        MaximumDailyTravelTime time = MaximumDailyTravelTime.from(VALID_TIME);
 
-        Assertions.assertEquals(String.valueOf(VALID_TIME), time.toString());
+        Assertions.assertEquals(VALID_TIME.toMinutes() + " minutes", time.toString());
     }
 }
