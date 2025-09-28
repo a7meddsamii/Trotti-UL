@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import java.util.Optional;
 
@@ -27,12 +28,12 @@ public class InMemoryAccountRepository implements AccountRepository {
     @Override
     public Optional<Account> findByEmail(Email email) {
         Optional<AccountEntity> accountQuery = database.selectFromAccountTable(email);
-        return accountQuery.flatMap(this.accountMapper::toDomain);
+        return accountQuery.map(this.accountMapper::toDomain);
     }
 
     @Override
     public Optional<Account> findByIdul(Idul idul) {
         Optional<AccountEntity> accountQuery = database.selectFromAccountTable(idul);
-        return accountQuery.flatMap(this.accountMapper::toDomain);
+        return accountQuery.map(this.accountMapper::toDomain);
     }
 }

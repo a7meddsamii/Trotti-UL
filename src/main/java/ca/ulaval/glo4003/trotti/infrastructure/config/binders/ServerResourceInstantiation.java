@@ -5,10 +5,10 @@ import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationServ
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.PersistenceAccountMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
