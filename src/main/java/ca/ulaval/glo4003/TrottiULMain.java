@@ -2,7 +2,10 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.trotti.api.CORSResponseFilter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.SessionRegistry;
 import java.net.URI;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
