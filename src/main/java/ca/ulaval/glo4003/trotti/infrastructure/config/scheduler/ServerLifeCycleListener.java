@@ -17,12 +17,12 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
     public void onEvent(ApplicationEvent applicationEvent) {
         switch (applicationEvent.getType()) {
             case INITIALIZATION_FINISHED:
-                LOGGER.info("Server resources initialized - starting scheduled jobs");
+                LOGGER.info("Server resources initialized - setting up scheduled jobs");
                 ServerResourceLocator.getInstance().register(Scheduler.class, new Scheduler());
                 setupJobs();
                 break;
             case DESTROY_FINISHED:
-                LOGGER.info("Server is shutting down - stopping scheduled jobs");
+                LOGGER.info("Server is shutting down - destroying scheduled jobs");
                 Scheduler jobScheduler =
                         ServerResourceLocator.getInstance().resolve(Scheduler.class);
                 if (jobScheduler != null) {
