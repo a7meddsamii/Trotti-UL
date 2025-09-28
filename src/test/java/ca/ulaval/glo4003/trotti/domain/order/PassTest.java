@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class PassTest {
     public static final MaximumDailyTravelTime VALID_MAXIMUM_TRAVELING_TIME =
-            MaximumDailyTravelTime.from(Duration.ofMinutes(20));
+            MaximumDailyTravelTime.from(Duration.ofMinutes(30));
 
     public static final Session VALID_SESSION =
             new Session(VALID_SESSION_A, VALID_START_DATE, VALID_END_DATE);
