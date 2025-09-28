@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.pass;
 
 public class Pass {
     private final MaximumDailyTravelTime maximumDailyTravelTime;

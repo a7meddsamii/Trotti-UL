@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.pass;
 
-import static ca.ulaval.glo4003.trotti.domain.order.SessionTest.*;
+import static ca.ulaval.glo4003.trotti.domain.pass.SessionTest.*;
 
 import java.time.Duration;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +11,7 @@ public class PassTest {
             MaximumDailyTravelTime.from(Duration.ofMinutes(30));
 
     public static final Session VALID_SESSION =
-            new Session(VALID_SESSION_A, VALID_START_DATE, VALID_END_DATE);
+            new Session(FALL_SEMESTER, VALID_START_DATE, VALID_END_DATE);
 
     public static final BillingFrequency VALID_BILLING_FREQUENCY = BillingFrequency.PER_TRIP;
 
