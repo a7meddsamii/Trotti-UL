@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class MaximumDailyTravelTime {
     private static final int MINUTES_IN_A_DAY = 24 * 60;
+    private static final int MINIMUM_TRAVEL_TIME_IN_MINUTES = 30;
 
     private final Duration duration;
 
@@ -39,17 +40,18 @@ public class MaximumDailyTravelTime {
     }
 
     private void validate(Duration duration) {
-        if (duration == null) {
+        if (duration == null || duration.isNegative() || duration.isZero()) {
             throw new InvalidParameterException(
-                    "Maximum daily travel time in minutes cannot be null");
+                    "Maximum daily travel time in minutes cannot be null and must be positive.");
         }
 
         long travelTimeInMinutes = duration.toMinutes();
 
-        if (travelTimeInMinutes <= 0 || travelTimeInMinutes >= MINUTES_IN_A_DAY
+        if (travelTimeInMinutes < MINIMUM_TRAVEL_TIME_IN_MINUTES
+                || travelTimeInMinutes >= MINUTES_IN_A_DAY
                 || !isMultipleOfTen(travelTimeInMinutes)) {
             throw new InvalidParameterException(String.format(
-                    "Maximum daily travel time must be positive, a multiple of 10, and less than %d minutes.",
+                    "Maximum daily travel time must be at least 30 minutes, multiple of 10, and less than %d minutes.",
                     MINUTES_IN_A_DAY));
         }
     }

@@ -10,6 +10,8 @@ class MaximumDailyTravelTimeTest {
     private static final Duration VALID_TIME = Duration.ofMinutes(30);
     private static final Duration ANOTHER_VALID_TIME = Duration.ofMinutes(60);
     private static final Duration NEGATIVE_TIME = Duration.ofMinutes(-10);
+    private static final Duration LESS_THAN_30_MINUTES_TIME = Duration.ofMinutes(25);
+    private static final Duration ZERO_TIME = Duration.ofMinutes(0);
     private static final Duration SURPASSES_ONE_DAY_TIME = Duration.ofMinutes(1441);
     private static final Duration NOT_MULTIPLE_OF_TEN = Duration.ofMinutes(25);
 
@@ -25,6 +27,20 @@ class MaximumDailyTravelTimeTest {
         MaximumDailyTravelTime maximumDailyTravelTime = MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertNotNull(maximumDailyTravelTime);
+    }
+
+    @Test
+    void givenZeroTime_whenCreate_thenThrowsException() {
+        Executable creation = () -> MaximumDailyTravelTime.from(ZERO_TIME);
+
+        Assertions.assertThrows(InvalidParameterException.class, creation);
+    }
+
+    @Test
+    void givenLessThan30MinutesTime_whenCreate_thenThrowsException() {
+        Executable creation = () -> MaximumDailyTravelTime.from(LESS_THAN_30_MINUTES_TIME);
+
+        Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
