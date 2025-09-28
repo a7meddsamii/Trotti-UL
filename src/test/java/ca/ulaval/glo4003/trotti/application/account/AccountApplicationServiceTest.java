@@ -170,7 +170,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenValidCredentials_whenLogin_thenAccountVerifyPasswordMatchesIsCalled() {
+    void givenValidCredentials_whenLogin_thenAccountVerifyPasswordIsCalled() {
         mockExistingAccountWithValidPassword();
         Mockito.when(authenticationService.generateToken(AccountFixture.AN_IDUL))
                 .thenReturn(AccountFixture.AN_AUTH_TOKEN);
@@ -178,7 +178,7 @@ class AccountApplicationServiceTest {
         accountApplicationService.login(AccountFixture.AN_EMAIL_STRING,
                 AccountFixture.A_RAW_PASSWORD);
 
-        Mockito.verify(mockAccount).verifyPasswordMatches(AccountFixture.A_RAW_PASSWORD);
+        Mockito.verify(mockAccount).verifyPassword(AccountFixture.A_RAW_PASSWORD);
     }
 
     @Test
@@ -217,7 +217,7 @@ class AccountApplicationServiceTest {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
         Mockito.doThrow(new AuthenticationException("Invalid email or password")).when(mockAccount)
-                .verifyPasswordMatches(AccountFixture.A_RAW_PASSWORD);
+                .verifyPassword(AccountFixture.A_RAW_PASSWORD);
     }
 
     private void mockExistingAccountWithValidPassword() {

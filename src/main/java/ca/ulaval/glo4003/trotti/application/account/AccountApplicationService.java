@@ -1,7 +1,13 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountRegistration;
-import ca.ulaval.glo4003.trotti.domain.account.*;
+import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
+import ca.ulaval.glo4003.trotti.domain.account.Email;
+import ca.ulaval.glo4003.trotti.domain.account.Gender;
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.Password;
+import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
@@ -43,7 +49,7 @@ public class AccountApplicationService {
 
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
-        account.verifyPasswordMatches(rawPassword);
+        account.verifyPassword(rawPassword);
 
         return authenticationService.generateToken(account.getIdul());
     }

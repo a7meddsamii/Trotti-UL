@@ -56,7 +56,7 @@ public class Account {
         return Period.between(this.birthDate, today).getYears();
     }
 
-    public void verifyPasswordMatches(String rawPassword) {
+    public void verifyPassword(String rawPassword) {
         if (!this.password.matches(rawPassword)) {
             throw new AuthenticationException("Invalid email or password");
         }
