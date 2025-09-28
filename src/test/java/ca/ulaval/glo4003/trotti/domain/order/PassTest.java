@@ -17,8 +17,7 @@ public class PassTest {
 
     @Test
     void givenValidParameters_whenCreation_thenObjectIsCreated() {
-        Pass pass = new Pass(VALID_MAXIMUM_TRAVELING_TIME, VALID_SESSION,
-                VALID_BILLING_FREQUENCY);
+        Pass pass = new Pass(VALID_MAXIMUM_TRAVELING_TIME, VALID_SESSION, VALID_BILLING_FREQUENCY);
 
         Assertions.assertNotNull(pass);
     }

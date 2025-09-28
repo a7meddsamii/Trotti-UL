@@ -40,7 +40,8 @@ public class MaximumDailyTravelTime {
         long travelTimeInMinutes = value.toMinutes();
 
         if (travelTimeInMinutes < 0 || travelTimeInMinutes % 10 != 0) {
-            throw new InvalidParameterException("Maximum daily travel time in minutes must be positive and multiple of 10");
+            throw new InvalidParameterException(
+                    "Maximum daily travel time in minutes must be positive and multiple of 10");
         }
     }
 }
