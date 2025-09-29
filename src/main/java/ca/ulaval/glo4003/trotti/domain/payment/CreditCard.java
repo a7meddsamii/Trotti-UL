@@ -1,16 +1,15 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import java.time.YearMonth;
-
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.CreditCardValidator;
 
 public class CreditCard extends PaymentMethod {
 
     private static final String CVV_3_OR_4_DIGITS_REGEX = "^\\d{3,4}$";
-    private static final int DIGITS_TO_DISPLAY  = 4;
+    private static final int DIGITS_TO_DISPLAY = 4;
 
     private static final CreditCardValidator VALIDATOR = new CreditCardValidator(
             CreditCardValidator.VISA + CreditCardValidator.MASTERCARD + CreditCardValidator.AMEX
