@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
@@ -11,11 +12,18 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2Passw
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -82,6 +90,17 @@ public class ServerResourceInstantiation {
         }
     }
 
+    private void loadAccountRepository() {
+        ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
+        UserInMemoryDatabase userInMemoryDatabase =
+                new UserInMemoryDatabase(accountTable, buyerTable);
+        AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        AccountRepository accountRepository =
+                new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        locator.register(AccountRepository.class, accountRepository);
+    }
+
     private void loadEmailSender() {
         String username = dotenv.get(EMAIL_USER);
         String password = dotenv.get(EMAIL_PASSWORD);
@@ -116,9 +135,10 @@ public class ServerResourceInstantiation {
             return;
         }
 
-        loadEmailSender();
         loadAuthenticationService();
+        loadEmailSender();
         loadPasswordHasher();
+        loadAccountRepository();
         loadAccountFactory();
         loadAccountService();
         resourcesCreated = true;
