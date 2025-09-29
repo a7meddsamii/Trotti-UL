@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.shared.exception;
+package ca.ulaval.glo4003.trotti.domain.commons.exceptions;
 
 public class InvalidParameterException extends RuntimeException {
 

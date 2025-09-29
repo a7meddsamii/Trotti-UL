@@ -1,13 +1,18 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import javax.crypto.SecretKey;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +20,17 @@ import org.slf4j.LoggerFactory;
 public class ServerResourceInstantiation {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiation.class);
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
+    private static final String EMAIL_USER = "STMP_USER";
+    private static final String EMAIL_PASSWORD = "STMP_PASS";
+    private static final String EMAIL_HOST = "STMP_HOST";
+    private static final String EMAIL_PORT = "STMP_PORT";
+    private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
+    private final Dotenv dotenv;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance != null) {
@@ -32,11 +43,15 @@ public class ServerResourceInstantiation {
     private ServerResourceInstantiation() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
+        this.dotenv = Dotenv.load();
     }
 
     private void loadAuthenticatorResource() {
         try {
-            Duration expirationDuration = Duration.parse(System.getenv(EXPIRATION_DURATION));
+            String durationValue = StringUtils.isEmpty(dotenv.get(EXPIRATION_DURATION))
+                    ? DEFAULT_TOKEN_EXPIRATION.toString()
+                    : dotenv.get(EXPIRATION_DURATION);
+            Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             AuthenticationService authenticator = new JwtAuthenticationServiceAdapter(
                     expirationDuration, authenticatorClock, SECRET_KEY);
@@ -50,12 +65,25 @@ public class ServerResourceInstantiation {
         }
     }
 
+    private void loadEmailSender() {
+        String username = dotenv.get(EMAIL_USER);
+        String password = dotenv.get(EMAIL_PASSWORD);
+        String host = dotenv.get(EMAIL_HOST);
+        String port = dotenv.get(EMAIL_PORT);
+
+        JakartaMailServiceConfiguration emailConfiguration =
+                JakartaMailServiceConfiguration.create(username, password, host, port);
+        EmailService emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
+        locator.register(EmailService.class, emailService);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
         loadAuthenticatorResource();
+        loadEmailSender();
         resourcesCreated = true;
     }
 }
