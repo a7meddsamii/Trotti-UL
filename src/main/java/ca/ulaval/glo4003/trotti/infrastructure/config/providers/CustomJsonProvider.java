@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.config.json;
+package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
