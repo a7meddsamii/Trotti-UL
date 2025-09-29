@@ -101,8 +101,7 @@ public class ServerResourceInstantiation {
         if (resourcesCreated) {
             return;
         }
-
-        loadAuthenticatorResource();
+        
         loadEmailSender();
         loadAuthenticationService();
         loadAccountRepository();
