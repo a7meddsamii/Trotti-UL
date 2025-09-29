@@ -7,6 +7,8 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class AccountApiMapper {
     private final PasswordHasher hasher;
@@ -20,7 +22,16 @@ public class AccountApiMapper {
         Idul idul = Idul.from(request.idul());
         Email email = Email.from(request.email());
         Password password = Password.fromPlain(request.password(), hasher);
+        LocalDate birthDate = parseDate(request.birthDate());
 
-        return new AccountDto(request.name(), request.birthDate(), gender, idul, email, password);
+        return new AccountDto(request.name(), birthDate, gender, idul, email, password);
+    }
+
+    private LocalDate parseDate(String birthDateString) {
+        try {
+            return LocalDate.parse(birthDateString);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid birthDate format, expected yyyy-MM-dd", e);
+        }
     }
 }
