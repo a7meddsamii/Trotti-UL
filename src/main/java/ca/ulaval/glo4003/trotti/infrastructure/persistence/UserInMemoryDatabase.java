@@ -1,19 +1,19 @@
-package ca.ulaval.glo4003.trotti.infrastructure.repository;
+package ca.ulaval.glo4003.trotti.infrastructure.persistence;
 
-import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Email;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
+import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
 public class UserInMemoryDatabase {
     private final ConcurrentMap<Idul, AccountRecord> accountTable;
-    private final ConcurrentMap<Idul, BuyerEntity> buyerTable;
+    private final ConcurrentMap<Idul, BuyerRecord> buyerTable;
 
     public UserInMemoryDatabase(
             ConcurrentMap<Idul, AccountRecord> accountTable,
-            ConcurrentMap<Idul, BuyerEntity> buyerTable) {
+            ConcurrentMap<Idul, BuyerRecord> buyerTable) {
         this.accountTable = accountTable;
         this.buyerTable = buyerTable;
     }
@@ -22,7 +22,7 @@ public class UserInMemoryDatabase {
         accountTable.put(account.idul(), account);
     }
 
-    public void insertIntoBuyerTable(BuyerEntity buyer) {
+    public void insertIntoBuyerTable(BuyerRecord buyer) {
         enforceForeignKeyConstraint(buyer);
         buyerTable.put(buyer.idul(), buyer);
     }
@@ -36,11 +36,11 @@ public class UserInMemoryDatabase {
                 .findFirst();
     }
 
-    public Optional<BuyerEntity> selectFromBuyerTable(Idul idul) {
+    public Optional<BuyerRecord> selectFromBuyerTable(Idul idul) {
         return Optional.ofNullable(buyerTable.get(idul));
     }
 
-    private void enforceForeignKeyConstraint(BuyerEntity buyer) {
+    private void enforceForeignKeyConstraint(BuyerRecord buyer) {
         if (!accountTable.containsKey(buyer.idul())) {
             throw new IllegalStateException(
                     "Foreign key constraint violation: Account does not exist for the given Idul");

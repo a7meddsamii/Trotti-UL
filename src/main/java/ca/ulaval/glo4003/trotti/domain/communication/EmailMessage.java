@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.commons;
+package ca.ulaval.glo4003.trotti.domain.communication;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;

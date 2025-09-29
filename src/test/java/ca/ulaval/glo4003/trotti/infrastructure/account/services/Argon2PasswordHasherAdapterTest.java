@@ -1,10 +1,10 @@
-package ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2;
+package ca.ulaval.glo4003.trotti.infrastructure.account.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Argon2PasswordHasherAdapterTest {
+class Argon2PasswordHasherAdapterTest {
 
     private static final String PLAIN_PASSWORD = "SecretTest1!";
     private static final String WRONG_PASSWORD = "SecretTest2!";

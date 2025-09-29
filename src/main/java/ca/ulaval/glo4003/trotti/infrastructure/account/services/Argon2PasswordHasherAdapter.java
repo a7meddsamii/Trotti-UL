@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2;
+package ca.ulaval.glo4003.trotti.infrastructure.account.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import de.mkammerer.argon2.Argon2;
