@@ -17,7 +17,7 @@ class SessionMapperTest {
     private SessionMapper sessionMapper;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         sessionMapper = new SessionMapper();
     }
 

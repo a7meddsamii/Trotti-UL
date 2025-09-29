@@ -21,7 +21,7 @@ class EmailMessageTest {
     private Email email;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         this.email = Mockito.mock(Email.class);
 
     }

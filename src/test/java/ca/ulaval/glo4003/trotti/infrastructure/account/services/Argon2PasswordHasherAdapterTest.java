@@ -17,7 +17,7 @@ class Argon2PasswordHasherAdapterTest {
     private Argon2PasswordHasherAdapter argon2Hasher;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         argon2Hasher = new Argon2PasswordHasherAdapter(MEMORY_COST, ITERATIONS, THREADS);
     }
 

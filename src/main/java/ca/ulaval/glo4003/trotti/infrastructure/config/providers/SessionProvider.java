@@ -20,7 +20,7 @@ public final class SessionProvider {
         try (InputStream input = Files.newInputStream(path)) {
             List<SessionRecord> sessionRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
-            this.sessions = sessionRecords.stream().map(sessionMapper::toDomain).toList();
+            sessions = sessionRecords.stream().map(sessionMapper::toDomain).toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load sessions file at startup", e);
         }
