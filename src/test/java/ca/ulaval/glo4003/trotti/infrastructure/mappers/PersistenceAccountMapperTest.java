@@ -20,7 +20,7 @@ class PersistenceAccountMapperTest {
     void givenAccount_whenToEntity_thenReturnsPersistenceEntity() {
         Account account = new AccountFixture().build();
 
-        AccountEntity persistenceEntity = accountMapper.toEntity(account);
+        AccountEntity persistenceEntity = accountMapper.toDTO(account);
 
         Assertions.assertEquals(account.getIdul(), persistenceEntity.idul());
         Assertions.assertEquals(account.getName(), persistenceEntity.name());
@@ -36,7 +36,7 @@ class PersistenceAccountMapperTest {
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
                 AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
 
-        Account account = accountMapper.toDomain(persistenceEntity);
+        Account account = accountMapper.toEntity(persistenceEntity);
 
         Assertions.assertEquals(persistenceEntity.idul(), account.getIdul());
         Assertions.assertEquals(persistenceEntity.name(), account.getName());

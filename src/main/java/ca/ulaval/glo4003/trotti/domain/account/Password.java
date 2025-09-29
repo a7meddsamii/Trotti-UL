@@ -12,12 +12,6 @@ public class Password {
         return new Password(hashedPassword, hasher);
     }
 
-    private Password(String hashedValue, PasswordHasher hasher) {
-        validate(hashedValue);
-        this.hasher = hasher;
-        this.hashedValue = hashedValue;
-    }
-
     public boolean matches(String rawPassword) {
         return hasher.matches(rawPassword, this.hashedValue);
     }
@@ -45,5 +39,10 @@ public class Password {
         if (StringUtils.isBlank(hashedPassword)) {
             throw new InvalidParameterException("Password cannot be null or empty.");
         }
+    }
+    private Password(String hashedValue, PasswordHasher hasher) {
+        validate(hashedValue);
+        this.hasher = hasher;
+        this.hashedValue = hashedValue;
     }
 }
