@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.time.LocalDate;
@@ -8,7 +7,6 @@ import java.time.Month;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class AccountTest {
@@ -35,22 +33,21 @@ class AccountTest {
     }
 
     @Test
-    void givenMatchingPassword_whenVerifyPassword_thenNoExceptionThrown() {
+    void givenMatchingPassword_whenVerifyPassword_thenReturnTrue() {
         Mockito.when(mockPassword.matches(VALID_RAW_PASSWORD)).thenReturn(true);
 
-        Executable authenticate = () -> account.verifyPassword(VALID_RAW_PASSWORD);
+        boolean match = account.verifyPassword(VALID_RAW_PASSWORD);
 
-        Assertions.assertDoesNotThrow(authenticate);
+        Assertions.assertTrue(match);
     }
 
     @Test
-    void givenNonMatchingPassword_whenVerifyPassword_thenThrowAuthenticationException() {
-
+    void givenNonMatchingPassword_whenVerifyPassword_thenReturnFalse() {
         Mockito.when(mockPassword.matches(INVALID_RAW_PASSWORD)).thenReturn(false);
 
-        Executable authenticate = () -> account.verifyPassword(INVALID_RAW_PASSWORD);
+        boolean match = account.verifyPassword(INVALID_RAW_PASSWORD);
 
-        Assertions.assertThrows(AuthenticationException.class, authenticate);
+        Assertions.assertFalse(match);
     }
 
     @Test

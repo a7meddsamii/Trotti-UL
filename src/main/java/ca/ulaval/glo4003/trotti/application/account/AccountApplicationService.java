@@ -10,9 +10,12 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.AlreadyExistsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountApplicationService {
 
+    private static final Logger log = LoggerFactory.getLogger(AccountApplicationService.class);
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
     private final AccountFactory accountFactory;
@@ -36,11 +39,10 @@ public class AccountApplicationService {
         return account.getIdul();
     }
 
-    public AuthenticationToken login(String emailInput, String rawPassword) {
-        Email email = Email.from(emailInput);
+    public AuthenticationToken login(Email email, String rawPassword) {
         Account account = accountRepository.findByEmail(email)
+                .filter(found -> found.verifyPassword(rawPassword))
                 .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
-        account.verifyPassword(rawPassword);
 
         return authenticationService.generateToken(account.getIdul());
     }
@@ -48,8 +50,7 @@ public class AccountApplicationService {
     private void validateAccountDoesNotExist(Email email, Idul idul) {
         if (accountRepository.findByEmail(email).isPresent()
                 || accountRepository.findByIdul(idul).isPresent()) {
-            throw new AlreadyExistsException(
-                    "The email or idul used is already linked to an existing account");
+            throw new AlreadyExistsException("Email or Idul already in use");
         }
     }
 }
