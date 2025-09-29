@@ -2,12 +2,14 @@ package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class CreditCardTest {
@@ -49,6 +51,16 @@ class CreditCardTest {
         Executable payWithValidCreditCard = () -> creditCard.pay(money);
 
         Assertions.assertDoesNotThrow(payWithValidCreditCard);
+    }
+
+    @Test
+    void givenNegativeAmount_whenPay_thenThrowsPaymentDeclinedException() {
+        CreditCard creditCard = new CreditCardFixture().build();
+        Mockito.when(money.isNegative()).thenReturn(true);
+
+        Executable payWithNegativeAmount = () -> creditCard.pay(money);
+
+        Assertions.assertThrows(InvalidParameterException.class, payWithNegativeAmount);
     }
 
     @Test

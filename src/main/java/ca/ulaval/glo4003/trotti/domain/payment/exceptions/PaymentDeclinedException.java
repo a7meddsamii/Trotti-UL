@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.payment.exceptions;
 
-public class PaymentDeclinedException extends Exception {
+public class PaymentDeclinedException extends RuntimeException {
     public PaymentDeclinedException(String message) {
         super("PAYMENT_DECLINED: " + message);
     }

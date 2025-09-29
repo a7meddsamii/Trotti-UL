@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.trotti.domain.payment;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import java.time.YearMonth;
+
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.CreditCardValidator;
 
@@ -26,7 +28,11 @@ public class CreditCard extends PaymentMethod {
     }
 
     @Override
-    public void pay(Money amount) throws PaymentDeclinedException {
+    public void pay(Money amount) {
+        if (amount == null || amount.isNegative()) {
+            throw new InvalidParameterException("Invalid amount");
+        }
+
         if (isExpired()) {
             throw new PaymentDeclinedException("Credit card expired");
         }
