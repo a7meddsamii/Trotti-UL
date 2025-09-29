@@ -30,4 +30,9 @@ public class Order {
 
         return total;
     }
+
+    public String getInvoice() {
+        // Return String of invoice
+        return "Order's invoice";
+    }
 }
