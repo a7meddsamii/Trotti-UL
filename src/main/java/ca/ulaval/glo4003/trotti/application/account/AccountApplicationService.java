@@ -10,12 +10,9 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.AlreadyExistsException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AccountApplicationService {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountApplicationService.class);
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
     private final AccountFactory accountFactory;
