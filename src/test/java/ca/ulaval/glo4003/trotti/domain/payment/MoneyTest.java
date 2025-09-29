@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
-import java.math.BigDecimal;
 
 class MoneyTest {
 
@@ -29,7 +28,7 @@ class MoneyTest {
 
     @Test
     void whenInstantiateWithNullAmount_thenThrowException() {
-        Executable executable =  () -> Money.of(null, Currency.CAD);
+        Executable executable = () -> Money.of(null, Currency.CAD);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
@@ -100,28 +99,28 @@ class MoneyTest {
 
         Assertions.assertEquals(EXPECTED_STRING_REPRESENTATION, result);
     }
-    
+
     @Test
     void givenSameAmountOfMoneySameCurrency_whenEquals_thenReturnTrue() {
         Money anotherMoney = Money.of(ONE_HUNDRED, Currency.CAD);
 
         Assertions.assertEquals(money, anotherMoney);
     }
-    
+
     @Test
     void givenDifferentAmountOfMoneySameCurrency_whenEquals_thenReturnFalse() {
         Money anotherMoney = Money.of(BigDecimal.TEN, Currency.CAD);
 
         Assertions.assertNotEquals(money, anotherMoney);
     }
-    
+
     @Test
     void givenSameAmountOfMoneyDifferentCurrency_whenEquals_thenReturnFalse() {
         Money anotherMoney = Money.of(ONE_HUNDRED, Currency.OTHER);
 
         Assertions.assertNotEquals(money, anotherMoney);
     }
-    
+
     @Test
     void givenDifferentAmountOfMoneyDifferentCurrency_whenEquals_thenReturnFalse() {
         Money anotherMoney = Money.of(BigDecimal.TEN, Currency.OTHER);

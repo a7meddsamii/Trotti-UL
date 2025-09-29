@@ -18,7 +18,7 @@ public class CreditCard extends PaymentMethod {
     private final String cvv;
 
     public CreditCard(String cardNumber, String cardHolderName, YearMonth expiryDate, String cvv) {
-        validate(cardNumber, cardHolderName, expiryDate, cvv);
+        validate(cardNumber, cardHolderName, cvv);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
         this.expiryDate = expiryDate;
@@ -32,23 +32,18 @@ public class CreditCard extends PaymentMethod {
         }
     }
 
-    private void validate(String cardNumber, String cardHolderName, YearMonth expiryDate,
-            String cvv) {
+    private void validate(String cardNumber, String cardHolderName, String cvv) {
         if (StringUtils.isBlank(cardHolderName)) {
             throw new InvalidParameterException("Cardholder name cannot be empty");
         }
 
-        if (!VALIDATOR.isValid(cardNumber) || !isValidExpiryDate(expiryDate) || !isValidCvv(cvv)) {
+        if (!VALIDATOR.isValid(cardNumber) || !isValidCvv(cvv)) {
             throw new InvalidParameterException("Invalid Credit Card");
         }
     }
 
     private boolean isExpired() {
         return expiryDate.isBefore(YearMonth.now());
-    }
-
-    private boolean isValidExpiryDate(YearMonth expiryDate) {
-        return expiryDate != null && !expiryDate.isBefore(YearMonth.now());
     }
 
     private boolean isValidCvv(String cvv) {
