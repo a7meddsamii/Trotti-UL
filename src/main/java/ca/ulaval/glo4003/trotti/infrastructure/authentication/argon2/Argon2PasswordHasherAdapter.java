@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2;
 
-import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import java.util.Arrays;
