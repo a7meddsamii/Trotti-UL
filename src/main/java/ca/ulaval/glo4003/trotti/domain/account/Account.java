@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
+import ca.ulaval.glo4003.trotti.domain.commons.CreditCard;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -15,6 +16,7 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
+    private CreditCard creditCard;
 
     public Account(
             String name,
@@ -64,5 +66,13 @@ public class Account {
         if (!this.password.matches(rawPassword)) {
             throw new AuthenticationException("Invalid email or password");
         }
+    }
+
+    public void saveCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
     }
 }
