@@ -17,7 +17,7 @@ class AccountPersistenceMapperTest {
     }
 
     @Test
-    void givenAccount_whenToEntity_thenReturnsPersistenceEntity() {
+    void givenAccount_whenToEntity_thenReturnPersistenceEntity() {
         Account account = new AccountFixture().build();
 
         AccountRecord persistenceEntity = accountMapper.toDTO(account);
@@ -31,7 +31,7 @@ class AccountPersistenceMapperTest {
     }
 
     @Test
-    void givenPersistenceEntity_whenToDomain_thenReturnsAccount() {
+    void givenPersistenceEntity_whenToDomain_thenReturnAccount() {
         AccountRecord persistenceEntity = new AccountRecord(AccountFixture.AN_IDUL,
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
                 AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD);
