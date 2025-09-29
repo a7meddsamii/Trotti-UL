@@ -21,19 +21,19 @@ public class InMemoryAccountRepository implements AccountRepository {
 
     @Override
     public void save(Account account) {
-        AccountEntity accountEntity = accountMapper.toDTO (account);
-        this.databaseDriver.insertIntoAccountTable(accountEntity);
+        AccountRecord accountRecord = accountMapper.toDTO (account);
+        this.databaseDriver.insertIntoAccountTable(accountRecord);
     }
 
     @Override
     public Optional<Account> findByEmail(Email email) {
-        Optional<AccountEntity> accountQuery = databaseDriver.selectFromAccountTable(email);
+        Optional<AccountRecord> accountQuery = databaseDriver.selectFromAccountTable(email);
         return accountQuery.map(this.accountMapper::toEntity);
     }
 
     @Override
     public Optional<Account> findByIdul(Idul idul) {
-        Optional<AccountEntity> accountQuery = databaseDriver.selectFromAccountTable(idul);
+        Optional<AccountRecord> accountQuery = databaseDriver.selectFromAccountTable(idul);
         return accountQuery.map(this.accountMapper::toEntity);
     }
 }

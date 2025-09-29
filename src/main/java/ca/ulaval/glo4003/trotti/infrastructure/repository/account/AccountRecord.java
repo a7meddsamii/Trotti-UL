@@ -6,6 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import java.time.LocalDate;
 
-public record AccountEntity(Idul idul, String name, LocalDate birthDate, Gender gender, Email email, Password password) {
+public record AccountRecord(Idul idul, String name, LocalDate birthDate, Gender gender, Email email, Password password) {
 	
 }

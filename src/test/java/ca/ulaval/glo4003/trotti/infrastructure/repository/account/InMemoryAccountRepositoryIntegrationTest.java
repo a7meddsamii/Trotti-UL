@@ -21,7 +21,7 @@ class InMemoryAccountRepositoryIntegrationTest {
 
     @BeforeEach
     void setup() {
-        ConcurrentMap<Idul, AccountEntity> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);

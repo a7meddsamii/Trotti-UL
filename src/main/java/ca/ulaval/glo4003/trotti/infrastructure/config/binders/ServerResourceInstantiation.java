@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import io.jsonwebtoken.Jwts;
@@ -60,7 +60,7 @@ public class ServerResourceInstantiation {
     }
 
     private void loadAccountRepository() {
-        ConcurrentMap<Idul, AccountEntity> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
