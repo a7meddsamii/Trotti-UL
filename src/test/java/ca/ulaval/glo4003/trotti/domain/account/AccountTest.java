@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
-import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
+import ca.ulaval.glo4003.trotti.domain.account.values.Password;
+import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.time.LocalDate;
+import java.time.Month;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,7 @@ import org.mockito.Mockito;
 
 class AccountTest {
 
-    private static final LocalDate A_GIVEN_BIRTHDATE = LocalDate.of(2001, 02, 10);
+    private static final LocalDate A_GIVEN_BIRTHDATE = LocalDate.of(2001, Month.FEBRUARY, 10);
     private static final int EXPECTED_AGE = 24;
     private static final String VALID_RAW_PASSWORD = "ValidPass123!";
     private static final String INVALID_RAW_PASSWORD = "WrongPassword!";
@@ -27,7 +29,7 @@ class AccountTest {
 
     @Test
     void givenBirthDate_whenGetAge_thenReturnCorrectAge() {
-        Account account = new AccountFixture().withBirthDate(A_GIVEN_BIRTHDATE).build();
+        account = new AccountFixture().withBirthDate(A_GIVEN_BIRTHDATE).build();
 
         Assertions.assertEquals(EXPECTED_AGE, account.getAge());
     }

@@ -2,21 +2,21 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
-import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
-import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
+import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.account.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2PasswordHasherAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
-import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -39,11 +39,10 @@ public class ServerResourceInstantiation {
     private static final String EMAIL_PORT = "STMP_PORT";
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
-    private static final Duration DEFAULT_EXPIRATION = Duration.ofMinutes(60);
-    public static final int HASHER_MEMORY_COST = 65536;
-    public static final int HASHER_ITERATIONS = 3;
-    public static final int HASHER_NUMBER_OF_THREADS = 1;
-    public static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
+    private static final int HASHER_MEMORY_COST = 65536;
+    private static final int HASHER_ITERATIONS = 3;
+    private static final int HASHER_NUMBER_OF_THREADS = 1;
+    private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -58,11 +57,11 @@ public class ServerResourceInstantiation {
     private AccountApplicationService accountApplicationService;
 
     public static ServerResourceInstantiation getInstance() {
-        if (instance != null) {
-            return instance;
+        if (instance == null) {
+            instance = new ServerResourceInstantiation();
         }
 
-        return instance = new ServerResourceInstantiation();
+        return instance;
     }
 
     private ServerResourceInstantiation() {
@@ -78,9 +77,9 @@ public class ServerResourceInstantiation {
                     : dotenv.get(EXPIRATION_DURATION);
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
-            AuthenticationService authenticator = new JwtAuthenticationServiceAdapter(
-                    expirationDuration, authenticatorClock, SECRET_KEY);
-            locator.register(AuthenticationService.class, authenticator);
+            authenticationService = new JwtAuthenticationServiceAdapter(expirationDuration,
+                    authenticatorClock, SECRET_KEY);
+            locator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
         } catch (DateTimeParseException | NullPointerException exception) {
@@ -92,12 +91,11 @@ public class ServerResourceInstantiation {
 
     private void loadAccountRepository() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
-        ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
-        AccountRepository accountRepository =
-                new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
         locator.register(AccountRepository.class, accountRepository);
     }
 

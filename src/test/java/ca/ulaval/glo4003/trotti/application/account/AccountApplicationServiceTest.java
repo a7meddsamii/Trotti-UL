@@ -1,13 +1,16 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.domain.account.*;
-import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
-import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.values.Password;
+import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.AlreadyExistsException;
+import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

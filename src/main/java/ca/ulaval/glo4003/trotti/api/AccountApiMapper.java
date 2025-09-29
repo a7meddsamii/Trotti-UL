@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.api;
 
 import ca.ulaval.glo4003.trotti.api.dto.requests.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.domain.account.Gender;
-import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.domain.account.Password;
-import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
-import ca.ulaval.glo4003.trotti.domain.commons.Email;
+import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 
 public class AccountApiMapper {
     private final PasswordHasher hasher;
