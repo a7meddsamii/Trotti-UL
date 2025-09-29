@@ -8,10 +8,10 @@ import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 
-public class AccountMapper {
+public class AccountApiMapper {
     private final PasswordHasher hasher;
 
-    public AccountMapper(PasswordHasher hasher) {
+    public AccountApiMapper(PasswordHasher hasher) {
         this.hasher = hasher;
     }
 
