@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import java.time.YearMonth;
 
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
@@ -9,6 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.CreditCardValidator;
 
 public class CreditCard extends PaymentMethod {
+
+    private static final String CVV_3_OR_4_DIGITS_REGEX = "^\\d{3,4}$";
+    private static final int DIGITS_TO_DISPLAY  = 4;
 
     private static final CreditCardValidator VALIDATOR = new CreditCardValidator(
             CreditCardValidator.VISA + CreditCardValidator.MASTERCARD + CreditCardValidator.AMEX
@@ -27,15 +29,18 @@ public class CreditCard extends PaymentMethod {
         this.cvv = cvv;
     }
 
+    public String getCardNumber() {
+        return cardNumber.substring(cardNumber.length() - DIGITS_TO_DISPLAY);
+    }
+
     @Override
     public void pay(Money amount) {
-        if (amount == null || amount.isNegative()) {
-            throw new InvalidParameterException("Invalid amount");
-        }
+        System.out.println("Paid " + amount + " with credit card ending in " + getCardNumber());
+    }
 
-        if (isExpired()) {
-            throw new PaymentDeclinedException("Credit card expired");
-        }
+    @Override
+    public boolean isExpired() {
+        return expiryDate.isBefore(YearMonth.now());
     }
 
     private void validate(String cardNumber, String cardHolderName, String cvv) {
@@ -48,11 +53,7 @@ public class CreditCard extends PaymentMethod {
         }
     }
 
-    private boolean isExpired() {
-        return expiryDate.isBefore(YearMonth.now());
-    }
-
     private boolean isValidCvv(String cvv) {
-        return cvv != null && cvv.matches("^\\d{3,4}$");
+        return cvv != null && cvv.matches(CVV_3_OR_4_DIGITS_REGEX);
     }
 }
