@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import io.jsonwebtoken.Jwts;

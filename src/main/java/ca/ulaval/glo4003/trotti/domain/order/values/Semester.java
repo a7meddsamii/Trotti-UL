@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.pass;
+package ca.ulaval.glo4003.trotti.domain.order.values;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 
 public enum Semester {
     FALL("Automne"), WINTER("Hiver"), SUMMER("Été");

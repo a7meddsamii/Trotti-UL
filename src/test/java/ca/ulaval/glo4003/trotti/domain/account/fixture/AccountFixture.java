@@ -1,6 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.account.fixture;
 
 import ca.ulaval.glo4003.trotti.domain.account.*;
+import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import java.time.LocalDate;
 import org.mockito.Mockito;
 

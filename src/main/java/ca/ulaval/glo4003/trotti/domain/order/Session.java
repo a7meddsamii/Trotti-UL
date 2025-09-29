@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.pass;
+package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import java.time.LocalDate;
 import java.util.Objects;
 

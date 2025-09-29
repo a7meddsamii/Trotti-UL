@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.account.values;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -39,7 +39,6 @@ public class Email {
     }
 
     private void validate(String value) {
-
         if (StringUtils.isBlank(value)) {
             throw new InvalidParameterException("Email cannot be null or empty" + value);
         }
