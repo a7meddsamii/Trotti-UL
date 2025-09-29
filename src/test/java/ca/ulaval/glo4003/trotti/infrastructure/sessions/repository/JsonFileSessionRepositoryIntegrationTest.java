@@ -51,10 +51,11 @@ class JsonFileSessionRepositoryIntegrationTest {
     void givenEmptyJsonArray_whenFindAll_thenReturnEmptyList() throws IOException {
         Path tempFile = Files.createTempFile("empty", ".json");
         Files.writeString(tempFile, "[]");
-        SessionRepository emptyRepository = new JsonFileSessionRepository(new SessionMapper(), tempFile);
+        SessionRepository emptyRepository =
+                new JsonFileSessionRepository(new SessionMapper(), tempFile);
 
         List<Session> sessions = emptyRepository.findAll();
-        
+
         Assertions.assertTrue(sessions.isEmpty());
     }
 
@@ -62,8 +63,7 @@ class JsonFileSessionRepositoryIntegrationTest {
     void givenInvalidJson_whenFindAll_thenThrowRuntimeException() throws IOException {
         Path tempFile = Files.createTempFile("invalid", ".json");
         Files.writeString(tempFile, "{ invalid json }");
-        SessionRepository repository =
-                new JsonFileSessionRepository(new SessionMapper(), tempFile);
+        SessionRepository repository = new JsonFileSessionRepository(new SessionMapper(), tempFile);
 
         Executable invalidFindAll = repository::findAll;
 

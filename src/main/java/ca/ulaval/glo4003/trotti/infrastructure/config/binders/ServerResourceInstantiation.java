@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.order.repository.SessionRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -17,8 +18,11 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfigur
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.repository.JsonFileSessionRepository;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
+import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
@@ -51,6 +55,7 @@ public class ServerResourceInstantiation {
 
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
+    private SessionRepository sessionRepository;
     private AccountFactory accountFactory;
 
     private AuthenticationService authenticationService;
@@ -99,6 +104,13 @@ public class ServerResourceInstantiation {
         locator.register(AccountRepository.class, accountRepository);
     }
 
+    private void loadSessionRepository() {
+        SessionMapper sessionMapper = new SessionMapper();
+        Path resourcePath = Path.of("src/main/resources/data/sessions.json");
+        sessionRepository = new JsonFileSessionRepository(sessionMapper, resourcePath);
+        locator.register(SessionRepository.class, sessionRepository);
+    }
+
     private void loadEmailSender() {
         String username = dotenv.get(EMAIL_USER);
         String password = dotenv.get(EMAIL_PASSWORD);
@@ -137,6 +149,7 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadAccountRepository();
+        loadSessionRepository();
         loadAccountFactory();
         loadAccountService();
         resourcesCreated = true;
