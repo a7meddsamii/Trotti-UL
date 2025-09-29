@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.account.values;
 
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +14,7 @@ public class Idul {
 
     private Idul(String value) {
         if (StringUtils.isBlank(value)) {
-            throw new IllegalArgumentException("Idul is missing, it cannot be null or empty");
+            throw new InvalidParameterException("Idul is missing, it cannot be null or empty");
         }
 
         this.value = value;

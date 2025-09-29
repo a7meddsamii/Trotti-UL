@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.account.authentication;
+package ca.ulaval.glo4003.trotti.domain.authentication;
 
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
 import org.apache.commons.lang3.StringUtils;
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class AuthenticationTokenTest {
-    private final String TOKEN_VALUE = "token";
-    private final String DIFFERENT_TOKEN_VALUE = "differentToken";
-    private final Object OBJECT_OF_DIFFERENT_TYPE = new Object();
+    private static final String TOKEN_VALUE = "token";
+    private static final String DIFFERENT_TOKEN_VALUE = "differentToken";
+    private static final Object OBJECT_OF_DIFFERENT_TYPE = new Object();
 
     @Test
     void givenBlankValue_whenCreatingAuthToken_thenThrowException() {
