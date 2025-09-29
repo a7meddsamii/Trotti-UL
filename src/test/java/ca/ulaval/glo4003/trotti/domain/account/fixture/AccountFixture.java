@@ -2,13 +2,13 @@ package ca.ulaval.glo4003.trotti.domain.account.fixture;
 
 import ca.ulaval.glo4003.trotti.domain.account.*;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.Email;
 import java.time.LocalDate;
 import org.mockito.Mockito;
 
 public class AccountFixture {
     public static final String A_NAME = "Camavinga";
     public static final String AN_IDUL_STRING = "JD12345";
-    public static final String A_BIRTHDATE_STRING = "2000-01-01";
     public static final String A_GENDER_STRING = "MALE";
     public static final String A_RAW_PASSWORD = "StrongPass1!";
     public static final String A_TOKEN_VALUE = "jwt-token";
