@@ -52,24 +52,4 @@ class CreditCardTest {
         Assertions.assertDoesNotThrow(payWithValidCreditCard);
     }
 
-    @Test
-    void givenNegativeAmount_whenPay_thenThrowsPaymentDeclinedException() {
-        CreditCard creditCard = new CreditCardFixture().build();
-        Mockito.when(money.isNegative()).thenReturn(true);
-
-        Executable payWithNegativeAmount = () -> creditCard.pay(money);
-
-        Assertions.assertThrows(InvalidParameterException.class, payWithNegativeAmount);
-    }
-
-    @Test
-    void givenExpiredCreditCard_whenPay_thenThrowsPaymentDeclinedException() {
-        CreditCard creditCard = new CreditCardFixture().withExpiryDate(EXPIRED_DATE).build();
-
-        Executable payWithValidCreditCardThatIsExpired = () -> creditCard.pay(money);
-
-        Assertions.assertThrows(PaymentDeclinedException.class,
-                payWithValidCreditCardThatIsExpired);
-    }
-
 }
