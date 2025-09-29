@@ -66,12 +66,12 @@ public class OrderApplicationService {
 
         // 1. Send invoice
         EmailMessage invoice = EmailMessage.builder()
-                .withEmailStrategy(
-                        new OrderInvoiceEmailStrategy(account.getEmail(), account.getName(), order))
+                .withEmailStrategy(new OrderInvoiceEmailStrategy(account.getEmail(),
+                        account.getName(), order.generateInvoice()))
                 .build();
         emailService.send(invoice);
 
-        // 2. Save CreditCard for future purchases
+        // 2. Save Payment information for future purchases
         //
     }
 }
