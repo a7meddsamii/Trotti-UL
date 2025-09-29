@@ -2,17 +2,17 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
-import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -101,7 +101,7 @@ public class ServerResourceInstantiation {
         if (resourcesCreated) {
             return;
         }
-        
+
         loadEmailSender();
         loadAuthenticationService();
         loadAccountRepository();

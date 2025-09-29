@@ -40,6 +40,7 @@ public class Password {
             throw new InvalidParameterException("Password cannot be null or empty.");
         }
     }
+
     private Password(String hashedValue, PasswordHasher hasher) {
         validate(hashedValue);
         this.hasher = hasher;

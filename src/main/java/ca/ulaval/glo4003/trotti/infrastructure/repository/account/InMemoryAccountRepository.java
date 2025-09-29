@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.repository.account;
 
 import ca.ulaval.glo4003.trotti.domain.account.Account;
-import ca.ulaval.glo4003.trotti.domain.account.Email;
+import ca.ulaval.glo4003.trotti.domain.commons.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
@@ -21,7 +21,7 @@ public class InMemoryAccountRepository implements AccountRepository {
 
     @Override
     public void save(Account account) {
-        AccountRecord accountRecord = accountMapper.toDTO (account);
+        AccountRecord accountRecord = accountMapper.toDTO(account);
         this.databaseDriver.insertIntoAccountTable(accountRecord);
     }
 
