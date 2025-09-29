@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
+import ca.ulaval.glo4003.trotti.domain.commons.Email;
 import java.time.LocalDate;
 import java.time.Period;
 

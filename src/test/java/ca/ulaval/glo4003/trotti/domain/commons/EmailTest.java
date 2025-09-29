@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.commons;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
