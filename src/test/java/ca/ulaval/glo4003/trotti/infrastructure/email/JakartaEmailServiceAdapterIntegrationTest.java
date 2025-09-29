@@ -7,14 +7,15 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
-import java.io.IOException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
-class JakartaEmailServiceIntegrationTest {
+import java.io.IOException;
+
+class JakartaEmailServiceAdapterIntegrationTest {
 
     private static final String HOST = "localhost";
     private static final String PORT = "3025";
@@ -24,7 +25,7 @@ class JakartaEmailServiceIntegrationTest {
     private static final String A_EMAIL = "JhonDoe@ulaval.ca";
 
     private static GreenMail greenMail;
-    private JakartaEmailService emailService;
+    private JakartaEmailServiceAdapter emailService;
 
     @BeforeAll
     static void setUpClass() {
@@ -43,22 +44,27 @@ class JakartaEmailServiceIntegrationTest {
         session.getProperties().put("mail.smtp.host", HOST);
         session.getProperties().put("mail.smtp.port", PORT);
         session.getProperties().put("FromMail", FROM);
-        emailService = new JakartaEmailService(session);
+        emailService = new JakartaEmailServiceAdapter(session);
     }
 
     @Test
     void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
-        EmailMessage emailMessage = new EmailMessage(Email.from(A_EMAIL), A_SUBJECT, A_BODY);
+        EmailMessage emailMessage = EmailMessage.builder()
+                .withRecipient(Email.from(A_EMAIL))
+                .withBody(A_BODY)
+                .withSubject(A_SUBJECT)
+                .build();
 
         emailService.send(emailMessage);
 
         MimeMessage[] mimeMessages = greenMail.getReceivedMessages();
-        Assertions.assertThat(mimeMessages).hasSize(1);
+        Assertions.assertEquals(1, mimeMessages.length);
         MimeMessage receivedMessage = mimeMessages[0];
-        Assertions.assertThat(receivedMessage.getSubject()).isEqualTo(A_SUBJECT);
-        Assertions.assertThat(receivedMessage.getFrom()[0].toString()).isEqualTo(FROM);
-        Assertions.assertThat(receivedMessage.getAllRecipients()[0].toString()).isEqualTo(A_EMAIL);
-        Assertions.assertThat(receivedMessage.getContent().toString()).isEqualTo(A_BODY);
+        Assertions.assertEquals(A_EMAIL, receivedMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(A_SUBJECT, receivedMessage.getSubject());
+        Assertions.assertEquals(A_BODY, receivedMessage.getContent());
     }
+
+
 
 }

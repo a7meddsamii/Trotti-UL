@@ -10,10 +10,10 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-public class JakartaEmailService implements EmailService {
+public class JakartaEmailServiceAdapter implements EmailService {
     private final Session session;
 
-    public JakartaEmailService(Session session) {
+    public JakartaEmailServiceAdapter(Session session) {
         this.session = session;
     }
 
@@ -23,7 +23,7 @@ public class JakartaEmailService implements EmailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(session.getProperty("FromMail")));
             message.setRecipient(Message.RecipientType.TO,
-                    new InternetAddress(emailMessage.getTo()));
+                    new InternetAddress(emailMessage.getRecipient().toString()));
             message.setSubject(emailMessage.getSubject());
             message.setText(emailMessage.getBody());
             Transport.send(message);

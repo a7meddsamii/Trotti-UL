@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
-import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailService;
+import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -73,7 +73,7 @@ public class ServerResourceInstantiation {
 
         JakartaMailServiceConfiguration emailConfiguration =
                 JakartaMailServiceConfiguration.create(username, password, host, port);
-        EmailService emailService = new JakartaEmailService(emailConfiguration.connect());
+        EmailService emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
         locator.register(EmailService.class, emailService);
     }
 
