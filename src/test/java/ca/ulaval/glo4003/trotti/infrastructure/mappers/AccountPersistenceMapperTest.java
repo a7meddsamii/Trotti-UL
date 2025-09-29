@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PersistenceAccountMapperTest {
+class AccountPersistenceMapperTest {
 
-    private PersistenceAccountMapper accountMapper;
+    private AccountPersistenceMapper accountMapper;
 
     @BeforeEach
     void setup() {
-        accountMapper = new PersistenceAccountMapper();
+        accountMapper = new AccountPersistenceMapper();
     }
 
     @Test

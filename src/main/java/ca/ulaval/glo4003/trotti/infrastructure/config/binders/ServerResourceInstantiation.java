@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.authentication.AuthenticationServ
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
-import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
@@ -64,7 +64,7 @@ public class ServerResourceInstantiation {
         ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
-        PersistenceAccountMapper accountMapper = new PersistenceAccountMapper();
+        AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         AccountRepository accountRepository =
                 new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
         locator.register(AccountRepository.class, accountRepository);

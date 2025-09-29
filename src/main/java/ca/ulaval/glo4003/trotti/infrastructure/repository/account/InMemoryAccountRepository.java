@@ -4,17 +4,17 @@ import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import java.util.Optional;
 
 public class InMemoryAccountRepository implements AccountRepository {
     private final UserInMemoryDatabase databaseDriver;
-    private final PersistenceAccountMapper accountMapper;
+    private final AccountPersistenceMapper accountMapper;
 
     public InMemoryAccountRepository(
             UserInMemoryDatabase database,
-            PersistenceAccountMapper accountMapper) {
+            AccountPersistenceMapper accountMapper) {
         this.databaseDriver = database;
         this.accountMapper = accountMapper;
     }

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.mappers;
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
 
-public class PersistenceAccountMapper {
+public class AccountPersistenceMapper {
 
     public AccountEntity toEntity(Account account) {
         return new AccountEntity(account.getIdul(), account.getName(), account.getBirthDate(),

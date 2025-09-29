@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.fixture.AccountFixture;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.mappers.PersistenceAccountMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import java.util.Optional;
@@ -25,7 +25,7 @@ class InMemoryAccountRepositoryIntegrationTest {
         ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
-        PersistenceAccountMapper accountMapper = new PersistenceAccountMapper();
+        AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
     }
 
