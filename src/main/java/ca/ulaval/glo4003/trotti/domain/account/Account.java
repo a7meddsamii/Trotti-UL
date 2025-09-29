@@ -16,7 +16,6 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
-    private CreditCard creditCard;
 
     public Account(
             String name,
@@ -66,13 +65,5 @@ public class Account {
         if (!this.password.matches(rawPassword)) {
             throw new AuthenticationException("Invalid email or password");
         }
-    }
-
-    public void saveCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
-    }
-
-    public CreditCard getCreditCard() {
-        return creditCard;
     }
 }
