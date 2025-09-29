@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Money;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
 
@@ -28,9 +27,5 @@ public class Pass {
 
     public BillingFrequency getBillingFrequency() {
         return billingFrequency;
-    }
-
-    public Money getTotal() {
-        return maximumDailyTravelTime.getTotal();
     }
 }
