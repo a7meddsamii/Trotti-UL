@@ -22,7 +22,7 @@ public class Password {
         this.hashedValue = hashedValue;
     }
 
-    public static Password createNew(String plainPassword, PasswordHasher hasher) {
+    public static Password fromPlain(String plainPassword, PasswordHasher hasher) {
         validateNotBlank(plainPassword);
         ensurePasswordMeetsPolicy(plainPassword);
         String hashedPassword = hasher.hash(plainPassword);

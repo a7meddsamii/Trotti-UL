@@ -32,7 +32,7 @@ class PasswordTest {
     void givenValidRawPassword_whenCreatingNewPassword_thenPasswordIsCreated() {
         Mockito.when(hasher.hash(VALID_RAW_PASSWORD)).thenReturn(HASHED_PASSWORD);
 
-        Password password = Password.createNew(VALID_RAW_PASSWORD, hasher);
+        Password password = Password.fromPlain(VALID_RAW_PASSWORD, hasher);
 
         Assertions.assertNotNull(password);
     }
@@ -41,56 +41,56 @@ class PasswordTest {
     void givenValidRawPassword_whenCreatingNewPassword_thenPasswordHasherIsCalled() {
         Mockito.when(hasher.hash(VALID_RAW_PASSWORD)).thenReturn(HASHED_PASSWORD);
 
-        Password.createNew(VALID_RAW_PASSWORD, hasher);
+        Password.fromPlain(VALID_RAW_PASSWORD, hasher);
 
         Mockito.verify(hasher).hash(VALID_RAW_PASSWORD);
     }
 
     @Test
     void givenNullRawPassword_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(NULL_PASSWORD, hasher);
+        Executable creation = () -> Password.fromPlain(NULL_PASSWORD, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenEmptyRawPassword_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(StringUtils.EMPTY, hasher);
+        Executable creation = () -> Password.fromPlain(StringUtils.EMPTY, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenBlankRawPassword_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(BLANK_PASSWORD, hasher);
+        Executable creation = () -> Password.fromPlain(BLANK_PASSWORD, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenWeakPasswordWithoutUppercase_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(WEAK_PASSWORD_NO_UPPERCASE, hasher);
+        Executable creation = () -> Password.fromPlain(WEAK_PASSWORD_NO_UPPERCASE, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenWeakPasswordWithoutDigit_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(WEAK_PASSWORD_NO_DIGIT, hasher);
+        Executable creation = () -> Password.fromPlain(WEAK_PASSWORD_NO_DIGIT, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenWeakPasswordWithoutSpecialChar_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(WEAK_PASSWORD_NO_SPECIAL, hasher);
+        Executable creation = () -> Password.fromPlain(WEAK_PASSWORD_NO_SPECIAL, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
 
     @Test
     void givenWeakPasswordTooShort_whenCreatingNewPassword_thenThrowInvalidParameterException() {
-        Executable creation = () -> Password.createNew(WEAK_PASSWORD_TOO_SHORT, hasher);
+        Executable creation = () -> Password.fromPlain(WEAK_PASSWORD_TOO_SHORT, hasher);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }

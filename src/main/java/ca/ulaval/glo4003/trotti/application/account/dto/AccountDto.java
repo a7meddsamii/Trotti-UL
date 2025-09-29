@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.account.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.Password;
 import java.time.LocalDate;
 
-public record AccountRegistration(
+public record AccountDto(
   String name,
   LocalDate birthDate,
   Gender gender,

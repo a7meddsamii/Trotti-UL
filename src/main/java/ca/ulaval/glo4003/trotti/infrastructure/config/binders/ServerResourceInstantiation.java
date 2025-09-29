@@ -79,7 +79,7 @@ public class ServerResourceInstantiation {
 
     private void loadAccountService() {
         accountApplicationService = new AccountApplicationService(accountRepository,
-                authenticationService, accountFactory, hasher);
+                authenticationService, accountFactory);
         locator.register(AccountApplicationService.class, accountApplicationService);
     }
 

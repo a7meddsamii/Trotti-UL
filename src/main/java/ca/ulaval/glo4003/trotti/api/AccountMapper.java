@@ -1,11 +1,12 @@
 package ca.ulaval.glo4003.trotti.api;
 
 import ca.ulaval.glo4003.trotti.api.dto.requests.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.application.account.dto.AccountRegistration;
-import ca.ulaval.glo4003.trotti.domain.account.*;
-import java.security.InvalidParameterException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
+import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.Email;
+import ca.ulaval.glo4003.trotti.domain.account.Gender;
+import ca.ulaval.glo4003.trotti.domain.account.Password;
+import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 
 public class AccountMapper {
     private final PasswordHasher hasher;
@@ -14,21 +15,12 @@ public class AccountMapper {
         this.hasher = hasher;
     }
 
-    public AccountRegistration toAccountRegistration(CreateAccountRequest request) {
-        LocalDate birthDate = parseDate(request.birthDate());
+    public AccountDto toAccountDto(CreateAccountRequest request) {
         Gender gender = Gender.fromString(request.gender());
         Idul idul = Idul.from(request.idul());
         Email email = Email.from(request.email());
         Password password = Password.fromPlain(request.password(), hasher);
 
-        return new AccountRegistration(request.name(), birthDate, gender, idul, email, password);
-    }
-
-    private LocalDate parseDate(String date) {
-        try {
-            return LocalDate.parse(date);
-        } catch (DateTimeException e) {
-            throw new InvalidParameterException("date format ");
-        }
+        return new AccountDto(request.name(), request.birthDate(), gender, idul, email, password);
     }
 }
