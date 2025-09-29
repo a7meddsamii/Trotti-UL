@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 class InMemoryAccountRepositoryIntegrationTest {
 
-    public static final Idul IDUL_OF_NON_EXISTING_ACCOUNT = Idul.from("NONEXIST");
+    private static final Idul IDUL_OF_NON_EXISTING_ACCOUNT = Idul.from("NONEXIST");
     private AccountRepository accountRepository;
 
     @BeforeEach
