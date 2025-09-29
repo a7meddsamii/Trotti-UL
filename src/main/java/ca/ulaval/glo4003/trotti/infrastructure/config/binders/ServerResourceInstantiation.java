@@ -1,16 +1,29 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
+import ca.ulaval.glo4003.trotti.domain.account.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.commons.EmailService;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.email.JakartaEmailServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -26,11 +39,23 @@ public class ServerResourceInstantiation {
     private static final String EMAIL_PORT = "STMP_PORT";
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
+    private static final Duration DEFAULT_EXPIRATION = Duration.ofMinutes(60);
+    public static final int HASHER_MEMORY_COST = 65536;
+    public static final int HASHER_ITERATIONS = 3;
+    public static final int HASHER_NUMBER_OF_THREADS = 1;
+    public static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
     private final Dotenv dotenv;
+
+    private PasswordHasher hasher;
+    private AccountRepository accountRepository;
+    private AccountFactory accountFactory;
+
+    private AuthenticationService authenticationService;
+    private AccountApplicationService accountApplicationService;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance != null) {
@@ -46,7 +71,7 @@ public class ServerResourceInstantiation {
         this.dotenv = Dotenv.load();
     }
 
-    private void loadAuthenticatorResource() {
+    private void loadAuthenticationService() {
         try {
             String durationValue = StringUtils.isEmpty(dotenv.get(EXPIRATION_DURATION))
                     ? DEFAULT_TOKEN_EXPIRATION.toString()
@@ -65,6 +90,17 @@ public class ServerResourceInstantiation {
         }
     }
 
+    private void loadAccountRepository() {
+        ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, BuyerEntity> buyerTable = new ConcurrentHashMap<>();
+        UserInMemoryDatabase userInMemoryDatabase =
+                new UserInMemoryDatabase(accountTable, buyerTable);
+        AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        AccountRepository accountRepository =
+                new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        locator.register(AccountRepository.class, accountRepository);
+    }
+
     private void loadEmailSender() {
         String username = dotenv.get(EMAIL_USER);
         String password = dotenv.get(EMAIL_PASSWORD);
@@ -77,13 +113,34 @@ public class ServerResourceInstantiation {
         locator.register(EmailService.class, emailService);
     }
 
+    private void loadPasswordHasher() {
+        hasher = new Argon2PasswordHasherAdapter(HASHER_MEMORY_COST, HASHER_ITERATIONS,
+                HASHER_NUMBER_OF_THREADS);
+        locator.register(PasswordHasher.class, hasher);
+    }
+
+    private void loadAccountFactory() {
+        accountFactory = new AccountFactory(SEVER_CLOCK);
+        locator.register(AccountFactory.class, accountFactory);
+    }
+
+    private void loadAccountService() {
+        accountApplicationService = new AccountApplicationService(accountRepository,
+                authenticationService, accountFactory);
+        locator.register(AccountApplicationService.class, accountApplicationService);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
-        loadAuthenticatorResource();
+        loadAuthenticationService();
         loadEmailSender();
+        loadPasswordHasher();
+        loadAccountRepository();
+        loadAccountFactory();
+        loadAccountService();
         resourcesCreated = true;
     }
 }

@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.ws.infrastructure.authentication.argon2;
+package ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2;
 
-import ca.ulaval.glo4003.trotti.infrastructure.authentication.argon2.Argon2PasswordHasherAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

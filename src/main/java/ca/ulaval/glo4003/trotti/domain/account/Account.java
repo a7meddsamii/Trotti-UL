@@ -58,4 +58,10 @@ public class Account {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
     }
+
+    public void verifyPassword(String rawPassword) {
+        if (!this.password.matches(rawPassword)) {
+            throw new AuthenticationException("Invalid email or password");
+        }
+    }
 }
