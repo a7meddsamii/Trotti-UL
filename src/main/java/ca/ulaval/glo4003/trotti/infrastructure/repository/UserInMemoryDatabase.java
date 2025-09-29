@@ -2,23 +2,23 @@ package ca.ulaval.glo4003.trotti.infrastructure.repository;
 
 import ca.ulaval.glo4003.trotti.domain.account.Email;
 import ca.ulaval.glo4003.trotti.domain.account.Idul;
-import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountEntity;
+import ca.ulaval.glo4003.trotti.infrastructure.repository.account.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.repository.order.BuyerEntity;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
 public class UserInMemoryDatabase {
-    private final ConcurrentMap<Idul, AccountEntity> accountTable;
+    private final ConcurrentMap<Idul, AccountRecord> accountTable;
     private final ConcurrentMap<Idul, BuyerEntity> buyerTable;
 
     public UserInMemoryDatabase(
-            ConcurrentMap<Idul, AccountEntity> accountTable,
+            ConcurrentMap<Idul, AccountRecord> accountTable,
             ConcurrentMap<Idul, BuyerEntity> buyerTable) {
         this.accountTable = accountTable;
         this.buyerTable = buyerTable;
     }
 
-    public void insertIntoAccountTable(AccountEntity account) {
+    public void insertIntoAccountTable(AccountRecord account) {
         accountTable.put(account.idul(), account);
     }
 
@@ -27,11 +27,11 @@ public class UserInMemoryDatabase {
         buyerTable.put(buyer.idul(), buyer);
     }
 
-    public Optional<AccountEntity> selectFromAccountTable(Idul idul) {
+    public Optional<AccountRecord> selectFromAccountTable(Idul idul) {
         return Optional.ofNullable(accountTable.get(idul));
     }
 
-    public Optional<AccountEntity> selectFromAccountTable(Email email) {
+    public Optional<AccountRecord> selectFromAccountTable(Email email) {
         return accountTable.values().stream().filter(account -> account.email().equals(email))
                 .findFirst();
     }
