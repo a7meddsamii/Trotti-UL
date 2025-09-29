@@ -7,13 +7,12 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-
-import java.io.IOException;
 
 class JakartaEmailServiceAdapterIntegrationTest {
 
@@ -49,11 +48,8 @@ class JakartaEmailServiceAdapterIntegrationTest {
 
     @Test
     void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
-        EmailMessage emailMessage = EmailMessage.builder()
-                .withRecipient(Email.from(A_EMAIL))
-                .withBody(A_BODY)
-                .withSubject(A_SUBJECT)
-                .build();
+        EmailMessage emailMessage = EmailMessage.builder().withRecipient(Email.from(A_EMAIL))
+                .withBody(A_BODY).withSubject(A_SUBJECT).build();
 
         emailService.send(emailMessage);
 
@@ -64,7 +60,5 @@ class JakartaEmailServiceAdapterIntegrationTest {
         Assertions.assertEquals(A_SUBJECT, receivedMessage.getSubject());
         Assertions.assertEquals(A_BODY, receivedMessage.getContent());
     }
-
-
 
 }

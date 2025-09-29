@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.commons;
 
-
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,22 +19,17 @@ class EmailMessageTest {
     @Mock
     private Email email;
 
-
     @BeforeEach
     void setUp() {
         this.email = Mockito.mock(Email.class);
 
     }
 
-
-
     @Test
     void givenOnlyRecipientAndSubject_whenCreatingEmailMessage_thenReturnEmailMessage() {
 
-        EmailMessage emailMessage = EmailMessage.builder()
-                .withRecipient(email)
-                .withSubject(A_SUBJECT)
-                .build();
+        EmailMessage emailMessage =
+                EmailMessage.builder().withRecipient(email).withSubject(A_SUBJECT).build();
 
         Assertions.assertEquals(email, emailMessage.getRecipient());
         Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
@@ -44,11 +38,8 @@ class EmailMessageTest {
 
     @Test
     void givenValidParams_whenCreatingEmailMessage_thenReturnEmailMessage() {
-        EmailMessage emailMessage = EmailMessage.builder()
-                .withRecipient(email)
-                .withSubject(A_SUBJECT)
-                .withBody(A_BODY)
-                .build();
+        EmailMessage emailMessage = EmailMessage.builder().withRecipient(email)
+                .withSubject(A_SUBJECT).withBody(A_BODY).build();
 
         Assertions.assertEquals(email, emailMessage.getRecipient());
         Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
@@ -57,26 +48,18 @@ class EmailMessageTest {
 
     @Test
     void givenNoRecipient_whenCreatingEmailMessage_thenThrowsException() {
-        Executable emailCreation = () -> EmailMessage.builder()
-                .withBody(A_BODY)
-                .withSubject(A_SUBJECT)
-                .build();
+        Executable emailCreation =
+                () -> EmailMessage.builder().withBody(A_BODY).withSubject(A_SUBJECT).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
 
     @Test
     void givenNoSubject_whenCreatingEmailMessage_thenThrowsException() {
-        Executable emailCreation = () -> EmailMessage.builder()
-                .withBody(A_BODY)
-                .withRecipient(email)
-                .build();
+        Executable emailCreation =
+                () -> EmailMessage.builder().withBody(A_BODY).withRecipient(email).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
-
-
-
-
 
 }

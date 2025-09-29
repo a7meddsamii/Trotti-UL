@@ -10,7 +10,7 @@ public class EmailMessage {
     private final String body;
 
     private EmailMessage(Email recipient, String subject, String body) {
-        validate(recipient,subject);
+        validate(recipient, subject);
 
         this.recipient = recipient;
         this.subject = subject;
@@ -34,11 +34,11 @@ public class EmailMessage {
     }
 
     private void validate(Email recipient, String subject) {
-        if (recipient == null){
+        if (recipient == null) {
             throw new InvalidParameterException("Recipient cannot be null");
         }
 
-        if (StringUtils.isBlank(subject)){
+        if (StringUtils.isBlank(subject)) {
             throw new InvalidParameterException("Subject cannot be null or empty");
         }
 
@@ -68,6 +68,5 @@ public class EmailMessage {
             return new EmailMessage(recipient, subject, body);
         }
     }
-
 
 }
