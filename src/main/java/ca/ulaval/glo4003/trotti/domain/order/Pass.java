@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
+import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
+
 public class Pass {
     private final MaximumDailyTravelTime maximumTravelingTime;
     private final Session session;

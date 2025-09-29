@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import ca.ulaval.glo4003.trotti.domain.shared.exception.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -17,30 +18,29 @@ class BillingFrequencyTest {
 
     @Test
     void givenPerTripVariants_whenFromString_thenReturnPerTripEnum() {
-        BillingFrequency from_regular_per_trip_string =
-                BillingFrequency.fromString(PER_TRIP_STRING);
-        BillingFrequency from_alternate_per_trip_string = BillingFrequency.fromString(PER_TRIP_ALT);
-        BillingFrequency from_normalized_per_trip_string =
+        BillingFrequency fromRegularPerTripString = BillingFrequency.fromString(PER_TRIP_STRING);
+        BillingFrequency fromAlternatePerTripString = BillingFrequency.fromString(PER_TRIP_ALT);
+        BillingFrequency fromNormalizedPerTripString =
                 BillingFrequency.fromString(PER_TRIP_NORMALIZED);
 
-        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_regular_per_trip_string);
-        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_alternate_per_trip_string);
-        Assertions.assertEquals(BillingFrequency.PER_TRIP, from_normalized_per_trip_string);
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, fromRegularPerTripString);
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, fromAlternatePerTripString);
+        Assertions.assertEquals(BillingFrequency.PER_TRIP, fromNormalizedPerTripString);
     }
 
     @Test
     void givenMonthlyVariants_whenFromString_thenReturnMonthlyEnum() {
-        BillingFrequency from_regular_monthly_string = BillingFrequency.fromString(MONTHLY_STRING);
-        BillingFrequency from_alternate_monthly_string = BillingFrequency.fromString(MONTHLY_ALT);
-        BillingFrequency from_underscore_monthly_string =
+        BillingFrequency fromRegularMonthlyString = BillingFrequency.fromString(MONTHLY_STRING);
+        BillingFrequency fromAlternateMonthlyString = BillingFrequency.fromString(MONTHLY_ALT);
+        BillingFrequency fromUnderscoreMonthlyString =
                 BillingFrequency.fromString(MONTHLY_UNDERSCORE);
-        BillingFrequency from_normalized_monthly_string =
+        BillingFrequency fromNormalizedMonthlyString =
                 BillingFrequency.fromString(MONTHLY_NORMALIZED);
 
-        Assertions.assertEquals(BillingFrequency.MONTHLY, from_regular_monthly_string);
-        Assertions.assertEquals(BillingFrequency.MONTHLY, from_alternate_monthly_string);
-        Assertions.assertEquals(BillingFrequency.MONTHLY, from_underscore_monthly_string);
-        Assertions.assertEquals(BillingFrequency.MONTHLY, from_normalized_monthly_string);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, fromRegularMonthlyString);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, fromAlternateMonthlyString);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, fromUnderscoreMonthlyString);
+        Assertions.assertEquals(BillingFrequency.MONTHLY, fromNormalizedMonthlyString);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import ca.ulaval.glo4003.trotti.domain.account.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import java.util.List;
 
 public class Order {
