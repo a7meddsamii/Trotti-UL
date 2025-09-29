@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.trotti.api.CORSResponseFilter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
 import java.net.URI;
 import org.eclipse.jetty.server.Server;
@@ -17,7 +16,6 @@ public class TrottiULMain {
         LOGGER.info("Setup resources (API)");
         final ResourceConfig config = new ResourceConfig();
         config.register(RestServerConfiguration.class);
-        config.register(CORSResponseFilter.class);
         config.packages("ca.ulaval.glo4003.trotti.api");
 
         try {
