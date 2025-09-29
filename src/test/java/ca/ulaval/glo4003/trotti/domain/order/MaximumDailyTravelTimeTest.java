@@ -83,7 +83,7 @@ class MaximumDailyTravelTimeTest {
     }
 
     @Test
-    void givenValidTime_whenToString_thenReturnStringValue() {
+    void givenValidTime_whenToString_thenReturntringValue() {
         MaximumDailyTravelTime time = MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertEquals(VALID_TIME.toMinutes() + " minutes", time.toString());

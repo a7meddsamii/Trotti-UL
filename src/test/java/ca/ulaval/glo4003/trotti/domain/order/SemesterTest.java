@@ -13,21 +13,21 @@ class SemesterTest {
     private static final String WINTER_SESSION_LOWERCASE = "winter";
 
     @Test
-    void givenFallString_whenFromString_thenReturnsFallEnum() {
+    void givenFallString_whenFromString_thenReturnFallEnum() {
         Semester semester = Semester.fromString(FALL_SESSION);
 
         Assertions.assertEquals(Semester.FALL, semester);
     }
 
     @Test
-    void givenFrenchFallString_whenFromString_thenReturnsFallEnum() {
+    void givenFrenchFallString_whenFromString_thenReturnFallEnum() {
         Semester semester = Semester.fromString(FALL_SESSION_FRENCH);
 
         Assertions.assertEquals(Semester.FALL, semester);
     }
 
     @Test
-    void givenWinterStringLowercase_whenFromString_thenReturnsWinterEnum() {
+    void givenWinterStringLowercase_whenFromString_thenReturnWinterEnum() {
         Semester semester = Semester.fromString(WINTER_SESSION_LOWERCASE);
 
         Assertions.assertEquals(Semester.WINTER, semester);
