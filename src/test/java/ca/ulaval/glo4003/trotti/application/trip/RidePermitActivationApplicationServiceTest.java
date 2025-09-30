@@ -74,7 +74,7 @@ class RidePermitActivationApplicationServiceTest {
         Mockito.when(travelerRepository.findAll()).thenReturn(allTravelers);
 
         ridePermitActivationApplicationService.update();
-		
+
         Mockito.verify(notificationService, Mockito.times(travelersWithNewActiveRidePermit.size()))
                 .notify(Mockito.any(Email.class), Mockito.anyList());
     }
@@ -83,7 +83,7 @@ class RidePermitActivationApplicationServiceTest {
         List<Traveler> travelers = mockTravelers();
         travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
                 .thenReturn(Collections.emptyList()));
-		
+
         return travelers;
     }
 
@@ -93,13 +93,13 @@ class RidePermitActivationApplicationServiceTest {
         List<RidePermit> newlyActivatedRidePermits = mockRidePermits(numberOfRidePermits);
         travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
                 .thenReturn(newlyActivatedRidePermits));
-		
+
         return travelers;
     }
 
     private List<Traveler> mockTravelers() {
         List<Traveler> travelers = new java.util.ArrayList<>();
-		
+
         for (int i = 0; i < A_NUMBER_OF_TRAVELERS; i++) {
             Idul idul = Idul.from(RandomStringUtils.secure().next(10));
             Traveler traveler = Mockito.mock(Traveler.class);
@@ -117,12 +117,12 @@ class RidePermitActivationApplicationServiceTest {
 
     private List<RidePermit> mockRidePermits(int numberOfRidePermits) {
         List<RidePermit> ridePermits = new java.util.ArrayList<>();
-		
+
         for (int i = 0; i < numberOfRidePermits; i++) {
             RidePermit ridePermit = Mockito.mock(RidePermit.class);
             ridePermits.add(ridePermit);
         }
-		
+
         return ridePermits;
     }
 }
