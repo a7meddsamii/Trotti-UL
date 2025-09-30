@@ -24,7 +24,7 @@ public class Buyer {
         this.name = name;
         this.email = email;
         this.cart = cart;
-        this.paymentMethod = Optional.ofNullable(paymentMethod);
+        this.paymentMethod = Optional.of(paymentMethod);
     }
 
     public Idul getIdul() {
