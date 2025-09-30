@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -53,5 +57,9 @@ public class Account {
     public int getAge() {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
+    }
+
+    public boolean verifyPassword(String rawPassword) {
+        return this.password.matches(rawPassword);
     }
 }

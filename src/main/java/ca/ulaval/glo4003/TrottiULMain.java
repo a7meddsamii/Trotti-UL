@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.trotti.api.CORSResponseFilter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
 import java.net.URI;
@@ -19,7 +18,6 @@ public class TrottiULMain {
         final ResourceConfig config = new ResourceConfig();
         config.register(RestServerConfiguration.class);
         config.register(ServerLifeCycleListener.class);
-        config.register(CORSResponseFilter.class);
         config.packages("ca.ulaval.glo4003.trotti.api");
 
         try {
