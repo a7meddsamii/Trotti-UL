@@ -31,5 +31,4 @@ public class JakartaEmailServiceAdapter implements EmailService {
             throw new EmailSendException("Failed to send email." + e.getMessage());
         }
     }
-
 }
