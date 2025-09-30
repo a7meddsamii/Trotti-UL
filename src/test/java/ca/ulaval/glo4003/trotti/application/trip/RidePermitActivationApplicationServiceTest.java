@@ -40,31 +40,31 @@ class RidePermitActivationApplicationServiceTest {
     }
 
     @Test
-    void givenTravelers_whenUpdateTravelersPermits_thenShouldFetchEach() {
-        ridePermitActivationApplicationService.update();
+    void givenTravelers_whenUpdateActivatedRidePermitsTravelersPermits_thenShouldFetchEach() {
+        ridePermitActivationApplicationService.updateActivatedRidePermits();
 
         Mockito.verify(ridePermitHistoryGateway, Mockito.times(existingTravelers.size()))
                 .getFullHistory(Mockito.any(Idul.class));
     }
 
     @Test
-    void givenTravelers_whenUpdateTravelersPermits_thenEachTravelersShouldUpdateActiveRidePermits() {
-        ridePermitActivationApplicationService.update();
+    void givenTravelers_whenUpdateTravelersPermits_thenEachTravelersShouldUpdateActivatedRidePermitActiveRidePermits() {
+        ridePermitActivationApplicationService.updateActivatedRidePermits();
 
         existingTravelers.forEach(
                 traveler -> Mockito.verify(traveler).updateActiveRidePermits(Mockito.anyList()));
     }
 
     @Test
-    void givenTravelers_whenUpdateTravelersPermits_thenShouldSaveAllTravelers() {
-        ridePermitActivationApplicationService.update();
+    void givenTravelers_whenUpdateActivatedRidePermitsTravelersPermits_thenShouldSaveAllTravelers() {
+        ridePermitActivationApplicationService.updateActivatedRidePermits();
 
         Mockito.verify(travelerRepository, Mockito.times(existingTravelers.size()))
                 .update(Mockito.any(Traveler.class));
     }
 
     @Test
-    void givenTravelersWithNewlyActivatedRidePermits_whenUpdateTravelersPermits_thenShouldNotifyEachTraveler() {
+    void givenTravelersWithNewlyActivatedRidePermits_whenUpdateActivatedRidePermitsTravelersPermits_thenShouldNotifyEachTraveler() {
         List<Traveler> travelersWithoutNewActiveRidePermit =
                 mockTravelersWithoutNewActivatedRidePermits();
         List<Traveler> travelersWithNewActiveRidePermit =
@@ -73,7 +73,7 @@ class RidePermitActivationApplicationServiceTest {
                 travelersWithNewActiveRidePermit.stream()).toList();
         Mockito.when(travelerRepository.findAll()).thenReturn(allTravelers);
 
-        ridePermitActivationApplicationService.update();
+        ridePermitActivationApplicationService.updateActivatedRidePermits();
 
         Mockito.verify(notificationService, Mockito.times(travelersWithNewActiveRidePermit.size()))
                 .notify(Mockito.any(Email.class), Mockito.anyList());
