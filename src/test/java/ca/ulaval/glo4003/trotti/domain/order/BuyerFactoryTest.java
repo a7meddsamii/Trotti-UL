@@ -11,12 +11,24 @@ public class BuyerFactoryTest {
     private final BuyerFactory factory = new BuyerFactory();
 
     @Test
-    void givenValidParams_whenCreate_thenReturnOrder() {
+    void givenValidParams_whenCreateWithoutCart_thenReturnOrder() {
         Buyer buyer = factory.create(AN_IDUL, A_NAME, AN_EMAIL);
 
         Assertions.assertEquals(AN_IDUL, buyer.getIdul());
         Assertions.assertEquals(A_NAME, buyer.getName());
         Assertions.assertEquals(AN_EMAIL, buyer.getEmail());
+    }
+
+    @Test
+    void givenValidParams_whenCreateWithCart_thenReturnOrder() {
+        Cart A_CART = new Cart();
+
+        Buyer buyer = factory.create(AN_IDUL, A_NAME, AN_EMAIL, A_CART);
+
+        Assertions.assertEquals(AN_IDUL, buyer.getIdul());
+        Assertions.assertEquals(A_NAME, buyer.getName());
+        Assertions.assertEquals(AN_EMAIL, buyer.getEmail());
+        Assertions.assertEquals(A_CART, buyer.getCart());
     }
 
     @Test
