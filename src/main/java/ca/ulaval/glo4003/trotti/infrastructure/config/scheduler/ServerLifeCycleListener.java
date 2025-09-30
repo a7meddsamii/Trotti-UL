@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.scheduler;
 
+import ca.ulaval.glo4003.trotti.application.trip.ActivationNotificationService;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import java.time.Duration;
 import java.util.List;
@@ -42,15 +43,14 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
     private void setupJobs() {
         Scheduler jobScheduler = ServerResourceLocator.getInstance().resolve(Scheduler.class);
         List<Job> jobs = buildJobs();
-        jobScheduler.scheduleAtFixedRate(Duration.ofSeconds(5), // TODO replace this later
-                Duration.ofSeconds(10), // TODO replace this later
+        jobScheduler.scheduleAtFixedRate(Duration.ofSeconds(5),
+                Duration.ofHours(12),
                 jobs.toArray(new Job[0]));
     }
 
     private List<Job> buildJobs() {
-        // TODO: Add scheduled jobs here (les call vers le notifier, et vers le monthly billing
-        // iront ici)
-        Job exampleJob = new Job("ExampleJob", () -> LOGGER.info("Example job executed"));
-        return List.of(exampleJob);
+        ActivationNotificationService service = ServerResourceLocator.getInstance().resolve(ActivationNotificationService.class);
+        Job activationNotificationService = new Job("Activation Notification Service", service::updateTravelersPermits);
+        return List.of(activationNotificationService);
     }
 }
