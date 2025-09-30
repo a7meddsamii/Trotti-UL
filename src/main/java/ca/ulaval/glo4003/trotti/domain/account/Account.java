@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.domain.account;
 
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
@@ -60,9 +59,7 @@ public class Account {
         return Period.between(this.birthDate, today).getYears();
     }
 
-    public void verifyPassword(String rawPassword) {
-        if (!this.password.matches(rawPassword)) {
-            throw new AuthenticationException("Invalid email or password");
-        }
+    public boolean verifyPassword(String rawPassword) {
+        return this.password.matches(rawPassword);
     }
 }

@@ -42,14 +42,14 @@ class JwtAuthenticationServiceAdapterTest {
     }
 
     @Test
-    void givenIdul_whenGenerateToken_thenReturnsAuthToken() {
+    void givenIdul_whenGenerateToken_thenReturnAuthToken() {
         AuthenticationToken token = jwtAuthenticatorAdapter.generateToken(AN_IDUL);
 
         Assertions.assertNotNull(token);
     }
 
     @Test
-    void givenAuthTokenNotExpired_whenAuthenticate_thenReturnsSameIdulUsedToGenerateToken() {
+    void givenAuthTokenNotExpired_whenAuthenticate_thenReturnSameIdulUsedToGenerateToken() {
         AuthenticationToken token = jwtAuthenticatorAdapter.generateToken(AN_IDUL);
         Mockito.when(clock.instant()).thenReturn(START_MOMENT);
         Mockito.when(clock.instant()).thenReturn(FUTURE_TIME_WITHIN_EXPIRATION_DURATION);

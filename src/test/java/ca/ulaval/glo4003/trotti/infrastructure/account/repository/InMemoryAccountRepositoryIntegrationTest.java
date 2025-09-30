@@ -62,7 +62,7 @@ class InMemoryAccountRepositoryIntegrationTest {
     }
 
     @Test
-    void givenIdulOfNonExistingAccount_whenFindingByIdul_thenReturnsEmpty() {
+    void givenIdulOfNonExistingAccount_whenFindingByIdul_thenReturnEmpty() {
         Optional<Account> retrievedAccount =
                 accountRepository.findByIdul(IDUL_OF_NON_EXISTING_ACCOUNT);
 
@@ -70,7 +70,7 @@ class InMemoryAccountRepositoryIntegrationTest {
     }
 
     @Test
-    void givenIdulOfNonExistingAccount_whenFindingByEmail_thenReturnsEmpty() {
+    void givenIdulOfNonExistingAccount_whenFindingByEmail_thenReturnEmpty() {
         Optional<Account> retrievedAccount = accountRepository.findByEmail(AccountFixture.AN_EMAIL);
 
         Assertions.assertTrue(retrievedAccount.isEmpty());
