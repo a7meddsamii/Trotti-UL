@@ -3,9 +3,8 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.Session;
-import java.util.Objects;
-
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class RidePermit {
     private final Id id;
@@ -22,15 +21,15 @@ public class RidePermit {
         return session.contains(date);
     }
 
-
     @Override
-    public  boolean equals(Object o) {
-        if(o ==null || getClass() != o.getClass()) {
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         RidePermit ridePermit = (RidePermit) o;
-        return id.equals(ridePermit.id) && idul.equals(ridePermit.idul) && session.equals(ridePermit.session);
+        return id.equals(ridePermit.id) && idul.equals(ridePermit.idul)
+                && session.equals(ridePermit.session);
     }
 
     @Override
@@ -40,6 +39,6 @@ public class RidePermit {
 
     @Override
     public String toString() {
-        return "pass: " + id + "session" + session ;
+        return "pass: " + id + "session" + session;
     }
 }

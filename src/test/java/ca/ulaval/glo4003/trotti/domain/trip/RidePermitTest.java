@@ -1,17 +1,15 @@
 package ca.ulaval.glo4003.trotti.domain.trip;
 
-
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.Session;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
 
 @ExtendWith(MockitoExtension.class)
 class RidePermitTest {
@@ -24,11 +22,8 @@ class RidePermitTest {
     @BeforeEach
     public void setup() {
         session = Mockito.mock(Session.class);
-        ridePermit = new RidePermit(Id.randomId(), Idul.from("abdc"),session);
+        ridePermit = new RidePermit(Id.randomId(), Idul.from("abdc"), session);
     }
-
-
-
 
     @Test
     public void givenDateWithinSession_whenIsActive_thenReturnTrue() {
@@ -39,7 +34,6 @@ class RidePermitTest {
         Assertions.assertTrue(response);
     }
 
-
     @Test
     public void givenDateOutOfSessionRange_whenIsActive_thenReturnFalse() {
         Mockito.when(session.contains(DATE_OUT_OF_SESSION)).thenReturn(false);
@@ -48,6 +42,5 @@ class RidePermitTest {
 
         Assertions.assertFalse(response);
     }
-
 
 }
