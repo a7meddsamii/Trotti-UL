@@ -17,6 +17,7 @@ public class Buyer {
         this.name = name;
         this.email = email;
         this.cart = cart;
+        this.paymentMethod = Optional.empty();
     }
 
     public Buyer(Idul idul, String name, Email email, Cart cart, PaymentMethod paymentMethod) {
@@ -52,6 +53,6 @@ public class Buyer {
     }
 
     public void deletePaymentMethod() {
-        this.paymentMethod = null;
+        this.paymentMethod = Optional.empty();
     }
 }
