@@ -3,13 +3,14 @@ package ca.ulaval.glo4003.trotti.domain.order;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import java.util.Optional;
 
 public class Buyer {
     private final Idul idul;
     private final String name;
     private final Email email;
     private Cart cart;
-    private PaymentMethod paymentMethod;
+    private Optional<PaymentMethod> paymentMethod;
 
     public Buyer(Idul idul, String name, Email email, Cart cart) {
         this.idul = idul;
@@ -23,7 +24,7 @@ public class Buyer {
         this.name = name;
         this.email = email;
         this.cart = cart;
-        this.paymentMethod = paymentMethod;
+        this.paymentMethod = Optional.ofNullable(paymentMethod);
     }
 
     public Idul getIdul() {
@@ -42,15 +43,15 @@ public class Buyer {
         return cart;
     }
 
-    public PaymentMethod getPaymentMethod() {
+    public Optional<PaymentMethod> getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void savePaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void updatePaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = Optional.of(paymentMethod);
     }
 
-    public void clearPaymentMethod() {
+    public void deletePaymentMethod() {
         this.paymentMethod = null;
     }
 }

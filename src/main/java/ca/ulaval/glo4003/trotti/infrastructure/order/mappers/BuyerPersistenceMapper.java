@@ -11,7 +11,10 @@ public class BuyerPersistenceMapper {
     }
 
     public Buyer toEntity(BuyerRecord buyerFound) {
-        return new Buyer(buyerFound.idul(), buyerFound.name(), buyerFound.email(),
-                buyerFound.cart(), buyerFound.paymentMethod());
+        return buyerFound.paymentMethod()
+                .map(paymentMethod -> new Buyer(buyerFound.idul(), buyerFound.name(),
+                        buyerFound.email(), buyerFound.cart(), paymentMethod))
+                .orElseGet(() -> new Buyer(buyerFound.idul(), buyerFound.name(), buyerFound.email(),
+                        buyerFound.cart()));
     }
 }

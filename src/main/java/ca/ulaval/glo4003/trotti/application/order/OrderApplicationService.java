@@ -13,6 +13,7 @@ import ca.ulaval.glo4003.trotti.domain.order.*;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
+import java.lang.module.InvalidModuleDescriptorException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class OrderApplicationService {
         return buyer.getCart().getList();
     }
 
-    public List<Pass> addToCard(Idul idul, List<PassDto> passListDto) {
+    public List<Pass> addToCart(Idul idul, List<PassDto> passListDto) {
         List<Pass> passList = new ArrayList<>();
         for (PassDto passDto : passListDto) {
             passList.add(passFactory.create(passDto.maximumDailyTravelTime(), passDto.session(),
@@ -85,17 +86,18 @@ public class OrderApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
         Cart cart = buyer.getCart();
         cart.clear();
+        buyerRepository.save(buyer);
     }
 
-    public void savePaymentMethod(Idul idul, PaymentMethod paymentMethod) {
+    public void updatePaymentMethod(Idul idul, PaymentMethod paymentMethod) {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-        buyer.savePaymentMethod(paymentMethod);
+        buyer.updatePaymentMethod(paymentMethod);
         buyerRepository.save(buyer);
     }
 
     public void deletePaymentMethod(Idul idul) {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-        buyer.clearPaymentMethod();
+        buyer.deletePaymentMethod();
         buyerRepository.save(buyer);
     }
 
@@ -103,7 +105,8 @@ public class OrderApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
         Cart cart = buyer.getCart();
 
-        PaymentMethod paymentMethod = buyer.getPaymentMethod();
+        PaymentMethod paymentMethod = buyer.getPaymentMethod().orElseThrow(
+                () -> new InvalidModuleDescriptorException("No payment method found."));
         paymentService.process(paymentMethod, cart.calculateAmount());
 
         Order order = orderFactory.create(idul, cart.getList());

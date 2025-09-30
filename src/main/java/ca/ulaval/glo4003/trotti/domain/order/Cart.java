@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Currency;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,7 @@ public class Cart {
     }
 
     public List<Pass> getList() {
-        return passList;
+        return List.copyOf(passList);
     }
 
     public boolean add(Pass pass) {
@@ -31,7 +29,7 @@ public class Cart {
     }
 
     public Money calculateAmount() {
-        Money total = Money.of(new BigDecimal(0), Currency.CAD);
+        Money total = Money.zeroCad();
         for (Pass pass : passList) {
             total.plus(pass.calculateAmount());
         }
