@@ -1,77 +1,115 @@
 package ca.ulaval.glo4003.trotti.application.order;
 
-import ca.ulaval.glo4003.trotti.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.AccountNotFoundException;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.strategies.OrderInvoiceEmailStrategy;
-import ca.ulaval.glo4003.trotti.domain.order.Order;
-import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
-import ca.ulaval.glo4003.trotti.domain.order.repository.OrderRepository;
+import ca.ulaval.glo4003.trotti.domain.order.*;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderApplicationService {
 
-    private final AuthenticationService authenticationService;
+    private final BuyerRepository buyerRepository;
     private final AccountRepository accountRepository;
-    private final OrderRepository orderRepository;
-    private final OrderFactory orderFactory;
+    private final BuyerFactory buyerFactory;
     private final PassFactory passFactory;
+    private final OrderFactory orderFactory;
+    private final PaymentService paymentService;
     private final EmailService emailService;
 
     public OrderApplicationService(
-            AuthenticationService authenticationService,
+            BuyerRepository buyerRepository,
             AccountRepository accountRepository,
-            OrderRepository orderRepository,
-            OrderFactory orderFactory,
+            BuyerFactory buyerFactory,
             PassFactory passFactory,
+            OrderFactory orderFactory,
             EmailService emailService) {
-        this.authenticationService = authenticationService;
+        this.buyerRepository = buyerRepository;
         this.accountRepository = accountRepository;
-        this.orderRepository = orderRepository;
-        this.orderFactory = orderFactory;
+        this.buyerFactory = buyerFactory;
         this.passFactory = passFactory;
+        this.orderFactory = orderFactory;
+        this.paymentService = new PaymentService();
         this.emailService = emailService;
     }
 
-    // For now, the entire process is done in one step, but could be split ?
-    // Comments added for clarity, will remove later
-    public void makeOrder(AuthenticationToken token, OrderDto orderDto) {
-        // Authenticate
-        Idul idul = authenticationService.authenticate(token);
+    public List<Pass> getCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseGet(() -> {
+            Account account =
+                    accountRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+            Buyer newBuyer = buyerFactory.create(idul, account.getName(), account.getEmail());
 
-        // Create Order
+            buyerRepository.save(newBuyer);
+            return newBuyer;
+        });
+
+        return buyer.getCart().getList();
+    }
+
+    public List<Pass> addToCard(Idul idul, List<PassDto> passListDto) {
         List<Pass> passList = new ArrayList<>();
-        for (PassDto passDto : orderDto.passList()) {
+        for (PassDto passDto : passListDto) {
             passList.add(passFactory.create(passDto.maximumDailyTravelTime(), passDto.session(),
                     passDto.billingFrequency()));
         }
-        Order order = orderFactory.create(idul, passList);
 
-        // Payment
-        //
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Cart cart = buyer.getCart();
+        for (Pass pass : passList) {
+            cart.add(pass);
+        }
+        buyerRepository.save(buyer);
 
-        // Get Account for 1. & 2.
-        Account account =
-                accountRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        return cart.getList();
+    }
 
-        // 1. Send invoice
+    public List<Pass> removePassFromCart(Idul idul, Id passId) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Cart cart = buyer.getCart();
+        cart.remove(passId);
+        buyerRepository.save(buyer);
+
+        return cart.getList();
+    }
+
+    public void clearCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Cart cart = buyer.getCart();
+        cart.clear();
+    }
+
+    public void savePaymentMethod(Idul idul, PaymentMethod paymentMethod) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        buyer.savePaymentMethod(paymentMethod);
+        buyerRepository.save(buyer);
+    }
+
+    public void deletePaymentMethod(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        buyer.clearPaymentMethod();
+        buyerRepository.save(buyer);
+    }
+
+    public void confirmCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Cart cart = buyer.getCart();
+
+        paymentService.process(buyer.getPaymentMethod(), cart.calculateAmount());
+
+        Order order = orderFactory.create(idul, cart.getList());
         EmailMessage invoice = EmailMessage.builder()
-                .withEmailStrategy(new OrderInvoiceEmailStrategy(account.getEmail(),
-                        account.getName(), order.generateInvoice()))
+                .withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(), buyer.getName(),
+                        order.generateInvoice()))
                 .build();
         emailService.send(invoice);
-
-        // 2. Save Payment information for future purchases
-        //
     }
 }

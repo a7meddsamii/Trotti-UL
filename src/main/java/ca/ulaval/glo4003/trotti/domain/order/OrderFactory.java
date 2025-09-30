@@ -7,19 +7,16 @@ import java.util.List;
 
 public class OrderFactory {
     public Order create(Idul idul, List<Pass> passList) {
-        validateIdul(idul);
-        validatePassList(passList);
+        validate(idul, passList);
         Id id = Id.randomId();
         return new Order(idul, passList, id);
     }
 
-    private void validateIdul(Idul idul) {
+    private void validate(Idul idul, List<Pass> passList) {
         if (idul == null) {
             throw new InvalidParameterException("Idul cannot be null.");
         }
-    }
 
-    private void validatePassList(List<Pass> passList) {
         if (passList.isEmpty()) {
             throw new InvalidParameterException("List of passes cannot be empty.");
         }
