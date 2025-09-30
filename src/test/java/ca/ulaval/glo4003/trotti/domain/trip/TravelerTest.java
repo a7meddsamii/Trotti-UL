@@ -22,7 +22,7 @@ class TravelerTest {
     private RidePermit permit;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         traveler = Mockito.spy(new Traveler(IDUL, EMAIL));
         permit = Mockito.mock(RidePermit.class);
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);

@@ -34,7 +34,10 @@ public class RidePermitActivationApplicationService {
             List<RidePermit> newlyActivatedRidePermits =
                     traveler.updateActiveRidePermits(boughtRidePermitsHistory);
             travelerRepository.update(traveler);
-            notificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
+
+            if (!newlyActivatedRidePermits.isEmpty()) {
+                notificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
+            }
         } catch (RuntimeException ignored) {
         }
     }
