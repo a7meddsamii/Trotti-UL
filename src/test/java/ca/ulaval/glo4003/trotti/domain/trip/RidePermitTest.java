@@ -8,25 +8,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @ExtendWith(MockitoExtension.class)
-class PassTest {
+class RidePermitTest {
 
     private static final LocalDate DATE_IN_SESSION = LocalDate.of(2020, 1, 1);
     private static final LocalDate DATE_OUT_OF_SESSION = LocalDate.of(2000, 12, 1);
     private Session session;
-    private Pass pass;
+    private RidePermit ridePermit;
 
     @BeforeEach
     public void setup() {
         session = Mockito.mock(Session.class);
-        pass = new Pass(Id.randomId(), Idul.from("abdc"),session);
+        ridePermit = new RidePermit(Id.randomId(), Idul.from("abdc"),session);
     }
 
 
@@ -36,7 +34,7 @@ class PassTest {
     public void givenDateWithinSession_whenIsActive_thenReturnTrue() {
         Mockito.when(session.contains(DATE_IN_SESSION)).thenReturn(true);
 
-        boolean response = pass.isActiveFor(DATE_IN_SESSION);
+        boolean response = ridePermit.isActiveFor(DATE_IN_SESSION);
 
         Assertions.assertTrue(response);
     }
@@ -46,7 +44,7 @@ class PassTest {
     public void givenDateOutOfSessionRange_whenIsActive_thenReturnFalse() {
         Mockito.when(session.contains(DATE_OUT_OF_SESSION)).thenReturn(false);
 
-        boolean response = pass.isActiveFor(DATE_OUT_OF_SESSION);
+        boolean response = ridePermit.isActiveFor(DATE_OUT_OF_SESSION);
 
         Assertions.assertFalse(response);
     }
