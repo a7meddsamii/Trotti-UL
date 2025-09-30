@@ -2,10 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
-import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +18,12 @@ class TravelerTest {
     private static final Idul IDUL = Idul.from("abcd");
     private static final Email EMAIL = Email.from("jhonDoe@ulaval.ca");
 
-    private EmailService emailService;
     private Traveler traveler;
     private RidePermit permit;
 
     @BeforeEach
-    public void setup() {
-        emailService = Mockito.mock(EmailService.class);
-        traveler = Mockito.spy(new Traveler(IDUL, EMAIL, emailService));
+    void setup() {
+        traveler = Mockito.spy(new Traveler(IDUL, EMAIL));
         permit = Mockito.mock(RidePermit.class);
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);
     }
@@ -34,10 +31,10 @@ class TravelerTest {
     @Test
     void givenNewlyActiveRidePermits_whenUpdateActiveRidePermits_thenAddNewlyActiveRidePermits() {
         List<RidePermit> ridePermits = List.of(permit);
-        List<RidePermit> oldActiveRidePermitsState = traveler.getActiveRidePermits();
+        List<RidePermit> oldActiveRidePermitsState = traveler.getRidePermits();
 
         traveler.updateActiveRidePermits(ridePermits);
-        List<RidePermit> newActiveRidePermitsState = traveler.getActiveRidePermits();
+        List<RidePermit> newActiveRidePermitsState = traveler.getRidePermits();
 
         Assertions.assertTrue(newActiveRidePermitsState.size() > oldActiveRidePermitsState.size());
     }
@@ -47,26 +44,31 @@ class TravelerTest {
         List<RidePermit> ridePermits = List.of(permit);
         traveler.updateActiveRidePermits(ridePermits);
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(false);
-        List<RidePermit> oldActiveRidePermitsState = traveler.getActiveRidePermits();
+        List<RidePermit> oldActiveRidePermitsState = traveler.getRidePermits();
 
         traveler.updateActiveRidePermits(ridePermits);
-        List<RidePermit> newActiveRidePermitsState = traveler.getActiveRidePermits();
+        List<RidePermit> newActiveRidePermitsState = traveler.getRidePermits();
 
         Assertions.assertTrue(newActiveRidePermitsState.size() < oldActiveRidePermitsState.size());
     }
 
     @Test
-    void givenNewActiveRidePermits_whenUpdateActiveRidePermits_thenNotifyNewActiveRidePermits() {
-        List<RidePermit> initialRidePermits = List.of(permit);
-        traveler.updateActiveRidePermits(initialRidePermits);
-        Mockito.clearInvocations(emailService);
-        RidePermit newPermit = Mockito.mock(RidePermit.class);
-        Mockito.when(newPermit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);
-        List<RidePermit> newRidePermits = List.of(permit, newPermit);
+    void givenTravelerThatAlreadyHadActiveRidePermitAndNewlyActivatedPermits_whenUpdateActiveRidePermits_thenReturnNewlyActivatedRidePermits() {
+        traveler.updateActiveRidePermits(List.of(permit));
+        List<RidePermit> oldActiveRidePermitsState = traveler.getRidePermits();
+        List<RidePermit> newActiveRidePermits = List.of(mockActiveRidePermit());
+        List<RidePermit> ridePermits = Stream
+                .concat(oldActiveRidePermitsState.stream(), newActiveRidePermits.stream()).toList();
 
-        traveler.updateActiveRidePermits(newRidePermits);
+        List<RidePermit> newActiveRidePermitsDetected =
+                traveler.updateActiveRidePermits(ridePermits);
 
-        Mockito.verify(emailService, Mockito.times(1)).send(Mockito.any(EmailMessage.class));
+        Assertions.assertEquals(newActiveRidePermits, newActiveRidePermitsDetected);
     }
 
+    private RidePermit mockActiveRidePermit() {
+        RidePermit ridePermit = Mockito.mock(RidePermit.class);
+        Mockito.when(ridePermit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);
+        return ridePermit;
+    }
 }

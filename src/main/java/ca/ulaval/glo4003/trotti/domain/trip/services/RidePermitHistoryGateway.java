@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import java.util.List;
 
-public interface RidePermitTranslator {
+public interface RidePermitHistoryGateway {
 
-    List<RidePermit> findByIdul(Idul idul);
+    List<RidePermit> getFullHistory(Idul idul);
 
 }
