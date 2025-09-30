@@ -27,6 +27,6 @@ public class OrderInvoiceEmailStrategy implements EmailStrategy {
 
     @Override
     public String getBody() {
-        return invoice.toString(buyerEmail, buyerName);
+        return invoice.render(buyerEmail, buyerName);
     }
 }

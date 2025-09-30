@@ -14,7 +14,7 @@ public class Invoice {
         this.passInvoiceList = passInvoiceList;
     }
 
-    public String toString(Email buyerEmail, String buyerName) {
+    public String render(Email buyerEmail, String buyerName) {
         StringBuilder invoice =
                 new StringBuilder("Name : " + buyerName + "\n" + "Email : " + buyerEmail + "\n");
         invoice.append(orderInvoice);
