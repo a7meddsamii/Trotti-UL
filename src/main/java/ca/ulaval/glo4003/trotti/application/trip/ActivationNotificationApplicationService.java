@@ -6,12 +6,12 @@ import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitTranslator;
 import java.util.List;
 
-public class ActivationNotificationService {
+public class ActivationNotificationApplicationService {
 
     private final TravelerRepository travelerRepository;
     private final RidePermitTranslator ridePermitTranslator;
 
-    public ActivationNotificationService(
+    public ActivationNotificationApplicationService(
             TravelerRepository travelerRepository,
             RidePermitTranslator ridePermitTranslator) {
 

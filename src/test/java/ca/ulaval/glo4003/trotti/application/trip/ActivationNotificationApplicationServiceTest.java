@@ -15,19 +15,19 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ActivationNotificationServiceTest {
+class ActivationNotificationApplicationServiceTest {
     private static final int ANY_NUMBER_OF_TRAVELERS = 5;
 
     private TravelerRepository travelerRepository;
     private RidePermitTranslator ridePermitTranslator;
-    private ActivationNotificationService activationNotificationService;
+    private ActivationNotificationApplicationService activationNotificationApplicationService;
 
     @BeforeEach
     void setup() {
         travelerRepository = Mockito.mock(TravelerRepository.class);
         ridePermitTranslator = Mockito.mock(RidePermitTranslator.class);
-        activationNotificationService =
-                new ActivationNotificationService(travelerRepository, ridePermitTranslator);
+        activationNotificationApplicationService =
+                new ActivationNotificationApplicationService(travelerRepository, ridePermitTranslator);
     }
 
     @Test
@@ -35,7 +35,7 @@ class ActivationNotificationServiceTest {
         List<Traveler> existingTravelers = mockTravelers(ANY_NUMBER_OF_TRAVELERS);
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
 
-        activationNotificationService.updateTravelersPermits();
+        activationNotificationApplicationService.updateTravelersPermits();
 
         Mockito.verify(ridePermitTranslator, Mockito.times(existingTravelers.size()))
                 .findByIdul(Mockito.any(Idul.class));
@@ -46,7 +46,7 @@ class ActivationNotificationServiceTest {
         List<Traveler> existingTravelers = mockTravelers(ANY_NUMBER_OF_TRAVELERS);
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
 
-        activationNotificationService.updateTravelersPermits();
+        activationNotificationApplicationService.updateTravelersPermits();
 
         existingTravelers.forEach(
                 traveler -> Mockito.verify(traveler).updateActiveRidePermits(Mockito.anyList()));
@@ -57,7 +57,7 @@ class ActivationNotificationServiceTest {
         List<Traveler> existingTravelers = mockTravelers(ANY_NUMBER_OF_TRAVELERS);
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
 
-        activationNotificationService.updateTravelersPermits();
+        activationNotificationApplicationService.updateTravelersPermits();
 
         Mockito.verify(travelerRepository, Mockito.times(existingTravelers.size()))
                 .update(Mockito.any(Traveler.class));
