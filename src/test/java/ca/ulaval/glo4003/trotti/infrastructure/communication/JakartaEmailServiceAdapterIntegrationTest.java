@@ -38,7 +38,7 @@ class JakartaEmailServiceAdapterIntegrationTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         Session session = Session.getInstance(System.getProperties());
         session.getProperties().put("mail.smtp.host", HOST);
         session.getProperties().put("mail.smtp.port", PORT);

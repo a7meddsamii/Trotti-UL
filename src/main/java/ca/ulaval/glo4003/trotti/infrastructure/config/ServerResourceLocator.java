@@ -2,19 +2,18 @@ package ca.ulaval.glo4003.trotti.infrastructure.config;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ServerResourceLocator {
 
     private final Map<Class<?>, Object> services;
-    private static ServerResourceLocator singleton;
+    private static ServerResourceLocator instance;
 
     public static ServerResourceLocator getInstance() {
-        if (!Objects.isNull(singleton)) {
-            return singleton;
+        if (instance == null) {
+            instance = new ServerResourceLocator();
         }
 
-        return singleton = new ServerResourceLocator();
+        return instance;
     }
 
     private ServerResourceLocator() {
