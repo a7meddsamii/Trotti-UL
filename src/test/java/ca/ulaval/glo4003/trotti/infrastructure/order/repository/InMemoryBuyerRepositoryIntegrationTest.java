@@ -1,0 +1,100 @@
+package ca.ulaval.glo4003.trotti.infrastructure.order.repository;
+
+import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
+import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
+import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class InMemoryBuyerRepositoryIntegrationTest {
+    private static final Idul IDUL_OF_NON_EXISTING_BUYER = Idul.from("NONEXIST");
+    private static final Email EMAIL_OF_NON_EXISTING_BUYER = Email.from("nonexisting@ulaval.ca");
+    private BuyerRepository buyerRepository;
+    private AccountRepository accountRepository;
+
+    @BeforeEach
+    void setup() {
+        ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        UserInMemoryDatabase userInMemoryDatabase =
+                new UserInMemoryDatabase(accountTable, buyerTable);
+        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
+        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
+        AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+    }
+
+    @Test
+    void givenABuyer_whenSaving_thenItIsSaved() {
+        Buyer buyer = new BuyerFixture().buildWithPaymentMethod();
+        Account account = new AccountFixture().build();
+        accountRepository.save(account);
+
+        buyerRepository.save(buyer);
+        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+
+        Assertions.assertTrue(retrievedBuyer.isPresent());
+    }
+
+    @Test
+    void givenABuyer_whenSaving_thenItCanBeRetrievedByIdul() {
+        Buyer buyer = new BuyerFixture().buildWithPaymentMethod();
+        Account account = new AccountFixture().build();
+        accountRepository.save(account);
+
+        buyerRepository.save(buyer);
+        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+
+        Assertions.assertTrue(retrievedBuyer.isPresent());
+        assertEquals(buyer, retrievedBuyer.get());
+    }
+
+    @Test
+    void givenABuyer_whenSaving_thenItCanBeRetrievedByEmail() {
+        Buyer buyer = new BuyerFixture().buildWithPaymentMethod();
+        Account account = new AccountFixture().build();
+        accountRepository.save(account);
+
+        buyerRepository.save(buyer);
+        Optional<Buyer> retrievedBuyer = buyerRepository.findByEmail(buyer.getEmail());
+
+        Assertions.assertTrue(retrievedBuyer.isPresent());
+        assertEquals(buyer, retrievedBuyer.get());
+    }
+
+    @Test
+    void givenIdulOfNonExistingBuyer_whenFindingByIdul_thenReturnEmpty() {
+        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(IDUL_OF_NON_EXISTING_BUYER);
+
+        Assertions.assertTrue(retrievedBuyer.isEmpty());
+    }
+
+    @Test
+    void givenEmailOfNonExistingBuyer_whenFindingByEmail_thenReturnEmpty() {
+        Optional<Buyer> retrievedBuyer = buyerRepository.findByEmail(EMAIL_OF_NON_EXISTING_BUYER);
+
+        Assertions.assertTrue(retrievedBuyer.isEmpty());
+    }
+
+    private void assertEquals(Buyer expected, Buyer actual) {
+        Assertions.assertEquals(expected.getIdul(), actual.getIdul());
+        Assertions.assertEquals(expected.getEmail(), actual.getEmail());
+        Assertions.assertEquals(expected.getName(), actual.getName());
+        Assertions.assertEquals(expected.getCart(), actual.getCart());
+        Assertions.assertEquals(expected.getPaymentMethod(), actual.getPaymentMethod());
+    }
+}
