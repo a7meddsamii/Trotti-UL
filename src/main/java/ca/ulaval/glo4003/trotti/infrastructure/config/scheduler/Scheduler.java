@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.scheduler;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -21,11 +20,11 @@ public class Scheduler {
         this.scheduledFutures = new ArrayList<>();
     }
 
-    public void scheduleAtFixedRate(Duration initialDelay, Duration period, Job... jobs) {
-        for (Runnable job : jobs) {
+    public void schedule(Job... jobs) {
+        for (Job job : jobs) {
             ScheduledFuture<?> scheduledFuture =
-                    executorService.scheduleAtFixedRate(job, initialDelay.toMillis(),
-                            period.toMillis(), java.util.concurrent.TimeUnit.MILLISECONDS);
+                    executorService.scheduleAtFixedRate(job, job.getInitialDelay().toMillis(),
+                            job.getPeriod().toMillis(), java.util.concurrent.TimeUnit.MILLISECONDS);
             scheduledFutures.add(scheduledFuture);
         }
     }

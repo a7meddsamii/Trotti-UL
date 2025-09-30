@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitTranslator;
 import java.util.List;
 
 public class ActivationNotificationService {
-
     private final TravelerRepository travelerRepository;
     private final RidePermitTranslator ridePermitTranslator;
 

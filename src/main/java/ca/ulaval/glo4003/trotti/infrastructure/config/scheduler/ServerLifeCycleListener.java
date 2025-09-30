@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 public class ServerLifeCycleListener implements ApplicationEventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerLifeCycleListener.class);
+    public static final Duration ACTIVATION_NOTIFICATION_INITIAL_DELAY = Duration.ofMinutes(1);
+    public static final Duration ACTIVATION_NOTIFICATION_PERIOD = Duration.ofHours(12);
 
     @Override
     public void onEvent(ApplicationEvent applicationEvent) {
@@ -43,15 +45,15 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
     private void setupJobs() {
         Scheduler jobScheduler = ServerResourceLocator.getInstance().resolve(Scheduler.class);
         List<Job> jobs = buildJobs();
-        jobScheduler.scheduleAtFixedRate(Duration.ofSeconds(5), Duration.ofHours(12),
-                jobs.toArray(new Job[0]));
+        jobScheduler.schedule(jobs.toArray(new Job[0]));
     }
 
     private List<Job> buildJobs() {
         ActivationNotificationService service =
                 ServerResourceLocator.getInstance().resolve(ActivationNotificationService.class);
         Job activationNotificationService =
-                new Job("Activation Notification Service", service::updateTravelersPermits);
+                new Job("Activation Notification Service", service::updateTravelersPermits,
+                        ACTIVATION_NOTIFICATION_INITIAL_DELAY, ACTIVATION_NOTIFICATION_PERIOD);
         return List.of(activationNotificationService);
     }
 }
