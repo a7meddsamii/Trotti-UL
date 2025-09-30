@@ -12,6 +12,11 @@ public class BuyerFactory {
         return new Buyer(idul, name, email, cart);
     }
 
+    public Buyer create(Idul idul, String name, Email email, Cart cart) {
+        validate(idul, name, email, cart);
+        return new Buyer(idul, name, email, cart);
+    }
+
     private void validate(Idul idul, String name, Email email, Cart cart) {
         if (idul == null) {
             throw new InvalidParameterException("Idul cannot be null.");

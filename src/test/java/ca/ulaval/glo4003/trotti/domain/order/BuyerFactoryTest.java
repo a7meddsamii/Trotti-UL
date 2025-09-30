@@ -39,4 +39,11 @@ public class BuyerFactoryTest {
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
+
+    @Test
+    void givenNullCart_whenCreate_thenThrowsException() {
+        Executable creation = () -> factory.create(AN_IDUL, A_NAME, AN_EMAIL, null);
+
+        Assertions.assertThrows(InvalidParameterException.class, creation);
+    }
 }
