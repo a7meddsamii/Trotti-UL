@@ -43,7 +43,7 @@ public class Traveler {
         return activeRidePermits;
     }
 
-    public  Idul getIdul() {
+    public Idul getIdul() {
         return idul;
     }
 
