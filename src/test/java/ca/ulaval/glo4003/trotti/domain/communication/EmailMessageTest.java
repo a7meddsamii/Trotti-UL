@@ -1,7 +1,16 @@
 package ca.ulaval.glo4003.trotti.domain.communication;
 
+import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.AN_EMAIL;
+import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.A_NAME;
+
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.communication.strategies.OrderInvoiceEmailStrategy;
+import ca.ulaval.glo4003.trotti.domain.order.Invoice;
+import ca.ulaval.glo4003.trotti.domain.order.Order;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
+import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
+import ca.ulaval.glo4003.trotti.fixtures.OrderFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,12 +32,10 @@ class EmailMessageTest {
     @BeforeEach
     void setup() {
         this.email = Mockito.mock(Email.class);
-
     }
 
     @Test
     void givenOnlyRecipientAndSubject_whenCreatingEmailMessage_thenReturnEmailMessage() {
-
         EmailMessage emailMessage =
                 EmailMessage.builder().withRecipient(email).withSubject(A_SUBJECT).build();
 
@@ -63,4 +70,19 @@ class EmailMessageTest {
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
 
+    @Test
+    void givenValidParams_whenCreatingEmailMessageWithEmailStrategy_thenReturnEmailMessage() {
+        Order order = new OrderFixture().build();
+        CreditCard creditCard = new CreditCardFixture().build();
+        Invoice invoice = order.generateInvoice(creditCard.generateInvoice());
+        OrderInvoiceEmailStrategy emailStrategy =
+                new OrderInvoiceEmailStrategy(AN_EMAIL, A_NAME, invoice);
+
+        EmailMessage emailMessage =
+                new EmailMessage.Builder().withEmailStrategy(emailStrategy).build();
+
+        Assertions.assertEquals(AN_EMAIL, emailMessage.getRecipient());
+        Assertions.assertEquals("Invoice for Trotti-ul", emailMessage.getSubject());
+        Assertions.assertEquals(invoice.render(AN_EMAIL, A_NAME), emailMessage.getBody());
+    }
 }
