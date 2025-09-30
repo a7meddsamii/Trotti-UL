@@ -11,9 +11,7 @@ public class CreditCard extends PaymentMethod {
     private static final String CVV_3_OR_4_DIGITS_REGEX = "^\\d{3,4}$";
     private static final int DIGITS_TO_DISPLAY = 4;
 
-    private static final CreditCardValidator VALIDATOR = new CreditCardValidator(
-            CreditCardValidator.VISA + CreditCardValidator.MASTERCARD + CreditCardValidator.AMEX
-                    + CreditCardValidator.DINERS + CreditCardValidator.DISCOVER);
+    private static final CreditCardValidator VALIDATOR = new CreditCardValidator();
 
     private final String cardNumber;
     private final String cardHolderName;

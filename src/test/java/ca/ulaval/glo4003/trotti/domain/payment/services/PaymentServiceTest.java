@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import org.junit.jupiter.api.Assertions;
@@ -28,14 +28,14 @@ class PaymentServiceTest {
     void givenNullPaymentMethod_whenProcess_thenThrowException() {
         Executable executable = () -> paymentService.process(null, amountToPay);
 
-        Assertions.assertThrows(InvalidParameterException.class, executable);
+        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
     }
 
     @Test
     void givenNullAmountToPay_whenProcess_thenThrowException() {
         Executable executable = () -> paymentService.process(paymentMethod, null);
 
-        Assertions.assertThrows(InvalidParameterException.class, executable);
+        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
     }
 
     @Test
@@ -44,7 +44,7 @@ class PaymentServiceTest {
 
         Executable executable = () -> paymentService.process(paymentMethod, amountToPay);
 
-        Assertions.assertThrows(InvalidParameterException.class, executable);
+        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
     }
 
     @Test

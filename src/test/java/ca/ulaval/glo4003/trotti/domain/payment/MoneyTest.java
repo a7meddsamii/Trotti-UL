@@ -17,7 +17,7 @@ class MoneyTest {
     private Money money;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         money = Money.of(ONE_HUNDRED, Currency.CAD);
     }
 

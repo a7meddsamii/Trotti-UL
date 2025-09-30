@@ -1,10 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
-import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,7 @@ import org.mockito.Mockito;
 class CreditCardTest {
 
     private static final String INVALID_CARD_NUMBER = "111111111111111";
-    private static final YearMonth EXPIRED_DATE = YearMonth.now().minusMonths(1);
+    private static final String EXPECTED_LAST_FOUR_DIGITS = "1111";
     private static final String INVALID_CVV = "12";
 
     private Money money = Mockito.mock(Money.class);
@@ -50,6 +48,15 @@ class CreditCardTest {
         Executable payWithValidCreditCard = () -> creditCard.pay(money);
 
         Assertions.assertDoesNotThrow(payWithValidCreditCard);
+    }
+
+    @Test
+    void givenCreditCard_whenGetCardNumber_thenReturnsLastFourDigits() {
+        CreditCard creditCard = new CreditCardFixture().build();
+
+        String lastFourDigits = creditCard.getCardNumber();
+
+        Assertions.assertEquals(EXPECTED_LAST_FOUR_DIGITS, lastFourDigits);
     }
 
 }
