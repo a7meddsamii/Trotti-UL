@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.exceptionMapper;
+package ca.ulaval.glo4003.trotti.api.exceptionmappers;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;

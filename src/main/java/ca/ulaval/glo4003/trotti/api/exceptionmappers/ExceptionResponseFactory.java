@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.exceptionMapper;
+package ca.ulaval.glo4003.trotti.api.exceptionmappers;
 
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;

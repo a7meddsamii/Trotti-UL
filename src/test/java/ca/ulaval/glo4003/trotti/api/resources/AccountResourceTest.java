@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.controllers;
+package ca.ulaval.glo4003.trotti.api.resources;
 
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.dto.requests.CreateAccountRequest;

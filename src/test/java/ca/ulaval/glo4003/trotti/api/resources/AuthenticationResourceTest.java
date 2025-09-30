@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.controllers;
+package ca.ulaval.glo4003.trotti.api.resources;
 
 import ca.ulaval.glo4003.trotti.api.dto.requests.LoginRequest;
 import ca.ulaval.glo4003.trotti.api.dto.responses.LoginResponse;
@@ -11,13 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class AuthentificationResourceTest {
+class AuthenticationResourceTest {
 
     private AccountApplicationService accountApplicationService;
     private LoginRequest request;
     private AuthenticationToken expectedToken;
 
-    private AuthentificationResource authentificationResource;
+    private AuthenticationResource authenticationResource;
 
     @BeforeEach
     void setup() {
@@ -28,19 +28,19 @@ class AuthentificationResourceTest {
                 accountApplicationService.login(Email.from(request.email()), request.password()))
                 .thenReturn(expectedToken);
 
-        authentificationResource = new AuthentificationResource(accountApplicationService);
+        authenticationResource = new AuthenticationResource(accountApplicationService);
     }
 
     @Test
     void givenValidLoginRequest_whenLogin_thenReturnsLoginResponseWithToken() {
-        LoginResponse response = authentificationResource.login(request);
+        LoginResponse response = authenticationResource.login(request);
 
         Assertions.assertEquals(expectedToken.toString(), response.token());
     }
 
     @Test
     void givenValidLoginRequest_whenLogin_thenServiceIsCalledWithEmailAndPassword() {
-        authentificationResource.login(request);
+        authenticationResource.login(request);
 
         Mockito.verify(accountApplicationService).login(Email.from(request.email()),
                 request.password());

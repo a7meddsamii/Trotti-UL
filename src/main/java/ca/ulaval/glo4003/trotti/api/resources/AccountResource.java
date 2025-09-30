@@ -1,16 +1,21 @@
-package ca.ulaval.glo4003.trotti.api.controllers;
+package ca.ulaval.glo4003.trotti.api.resources;
 
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.dto.requests.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 @Path("/api/accounts")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AccountResource {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";

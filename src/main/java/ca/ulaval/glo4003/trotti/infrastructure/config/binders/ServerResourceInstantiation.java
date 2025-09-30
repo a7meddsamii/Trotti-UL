@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.controllers.AccountResource;
-import ca.ulaval.glo4003.trotti.api.controllers.AuthentificationResource;
+import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
@@ -141,10 +141,10 @@ public class ServerResourceInstantiation {
     private void loadAccountResource() {
         AccountResource accountResource =
                 new AccountResource(accountApplicationService, accountApiMapper);
-        AuthentificationResource authentificationResource =
-                new AuthentificationResource(accountApplicationService);
+        AuthenticationResource authenticationResource =
+                new AuthenticationResource(accountApplicationService);
         locator.register(AccountResource.class, accountResource);
-        locator.register(AuthentificationResource.class, authentificationResource);
+        locator.register(AuthenticationResource.class, authenticationResource);
     }
 
     public void initiate() {
