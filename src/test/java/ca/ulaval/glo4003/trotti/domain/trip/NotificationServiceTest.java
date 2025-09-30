@@ -31,18 +31,18 @@ class NotificationServiceTest {
         Mockito.verify(emailService, Mockito.times(ridePermits.size()))
                 .send(Mockito.any(EmailMessage.class));
     }
-	
-	@Test
-	void givenEmailServiceThrowsException_whenNotifying_thenShouldContinueForRemainingPermits() {
-		List<RidePermit> ridePermits = mockRidePermits();
-		Mockito.doThrow(EmailSendException.class)
-				.when(emailService).send(Mockito.any(EmailMessage.class));
-		
-		notificationService.notify(A_RECIPIENT, ridePermits);
-		
-		Mockito.verify(emailService, Mockito.times(ridePermits.size()))
-				.send(Mockito.any(EmailMessage.class));
-	}
+
+    @Test
+    void givenEmailServiceThrowsException_whenNotifying_thenShouldContinueForRemainingPermits() {
+        List<RidePermit> ridePermits = mockRidePermits();
+        Mockito.doThrow(EmailSendException.class).when(emailService)
+                .send(Mockito.any(EmailMessage.class));
+
+        notificationService.notify(A_RECIPIENT, ridePermits);
+
+        Mockito.verify(emailService, Mockito.times(ridePermits.size()))
+                .send(Mockito.any(EmailMessage.class));
+    }
 
     private List<RidePermit> mockRidePermits() {
         int numberOfRidePermits = RandomUtils.secure().randomInt(0, 10);

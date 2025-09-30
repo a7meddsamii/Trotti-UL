@@ -15,14 +15,13 @@ public class NotificationService {
 
     public void notify(Email recipient, List<RidePermit> newlyActivatedRidePermits) {
         for (RidePermit activatedRidePermit : newlyActivatedRidePermits) {
-			try {
-				EmailMessage message = EmailMessage.builder().withRecipient(recipient)
-						.withSubject("Newly Activated Ride Permit")
-						.withBody(activatedRidePermit + " has been activated.").build();
-				emailService.send(message);
-			}
-			catch (EmailSendException ignored) {
-			}
+            try {
+                EmailMessage message = EmailMessage.builder().withRecipient(recipient)
+                        .withSubject("Newly Activated Ride Permit")
+                        .withBody(activatedRidePermit + " has been activated.").build();
+                emailService.send(message);
+            } catch (EmailSendException ignored) {
+            }
         }
     }
 }
