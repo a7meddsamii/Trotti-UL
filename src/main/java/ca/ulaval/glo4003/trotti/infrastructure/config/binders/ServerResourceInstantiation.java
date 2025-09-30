@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
@@ -12,6 +13,7 @@ import ca.ulaval.glo4003.trotti.domain.order.BuyerFactory;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -65,8 +67,9 @@ public class ServerResourceInstantiation {
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
     private BuyerFactory buyerFactory;
-    private PassFactory passFactory;
+    private PassMapper passMapper;
     private OrderFactory orderFactory;
+    private PaymentService paymentService;
 
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
@@ -157,9 +160,10 @@ public class ServerResourceInstantiation {
         locator.register(BuyerFactory.class, buyerFactory);
     }
 
-    private void loadPassFactory() {
-        passFactory = new PassFactory();
-        locator.register(PassFactory.class, passFactory);
+    private void loadPassMapper() {
+        PassFactory passFactory = new PassFactory();
+        passMapper = new PassMapper(passFactory);
+        locator.register(PassMapper.class, passMapper);
     }
 
     private void loadOrderFactory() {
@@ -167,10 +171,15 @@ public class ServerResourceInstantiation {
         locator.register(OrderFactory.class, orderFactory);
     }
 
+    private void loadPaymentService() {
+        paymentService = new PaymentService();
+        locator.register(PaymentService.class, paymentService);
+    }
+
     private void loadOrderService() {
         OrderApplicationService orderApplicationService =
                 new OrderApplicationService(buyerRepository, accountRepository, buyerFactory,
-                        passFactory, orderFactory, emailService);
+                        passMapper, orderFactory, paymentService, emailService);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
@@ -187,8 +196,9 @@ public class ServerResourceInstantiation {
         loadAccountFactory();
         loadAccountService();
         loadBuyerFactory();
-        loadPassFactory();
+        loadPassMapper();
         loadOrderFactory();
+        loadPaymentService();
         loadOrderService();
         resourcesCreated = true;
     }
