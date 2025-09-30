@@ -6,11 +6,11 @@ import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.Cart;
 
 public class BuyerFixture {
-    public Buyer buildWithPaymentMethod() {
+    public Buyer buildWithoutPaymentMethod() {
         return new Buyer(AN_IDUL, A_NAME, AN_EMAIL, new Cart());
     }
 
-    public Buyer buildWithoutPaymentMethod() {
+    public Buyer buildWithPaymentMethod() {
         CreditCardFixture creditCardFixture = new CreditCardFixture();
         return new Buyer(AN_IDUL, A_NAME, AN_EMAIL, new Cart(), creditCardFixture.build());
     }

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 public class BuyerFactory {
     public Buyer create(Idul idul, String name, Email email) {
         Cart cart = new Cart();
+        validate(idul, name, email, cart);
         return new Buyer(idul, name, email, cart);
     }
 

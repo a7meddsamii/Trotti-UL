@@ -31,7 +31,7 @@ public class Cart {
     public Money calculateAmount() {
         Money total = Money.zeroCad();
         for (Pass pass : passList) {
-            total.plus(pass.calculateAmount());
+            total = total.plus(pass.calculateAmount());
         }
 
         return total;

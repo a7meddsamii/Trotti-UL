@@ -38,7 +38,7 @@ class BuyerPersistenceMapperTest {
 
     @Test
     void givenBuyerWithoutPaymentMethod_whenToDTO_thenReturnBuyerRecordWithEmptyPaymentMethod() {
-        Buyer buyer = buyerFixture.buildWithPaymentMethod();
+        Buyer buyer = buyerFixture.buildWithoutPaymentMethod();
 
         BuyerRecord dto = buyerMapper.toDTO(buyer);
 

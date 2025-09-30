@@ -14,12 +14,12 @@ class OrderFactoryTest {
 
     @Test
     void givenValidParams_whenCreate_thenReturnOrder() {
-        List<Pass> A_PASS_LIST = List.of(new PassFixture().build());
+        List<Pass> passList = List.of(new PassFixture().build());
 
-        Order order = factory.create(AN_IDUL, A_PASS_LIST);
+        Order order = factory.create(AN_IDUL, passList);
 
         Assertions.assertEquals(AN_IDUL, order.getIdul());
-        Assertions.assertEquals(A_PASS_LIST, order.getPassList());
+        Assertions.assertEquals(passList, order.getPassList());
         Assertions.assertNotNull(order.getId());
     }
 

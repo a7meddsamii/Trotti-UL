@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
 import ca.ulaval.glo4003.trotti.fixtures.OrderFixture;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class OrderTest {
@@ -18,11 +17,12 @@ class OrderTest {
         Invoice invoice = order.generateInvoice(creditCard.generateInvoice());
         String rendered = invoice.render(buyer.getEmail(), buyer.getName());
 
-        assertTrue(rendered.contains(buyer.getName()));
-        assertTrue(rendered.contains(buyer.getEmail().toString()));
-        assertTrue(rendered.contains(order.getIdul().toString()));
-        assertTrue(rendered.contains(order.getId().toString()));
-        order.getPassList().forEach(pass -> assertTrue(rendered.contains(pass.getId().toString())));
-        assertTrue(rendered.contains(creditCard.generateInvoice()));
+        Assertions.assertTrue(rendered.contains(buyer.getName()));
+        Assertions.assertTrue(rendered.contains(buyer.getEmail().toString()));
+        Assertions.assertTrue(rendered.contains(order.getIdul().toString()));
+        Assertions.assertTrue(rendered.contains(order.getId().toString()));
+        order.getPassList()
+                .forEach(pass -> Assertions.assertTrue(rendered.contains(pass.getId().toString())));
+        Assertions.assertTrue(rendered.contains(creditCard.generateInvoice()));
     }
 }
