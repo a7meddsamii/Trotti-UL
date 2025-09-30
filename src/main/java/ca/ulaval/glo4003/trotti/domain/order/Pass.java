@@ -41,4 +41,11 @@ public class Pass {
     public Money calculateAmount() {
         return maximumTravelingTime.calculateAmount();
     }
+
+    public String generateInvoice() {
+        return "\nPass ID : " + id.toString() + "\n" + "Maximum traveling time : "
+                + maximumTravelingTime.toString() + "\n" + "Session : " + session.toString() + "\n"
+                + "Billing frequency : " + billingFrequency.toString() + "\n" + "Cost : "
+                + calculateAmount().toString() + "\n";
+    }
 }

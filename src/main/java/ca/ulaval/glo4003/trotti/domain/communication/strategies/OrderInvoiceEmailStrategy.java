@@ -22,11 +22,11 @@ public class OrderInvoiceEmailStrategy implements EmailStrategy {
 
     @Override
     public String getSubject() {
-        return "Invoice for Trotti-ul order by " + buyerName;
+        return "Invoice for Trotti-ul";
     }
 
     @Override
     public String getBody() {
-        return invoice.toString();
+        return invoice.toString(buyerEmail, buyerName);
     }
 }

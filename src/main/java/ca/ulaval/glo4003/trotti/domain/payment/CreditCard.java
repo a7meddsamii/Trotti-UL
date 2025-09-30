@@ -53,4 +53,10 @@ public class CreditCard extends PaymentMethod {
     private boolean isValidCvv(String cvv) {
         return cvv != null && cvv.matches(CVV_3_OR_4_DIGITS_REGEX);
     }
+
+    @Override
+    public String generateInvoice() {
+        return "\nPaid with Credit Card ending by " + getCardNumber() + "and held by "
+                + cardHolderName + "\n";
+    }
 }

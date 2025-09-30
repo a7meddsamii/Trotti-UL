@@ -72,7 +72,7 @@ public class OrderApplicationService {
         return cart.getList();
     }
 
-    public List<Pass> removePassFromCart(Idul idul, Id passId) {
+    public List<Pass> removeFromCart(Idul idul, Id passId) {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
         Cart cart = buyer.getCart();
         cart.remove(passId);
@@ -103,12 +103,13 @@ public class OrderApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
         Cart cart = buyer.getCart();
 
-        paymentService.process(buyer.getPaymentMethod(), cart.calculateAmount());
+        PaymentMethod paymentMethod = buyer.getPaymentMethod();
+        paymentService.process(paymentMethod, cart.calculateAmount());
 
         Order order = orderFactory.create(idul, cart.getList());
-        EmailMessage invoice = EmailMessage.builder()
-                .withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(), buyer.getName(),
-                        order.generateInvoice()))
+        EmailMessage invoice = EmailMessage
+                .builder().withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(),
+                        buyer.getName(), order.generateInvoice(paymentMethod.generateInvoice())))
                 .build();
         emailService.send(invoice);
     }
