@@ -43,14 +43,15 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
     private void setupJobs() {
         Scheduler jobScheduler = ServerResourceLocator.getInstance().resolve(Scheduler.class);
         List<Job> jobs = buildJobs();
-        jobScheduler.scheduleAtFixedRate(Duration.ofSeconds(5),
-                Duration.ofHours(12),
+        jobScheduler.scheduleAtFixedRate(Duration.ofSeconds(5), Duration.ofHours(12),
                 jobs.toArray(new Job[0]));
     }
 
     private List<Job> buildJobs() {
-        ActivationNotificationService service = ServerResourceLocator.getInstance().resolve(ActivationNotificationService.class);
-        Job activationNotificationService = new Job("Activation Notification Service", service::updateTravelersPermits);
+        ActivationNotificationService service =
+                ServerResourceLocator.getInstance().resolve(ActivationNotificationService.class);
+        Job activationNotificationService =
+                new Job("Activation Notification Service", service::updateTravelersPermits);
         return List.of(activationNotificationService);
     }
 }
