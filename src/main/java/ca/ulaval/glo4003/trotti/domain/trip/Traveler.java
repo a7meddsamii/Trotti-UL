@@ -46,5 +46,4 @@ public class Traveler {
     public Idul getIdul() {
         return idul;
     }
-
 }
