@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
-import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
-import org.apache.commons.lang3.StringUtils;
+import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -11,39 +12,61 @@ import org.mockito.Mockito;
 
 class CreditCardTest {
 
-    private static final String INVALID_CARD_NUMBER = "111111111111111";
-    private static final String EXPECTED_LAST_FOUR_DIGITS = "1111";
+    private static final String VALID_CARD_NUMBER = "4111111111111111";
+    private static final String VALID_CARD_HOLDER = "John Doe";
+    private static final String INVALID_CARD_HOLDER = "";
+    private static final String VALID_CVV = "123";
     private static final String INVALID_CVV = "12";
+    private static final String EXPECTED_LAST_FOUR_DIGITS = "1111";
 
-    private Money money = Mockito.mock(Money.class);
+    private final DataEncoder encoder = Mockito.mock(DataEncoder.class);
 
-    @Test
-    void givenInvalidCardNumber_whenCreatingCreditCard_thenThrowsException() {
-        Executable creatingInvalidCreditCard =
-                () -> new CreditCardFixture().withCardNumber(INVALID_CARD_NUMBER).build();
-
-        Assertions.assertThrows(InvalidParameterException.class, creatingInvalidCreditCard);
+    private SecuredString securedStringFromRaw(String raw) {
+        Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
+        return SecuredString.fromRaw(raw, encoder);
     }
 
     @Test
     void givenInvalidCvv_whenCreatingCreditCard_thenThrowsException() {
-        Executable creatingInvalidCreditCard =
-                () -> new CreditCardFixture().withCvv(INVALID_CVV).build();
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        Executable creatingInvalidCreditCard = () -> CreditCard.from(validSecured,
+                VALID_CARD_HOLDER, YearMonth.now().plusYears(1), INVALID_CVV);
 
-        Assertions.assertThrows(InvalidParameterException.class, creatingInvalidCreditCard);
+        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }
 
     @Test
     void givenEmptyCardHolder_whenCreatingCreditCard_thenThrowsException() {
-        Executable creatingInvalidCreditCard =
-                () -> new CreditCardFixture().withCardHolderName(StringUtils.EMPTY).build();
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        Executable creatingInvalidCreditCard = () -> CreditCard.from(validSecured,
+                INVALID_CARD_HOLDER, YearMonth.now().plusYears(1), VALID_CVV);
 
-        Assertions.assertThrows(InvalidParameterException.class, creatingInvalidCreditCard);
+        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
+    }
+
+    @Test
+    void givenNullCardNumber_whenCreatingCreditCard_thenThrowsException() {
+        Executable creatingInvalidCreditCard = () -> CreditCard.from(null, VALID_CARD_HOLDER,
+                YearMonth.now().plusYears(1), VALID_CVV);
+
+        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
+    }
+
+    @Test
+    void givenNullCardHolderName_whenCreatingCreditCard_thenThrowsException() {
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        Executable creatingInvalidCreditCard =
+                () -> CreditCard.from(validSecured, null, YearMonth.now().plusYears(1), VALID_CVV);
+
+        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }
 
     @Test
     void givenValidCreditCard_whenPay_thenDoesNotThrowException() {
-        CreditCard creditCard = new CreditCardFixture().build();
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
+                YearMonth.now().plusYears(1), VALID_CVV);
+        Money money = Mockito.mock(Money.class);
 
         Executable payWithValidCreditCard = () -> creditCard.pay(money);
 
@@ -52,11 +75,32 @@ class CreditCardTest {
 
     @Test
     void givenCreditCard_whenGetCardNumber_thenReturnsLastFourDigits() {
-        CreditCard creditCard = new CreditCardFixture().build();
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
+                YearMonth.now().plusYears(1), VALID_CVV);
 
         String lastFourDigits = creditCard.getCardNumber();
 
         Assertions.assertEquals(EXPECTED_LAST_FOUR_DIGITS, lastFourDigits);
     }
 
+    @Test
+    void givenExpiredCreditCard_whenIsExpired_thenReturnsTrue() {
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        YearMonth expiredDate = YearMonth.now().minusMonths(1);
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, expiredDate, VALID_CVV);
+
+        Assertions.assertTrue(creditCard.isExpired());
+    }
+
+    @Test
+    void givenNonExpiredCreditCard_whenIsExpired_thenReturnsFalse() {
+        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
+        YearMonth futureDate = YearMonth.now().plusMonths(1);
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate, VALID_CVV);
+
+        Assertions.assertFalse(creditCard.isExpired());
+    }
 }
