@@ -2,10 +2,10 @@ package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import java.util.ArrayList;
+
 import java.util.List;
 
-public class Order {
+public class Order implements Invoiceable {
     private final Idul idul;
     private final List<Pass> passList;
     private final Id id;
@@ -28,12 +28,16 @@ public class Order {
         return id;
     }
 
+    @Override
     public Invoice generateInvoice() {
-        List<String> passInvoiceList = new ArrayList<>();
+        Invoice.Builder invoiceBuilder = Invoice.builder()
+                .id(id)
+                .buyer(idul);
+
         for (Pass pass : passList) {
-            passInvoiceList.add(pass.generateInvoice());
+            invoiceBuilder = invoiceBuilder.line(InvoiceLine.from(pass.toString()));
         }
-        // TODO: fill other fields
-        return new Invoice("", passInvoiceList, "");
+
+        return invoiceBuilder.build();
     }
 }

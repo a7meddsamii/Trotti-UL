@@ -11,16 +11,4 @@ class PassTest {
 
         Assertions.assertNotNull(pass.calculateAmount());
     }
-
-    @Test
-    void givenPass_whenGenerateInvoice_thenContainsIdAndBillingInfo() {
-        Pass pass = new PassFixture().build();
-
-        String invoice = pass.generateInvoice();
-
-        Assertions.assertTrue(invoice.contains(pass.getId().toString()));
-        Assertions.assertTrue(invoice.contains(pass.getBillingFrequency().toString()));
-        Assertions.assertTrue(invoice.contains(pass.getSession().toString()));
-        Assertions.assertTrue(invoice.contains(pass.calculateAmount().toString()));
-    }
 }
