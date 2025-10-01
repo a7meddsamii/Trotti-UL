@@ -18,10 +18,13 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
+import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
@@ -104,6 +107,12 @@ public class ServerResourceInstantiation {
         locator.register(AccountRepository.class, accountRepository);
     }
 
+    private void loadSessionProvider() {
+        SessionMapper sessionMapper = new SessionMapper();
+        Path resourcePath = Path.of("src/main/resources/data/semesters-252627.json");
+        SessionProvider.initialize(resourcePath, sessionMapper);
+    }
+
     private void loadEmailSender() {
         String username = dotenv.get(EMAIL_USER);
         String password = dotenv.get(EMAIL_PASSWORD);
@@ -156,6 +165,7 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadAccountRepository();
+        loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
         loadAccountMapper();
