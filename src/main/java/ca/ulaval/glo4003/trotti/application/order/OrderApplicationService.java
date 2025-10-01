@@ -2,9 +2,7 @@ package ca.ulaval.glo4003.trotti.application.order;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
-import ca.ulaval.glo4003.trotti.domain.communication.strategies.OrderInvoiceEmailStrategy;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.domain.order.Order;
@@ -41,11 +39,9 @@ public class OrderApplicationService {
         paymentService.process(paymentMethod, cart.calculateAmount());
 
         Order order = orderFactory.create(idul, cart.getPasses());
-        EmailMessage invoice = EmailMessage.builder()
-                .withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(), buyer.getName(),
-                        order.generateInvoice()))
-                .build();
-        emailService.send(invoice);
+        order.generateInvoice();
+        // Create invoice formatted as a string
+        // emailService send invoice
 
         return Id.randomId();
     }
