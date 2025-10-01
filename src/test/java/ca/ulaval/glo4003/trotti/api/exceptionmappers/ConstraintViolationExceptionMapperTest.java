@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.api.exceptionmappers;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +51,9 @@ class ConstraintViolationExceptionMapperTest {
         ConstraintViolation<?> violation2 = Mockito.mock(ConstraintViolation.class);
         Mockito.when(violation2.getMessage()).thenReturn(SECOND_ERROR_MESSAGE);
 
-        Set<ConstraintViolation<?>> violations = Set.of(violation1, violation2);
+        Set<ConstraintViolation<?>> violations = new LinkedHashSet<>();
+        violations.add(violation1);
+        violations.add(violation2);
 
         return new ConstraintViolationException(violations);
     }
