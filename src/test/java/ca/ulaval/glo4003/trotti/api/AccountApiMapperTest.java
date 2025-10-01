@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 class AccountApiMapperTest {
     public static final String HASHED_PASSWORD = "hashed-password";
     public static final String AN_INVALID_BIRTHDATE_FORMAT = "not-a-date";
+    private static final String A_WRONG_FORMATTED_BIRTHDATE = "2000/01/01";
 
     private PasswordHasher passwordHasher;
     private AccountApiMapper accountApiMapper;
@@ -52,6 +53,18 @@ class AccountApiMapperTest {
         Executable toAccountDtoExecutable = () -> accountApiMapper.toAccountDto(request);
 
         Assertions.assertThrows(InvalidParameterException.class, toAccountDtoExecutable);
+    }
+
+    @Test
+    void givenWrongFormattedBirthDate_whenToAccountDto_thenThrowsInvalidParameterException() {
+        CreateAccountRequest request =
+                new CreateAccountRequest(AccountFixture.A_NAME, A_WRONG_FORMATTED_BIRTHDATE,
+                        AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
+                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+
+        Executable executable = () -> accountApiMapper.toAccountDto(request);
+
+        Assertions.assertThrows(InvalidParameterException.class, executable);
     }
 
     private CreateAccountRequest buildValidRequest() {
