@@ -171,9 +171,8 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
-        InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, invoiceFormatService);
+                buyerRepository, orderFactory, paymentService, emailService, null); //TODO invoiceFormatService impl coming soon.
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
