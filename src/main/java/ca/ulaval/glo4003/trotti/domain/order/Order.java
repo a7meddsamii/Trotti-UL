@@ -33,7 +33,7 @@ public class Order {
         for (Pass pass : passList) {
             passInvoiceList.add(pass.generateInvoice());
         }
-        //TODO: fill other fields
+        // TODO: fill other fields
         return new Invoice("", passInvoiceList, "");
     }
 }

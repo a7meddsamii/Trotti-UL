@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
-import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
@@ -165,9 +164,8 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
-        PassFactory passFactory = new PassFactory();
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passMapper, orderFactory, passFactory, paymentService, emailService);
+                buyerRepository, orderFactory, paymentService, emailService);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 

@@ -8,8 +8,6 @@ import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterExcept
 import ca.ulaval.glo4003.trotti.domain.communication.strategies.OrderInvoiceEmailStrategy;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.Order;
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
 import ca.ulaval.glo4003.trotti.fixtures.OrderFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -5,8 +5,6 @@ import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.A_NAME;
 
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.Order;
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
 import ca.ulaval.glo4003.trotti.fixtures.OrderFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

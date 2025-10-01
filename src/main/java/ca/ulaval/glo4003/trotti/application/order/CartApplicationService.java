@@ -1,0 +1,69 @@
+package ca.ulaval.glo4003.trotti.application.order;
+
+import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
+import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import java.util.List;
+
+public class CartApplicationService {
+
+    private final BuyerRepository buyerRepository;
+    private final PassMapper passMapper;
+    private final PassFactory passFactory;
+
+    public CartApplicationService(
+            BuyerRepository buyerRepository,
+            PassMapper passMapper,
+            PassFactory passFactory) {
+        this.buyerRepository = buyerRepository;
+        this.passMapper = passMapper;
+        this.passFactory = passFactory;
+    }
+
+    public List<PassDto> getCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
+    }
+
+    public List<PassDto> addToCart(Idul idul, List<PassDto> passListDto) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
+        List<Pass> passList = createPasses(passListDto);
+
+        for (Pass pass : passList) {
+            buyer.addToCart(pass);
+        }
+
+        buyerRepository.save(buyer);
+
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
+    }
+
+    public List<PassDto> removeFromCart(Idul idul, Id passId) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
+        buyer.removeFromCart(passId);
+        buyerRepository.save(buyer);
+
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
+    }
+
+    public void clearCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
+        buyer.clearCart();
+        buyerRepository.save(buyer);
+    }
+
+    private List<Pass> createPasses(List<PassDto> passListDto) {
+        return passListDto.stream()
+                .map(passDto -> passFactory.create(passDto.maximumDailyTravelTime(),
+                        passDto.session(), passDto.billingFrequency()))
+                .toList();
+    }
+}
