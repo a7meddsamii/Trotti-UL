@@ -7,6 +7,7 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class AlreadyExistsExceptionMapper implements ExceptionMapper<AlreadyExistsException> {
+
     @Override
     public Response toResponse(AlreadyExistsException exception) {
         return ExceptionResponseFactory.errorResponse(Response.Status.CONFLICT,

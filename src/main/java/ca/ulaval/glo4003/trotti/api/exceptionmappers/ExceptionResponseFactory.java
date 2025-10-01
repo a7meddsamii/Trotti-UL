@@ -4,6 +4,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 public class ExceptionResponseFactory {
+
     public static Response errorResponse(Response.Status status, String message) {
         ApiErrorResponse response = new ApiErrorResponse(message);
 
