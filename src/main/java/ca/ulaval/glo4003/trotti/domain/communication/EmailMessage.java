@@ -65,13 +65,6 @@ public class EmailMessage {
             return this;
         }
 
-        public Builder withEmailStrategy(EmailStrategy emailStrategy) {
-            this.recipient = emailStrategy.getRecipient();
-            this.subject = emailStrategy.getSubject();
-            this.body = emailStrategy.getBody();
-            return this;
-        }
-
         public EmailMessage build() {
             return new EmailMessage(recipient, subject, body);
         }

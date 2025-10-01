@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.order.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
 
-public record PassResponseDto(
+public record PassDto(
         MaximumDailyTravelTime maximumDailyTravelTime,
         Session session,
         BillingFrequency billingFrequency,

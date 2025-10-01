@@ -1,32 +1,18 @@
 package ca.ulaval.glo4003.trotti.domain.communication;
 
-import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.AN_EMAIL;
-import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.A_NAME;
-
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.communication.strategies.OrderInvoiceEmailStrategy;
-import ca.ulaval.glo4003.trotti.domain.order.Invoice;
-import ca.ulaval.glo4003.trotti.domain.order.Order;
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
-import ca.ulaval.glo4003.trotti.fixtures.OrderFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class EmailMessageTest {
 
     private static final String A_SUBJECT = "a_subject";
     private static final String A_BODY = "a_body";
 
-    @Mock
     private Email email;
 
     @BeforeEach
@@ -68,21 +54,5 @@ class EmailMessageTest {
                 () -> EmailMessage.builder().withBody(A_BODY).withRecipient(email).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
-    }
-
-    @Test
-    void givenValidParams_whenCreatingEmailMessageWithEmailStrategy_thenReturnEmailMessage() {
-        Order order = new OrderFixture().build();
-        CreditCard creditCard = new CreditCardFixture().build();
-        Invoice invoice = order.generateInvoice(creditCard.generateInvoice());
-        OrderInvoiceEmailStrategy emailStrategy =
-                new OrderInvoiceEmailStrategy(AN_EMAIL, A_NAME, invoice);
-
-        EmailMessage emailMessage =
-                new EmailMessage.Builder().withEmailStrategy(emailStrategy).build();
-
-        Assertions.assertEquals(AN_EMAIL, emailMessage.getRecipient());
-        Assertions.assertEquals("Invoice for Trotti-ul", emailMessage.getSubject());
-        Assertions.assertEquals(invoice.render(AN_EMAIL, A_NAME), emailMessage.getBody());
     }
 }
