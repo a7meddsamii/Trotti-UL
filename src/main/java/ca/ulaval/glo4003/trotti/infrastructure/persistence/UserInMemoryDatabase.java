@@ -3,7 +3,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.persistence;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,6 +21,8 @@ public class UserInMemoryDatabase {
 
     public void insertIntoAccountTable(AccountRecord account) {
         accountTable.put(account.idul(), account);
+        BuyerRecord buyerRecord = new BuyerRecord(account.idul(),account.name(),account.email(), List.of(), null);
+        buyerTable.put(account.idul(), buyerRecord);
     }
 
     public void insertIntoBuyerTable(BuyerRecord buyer) {

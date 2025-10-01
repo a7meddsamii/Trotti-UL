@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,11 +50,11 @@ class BuyerPersistenceMapperTest {
     }
 
     @Test
-    void givenBuyerRecordWithPaymentMethod_whenToEntity_thenReturnBuyer() {
+    void givenBuyerRecordWithPaymentMethod_whenToDomain_thenReturnBuyer() {
         BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, new Cart(),
                 Optional.of(new CreditCardFixture().build()));
 
-        Buyer result = buyerMapper.toEntity(record);
+        Buyer result = buyerMapper.toDomain(record);
 
         Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());
@@ -64,11 +64,11 @@ class BuyerPersistenceMapperTest {
     }
 
     @Test
-    void givenBuyerRecordWithoutPaymentMethod_whenToEntity_thenReturnBuyerWithoutPaymentMethod() {
+    void givenBuyerRecordWithoutPaymentMethod_whenToDomain_thenReturnBuyerWithoutPaymentMethod() {
         BuyerRecord record =
                 new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, new Cart(), Optional.empty());
 
-        Buyer result = buyerMapper.toEntity(record);
+        Buyer result = buyerMapper.toDomain(record);
 
         Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
@@ -24,7 +23,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfigur
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
@@ -150,8 +149,8 @@ public class ServerResourceInstantiation {
     }
 
     private void loadAccountService() {
-        accountApplicationService = new AccountApplicationService(accountRepository,
-                authenticationService, accountFactory);
+        accountApplicationService = new AccountApplicationService(accountRepository, buyerRepository,
+                authenticationService, accountFactory, buyerFactory);
         locator.register(AccountApplicationService.class, accountApplicationService);
     }
 
@@ -176,13 +175,6 @@ public class ServerResourceInstantiation {
         locator.register(PaymentService.class, paymentService);
     }
 
-    private void loadOrderService() {
-        OrderApplicationService orderApplicationService =
-                new OrderApplicationService(buyerRepository, accountRepository, buyerFactory,
-                        passMapper, orderFactory, paymentService, emailService);
-        locator.register(OrderApplicationService.class, orderApplicationService);
-    }
-
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -199,7 +191,6 @@ public class ServerResourceInstantiation {
         loadPassMapper();
         loadOrderFactory();
         loadPaymentService();
-        loadOrderService();
         resourcesCreated = true;
     }
 }
