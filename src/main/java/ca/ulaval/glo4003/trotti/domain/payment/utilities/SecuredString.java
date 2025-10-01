@@ -14,9 +14,9 @@ public final class SecuredString {
         this.safeToShow = safeToShow;
     }
 
-    public static SecuredString fromRaw(String raw, DataEncoder encoder) {
-        String encoded = encoder.encode(raw);
-        String safeToShow = raw.substring(raw.length() - COUNT_OF_VISIBLE_CHARACTERS);
+    public static SecuredString fromPlain(String plain, DataEncoder encoder) {
+        String encoded = encoder.encode(plain);
+        String safeToShow = plain.substring(plain.length() - COUNT_OF_VISIBLE_CHARACTERS);
         return new SecuredString(encoded, safeToShow);
     }
 

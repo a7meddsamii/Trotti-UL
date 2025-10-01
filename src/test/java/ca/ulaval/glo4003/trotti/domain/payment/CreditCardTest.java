@@ -23,7 +23,7 @@ class CreditCardTest {
 
     private SecuredString securedStringFromRaw(String raw) {
         Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
-        return SecuredString.fromRaw(raw, encoder);
+        return SecuredString.fromPlain(raw, encoder);
     }
 
     @Test
