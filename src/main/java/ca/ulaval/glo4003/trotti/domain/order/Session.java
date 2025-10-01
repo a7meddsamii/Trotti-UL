@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
-import org.apache.commons.lang3.StringUtils;
-
 import java.time.LocalDate;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class Session {
     private final Semester semester;

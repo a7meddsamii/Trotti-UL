@@ -33,29 +33,25 @@ public class OrderApplicationService {
 
     public Transaction placeOrderFor(Idul idul) {
         Buyer buyer = buyerRepository.findByIdul(idul);
-        Cart cart = buyer.getCart();
         PaymentMethod paymentMethod = buyer.getPaymentMethod().get();
 
-        Transaction transaction = paymentService.process(paymentMethod, cart.calculateAmount());
+        Transaction transaction = paymentService.process(paymentMethod, buyer.getCartBalance());
+        emailService.send(EmailMessage.builder().withRecipient(buyer.getEmail())
+                .withSubject("Transaction Details").withBody(transaction.toString()).build());
 
         if (transaction.isFailed()) {
-            emailService.send(EmailMessage.builder()
-                    .withRecipient(buyer.getEmail())
-                    .withSubject("Transaction Failed")
-                    .withBody(transaction.toString())
-                    .build());
             return transaction;
         }
 
-        Order order = orderFactory.create(idul, cart.getPasses());
+        Order order = orderFactory.create(idul, buyer.getCartPasses());
         Invoice invoice = order.generateInvoice();
         String formattedInvoice = invoiceFormatService.format(invoice);
 
-        emailService.send(EmailMessage.builder()
-                .withRecipient(buyer.getEmail())
-                .withSubject("Your Invoice")
-                .withBody(formattedInvoice)
-                .build());
+        emailService.send(EmailMessage.builder().withRecipient(buyer.getEmail())
+                .withSubject("Your Invoice").withBody(formattedInvoice).build());
+
+        buyer.clearCart();
+        buyerRepository.save(buyer);
 
         return transaction;
     }

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.payment.values;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -12,7 +11,7 @@ public class Transaction {
     private final Money amount;
     private final String description;
 
-    public Transaction(TransactionStatus status , Money amount, String description) {
+    public Transaction(TransactionStatus status, Money amount, String description) {
         this.status = status;
         this.amount = amount;
         this.description = description;

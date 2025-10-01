@@ -13,9 +13,9 @@ public class PaymentService {
     public Transaction process(PaymentMethod paymentMethod, Money amountToPay) {
         try {
             processPayment(paymentMethod, amountToPay);
-            return new Transaction(TransactionStatus.SUCCESS, amountToPay, "Payment processed successfully");
-        }
-        catch (PaymentException e) {
+            return new Transaction(TransactionStatus.SUCCESS, amountToPay,
+                    "Payment processed successfully");
+        } catch (PaymentException e) {
             return new Transaction(TransactionStatus.FAILED, amountToPay, e.getMessage());
         }
     }

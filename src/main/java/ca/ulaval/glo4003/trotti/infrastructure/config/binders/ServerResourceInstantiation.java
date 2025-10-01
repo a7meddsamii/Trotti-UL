@@ -14,6 +14,7 @@ import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
@@ -25,6 +26,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfigur
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -169,8 +171,9 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
+        InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService);
+                buyerRepository, orderFactory, paymentService, emailService, invoiceFormatService);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 

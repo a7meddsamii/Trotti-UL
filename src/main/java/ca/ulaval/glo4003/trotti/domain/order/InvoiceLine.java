@@ -1,21 +1,17 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
-import java.util.Map;
-
 public final class InvoiceLine {
-    private final Map<String, String> meta;
+    private final String description;
 
-    private InvoiceLine(Map<String, String> meta) {
-        this.meta = meta == null ? Map.of() : Map.copyOf(meta);
-    }
-
-    public static InvoiceLine from(Map<String,String> meta) {
-        return new InvoiceLine(meta);
+    private InvoiceLine(String description) {
+        this.description = description;
     }
 
     public static InvoiceLine from(String line) {
-        return new InvoiceLine(Map.of("Description:", line));
+        return new InvoiceLine(line);
     }
 
-    public Map<String, String> meta() { return meta; }
+    public String getDescription() {
+        return description;
+    }
 }
