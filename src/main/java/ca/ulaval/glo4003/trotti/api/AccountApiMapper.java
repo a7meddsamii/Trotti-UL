@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -31,7 +32,7 @@ public class AccountApiMapper {
         try {
             return LocalDate.parse(birthDateString);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid birthDate format, expected yyyy-MM-dd", e);
+            throw new InvalidParameterException("Invalid birthDate format, expected yyyy-MM-dd", e);
         }
     }
 }

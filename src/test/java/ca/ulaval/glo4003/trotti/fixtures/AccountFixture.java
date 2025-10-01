@@ -17,7 +17,7 @@ public class AccountFixture {
     public static final String A_RAW_PASSWORD = "StrongPass1!";
     public static final String A_TOKEN_VALUE = "jwt-token";
     public static final String AN_EMAIL_STRING = "john.doe@ulaval.ca";
-    public static final String A_STRING_BIRTHDATE = "2000, 1, 1";
+    public static final String A_STRING_BIRTHDATE = "2000-01-01";
     public static final LocalDate A_BIRTHDATE = LocalDate.of(2000, 1, 1);
 
     public static final Gender A_GENDER = Gender.fromString(A_GENDER_STRING);
