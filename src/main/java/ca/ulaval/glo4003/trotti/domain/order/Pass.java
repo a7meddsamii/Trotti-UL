@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
@@ -10,6 +11,7 @@ public class Pass {
     private final Session session;
     private final BillingFrequency billingFrequency;
     private final Id id;
+    private Idul idul;
 
     public Pass(
             MaximumDailyTravelTime maximumTravelingTime,
@@ -40,6 +42,10 @@ public class Pass {
 
     public Money calculateAmount() {
         return maximumTravelingTime.calculateAmount();
+    }
+
+    public boolean isPurchased() {
+        return idul != null;
     }
 
     public String generateInvoice() {
