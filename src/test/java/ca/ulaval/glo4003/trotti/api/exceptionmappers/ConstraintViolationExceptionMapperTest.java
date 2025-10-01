@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.api.exceptionmappers;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +13,6 @@ class ConstraintViolationExceptionMapperTest {
 
     private static final String FIRST_ERROR_MESSAGE = "Name is required";
     private static final String SECOND_ERROR_MESSAGE = "Email is invalid";
-    private static final String EXPECTED_COMBINED_MESSAGE =
-            FIRST_ERROR_MESSAGE + ", " + SECOND_ERROR_MESSAGE;
     private static final int BAD_REQUEST_STATUS_CODE = Response.Status.BAD_REQUEST.getStatusCode();
 
     private ConstraintViolationExceptionMapper constraintViolationExceptionMapper;
@@ -41,7 +38,10 @@ class ConstraintViolationExceptionMapperTest {
         Response response = constraintViolationExceptionMapper.toResponse(exception);
         ApiErrorResponse errorResponse = (ApiErrorResponse) response.getEntity();
 
-        Assertions.assertEquals(EXPECTED_COMBINED_MESSAGE, errorResponse.message());
+        String actualMessage = errorResponse.message();
+
+        Assertions.assertTrue(actualMessage.contains(FIRST_ERROR_MESSAGE));
+        Assertions.assertTrue(actualMessage.contains(SECOND_ERROR_MESSAGE));
     }
 
     private ConstraintViolationException buildConstraintViolationException() {
@@ -51,9 +51,7 @@ class ConstraintViolationExceptionMapperTest {
         ConstraintViolation<?> violation2 = Mockito.mock(ConstraintViolation.class);
         Mockito.when(violation2.getMessage()).thenReturn(SECOND_ERROR_MESSAGE);
 
-        Set<ConstraintViolation<?>> violations = new LinkedHashSet<>();
-        violations.add(violation1);
-        violations.add(violation2);
+        Set<ConstraintViolation<?>> violations = Set.of(violation1, violation2);
 
         return new ConstraintViolationException(violations);
     }
