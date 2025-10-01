@@ -124,7 +124,7 @@ mvn exec:java
 
 #### 4. Important: Do not commit your `.env` file
 
-Make sure your `.env` file is listed in `.gitignore` to avoid accidentally committing sensitive information or secrets to version control.
+Make sure your `.env` file is listed in `.gitignore` to prevent a leak of sensitive information.
 
 
 ### Running in Docker
