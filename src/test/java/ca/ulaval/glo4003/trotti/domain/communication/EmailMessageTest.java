@@ -5,30 +5,23 @@ import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterExcept
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class EmailMessageTest {
 
     private static final String A_SUBJECT = "a_subject";
     private static final String A_BODY = "a_body";
 
-    @Mock
     private Email email;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         this.email = Mockito.mock(Email.class);
-
     }
 
     @Test
     void givenOnlyRecipientAndSubject_whenCreatingEmailMessage_thenReturnEmailMessage() {
-
         EmailMessage emailMessage =
                 EmailMessage.builder().withRecipient(email).withSubject(A_SUBJECT).build();
 
@@ -62,5 +55,4 @@ class EmailMessageTest {
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
-
 }

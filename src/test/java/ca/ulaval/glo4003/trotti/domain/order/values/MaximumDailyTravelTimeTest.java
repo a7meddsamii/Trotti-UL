@@ -1,7 +1,9 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.values;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Currency;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import java.math.BigDecimal;
 import java.time.Duration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -83,9 +85,29 @@ class MaximumDailyTravelTimeTest {
     }
 
     @Test
-    void givenValidTime_whenToString_thenReturnStringValue() {
+    void givenValidTime_whenToString_thenReturntringValue() {
         MaximumDailyTravelTime time = MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertEquals(VALID_TIME.toMinutes() + " minutes", time.toString());
+    }
+
+    @Test
+    void givenDurationEqualToMinimum_whenCalculateAmount_thenReturnBasePrice() {
+        MaximumDailyTravelTime time = MaximumDailyTravelTime.from(Duration.ofMinutes(30));
+
+        Money actual = time.calculateAmount();
+
+        Money expected = Money.of(new BigDecimal(45), Currency.CAD);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void givenDurationWithAdditionalMinutes_whenCalculateAmount_thenReturnBasePlusExtra() {
+        MaximumDailyTravelTime time = MaximumDailyTravelTime.from(Duration.ofMinutes(40));
+
+        Money actual = time.calculateAmount();
+
+        Money expected = Money.of(new BigDecimal(47), Currency.CAD);
+        Assertions.assertEquals(expected, actual);
     }
 }

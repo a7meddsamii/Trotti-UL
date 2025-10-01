@@ -1,12 +1,17 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -15,10 +20,13 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
+import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
@@ -49,9 +57,14 @@ public class ServerResourceInstantiation {
     private boolean resourcesCreated;
     private final Dotenv dotenv;
 
+    private EmailService emailService;
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
+    private BuyerRepository buyerRepository;
+    private PassMapper passMapper;
+    private OrderFactory orderFactory;
+    private PaymentService paymentService;
 
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
@@ -89,7 +102,7 @@ public class ServerResourceInstantiation {
         }
     }
 
-    private void loadAccountRepository() {
+    private void loadUserRepositories() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
@@ -97,6 +110,13 @@ public class ServerResourceInstantiation {
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
         locator.register(AccountRepository.class, accountRepository);
+        locator.register(BuyerRepository.class, buyerRepository);
+    }
+
+    private void loadSessionProvider() {
+        SessionMapper sessionMapper = new SessionMapper();
+        Path resourcePath = Path.of("src/main/resources/data/semesters-252627.json");
+        SessionProvider.initialize(resourcePath, sessionMapper);
     }
 
     private void loadEmailSender() {
@@ -107,7 +127,7 @@ public class ServerResourceInstantiation {
 
         JakartaMailServiceConfiguration emailConfiguration =
                 JakartaMailServiceConfiguration.create(username, password, host, port);
-        EmailService emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
+        emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
         locator.register(EmailService.class, emailService);
     }
 
@@ -128,6 +148,27 @@ public class ServerResourceInstantiation {
         locator.register(AccountApplicationService.class, accountApplicationService);
     }
 
+    private void loadPassMapper() {
+        passMapper = new PassMapper();
+        locator.register(PassMapper.class, passMapper);
+    }
+
+    private void loadOrderFactory() {
+        orderFactory = new OrderFactory();
+        locator.register(OrderFactory.class, orderFactory);
+    }
+
+    private void loadPaymentService() {
+        paymentService = new PaymentService();
+        locator.register(PaymentService.class, paymentService);
+    }
+
+    private void loadOrderService() {
+        OrderApplicationService orderApplicationService = new OrderApplicationService(
+                buyerRepository, orderFactory, paymentService, emailService);
+        locator.register(OrderApplicationService.class, orderApplicationService);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -136,9 +177,14 @@ public class ServerResourceInstantiation {
         loadAuthenticationService();
         loadEmailSender();
         loadPasswordHasher();
-        loadAccountRepository();
+        loadUserRepositories();
+        loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
+        loadPassMapper();
+        loadOrderFactory();
+        loadPaymentService();
+        loadOrderService();
         resourcesCreated = true;
     }
 }
