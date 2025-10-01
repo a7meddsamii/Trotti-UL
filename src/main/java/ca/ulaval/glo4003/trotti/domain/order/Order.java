@@ -28,14 +28,12 @@ public class Order {
         return id;
     }
 
-    public Invoice generateInvoice(String paymentMethodInvoice) {
+    public Invoice generateInvoice() {
         List<String> passInvoiceList = new ArrayList<>();
         for (Pass pass : passList) {
             passInvoiceList.add(pass.generateInvoice());
         }
-
-        String orderInvoice = "Idul : " + idul + "\n" + "Order ID : " + id + "\n";
-
-        return new Invoice(orderInvoice, passInvoiceList, paymentMethodInvoice);
+        //TODO: fill other fields
+        return new Invoice("", passInvoiceList, "");
     }
 }

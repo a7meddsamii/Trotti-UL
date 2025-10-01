@@ -73,8 +73,7 @@ class EmailMessageTest {
     @Test
     void givenValidParams_whenCreatingEmailMessageWithEmailStrategy_thenReturnEmailMessage() {
         Order order = new OrderFixture().build();
-        CreditCard creditCard = new CreditCardFixture().build();
-        Invoice invoice = order.generateInvoice(creditCard.generateInvoice());
+        Invoice invoice = order.generateInvoice();
         OrderInvoiceEmailStrategy emailStrategy =
                 new OrderInvoiceEmailStrategy(AN_EMAIL, A_NAME, invoice);
 

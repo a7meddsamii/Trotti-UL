@@ -7,6 +7,4 @@ public abstract class PaymentMethod {
     public abstract void pay(Money amount);
 
     public abstract boolean isExpired();
-
-    public abstract String generateInvoice();
 }

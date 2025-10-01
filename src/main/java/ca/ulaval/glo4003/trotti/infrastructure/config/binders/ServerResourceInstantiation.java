@@ -9,7 +9,6 @@ import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
-import ca.ulaval.glo4003.trotti.domain.order.BuyerFactory;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
@@ -23,9 +22,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
-import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -66,7 +63,6 @@ public class ServerResourceInstantiation {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
-    private BuyerFactory buyerFactory;
     private PassMapper passMapper;
     private OrderFactory orderFactory;
     private PaymentService paymentService;
@@ -114,8 +110,6 @@ public class ServerResourceInstantiation {
                 new UserInMemoryDatabase(accountTable, buyerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
-        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
-        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
     }
@@ -155,14 +149,8 @@ public class ServerResourceInstantiation {
         locator.register(AccountApplicationService.class, accountApplicationService);
     }
 
-    private void loadBuyerFactory() {
-        buyerFactory = new BuyerFactory();
-        locator.register(BuyerFactory.class, buyerFactory);
-    }
-
     private void loadPassMapper() {
-        PassFactory passFactory = new PassFactory();
-        passMapper = new PassMapper(passFactory);
+        passMapper = new PassMapper();
         locator.register(PassMapper.class, passMapper);
     }
 
@@ -177,9 +165,9 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
-        OrderApplicationService orderApplicationService =
-                new OrderApplicationService(buyerRepository, accountRepository, buyerFactory,
-                        passMapper, orderFactory, paymentService, emailService);
+        PassFactory passFactory = new PassFactory();
+        OrderApplicationService orderApplicationService = new OrderApplicationService(
+                buyerRepository, passMapper, orderFactory, passFactory, paymentService, emailService);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
@@ -195,7 +183,6 @@ public class ServerResourceInstantiation {
         loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
-        loadBuyerFactory();
         loadPassMapper();
         loadOrderFactory();
         loadPaymentService();

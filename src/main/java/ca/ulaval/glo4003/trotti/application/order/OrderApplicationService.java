@@ -1,11 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.order;
 
-import ca.ulaval.glo4003.trotti.application.order.dto.PassRequestDto;
-import ca.ulaval.glo4003.trotti.application.order.dto.PassResponseDto;
+import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
-import ca.ulaval.glo4003.trotti.domain.account.Account;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AccountNotFoundException;
-import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
@@ -21,97 +17,95 @@ import java.util.List;
 public class OrderApplicationService {
 
     private final BuyerRepository buyerRepository;
-    private final AccountRepository accountRepository;
-    private final BuyerFactory buyerFactory;
     private final PassMapper passMapper;
     private final OrderFactory orderFactory;
+    private final PassFactory passFactory;
     private final PaymentService paymentService;
     private final EmailService emailService;
 
     public OrderApplicationService(
             BuyerRepository buyerRepository,
-            AccountRepository accountRepository,
-            BuyerFactory buyerFactory,
             PassMapper passMapper,
             OrderFactory orderFactory,
+            PassFactory passFactory,
             PaymentService paymentService,
             EmailService emailService) {
         this.buyerRepository = buyerRepository;
-        this.accountRepository = accountRepository;
-        this.buyerFactory = buyerFactory;
         this.passMapper = passMapper;
         this.orderFactory = orderFactory;
+        this.passFactory = passFactory;
         this.paymentService = paymentService;
         this.emailService = emailService;
     }
 
-    public List<PassResponseDto> getCart(Idul idul) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseGet(() -> {
-            Account account =
-                    accountRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-            Buyer newBuyer = buyerFactory.create(idul, account.getName(), account.getEmail());
+    public List<PassDto> getCart(Idul idul) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
 
-            buyerRepository.save(newBuyer);
-            return newBuyer;
-        });
-
-        return passMapper.toDto(buyer.getCart().getList());
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
 
-    public List<PassResponseDto> addToCart(Idul idul, List<PassRequestDto> passListDto) {
-        List<Pass> passList = passMapper.toDomain(passListDto);
+    public List<PassDto> addToCart(Idul idul, List<PassDto> passListDto) {
+        List<Pass> passList = createPasses(passListDto);
 
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-        Cart cart = buyer.getCart();
+        Buyer buyer = buyerRepository.findByIdul(idul);
         for (Pass pass : passList) {
-            cart.add(pass);
+            buyer.addToCart(pass);
         }
         buyerRepository.save(buyer);
 
-        return passMapper.toDto(cart.getList());
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
 
-    public List<PassResponseDto> removeFromCart(Idul idul, Id passId) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-        Cart cart = buyer.getCart();
-        cart.remove(passId);
+    public List<PassDto> removeFromCart(Idul idul, Id passId) {
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
+        buyer.removeFromCart(passId);
         buyerRepository.save(buyer);
 
-        return passMapper.toDto(cart.getList());
+        return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
 
     public void clearCart(Idul idul) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
-        Cart cart = buyer.getCart();
-        cart.clear();
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
+        buyer.clearCart();
         buyerRepository.save(buyer);
     }
 
     public void updatePaymentMethod(Idul idul, PaymentMethod paymentMethod) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
         buyer.updatePaymentMethod(paymentMethod);
         buyerRepository.save(buyer);
     }
 
     public void deletePaymentMethod(Idul idul) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Buyer buyer = buyerRepository.findByIdul(idul);
+
         buyer.deletePaymentMethod();
         buyerRepository.save(buyer);
     }
 
     public void confirmCart(Idul idul) {
-        Buyer buyer = buyerRepository.findByIdul(idul).orElseThrow(AccountNotFoundException::new);
+        Buyer buyer = buyerRepository.findByIdul(idul);
         Cart cart = buyer.getCart();
 
         PaymentMethod paymentMethod = buyer.getPaymentMethod().orElseThrow(
                 () -> new InvalidModuleDescriptorException("No payment method found."));
         paymentService.process(paymentMethod, cart.calculateAmount());
 
-        Order order = orderFactory.create(idul, cart.getList());
-        EmailMessage invoice = EmailMessage
-                .builder().withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(),
-                        buyer.getName(), order.generateInvoice(paymentMethod.generateInvoice())))
+        Order order = orderFactory.create(idul, cart.getPasses());
+        EmailMessage invoice = EmailMessage.builder()
+                .withEmailStrategy(new OrderInvoiceEmailStrategy(buyer.getEmail(), buyer.getName(),
+                        order.generateInvoice()))
                 .build();
         emailService.send(invoice);
+    }
+
+    private List<Pass> createPasses(List<PassDto> passListDto) {
+        return passListDto.stream()
+                .map(passDto -> passFactory.create(passDto.maximumDailyTravelTime(),
+                        passDto.session(), passDto.billingFrequency()))
+                .toList();
     }
 }

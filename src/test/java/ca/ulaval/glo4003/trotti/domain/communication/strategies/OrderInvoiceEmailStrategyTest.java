@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class OrderInvoiceEmailStrategyTest {
+
     @Test
     void givenInvoice_whenGetMethods_thenReturnCorrectValues() {
         Order order = new OrderFixture().build();
-        CreditCard creditCard = new CreditCardFixture().build();
-        Invoice invoice = order.generateInvoice(creditCard.generateInvoice());
+        Invoice invoice = order.generateInvoice();
 
         OrderInvoiceEmailStrategy strategy =
                 new OrderInvoiceEmailStrategy(AN_EMAIL, A_NAME, invoice);

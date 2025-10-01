@@ -7,14 +7,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class CartTest {
+
     @Test
-    void givenCart_whenGetList_thenReturnedListIsUnmodifiable() {
+    void givenCart_whenGetPasses_thenReturnedListIsUnmodifiable() {
         Cart cart = new Cart();
         Pass pass = new PassFixture().build();
         cart.add(pass);
         cart.add(pass);
 
-        List<Pass> passList = cart.getList();
+        List<Pass> passList = cart.getPasses();
 
         Assertions.assertThrows(UnsupportedOperationException.class, passList::removeFirst);
     }
@@ -27,7 +28,7 @@ class CartTest {
         boolean added = cart.add(pass);
 
         Assertions.assertTrue(added);
-        Assertions.assertTrue(cart.getList().contains(pass));
+        Assertions.assertTrue(cart.getPasses().contains(pass));
     }
 
     @Test
@@ -39,7 +40,7 @@ class CartTest {
         boolean removed = cart.remove(pass.getId());
 
         Assertions.assertTrue(removed);
-        Assertions.assertFalse(cart.getList().contains(pass));
+        Assertions.assertFalse(cart.getPasses().contains(pass));
     }
 
     @Test
@@ -50,7 +51,7 @@ class CartTest {
 
         cart.clear();
 
-        Assertions.assertTrue(cart.getList().isEmpty());
+        Assertions.assertTrue(cart.getPasses().isEmpty());
     }
 
     @Test
