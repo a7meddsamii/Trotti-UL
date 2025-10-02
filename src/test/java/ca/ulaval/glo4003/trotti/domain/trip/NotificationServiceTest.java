@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import java.util.List;
@@ -24,6 +25,18 @@ class NotificationServiceTest {
     @Test
     void givenRidePermitsAndRecipient_whenNotifying_thenSendNotificationForEachRidePermit() {
         List<RidePermit> ridePermits = mockRidePermits();
+
+        notificationService.notify(A_RECIPIENT, ridePermits);
+
+        Mockito.verify(emailService, Mockito.times(ridePermits.size()))
+                .send(Mockito.any(EmailMessage.class));
+    }
+
+    @Test
+    void givenEmailServiceThrowsException_whenNotifying_thenShouldContinueForRemainingPermits() {
+        List<RidePermit> ridePermits = mockRidePermits();
+        Mockito.doThrow(EmailSendException.class).when(emailService)
+                .send(Mockito.any(EmailMessage.class));
 
         notificationService.notify(A_RECIPIENT, ridePermits);
 

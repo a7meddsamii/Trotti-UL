@@ -22,23 +22,20 @@ public class RidePermitActivationApplicationService {
         this.notificationService = notificationService;
     }
 
-    public void update() {
+    public void updateActivatedRidePermits() {
         List<Traveler> travelers = travelerRepository.findAll();
         travelers.forEach(this::processTraveler);
     }
 
     private void processTraveler(Traveler traveler) {
-        try {
-            List<RidePermit> boughtRidePermitsHistory =
-                    ridePermitHistoryGateway.getFullHistory(traveler.getIdul());
-            List<RidePermit> newlyActivatedRidePermits =
-                    traveler.updateActiveRidePermits(boughtRidePermitsHistory);
-            travelerRepository.update(traveler);
+        List<RidePermit> boughtRidePermitsHistory =
+                ridePermitHistoryGateway.getFullHistory(traveler.getIdul());
+        List<RidePermit> newlyActivatedRidePermits =
+                traveler.updateActiveRidePermits(boughtRidePermitsHistory);
+        travelerRepository.update(traveler);
 
-            if (!newlyActivatedRidePermits.isEmpty()) {
-                notificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
-            }
-        } catch (RuntimeException ignored) {
+        if (!newlyActivatedRidePermits.isEmpty()) {
+            notificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
         }
     }
 }

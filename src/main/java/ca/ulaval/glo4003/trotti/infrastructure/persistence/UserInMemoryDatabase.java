@@ -40,6 +40,11 @@ public class UserInMemoryDatabase {
         return Optional.ofNullable(buyerTable.get(idul));
     }
 
+    public Optional<BuyerRecord> selectFromBuyerTable(Email email) {
+        return buyerTable.values().stream().filter(buyer -> buyer.email().equals(email))
+                .findFirst();
+    }
+
     private void enforceForeignKeyConstraint(BuyerRecord buyer) {
         if (!accountTable.containsKey(buyer.idul())) {
             throw new IllegalStateException(
