@@ -3,12 +3,16 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.*;
 
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.CreditCardRecord;
+import java.time.YearMonth;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class BuyerPersistenceMapperTest {
 
@@ -49,7 +53,9 @@ class BuyerPersistenceMapperTest {
 
     @Test
     void givenBuyerRecordWithPaymentMethod_whenToBuyerDomain_thenReturnBuyer() {
-        BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), null);
+        SecuredString securedString = Mockito.mock(SecuredString.class);
+        CreditCardRecord creditCardRecord = new CreditCardRecord("John", securedString, YearMonth.of(2030, 12));
+        BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), creditCardRecord);
 
         Buyer result = buyerMapper.toBuyerDomain(record);
 
@@ -57,7 +63,7 @@ class BuyerPersistenceMapperTest {
         Assertions.assertEquals(record.name(), result.getName());
         Assertions.assertEquals(record.email(), result.getEmail());
         Assertions.assertEquals(record.cart().size(), result.getCart().getPasses().size());
-        Assertions.assertTrue(result.getPaymentMethod().isEmpty());
+        Assertions.assertFalse(result.getPaymentMethod().isEmpty());
     }
 
     @Test
