@@ -5,5 +5,5 @@ import ca.ulaval.glo4003.trotti.domain.order.Pass;
 import java.util.List;
 
 public interface PassRepository {
-    List<Pass> getAllPasses(Idul idul);
+    List<Pass> findAll(Idul idul);
 }
