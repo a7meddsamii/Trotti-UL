@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenc
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

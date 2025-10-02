@@ -4,9 +4,9 @@ import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.domain.order.Pass;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.CreditCardRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.PassRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.CreditCardRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.PassRecord;
 import java.util.ArrayList;
 import java.util.List;
 

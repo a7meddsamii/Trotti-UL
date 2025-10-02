@@ -4,7 +4,7 @@ import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.*;
 
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

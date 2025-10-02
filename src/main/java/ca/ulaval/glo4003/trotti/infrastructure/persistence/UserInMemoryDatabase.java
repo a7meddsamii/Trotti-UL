@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.persistence;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
