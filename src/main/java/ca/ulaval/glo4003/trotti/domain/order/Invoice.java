@@ -74,6 +74,14 @@ public final class Invoice {
             return this;
         }
 
+        public Builder lines(List<InvoiceLine> lines) {
+            if (lines == null) {
+                return this;
+            }
+            this.lines.addAll(lines);
+            return this;
+        }
+
         public Builder totalAmount(Money amount) {
             this.totalAmount = amount;
             return this;
