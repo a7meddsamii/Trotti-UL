@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +13,9 @@ public class PaymentMethodFactory {
     private static final String CVV_REGEX = "^\\d{3,4}$";
 
     private final CreditCardValidator creditCardValidator = new CreditCardValidator();
-    private final DataEncoder dataEncoder;
+    private final DataCodec dataEncoder;
 
-    public PaymentMethodFactory(DataEncoder dataEncoder) {
+    public PaymentMethodFactory(DataCodec dataEncoder) {
         this.dataEncoder = dataEncoder;
     }
 
