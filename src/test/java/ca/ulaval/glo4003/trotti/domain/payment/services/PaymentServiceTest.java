@@ -29,7 +29,7 @@ class PaymentServiceTest {
     void givenNullAmountToPay_whenProcess_thenReturnFailedTransaction() {
         Transaction transaction = paymentService.process(paymentMethod, null, A_VALID_CVV);
 
-        Assertions.assertFalse(transaction.isSuccess());
+        Assertions.assertFalse(transaction.isSuccessful());
     }
 
     @Test
@@ -38,7 +38,7 @@ class PaymentServiceTest {
 
         Transaction transaction = paymentService.process(paymentMethod, amountToPay, A_VALID_CVV);
 
-        Assertions.assertFalse(transaction.isSuccess());
+        Assertions.assertFalse(transaction.isSuccessful());
     }
 
     @Test
@@ -47,7 +47,7 @@ class PaymentServiceTest {
 
         Transaction transaction = paymentService.process(paymentMethod, amountToPay, A_VALID_CVV);
 
-        Assertions.assertFalse(transaction.isSuccess());
+        Assertions.assertFalse(transaction.isSuccessful());
     }
 
     @Test
@@ -55,7 +55,7 @@ class PaymentServiceTest {
         Transaction transaction =
                 paymentService.process(paymentMethod, amountToPay, AN_INVALID_CVV);
 
-        Assertions.assertFalse(transaction.isSuccess());
+        Assertions.assertFalse(transaction.isSuccessful());
     }
 
     @Test
@@ -65,7 +65,7 @@ class PaymentServiceTest {
 
         Transaction transaction = paymentService.process(paymentMethod, amountToPay, A_VALID_CVV);
 
-        Assertions.assertTrue(transaction.isSuccess());
+        Assertions.assertTrue(transaction.isSuccessful());
         Mockito.verify(paymentMethod).pay(amountToPay);
     }
 }

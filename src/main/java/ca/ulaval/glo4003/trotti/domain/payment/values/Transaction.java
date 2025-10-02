@@ -19,7 +19,7 @@ public class Transaction {
         this.timestamp = LocalDateTime.now();
     }
 
-    public boolean isSuccess() {
+    public boolean isSuccessful() {
         return this.status == TransactionStatus.SUCCESS;
     }
 

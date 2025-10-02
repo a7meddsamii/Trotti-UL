@@ -173,7 +173,7 @@ class OrderApplicationServiceTest {
         Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
                 .thenReturn(successfulTransaction);
         Mockito.when(transactionMapper.toDto(successfulTransaction)).thenReturn(transactionDto);
-        Mockito.when(successfulTransaction.isSuccess()).thenReturn(true);
+        Mockito.when(successfulTransaction.isSuccessful()).thenReturn(true);
         Mockito.when(successfulTransaction.toString()).thenReturn(TRANSACTION_STRING);
         Mockito.when(orderFactory.create(Mockito.any(Idul.class), Mockito.anyList()))
                 .thenReturn(order);
@@ -190,7 +190,7 @@ class OrderApplicationServiceTest {
         Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
                 .thenReturn(failedTransaction);
         Mockito.when(transactionMapper.toDto(failedTransaction)).thenReturn(transactionDto);
-        Mockito.when(failedTransaction.isSuccess()).thenReturn(false);
+        Mockito.when(failedTransaction.isSuccessful()).thenReturn(false);
         Mockito.when(failedTransaction.toString()).thenReturn(TRANSACTION_STRING);
         Mockito.when(orderFactory.create(Mockito.any(Idul.class), Mockito.anyList()))
                 .thenReturn(order);

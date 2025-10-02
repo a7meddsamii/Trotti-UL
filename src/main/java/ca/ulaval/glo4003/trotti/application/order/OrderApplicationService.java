@@ -53,7 +53,7 @@ public class OrderApplicationService {
         Transaction transaction =
                 paymentService.process(paymentMethod, buyer.getCartBalance(), cvv);
 
-        if (transaction.isSuccess()) {
+        if (transaction.isSuccessful()) {
             finalizeOrderFor(buyer);
         }
 
