@@ -10,7 +10,7 @@ public class Buyer {
     private final Idul idul;
     private final String name;
     private final Email email;
-    private final Cart cart;
+    private Cart cart;
     private CreditCard creditCard;
 
     public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
