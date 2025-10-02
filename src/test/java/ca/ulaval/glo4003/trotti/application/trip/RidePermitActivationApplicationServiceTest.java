@@ -89,7 +89,7 @@ class RidePermitActivationApplicationServiceTest {
 
     private List<Traveler> mockTravelersWithNewActivatedRidePermits() {
         List<Traveler> travelers = mockTravelers();
-        int numberOfRidePermits = RandomUtils.secure().randomInt(0, 20);
+        int numberOfRidePermits = RandomUtils.secure().randomInt(2, 20);
         List<RidePermit> newlyActivatedRidePermits = mockRidePermits(numberOfRidePermits);
         travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
                 .thenReturn(newlyActivatedRidePermits));
