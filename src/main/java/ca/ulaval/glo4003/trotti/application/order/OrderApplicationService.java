@@ -34,17 +34,18 @@ public class OrderApplicationService {
         this.invoiceFormatService = invoiceFormatService;
     }
 
-    public Transaction placeOrderFor(Idul idul) {
+    public Transaction placeOrderFor(Idul idul, String cvv) {
         Buyer buyer = buyerRepository.findByIdul(idul);
         CreditCard paymentMethod = buyer.getPaymentMethod().get();
 
-        Transaction transaction = paymentService.process(paymentMethod, buyer.getCartBalance());
+        Transaction transaction = paymentService.process(paymentMethod, buyer.getCartBalance(), cvv);
         emailService.send(EmailMessage.builder().withRecipient(buyer.getEmail())
                 .withSubject("Transaction Details").withBody(transaction.toString()).build());
 
         if (transaction.isFailed()) {
             return transaction;
         }
+
         Order order = orderFactory.create(idul, buyer.getCartPasses());
         Invoice invoice = order.generateInvoice();
         String formattedInvoice = invoiceFormatService.format(invoice);

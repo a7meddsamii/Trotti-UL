@@ -27,6 +27,7 @@ class OrderApplicationServiceTest {
 
     private static final String FORMATTED_INVOICE = "Formatted Invoice Content";
     private static final String TRANSACTION_STRING = "Transaction Details";
+    private static final String A_CVV = "123";
 
     private BuyerRepository buyerRepository;
     private OrderFactory orderFactory;
@@ -79,7 +80,7 @@ class OrderApplicationServiceTest {
         Mockito.when(buyer.getCartBalance()).thenReturn(cartBalance);
         Mockito.when(buyer.getEmail()).thenReturn(email);
         Mockito.when(buyer.getCartPasses()).thenReturn(passes);
-        Mockito.when(paymentService.process(paymentMethod, cartBalance))
+        Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
                 .thenReturn(successfulTransaction);
         Mockito.when(successfulTransaction.isFailed()).thenReturn(false);
         Mockito.when(successfulTransaction.toString()).thenReturn(TRANSACTION_STRING);
@@ -87,11 +88,11 @@ class OrderApplicationServiceTest {
         Mockito.when(order.generateInvoice()).thenReturn(invoice);
         Mockito.when(invoiceFormatService.format(invoice)).thenReturn(FORMATTED_INVOICE);
 
-        Transaction result = orderApplicationService.placeOrderFor(idul);
+        Transaction result = orderApplicationService.placeOrderFor(idul, A_CVV);
 
         Assertions.assertEquals(successfulTransaction, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
-        Mockito.verify(paymentService).process(paymentMethod, cartBalance);
+        Mockito.verify(paymentService).process(paymentMethod, cartBalance, A_CVV);
         Mockito.verify(orderFactory).create(idul, passes);
         Mockito.verify(order).generateInvoice();
         Mockito.verify(invoiceFormatService).format(invoice);
@@ -104,16 +105,16 @@ class OrderApplicationServiceTest {
         Mockito.when(buyer.getPaymentMethod()).thenReturn(Optional.of(paymentMethod));
         Mockito.when(buyer.getCartBalance()).thenReturn(cartBalance);
         Mockito.when(buyer.getEmail()).thenReturn(email);
-        Mockito.when(paymentService.process(paymentMethod, cartBalance))
+        Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
                 .thenReturn(failedTransaction);
         Mockito.when(failedTransaction.isFailed()).thenReturn(true);
         Mockito.when(failedTransaction.toString()).thenReturn(TRANSACTION_STRING);
 
-        Transaction result = orderApplicationService.placeOrderFor(idul);
+        Transaction result = orderApplicationService.placeOrderFor(idul, A_CVV);
 
         Assertions.assertEquals(failedTransaction, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
-        Mockito.verify(paymentService).process(paymentMethod, cartBalance);
+        Mockito.verify(paymentService).process(paymentMethod, cartBalance, A_CVV);
         Mockito.verify(orderFactory, Mockito.never()).create(Mockito.any(), Mockito.any());
         Mockito.verify(invoiceFormatService, Mockito.never()).format(Mockito.any());
         Mockito.verify(emailService, Mockito.times(1)).send(Mockito.any(EmailMessage.class));
@@ -126,7 +127,7 @@ class OrderApplicationServiceTest {
         Mockito.when(buyer.getCartBalance()).thenReturn(cartBalance);
         Mockito.when(buyer.getEmail()).thenReturn(email);
         Mockito.when(buyer.getCartPasses()).thenReturn(passes);
-        Mockito.when(paymentService.process(paymentMethod, cartBalance))
+        Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
                 .thenReturn(successfulTransaction);
         Mockito.when(successfulTransaction.isFailed()).thenReturn(false);
         Mockito.when(successfulTransaction.toString()).thenReturn(TRANSACTION_STRING);
@@ -134,10 +135,10 @@ class OrderApplicationServiceTest {
         Mockito.when(order.generateInvoice()).thenReturn(invoice);
         Mockito.when(invoiceFormatService.format(invoice)).thenReturn(FORMATTED_INVOICE);
 
-        orderApplicationService.placeOrderFor(idul);
+        orderApplicationService.placeOrderFor(idul, A_CVV);
 
         Mockito.verify(buyerRepository).findByIdul(idul);
-        Mockito.verify(paymentService).process(paymentMethod, cartBalance);
+        Mockito.verify(paymentService).process(paymentMethod, cartBalance, A_CVV);
         Mockito.verify(emailService, Mockito.times(2)).send(Mockito.any(EmailMessage.class));
         Mockito.verify(orderFactory).create(idul, passes);
         Mockito.verify(invoiceFormatService).format(invoice);
