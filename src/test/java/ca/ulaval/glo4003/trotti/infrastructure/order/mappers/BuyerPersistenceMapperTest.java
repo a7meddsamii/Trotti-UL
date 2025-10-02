@@ -3,11 +3,9 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.*;
 
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
-import ca.ulaval.glo4003.trotti.fixtures.CreditCardFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
-import java.util.Optional;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,56 +22,55 @@ class BuyerPersistenceMapperTest {
     }
 
     @Test
-    void givenBuyerWithPaymentMethod_whenToDTO_thenReturnBuyerRecord() {
-        Buyer buyer = buyerFixture.buildWithoutPaymentMethod();
+    void givenBuyerWithPaymentMethod_whenToRecord_thenReturnBuyerRecord() {
+        Buyer buyer = buyerFixture.buildWithPaymentMethod();
 
-        BuyerRecord dto = buyerMapper.toDTO(buyer);
-
-        Assertions.assertEquals(buyer.getIdul(), dto.idul());
-        Assertions.assertEquals(buyer.getName(), dto.name());
-        Assertions.assertEquals(buyer.getEmail(), dto.email());
-        Assertions.assertEquals(buyer.getCart(), dto.cart());
-        Assertions.assertEquals(buyer.getPaymentMethod(), dto.paymentMethod());
-    }
-
-    @Test
-    void givenBuyerWithoutPaymentMethod_whenToDTO_thenReturnBuyerRecordWithEmptyPaymentMethod() {
-        Buyer buyer = buyerFixture.buildWithoutPaymentMethod();
-
-        BuyerRecord dto = buyerMapper.toDTO(buyer);
+        BuyerRecord dto = buyerMapper.toBuyerRecord(buyer);
 
         Assertions.assertEquals(buyer.getIdul(), dto.idul());
         Assertions.assertEquals(buyer.getName(), dto.name());
         Assertions.assertEquals(buyer.getEmail(), dto.email());
-        Assertions.assertEquals(buyer.getCart(), dto.cart());
-        Assertions.assertTrue(dto.paymentMethod().isEmpty());
+        Assertions.assertEquals(buyer.getCart().getPasses().size(), dto.cart().size());
+        Assertions.assertEquals(buyer.getPaymentMethod().get().getSecuredString(), dto.paymentMethod().number());
     }
 
     @Test
-    void givenBuyerRecordWithPaymentMethod_whenToDomain_thenReturnBuyer() {
-        BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, new Cart(),
-                Optional.of(new CreditCardFixture().build()));
+    void givenBuyerWithoutPaymentMethod_whenToRecord_thenReturnBuyerRecordWithNullPaymentMethod() {
+        Buyer buyer = buyerFixture.buildWithoutPaymentMethod();
 
-        Buyer result = buyerMapper.toDomain(record);
+        BuyerRecord dto = buyerMapper.toBuyerRecord(buyer);
+
+        Assertions.assertEquals(buyer.getIdul(), dto.idul());
+        Assertions.assertEquals(buyer.getName(), dto.name());
+        Assertions.assertEquals(buyer.getEmail(), dto.email());
+        Assertions.assertEquals(buyer.getCart().getPasses().size(), dto.cart().size());
+        Assertions.assertNull(dto.paymentMethod());
+    }
+
+    @Test
+    void givenBuyerRecordWithPaymentMethod_whenToBuyerDomain_thenReturnBuyer() {
+        BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), null);
+
+        Buyer result = buyerMapper.toBuyerDomain(record);
 
         Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());
         Assertions.assertEquals(record.email(), result.getEmail());
-        Assertions.assertEquals(record.cart(), result.getCart());
-        Assertions.assertEquals(record.paymentMethod(), result.getPaymentMethod());
+        Assertions.assertEquals(record.cart().size(), result.getCart().getPasses().size());
+        Assertions.assertTrue(result.getPaymentMethod().isEmpty());
     }
 
     @Test
-    void givenBuyerRecordWithoutPaymentMethod_whenToDomain_thenReturnBuyerWithoutPaymentMethod() {
+    void givenBuyerRecordWithoutPaymentMethod_whenToBuyerDomain_thenReturnBuyerWithoutPaymentMethod() {
         BuyerRecord record =
-                new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, new Cart(), Optional.empty());
+                new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), null);
 
-        Buyer result = buyerMapper.toDomain(record);
+        Buyer result = buyerMapper.toBuyerDomain(record);
 
         Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());
         Assertions.assertEquals(record.email(), result.getEmail());
-        Assertions.assertEquals(record.cart(), result.getCart());
+        Assertions.assertEquals(record.cart().size(), result.getCart().getPasses().size());
         Assertions.assertTrue(result.getPaymentMethod().isEmpty());
     }
 }

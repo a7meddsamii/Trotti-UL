@@ -14,13 +14,6 @@ public class Buyer {
     private final Cart cart;
     private CreditCard creditCard;
 
-    public Buyer(Idul idul, String name, Email email, Cart cart) {
-        this.idul = idul;
-        this.name = name;
-        this.email = email;
-        this.cart = cart;
-    }
-
     public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
         this.idul = idul;
         this.name = name;

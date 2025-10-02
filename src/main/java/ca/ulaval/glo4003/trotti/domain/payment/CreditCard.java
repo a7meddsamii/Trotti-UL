@@ -8,32 +8,39 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CreditCard implements PaymentMethod {
 
-    private static final String CVV_3_OR_4_DIGITS_REGEX = "^\\d{3,4}$";
-
     private final SecuredString cardNumber;
     private final String cardHolderName;
     private final YearMonth expiryDate;
-    private final String cvv;
 
     private CreditCard(
             SecuredString cardNumber,
             String cardHolderName,
-            YearMonth expiryDate,
-            String cvv) {
-        validate(cardNumber, cardHolderName, cvv);
+            YearMonth expiryDate) {
+        validate(cardNumber, cardHolderName);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
         this.expiryDate = expiryDate;
-        this.cvv = cvv;
     }
 
     public static CreditCard from(SecuredString cardNumber, String cardHolderName,
-            YearMonth expiryDate, String cvv) {
-        return new CreditCard(cardNumber, cardHolderName, expiryDate, cvv);
+            YearMonth expiryDate) {
+        return new CreditCard(cardNumber, cardHolderName, expiryDate);
     }
 
     public String getCardNumber() {
         return cardNumber.getMasked();
+    }
+
+    public SecuredString getSecuredString() {
+        return cardNumber;
+    }
+
+    public String getCardHolderName() {
+        return cardHolderName;
+    }
+
+    public YearMonth getExpiryDate() {
+        return expiryDate;
     }
 
     @Override
@@ -46,7 +53,7 @@ public class CreditCard implements PaymentMethod {
         return expiryDate.isBefore(YearMonth.now());
     }
 
-    private void validate(SecuredString cardNumber, String cardHolderName, String cvv) {
+    private void validate(SecuredString cardNumber, String cardHolderName) {
         if (cardNumber == null) {
             throw new InvalidPaymentMethodException("Card number cannot be empty");
         }
@@ -54,13 +61,5 @@ public class CreditCard implements PaymentMethod {
         if (StringUtils.isBlank(cardHolderName)) {
             throw new InvalidPaymentMethodException("Cardholder name cannot be empty");
         }
-
-        if (!isValidCvv(cvv)) {
-            throw new InvalidPaymentMethodException("CVV must be 3 or 4 digits");
-        }
-    }
-
-    private boolean isValidCvv(String cvv) {
-        return cvv != null && cvv.matches(CVV_3_OR_4_DIGITS_REGEX);
     }
 }

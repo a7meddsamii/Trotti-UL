@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class InMemoryBuyerRepositoryIntegrationTest {
     private static final Idul IDUL_OF_NON_EXISTING_BUYER = Idul.from("NONEXIST");
@@ -48,7 +49,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
         buyerRepository.update(buyer);
         Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
 
-        Assertions.assertTrue(retrievedBuyer.isPresent());
+        Assertions.assertNotNull(retrievedBuyer);
     }
 
     @Test
@@ -57,11 +58,11 @@ class InMemoryBuyerRepositoryIntegrationTest {
         Account account = new AccountFixture().build();
         accountRepository.save(account);
 
-        buyerRepository.save(buyer);
-        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+        buyerRepository.update(buyer);
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
 
-        Assertions.assertTrue(retrievedBuyer.isPresent());
-        assertEquals(buyer, retrievedBuyer.get());
+        Assertions.assertNotNull(retrievedBuyer);
+        assertEquals(buyer, retrievedBuyer);
     }
 
     @Test
@@ -70,32 +71,32 @@ class InMemoryBuyerRepositoryIntegrationTest {
         Account account = new AccountFixture().build();
         accountRepository.save(account);
 
-        buyerRepository.save(buyer);
-        Optional<Buyer> retrievedBuyer = buyerRepository.findByEmail(buyer.getEmail());
+        buyerRepository.update(buyer);
+        Buyer retrievedBuyer = buyerRepository.findByEmail(buyer.getEmail());
 
-        Assertions.assertTrue(retrievedBuyer.isPresent());
-        assertEquals(buyer, retrievedBuyer.get());
+        Assertions.assertNotNull(retrievedBuyer);
+        assertEquals(buyer, retrievedBuyer);
     }
 
     @Test
-    void givenIdulOfNonExistingBuyer_whenFindingByIdul_thenReturnEmpty() {
-        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(IDUL_OF_NON_EXISTING_BUYER);
+    void givenIdulOfNonExistingBuyer_whenFindingByIdul_thenExceptionIsThrown() {
+        Executable executable = () -> buyerRepository.findByIdul(IDUL_OF_NON_EXISTING_BUYER);
 
-        Assertions.assertTrue(retrievedBuyer.isEmpty());
+        Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     @Test
-    void givenEmailOfNonExistingBuyer_whenFindingByEmail_thenReturnEmpty() {
-        Optional<Buyer> retrievedBuyer = buyerRepository.findByEmail(EMAIL_OF_NON_EXISTING_BUYER);
+    void givenEmailOfNonExistingBuyer_whenFindingByEmail_thenExceptionIsThrown() {
+        Executable executable = () -> buyerRepository.findByEmail(EMAIL_OF_NON_EXISTING_BUYER);
 
-        Assertions.assertTrue(retrievedBuyer.isEmpty());
+        Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     private void assertEquals(Buyer expected, Buyer actual) {
         Assertions.assertEquals(expected.getIdul(), actual.getIdul());
         Assertions.assertEquals(expected.getEmail(), actual.getEmail());
         Assertions.assertEquals(expected.getName(), actual.getName());
-        Assertions.assertEquals(expected.getCart(), actual.getCart());
-        Assertions.assertEquals(expected.getPaymentMethod(), actual.getPaymentMethod());
+        Assertions.assertEquals(expected.getPaymentMethod().get().getSecuredString(), actual.getPaymentMethod().get().getSecuredString());
+        Assertions.assertEquals(expected.getCart().getPasses(), actual.getCart().getPasses());
     }
 }

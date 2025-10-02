@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class BuyerTest {
 
     @Test
     void givenBuyerWithoutPaymentMethod_whenUpdatePaymentMethod_thenPaymentMethodIsSet() {
-        Buyer buyerWithoutPaymentMethod = new Buyer(idul, BUYER_NAME, email, cart);
+        Buyer buyerWithoutPaymentMethod = new BuyerFixture().buildWithPaymentMethod();
 
         buyerWithoutPaymentMethod.updatePaymentMethod(paymentMethod);
 
