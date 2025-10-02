@@ -1,13 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
-import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class PaymentServiceTest {
@@ -25,44 +23,38 @@ class PaymentServiceTest {
     }
 
     @Test
-    void givenNullPaymentMethod_whenProcess_thenThrowException() {
-        Executable executable = () -> paymentService.process(null, amountToPay);
+    void givenNullAmountToPay_whenProcess_thenReturnFailedTransaction() {
+        Transaction transaction = paymentService.process(paymentMethod, null);
 
-        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
+        Assertions.assertTrue(transaction.isFailed());
     }
 
     @Test
-    void givenNullAmountToPay_whenProcess_thenThrowException() {
-        Executable executable = () -> paymentService.process(paymentMethod, null);
-
-        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
-    }
-
-    @Test
-    void givenNegativeAmountToPay_whenProcess_thenThrowException() {
+    void givenNegativeAmountToPay_whenProcess_thenReturnFailedTransaction() {
         Mockito.when(amountToPay.isNegative()).thenReturn(true);
 
-        Executable executable = () -> paymentService.process(paymentMethod, amountToPay);
+        Transaction transaction = paymentService.process(paymentMethod, amountToPay);
 
-        Assertions.assertThrows(InvalidPaymentRequestException.class, executable);
+        Assertions.assertTrue(transaction.isFailed());
     }
 
     @Test
-    void givenExpiredPaymentMethod_whenProcess_thenThrowException() {
+    void givenExpiredPaymentMethod_whenProcess_thenReturnFailedTransaction() {
         Mockito.when(paymentMethod.isExpired()).thenReturn(true);
 
-        Executable executable = () -> paymentService.process(paymentMethod, amountToPay);
+        Transaction transaction = paymentService.process(paymentMethod, amountToPay);
 
-        Assertions.assertThrows(PaymentDeclinedException.class, executable);
+        Assertions.assertTrue(transaction.isFailed());
     }
 
     @Test
-    void givenValidPaymentMethod_whenProcess_thenPaymentMethodPays() {
+    void givenValidPaymentMethod_whenProcess_thenReturnSuccessfulTransaction() {
         Mockito.when(paymentMethod.isExpired()).thenReturn(false);
         Mockito.when(amountToPay.isNegative()).thenReturn(false);
 
-        paymentService.process(paymentMethod, amountToPay);
+        Transaction transaction = paymentService.process(paymentMethod, amountToPay);
 
+        Assertions.assertFalse(transaction.isFailed());
         Mockito.verify(paymentMethod).pay(amountToPay);
     }
 }
