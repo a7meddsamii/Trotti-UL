@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
@@ -17,7 +16,7 @@ public class RidePermitActivationApplicationService {
     public RidePermitActivationApplicationService(
             TravelerRepository travelerRepository,
             RidePermitHistoryGateway ridePermitHistoryGateway,
-            RidePermitNotificationService ridePermitNotificationService) {
+            NotificationService<List<RidePermit>> ridePermitNotificationService) {
         this.travelerRepository = travelerRepository;
         this.ridePermitHistoryGateway = ridePermitHistoryGateway;
         this.ridePermitNotificationService = ridePermitNotificationService;

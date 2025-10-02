@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
@@ -25,7 +26,7 @@ class RidePermitActivationApplicationServiceTest {
     private TravelerRepository travelerRepository;
     private RidePermitHistoryGateway ridePermitHistoryGateway;
     private RidePermitActivationApplicationService ridePermitActivationApplicationService;
-    private RidePermitNotificationService ridePermitNotificationService;
+    private NotificationService<List<RidePermit>> ridePermitNotificationService;
     private List<Traveler> existingTravelers;
 
     @BeforeEach

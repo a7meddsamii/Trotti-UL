@@ -133,24 +133,41 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenSuccessfulTransaction_whenPlaceOrderFor_thenSavesPassesAndUpdatesBuyer() {
+    void givenSuccessfulTransaction_whenPlaceOrderFor_thenSavesPasses() {
+        mockSuccessfulTransaction();
+        Mockito.when(buyer.confirmCartPasses()).thenReturn(confirmedPasses);
+
+        orderApplicationService.placeOrderFor(idul, A_CVV);
+
+        Mockito.verify(passRepository).saveAll(confirmedPasses);
+    }
+
+    @Test
+    void givenSuccessfulTransaction_whenPlaceOrderFor_thenUpdatesBuyer() {
         mockSuccessfulTransaction();
         Mockito.when(buyer.confirmCartPasses()).thenReturn(confirmedPasses);
 
         orderApplicationService.placeOrderFor(idul, A_CVV);
 
         Mockito.verify(buyerRepository).update(buyer);
-        Mockito.verify(passRepository).saveAll(confirmedPasses);
     }
 
     @Test
-    void givenFailedTransaction_whenPlaceOrderFor_thenDoesNotSavePassesOrUpdateBuyer() {
+    void givenFailedTransaction_whenPlaceOrderFor_thenDoesNotSavePasses() {
         mockFailedTransaction();
 
         orderApplicationService.placeOrderFor(idul, A_CVV);
 
-        Mockito.verify(buyerRepository, Mockito.never()).update(buyer);
         Mockito.verify(passRepository, Mockito.never()).saveAll(Mockito.anyList());
+    }
+
+    @Test
+    void givenFailedTransaction_whenPlaceOrderFor_thenDoesNotUpdateBuyer() {
+        mockFailedTransaction();
+
+        orderApplicationService.placeOrderFor(idul, A_CVV);
+
+        Mockito.verify(buyerRepository, Mockito.never()).update(Mockito.any());
     }
 
     @Test

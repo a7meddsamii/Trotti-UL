@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.RandomUtils;
@@ -14,7 +15,7 @@ import org.mockito.Mockito;
 class RidePermitNotificationServiceTest {
     private static final Email A_RECIPIENT = Email.from("johndoe@ulaval.ca");
     private EmailService emailService;
-    private RidePermitNotificationService ridePermitNotificationService;
+    private NotificationService<List<RidePermit>> ridePermitNotificationService;
 
     @BeforeEach
     void setup() {
