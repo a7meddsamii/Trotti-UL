@@ -20,7 +20,8 @@ public class SchedulerManager {
 
     public void start() {
         try {
-            if (!scheduler.isStarted()) scheduler.start();
+            if (!scheduler.isStarted())
+                scheduler.start();
         } catch (SchedulerException e) {
             throw new RuntimeException("Failed to start scheduler", e);
         }
@@ -28,13 +29,15 @@ public class SchedulerManager {
 
     public void shutdown() {
         try {
-            if (!scheduler.isShutdown()) scheduler.shutdown(true);
+            if (!scheduler.isShutdown())
+                scheduler.shutdown(true);
         } catch (SchedulerException e) {
             LOGGER.warn("Error shutting down scheduler", e);
         }
     }
 
-    public boolean scheduleIfAbsent(JobDetail jobDetail, Trigger trigger) throws SchedulerException {
+    public boolean scheduleIfAbsent(JobDetail jobDetail, Trigger trigger)
+            throws SchedulerException {
         TriggerKey triggerKey = trigger.getKey();
         if (scheduler.checkExists(triggerKey)) {
             LOGGER.info("Trigger {} already exists, skipping schedule", triggerKey);

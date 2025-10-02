@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
@@ -29,27 +30,28 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
+import java.nio.file.Path;
+import java.time.Clock;
+import java.time.Duration;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.SecretKey;
-import java.nio.file.Path;
-import java.time.Clock;
-import java.time.Duration;
-import java.time.format.DateTimeParseException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 public class ServerResourceInstantiation {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiation.class);
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
     private static final String EMAIL_USER = "STMP_USER";
     private static final String EMAIL_PASSWORD = "STMP_PASS";
@@ -61,25 +63,27 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-	private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
-	
-	private static ServerResourceInstantiation instance;
+    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+
+    private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
 
     private EmailService emailService;
     private PasswordHasher hasher;
+
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
-    private PassMapper passMapper;
-    private OrderFactory orderFactory;
-    private PaymentService paymentService;
 
+    private PassRepository passRepository;
+    private PassMapper passMapper;
+    private AccountApiMapper accountApiMapper;
+    private OrderFactory orderFactory;
+
+    private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
-
-    private AccountApiMapper accountApiMapper;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -123,10 +127,13 @@ public class ServerResourceInstantiation {
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
     }
-	
-	private void loadPassRepository() {
-		PassRepository passRepository = new InMemoryPassRepository();
-	}
+
+    private void loadPassRepository() {
+        PassPersistenceMapper passMapper = new PassPersistenceMapper();
+        passRepository = new InMemoryPassRepository(passMapper);
+        locator.register(PassPersistenceMapper.class, passMapper);
+        locator.register(PassRepository.class, passRepository);
+    }
 
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
@@ -183,17 +190,22 @@ public class ServerResourceInstantiation {
                 buyerRepository, orderFactory, paymentService, emailService, null);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
-	
-	private void loadRidePermitActivationService() {
-		NotificationService notificationService = new NotificationService(emailService);
-		RidePermitHistoryGateway ridePermitHistoryGateway = new RidePermitHistoryGatewayAdapter(
-		
-		RidePermitActivationApplicationService ridePermitActivationService = new RidePermitActivationApplicationService(
-				travelerRepository,
-				
-		);
-	}
-	
+
+    private void loadRidePermitActivationService() {
+        NotificationService notificationService = new NotificationService(emailService);
+        RidePermitHistoryGateway ridePermitHistoryGateway =
+                new RidePermitHistoryGatewayAdapter(passRepository);
+        TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
+                                                                                  // object so
+                                                                                  // everyone can
+                                                                                  // run app with
+                                                                                  // full
+        RidePermitActivationApplicationService ridePermitActivationService =
+                new RidePermitActivationApplicationService(travelerRepository,
+                        ridePermitHistoryGateway, notificationService);
+        locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
+        locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
+    }
 
     private void loadAccountMapper() {
         accountApiMapper = new AccountApiMapper(hasher);
@@ -218,6 +230,7 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+        loadPassRepository();
         loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
@@ -225,9 +238,21 @@ public class ServerResourceInstantiation {
         loadOrderFactory();
         loadPaymentService();
         loadOrderService();
-		loadRidePermitActivationService();
+        loadRidePermitActivationService();
         loadAccountMapper();
         loadAccountResource();
         resourcesCreated = true;
+    }
+
+    class TravelerRepositoryInMemory implements TravelerRepository {
+        @Override
+        public List<Traveler> findAll() {
+            return List.of();
+        }
+
+        @Override
+        public void update(Traveler traveler) {
+
+        }
     }
 }
