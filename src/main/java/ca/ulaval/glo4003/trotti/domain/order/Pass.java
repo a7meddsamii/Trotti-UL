@@ -24,6 +24,19 @@ public class Pass {
         this.id = id;
     }
 
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency,
+            Idul idul,
+            Id id) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.idul = idul;
+        this.id = id;
+    }
+
     public MaximumDailyTravelTime getMaximumTravelingTime() {
         return maximumTravelingTime;
     }
@@ -38,6 +51,10 @@ public class Pass {
 
     public Id getId() {
         return id;
+    }
+
+    public Idul getBuyerIdul() {
+        return idul;
     }
 
     public Money calculateAmount() {
