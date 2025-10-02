@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import org.apache.commons.lang3.math.NumberUtils;
 
-public class AesDataCodec implements DataCodec {
+public class AesDataCodecAdapter implements DataCodec {
 
     private static final String AES_TRANSFORMATION = "AES/GCM/NoPadding";
     private static final int GCM_TAG_LENGTH = 128;
@@ -18,7 +18,7 @@ public class AesDataCodec implements DataCodec {
     private final SecretKey secretKey;
     private final SecureRandom secureRandom = new SecureRandom();
 
-    public AesDataCodec(SecretKey secretKey) {
+    public AesDataCodecAdapter(SecretKey secretKey) {
         this.secretKey = secretKey;
     }
 

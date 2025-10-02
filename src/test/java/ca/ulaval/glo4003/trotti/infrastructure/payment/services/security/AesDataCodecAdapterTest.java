@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-class AesDataCodecTest {
+class AesDataCodecAdapterTest {
 
     private static final String RAW_STRING = "This is a test string.";
     private static final String INVALID_ENCODED_STRING = "InvalidEncodedString";
@@ -18,7 +18,7 @@ class AesDataCodecTest {
 
     @BeforeEach
     void setup() {
-        aesDataCodec = new AesDataCodec(generateSecretKey());
+        aesDataCodec = new AesDataCodecAdapter(generateSecretKey());
     }
 
     @Test
