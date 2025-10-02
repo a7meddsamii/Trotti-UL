@@ -13,10 +13,10 @@ public class PaymentMethodFactory {
     private static final String CVV_REGEX = "^\\d{3,4}$";
 
     private final CreditCardValidator creditCardValidator = new CreditCardValidator();
-    private final DataCodec dataEncoder;
+    private final DataCodec dataCodec;
 
-    public PaymentMethodFactory(DataCodec dataEncoder) {
-        this.dataEncoder = dataEncoder;
+    public PaymentMethodFactory(DataCodec dataCodec) {
+        this.dataCodec = dataCodec;
     }
 
     public CreditCard createCreditCard(String cardNumber, String cardHolderName,
@@ -26,7 +26,7 @@ public class PaymentMethodFactory {
         validateExpirationDate(expirationDate);
         validateCvv(cvv);
 
-        return CreditCard.from(SecuredString.fromPlain(cardNumber, dataEncoder), cardHolderName,
+        return CreditCard.from(SecuredString.fromPlain(cardNumber, dataCodec), cardHolderName,
                 expirationDate);
     }
 
