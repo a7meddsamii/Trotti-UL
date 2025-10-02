@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.dataFactory;
+package ca.ulaval.glo4003.trotti.infrastructure.config.datafactories;
 
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
