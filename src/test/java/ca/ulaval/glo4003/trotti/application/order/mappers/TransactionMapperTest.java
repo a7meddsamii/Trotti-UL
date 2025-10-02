@@ -13,7 +13,8 @@ class TransactionMapperTest {
 
     @Test
     void givenTransaction_whenToDto_thenReturnTransactionDto() {
-        Transaction transaction = new Transaction(TransactionStatus.SUCCESS, Money.zeroCad(), "Test Transaction");
+        Transaction transaction =
+                new Transaction(TransactionStatus.SUCCESS, Money.zeroCad(), "Test Transaction");
 
         TransactionDto transactionDto = transactionMapper.toDto(transaction);
 
