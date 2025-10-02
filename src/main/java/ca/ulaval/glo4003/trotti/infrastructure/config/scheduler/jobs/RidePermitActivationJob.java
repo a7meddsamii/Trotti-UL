@@ -16,13 +16,13 @@ public class RidePermitActivationJob implements Job {
     @Override
     public void execute(JobExecutionContext ctx) throws JobExecutionException {
         try {
-            var svc = ServerResourceLocator.getInstance()
+            RidePermitActivationApplicationService service = ServerResourceLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
-            svc.updateActivatedRidePermits();
+            service.updateActivatedRidePermits();
             LOGGER.info("RidePermitActivationJob executed");
         } catch (Exception e) {
             LOGGER.error("RidePermitActivationJob failed", e);
-            throw new JobExecutionException(e, false); // false => do not retry immediately
+            throw new JobExecutionException(e, false);
         }
     }
 }

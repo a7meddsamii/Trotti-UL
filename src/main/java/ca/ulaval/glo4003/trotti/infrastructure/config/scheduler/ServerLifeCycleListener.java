@@ -5,13 +5,20 @@ import org.glassfish.jersey.server.monitoring.ApplicationEvent;
 import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.Job;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 
 public class ServerLifeCycleListener implements ApplicationEventListener {
     public static final Logger LOGGER =
             org.slf4j.LoggerFactory.getLogger(ServerLifeCycleListener.class);
-    public static final String EVERYDAY_AT_MIDNIGHT_AND_NOON = "0/5 * * * * ?";
+    public static final String EVERYDAY_AT_MIDNIGHT_AND_NOON = "0/30 * * * * ?";
 
     private final SchedulerManager schedulerManager;
 
