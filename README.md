@@ -99,6 +99,11 @@ Edit the `.env` file and add the required variables, for example:
 ```env
 TOKEN_EXPIRATION_DURATION=PT60M
 JWT_SECRET=secret_key
+STMP_USER="email@adress.ca"
+STMP_PASS="password"
+STMP_HOST="smtp.example.com"
+STMP_PORT: "587"
+INITIALIZE_DEMO_DATA=true
 ```
 
 #### 3. Run the app using the `.env` file
