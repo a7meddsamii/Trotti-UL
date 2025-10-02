@@ -19,7 +19,7 @@ class PassTest {
 
     @Test
     void givenPassNotAssociatedToBuyer_whenLinkToBuyer_thenReturnsTrue() {
-        Pass pass = new PassFixture().build();
+        Pass pass = new PassFixture().withIdul(null).build();
 
         boolean isLinkedToBuyer = pass.linkToBuyer(AN_IDUL);
 
@@ -38,7 +38,7 @@ class PassTest {
 
     @Test
     void givenPassNotAssociatedToBuyer_whenIsPurchased_thenReturnsFalse() {
-        Pass pass = new PassFixture().build();
+        Pass pass = new PassFixture().withIdul(null).build();
 
         boolean isPurchased = pass.isPurchased();
 

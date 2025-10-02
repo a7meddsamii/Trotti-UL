@@ -27,13 +27,24 @@ public class Pass {
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
             BillingFrequency billingFrequency,
+            Id id) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.id = id;
+    }
+
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency,
             Id id,
             Idul owner) {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
-        this.id = id;
         this.owner = owner;
+        this.id = id;
     }
 
     public MaximumDailyTravelTime getMaximumTravelingTime() {
@@ -65,12 +76,16 @@ public class Pass {
         return true;
     }
 
-    public boolean isPurchased() {
-        return owner != null;
+    public Idul getBuyerIdul() {
+        return owner;
     }
 
     public Money calculateAmount() {
         return maximumTravelingTime.calculateAmount();
+    }
+
+    public boolean isPurchased() {
+        return owner != null;
     }
 
     @Override
@@ -79,9 +94,5 @@ public class Pass {
                 + maximumTravelingTime.toString() + ", Session: " + session.toString()
                 + ", Billing frequency: " + billingFrequency.toString() + ", Cost: "
                 + calculateAmount().toString();
-    }
-
-    public Idul getIdul() {
-        return idul;
     }
 }
