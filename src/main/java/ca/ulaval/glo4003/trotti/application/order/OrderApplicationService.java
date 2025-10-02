@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.domain.order.Order;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import java.lang.module.InvalidModuleDescriptorException;
 
@@ -34,7 +34,7 @@ public class OrderApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul);
         Cart cart = buyer.getCart();
 
-        PaymentMethod paymentMethod = buyer.getPaymentMethod().orElseThrow(
+        CreditCard paymentMethod = buyer.getPaymentMethod().orElseThrow(
                 () -> new InvalidModuleDescriptorException("No payment method found."));
         paymentService.process(paymentMethod, cart.calculateAmount());
 

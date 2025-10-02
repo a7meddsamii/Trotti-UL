@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 
-public class CreditCard implements PaymentMethod {
+public class CreditCard {
 
     private final SecuredString cardNumber;
     private final String cardHolderName;
@@ -40,12 +40,10 @@ public class CreditCard implements PaymentMethod {
         return expiryDate;
     }
 
-    @Override
     public void pay(Money amount) {
         System.out.println("Paid " + amount + " with credit card ending in " + getCardNumber());
     }
 
-    @Override
     public boolean isExpired() {
         return expiryDate.isBefore(YearMonth.now());
     }

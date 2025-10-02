@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 
 public class PaymentService {
 
-    public void process(PaymentMethod paymentMethod, Money amountToPay) {
+    public void process(CreditCard paymentMethod, Money amountToPay) {
         if (paymentMethod == null) {
             throw new InvalidPaymentRequestException("Payment method cannot be null");
         }
