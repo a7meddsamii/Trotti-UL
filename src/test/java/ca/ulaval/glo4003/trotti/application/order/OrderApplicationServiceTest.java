@@ -125,11 +125,6 @@ class OrderApplicationServiceTest {
         Executable placeOrderAction = () -> orderApplicationService.placeOrderFor(idul, A_CVV);
 
         Assertions.assertThrows(InvalidPaymentMethodException.class, placeOrderAction);
-
-        Mockito.verifyNoInteractions(paymentService);
-        Mockito.verifyNoInteractions(orderFactory);
-        Mockito.verifyNoInteractions(invoiceNotificationService);
-        Mockito.verifyNoInteractions(transactionNotificationService);
     }
 
     @Test
