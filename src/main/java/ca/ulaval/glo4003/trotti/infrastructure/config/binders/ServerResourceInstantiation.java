@@ -170,7 +170,10 @@ public class ServerResourceInstantiation {
 
     private void loadOrderService() {
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, null); //TODO invoiceFormatService impl coming soon.
+                buyerRepository, orderFactory, paymentService, emailService, null); // TODO
+                                                                                    // invoiceFormatService
+                                                                                    // impl coming
+                                                                                    // soon.
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
