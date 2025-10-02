@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -30,6 +31,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -172,15 +174,13 @@ public class ServerResourceInstantiation {
 
     private void loadOrderService() {
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, null); // TODO
-                                                                                    // invoiceFormatService
-                                                                                    // impl coming
-                                                                                    // soon.
+                buyerRepository, orderFactory, paymentService, emailService, null);
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 	
 	private void loadRidePermitActivationService() {
 		NotificationService notificationService = new NotificationService(emailService);
+		RidePermitHistoryGateway ridePermitHistoryGateway = new RidePermitHistoryGatewayAdapter(
 		
 		RidePermitActivationApplicationService ridePermitActivationService = new RidePermitActivationApplicationService(
 				travelerRepository,
