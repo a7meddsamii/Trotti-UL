@@ -56,7 +56,7 @@ public final class Invoice {
         private Id orderId;
         private Idul buyer;
         private List<InvoiceLine> lines = new ArrayList<>();
-        private LocalDate issueDate;
+        private LocalDate issueDate = LocalDate.now();
         private Money totalAmount;
 
         public Builder id(Id id) {

@@ -12,9 +12,16 @@ import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -24,7 +31,12 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -65,6 +77,7 @@ public class ServerResourceInstantiation {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
+    private PassRepository passRepository;
     private PassMapper passMapper;
     private OrderFactory orderFactory;
     private PaymentService paymentService;
@@ -113,9 +126,18 @@ public class ServerResourceInstantiation {
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
+    }
+
+    private void loadPassRepository() {
+        PassPersistenceMapper passMapper = new PassPersistenceMapper();
+        passRepository = new InMemoryPassRepository(passMapper);
+        locator.register(PassRepository.class, passRepository);
+
     }
 
     private void loadSessionProvider() {
@@ -169,11 +191,12 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
+        InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
+        NotificationService<Invoice> invoiceNotificationService = new InvoiceNotificationService(emailService, invoiceFormatService);
+        NotificationService<Transaction> transactionNotificationService = new TransactionNotificationService(emailService);
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, null); // TODO
-                                                                                    // invoiceFormatService
-                                                                                    // impl coming
-                                                                                    // soon.
+                buyerRepository, passRepository, orderFactory, paymentService, transactionNotificationService, invoiceNotificationService);
+
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
@@ -200,6 +223,7 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+        loadPassRepository();
         loadSessionProvider();
         loadAccountFactory();
         loadAccountService();

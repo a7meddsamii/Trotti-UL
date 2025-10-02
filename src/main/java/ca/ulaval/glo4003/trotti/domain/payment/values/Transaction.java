@@ -19,8 +19,8 @@ public class Transaction {
         this.timestamp = LocalDateTime.now();
     }
 
-    public boolean isFailed() {
-        return this.status == TransactionStatus.FAILED;
+    public boolean isSuccess() {
+        return this.status == TransactionStatus.SUCCESS;
     }
 
     public Id getTransactionId() {

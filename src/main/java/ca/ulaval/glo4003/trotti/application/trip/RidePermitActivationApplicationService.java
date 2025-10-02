@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
@@ -11,15 +12,15 @@ public class RidePermitActivationApplicationService {
 
     private final TravelerRepository travelerRepository;
     private final RidePermitHistoryGateway ridePermitHistoryGateway;
-    private final NotificationService notificationService;
+    private final NotificationService<List<RidePermit>> ridePermitNotificationService;
 
     public RidePermitActivationApplicationService(
             TravelerRepository travelerRepository,
             RidePermitHistoryGateway ridePermitHistoryGateway,
-            NotificationService notificationService) {
+            RidePermitNotificationService ridePermitNotificationService) {
         this.travelerRepository = travelerRepository;
         this.ridePermitHistoryGateway = ridePermitHistoryGateway;
-        this.notificationService = notificationService;
+        this.ridePermitNotificationService = ridePermitNotificationService;
     }
 
     public void updateActivatedRidePermits() {
@@ -35,7 +36,7 @@ public class RidePermitActivationApplicationService {
         travelerRepository.update(traveler);
 
         if (!newlyActivatedRidePermits.isEmpty()) {
-            notificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
+            ridePermitNotificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
         }
     }
 }

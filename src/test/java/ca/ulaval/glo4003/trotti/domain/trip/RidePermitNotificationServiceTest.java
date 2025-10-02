@@ -11,22 +11,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class NotificationServiceTest {
+class RidePermitNotificationServiceTest {
     private static final Email A_RECIPIENT = Email.from("johndoe@ulaval.ca");
     private EmailService emailService;
-    private NotificationService notificationService;
+    private RidePermitNotificationService ridePermitNotificationService;
 
     @BeforeEach
     void setup() {
         emailService = org.mockito.Mockito.mock(EmailService.class);
-        notificationService = new NotificationService(emailService);
+        ridePermitNotificationService = new RidePermitNotificationService(emailService);
     }
 
     @Test
     void givenRidePermitsAndRecipient_whenNotifying_thenSendNotificationForEachRidePermit() {
         List<RidePermit> ridePermits = mockRidePermits();
 
-        notificationService.notify(A_RECIPIENT, ridePermits);
+        ridePermitNotificationService.notify(A_RECIPIENT, ridePermits);
 
         Mockito.verify(emailService, Mockito.times(ridePermits.size()))
                 .send(Mockito.any(EmailMessage.class));
@@ -38,7 +38,7 @@ class NotificationServiceTest {
         Mockito.doThrow(EmailSendException.class).when(emailService)
                 .send(Mockito.any(EmailMessage.class));
 
-        notificationService.notify(A_RECIPIENT, ridePermits);
+        ridePermitNotificationService.notify(A_RECIPIENT, ridePermits);
 
         Mockito.verify(emailService, Mockito.times(ridePermits.size()))
                 .send(Mockito.any(EmailMessage.class));
