@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.dataFactory;
+package ca.ulaval.glo4003.trotti.infrastructure.config.datafactories;
 
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
@@ -31,11 +31,7 @@ public final class AccountDevDataFactory {
                 build("Rihab Ulaval", LocalDate.of(2000, 9, 18), Gender.FEMALE,
                         Idul.from("333333333"), Email.from("rihab@ulaval.ca"), "UlavalRihab18@"));
 
-        for (Account account : accounts) {
-            if (!exists(account.getEmail())) {
-                accountRepository.save(account);
-            }
-        }
+        accounts.forEach(accountRepository::save);
     }
 
     private Account build(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
