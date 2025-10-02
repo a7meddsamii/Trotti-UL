@@ -105,7 +105,7 @@ class CartApplicationServiceTest {
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).addToCart(pass1);
         Mockito.verify(buyer).addToCart(pass2);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
         Mockito.verify(passFactory, Mockito.times(2)).create(maximumDailyTravelTime, session,
                 billingFrequency);
     }
@@ -124,7 +124,7 @@ class CartApplicationServiceTest {
         Assertions.assertEquals(expectedResult, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).removeFromCart(passId);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -135,7 +135,7 @@ class CartApplicationServiceTest {
 
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).clearCart();
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -168,7 +168,7 @@ class CartApplicationServiceTest {
 
         Assertions.assertEquals(expectedResult, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
         Mockito.verify(buyer, Mockito.never()).addToCart(Mockito.any(Pass.class));
     }
 }

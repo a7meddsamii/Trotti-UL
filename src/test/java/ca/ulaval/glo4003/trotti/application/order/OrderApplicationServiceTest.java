@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.trotti.domain.order.Order;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
@@ -34,7 +34,7 @@ class OrderApplicationServiceTest {
     private EmailService emailService;
     private InvoiceFormatService<String> invoiceFormatService;
     private Buyer buyer;
-    private PaymentMethod paymentMethod;
+    private CreditCard paymentMethod;
     private Transaction successfulTransaction;
     private Transaction failedTransaction;
     private Order order;
@@ -56,7 +56,7 @@ class OrderApplicationServiceTest {
         emailService = Mockito.mock(EmailService.class);
         invoiceFormatService = Mockito.mock(InvoiceFormatService.class);
         buyer = Mockito.mock(Buyer.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
+        paymentMethod = Mockito.mock(CreditCard.class);
         successfulTransaction = Mockito.mock(Transaction.class);
         failedTransaction = Mockito.mock(Transaction.class);
         order = Mockito.mock(Order.class);

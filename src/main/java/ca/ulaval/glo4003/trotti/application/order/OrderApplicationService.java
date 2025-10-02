@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.Order;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
@@ -36,7 +36,7 @@ public class OrderApplicationService {
 
     public Transaction placeOrderFor(Idul idul) {
         Buyer buyer = buyerRepository.findByIdul(idul);
-        PaymentMethod paymentMethod = buyer.getPaymentMethod().get();
+        CreditCard paymentMethod = buyer.getPaymentMethod().get();
 
         Transaction transaction = paymentService.process(paymentMethod, buyer.getCartBalance());
         emailService.send(EmailMessage.builder().withRecipient(buyer.getEmail())
@@ -45,7 +45,6 @@ public class OrderApplicationService {
         if (transaction.isFailed()) {
             return transaction;
         }
-
         Order order = orderFactory.create(idul, buyer.getCartPasses());
         Invoice invoice = order.generateInvoice();
         String formattedInvoice = invoiceFormatService.format(invoice);
@@ -54,7 +53,7 @@ public class OrderApplicationService {
                 .withSubject("Your Invoice").withBody(formattedInvoice).build());
 
         buyer.clearCart();
-        buyerRepository.save(buyer);
+        buyerRepository.update(buyer);
 
         return transaction;
     }

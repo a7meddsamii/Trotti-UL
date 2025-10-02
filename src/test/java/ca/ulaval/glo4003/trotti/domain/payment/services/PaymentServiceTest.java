@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import org.junit.jupiter.api.Assertions;
@@ -12,12 +12,12 @@ class PaymentServiceTest {
 
     private PaymentService paymentService;
     private Money amountToPay;
-    private PaymentMethod paymentMethod;
+    private CreditCard paymentMethod;
 
     @BeforeEach
     void setup() {
         amountToPay = Mockito.mock(Money.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
+        paymentMethod = Mockito.mock(CreditCard.class);
 
         paymentService = new PaymentService();
     }

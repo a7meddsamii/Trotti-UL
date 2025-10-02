@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.application.order;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,7 +13,7 @@ class PaymentMethodApplicationServiceTest {
     private BuyerRepository buyerRepository;
     private Buyer buyer;
     private Idul idul;
-    private PaymentMethod paymentMethod;
+    private CreditCard paymentMethod;
 
     private PaymentMethodApplicationService paymentMethodApplicationService;
 
@@ -22,7 +22,7 @@ class PaymentMethodApplicationServiceTest {
         buyerRepository = Mockito.mock(BuyerRepository.class);
         buyer = Mockito.mock(Buyer.class);
         idul = Mockito.mock(Idul.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
+        paymentMethod = Mockito.mock(CreditCard.class);
         paymentMethodApplicationService = new PaymentMethodApplicationService(buyerRepository);
     }
 
@@ -41,7 +41,7 @@ class PaymentMethodApplicationServiceTest {
 
         paymentMethodApplicationService.updatePaymentMethod(idul, paymentMethod);
 
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -59,6 +59,6 @@ class PaymentMethodApplicationServiceTest {
 
         paymentMethodApplicationService.deletePaymentMethod(idul);
 
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 }

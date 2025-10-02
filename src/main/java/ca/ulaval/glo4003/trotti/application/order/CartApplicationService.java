@@ -39,7 +39,7 @@ public class CartApplicationService {
             buyer.addToCart(pass);
         }
 
-        buyerRepository.save(buyer);
+        buyerRepository.update(buyer);
 
         return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
@@ -48,7 +48,7 @@ public class CartApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul);
 
         buyer.removeFromCart(passId);
-        buyerRepository.save(buyer);
+        buyerRepository.update(buyer);
 
         return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
@@ -57,7 +57,7 @@ public class CartApplicationService {
         Buyer buyer = buyerRepository.findByIdul(idul);
 
         buyer.clearCart();
-        buyerRepository.save(buyer);
+        buyerRepository.update(buyer);
     }
 
     private List<Pass> createPasses(List<PassDto> passListDto) {

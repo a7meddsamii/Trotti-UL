@@ -35,7 +35,6 @@ class AccountApplicationServiceTest {
         accountRepository = Mockito.mock(AccountRepository.class);
         authenticationService = Mockito.mock(AuthenticationService.class);
         accountFactory = Mockito.mock(AccountFactory.class);
-
         accountApplicationService = new AccountApplicationService(accountRepository,
                 authenticationService, accountFactory);
     }
