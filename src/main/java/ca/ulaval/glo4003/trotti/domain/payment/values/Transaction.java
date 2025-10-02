@@ -23,7 +23,7 @@ public class Transaction {
         return this.status == TransactionStatus.SUCCESS;
     }
 
-    public Id getTransactionId() {
+    public Id getId() {
         return transactionId;
     }
 

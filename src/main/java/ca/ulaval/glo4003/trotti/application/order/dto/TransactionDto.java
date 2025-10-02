@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.TransactionStatus;
 import java.time.LocalDateTime;
 
 public record TransactionDto(
-        Id transactionId,
+        Id id,
         TransactionStatus status,
         LocalDateTime timestamp,
         Money amount,
