@@ -21,6 +21,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.dataFactory.AccountDevDataFactory;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
@@ -56,6 +57,7 @@ public class ServerResourceInstantiation {
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
     private final Dotenv dotenv;
+    private boolean initializeDemoData;
 
     private EmailService emailService;
     private PasswordHasher hasher;
@@ -81,6 +83,7 @@ public class ServerResourceInstantiation {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
         this.dotenv = Dotenv.load();
+        this.initializeDemoData = Boolean.parseBoolean(dotenv.get("INITIALIZE_DEMO_DATA", "false"));
     }
 
     private void loadAuthenticationService() {
@@ -178,6 +181,11 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+
+        if (initializeDemoData) {
+            new AccountDevDataFactory(accountRepository, hasher).run();
+        }
+
         loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
