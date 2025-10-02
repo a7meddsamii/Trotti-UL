@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +21,13 @@ public class InMemoryPassRepository implements PassRepository {
 
     @Override
     public void saveAll(List<Pass> passes) {
-        passes.stream()
-                .map(passPersistenceMapper::toRecord)
+        passes.stream().map(passPersistenceMapper::toRecord)
                 .forEach(record -> inMemoryPassDatabase.put(record.id(), record));
     }
 
     @Override
     public List<Pass> findAllByIdul(Idul idul) {
-        return inMemoryPassDatabase.values().stream().filter(
-                record -> record.idul().equals(idul)
-        ).map(passPersistenceMapper::toDomain).toList();
+        return inMemoryPassDatabase.values().stream().filter(record -> record.idul().equals(idul))
+                .map(passPersistenceMapper::toDomain).toList();
     }
 }
