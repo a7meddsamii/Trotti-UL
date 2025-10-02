@@ -18,6 +18,7 @@ public class PassFixture {
             LocalDate.of(2025, Month.SEPTEMBER, 1), LocalDate.of(2025, Month.DECEMBER, 31));
     public static final BillingFrequency A_BILLING_FREQUENCY = BillingFrequency.PER_TRIP;
 
+    public static final Id AN_ID = Id.randomId();
     private Idul idul = Idul.from("A1234567");
     private Id id = AN_ID;
 
@@ -32,6 +33,6 @@ public class PassFixture {
     }
 
     public Pass build() {
-        return new Pass(A_MAXIMUM_TRAVELING_TIME, A_SESSION, A_BILLING_FREQUENCY, idul, id);
+        return new Pass(A_MAXIMUM_TRAVELING_TIME, A_SESSION, A_BILLING_FREQUENCY, id, idul);
     }
 }

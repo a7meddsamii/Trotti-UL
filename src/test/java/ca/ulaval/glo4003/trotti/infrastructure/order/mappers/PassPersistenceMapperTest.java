@@ -29,7 +29,7 @@ class PassPersistenceMapperTest {
 
     @Test
     void givenPass_whenToRecord_thenReturnPassRecord() {
-        Pass pass = new PassFixture().withIdul(AN_IDUL).withId(PassFixture.AN_ID).build();
+        Pass pass = new PassFixture().withIdul(AN_IDUL).build();
 
         PassRecord passRecord = mapper.toRecord(pass);
 

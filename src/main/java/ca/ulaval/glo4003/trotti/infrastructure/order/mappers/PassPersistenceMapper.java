@@ -7,7 +7,7 @@ public class PassPersistenceMapper {
 
     public Pass toDomain(PassRecord record) {
         return new Pass(record.maximumTravelingTime(), record.session(), record.billingFrequency(),
-                record.idul(), record.id());
+                record.id(), record.idul());
     }
 
     public PassRecord toRecord(Pass pass) {

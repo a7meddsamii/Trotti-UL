@@ -38,8 +38,8 @@ public class Pass {
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
             BillingFrequency billingFrequency,
-            Idul owner,
-            Id id) {
+            Id id,
+            Idul owner) {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
@@ -94,9 +94,5 @@ public class Pass {
                 + maximumTravelingTime.toString() + ", Session: " + session.toString()
                 + ", Billing frequency: " + billingFrequency.toString() + ", Cost: "
                 + calculateAmount().toString();
-    }
-
-    public Idul getIdul() {
-        return idul;
     }
 }
