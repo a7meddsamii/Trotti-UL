@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
+import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -24,9 +25,14 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +71,8 @@ public class ServerResourceInstantiation {
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
-    private BuyerRepository buyerRepository; // TODO instantiate
+    private BuyerRepository buyerRepository;
+    private TravelerRepository travelerRepository;
     private PassMapper passMapper;
     private OrderFactory orderFactory;
     private PaymentService paymentService;
@@ -111,12 +118,16 @@ public class ServerResourceInstantiation {
     private void loadUserRepositories() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, new BuyerPersistenceMapper());
+        travelerRepository = new InMemoryTravelerRepository(userInMemoryDatabase, new TravelerPersistenceMapper());
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
+        locator.register(TravelerRepository.class, travelerRepository);
     }
 
     private void loadSessionProvider() {

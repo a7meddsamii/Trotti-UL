@@ -17,13 +17,14 @@ class TravelerTest {
 
     private static final Idul IDUL = Idul.from("abcd");
     private static final Email EMAIL = Email.from("jhonDoe@ulaval.ca");
+    private static final List<RidePermit> NO_RIDE_PERMITS = List.of();
 
     private Traveler traveler;
     private RidePermit permit;
 
     @BeforeEach
     void setup() {
-        traveler = Mockito.spy(new Traveler(IDUL, EMAIL));
+        traveler = Mockito.spy(new Traveler(IDUL, EMAIL, NO_RIDE_PERMITS));
         permit = Mockito.mock(RidePermit.class);
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);
     }

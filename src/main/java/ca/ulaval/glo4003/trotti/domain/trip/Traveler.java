@@ -12,10 +12,10 @@ public class Traveler {
     private final Email email;
     private List<RidePermit> activeRidePermits;
 
-    public Traveler(Idul idul, Email email) {
+    public Traveler(Idul idul, Email email, List<RidePermit> activeRidePermits) {
         this.idul = idul;
         this.email = email;
-        this.activeRidePermits = new ArrayList<>();
+        this.activeRidePermits = activeRidePermits;
     }
 
     public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {

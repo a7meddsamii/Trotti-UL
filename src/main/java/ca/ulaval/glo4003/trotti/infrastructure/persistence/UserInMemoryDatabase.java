@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
@@ -11,12 +12,15 @@ import java.util.concurrent.ConcurrentMap;
 public class UserInMemoryDatabase {
     private final ConcurrentMap<Idul, AccountRecord> accountTable;
     private final ConcurrentMap<Idul, BuyerRecord> buyerTable;
+    private final ConcurrentMap<Idul, TravelerRecord> travelerTable;
 
     public UserInMemoryDatabase(
             ConcurrentMap<Idul, AccountRecord> accountTable,
-            ConcurrentMap<Idul, BuyerRecord> buyerTable) {
+            ConcurrentMap<Idul, BuyerRecord> buyerTable,
+            ConcurrentMap<Idul, TravelerRecord> travelerTable) {
         this.accountTable = accountTable;
         this.buyerTable = buyerTable;
+        this.travelerTable = travelerTable;
     }
 
     public void insertIntoAccountTable(AccountRecord account) {
@@ -26,8 +30,13 @@ public class UserInMemoryDatabase {
     }
 
     public void insertIntoBuyerTable(BuyerRecord buyer) {
-        enforceForeignKeyConstraint(buyer);
+        enforceForeignKeyConstraint(buyer.idul());
         buyerTable.put(buyer.idul(), buyer);
+    }
+
+    public void insertIntoTravelerTable(TravelerRecord traveler) {
+        enforceForeignKeyConstraint(traveler.idul());
+        travelerTable.put(traveler.idul(), traveler);
     }
 
     public Optional<AccountRecord> selectFromAccountTable(Idul idul) {
@@ -48,8 +57,12 @@ public class UserInMemoryDatabase {
 				.findFirst().orElse(null);
     }
 
-    private void enforceForeignKeyConstraint(BuyerRecord buyer) {
-        if (!accountTable.containsKey(buyer.idul())) {
+    public List<TravelerRecord> getAllTravelers() {
+        return List.copyOf(travelerTable.values());
+    }
+
+    private void enforceForeignKeyConstraint(Idul idul) {
+        if (!accountTable.containsKey(idul)) {
             throw new IllegalStateException(
                     "Foreign key constraint violation: Account does not exist for the given Idul");
         }
