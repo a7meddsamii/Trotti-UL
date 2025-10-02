@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class InMemoryTravelerRepositoryIntegrationTest {
+class InMemoryTravelerRepositoryIntegrationTest {
 
     private static final Idul AN_IDUL = Idul.from("AN_IDUL");
     private static final Idul ANOTHER_IDUL = Idul.from("ANOTHER_IDUL");
