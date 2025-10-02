@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.payment.utilities;
 
-import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 
 public final class SecuredString {
 
@@ -14,7 +14,7 @@ public final class SecuredString {
         this.safeToShow = safeToShow;
     }
 
-    public static SecuredString fromPlain(String plain, DataEncoder encoder) {
+    public static SecuredString fromPlain(String plain, DataCodec encoder) {
         String encoded = encoder.encode(plain);
         String safeToShow = plain.substring(plain.length() - COUNT_OF_VISIBLE_CHARACTERS);
         return new SecuredString(encoded, safeToShow);

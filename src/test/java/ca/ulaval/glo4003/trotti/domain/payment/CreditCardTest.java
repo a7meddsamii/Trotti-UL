@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
-import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import java.time.YearMonth;
@@ -17,12 +17,7 @@ class CreditCardTest {
     private static final String INVALID_CARD_HOLDER = "";
     private static final String EXPECTED_LAST_FOUR_DIGITS = "1111";
 
-    private final DataEncoder encoder = Mockito.mock(DataEncoder.class);
-
-    private SecuredString securedStringFromRaw(String raw) {
-        Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
-        return SecuredString.fromPlain(raw, encoder);
-    }
+    private final DataCodec encoder = Mockito.mock(DataCodec.class);
 
     @Test
     void givenEmptyCardHolder_whenCreatingCreditCard_thenThrowsException() {
@@ -89,5 +84,10 @@ class CreditCardTest {
         CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate);
 
         Assertions.assertFalse(creditCard.isExpired());
+    }
+
+    private SecuredString securedStringFromRaw(String raw) {
+        Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
+        return SecuredString.fromPlain(raw, encoder);
     }
 }
