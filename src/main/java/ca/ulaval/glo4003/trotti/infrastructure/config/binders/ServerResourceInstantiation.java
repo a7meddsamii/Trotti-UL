@@ -6,8 +6,8 @@ import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
-import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
+import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
@@ -19,16 +19,16 @@ import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
-import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
-import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -205,7 +205,6 @@ public class ServerResourceInstantiation {
                 new TransactionNotificationService(emailService);
         TransactionMapper transactionMapper = new TransactionMapper();
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, null);
                 buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
                 transactionNotificationService, invoiceNotificationService);
 
@@ -213,7 +212,8 @@ public class ServerResourceInstantiation {
     }
 
     private void loadRidePermitActivationService() {
-        NotificationService notificationService = new NotificationService(emailService);
+        NotificationService<List<RidePermit>> notificationService =
+                new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
         TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
