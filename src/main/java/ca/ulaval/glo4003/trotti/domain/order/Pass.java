@@ -54,4 +54,8 @@ public class Pass {
                 + "Billing frequency : " + billingFrequency.toString() + "\n" + "Cost : "
                 + calculateAmount().toString() + "\n";
     }
+
+    public Idul getIdul() {
+        return idul;
+    }
 }
