@@ -19,11 +19,11 @@ public class RidePermitHistoryGatewayImpl implements RidePermitHistoryGateway {
     public List<RidePermit> getFullHistory(Idul idul) {
         List<Pass> passes = this.passRepository.getAllPasses(idul);
         List<RidePermit> ridePermits = new ArrayList<>();
-        passes.forEach(pass ->  ridePermits.add(this.convert(pass)) );
+        passes.forEach(pass -> ridePermits.add(this.convert(pass)));
         return ridePermits;
     }
 
     private RidePermit convert(Pass pass) {
-        return new RidePermit(pass.getId(), pass.getIdul(),pass.getSession());
+        return new RidePermit(pass.getId(), pass.getIdul(), pass.getSession());
     }
 }
