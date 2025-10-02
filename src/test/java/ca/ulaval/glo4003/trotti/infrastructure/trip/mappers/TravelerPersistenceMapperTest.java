@@ -35,7 +35,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerWithoutPermit_whenToRecord_thenReturnCorrespondingTravelerRecord() {
-        Traveler traveler = travelerFixture.buildWithNoRidePermit();
+        Traveler traveler = travelerFixture.withNoRidePermit().build();
 
         TravelerRecord record = travelerMapper.toRecord(traveler);
 
@@ -44,7 +44,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerWithPermit_whenToRecord_thenReturnCorrespondingTravelerRecord() {
-        Traveler traveler = travelerFixture.buildWithRidePermit();
+        Traveler traveler = travelerFixture.withRidePermit().build();
 
         TravelerRecord record = travelerMapper.toRecord(traveler);
 
