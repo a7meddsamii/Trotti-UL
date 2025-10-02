@@ -19,12 +19,12 @@ public class PaymentMethodApplicationService {
         this.paymentMethodFactory = paymentMethodFactory;
     }
 
-    public void updatePaymentMethod(Idul idul, PaymentInfoDto paymentMethod) {
+    public void updatePaymentMethod(Idul idul, PaymentInfoDto paymentInfoDto) {
         Buyer buyer = buyerRepository.findByIdul(idul);
 
-        CreditCard creditCard = paymentMethodFactory.createCreditCard(paymentMethod.cardNumber(),
-                paymentMethod.cardHolderName(), paymentMethod.expirationDate(),
-                paymentMethod.cvv());
+        CreditCard creditCard = paymentMethodFactory.createCreditCard(paymentInfoDto.cardNumber(),
+                paymentInfoDto.cardHolderName(), paymentInfoDto.expirationDate(),
+                paymentInfoDto.cvv());
 
         buyer.updatePaymentMethod(creditCard);
         buyerRepository.update(buyer);
