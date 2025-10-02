@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
-import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import java.time.YearMonth;
@@ -17,12 +17,7 @@ class CreditCardTest {
     private static final String INVALID_CARD_HOLDER = "";
     private static final String EXPECTED_LAST_FOUR_DIGITS = "1111";
 
-    private final DataEncoder encoder = Mockito.mock(DataEncoder.class);
-
-    private SecuredString securedStringFromRaw(String raw) {
-        Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
-        return SecuredString.fromPlain(raw, encoder);
-    }
+    private final DataCodec encoder = Mockito.mock(DataCodec.class);
 
     @Test
     void givenEmptyCardHolder_whenCreatingCreditCard_thenThrowsException() {
@@ -35,8 +30,8 @@ class CreditCardTest {
 
     @Test
     void givenNullCardNumber_whenCreatingCreditCard_thenThrowsException() {
-        Executable creatingInvalidCreditCard = () -> CreditCard.from(null, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        Executable creatingInvalidCreditCard =
+                () -> CreditCard.from(null, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }
@@ -53,8 +48,8 @@ class CreditCardTest {
     @Test
     void givenValidCreditCard_whenPay_thenDoesNotThrowException() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
-        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
         Money money = Mockito.mock(Money.class);
 
         Executable payWithValidCreditCard = () -> creditCard.pay(money);
@@ -65,8 +60,8 @@ class CreditCardTest {
     @Test
     void givenCreditCard_whenGetCardNumber_thenReturnsLastFourDigits() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
-        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         String lastFourDigits = creditCard.getCardNumber();
 
@@ -77,8 +72,7 @@ class CreditCardTest {
     void givenExpiredCreditCard_whenIsExpired_thenReturnsTrue() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         YearMonth expiredDate = YearMonth.now().minusMonths(1);
-        CreditCard creditCard =
-                CreditCard.from(validSecured, VALID_CARD_HOLDER, expiredDate);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER, expiredDate);
 
         Assertions.assertTrue(creditCard.isExpired());
     }
@@ -87,9 +81,13 @@ class CreditCardTest {
     void givenNonExpiredCreditCard_whenIsExpired_thenReturnsFalse() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         YearMonth futureDate = YearMonth.now().plusMonths(1);
-        CreditCard creditCard =
-                CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate);
 
         Assertions.assertFalse(creditCard.isExpired());
+    }
+
+    private SecuredString securedStringFromRaw(String raw) {
+        Mockito.when(encoder.encode(raw)).thenReturn("encoded_" + raw);
+        return SecuredString.fromPlain(raw, encoder);
     }
 }

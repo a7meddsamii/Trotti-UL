@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 
 public class InMemoryBuyerRepository implements BuyerRepository {
@@ -21,19 +21,19 @@ public class InMemoryBuyerRepository implements BuyerRepository {
 
     @Override
     public void update(Buyer buyer) {
-        BuyerRecord buyerRecord = buyerMapper.toBuyerRecord(buyer);
+        BuyerRecord buyerRecord = buyerMapper.toRecord(buyer);
         this.databaseDriver.insertIntoBuyerTable(buyerRecord);
     }
 
     @Override
     public Buyer findByEmail(Email email) {
         BuyerRecord accountQuery = databaseDriver.selectFromBuyerTable(email);
-        return buyerMapper.toBuyerDomain(accountQuery);
+        return buyerMapper.toDomain(accountQuery);
     }
 
     @Override
     public Buyer findByIdul(Idul idul) {
         BuyerRecord accountQuery = databaseDriver.selectFromBuyerTable(idul);
-        return buyerMapper.toBuyerDomain(accountQuery);
+        return buyerMapper.toDomain(accountQuery);
     }
 }

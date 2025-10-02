@@ -13,7 +13,7 @@ class MaximumDailyTravelTimeTest {
     private static final Duration VALID_TIME = Duration.ofMinutes(30);
     private static final Duration ANOTHER_VALID_TIME = Duration.ofMinutes(60);
     private static final Duration NEGATIVE_TIME = Duration.ofMinutes(-10);
-    private static final Duration LESS_THAN_30_MINUTES_TIME = Duration.ofMinutes(25);
+    private static final Duration LESS_THAN_10_MINUTES = Duration.ofMinutes(25);
     private static final Duration ZERO_TIME = Duration.ofMinutes(0);
     private static final Duration SURPASSES_ONE_DAY_TIME = Duration.ofMinutes(1441);
     private static final Duration NOT_MULTIPLE_OF_TEN = Duration.ofMinutes(25);
@@ -40,8 +40,8 @@ class MaximumDailyTravelTimeTest {
     }
 
     @Test
-    void givenLessThan30MinutesTime_whenCreate_thenThrowsException() {
-        Executable creation = () -> MaximumDailyTravelTime.from(LESS_THAN_30_MINUTES_TIME);
+    void givenLessThan10MinutesTime_whenCreate_thenThrowsException() {
+        Executable creation = () -> MaximumDailyTravelTime.from(LESS_THAN_10_MINUTES);
 
         Assertions.assertThrows(InvalidParameterException.class, creation);
     }
@@ -94,6 +94,16 @@ class MaximumDailyTravelTimeTest {
     @Test
     void givenDurationEqualToMinimum_whenCalculateAmount_thenReturnBasePrice() {
         MaximumDailyTravelTime time = MaximumDailyTravelTime.from(Duration.ofMinutes(30));
+
+        Money actual = time.calculateAmount();
+
+        Money expected = Money.of(new BigDecimal(45), Currency.CAD);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void givenDurationLessThanMinimumBaseMinutes_whenCalculateAmount_thenReturnsBasePrice() {
+        MaximumDailyTravelTime time = MaximumDailyTravelTime.from(Duration.ofMinutes(10));
 
         Money actual = time.calculateAmount();
 

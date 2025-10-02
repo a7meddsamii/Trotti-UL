@@ -4,14 +4,15 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import java.util.List;
 import java.util.Optional;
 
 public class Buyer {
     private final Idul idul;
     private final String name;
     private final Email email;
-    private final Cart cart;
+    private Cart cart;
     private CreditCard creditCard;
 
     public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
@@ -60,5 +61,19 @@ public class Buyer {
 
     public void clearCart() {
         cart.clear();
+    }
+
+    public Money getCartBalance() {
+        return cart.calculateAmount();
+    }
+
+    public List<Pass> confirmCartPasses() {
+        List<Pass> confirmedPasses = cart.linkPassesToBuyer(idul);
+        cart.clear();
+        return confirmedPasses;
+    }
+
+    public List<Pass> getCartPasses() {
+        return cart.getPasses();
     }
 }

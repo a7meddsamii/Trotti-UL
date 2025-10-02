@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.infrastructure.order.repository.record;
+package ca.ulaval.glo4003.trotti.infrastructure.order.repository.records;
 
 import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
 import java.time.YearMonth;

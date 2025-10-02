@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
 import java.net.URI;
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
@@ -16,6 +17,7 @@ public class TrottiULMain {
         LOGGER.info("Setup resources (API)");
         final ResourceConfig config = new ResourceConfig();
         config.register(RestServerConfiguration.class);
+        config.register(ServerLifeCycleListener.class);
         config.packages("ca.ulaval.glo4003.trotti.api");
 
         try {

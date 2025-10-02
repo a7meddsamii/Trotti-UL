@@ -12,18 +12,28 @@ public class Pass {
     private final BillingFrequency billingFrequency;
     private final Id id;
     private Idul owner;
-	
-	public Pass(
-			MaximumDailyTravelTime maximumTravelingTime,
-			Session session,
-			BillingFrequency billingFrequency,
-			Id id) {
-		this.maximumTravelingTime = maximumTravelingTime;
-		this.session = session;
-		this.billingFrequency = billingFrequency;
-		this.id = id;
-	}
-	
+
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.id = Id.randomId();
+    }
+
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency,
+            Id id) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.id = id;
+    }
+
     public Pass(
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
@@ -33,10 +43,10 @@ public class Pass {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
-        this.id = id;
         this.owner = owner;
+        this.id = id;
     }
-	
+
     public MaximumDailyTravelTime getMaximumTravelingTime() {
         return maximumTravelingTime;
     }
@@ -49,26 +59,37 @@ public class Pass {
         return billingFrequency;
     }
 
+    public Idul getBuyerIdul() {
+        return owner;
+    }
+
     public Id getId() {
         return id;
     }
-    
-    public Idul getIdul() {
-        return owner;
-    }
-    
-    public boolean isPurchased() {
-        return owner != null;
+
+    public Pass linkToBuyer(Idul idul) {
+        if (this.owner != null) {
+            return this;
+        }
+
+        this.owner = idul;
+        return new Pass(this.maximumTravelingTime, this.session, this.billingFrequency, this.id,
+                this.owner);
     }
 
     public Money calculateAmount() {
         return maximumTravelingTime.calculateAmount();
     }
 
-    public String generateInvoice() {
-        return "\nPass ID : " + id.toString() + "\n" + "Maximum traveling time : "
-                + maximumTravelingTime.toString() + "\n" + "Session : " + session.toString() + "\n"
-                + "Billing frequency : " + billingFrequency.toString() + "\n" + "Cost : "
-                + calculateAmount().toString() + "\n";
+    public boolean isPurchased() {
+        return owner != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Pass ID: " + id.toString() + ", Maximum traveling time: "
+                + maximumTravelingTime.toString() + ", Session: " + session.toString()
+                + ", Billing frequency: " + billingFrequency.toString() + ", Cost: "
+                + calculateAmount().toString();
     }
 }
