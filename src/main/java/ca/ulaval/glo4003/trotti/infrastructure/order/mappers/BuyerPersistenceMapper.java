@@ -17,7 +17,7 @@ public class BuyerPersistenceMapper {
                 ? toPaymentMethodRecord(buyer.getPaymentMethod().get())
                 : null;
 
-        return new BuyerRecord(buyer.getBuyerIdul(), buyer.getName(), buyer.getEmail(),
+        return new BuyerRecord(buyer.getIdul(), buyer.getName(), buyer.getEmail(),
                 toCartRecord(buyer.getCart()), creditCard);
     }
 
@@ -29,9 +29,9 @@ public class BuyerPersistenceMapper {
     private List<PassRecord> toCartRecord(Cart cart) {
         List<PassRecord> passesRecord = new ArrayList<>();
         cart.getPasses()
-                .forEach(pass -> passesRecord.add(
-                        new PassRecord(pass.getId(), pass.getIdul(), pass.getMaximumTravelingTime(),
-                                pass.getSession(), pass.getBillingFrequency())));
+                .forEach(pass -> passesRecord.add(new PassRecord(pass.getId(), pass.getBuyerIdul(),
+                        pass.getMaximumTravelingTime(), pass.getSession(),
+                        pass.getBillingFrequency())));
 
         return passesRecord;
     }

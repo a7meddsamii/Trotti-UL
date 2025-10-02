@@ -20,6 +20,6 @@ public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway
     }
 
     private RidePermit translate(Pass pass) {
-        return new RidePermit(pass.getId(), pass.getIdul(), pass.getSession());
+        return new RidePermit(pass.getId(), pass.getBuyerIdul(), pass.getSession());
     }
 }

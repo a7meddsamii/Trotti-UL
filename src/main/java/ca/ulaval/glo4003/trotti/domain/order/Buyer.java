@@ -9,22 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class Buyer {
-    private final Idul buyerIdul;
+    private final Idul idul;
     private final String name;
     private final Email email;
     private Cart cart;
     private CreditCard creditCard;
 
-    public Buyer(Idul buyerIdul, String name, Email email, Cart cart, CreditCard creditCard) {
-        this.buyerIdul = buyerIdul;
+    public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
+        this.idul = idul;
         this.name = name;
         this.email = email;
         this.cart = cart;
         this.creditCard = creditCard;
     }
 
-    public Idul getBuyerIdul() {
-        return buyerIdul;
+    public Idul getIdul() {
+        return idul;
     }
 
     public String getName() {
@@ -65,6 +65,12 @@ public class Buyer {
 
     public Money getCartBalance() {
         return cart.calculateAmount();
+    }
+
+    public List<Pass> confirmCartPasses() {
+        List<Pass> confirmedPasses = cart.linkPassesToBuyer(idul);
+        cart.clear();
+        return confirmedPasses;
     }
 
     public List<Pass> getCartPasses() {

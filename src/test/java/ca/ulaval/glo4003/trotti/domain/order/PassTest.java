@@ -18,22 +18,23 @@ class PassTest {
     }
 
     @Test
-    void givenPassNotAssociatedToBuyer_whenLinkToBuyer_thenReturnsTrue() {
+    void givenPassNotAssociatedToBuyer_whenLinkToBuyer_thenReturnsNewPassWithBuyerIdul() {
         Pass pass = new PassFixture().withIdul(null).build();
 
-        boolean isLinkedToBuyer = pass.linkToBuyer(AN_IDUL);
+        Pass linkedToBuyerPass = pass.linkToBuyer(AN_IDUL);
 
-        Assertions.assertTrue(isLinkedToBuyer);
+        Assertions.assertNotEquals(pass, linkedToBuyerPass);
+        Assertions.assertEquals(AN_IDUL, linkedToBuyerPass.getBuyerIdul());
     }
 
     @Test
-    void givenPassAssociatedToBuyer_whenLinkToBuyer_thenReturnsFalse() {
+    void givenPassAssociatedToBuyer_whenLinkToBuyer_thenPassIsNotChanged() {
         Pass pass = new PassFixture().build();
         pass.linkToBuyer(AN_IDUL);
 
-        boolean isLinkedToNewBuyer = pass.linkToBuyer(ANOTHER_IDUL);
+        Pass linkedToBuyerPass = pass.linkToBuyer(ANOTHER_IDUL);
 
-        Assertions.assertFalse(isLinkedToNewBuyer);
+        Assertions.assertEquals(pass, linkedToBuyerPass);
     }
 
     @Test

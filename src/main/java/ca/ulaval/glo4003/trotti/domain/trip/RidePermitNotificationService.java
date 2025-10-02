@@ -4,15 +4,17 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import java.util.List;
 
-public class NotificationService {
+public class RidePermitNotificationService implements NotificationService<List<RidePermit>> {
     private final EmailService emailService;
 
-    public NotificationService(EmailService emailService) {
+    public RidePermitNotificationService(EmailService emailService) {
         this.emailService = emailService;
     }
 
+    @Override
     public void notify(Email recipient, List<RidePermit> newlyActivatedRidePermits) {
         for (RidePermit activatedRidePermit : newlyActivatedRidePermits) {
             try {

@@ -43,7 +43,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
         accountRepository.save(account);
 
         buyerRepository.update(buyer);
-        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getBuyerIdul());
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
 
         Assertions.assertNotNull(retrievedBuyer);
     }
@@ -55,7 +55,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
         accountRepository.save(account);
 
         buyerRepository.update(buyer);
-        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getBuyerIdul());
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
 
         Assertions.assertNotNull(retrievedBuyer);
         assertEquals(buyer, retrievedBuyer);
@@ -75,7 +75,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
     }
 
     private void assertEquals(Buyer expected, Buyer actual) {
-        Assertions.assertEquals(expected.getBuyerIdul(), actual.getBuyerIdul());
+        Assertions.assertEquals(expected.getIdul(), actual.getIdul());
         Assertions.assertEquals(expected.getEmail(), actual.getEmail());
         Assertions.assertEquals(expected.getName(), actual.getName());
         Assertions.assertEquals(expected.getPaymentMethod().get().getSecuredString(),
