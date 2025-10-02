@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +18,7 @@ class TravelerTest {
 
     private static final Idul IDUL = Idul.from("abcd");
     private static final Email EMAIL = Email.from("jhonDoe@ulaval.ca");
-    private static final List<RidePermit> NO_RIDE_PERMITS = List.of();
+    private static final List<RidePermit> NO_RIDE_PERMITS = Collections.emptyList();
 
     private Traveler traveler;
     private RidePermit permit;
