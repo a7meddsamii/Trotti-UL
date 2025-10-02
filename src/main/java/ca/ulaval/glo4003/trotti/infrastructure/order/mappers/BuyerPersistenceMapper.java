@@ -30,7 +30,7 @@ public class BuyerPersistenceMapper {
         List<PassRecord> passesRecord = new ArrayList<>();
         cart.getPasses()
                 .forEach(pass -> passesRecord.add(
-                        new PassRecord(pass.getId(), pass.getIdul(), pass.getMaximumTravelingTime(),
+                        new PassRecord(pass.getId(), pass.getBuyerIdul(), pass.getMaximumTravelingTime(),
                                 pass.getSession(), pass.getBillingFrequency())));
 
         return passesRecord;

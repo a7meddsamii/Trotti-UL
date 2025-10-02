@@ -48,12 +48,12 @@ public class Pass {
         return billingFrequency;
     }
 
-    public Id getId() {
-        return id;
+    public Idul getBuyerIdul() {
+        return owner;
     }
 
-    public Idul getIdul() {
-        return owner;
+    public Id getId() {
+        return id;
     }
 
     public boolean linkToBuyer(Idul idul) {
@@ -79,9 +79,5 @@ public class Pass {
                 + maximumTravelingTime.toString() + ", Session: " + session.toString()
                 + ", Billing frequency: " + billingFrequency.toString() + ", Cost: "
                 + calculateAmount().toString();
-    }
-
-    public Idul getIdul() {
-        return idul;
     }
 }
