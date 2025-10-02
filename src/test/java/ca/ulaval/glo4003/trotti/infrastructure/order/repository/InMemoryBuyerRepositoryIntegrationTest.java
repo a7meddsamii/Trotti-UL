@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.repository;
 
 import ca.ulaval.glo4003.trotti.domain.account.Account;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
@@ -19,7 +18,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 class InMemoryBuyerRepositoryIntegrationTest {
 

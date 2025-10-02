@@ -12,7 +12,8 @@ public class BuyerFixture {
     public static final Email AN_EMAIL_STRING = Email.from("john.doe@ulaval.ca");
 
     public Buyer buildWithPaymentMethod() {
-        return new Buyer(AN_IDUL_STRING, A_NAME, AN_EMAIL_STRING, new Cart(), new CreditCardFixture().build());
+        return new Buyer(AN_IDUL_STRING, A_NAME, AN_EMAIL_STRING, new Cart(),
+                new CreditCardFixture().build());
     }
 
     public Buyer buildWithoutPaymentMethod() {
