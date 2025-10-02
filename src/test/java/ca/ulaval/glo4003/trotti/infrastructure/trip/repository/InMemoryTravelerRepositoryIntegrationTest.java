@@ -75,6 +75,7 @@ public class InMemoryTravelerRepositoryIntegrationTest {
     void assertEquals(Traveler savedTraveler, Traveler retrievedTraveler) {
         Assertions.assertEquals(savedTraveler.getIdul(), retrievedTraveler.getIdul());
         Assertions.assertEquals(savedTraveler.getEmail(), retrievedTraveler.getEmail());
-        Assertions.assertEquals(savedTraveler.getRidePermits().size(), retrievedTraveler.getRidePermits().size());
+        Assertions.assertEquals(savedTraveler.getRidePermits().size(),
+                retrievedTraveler.getRidePermits().size());
     }
 }

@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Traveler {

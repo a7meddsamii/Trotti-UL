@@ -9,7 +9,8 @@ import java.time.LocalDate;
 
 public class RidePermitFixture {
 
-    private static final Session A_SESSION = new Session(Semester.FALL, LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"));
+    private static final Session A_SESSION = new Session(Semester.FALL,
+            LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"));
     private static final Idul AN_IDUL = Idul.from("IDUL");
     private static final Id A_PERMIT_ID = Id.randomId();
 

@@ -21,8 +21,9 @@ class TravelerPersistenceMapperTest {
     private static final Idul IDUL = Idul.from("IDUL");
     private static final Email EMAIL = Email.from("john.doe@ulaval.ca");
     private static final Id PERMIT_ID = Id.randomId();
-    private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS = List.of(new RidePermitRecord(PERMIT_ID, IDUL,
-            new Session(Semester.FALL, LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
+    private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
+            List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
+                    LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
 
     private TravelerPersistenceMapper travelerMapper;
     private TravelerFixture travelerFixture;
@@ -78,9 +79,11 @@ class TravelerPersistenceMapperTest {
         Assertions.assertEquals(traveler.getRidePermits().size(), record.ridePermits().size());
     }
 
-    void assertPermitsEquals(List<RidePermit> ridePermits, List<RidePermitRecord> ridePermitRecords) {
+    void assertPermitsEquals(List<RidePermit> ridePermits,
+            List<RidePermitRecord> ridePermitRecords) {
         Assertions.assertEquals(ridePermits.get(0).getId(), ridePermitRecords.get(0).permitId());
         Assertions.assertEquals(ridePermits.get(0).getIdul(), ridePermitRecords.get(0).idul());
-        Assertions.assertEquals(ridePermits.get(0).getSession(), ridePermitRecords.get(0).session());
+        Assertions.assertEquals(ridePermits.get(0).getSession(),
+                ridePermitRecords.get(0).session());
     }
 }

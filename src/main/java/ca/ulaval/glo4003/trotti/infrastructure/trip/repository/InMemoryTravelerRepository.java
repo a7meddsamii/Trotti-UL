@@ -20,9 +20,7 @@ public class InMemoryTravelerRepository implements TravelerRepository {
 
     @Override
     public List<Traveler> findAll() {
-        return databaseDriver.getAllTravelers().stream()
-                .map(travelerMapper::toDomain)
-                .toList();
+        return databaseDriver.getAllTravelers().stream().map(travelerMapper::toDomain).toList();
     }
 
     @Override
