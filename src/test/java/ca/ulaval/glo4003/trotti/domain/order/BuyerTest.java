@@ -46,7 +46,7 @@ class BuyerTest {
 
     @Test
     void givenAnotherPaymentMethod_whenUpdatePaymentMethod_thenPaymentMethodIsUpdated() {
-		CreditCard anotherPaymentMethod = Mockito.mock(CreditCard.class);
+        CreditCard anotherPaymentMethod = Mockito.mock(CreditCard.class);
 
         buyer.updatePaymentMethod(anotherPaymentMethod);
 

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
 
 public class PaymentMethodApplicationService {
 

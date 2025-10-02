@@ -12,18 +12,18 @@ public class Pass {
     private final BillingFrequency billingFrequency;
     private final Id id;
     private Idul owner;
-	
-	public Pass(
-			MaximumDailyTravelTime maximumTravelingTime,
-			Session session,
-			BillingFrequency billingFrequency,
-			Id id) {
-		this.maximumTravelingTime = maximumTravelingTime;
-		this.session = session;
-		this.billingFrequency = billingFrequency;
-		this.id = id;
-	}
-	
+
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency,
+            Id id) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.id = id;
+    }
+
     public Pass(
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
@@ -36,7 +36,7 @@ public class Pass {
         this.id = id;
         this.owner = owner;
     }
-	
+
     public MaximumDailyTravelTime getMaximumTravelingTime() {
         return maximumTravelingTime;
     }
@@ -52,11 +52,11 @@ public class Pass {
     public Id getId() {
         return id;
     }
-    
+
     public Idul getIdul() {
         return owner;
     }
-    
+
     public boolean isPurchased() {
         return owner != null;
     }

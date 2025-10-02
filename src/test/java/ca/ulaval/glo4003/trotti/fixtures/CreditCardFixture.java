@@ -15,6 +15,7 @@ public class CreditCardFixture {
     private final DataEncoder encoder = Mockito.mock(DataEncoder.class);
 
     public CreditCard build() {
-        return CreditCard.from(SecuredString.fromPlain(A_CARD_NUMBER, encoder), A_CARD_HOLDER_NAME, AN_EXPIRY_DATE);
+        return CreditCard.from(SecuredString.fromPlain(A_CARD_NUMBER, encoder), A_CARD_HOLDER_NAME,
+                AN_EXPIRY_DATE);
     }
 }

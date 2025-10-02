@@ -31,7 +31,8 @@ class BuyerPersistenceMapperTest {
         Assertions.assertEquals(buyer.getName(), dto.name());
         Assertions.assertEquals(buyer.getEmail(), dto.email());
         Assertions.assertEquals(buyer.getCart().getPasses().size(), dto.cart().size());
-        Assertions.assertEquals(buyer.getPaymentMethod().get().getSecuredString(), dto.paymentMethod().number());
+        Assertions.assertEquals(buyer.getPaymentMethod().get().getSecuredString(),
+                dto.paymentMethod().number());
     }
 
     @Test
@@ -62,8 +63,7 @@ class BuyerPersistenceMapperTest {
 
     @Test
     void givenBuyerRecordWithoutPaymentMethod_whenToBuyerDomain_thenReturnBuyerWithoutPaymentMethod() {
-        BuyerRecord record =
-                new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), null);
+        BuyerRecord record = new BuyerRecord(AN_IDUL, A_NAME, AN_EMAIL, List.of(), null);
 
         Buyer result = buyerMapper.toBuyerDomain(record);
 

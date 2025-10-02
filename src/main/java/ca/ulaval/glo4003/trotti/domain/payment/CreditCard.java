@@ -12,10 +12,7 @@ public class CreditCard implements PaymentMethod {
     private final String cardHolderName;
     private final YearMonth expiryDate;
 
-    private CreditCard(
-            SecuredString cardNumber,
-            String cardHolderName,
-            YearMonth expiryDate) {
+    private CreditCard(SecuredString cardNumber, String cardHolderName, YearMonth expiryDate) {
         validate(cardNumber, cardHolderName);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;

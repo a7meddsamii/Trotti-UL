@@ -21,7 +21,8 @@ public class UserInMemoryDatabase {
 
     public void insertIntoAccountTable(AccountRecord account) {
         accountTable.put(account.idul(), account);
-        BuyerRecord buyerRecord = new BuyerRecord(account.idul(),account.name(),account.email(), List.of(), null);
+        BuyerRecord buyerRecord =
+                new BuyerRecord(account.idul(), account.name(), account.email(), List.of(), null);
         buyerTable.put(account.idul(), buyerRecord);
     }
 
@@ -44,8 +45,8 @@ public class UserInMemoryDatabase {
     }
 
     public BuyerRecord selectFromBuyerTable(Email email) {
-        return buyerTable.values().stream().filter(buyer -> buyer.email().equals(email))
-				.findFirst().orElse(null);
+        return buyerTable.values().stream().filter(buyer -> buyer.email().equals(email)).findFirst()
+                .orElse(null);
     }
 
     private void enforceForeignKeyConstraint(BuyerRecord buyer) {

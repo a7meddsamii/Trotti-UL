@@ -14,7 +14,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccoun
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.jupiter.api.Assertions;
@@ -96,7 +95,8 @@ class InMemoryBuyerRepositoryIntegrationTest {
         Assertions.assertEquals(expected.getIdul(), actual.getIdul());
         Assertions.assertEquals(expected.getEmail(), actual.getEmail());
         Assertions.assertEquals(expected.getName(), actual.getName());
-        Assertions.assertEquals(expected.getPaymentMethod().get().getSecuredString(), actual.getPaymentMethod().get().getSecuredString());
+        Assertions.assertEquals(expected.getPaymentMethod().get().getSecuredString(),
+                actual.getPaymentMethod().get().getSecuredString());
         Assertions.assertEquals(expected.getCart().getPasses(), actual.getCart().getPasses());
     }
 }

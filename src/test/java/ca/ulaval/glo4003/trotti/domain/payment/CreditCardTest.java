@@ -35,8 +35,8 @@ class CreditCardTest {
 
     @Test
     void givenNullCardNumber_whenCreatingCreditCard_thenThrowsException() {
-        Executable creatingInvalidCreditCard = () -> CreditCard.from(null, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        Executable creatingInvalidCreditCard =
+                () -> CreditCard.from(null, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }
@@ -53,8 +53,8 @@ class CreditCardTest {
     @Test
     void givenValidCreditCard_whenPay_thenDoesNotThrowException() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
-        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
         Money money = Mockito.mock(Money.class);
 
         Executable payWithValidCreditCard = () -> creditCard.pay(money);
@@ -65,8 +65,8 @@ class CreditCardTest {
     @Test
     void givenCreditCard_whenGetCardNumber_thenReturnsLastFourDigits() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
-        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER,
-                YearMonth.now().plusYears(1));
+        CreditCard creditCard =
+                CreditCard.from(validSecured, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         String lastFourDigits = creditCard.getCardNumber();
 
@@ -77,8 +77,7 @@ class CreditCardTest {
     void givenExpiredCreditCard_whenIsExpired_thenReturnsTrue() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         YearMonth expiredDate = YearMonth.now().minusMonths(1);
-        CreditCard creditCard =
-                CreditCard.from(validSecured, VALID_CARD_HOLDER, expiredDate);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER, expiredDate);
 
         Assertions.assertTrue(creditCard.isExpired());
     }
@@ -87,8 +86,7 @@ class CreditCardTest {
     void givenNonExpiredCreditCard_whenIsExpired_thenReturnsFalse() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         YearMonth futureDate = YearMonth.now().plusMonths(1);
-        CreditCard creditCard =
-                CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate);
+        CreditCard creditCard = CreditCard.from(validSecured, VALID_CARD_HOLDER, futureDate);
 
         Assertions.assertFalse(creditCard.isExpired());
     }
