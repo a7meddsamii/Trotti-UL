@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 
-public class CreditCard extends PaymentMethod {
+public class CreditCard implements PaymentMethod {
 
     private static final String CVV_3_OR_4_DIGITS_REGEX = "^\\d{3,4}$";
 

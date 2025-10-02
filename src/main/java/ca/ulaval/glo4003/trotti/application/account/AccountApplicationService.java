@@ -10,29 +10,20 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.AlreadyExistsException;
-import ca.ulaval.glo4003.trotti.domain.order.BuyerFactory;
-import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 
 public class AccountApplicationService {
 
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
-    private final BuyerRepository buyerRepository;
-    // eventually TravelerRepo??
     private final AccountFactory accountFactory;
-    private final BuyerFactory buyerFactory;
 
     public AccountApplicationService(
             AccountRepository accountRepository,
-            BuyerRepository buyerRepository,
             AuthenticationService authenticationService,
-            AccountFactory accountFactory,
-            BuyerFactory buyerFactory) {
+            AccountFactory accountFactory) {
         this.accountRepository = accountRepository;
-        this.buyerRepository = buyerRepository;
         this.authenticationService = authenticationService;
         this.accountFactory = accountFactory;
-        this.buyerFactory = buyerFactory;
     }
 
     public Idul createAccount(AccountDto registration) {

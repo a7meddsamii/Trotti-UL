@@ -45,8 +45,8 @@ class InMemoryBuyerRepositoryIntegrationTest {
         Account account = new AccountFixture().build();
         accountRepository.save(account);
 
-        buyerRepository.save(buyer);
-        Optional<Buyer> retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+        buyerRepository.update(buyer);
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
 
         Assertions.assertTrue(retrievedBuyer.isPresent());
     }

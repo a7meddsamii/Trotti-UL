@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.Cart;
 import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.CreditCardRecord;
@@ -14,16 +15,18 @@ import java.util.stream.Collectors;
 public class BuyerPersistenceMapper {
 
     public BuyerRecord toDTO(Buyer buyer) {
-        return new BuyerRecord(buyer.getIdul(), buyer.getName(), buyer.getEmail(), toDtoCart(buyer.getCart()),
-                buyer.getPaymentMethod());
+		CreditCardRecord creditCard =  buyer.getPaymentMethod().isPresent() ? toDtoPaymentMethod(buyer.getPaymentMethod().get()) : null;
+		
+        return new BuyerRecord(buyer.getIdul(), buyer.getName(), buyer.getEmail(), toDtoCart(buyer.getCart()), creditCard);
     }
 
     public Buyer toDomain(BuyerRecord buyerFound) {
+		Cart cart = toDomainCart(buyerFound.cart());
         return buyerFound.paymentMethod()
                 .map(paymentMethod -> new Buyer(buyerFound.idul(), buyerFound.name(),
                         buyerFound.email(), toDomainCart(buyerFound.cart()), paymentMethod))
                 .orElseGet(() -> new Buyer(buyerFound.idul(), buyerFound.name(), buyerFound.email(),
-                        buyerFound.cart()));
+                        toDomainCart(buyerFound.cart())));
     }
 
     private List<PassRecord> toDtoCart(Cart cart) {
@@ -35,7 +38,7 @@ public class BuyerPersistenceMapper {
     }
 
     private CreditCardRecord toDtoPaymentMethod(PaymentMethod paymentMethod) {
-
+		return new CreditCardRecord()
     }
 
     private Cart toDomainCart(List<PassRecord> passRecords) {

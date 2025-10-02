@@ -21,22 +21,23 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.crypto.SecretKey;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import javax.crypto.SecretKey;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServerResourceInstantiation {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerResourceInstantiation.class);
@@ -61,7 +62,7 @@ public class ServerResourceInstantiation {
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
-    private BuyerRepository buyerRepository;
+    private BuyerRepository buyerRepository; // TODO instantiate
     private PassMapper passMapper;
     private OrderFactory orderFactory;
     private PaymentService paymentService;

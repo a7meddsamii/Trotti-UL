@@ -39,13 +39,13 @@ public class UserInMemoryDatabase {
                 .findFirst();
     }
 
-    public Optional<BuyerRecord> selectFromBuyerTable(Idul idul) {
-        return Optional.ofNullable(buyerTable.get(idul));
+    public BuyerRecord selectFromBuyerTable(Idul idul) {
+        return buyerTable.get(idul);
     }
 
-    public Optional<BuyerRecord> selectFromBuyerTable(Email email) {
+    public BuyerRecord selectFromBuyerTable(Email email) {
         return buyerTable.values().stream().filter(buyer -> buyer.email().equals(email))
-                .findFirst();
+				.findFirst().orElse(null);
     }
 
     private void enforceForeignKeyConstraint(BuyerRecord buyer) {

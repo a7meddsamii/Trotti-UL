@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.order;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ class BuyerTest {
     private Idul idul;
     private Email email;
     private Cart cart;
-    private PaymentMethod paymentMethod;
+    private CreditCard paymentMethod;
     private Pass pass;
     private Id passId;
     private Buyer buyer;
@@ -26,7 +27,7 @@ class BuyerTest {
         idul = Mockito.mock(Idul.class);
         email = Mockito.mock(Email.class);
         cart = Mockito.mock(Cart.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
+        paymentMethod = Mockito.mock(CreditCard.class);
         pass = Mockito.mock(Pass.class);
         passId = Mockito.mock(Id.class);
 
@@ -45,7 +46,7 @@ class BuyerTest {
 
     @Test
     void givenAnotherPaymentMethod_whenUpdatePaymentMethod_thenPaymentMethodIsUpdated() {
-        PaymentMethod anotherPaymentMethod = Mockito.mock(PaymentMethod.class);
+		CreditCard anotherPaymentMethod = Mockito.mock(CreditCard.class);
 
         buyer.updatePaymentMethod(anotherPaymentMethod);
 
