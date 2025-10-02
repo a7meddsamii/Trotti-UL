@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.domain.order.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
-
 import java.util.List;
 
 public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway {
@@ -17,9 +16,7 @@ public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway
 
     @Override
     public List<RidePermit> getFullHistory(Idul idul) {
-        return passRepository.findAll(idul).stream()
-				.map(this::translate)
-				.toList();
+        return passRepository.findAllByIdul(idul).stream().map(this::translate).toList();
     }
 
     private RidePermit translate(Pass pass) {
