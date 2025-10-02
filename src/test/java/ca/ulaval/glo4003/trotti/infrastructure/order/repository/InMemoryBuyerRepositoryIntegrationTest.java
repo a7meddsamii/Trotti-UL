@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccoun
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.record.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
-import java.util.Optional;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.jupiter.api.Assertions;
@@ -32,8 +32,9 @@ class InMemoryBuyerRepositoryIntegrationTest {
     void setup() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
         buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
