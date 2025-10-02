@@ -2,8 +2,9 @@ package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
@@ -25,16 +26,16 @@ class RidePermitActivationApplicationServiceTest {
     private TravelerRepository travelerRepository;
     private RidePermitHistoryGateway ridePermitHistoryGateway;
     private RidePermitActivationApplicationService ridePermitActivationApplicationService;
-    private NotificationService notificationService;
+    private NotificationService<List<RidePermit>> ridePermitNotificationService;
     private List<Traveler> existingTravelers;
 
     @BeforeEach
     void setup() {
         travelerRepository = Mockito.mock(TravelerRepository.class);
         ridePermitHistoryGateway = Mockito.mock(RidePermitHistoryGateway.class);
-        notificationService = Mockito.mock(NotificationService.class);
+        ridePermitNotificationService = Mockito.mock(RidePermitNotificationService.class);
         ridePermitActivationApplicationService = new RidePermitActivationApplicationService(
-                travelerRepository, ridePermitHistoryGateway, notificationService);
+                travelerRepository, ridePermitHistoryGateway, ridePermitNotificationService);
         existingTravelers = mockTravelers();
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
     }
@@ -75,7 +76,8 @@ class RidePermitActivationApplicationServiceTest {
 
         ridePermitActivationApplicationService.updateActivatedRidePermits();
 
-        Mockito.verify(notificationService, Mockito.times(travelersWithNewActiveRidePermit.size()))
+        Mockito.verify(ridePermitNotificationService,
+                Mockito.times(travelersWithNewActiveRidePermit.size()))
                 .notify(Mockito.any(Email.class), Mockito.anyList());
     }
 

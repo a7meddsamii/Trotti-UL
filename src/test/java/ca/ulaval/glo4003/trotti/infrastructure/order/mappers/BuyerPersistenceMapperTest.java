@@ -27,7 +27,7 @@ class BuyerPersistenceMapperTest {
 
         BuyerRecord dto = buyerMapper.toRecord(buyer);
 
-        Assertions.assertEquals(buyer.getBuyerIdul(), dto.idul());
+        Assertions.assertEquals(buyer.getIdul(), dto.idul());
         Assertions.assertEquals(buyer.getName(), dto.name());
         Assertions.assertEquals(buyer.getEmail(), dto.email());
         Assertions.assertEquals(buyer.getCart().getPasses().size(), dto.cart().size());
@@ -41,7 +41,7 @@ class BuyerPersistenceMapperTest {
 
         BuyerRecord dto = buyerMapper.toRecord(buyer);
 
-        Assertions.assertEquals(buyer.getBuyerIdul(), dto.idul());
+        Assertions.assertEquals(buyer.getIdul(), dto.idul());
         Assertions.assertEquals(buyer.getName(), dto.name());
         Assertions.assertEquals(buyer.getEmail(), dto.email());
         Assertions.assertEquals(buyer.getCart().getPasses().size(), dto.cart().size());
@@ -54,7 +54,7 @@ class BuyerPersistenceMapperTest {
 
         Buyer result = buyerMapper.toDomain(record);
 
-        Assertions.assertEquals(record.idul(), result.getBuyerIdul());
+        Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());
         Assertions.assertEquals(record.email(), result.getEmail());
         Assertions.assertEquals(record.cart().size(), result.getCart().getPasses().size());
@@ -67,7 +67,7 @@ class BuyerPersistenceMapperTest {
 
         Buyer result = buyerMapper.toDomain(record);
 
-        Assertions.assertEquals(record.idul(), result.getBuyerIdul());
+        Assertions.assertEquals(record.idul(), result.getIdul());
         Assertions.assertEquals(record.name(), result.getName());
         Assertions.assertEquals(record.email(), result.getEmail());
         Assertions.assertEquals(record.cart().size(), result.getCart().getPasses().size());

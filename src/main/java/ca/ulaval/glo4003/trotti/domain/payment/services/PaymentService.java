@@ -10,9 +10,11 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.TransactionStatus;
 
 public class PaymentService {
 
-    public Transaction process(CreditCard paymentMethod, Money amountToPay) {
+    private static final String CVV_REGEX = "^\\d{3,4}$";
+
+    public Transaction process(CreditCard paymentMethod, Money amountToPay, String cvv) {
         try {
-            processPayment(paymentMethod, amountToPay);
+            processPayment(paymentMethod, amountToPay, cvv);
             return new Transaction(TransactionStatus.SUCCESS, amountToPay,
                     "Payment processed successfully");
         } catch (PaymentException e) {
@@ -20,13 +22,17 @@ public class PaymentService {
         }
     }
 
-    private void processPayment(CreditCard paymentMethod, Money amountToPay) {
+    private void processPayment(CreditCard paymentMethod, Money amountToPay, String cvv) {
         if (paymentMethod == null) {
             throw new InvalidPaymentRequestException("No payment method associated with buyer.");
         }
 
         if (amountToPay == null || amountToPay.isNegative()) {
             throw new InvalidPaymentRequestException("Amount to pay must not be null nor negative");
+        }
+
+        if (cvv == null || !cvv.matches(CVV_REGEX)) {
+            throw new InvalidPaymentRequestException("CVV is invalid.");
         }
 
         if (paymentMethod.isExpired()) {
