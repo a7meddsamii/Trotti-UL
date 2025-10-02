@@ -39,6 +39,12 @@ public class PaymentMethodFactory {
         }
     }
 
+    private void validateCardNumber(String cardNumber) {
+        if (!creditCardValidator.isValid(cardNumber)) {
+            throw new InvalidParameterException("Invalid card number");
+        }
+    }
+
     private void validateCvv(String cvv) {
         if (!cvv.matches(CVV_REGEX)) {
             throw new InvalidParameterException("Invalid CVV");
@@ -49,12 +55,6 @@ public class PaymentMethodFactory {
         YearMonth currentYearMonth = YearMonth.now();
         if (expirationDate.isBefore(currentYearMonth)) {
             throw new InvalidParameterException("Expired credit card");
-        }
-    }
-
-    private void validateCardNumber(String cardNumber) {
-        if (creditCardValidator.isValid(cardNumber)) {
-            throw new InvalidParameterException("Invalid card number");
         }
     }
 }
