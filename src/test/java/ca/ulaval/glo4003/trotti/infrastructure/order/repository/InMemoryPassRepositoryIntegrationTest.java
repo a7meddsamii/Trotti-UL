@@ -7,7 +7,9 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import java.util.List;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class InMemoryPassRepositoryIntegrationTest {
 
