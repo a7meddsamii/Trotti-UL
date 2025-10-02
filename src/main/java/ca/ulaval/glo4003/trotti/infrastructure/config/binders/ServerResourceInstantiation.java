@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
+import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
@@ -196,9 +197,10 @@ public class ServerResourceInstantiation {
                 new InvoiceNotificationService(emailService, invoiceFormatService);
         NotificationService<Transaction> transactionNotificationService =
                 new TransactionNotificationService(emailService);
-        OrderApplicationService orderApplicationService =
-                new OrderApplicationService(buyerRepository, passRepository, orderFactory,
-                        paymentService, transactionNotificationService, invoiceNotificationService);
+        TransactionMapper transactionMapper = new TransactionMapper();
+        OrderApplicationService orderApplicationService = new OrderApplicationService(
+                buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }

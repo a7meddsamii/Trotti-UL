@@ -30,7 +30,8 @@ public class PaymentMethodFactory {
                 expirationDate);
     }
 
-    private void validateNotBlank(String cardNumber, String cardHolderName, YearMonth expirationDate, String cvv) {
+    private void validateNotBlank(String cardNumber, String cardHolderName,
+            YearMonth expirationDate, String cvv) {
         if (StringUtils.isBlank(cardNumber) || StringUtils.isBlank(cardHolderName)
                 || expirationDate == null || StringUtils.isBlank(cvv)) {
             throw new InvalidParameterException(
