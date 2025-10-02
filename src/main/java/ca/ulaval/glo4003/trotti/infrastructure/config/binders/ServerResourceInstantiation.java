@@ -64,7 +64,7 @@ public class ServerResourceInstantiation {
     private PasswordHasher hasher;
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
-    private BuyerRepository buyerRepository; // TODO instantiate
+    private BuyerRepository buyerRepository;
     private PassMapper passMapper;
     private OrderFactory orderFactory;
     private PaymentService paymentService;
