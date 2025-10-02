@@ -52,6 +52,13 @@
             <version>${jersey.version}</version>
         </dependency>
 
+        <!-- Jersey validation-->
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
         <!-- Jersey DI and core-->
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
