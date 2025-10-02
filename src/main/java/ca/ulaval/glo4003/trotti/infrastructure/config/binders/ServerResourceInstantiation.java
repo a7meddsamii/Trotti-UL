@@ -24,7 +24,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -170,7 +170,10 @@ public class ServerResourceInstantiation {
 
     private void loadOrderService() {
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService);
+                buyerRepository, orderFactory, paymentService, emailService, null); // TODO
+                                                                                    // invoiceFormatService
+                                                                                    // impl coming
+                                                                                    // soon.
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 

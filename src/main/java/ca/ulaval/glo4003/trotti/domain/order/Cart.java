@@ -12,6 +12,10 @@ public class Cart {
         this.passList = new ArrayList<>();
     }
 
+    public Cart(List<Pass> passList) {
+        this.passList = new ArrayList<>(passList);
+    }
+
     public List<Pass> getPasses() {
         return List.copyOf(passList);
     }

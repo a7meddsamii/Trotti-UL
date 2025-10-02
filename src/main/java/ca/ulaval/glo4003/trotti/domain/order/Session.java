@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.order;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import java.time.LocalDate;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class Session {
     private final Semester semester;
@@ -49,6 +50,6 @@ public class Session {
 
     @Override
     public String toString() {
-        return semester.getFrenchTranslation() + startDate.getYear();
+        return semester.getFrenchTranslation() + StringUtils.SPACE + startDate.getYear();
     }
 }

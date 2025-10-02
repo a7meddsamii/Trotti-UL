@@ -11,7 +11,17 @@ public class Pass {
     private final Session session;
     private final BillingFrequency billingFrequency;
     private final Id id;
-    private Idul idul;
+    private Idul owner;
+
+    public Pass(
+            MaximumDailyTravelTime maximumTravelingTime,
+            Session session,
+            BillingFrequency billingFrequency) {
+        this.maximumTravelingTime = maximumTravelingTime;
+        this.session = session;
+        this.billingFrequency = billingFrequency;
+        this.id = Id.randomId();
+    }
 
     public Pass(
             MaximumDailyTravelTime maximumTravelingTime,
@@ -28,12 +38,12 @@ public class Pass {
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
             BillingFrequency billingFrequency,
-            Idul idul,
+            Idul owner,
             Id id) {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
-        this.idul = idul;
+        this.owner = owner;
         this.id = id;
     }
 
@@ -53,8 +63,21 @@ public class Pass {
         return id;
     }
 
+    public Idul getIdul() {
+        return owner;
+    }
+
+    public boolean linkToBuyer(Idul idul) {
+        if (this.owner != null) {
+            return false;
+        }
+
+        this.owner = idul;
+        return true;
+    }
+
     public Idul getBuyerIdul() {
-        return idul;
+        return owner;
     }
 
     public Money calculateAmount() {
@@ -62,13 +85,14 @@ public class Pass {
     }
 
     public boolean isPurchased() {
-        return idul != null;
+        return owner != null;
     }
 
-    public String generateInvoice() {
-        return "\nPass ID : " + id.toString() + "\n" + "Maximum traveling time : "
-                + maximumTravelingTime.toString() + "\n" + "Session : " + session.toString() + "\n"
-                + "Billing frequency : " + billingFrequency.toString() + "\n" + "Cost : "
-                + calculateAmount().toString() + "\n";
+    @Override
+    public String toString() {
+        return "Pass ID: " + id.toString() + ", Maximum traveling time: "
+                + maximumTravelingTime.toString() + ", Session: " + session.toString()
+                + ", Billing frequency: " + billingFrequency.toString() + ", Cost: "
+                + calculateAmount().toString();
     }
 }
