@@ -12,16 +12,16 @@ import java.util.List;
 
 public class BuyerPersistenceMapper {
 
-    public BuyerRecord toBuyerRecord(Buyer buyer) {
+    public BuyerRecord toRecord(Buyer buyer) {
         CreditCardRecord creditCard = buyer.getPaymentMethod().isPresent()
                 ? toPaymentMethodRecord(buyer.getPaymentMethod().get())
                 : null;
 
-        return new BuyerRecord(buyer.getIdul(), buyer.getName(), buyer.getEmail(),
+        return new BuyerRecord(buyer.getBuyerIdul(), buyer.getName(), buyer.getEmail(),
                 toCartRecord(buyer.getCart()), creditCard);
     }
 
-    public Buyer toBuyerDomain(BuyerRecord buyerFound) {
+    public Buyer toDomain(BuyerRecord buyerFound) {
         return new Buyer(buyerFound.idul(), buyerFound.name(), buyerFound.email(),
                 toCartDomain(buyerFound.cart()), toPaymentMethodDomain(buyerFound.paymentMethod()));
     }

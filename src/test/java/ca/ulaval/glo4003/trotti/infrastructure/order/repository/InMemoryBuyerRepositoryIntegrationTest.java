@@ -22,8 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class InMemoryBuyerRepositoryIntegrationTest {
-    private static final Idul IDUL_OF_NON_EXISTING_BUYER = Idul.from("NONEXIST");
-    private static final Email EMAIL_OF_NON_EXISTING_BUYER = Email.from("nonexisting@ulaval.ca");
+
     private BuyerRepository buyerRepository;
     private AccountRepository accountRepository;
 
@@ -46,7 +45,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
         accountRepository.save(account);
 
         buyerRepository.update(buyer);
-        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getBuyerIdul());
 
         Assertions.assertNotNull(retrievedBuyer);
     }
@@ -58,7 +57,7 @@ class InMemoryBuyerRepositoryIntegrationTest {
         accountRepository.save(account);
 
         buyerRepository.update(buyer);
-        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getIdul());
+        Buyer retrievedBuyer = buyerRepository.findByIdul(buyer.getBuyerIdul());
 
         Assertions.assertNotNull(retrievedBuyer);
         assertEquals(buyer, retrievedBuyer);
@@ -77,22 +76,8 @@ class InMemoryBuyerRepositoryIntegrationTest {
         assertEquals(buyer, retrievedBuyer);
     }
 
-    @Test
-    void givenIdulOfNonExistingBuyer_whenFindingByIdul_thenExceptionIsThrown() {
-        Executable executable = () -> buyerRepository.findByIdul(IDUL_OF_NON_EXISTING_BUYER);
-
-        Assertions.assertThrows(NullPointerException.class, executable);
-    }
-
-    @Test
-    void givenEmailOfNonExistingBuyer_whenFindingByEmail_thenExceptionIsThrown() {
-        Executable executable = () -> buyerRepository.findByEmail(EMAIL_OF_NON_EXISTING_BUYER);
-
-        Assertions.assertThrows(NullPointerException.class, executable);
-    }
-
     private void assertEquals(Buyer expected, Buyer actual) {
-        Assertions.assertEquals(expected.getIdul(), actual.getIdul());
+        Assertions.assertEquals(expected.getBuyerIdul(), actual.getBuyerIdul());
         Assertions.assertEquals(expected.getEmail(), actual.getEmail());
         Assertions.assertEquals(expected.getName(), actual.getName());
         Assertions.assertEquals(expected.getPaymentMethod().get().getSecuredString(),

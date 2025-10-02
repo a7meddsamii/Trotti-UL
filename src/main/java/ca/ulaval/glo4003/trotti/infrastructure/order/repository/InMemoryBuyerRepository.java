@@ -21,19 +21,19 @@ public class InMemoryBuyerRepository implements BuyerRepository {
 
     @Override
     public void update(Buyer buyer) {
-        BuyerRecord buyerRecord = buyerMapper.toBuyerRecord(buyer);
+        BuyerRecord buyerRecord = buyerMapper.toRecord(buyer);
         this.databaseDriver.insertIntoBuyerTable(buyerRecord);
     }
 
     @Override
     public Buyer findByEmail(Email email) {
         BuyerRecord accountQuery = databaseDriver.selectFromBuyerTable(email);
-        return buyerMapper.toBuyerDomain(accountQuery);
+        return buyerMapper.toDomain(accountQuery);
     }
 
     @Override
     public Buyer findByIdul(Idul idul) {
         BuyerRecord accountQuery = databaseDriver.selectFromBuyerTable(idul);
-        return buyerMapper.toBuyerDomain(accountQuery);
+        return buyerMapper.toDomain(accountQuery);
     }
 }

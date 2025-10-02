@@ -7,22 +7,22 @@ import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import java.util.Optional;
 
 public class Buyer {
-    private final Idul idul;
+    private final Idul buyerIdul;
     private final String name;
     private final Email email;
     private Cart cart;
     private CreditCard creditCard;
 
-    public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
-        this.idul = idul;
+    public Buyer(Idul buyerIdul, String name, Email email, Cart cart, CreditCard creditCard) {
+        this.buyerIdul = buyerIdul;
         this.name = name;
         this.email = email;
         this.cart = cart;
         this.creditCard = creditCard;
     }
 
-    public Idul getIdul() {
-        return idul;
+    public Idul getBuyerIdul() {
+        return buyerIdul;
     }
 
     public String getName() {
