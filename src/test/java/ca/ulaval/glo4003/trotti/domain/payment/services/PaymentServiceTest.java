@@ -52,7 +52,8 @@ class PaymentServiceTest {
 
     @Test
     void givenInvalidCvv_whenProcess_thenReturnFailedTransaction() {
-        Transaction transaction = paymentService.process(paymentMethod, amountToPay, AN_INVALID_CVV);
+        Transaction transaction =
+                paymentService.process(paymentMethod, amountToPay, AN_INVALID_CVV);
 
         Assertions.assertTrue(transaction.isFailed());
     }

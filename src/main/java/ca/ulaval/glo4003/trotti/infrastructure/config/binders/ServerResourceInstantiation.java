@@ -192,10 +192,13 @@ public class ServerResourceInstantiation {
 
     private void loadOrderService() {
         InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
-        NotificationService<Invoice> invoiceNotificationService = new InvoiceNotificationService(emailService, invoiceFormatService);
-        NotificationService<Transaction> transactionNotificationService = new TransactionNotificationService(emailService);
-        OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, orderFactory, paymentService, transactionNotificationService, invoiceNotificationService);
+        NotificationService<Invoice> invoiceNotificationService =
+                new InvoiceNotificationService(emailService, invoiceFormatService);
+        NotificationService<Transaction> transactionNotificationService =
+                new TransactionNotificationService(emailService);
+        OrderApplicationService orderApplicationService =
+                new OrderApplicationService(buyerRepository, passRepository, orderFactory,
+                        paymentService, transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }

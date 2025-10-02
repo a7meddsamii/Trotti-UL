@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
-
 import java.util.List;
 
 public class RidePermitNotificationService implements NotificationService<List<RidePermit>> {
