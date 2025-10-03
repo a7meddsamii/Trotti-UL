@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-
 class CartResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
@@ -51,12 +50,9 @@ class CartResourceTest {
         List<PassDto> cartDtos = passDtos();
         PassListResponse expectedResponse = passListResponse();
 
-        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any()))
-                .thenReturn(idul);
-        Mockito.when(cartApplicationService.getCart(idul))
-                .thenReturn(cartDtos);
-        Mockito.when(passApiMapper.toPassListResponse(cartDtos))
-                .thenReturn(expectedResponse);
+        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any())).thenReturn(idul);
+        Mockito.when(cartApplicationService.getCart(idul)).thenReturn(cartDtos);
+        Mockito.when(passApiMapper.toPassListResponse(cartDtos)).thenReturn(expectedResponse);
 
         Response response = resource.getCart(AUTH_HEADER);
 
@@ -76,14 +72,10 @@ class CartResourceTest {
         List<PassDto> updated = passDtos();
         PassListResponse mapped = passListResponse();
 
-        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any()))
-                .thenReturn(idul);
-        Mockito.when(passApiMapper.toPassDtoList(request))
-                .thenReturn(toAdd);
-        Mockito.when(cartApplicationService.addToCart(idul, toAdd))
-                .thenReturn(updated);
-        Mockito.when(passApiMapper.toPassListResponse(updated))
-                .thenReturn(mapped);
+        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any())).thenReturn(idul);
+        Mockito.when(passApiMapper.toPassDtoList(request)).thenReturn(toAdd);
+        Mockito.when(cartApplicationService.addToCart(idul, toAdd)).thenReturn(updated);
+        Mockito.when(passApiMapper.toPassListResponse(updated)).thenReturn(mapped);
 
         Response response = resource.addToCart(AUTH_HEADER, request);
 
@@ -99,8 +91,7 @@ class CartResourceTest {
     @Test
     void givenPassId_whenRemoveFromCart_thenReturns204() {
         Idul idul = Mockito.mock(Idul.class);
-        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any()))
-                .thenReturn(idul);
+        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any())).thenReturn(idul);
 
         Response response = resource.removeFromCart(AUTH_HEADER, PASS_ID);
 
@@ -108,15 +99,15 @@ class CartResourceTest {
         Assertions.assertNull(response.getEntity());
 
         Mockito.verify(authenticationService).authenticate(ArgumentMatchers.any());
-        Mockito.verify(cartApplicationService).removeFromCart(Mockito.eq(idul), Mockito.any(Id.class));
+        Mockito.verify(cartApplicationService).removeFromCart(Mockito.eq(idul),
+                Mockito.any(Id.class));
         Mockito.verifyNoInteractions(passApiMapper);
     }
 
     @Test
     void whenClearCart_thenReturns204() {
         Idul idul = Mockito.mock(Idul.class);
-        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any()))
-                .thenReturn(idul);
+        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any())).thenReturn(idul);
 
         Response response = resource.clearCart(AUTH_HEADER);
 

@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-import java.time.LocalDate;
-
 class AccountApiMapperTest {
     public static final String HASHED_PASSWORD = "hashed-password";
     public static final String AN_INVALID_BIRTHDATE_FORMAT = "not-a-date";

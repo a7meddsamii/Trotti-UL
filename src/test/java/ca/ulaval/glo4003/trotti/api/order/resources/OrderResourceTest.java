@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-
 class OrderResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
@@ -33,7 +32,8 @@ class OrderResourceTest {
         authenticationService = Mockito.mock(AuthenticationService.class);
         orderApiMapper = Mockito.mock(OrderApiMapper.class);
 
-        resource = new OrderResource(orderApplicationService, authenticationService, orderApiMapper);
+        resource =
+                new OrderResource(orderApplicationService, authenticationService, orderApiMapper);
     }
 
     @Test
@@ -44,10 +44,8 @@ class OrderResourceTest {
         TransactionDto transactionDto = Mockito.mock(TransactionDto.class);
         TransactionResponse expectedResponse = Mockito.mock(TransactionResponse.class);
 
-        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any()))
-                .thenReturn(idul);
-        Mockito.when(orderApiMapper.toDto(validRequest))
-                .thenReturn(paymentInfoDto);
+        Mockito.when(authenticationService.authenticate(ArgumentMatchers.any())).thenReturn(idul);
+        Mockito.when(orderApiMapper.toDto(validRequest)).thenReturn(paymentInfoDto);
         Mockito.when(orderApplicationService.placeOrderFor(idul, paymentInfoDto))
                 .thenReturn(transactionDto);
         Mockito.when(orderApiMapper.toTransactionResponse(transactionDto))
@@ -73,9 +71,11 @@ class OrderResourceTest {
         Mockito.when(orderApiMapper.toDto(invalidRequest))
                 .thenThrow(new InvalidParameterException("Invalid payment info"));
 
-        Assertions.assertThrows(InvalidParameterException.class, () -> resource.confirm(AUTH_HEADER, invalidRequest));
+        Assertions.assertThrows(InvalidParameterException.class,
+                () -> resource.confirm(AUTH_HEADER, invalidRequest));
 
-        Mockito.verify(orderApplicationService, Mockito.never()).placeOrderFor(Mockito.any(), Mockito.any());
+        Mockito.verify(orderApplicationService, Mockito.never()).placeOrderFor(Mockito.any(),
+                Mockito.any());
         Mockito.verify(orderApiMapper, Mockito.never()).toTransactionResponse(Mockito.any());
     }
 }
