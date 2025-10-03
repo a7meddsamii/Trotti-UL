@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
@@ -101,7 +103,8 @@ public class ServerResourceInstantiation {
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
-    
+	private SessionRegistry sessionRegistry;
+  
     private EmployeeRegistry employeeRegistry;
     
     public static ServerResourceInstantiation getInstance() {
@@ -163,6 +166,8 @@ public class ServerResourceInstantiation {
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
+		sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
+		locator.register(SessionRegistry.class, sessionRegistry);
     }
 
     private void loadEmailSender() {
@@ -228,9 +233,10 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
+		EmployeeRidePermitService employeeRidePermitService = new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService);
+                        ridePermitHistoryGateway, notificationService, employeeRidePermitService);
         locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
         locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
     }
