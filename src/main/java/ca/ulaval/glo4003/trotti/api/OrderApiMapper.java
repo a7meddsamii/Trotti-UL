@@ -4,11 +4,17 @@ import ca.ulaval.glo4003.trotti.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.api.dto.responses.TransactionResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
+import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
+
 import java.time.YearMonth;
 
 public class OrderApiMapper {
 
     public PaymentInfoDto toDto(PaymentInfoRequest paymentInfoRequest) {
+        if (paymentInfoRequest == null) {
+            throw new InvalidPaymentRequestException("Invalid payment info request");
+        }
+
         return new PaymentInfoDto(paymentInfoRequest.cardNumber(),
                 paymentInfoRequest.cardHolderName(),
                 paymentInfoRequest.expirationDate() == null ? null
