@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "fea92181-dbfa-433c-bbfc-17b171875179",
+		"name": "Trotti-UL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33404928"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Ahmed\",\r\n    \"gender\": \"MALE\",\r\n    \"idul\": \"AHSAM2\",\r\n    \"birthDate\": \"2000-01-10\",\r\n    \"email\": \"ahsam2@ulaval.ca\",\r\n    \"password\": \"AhmedSami@1!!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/api/accounts"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/api/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "GetCart",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}"
+				},
+				"url": "localhost:8080/cart"
+			},
+			"response": []
+		},
+		{
+			"name": "AddToCart",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OTgwMTU4Ni1jZWFjLTRiOTUtOGZiYS03MThlZDhhMTI2ODQiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk1MDE5MDUsImV4cCI6MTc1OTUwNTUwNX0.XC-Zjcw8Ol0LLEMNyoG1LoS31U0FB_4dI3_967EjO0k",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"passes\": [\r\n    {\r\n      \"maximumDailyTravelTime\": 30,\r\n      \"session\": \"E26\",\r\n      \"billingFrequency\": \"MONTHLY\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/api/cart"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8080/cart"
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePassFromCart",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2MTc5NjEzMC02YzRiLTQ1NzEtOWNlYy05OGRkOGI0Yzk4ZGEiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk0NjUyNjIsImV4cCI6MTc1OTQ2ODg2Mn0.1uWBKHpCh6gndMX4wrk8kHuNz5XPYBNmG4nWaCjYRcU",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8080/api/cart/08b09a9e-207e-4ac1-a4cd-222de2d8edec"
+			},
+			"response": []
+		},
+		{
+			"name": "ConfirmCart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwYWY5NWMyYS0wYWQ0LTQyNzQtYjMxNC0xNzY4MTI1NzllZWUiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk0NjgwMjIsImV4cCI6MTc1OTQ3MTYyMn0.yYNiLEeuAcLQ-v6Kytt5ynQ2KsttHMYJ_e2o3Zo7XJ8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cardNumber\": \"4111111111111111\",\r\n    \"cvv\": \"123\",\r\n    \"expirationDate\": \"2025-10\",\r\n    \"cardHolderName\": \"ahmed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/api/cart/confirm"
+			},
+			"response": []
+		}
+	]
+}
