@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
-import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+
 import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
