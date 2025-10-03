@@ -86,7 +86,7 @@ The app can be run in a Docker Environment or directly with Maven.
 ### Using an .env file
 
 This file is not loaded automatically: you must export its variables before running the app. Without it, the application may not function 
-properly. See below for detailed instuctions!
+properly. See below for detailed instuctions.
 
 #### 1. Create an `.env` file
 
