@@ -1,10 +1,15 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
-import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.account.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
+import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.api.order.resources.CartResource;
+import ca.ulaval.glo4003.trotti.api.order.resources.OrderResource;
 import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
@@ -21,6 +26,7 @@ import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
@@ -107,10 +113,12 @@ public class ServerResourceInstantiation {
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
     private OrderFactory orderFactory;
+    private PassFactory passFactory;
     private PaymentMethodFactory paymentMethodFactory;
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
+    private OrderApplicationService orderApplicationService;
     private SessionRegistry sessionRegistry;
     private RidePermitActivationApplicationService ridePermitActivationService;
     private EmployeeRegistry employeeRegistry;
@@ -235,9 +243,9 @@ public class ServerResourceInstantiation {
         TransactionMapper transactionMapper = new TransactionMapper();
         DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
         paymentMethodFactory = new PaymentMethodFactory(dataCodec);
-        OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService,
-                transactionMapper, transactionNotificationService, invoiceNotificationService);
+        orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
@@ -284,6 +292,23 @@ public class ServerResourceInstantiation {
         locator.register(TravelerResource.class, travelerResource);
     }
 
+    private void loadCartResource() {
+        PassApiMapper passApiMapper = new PassApiMapper(SessionProvider.getInstance());
+        passFactory = new PassFactory();
+        CartApplicationService cartApplicationService =
+                new CartApplicationService(buyerRepository, passMapper, passFactory);
+        CartResource cartResource = new CartResource(cartApplicationService,
+                locator.resolve(AuthenticationService.class), passApiMapper);
+        locator.register(CartResource.class, cartResource);
+    }
+
+    private void loadOrderResource() {
+        OrderApiMapper orderApiMapper = new OrderApiMapper();
+        OrderResource orderResource = new OrderResource(orderApplicationService,
+                locator.resolve(AuthenticationService.class), orderApiMapper);
+        locator.register(OrderResource.class, orderResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -307,6 +332,8 @@ public class ServerResourceInstantiation {
         loadAccountMapper();
         loadAccountResource();
         loadTravelerResource();
+        loadCartResource();
+        loadOrderResource();
         resourcesCreated = true;
     }
 

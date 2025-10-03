@@ -16,7 +16,8 @@ public class PaymentService {
         try {
             processPayment(paymentMethod, amountToPay, cvv);
             return new Transaction(TransactionStatus.SUCCESS, amountToPay,
-                    "Payment processed successfully");
+                    "Payment processed successfully with card ending in "
+                            + paymentMethod.getCardNumber());
         } catch (PaymentException e) {
             return new Transaction(TransactionStatus.FAILED, amountToPay, e.getMessage());
         }

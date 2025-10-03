@@ -42,4 +42,11 @@ public class Transaction {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" + "transactionId=" + transactionId + ", status=" + status
+                + ", timestamp=" + timestamp + ", amount=" + amount + ", description='"
+                + description + '\'' + '}';
+    }
 }

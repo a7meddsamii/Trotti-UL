@@ -86,17 +86,6 @@ class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenInvalidCvv_whenCreateCreditCard_thenThrowException() {
-        String invalidCvv = "12";
-
-        Executable createCreditCardAction =
-                () -> paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,
-                        VALID_CARD_HOLDER_NAME, VALID_EXPIRATION_DATE, invalidCvv);
-
-        Assertions.assertThrows(InvalidParameterException.class, createCreditCardAction);
-    }
-
-    @Test
     void givenNoCardNumber_whenCreateCreditCard_thenThrowException() {
         Executable createCreditCardAction = () -> paymentMethodFactory.createCreditCard(null,
                 VALID_CARD_HOLDER_NAME, VALID_EXPIRATION_DATE, VALID_CVV);

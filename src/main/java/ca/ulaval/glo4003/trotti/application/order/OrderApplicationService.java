@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentException;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import java.util.List;
@@ -61,6 +62,10 @@ public class OrderApplicationService {
         }
 
         transactionNotificationService.notify(buyer.getEmail(), transaction);
+
+        if (!transaction.isSuccessful()) {
+            throw new PaymentException(transaction.getDescription());
+        }
 
         return transactionMapper.toDto(transaction);
     }

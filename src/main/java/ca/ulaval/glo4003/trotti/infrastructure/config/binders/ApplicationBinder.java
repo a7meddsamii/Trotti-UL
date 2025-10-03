@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
-import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.account.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.order.resources.CartResource;
+import ca.ulaval.glo4003.trotti.api.order.resources.OrderResource;
 import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
@@ -10,6 +12,7 @@ import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
@@ -29,6 +32,7 @@ public class ApplicationBinder extends AbstractBinder {
 
         bind(locator.resolve(AccountRepository.class)).to(AccountRepository.class);
         bind(locator.resolve(PassRepository.class)).to(PassRepository.class);
+        bind(locator.resolve(BuyerRepository.class)).to(BuyerRepository.class);
 
         bind(locator.resolve(AccountApplicationService.class)).to(AccountApplicationService.class);
 
@@ -36,6 +40,8 @@ public class ApplicationBinder extends AbstractBinder {
 
         bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);
+        bind(locator.resolve(CartResource.class)).to(CartResource.class);
+        bind(locator.resolve(OrderResource.class)).to(OrderResource.class);
         bind(locator.resolve(TravelerResource.class)).to(TravelerResource.class);
     }
 }
