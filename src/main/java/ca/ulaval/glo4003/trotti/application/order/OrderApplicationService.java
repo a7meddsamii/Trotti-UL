@@ -13,9 +13,8 @@ import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 public class OrderApplicationService {
 
@@ -30,7 +29,8 @@ public class OrderApplicationService {
 
     public OrderApplicationService(
             BuyerRepository buyerRepository,
-            PassRepository passRepository, PaymentMethodFactory paymentMethodFactory,
+            PassRepository passRepository,
+            PaymentMethodFactory paymentMethodFactory,
             OrderFactory orderFactory,
             PaymentService paymentService,
             TransactionMapper transactionMapper,
@@ -72,17 +72,14 @@ public class OrderApplicationService {
         boolean hasCvv = StringUtils.isNotBlank(paymentInfoDto.cvv());
 
         if (!hasNumber && !hasName && !hasExpiry && hasCvv) {
-            return buyer.getPaymentMethod()
-                    .orElseThrow(() -> new InvalidPaymentMethodException("No saved payment method"));
+            return buyer.getPaymentMethod().orElseThrow(
+                    () -> new InvalidPaymentMethodException("No saved payment method"));
         }
 
         if (hasNumber && hasName && hasExpiry && hasCvv) {
-            CreditCard newCard = paymentMethodFactory.createCreditCard(
-                    paymentInfoDto.cardNumber(),
-                    paymentInfoDto.cardHolderName(),
-                    paymentInfoDto.expirationDate(),
-                    paymentInfoDto.cvv()
-            );
+            CreditCard newCard = paymentMethodFactory.createCreditCard(paymentInfoDto.cardNumber(),
+                    paymentInfoDto.cardHolderName(), paymentInfoDto.expirationDate(),
+                    paymentInfoDto.cvv());
             buyer.updatePaymentMethod(newCard);
             return newCard;
         }

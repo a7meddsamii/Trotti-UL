@@ -219,8 +219,8 @@ public class ServerResourceInstantiation {
         DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
         paymentMethodFactory = new PaymentMethodFactory(dataCodec);
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService, transactionMapper,
-                transactionNotificationService, invoiceNotificationService);
+                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService,
+                transactionMapper, transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }

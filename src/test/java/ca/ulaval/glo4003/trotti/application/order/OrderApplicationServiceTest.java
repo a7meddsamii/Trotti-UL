@@ -1,10 +1,14 @@
 // File: src/test/java/ca/ulaval/glo4003/trotti/application/order/OrderApplicationServiceTest.java
 package ca.ulaval.glo4003.trotti.application.order;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.*;
 import ca.ulaval.glo4003.trotti.domain.order.exceptions.CartException;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
@@ -12,20 +16,15 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
-import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class OrderApplicationServiceTest {
 
@@ -34,7 +33,8 @@ class OrderApplicationServiceTest {
     private static final String VALID_CARD_HOLDER = "John Doe";
     private static final String ALTERNATE_CVV = "321";
     private static final String NO_SAVED_PAYMENT_METHOD_MSG = "No saved payment method";
-    private static final String INVALID_PAYMENT_METHOD_MSG = "Invalid or incomplete payment method information";
+    private static final String INVALID_PAYMENT_METHOD_MSG =
+            "Invalid or incomplete payment method information";
 
     private BuyerRepository buyerRepository;
     private PassRepository passRepository;
@@ -69,10 +69,8 @@ class OrderApplicationServiceTest {
         transactionNotificationService = mock(NotificationService.class);
         invoiceNotificationService = mock(NotificationService.class);
 
-        orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository,
-                paymentMethodFactory, orderFactory,
-                paymentService, transactionMapper,
+        orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
                 transactionNotificationService, invoiceNotificationService);
 
         buyer = mock(Buyer.class);
