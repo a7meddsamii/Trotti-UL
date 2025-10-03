@@ -76,4 +76,8 @@ public class Buyer {
     public List<Pass> getCartPasses() {
         return cart.getPasses();
     }
+
+    public boolean hasEmptyCart() {
+        return cart.isEmpty();
+    }
 }
