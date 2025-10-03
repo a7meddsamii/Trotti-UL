@@ -23,8 +23,12 @@ import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
@@ -32,7 +36,6 @@ import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationS
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
@@ -50,17 +53,23 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRep
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.security.AesDataCodecAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -93,11 +102,13 @@ public class ServerResourceInstantiation {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
+    private TravelerRepository travelerRepository;
     private PassRepository passRepository;
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
     private OrderFactory orderFactory;
     private PassFactory passFactory;
+    private PaymentMethodFactory paymentMethodFactory;
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
@@ -138,14 +149,18 @@ public class ServerResourceInstantiation {
     private void loadUserRepositories() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
+        TravelerPersistenceMapper travelerMapper = new TravelerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        travelerRepository = new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
         buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
+        locator.register(TravelerRepository.class, travelerRepository);
     }
 
     private void loadPassRepository() {
@@ -212,9 +227,11 @@ public class ServerResourceInstantiation {
         NotificationService<Transaction> transactionNotificationService =
                 new TransactionNotificationService(emailService);
         TransactionMapper transactionMapper = new TransactionMapper();
-        orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
-                transactionNotificationService, invoiceNotificationService);
+        DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
+        paymentMethodFactory = new PaymentMethodFactory(dataCodec);
+        orderApplicationService =new OrderApplicationService(
+                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService,
+                transactionMapper, transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
@@ -224,11 +241,6 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-        TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
-                                                                                  // object so
-                                                                                  // everyone can
-                                                                                  // run app with
-                                                                                  // full
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
                         ridePermitHistoryGateway, notificationService);
@@ -291,15 +303,13 @@ public class ServerResourceInstantiation {
         resourcesCreated = true;
     }
 
-    class TravelerRepositoryInMemory implements TravelerRepository {
-        @Override
-        public List<Traveler> findAll() {
-            return List.of();
-        }
-
-        @Override
-        public void update(Traveler traveler) {
-
+    private SecretKey generateSecretKey() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            return keyGen.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to generate secret key for tests", e);
         }
     }
 }
