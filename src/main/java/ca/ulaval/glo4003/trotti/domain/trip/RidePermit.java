@@ -17,6 +17,18 @@ public class RidePermit {
         this.session = session;
     }
 
+    public Id getId() {
+        return id;
+    }
+
+    public Idul getIdul() {
+        return idul;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
     public boolean isActiveFor(LocalDate date) {
         return session.contains(date);
     }
