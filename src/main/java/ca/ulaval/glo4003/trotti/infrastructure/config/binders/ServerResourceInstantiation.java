@@ -28,7 +28,6 @@ import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationS
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
@@ -48,6 +47,9 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRec
 import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
@@ -90,6 +92,7 @@ public class ServerResourceInstantiation {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
+    private TravelerRepository travelerRepository;
     private PassRepository passRepository;
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
@@ -136,14 +139,18 @@ public class ServerResourceInstantiation {
     private void loadUserRepositories() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
+        TravelerPersistenceMapper travelerMapper = new TravelerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        travelerRepository = new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
         buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
+        locator.register(TravelerRepository.class, travelerRepository);
     }
 
     private void loadPassRepository() {
@@ -249,7 +256,6 @@ public class ServerResourceInstantiation {
         locator.register(EmployeeRegistry.class, employeeRegistry);
     }
     
-    
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -272,17 +278,5 @@ public class ServerResourceInstantiation {
         loadAccountResource();
         loadEmployeeIdulRepository();
         resourcesCreated = true;
-    }
-
-    class TravelerRepositoryInMemory implements TravelerRepository {
-        @Override
-        public List<Traveler> findAll() {
-            return List.of();
-        }
-
-        @Override
-        public void update(Traveler traveler) {
-
-        }
     }
 }

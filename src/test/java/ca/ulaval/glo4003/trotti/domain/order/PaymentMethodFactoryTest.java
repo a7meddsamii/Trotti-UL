@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.services.DataEncoder;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -20,29 +20,29 @@ class PaymentMethodFactoryTest {
     private static final YearMonth VALID_EXPIRATION_DATE = YearMonth.now().plusMonths(1);
     private static final String VALID_CVV = "123";
 
-    private DataEncoder dataEncoder;
+    private DataCodec dataCodec;
     private PaymentMethodFactory paymentMethodFactory;
 
     @BeforeEach
     void setup() {
-        dataEncoder = Mockito.mock(DataEncoder.class);
-        paymentMethodFactory = new PaymentMethodFactory(dataEncoder);
+        dataCodec = Mockito.mock(DataCodec.class);
+        paymentMethodFactory = new PaymentMethodFactory(dataCodec);
     }
 
     @Test
     void givenPaymentInfoParams_whenCreateCreditCard_thenReturnsCreditCardWithEncodedData() {
-        Mockito.when(dataEncoder.encode(VALID_CARD_NUMBER)).thenReturn(ENCODED_CARD_NUMBER);
+        Mockito.when(dataCodec.encode(VALID_CARD_NUMBER)).thenReturn(ENCODED_CARD_NUMBER);
 
         CreditCard creditCard = paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,
                 VALID_CARD_HOLDER_NAME, VALID_EXPIRATION_DATE, VALID_CVV);
 
         Assertions.assertEquals(ENCODED_CARD_NUMBER, creditCard.getSecuredString().getEncoded());
-        Mockito.verify(dataEncoder).encode(VALID_CARD_NUMBER);
+        Mockito.verify(dataCodec).encode(VALID_CARD_NUMBER);
     }
 
     @Test
     void givenPaymentInfoParams_whenCreateCreditCard_thenReturnsCreditCardWithCorrectData() {
-        Mockito.when(dataEncoder.encode(VALID_CARD_NUMBER)).thenReturn(ENCODED_CARD_NUMBER);
+        Mockito.when(dataCodec.encode(VALID_CARD_NUMBER)).thenReturn(ENCODED_CARD_NUMBER);
 
         CreditCard creditCard = paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,
                 VALID_CARD_HOLDER_NAME, VALID_EXPIRATION_DATE, VALID_CVV);

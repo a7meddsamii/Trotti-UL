@@ -40,6 +40,11 @@ public class AccountFixture {
         return this;
     }
 
+    public AccountFixture withIdul(Idul idul) {
+        this.idul = idul;
+        return this;
+    }
+
     public Account build() {
         return new Account(name, birthDate, gender, idul, email, password);
     }
