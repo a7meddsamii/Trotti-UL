@@ -1,19 +1,23 @@
 package ca.ulaval.glo4003.trotti.application.order;
 
+import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class PaymentMethodApplicationServiceTest {
 
-    private BuyerRepository buyerRepository;
     private Buyer buyer;
     private Idul idul;
-    private PaymentMethod paymentMethod;
+    private PaymentInfoDto paymentMethod;
+    private CreditCard creditCard;
+    private BuyerRepository buyerRepository;
+    private PaymentMethodFactory paymentMethodFactory;
 
     private PaymentMethodApplicationService paymentMethodApplicationService;
 
@@ -22,17 +26,26 @@ class PaymentMethodApplicationServiceTest {
         buyerRepository = Mockito.mock(BuyerRepository.class);
         buyer = Mockito.mock(Buyer.class);
         idul = Mockito.mock(Idul.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
-        paymentMethodApplicationService = new PaymentMethodApplicationService(buyerRepository);
+        paymentMethod = Mockito.mock(PaymentInfoDto.class);
+        paymentMethodFactory = Mockito.mock(PaymentMethodFactory.class);
+        creditCard = Mockito.mock(CreditCard.class);
+        paymentMethodApplicationService =
+                new PaymentMethodApplicationService(buyerRepository, paymentMethodFactory);
     }
 
     @Test
     void givenBuyer_whenUpdatePaymentMethod_thenPaymentMethodIsUpdated() {
         Mockito.when(buyerRepository.findByIdul(idul)).thenReturn(buyer);
+        Mockito.when(paymentMethodFactory.createCreditCard(paymentMethod.cardNumber(),
+                paymentMethod.cardHolderName(), paymentMethod.expirationDate(),
+                paymentMethod.cvv())).thenReturn(creditCard);
 
         paymentMethodApplicationService.updatePaymentMethod(idul, paymentMethod);
 
-        Mockito.verify(buyer).updatePaymentMethod(paymentMethod);
+        Mockito.verify(buyer).updatePaymentMethod(creditCard);
+        Mockito.verify(paymentMethodFactory).createCreditCard(paymentMethod.cardNumber(),
+                paymentMethod.cardHolderName(), paymentMethod.expirationDate(),
+                paymentMethod.cvv());
     }
 
     @Test
@@ -41,7 +54,7 @@ class PaymentMethodApplicationServiceTest {
 
         paymentMethodApplicationService.updatePaymentMethod(idul, paymentMethod);
 
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -59,6 +72,6 @@ class PaymentMethodApplicationServiceTest {
 
         paymentMethodApplicationService.deletePaymentMethod(idul);
 
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 }
