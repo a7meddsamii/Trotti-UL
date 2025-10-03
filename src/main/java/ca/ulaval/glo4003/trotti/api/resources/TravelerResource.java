@@ -33,5 +33,4 @@ public class TravelerResource {
 
         return Response.ok(ridePermits).build();
     }
-
 }
