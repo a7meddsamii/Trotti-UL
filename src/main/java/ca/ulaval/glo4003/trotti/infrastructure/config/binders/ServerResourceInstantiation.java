@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
@@ -109,8 +111,8 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
 	private SessionRegistry sessionRegistry;
-  
-    private EmployeeRegistry employeeRegistry;
+  private RidePermitActivationApplicationService ridePermitActivationService;
+	private EmployeeRegistry employeeRegistry;
     
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -241,9 +243,10 @@ public class ServerResourceInstantiation {
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
 		EmployeeRidePermitService employeeRidePermitService = new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
-        RidePermitActivationApplicationService ridePermitActivationService =
+		RidePermitMapper ridePermitMapper = new RidePermitMapper();
+         ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService, employeeRidePermitService);
+                        ridePermitHistoryGateway, notificationService, employeeRidePermitService, ridePermitMapper);
         locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
         locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
     }
@@ -261,34 +264,40 @@ public class ServerResourceInstantiation {
         locator.register(AccountResource.class, accountResource);
         locator.register(AuthenticationResource.class, authenticationResource);
     }
-    private void loadEmployeeIdulRepository() {
+    private void loadEmployeeIdulRegistry() {
 		EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
 		Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
         this.employeeRegistry = new EmployeeRegistry(employeesIduls);
         locator.register(EmployeeRegistry.class, employeeRegistry);
     }
+	
+	private void loadTravelerResource(){
+		TravelerResource travelerResource = new TravelerResource(ridePermitActivationService,authenticationService);
+		locator.register(TravelerResource.class, travelerResource);
+	}
     
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
-
-        loadAuthenticationService();
-        loadEmailSender();
-        loadPasswordHasher();
-        loadUserRepositories();
-        loadPassRepository();
-        loadSessionProvider();
-        loadAccountFactory();
-        loadAccountService();
-        loadPassMapper();
-        loadOrderFactory();
-        loadPaymentService();
-        loadOrderService();
-        loadRidePermitActivationService();
-        loadAccountMapper();
-        loadAccountResource();
-        loadEmployeeIdulRepository();
+		
+		loadEmployeeIdulRegistry();
+		loadAuthenticationService();
+		loadEmailSender();
+		loadPasswordHasher();
+		loadUserRepositories();
+		loadPassRepository();
+		loadSessionProvider();
+		loadAccountFactory();
+		loadAccountService();
+		loadPassMapper();
+		loadOrderFactory();
+		loadPaymentService();
+		loadOrderService();
+		loadRidePermitActivationService();
+		loadAccountMapper();
+		loadAccountResource();
+		loadTravelerResource();
         resourcesCreated = true;
     }
 
