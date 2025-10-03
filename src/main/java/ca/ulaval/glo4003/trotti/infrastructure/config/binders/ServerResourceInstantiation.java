@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.infrastructure.employee.EmployeeIdulRepository;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.infrastructure.csv.EmployeeIdulCsvReader;
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
@@ -10,7 +13,6 @@ import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplication
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
@@ -64,6 +66,7 @@ public class ServerResourceInstantiation {
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
     private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+    private static final String EMPLOYEE_IDUL_CSV_PATH = "/app/data/Employe.e.s.csv";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -84,7 +87,9 @@ public class ServerResourceInstantiation {
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
-
+    
+    private EmployeeIdulRepository employeeIdulRepository;
+    
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
             instance = new ServerResourceInstantiation();
@@ -220,7 +225,20 @@ public class ServerResourceInstantiation {
         locator.register(AccountResource.class, accountResource);
         locator.register(AuthenticationResource.class, authenticationResource);
     }
-
+    private void loadEmployeeIdulRepository() {
+        var reader = new EmployeeIdulCsvReader();
+        var iduls = reader.readFromClasspathOrDie(EMPLOYEE_IDUL_CSV_PATH);
+        
+        LOGGER.info("Loaded {} employee IDULs from {}", iduls.size(), EMPLOYEE_IDUL_CSV_PATH);
+        if (!iduls.isEmpty()) {
+            LOGGER.debug("First 5 employees: {}", iduls.stream().limit(5).toList());
+        }
+        
+        this.employeeIdulRepository = new EmployeeIdulRepository(iduls);
+        locator.register(EmployeeIdulRepository.class, employeeIdulRepository);
+    }
+    
+    
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -241,6 +259,7 @@ public class ServerResourceInstantiation {
         loadRidePermitActivationService();
         loadAccountMapper();
         loadAccountResource();
+        loadEmployeeIdulRepository();
         resourcesCreated = true;
     }
 
