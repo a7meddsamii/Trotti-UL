@@ -18,12 +18,8 @@ set EMPLOYEES_IDUL_FILE=Employe.e.s.csv
 set SEMESTER_FILE=semesters-252627.json
 set CONTAINER_NAME=trottiul_container
 
-REM Stop and remove any existing container with the same name if it exists
-for /f "delims=" %%i in ('docker ps -aq -f name=%CONTAINER_NAME%') do (
-    echo Stopping and removing existing container...
-    docker stop %CONTAINER_NAME%
-    docker rm %CONTAINER_NAME%
-)
+REM Stop and remove any existing container with the same name
+docker rm -f %CONTAINER_NAME% >nul 2>&1
 
 REM Build the Docker image, failing if there are any errors
 echo Building Docker image...
