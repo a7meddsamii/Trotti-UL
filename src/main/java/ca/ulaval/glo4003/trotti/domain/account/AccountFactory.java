@@ -9,6 +9,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 
 public class AccountFactory {
+    private static final int MINIMUM_AGE_YEARS = 16;
 
     private final Clock clock;
 
@@ -24,8 +25,10 @@ public class AccountFactory {
 
     private void validateBirthDate(LocalDate birthDate) {
         LocalDate today = LocalDate.now(clock);
-        if (!birthDate.isBefore(today)) {
-            throw new InvalidParameterException("Birthdate cannot be today or in the future.");
+        LocalDate minimumValidBirthDate = today.minusYears(MINIMUM_AGE_YEARS);
+        if (birthDate.isAfter(minimumValidBirthDate)) {
+            throw new InvalidParameterException(
+                    "User must be at least " + MINIMUM_AGE_YEARS + " years old.");
         }
     }
 }
