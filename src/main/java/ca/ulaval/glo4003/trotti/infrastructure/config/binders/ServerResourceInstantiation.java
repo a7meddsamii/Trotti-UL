@@ -28,13 +28,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
-import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -56,8 +50,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
-import io.github.cdimascio.dotenv.Dotenv;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
@@ -87,11 +79,11 @@ public class ServerResourceInstantiation {
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
     private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+    private static final String INITIALIZE_DEMO_DATA_KEY = "INITIALIZE_DEMO_DATA";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
-    private final Dotenv dotenv;
     private boolean initializeDemoData;
 
     private EmailService emailService;
@@ -101,7 +93,6 @@ public class ServerResourceInstantiation {
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
     private TravelerRepository travelerRepository;
-    private PassRepository passRepository;
     private PassRepository passRepository;
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
@@ -122,8 +113,7 @@ public class ServerResourceInstantiation {
     private ServerResourceInstantiation() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
-        this.dotenv = Dotenv.load();
-        this.initializeDemoData = Boolean.parseBoolean(dotenv.get("INITIALIZE_DEMO_DATA", "false"));
+        this.initializeDemoData = Boolean.parseBoolean(System.getenv(INITIALIZE_DEMO_DATA_KEY));
     }
 
     private void loadAuthenticationService() {
@@ -154,9 +144,7 @@ public class ServerResourceInstantiation {
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
         TravelerPersistenceMapper travelerMapper = new TravelerPersistenceMapper();
-        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
-        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         travelerRepository = new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
         buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
@@ -164,11 +152,10 @@ public class ServerResourceInstantiation {
         locator.register(TravelerRepository.class, travelerRepository);
     }
 
-    private void loadPassRepository() {
-        PassPersistenceMapper passMapper = new PassPersistenceMapper();
-        passRepository = new InMemoryPassRepository(passMapper);
-        locator.register(PassPersistenceMapper.class, passMapper);
-        locator.register(PassRepository.class, passRepository);
+    private void loadDevData() {
+        if (initializeDemoData) {
+            new AccountDevDataFactory(accountRepository, hasher).run();
+        }
     }
 
     private void loadPassRepository() {
@@ -240,41 +227,6 @@ public class ServerResourceInstantiation {
                 transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
-    }
-
-    private void loadDevData() {
-        if (initializeDemoData) {
-            new AccountDevDataFactory(accountRepository, hasher).run();
-        }
-    private void loadRidePermitActivationService() {
-        NotificationService<List<RidePermit>> notificationService =
-                new RidePermitNotificationService(emailService);
-        RidePermitHistoryGateway ridePermitHistoryGateway =
-                new RidePermitHistoryGatewayAdapter(passRepository);
-        TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
-                                                                                  // object so
-                                                                                  // everyone can
-                                                                                  // run app with
-                                                                                  // full
-        RidePermitActivationApplicationService ridePermitActivationService =
-                new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService);
-        locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
-        locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
-    }
-
-    private void loadAccountMapper() {
-        accountApiMapper = new AccountApiMapper(hasher);
-        locator.register(AccountApiMapper.class, accountApiMapper);
-    }
-
-    private void loadAccountResource() {
-        AccountResource accountResource =
-                new AccountResource(accountApplicationService, accountApiMapper);
-        AuthenticationResource authenticationResource =
-                new AuthenticationResource(accountApplicationService);
-        locator.register(AccountResource.class, accountResource);
-        locator.register(AuthenticationResource.class, authenticationResource);
     }
 
     private void loadRidePermitActivationService() {
