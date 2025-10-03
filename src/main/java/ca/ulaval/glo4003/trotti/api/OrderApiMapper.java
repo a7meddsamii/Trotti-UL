@@ -13,7 +13,7 @@ public class OrderApiMapper {
         return new PaymentInfoDto(
                 paymentInfoRequest.cardNumber(),
                 paymentInfoRequest.cardHolderName(),
-                YearMonth.parse(paymentInfoRequest.expirationDate()),
+                paymentInfoRequest.expirationDate() == null ? null : YearMonth.parse(paymentInfoRequest.expirationDate()),
                 paymentInfoRequest.cvv()
         );
     }

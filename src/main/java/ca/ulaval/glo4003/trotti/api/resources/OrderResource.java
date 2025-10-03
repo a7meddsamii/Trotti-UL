@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.api.resources;
 import ca.ulaval.glo4003.trotti.api.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
@@ -33,7 +34,9 @@ public class OrderResource {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
-        TransactionDto transactionDto = orderApplicationService.placeOrderFor(idul, paymentInfoRequest.cvv());
+        PaymentInfoDto paymentInfoDto = orderApiMapper.toDto(paymentInfoRequest);
+
+        TransactionDto transactionDto = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
         return Response.ok().entity(orderApiMapper.toTransactionResponse(transactionDto)).build();
     }
