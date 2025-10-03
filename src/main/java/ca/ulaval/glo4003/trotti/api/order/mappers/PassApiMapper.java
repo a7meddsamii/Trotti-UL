@@ -13,6 +13,11 @@ import java.time.Duration;
 import java.util.List;
 
 public class PassApiMapper {
+    private final SessionProvider sessionProvider;
+
+    public PassApiMapper(SessionProvider sessionProvider) {
+        this.sessionProvider = sessionProvider;
+    }
 
     public List<PassDto> toPassDtoList(PassListRequest request) {
         if (request == null) {
@@ -46,7 +51,7 @@ public class PassApiMapper {
     }
 
     private Session sessionFromString(String sessionRequest) {
-        List<Session> sessionList = SessionProvider.getInstance().getSessions();
+        List<Session> sessionList = sessionProvider.getSessions();
         for (Session session : sessionList) {
             if (sessionRequest.equals(session.toString())) {
                 return session;

@@ -87,7 +87,8 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+    public static final String SEMESTER_DATA_FILE_PATH =
+            "src/main/resources/data/semesters-252627.json";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -260,7 +261,7 @@ public class ServerResourceInstantiation {
     }
 
     private void loadCartResource() {
-        PassApiMapper passApiMapper = new PassApiMapper();
+        PassApiMapper passApiMapper = new PassApiMapper(SessionProvider.getInstance());
         passFactory = new PassFactory();
         CartApplicationService cartApplicationService =
                 new CartApplicationService(buyerRepository, passMapper, passFactory);
