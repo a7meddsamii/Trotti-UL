@@ -11,12 +11,12 @@ COPY src src
 RUN mvn -B -DskipTests package
 
 # ---- run ----
-FROM amazoncorretto:21-alpine
+FROM amazoncorretto:21
 WORKDIR /app
 COPY --from=build /app/target/trotti-ul.jar /app/trotti-ul.jar
 
-RUN adduser -D appuser
-USER appuser
+#RUN adduser -D appuser
+#USER appuser
 
 ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 EXPOSE 8080
