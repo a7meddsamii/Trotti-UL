@@ -43,8 +43,8 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
-import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
@@ -165,7 +165,7 @@ public class ServerResourceInstantiation {
     }
 
     private void loadDevData() {
-       new AccountDevDataFactory(accountRepository, hasher).run();
+        new AccountDevDataFactory(accountRepository, hasher).run();
     }
 
     private void loadPassRepository() {
