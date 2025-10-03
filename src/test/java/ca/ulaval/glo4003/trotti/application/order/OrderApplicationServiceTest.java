@@ -1,211 +1,211 @@
+// File: src/test/java/ca/ulaval/glo4003/trotti/application/order/OrderApplicationServiceTest.java
 package ca.ulaval.glo4003.trotti.application.order;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.order.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.Invoice;
-import ca.ulaval.glo4003.trotti.domain.order.Order;
-import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.*;
+import ca.ulaval.glo4003.trotti.domain.order.exceptions.CartException;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
-import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
-import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mockito;
 
 class OrderApplicationServiceTest {
 
-    private static final String TRANSACTION_STRING = "Transaction Details";
-    private static final String A_CVV = "123";
+    private static final String VALID_CVV = "123";
+    private static final String VALID_CARD_NUMBER = "4111111111111111";
+    private static final String VALID_CARD_HOLDER = "John Doe";
+    private static final String ALTERNATE_CVV = "321";
+    private static final String NO_SAVED_PAYMENT_METHOD_MSG = "No saved payment method";
+    private static final String INVALID_PAYMENT_METHOD_MSG =
+            "Invalid or incomplete payment method information";
 
     private BuyerRepository buyerRepository;
     private PassRepository passRepository;
+    private PaymentMethodFactory paymentMethodFactory;
     private OrderFactory orderFactory;
     private PaymentService paymentService;
     private TransactionMapper transactionMapper;
     private NotificationService<Transaction> transactionNotificationService;
     private NotificationService<Invoice> invoiceNotificationService;
+    private OrderApplicationService orderApplicationService;
+
     private Buyer buyer;
-    private CreditCard paymentMethod;
+    private CreditCard creditCard;
     private Transaction successfulTransaction;
     private Transaction failedTransaction;
-    private TransactionDto transactionDto;
     private Order order;
     private Invoice invoice;
+    private PaymentInfoDto paymentInfoDto;
     private Idul idul;
-    private Email email;
     private Money cartBalance;
-    private Pass pass1;
-    private Pass pass2;
-
-    private OrderApplicationService orderApplicationService;
     private List<Pass> passes;
-    private List<Pass> confirmedPasses;
+    private TransactionDto transactionDto;
 
     @BeforeEach
     void setup() {
-        buyerRepository = Mockito.mock(BuyerRepository.class);
-        passRepository = Mockito.mock(PassRepository.class);
-        orderFactory = Mockito.mock(OrderFactory.class);
-        paymentService = Mockito.mock(PaymentService.class);
-        transactionMapper = Mockito.mock(TransactionMapper.class);
-        transactionNotificationService = Mockito.mock(TransactionNotificationService.class);
-        invoiceNotificationService = Mockito.mock(InvoiceNotificationService.class);
-        buyer = Mockito.mock(Buyer.class);
-        paymentMethod = Mockito.mock(CreditCard.class);
-        successfulTransaction = Mockito.mock(Transaction.class);
-        failedTransaction = Mockito.mock(Transaction.class);
-        transactionDto = Mockito.mock(TransactionDto.class);
-        order = Mockito.mock(Order.class);
-        invoice = Mockito.mock(Invoice.class);
-        idul = Mockito.mock(Idul.class);
-        email = Mockito.mock(Email.class);
-        cartBalance = Mockito.mock(Money.class);
-        pass1 = Mockito.mock(Pass.class);
-        pass2 = Mockito.mock(Pass.class);
-
-        passes = Arrays.asList(pass1, pass2);
-        confirmedPasses = Mockito.mock(List.class);
+        buyerRepository = mock(BuyerRepository.class);
+        passRepository = mock(PassRepository.class);
+        paymentMethodFactory = mock(PaymentMethodFactory.class);
+        orderFactory = mock(OrderFactory.class);
+        paymentService = mock(PaymentService.class);
+        transactionMapper = mock(TransactionMapper.class);
+        transactionNotificationService = mock(NotificationService.class);
+        invoiceNotificationService = mock(NotificationService.class);
 
         orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
-                orderFactory, paymentService, transactionMapper, transactionNotificationService,
-                invoiceNotificationService);
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
+
+        buyer = mock(Buyer.class);
+        creditCard = mock(CreditCard.class);
+        successfulTransaction = mock(Transaction.class);
+        failedTransaction = mock(Transaction.class);
+        order = mock(Order.class);
+        invoice = mock(Invoice.class);
+        paymentInfoDto = mock(PaymentInfoDto.class);
+        idul = mock(Idul.class);
+        cartBalance = mock(Money.class);
+        passes = Arrays.asList(mock(Pass.class), mock(Pass.class));
+        transactionDto = mock(TransactionDto.class);
+
+        when(buyerRepository.findByIdul(idul)).thenReturn(buyer);
+        when(buyer.hasEmptyCart()).thenReturn(false);
+        when(buyer.getCartBalance()).thenReturn(cartBalance);
+        when(buyer.getCartPasses()).thenReturn(passes);
+        when(paymentInfoDto.cvv()).thenReturn(VALID_CVV);
+        when(transactionMapper.toDto(any(Transaction.class))).thenReturn(transactionDto);
     }
 
     @Test
-    void givenSuccessfulTransaction_whenPlaceOrderFor_thenInvoiceAndTransactionNotificationServicesAreCalled() {
-        mockSuccessfulTransaction();
-
-        orderApplicationService.placeOrderFor(idul, A_CVV);
-
-        Mockito.verify(invoiceNotificationService).notify(email, invoice);
-        Mockito.verify(transactionNotificationService).notify(email, successfulTransaction);
+    void givenEmptyCart_whenPlaceOrderFor_thenThrowCartException() {
+        when(buyer.hasEmptyCart()).thenReturn(true);
+        Executable action = () -> orderApplicationService.placeOrderFor(idul, paymentInfoDto);
+        assertThrows(CartException.class, action);
     }
 
     @Test
-    void givenFailedTransaction_whenPlaceOrderFor_thenOnlyTransactionNotificationServiceIsCalled() {
-        mockFailedTransaction();
+    void givenExistingPaymentMethod_andSuccessfulTransaction_whenPlaceOrderFor_thenFinalizeOrderAndNotify() {
+        when(buyer.getPaymentMethod()).thenReturn(Optional.of(creditCard));
+        when(paymentService.process(creditCard, cartBalance, VALID_CVV)).thenReturn(successfulTransaction);
+        when(successfulTransaction.isSuccessful()).thenReturn(true);
+        when(buyer.confirmCartPasses()).thenReturn(passes);
+        when(orderFactory.create(buyer.getIdul(), passes)).thenReturn(order);
+        when(order.generateInvoice()).thenReturn(invoice);
 
-        orderApplicationService.placeOrderFor(idul, A_CVV);
+        TransactionDto result = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
-        Mockito.verify(invoiceNotificationService, Mockito.never()).notify(Mockito.any(),
-                Mockito.any());
-        Mockito.verify(transactionNotificationService).notify(email, failedTransaction);
+        verify(invoiceNotificationService).notify(buyer.getEmail(), invoice);
+        verify(transactionNotificationService).notify(buyer.getEmail(), successfulTransaction);
+        verify(buyerRepository).update(buyer);
+        verify(passRepository).saveAll(passes);
+        assertEquals(transactionDto, result);
     }
 
     @Test
-    void givenTransaction_whenPlaceOrderFor_thenTransactionMapperIsCalled() {
-        mockFailedTransaction();
+    void givenNoPaymentMethodByBuyerAndCompletePaymentInfo_whenPlaceOrderFor_thenCreatesPaymentMethodAndFinalizeOrder() {
+        when(buyer.getPaymentMethod()).thenReturn(Optional.empty());
+        when(paymentInfoDto.cardNumber()).thenReturn(VALID_CARD_NUMBER);
+        when(paymentInfoDto.cardHolderName()).thenReturn(VALID_CARD_HOLDER);
+        when(paymentInfoDto.expirationDate()).thenReturn(YearMonth.now().plusMonths(1));
 
-        orderApplicationService.placeOrderFor(idul, A_CVV);
+        CreditCard newCard = mock(CreditCard.class);
+        when(paymentMethodFactory.createCreditCard(
+                VALID_CARD_NUMBER,
+                VALID_CARD_HOLDER,
+                paymentInfoDto.expirationDate(),
+                VALID_CVV))
+                .thenReturn(newCard);
 
-        Mockito.verify(transactionMapper).toDto(failedTransaction);
+        when(paymentService.process(newCard, cartBalance, VALID_CVV)).thenReturn(successfulTransaction);
+        when(successfulTransaction.isSuccessful()).thenReturn(true);
+        when(buyer.confirmCartPasses()).thenReturn(passes);
+        when(orderFactory.create(buyer.getIdul(), passes)).thenReturn(order);
+        when(order.generateInvoice()).thenReturn(invoice);
+
+        TransactionDto result = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
+
+        verify(buyer).updatePaymentMethod(newCard);
+        verify(invoiceNotificationService).notify(buyer.getEmail(), invoice);
+        verify(transactionNotificationService).notify(buyer.getEmail(), successfulTransaction);
+        verify(buyerRepository).update(buyer);
+        verify(passRepository).saveAll(passes);
+        assertEquals(transactionDto, result);
     }
 
     @Test
-    void givenNoPaymentMethod_whenPlaceOrderFor_thenThrowsException() {
-        Mockito.when(buyerRepository.findByIdul(idul)).thenReturn(buyer);
-        Mockito.when(buyer.getPaymentMethod()).thenReturn(Optional.empty());
+    void givenSuccessfulTransaction_whenPlaceOrderFor_thenFinalizeOrderIsCalled() {
+        when(buyer.getPaymentMethod()).thenReturn(Optional.of(creditCard));
+        when(paymentService.process(creditCard, cartBalance, VALID_CVV)).thenReturn(successfulTransaction);
+        when(successfulTransaction.isSuccessful()).thenReturn(true);
+        when(buyer.confirmCartPasses()).thenReturn(passes);
+        when(orderFactory.create(buyer.getIdul(), passes)).thenReturn(order);
+        when(order.generateInvoice()).thenReturn(invoice);
 
-        Executable placeOrderAction = () -> orderApplicationService.placeOrderFor(idul, A_CVV);
+        orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
-        Assertions.assertThrows(InvalidPaymentMethodException.class, placeOrderAction);
+        verify(buyerRepository).update(buyer);
+        verify(passRepository).saveAll(passes);
     }
 
     @Test
-    void givenSuccessfulTransaction_whenPlaceOrderFor_thenSavesPasses() {
-        mockSuccessfulTransaction();
-        Mockito.when(buyer.confirmCartPasses()).thenReturn(confirmedPasses);
+    void givenFailedTransaction_whenPlaceOrderFor_thenOnlyTransactionNotificationIsCalled_andNoOrderFinalization() {
+        when(buyer.getPaymentMethod()).thenReturn(Optional.of(creditCard));
+        when(paymentService.process(creditCard, cartBalance, VALID_CVV)).thenReturn(failedTransaction);
+        when(failedTransaction.isSuccessful()).thenReturn(false);
 
-        orderApplicationService.placeOrderFor(idul, A_CVV);
+        TransactionDto result = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
-        Mockito.verify(passRepository).saveAll(confirmedPasses);
+        verify(invoiceNotificationService, never()).notify(any(), any());
+        verify(buyerRepository, never()).update(buyer);
+        verify(passRepository, never()).saveAll(any());
+        verify(transactionNotificationService).notify(buyer.getEmail(), failedTransaction);
+        assertEquals(transactionDto, result);
     }
 
     @Test
-    void givenSuccessfulTransaction_whenPlaceOrderFor_thenUpdatesBuyer() {
-        mockSuccessfulTransaction();
-        Mockito.when(buyer.confirmCartPasses()).thenReturn(confirmedPasses);
+    void givenIncompletePaymentInfoWithOnlyCvv_andSavedPaymentMethodPresent_thenPlaceOrderForUsesSavedPaymentMethod() {
+        when(paymentInfoDto.cardNumber()).thenReturn("");
+        when(paymentInfoDto.cardHolderName()).thenReturn("");
+        when(paymentInfoDto.expirationDate()).thenReturn(null);
+        when(buyer.getPaymentMethod()).thenReturn(Optional.of(creditCard));
+        when(paymentService.process(creditCard, cartBalance, VALID_CVV)).thenReturn(successfulTransaction);
+        when(successfulTransaction.isSuccessful()).thenReturn(true);
+        when(buyer.confirmCartPasses()).thenReturn(passes);
+        when(orderFactory.create(buyer.getIdul(), passes)).thenReturn(order);
+        when(order.generateInvoice()).thenReturn(invoice);
 
-        orderApplicationService.placeOrderFor(idul, A_CVV);
+        TransactionDto result = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
-        Mockito.verify(buyerRepository).update(buyer);
+        verify(paymentMethodFactory, never()).createCreditCard(anyString(), anyString(), any(), anyString());
+        assertEquals(transactionDto, result);
     }
 
     @Test
-    void givenFailedTransaction_whenPlaceOrderFor_thenDoesNotSavePasses() {
-        mockFailedTransaction();
+    void givenIncompletePaymentInfoWithOnlyCvv_andNoSavedPaymentMethod_thenPlaceOrderForThrowsException() {
+        when(paymentInfoDto.cardNumber()).thenReturn("");
+        when(paymentInfoDto.cardHolderName()).thenReturn("");
+        when(paymentInfoDto.expirationDate()).thenReturn(null);
+        when(buyer.getPaymentMethod()).thenReturn(Optional.empty());
 
-        orderApplicationService.placeOrderFor(idul, A_CVV);
-
-        Mockito.verify(passRepository, Mockito.never()).saveAll(Mockito.anyList());
-    }
-
-    @Test
-    void givenFailedTransaction_whenPlaceOrderFor_thenDoesNotUpdateBuyer() {
-        mockFailedTransaction();
-
-        orderApplicationService.placeOrderFor(idul, A_CVV);
-
-        Mockito.verify(buyerRepository, Mockito.never()).update(Mockito.any());
-    }
-
-    @Test
-    void givenSuccessfulTransaction_whenPlaceOrderFor_thenOrderIsCreated() {
-        mockSuccessfulTransaction();
-        Mockito.when(buyer.confirmCartPasses()).thenReturn(confirmedPasses);
-
-        orderApplicationService.placeOrderFor(idul, A_CVV);
-
-        Mockito.verify(orderFactory).create(idul, confirmedPasses);
-    }
-
-    private void mockSuccessfulTransaction() {
-        Mockito.when(buyerRepository.findByIdul(idul)).thenReturn(buyer);
-        Mockito.when(buyer.getPaymentMethod()).thenReturn(Optional.of(paymentMethod));
-        Mockito.when(buyer.getCartBalance()).thenReturn(cartBalance);
-        Mockito.when(buyer.getEmail()).thenReturn(email);
-        Mockito.when(buyer.getCartPasses()).thenReturn(passes);
-        Mockito.when(buyer.getIdul()).thenReturn(idul);
-        Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
-                .thenReturn(successfulTransaction);
-        Mockito.when(transactionMapper.toDto(successfulTransaction)).thenReturn(transactionDto);
-        Mockito.when(successfulTransaction.isSuccessful()).thenReturn(true);
-        Mockito.when(successfulTransaction.toString()).thenReturn(TRANSACTION_STRING);
-        Mockito.when(orderFactory.create(Mockito.any(Idul.class), Mockito.anyList()))
-                .thenReturn(order);
-        Mockito.when(order.generateInvoice()).thenReturn(invoice);
-    }
-
-    private void mockFailedTransaction() {
-        Mockito.when(buyerRepository.findByIdul(idul)).thenReturn(buyer);
-        Mockito.when(buyer.getPaymentMethod()).thenReturn(Optional.of(paymentMethod));
-        Mockito.when(buyer.getCartBalance()).thenReturn(cartBalance);
-        Mockito.when(buyer.getEmail()).thenReturn(email);
-        Mockito.when(buyer.getCartPasses()).thenReturn(passes);
-        Mockito.when(buyer.getIdul()).thenReturn(idul);
-        Mockito.when(paymentService.process(paymentMethod, cartBalance, A_CVV))
-                .thenReturn(failedTransaction);
-        Mockito.when(transactionMapper.toDto(failedTransaction)).thenReturn(transactionDto);
-        Mockito.when(failedTransaction.isSuccessful()).thenReturn(false);
-        Mockito.when(failedTransaction.toString()).thenReturn(TRANSACTION_STRING);
-        Mockito.when(orderFactory.create(Mockito.any(Idul.class), Mockito.anyList()))
-                .thenReturn(order);
-        Mockito.when(order.generateInvoice()).thenReturn(invoice);
+        Executable action = () -> orderApplicationService.placeOrderFor(idul, paymentInfoDto);
+        InvalidPaymentMethodException exception = assertThrows(InvalidPaymentMethodException.class, action);
+        assertEquals(NO_SAVED_PAYMENT_METHOD_MSG, exception.getMessage());
     }
 }

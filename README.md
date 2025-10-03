@@ -83,6 +83,44 @@ The app can be run in a Docker Environment or directly with Maven.
     mvn exec:java # with default token expiration duration (PT60M)
     ```
 
+### Using an .env file
+
+This file is not loaded automatically: you must export its variables before running the app. Without it, the application may not function 
+properly. See below for detailed instuctions.
+
+#### 1. Create an `.env` file
+
+- At the root of your project, create a file named `.env`.
+
+#### 2. Add required environment variables
+
+Edit the `.env` file and add the required variables, for example:
+
+```env
+TOKEN_EXPIRATION_DURATION=PT60M
+JWT_SECRET=secret_key
+STMP_USER="email@adress.ca"
+STMP_PASS="password"
+STMP_HOST="smtp.example.com"
+STMP_PORT: "587"
+INITIALIZE_DEMO_DATA=true
+```
+Replace the values with your own credentials.
+
+#### 3. Run the app using the `.env` file
+
+**In Docker:**
+You can load directly your `.env` file when running the container by using this option:
+
+```bash
+docker run -p 8080:8080 --env-file .env application-glo4003
+```
+
+#### 4. Important: Do not commit your `.env` file
+
+Make sure your `.env` file is listed in `.gitignore` to prevent a leak of sensitive information.
+
+
 ### Running in Docker
 
 - Build the Docker image:
@@ -99,6 +137,8 @@ The app can be run in a Docker Environment or directly with Maven.
     # with default token expiration duration (PT60M)
     docker run -p 8080:8080 application-glo4003 
     ```
+  
+
 > [!IMPORTANT]
 > The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
 > The value required follows the [ISO-8601 format](https://en.wikipedia.org/wiki/ISO_8601) for durations.
