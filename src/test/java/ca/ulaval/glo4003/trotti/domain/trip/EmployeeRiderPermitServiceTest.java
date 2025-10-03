@@ -42,15 +42,15 @@ class EmployeeRiderPermitServiceTest {
 
     @Test
     void givenEmployeeThatAlreadyHasActivePermit_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
-		Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
-		Mockito.when(traveler.hasActiveRidePermits()).thenReturn(true);
-		Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
-				.thenReturn(java.util.Optional.of(A_SESSION));
+        Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
+        Mockito.when(traveler.hasActiveRidePermits()).thenReturn(true);
+        Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
+                .thenReturn(java.util.Optional.of(A_SESSION));
 
-		service.handleEmployeeRidePermit(traveler);
+        service.handleEmployeeRidePermit(traveler);
 
-		Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
-	}
+        Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
+    }
 
     @Test
     void givenEmployeeIdulAndCurrentDateOutsideOfAnySession_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {

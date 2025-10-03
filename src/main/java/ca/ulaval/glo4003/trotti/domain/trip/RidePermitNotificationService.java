@@ -26,14 +26,11 @@ public class RidePermitNotificationService implements NotificationService<List<R
             }
         }
     }
-	
-	private String buildBody(RidePermit ridePermit) {
-		return "Your ride permit with ID: " + ridePermit.getId() +
-				" has been activated.\n\n" +
-				"Valid for the session: " + ridePermit.getSession() +
-				"\nEffective period: " +
-				"\n\t- From: " + ridePermit.getSession().getStartDate() +
-				"\n\t- To: " + ridePermit.getSession().getEndDate() +
-				".\n\nEnjoy your rides!";
-	}
+
+    private String buildBody(RidePermit ridePermit) {
+        return "Your ride permit with ID: " + ridePermit.getId() + " has been activated.\n\n"
+                + "Valid for the session: " + ridePermit.getSession() + "\nEffective period: "
+                + "\n\t- From: " + ridePermit.getSession().getStartDate() + "\n\t- To: "
+                + ridePermit.getSession().getEndDate() + ".\n\nEnjoy your rides!";
+    }
 }

@@ -28,15 +28,16 @@ public class EmployeeRidePermitService {
         Optional<Session> session = sessionRegistry.getSession(currentDate);
 
         if (traveler.hasActiveRidePermits() || session.isEmpty()) {
-			return  Collections.emptyList();
+            return Collections.emptyList();
         }
-		
-		RidePermit employeeRidePermit = new RidePermit(Id.randomId(), traveler.getIdul(), session.get());
-		
-		return traveler.updateActiveRidePermits(List.of(employeeRidePermit));
-	}
-	
-	public boolean isEmployee(Idul idul) {
-		return employeeRegistry.isEmployee(idul);
-	}
+
+        RidePermit employeeRidePermit =
+                new RidePermit(Id.randomId(), traveler.getIdul(), session.get());
+
+        return traveler.updateActiveRidePermits(List.of(employeeRidePermit));
+    }
+
+    public boolean isEmployee(Idul idul) {
+        return employeeRegistry.isEmployee(idul);
+    }
 }
