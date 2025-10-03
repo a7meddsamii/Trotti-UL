@@ -50,6 +50,6 @@ public class Session {
 
     @Override
     public String toString() {
-        return semester.getFrenchTranslation() + StringUtils.SPACE + startDate.getYear();
+        return semester.getCode().toString() + String.format("%02d", getStartDate().getYear() % 100);
     }
 }
