@@ -3,7 +3,9 @@ package ca.ulaval.glo4003.trotti.domain.order;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import java.util.List;
 import java.util.Optional;
 
 public class Buyer {
@@ -11,22 +13,14 @@ public class Buyer {
     private final String name;
     private final Email email;
     private Cart cart;
-    private Optional<PaymentMethod> paymentMethod;
+    private CreditCard creditCard;
 
-    public Buyer(Idul idul, String name, Email email, Cart cart) {
+    public Buyer(Idul idul, String name, Email email, Cart cart, CreditCard creditCard) {
         this.idul = idul;
         this.name = name;
         this.email = email;
         this.cart = cart;
-        this.paymentMethod = Optional.empty();
-    }
-
-    public Buyer(Idul idul, String name, Email email, Cart cart, PaymentMethod paymentMethod) {
-        this.idul = idul;
-        this.name = name;
-        this.email = email;
-        this.cart = cart;
-        this.paymentMethod = Optional.of(paymentMethod);
+        this.creditCard = creditCard;
     }
 
     public Idul getIdul() {
@@ -45,16 +39,16 @@ public class Buyer {
         return cart;
     }
 
-    public Optional<PaymentMethod> getPaymentMethod() {
-        return paymentMethod;
+    public Optional<CreditCard> getPaymentMethod() {
+        return Optional.ofNullable(creditCard);
     }
 
-    public void updatePaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = Optional.of(paymentMethod);
+    public void updatePaymentMethod(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 
     public void deletePaymentMethod() {
-        this.paymentMethod = Optional.empty();
+        this.creditCard = null;
     }
 
     public boolean addToCart(Pass pass) {
@@ -67,5 +61,19 @@ public class Buyer {
 
     public void clearCart() {
         cart.clear();
+    }
+
+    public Money getCartBalance() {
+        return cart.calculateAmount();
+    }
+
+    public List<Pass> confirmCartPasses() {
+        List<Pass> confirmedPasses = cart.linkPassesToBuyer(idul);
+        cart.clear();
+        return confirmedPasses;
+    }
+
+    public List<Pass> getCartPasses() {
+        return cart.getPasses();
     }
 }

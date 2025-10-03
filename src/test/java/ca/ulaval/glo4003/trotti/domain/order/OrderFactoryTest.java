@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.order;
 
 import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.AN_IDUL;
 
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.order.exceptions.InvalidOrderException;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +14,12 @@ class OrderFactoryTest {
 
     @Test
     void givenValidParams_whenCreate_thenReturnOrder() {
-        List<Pass> A_PASS_LIST = List.of(new PassFixture().build());
+        List<Pass> aPassList = List.of(new PassFixture().build());
 
-        Order order = factory.create(AN_IDUL, A_PASS_LIST);
+        Order order = factory.create(AN_IDUL, aPassList);
 
         Assertions.assertEquals(AN_IDUL, order.getIdul());
-        Assertions.assertEquals(A_PASS_LIST, order.getPassList());
+        Assertions.assertEquals(aPassList, order.getPassList());
         Assertions.assertNotNull(order.getId());
     }
 
@@ -27,13 +27,13 @@ class OrderFactoryTest {
     void givenNullIdul_whenCreate_thenThrowsException() {
         Executable creation = () -> factory.create(null, List.of(new PassFixture().build()));
 
-        Assertions.assertThrows(InvalidParameterException.class, creation);
+        Assertions.assertThrows(InvalidOrderException.class, creation);
     }
 
     @Test
     void givenEmptyPassList_whenCreate_thenThrowsException() {
         Executable creation = () -> factory.create(AN_IDUL, List.of());
 
-        Assertions.assertThrows(InvalidParameterException.class, creation);
+        Assertions.assertThrows(InvalidOrderException.class, creation);
     }
 }

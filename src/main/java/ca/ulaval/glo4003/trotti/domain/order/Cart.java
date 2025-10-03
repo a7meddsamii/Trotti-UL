@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import java.util.ArrayList;
@@ -10,6 +11,10 @@ public class Cart {
 
     public Cart() {
         this.passList = new ArrayList<>();
+    }
+
+    public Cart(List<Pass> passList) {
+        this.passList = new ArrayList<>(passList);
     }
 
     public List<Pass> getPasses() {
@@ -26,6 +31,12 @@ public class Cart {
 
     public void clear() {
         passList.clear();
+    }
+
+    public List<Pass> linkPassesToBuyer(Idul idul) {
+        List<Pass> linkedPasses = new ArrayList<>();
+        passList.forEach(pass -> linkedPasses.add(pass.linkToBuyer(idul)));
+        return List.copyOf(linkedPasses);
     }
 
     public Money calculateAmount() {

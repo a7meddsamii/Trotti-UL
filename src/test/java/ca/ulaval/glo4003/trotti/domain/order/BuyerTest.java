@@ -3,7 +3,9 @@ package ca.ulaval.glo4003.trotti.domain.order;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.payment.PaymentMethod;
+import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
+import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ class BuyerTest {
     private Idul idul;
     private Email email;
     private Cart cart;
-    private PaymentMethod paymentMethod;
+    private CreditCard paymentMethod;
     private Pass pass;
     private Id passId;
     private Buyer buyer;
@@ -26,7 +28,7 @@ class BuyerTest {
         idul = Mockito.mock(Idul.class);
         email = Mockito.mock(Email.class);
         cart = Mockito.mock(Cart.class);
-        paymentMethod = Mockito.mock(PaymentMethod.class);
+        paymentMethod = Mockito.mock(CreditCard.class);
         pass = Mockito.mock(Pass.class);
         passId = Mockito.mock(Id.class);
 
@@ -35,7 +37,7 @@ class BuyerTest {
 
     @Test
     void givenBuyerWithoutPaymentMethod_whenUpdatePaymentMethod_thenPaymentMethodIsSet() {
-        Buyer buyerWithoutPaymentMethod = new Buyer(idul, BUYER_NAME, email, cart);
+        Buyer buyerWithoutPaymentMethod = new BuyerFixture().buildWithPaymentMethod();
 
         buyerWithoutPaymentMethod.updatePaymentMethod(paymentMethod);
 
@@ -45,7 +47,7 @@ class BuyerTest {
 
     @Test
     void givenAnotherPaymentMethod_whenUpdatePaymentMethod_thenPaymentMethodIsUpdated() {
-        PaymentMethod anotherPaymentMethod = Mockito.mock(PaymentMethod.class);
+        CreditCard anotherPaymentMethod = Mockito.mock(CreditCard.class);
 
         buyer.updatePaymentMethod(anotherPaymentMethod);
 
@@ -105,5 +107,42 @@ class BuyerTest {
         buyer.clearCart();
 
         Mockito.verify(cart).clear();
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenPassesArePurchased() {
+        List<Pass> passes = buyer.confirmCartPasses();
+
+        passes.forEach(p -> Assertions.assertTrue(p.isPurchased()));
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenCartConfirmsPasses() {
+        buyer.confirmCartPasses();
+
+        Mockito.verify(cart).linkPassesToBuyer(buyer.getIdul());
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenCartIsCleared() {
+        buyer.confirmCartPasses();
+
+        Mockito.verify(cart).clear();
+    }
+
+    @Test
+    void whenGetCartBalance_thenCartCalculateAmount() {
+        buyer.getCartBalance();
+
+        Mockito.verify(cart).calculateAmount();
+    }
+
+    @Test
+    void givenBuyerConfirmsCartPasses_whenGetCartPasses_thenReturnsEmptyList() {
+        buyer.confirmCartPasses();
+
+        List<Pass> passes = buyer.getCartPasses();
+
+        Assertions.assertTrue(passes.isEmpty());
     }
 }

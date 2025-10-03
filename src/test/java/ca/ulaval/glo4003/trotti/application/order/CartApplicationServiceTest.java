@@ -4,7 +4,11 @@ import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.order.*;
+import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.Cart;
+import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
+import ca.ulaval.glo4003.trotti.domain.order.Session;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
@@ -101,7 +105,7 @@ class CartApplicationServiceTest {
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).addToCart(pass1);
         Mockito.verify(buyer).addToCart(pass2);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
         Mockito.verify(passFactory, Mockito.times(2)).create(maximumDailyTravelTime, session,
                 billingFrequency);
     }
@@ -120,7 +124,7 @@ class CartApplicationServiceTest {
         Assertions.assertEquals(expectedResult, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).removeFromCart(passId);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -131,7 +135,7 @@ class CartApplicationServiceTest {
 
         Mockito.verify(buyerRepository).findByIdul(idul);
         Mockito.verify(buyer).clearCart();
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
     }
 
     @Test
@@ -164,7 +168,7 @@ class CartApplicationServiceTest {
 
         Assertions.assertEquals(expectedResult, result);
         Mockito.verify(buyerRepository).findByIdul(idul);
-        Mockito.verify(buyerRepository).save(buyer);
+        Mockito.verify(buyerRepository).update(buyer);
         Mockito.verify(buyer, Mockito.never()).addToCart(Mockito.any(Pass.class));
     }
 }
