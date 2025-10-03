@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentException;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
@@ -170,13 +171,13 @@ class OrderApplicationServiceTest {
         when(paymentService.process(creditCard, cartBalance, VALID_CVV)).thenReturn(failedTransaction);
         when(failedTransaction.isSuccessful()).thenReturn(false);
 
-        TransactionDto result = orderApplicationService.placeOrderFor(idul, paymentInfoDto);
+        Executable action = () -> orderApplicationService.placeOrderFor(idul, paymentInfoDto);
 
+        assertThrows(PaymentException.class, action);
         verify(invoiceNotificationService, never()).notify(any(), any());
         verify(buyerRepository, never()).update(buyer);
         verify(passRepository, never()).saveAll(any());
         verify(transactionNotificationService).notify(buyer.getEmail(), failedTransaction);
-        assertEquals(transactionDto, result);
     }
 
     @Test
