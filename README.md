@@ -105,27 +105,15 @@ STMP_HOST="smtp.example.com"
 STMP_PORT: "587"
 INITIALIZE_DEMO_DATA=true
 ```
+Replace the values with your own credentials.
 
 #### 3. Run the app using the `.env` file
 
-**On macOs and Linux:**
-You can export all variables from `.env` and run the app with Maven:
+**In Docker:**
+You can load directly your `.env` file when running the container by using this option:
 
 ```bash
-export $(grep -v '^#' .env | xargs) && mvn exec:java
-```
-
-**On Windows:**  
-You can load variables and run the app as follows:
-
-```powershell
-Get-Content .env | ForEach-Object {
-    if ($_ -match '^\s*#') { return }
-    if ($_ -match '^\s*$') { return }
-    $parts = $_ -split '=', 2
-    if ($parts.Length -eq 2) { [System.Environment]::SetEnvironmentVariable($parts[0], $parts[1]) }
-}
-mvn exec:java
+docker run -p 8080:8080 --env-file .env application-glo4003
 ```
 
 #### 4. Important: Do not commit your `.env` file
