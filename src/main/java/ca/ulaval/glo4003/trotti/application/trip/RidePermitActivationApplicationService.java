@@ -42,9 +42,15 @@ public class RidePermitActivationApplicationService {
     private void processTraveler(Traveler traveler) {
         List<RidePermit> boughtRidePermitsHistory =
                 ridePermitHistoryGateway.getFullHistory(traveler.getIdul());
-        List<RidePermit> newlyActivatedRidePermits =
-                traveler.updateActiveRidePermits(boughtRidePermitsHistory);
-        employeeRidePermitService.handleEmployeeRidePermit(traveler);
+		List<RidePermit> newlyActivatedRidePermits;
+		
+		if(employeeRidePermitService.isEmployee(traveler.getIdul())) {
+			newlyActivatedRidePermits = employeeRidePermitService.handleEmployeeRidePermit(traveler);
+		}
+		else{
+			newlyActivatedRidePermits = traveler.updateActiveRidePermits(boughtRidePermitsHistory);
+		}
+		
         travelerRepository.update(traveler);
 
         if (!newlyActivatedRidePermits.isEmpty()) {

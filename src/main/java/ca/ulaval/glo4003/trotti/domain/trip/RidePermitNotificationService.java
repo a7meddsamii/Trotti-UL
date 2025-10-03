@@ -19,11 +19,21 @@ public class RidePermitNotificationService implements NotificationService<List<R
         for (RidePermit activatedRidePermit : newlyActivatedRidePermits) {
             try {
                 EmailMessage message = EmailMessage.builder().withRecipient(recipient)
-                        .withSubject("Newly Activated Ride Permit")
-                        .withBody(activatedRidePermit + " has been activated.").build();
+                        .withSubject("Ride Permit Activation")
+                        .withBody(buildBody(activatedRidePermit)).build();
                 emailService.send(message);
             } catch (EmailSendException ignored) {
             }
         }
     }
+	
+	private String buildBody(RidePermit ridePermit) {
+		return "Your ride permit with ID: " + ridePermit.getId() +
+				" has been activated.\n\n" +
+				"Valid for the session: " + ridePermit.getSession() +
+				"\nEffective period: " +
+				"\n\t- From: " + ridePermit.getSession().getStartDate() +
+				"\n\t- To: " + ridePermit.getSession().getEndDate() +
+				".\n\nEnjoy your rides!";
+	}
 }

@@ -30,7 +30,7 @@ class EmployeeRiderPermitServiceTest {
     }
 
     @Test
-    void givenEmployeeIdulAndValidCurrentDate_whenHandleEmployeeRidePermit_thenAddPermitToEmployee() {
+    void givenEmployeeIdulAndCurrentDateInSession_whenHandleEmployeeRidePermit_thenAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
@@ -41,18 +41,19 @@ class EmployeeRiderPermitServiceTest {
     }
 
     @Test
-    void givenNonEmployeeIdulAndValidCurrentDate_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
-        Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(false);
-        Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
-                .thenReturn(java.util.Optional.of(A_SESSION));
+    void givenEmployeeThatAlreadyHasActivePermit_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
+		Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
+		Mockito.when(traveler.hasActiveRidePermits()).thenReturn(true);
+		Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
+				.thenReturn(java.util.Optional.of(A_SESSION));
 
-        service.handleEmployeeRidePermit(traveler);
+		service.handleEmployeeRidePermit(traveler);
 
-        Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
-    }
+		Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
+	}
 
     @Test
-    void givenEmployeeIdulAndInvalidCurrentDate_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
+    void givenEmployeeIdulAndCurrentDateOutsideOfAnySession_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.empty());
