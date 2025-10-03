@@ -228,7 +228,6 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-        TravelerRepository travelerRepository = new TravelerRepositoryInMemory();
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
                         ridePermitHistoryGateway, notificationService);
