@@ -6,4 +6,6 @@ public interface AuthenticationService {
     AuthenticationToken generateToken(Idul accountId);
 
     Idul authenticate(AuthenticationToken token);
+
+    void confirmStudent(Idul idul);
 }

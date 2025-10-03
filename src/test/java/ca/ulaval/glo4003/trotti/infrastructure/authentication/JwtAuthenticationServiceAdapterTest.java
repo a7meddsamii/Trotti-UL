@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -33,12 +34,14 @@ class JwtAuthenticationServiceAdapterTest {
 
     private JwtAuthenticationServiceAdapter jwtAuthenticatorAdapter;
     private Clock clock;
+    private EmployeeRegistry employeeRegistry;
 
     @BeforeEach
     void setup() {
+        employeeRegistry = Mockito.mock(EmployeeRegistry.class);
         clock = Mockito.spy(Clock.fixed(START_MOMENT, UTC));
-        jwtAuthenticatorAdapter =
-                new JwtAuthenticationServiceAdapter(AN_EXPIRATION_DURATION, clock, SECRET_KEY);
+        jwtAuthenticatorAdapter = new JwtAuthenticationServiceAdapter(AN_EXPIRATION_DURATION, clock,
+                SECRET_KEY, employeeRegistry);
     }
 
     @Test
@@ -85,5 +88,23 @@ class JwtAuthenticationServiceAdapterTest {
         Executable authenticationAction = () -> jwtAuthenticatorAdapter.authenticate(anyToken);
 
         Assertions.assertThrows(AuthenticationException.class, authenticationAction);
+    }
+
+    @Test
+    void givenEmployeeIdul_whenConfirmStudent_thenExceptionIsThrown() {
+        Mockito.when(employeeRegistry.isEmployee(AN_IDUL)).thenReturn(true);
+
+        Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
+
+        Assertions.assertThrows(AuthenticationException.class, confirmStudentAction);
+    }
+
+    @Test
+    void givenStudentIdul_whenConfirmStudent_thenNoExceptionThrown() {
+        Mockito.when(employeeRegistry.isEmployee(AN_IDUL)).thenReturn(false);
+
+        Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
+
+        Assertions.assertDoesNotThrow(confirmStudentAction);
     }
 }

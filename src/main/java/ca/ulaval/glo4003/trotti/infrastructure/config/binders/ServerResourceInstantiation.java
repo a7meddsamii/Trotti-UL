@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.account.resources.AuthenticationResource;
@@ -13,11 +17,14 @@ import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
@@ -35,6 +42,7 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
@@ -44,6 +52,8 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
@@ -65,6 +75,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.crypto.KeyGenerator;
@@ -87,7 +98,8 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+    private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
+    private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -110,6 +122,9 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     private OrderApplicationService orderApplicationService;
+    private SessionRegistry sessionRegistry;
+    private RidePermitActivationApplicationService ridePermitActivationService;
+    private EmployeeRegistry employeeRegistry;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -132,7 +147,7 @@ public class ServerResourceInstantiation {
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             authenticationService = new JwtAuthenticationServiceAdapter(expirationDuration,
-                    authenticatorClock, SECRET_KEY);
+                    authenticatorClock, SECRET_KEY, this.employeeRegistry);
             locator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
@@ -160,6 +175,10 @@ public class ServerResourceInstantiation {
         locator.register(TravelerRepository.class, travelerRepository);
     }
 
+    private void loadDevData() {
+        new AccountDevDataFactory(accountRepository, hasher).run();
+    }
+
     private void loadPassRepository() {
         PassPersistenceMapper passMapper = new PassPersistenceMapper();
         passRepository = new InMemoryPassRepository(passMapper);
@@ -169,8 +188,9 @@ public class ServerResourceInstantiation {
 
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
-        Path resourcePath = Path.of(SEMESTER_DATA_FILE_PATH);
-        SessionProvider.initialize(resourcePath, sessionMapper);
+        SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
+        sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
+        locator.register(SessionRegistry.class, sessionRegistry);
     }
 
     private void loadEmailSender() {
@@ -238,9 +258,12 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-        RidePermitActivationApplicationService ridePermitActivationService =
-                new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService);
+        EmployeeRidePermitService employeeRidePermitService =
+                new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
+        RidePermitMapper ridePermitMapper = new RidePermitMapper();
+        ridePermitActivationService = new RidePermitActivationApplicationService(travelerRepository,
+                ridePermitHistoryGateway, notificationService, employeeRidePermitService,
+                ridePermitMapper);
         locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
         locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
     }
@@ -257,6 +280,19 @@ public class ServerResourceInstantiation {
                 new AuthenticationResource(accountApplicationService);
         locator.register(AccountResource.class, accountResource);
         locator.register(AuthenticationResource.class, authenticationResource);
+    }
+
+    private void loadEmployeeIdulRegistry() {
+        EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
+        Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
+        this.employeeRegistry = new EmployeeRegistry(employeesIduls);
+        locator.register(EmployeeRegistry.class, employeeRegistry);
+    }
+
+    private void loadTravelerResource() {
+        TravelerResource travelerResource =
+                new TravelerResource(ridePermitActivationService, authenticationService);
+        locator.register(TravelerResource.class, travelerResource);
     }
 
     private void loadCartResource() {
@@ -281,10 +317,12 @@ public class ServerResourceInstantiation {
             return;
         }
 
+        loadEmployeeIdulRegistry();
         loadAuthenticationService();
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+        loadDevData();
         loadPassRepository();
         loadSessionProvider();
         loadAccountFactory();
@@ -296,6 +334,7 @@ public class ServerResourceInstantiation {
         loadRidePermitActivationService();
         loadAccountMapper();
         loadAccountResource();
+        loadTravelerResource();
         loadCartResource();
         loadOrderResource();
         resourcesCreated = true;

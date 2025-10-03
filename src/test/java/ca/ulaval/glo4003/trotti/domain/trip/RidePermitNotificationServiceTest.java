@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.fixtures.RidePermitFixture;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.RandomUtils;
@@ -25,7 +26,7 @@ class RidePermitNotificationServiceTest {
 
     @Test
     void givenRidePermitsAndRecipient_whenNotifying_thenSendNotificationForEachRidePermit() {
-        List<RidePermit> ridePermits = mockRidePermits();
+        List<RidePermit> ridePermits = generateRidePermits();
 
         ridePermitNotificationService.notify(A_RECIPIENT, ridePermits);
 
@@ -35,7 +36,7 @@ class RidePermitNotificationServiceTest {
 
     @Test
     void givenEmailServiceThrowsException_whenNotifying_thenShouldContinueForRemainingPermits() {
-        List<RidePermit> ridePermits = mockRidePermits();
+        List<RidePermit> ridePermits = generateRidePermits();
         Mockito.doThrow(EmailSendException.class).when(emailService)
                 .send(Mockito.any(EmailMessage.class));
 
@@ -45,9 +46,9 @@ class RidePermitNotificationServiceTest {
                 .send(Mockito.any(EmailMessage.class));
     }
 
-    private List<RidePermit> mockRidePermits() {
+    private List<RidePermit> generateRidePermits() {
         int numberOfRidePermits = RandomUtils.secure().randomInt(0, 10);
         return IntStream.range(0, numberOfRidePermits)
-                .mapToObj(i -> org.mockito.Mockito.mock(RidePermit.class)).toList();
+                .mapToObj(i -> new RidePermitFixture().build()).toList();
     }
 }
