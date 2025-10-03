@@ -47,4 +47,8 @@ public class Cart {
 
         return total;
     }
+
+    public boolean isEmpty() {
+        return passList.isEmpty();
+    }
 }
