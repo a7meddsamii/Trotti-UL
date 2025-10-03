@@ -36,6 +36,6 @@ public class ApplicationBinder extends AbstractBinder {
 
         bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);
-		bind(locator.resolve(TravelerResource.class)).to(TravelerResource.class);
+        bind(locator.resolve(TravelerResource.class)).to(TravelerResource.class);
     }
 }

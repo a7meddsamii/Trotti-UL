@@ -3,7 +3,6 @@ package ca.ulaval.glo4003;
 import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
 import java.net.URI;
-
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;

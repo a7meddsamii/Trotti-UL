@@ -23,18 +23,18 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
     private final Duration expirationDuration;
     private final Clock clock;
     private final SecretKey secretKey;
-	private final EmployeeRegistry employeeRegistry;
+    private final EmployeeRegistry employeeRegistry;
 
     public JwtAuthenticationServiceAdapter(
-			Duration expirationDuration,
-			Clock clock,
-			SecretKey secretKey,
-			EmployeeRegistry employeeRegistry ) {
+            Duration expirationDuration,
+            Clock clock,
+            SecretKey secretKey,
+            EmployeeRegistry employeeRegistry) {
         this.expirationDuration = expirationDuration;
         this.clock = clock;
         this.secretKey = secretKey;
-		this.employeeRegistry = employeeRegistry;
-	}
+        this.employeeRegistry = employeeRegistry;
+    }
 
     @Override
     public AuthenticationToken generateToken(Idul idul) {
@@ -46,7 +46,7 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
 
         return AuthenticationToken.from(tokenValue);
     }
-	
+
     @Override
     public Idul authenticate(AuthenticationToken token) {
         try {
@@ -63,11 +63,12 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
             throw new AuthenticationException("Something went wrong during the authentication");
         }
     }
-	
-	@Override
-	public void confirmStudent(Idul idul) {
-		if (employeeRegistry.isEmployee(idul)) {
-			throw new AuthenticationException("Employees are not allowed to complete this operation");
-		}
-	}
+
+    @Override
+    public void confirmStudent(Idul idul) {
+        if (employeeRegistry.isEmployee(idul)) {
+            throw new AuthenticationException(
+                    "Employees are not allowed to complete this operation");
+        }
+    }
 }

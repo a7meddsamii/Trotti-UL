@@ -1,24 +1,22 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
-import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
-import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
-import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
-import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
@@ -35,6 +33,7 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
@@ -44,6 +43,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
@@ -110,10 +110,10 @@ public class ServerResourceInstantiation {
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
-	private SessionRegistry sessionRegistry;
-  private RidePermitActivationApplicationService ridePermitActivationService;
-	private EmployeeRegistry employeeRegistry;
-    
+    private SessionRegistry sessionRegistry;
+    private RidePermitActivationApplicationService ridePermitActivationService;
+    private EmployeeRegistry employeeRegistry;
+
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
             instance = new ServerResourceInstantiation();
@@ -173,8 +173,8 @@ public class ServerResourceInstantiation {
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
-		sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
-		locator.register(SessionRegistry.class, sessionRegistry);
+        sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
+        locator.register(SessionRegistry.class, sessionRegistry);
     }
 
     private void loadEmailSender() {
@@ -242,11 +242,12 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-		EmployeeRidePermitService employeeRidePermitService = new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
-		RidePermitMapper ridePermitMapper = new RidePermitMapper();
-         ridePermitActivationService =
-                new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService, employeeRidePermitService, ridePermitMapper);
+        EmployeeRidePermitService employeeRidePermitService =
+                new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
+        RidePermitMapper ridePermitMapper = new RidePermitMapper();
+        ridePermitActivationService = new RidePermitActivationApplicationService(travelerRepository,
+                ridePermitHistoryGateway, notificationService, employeeRidePermitService,
+                ridePermitMapper);
         locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
         locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
     }
@@ -264,40 +265,42 @@ public class ServerResourceInstantiation {
         locator.register(AccountResource.class, accountResource);
         locator.register(AuthenticationResource.class, authenticationResource);
     }
+
     private void loadEmployeeIdulRegistry() {
-		EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
-		Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
+        EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
+        Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
         this.employeeRegistry = new EmployeeRegistry(employeesIduls);
         locator.register(EmployeeRegistry.class, employeeRegistry);
     }
-	
-	private void loadTravelerResource(){
-		TravelerResource travelerResource = new TravelerResource(ridePermitActivationService,authenticationService);
-		locator.register(TravelerResource.class, travelerResource);
-	}
-    
+
+    private void loadTravelerResource() {
+        TravelerResource travelerResource =
+                new TravelerResource(ridePermitActivationService, authenticationService);
+        locator.register(TravelerResource.class, travelerResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
-		
-		loadEmployeeIdulRegistry();
-		loadAuthenticationService();
-		loadEmailSender();
-		loadPasswordHasher();
-		loadUserRepositories();
-		loadPassRepository();
-		loadSessionProvider();
-		loadAccountFactory();
-		loadAccountService();
-		loadPassMapper();
-		loadOrderFactory();
-		loadPaymentService();
-		loadOrderService();
-		loadRidePermitActivationService();
-		loadAccountMapper();
-		loadAccountResource();
-		loadTravelerResource();
+
+        loadEmployeeIdulRegistry();
+        loadAuthenticationService();
+        loadEmailSender();
+        loadPasswordHasher();
+        loadUserRepositories();
+        loadPassRepository();
+        loadSessionProvider();
+        loadAccountFactory();
+        loadAccountService();
+        loadPassMapper();
+        loadOrderFactory();
+        loadPaymentService();
+        loadOrderService();
+        loadRidePermitActivationService();
+        loadAccountMapper();
+        loadAccountResource();
+        loadTravelerResource();
         resourcesCreated = true;
     }
 

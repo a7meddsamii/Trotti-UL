@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +29,9 @@ public class UserInMemoryDatabase {
         BuyerRecord buyerRecord =
                 new BuyerRecord(account.idul(), account.name(), account.email(), List.of(), null);
         buyerTable.put(account.idul(), buyerRecord);
-		TravelerRecord travelerRecord =
-				new TravelerRecord(account.idul(), account.email(), Collections.emptyList());
-		travelerTable.put(account.idul(), travelerRecord);
+        TravelerRecord travelerRecord =
+                new TravelerRecord(account.idul(), account.email(), Collections.emptyList());
+        travelerTable.put(account.idul(), travelerRecord);
     }
 
     public void insertIntoBuyerTable(BuyerRecord buyer) {
