@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.infrastructure.employee.repository.InMemoryEmployeeRepository;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.infrastructure.employee.EmployeeIdulCsvReader;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
@@ -55,6 +55,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.crypto.SecretKey;
@@ -76,8 +77,8 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
-    private static final String EMPLOYEE_IDUL_CSV_PATH = "/app/data/Employe.e.s.csv";
+    private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
+    private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -98,7 +99,7 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     
-    private InMemoryEmployeeRepository inMemoryEmployeeRepository;
+    private EmployeeRegistry EmployeeRegistry;
     
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -154,8 +155,7 @@ public class ServerResourceInstantiation {
 
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
-        Path resourcePath = Path.of(SEMESTER_DATA_FILE_PATH);
-        SessionProvider.initialize(resourcePath, sessionMapper);
+        SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
     }
 
     private void loadEmailSender() {
@@ -247,11 +247,10 @@ public class ServerResourceInstantiation {
         locator.register(AuthenticationResource.class, authenticationResource);
     }
     private void loadEmployeeIdulRepository() {
-        var reader = new EmployeeIdulCsvReader();
-        var iduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
-        
-        this.inMemoryEmployeeRepository = new InMemoryEmployeeRepository(iduls);
-        locator.register(InMemoryEmployeeRepository.class, inMemoryEmployeeRepository);
+		EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
+		Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
+        this.EmployeeRegistry = new EmployeeRegistry(employeesIduls);
+        locator.register(EmployeeRegistry.class, EmployeeRegistry);
     }
     
     
