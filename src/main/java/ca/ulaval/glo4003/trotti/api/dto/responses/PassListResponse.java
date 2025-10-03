@@ -4,14 +4,14 @@ import java.util.List;
 
 public record PassListResponse(
         List<PassListResponse.PassResponse> passes,
-        String totalCost
+        String total
 ) {
     public record PassResponse(
             String id,
             String maximumDailyTravelTime,
             String session,
             String billingFrequency,
-            String cost
+            String price
     ) {
     }
 }

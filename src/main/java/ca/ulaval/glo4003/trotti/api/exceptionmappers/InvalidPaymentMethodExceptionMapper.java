@@ -3,7 +3,9 @@ package ca.ulaval.glo4003.trotti.api.exceptionmappers;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
+@Provider
 public class InvalidPaymentMethodExceptionMapper
         implements ExceptionMapper<InvalidPaymentMethodException> {
 
