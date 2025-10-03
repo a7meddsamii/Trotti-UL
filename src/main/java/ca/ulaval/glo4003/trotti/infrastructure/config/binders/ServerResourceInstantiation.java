@@ -99,7 +99,7 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     
-    private EmployeeRegistry EmployeeRegistry;
+    private EmployeeRegistry employeeRegistry;
     
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -122,7 +122,7 @@ public class ServerResourceInstantiation {
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             authenticationService = new JwtAuthenticationServiceAdapter(expirationDuration,
-                    authenticatorClock, SECRET_KEY);
+                    authenticatorClock, SECRET_KEY, this.employeeRegistry);
             locator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
@@ -221,11 +221,7 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-        TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
-                                                                                  // object so
-                                                                                  // everyone can
-                                                                                  // run app with
-                                                                                  // full
+        TravelerRepository travelerRepository = new TravelerRepositoryInMemory();
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
                         ridePermitHistoryGateway, notificationService);
@@ -249,8 +245,8 @@ public class ServerResourceInstantiation {
     private void loadEmployeeIdulRepository() {
 		EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
 		Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
-        this.EmployeeRegistry = new EmployeeRegistry(employeesIduls);
-        locator.register(EmployeeRegistry.class, EmployeeRegistry);
+        this.employeeRegistry = new EmployeeRegistry(employeesIduls);
+        locator.register(EmployeeRegistry.class, employeeRegistry);
     }
     
     
