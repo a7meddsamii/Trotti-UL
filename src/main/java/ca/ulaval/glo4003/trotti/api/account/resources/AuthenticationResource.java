@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.api.account.dto.response.LoginResponse;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -25,6 +26,9 @@ public class AuthenticationResource {
     @POST
     @Path("/login")
     public LoginResponse login(@Valid LoginRequest request) {
+        if (request == null)
+            throw new InvalidParameterException("Please provide an email and a password to login.");
+
         Email email = Email.from(request.email());
         AuthenticationToken token = accountApplicationService.login(email, request.password());
 

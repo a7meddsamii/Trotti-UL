@@ -4,7 +4,9 @@ import ca.ulaval.glo4003.trotti.api.order.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.api.order.dto.responses.TransactionResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.YearMonth;
 
@@ -17,8 +19,8 @@ public class OrderApiMapper {
 
         return new PaymentInfoDto(paymentInfoRequest.cardNumber(),
                 paymentInfoRequest.cardHolderName(),
-                paymentInfoRequest.expirationDate() == null ? null
-                        : YearMonth.parse(paymentInfoRequest.expirationDate()),
+                StringUtils.isBlank(paymentInfoRequest.expirationDate()) ? null
+                        : parseYearMonth(paymentInfoRequest.expirationDate()),
                 paymentInfoRequest.cvv());
     }
 
@@ -26,5 +28,16 @@ public class OrderApiMapper {
         return new TransactionResponse(transactionDto.id().toString(),
                 transactionDto.status().toString(), transactionDto.timestamp().toString(),
                 transactionDto.amount().toString(), transactionDto.description());
+    }
+
+    private YearMonth parseYearMonth(String expirationDate) {
+        if (StringUtils.isBlank(expirationDate)) {
+            throw new InvalidPaymentRequestException("Expiration date cannot be null or empty");
+        }
+        try {
+            return YearMonth.parse(expirationDate);
+        } catch (Exception e) {
+            throw new InvalidParameterException("Expiration date must follow pattern yyyy-MM");
+        }
     }
 }

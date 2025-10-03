@@ -15,6 +15,10 @@ import java.util.List;
 public class PassApiMapper {
 
     public List<PassDto> toPassDtoList(PassListRequest request) {
+        if (request == null) {
+            throw new InvalidParameterException("Provide the passes information");
+        }
+
         return request.passes().stream().map(this::toPassDto).toList();
     }
 

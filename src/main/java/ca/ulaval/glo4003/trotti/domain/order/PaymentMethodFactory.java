@@ -10,8 +10,6 @@ import org.apache.commons.validator.routines.CreditCardValidator;
 
 public class PaymentMethodFactory {
 
-    private static final String CVV_REGEX = "^\\d{3,4}$";
-
     private final CreditCardValidator creditCardValidator = new CreditCardValidator();
     private final DataCodec dataCodec;
 
@@ -24,7 +22,6 @@ public class PaymentMethodFactory {
         validateNotBlank(cardNumber, cardHolderName, expirationDate, cvv);
         validateCardNumber(cardNumber);
         validateExpirationDate(expirationDate);
-        validateCvv(cvv);
 
         return CreditCard.from(SecuredString.fromPlain(cardNumber, dataCodec), cardHolderName,
                 expirationDate);
@@ -49,12 +46,6 @@ public class PaymentMethodFactory {
         YearMonth currentYearMonth = YearMonth.now();
         if (expirationDate.isBefore(currentYearMonth)) {
             throw new InvalidParameterException("Expired credit card");
-        }
-    }
-
-    private void validateCvv(String cvv) {
-        if (!cvv.matches(CVV_REGEX)) {
-            throw new InvalidParameterException("Invalid CVV");
         }
     }
 }
