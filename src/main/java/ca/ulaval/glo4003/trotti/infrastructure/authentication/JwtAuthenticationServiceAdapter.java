@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenExceptio
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -22,14 +23,17 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
     private final Duration expirationDuration;
     private final Clock clock;
     private final SecretKey secretKey;
+    private final EmployeeRegistry employeeRegistry;
 
     public JwtAuthenticationServiceAdapter(
             Duration expirationDuration,
             Clock clock,
-            SecretKey secretKey) {
+            SecretKey secretKey,
+            EmployeeRegistry employeeRegistry) {
         this.expirationDuration = expirationDuration;
         this.clock = clock;
         this.secretKey = secretKey;
+        this.employeeRegistry = employeeRegistry;
     }
 
     @Override
@@ -57,6 +61,14 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
             throw new MalformedTokenException("The token received is either malformed or invalid");
         } catch (JwtException exception) {
             throw new AuthenticationException("Something went wrong during the authentication");
+        }
+    }
+
+    @Override
+    public void confirmStudent(Idul idul) {
+        if (employeeRegistry.isEmployee(idul)) {
+            throw new AuthenticationException(
+                    "Employees are not allowed to complete this operation");
         }
     }
 }
