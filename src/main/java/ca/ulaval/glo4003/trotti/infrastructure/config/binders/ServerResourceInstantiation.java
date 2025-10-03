@@ -17,8 +17,10 @@ import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
@@ -43,6 +45,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRep
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.security.AesDataCodecAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
@@ -51,12 +54,14 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerR
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -93,7 +98,7 @@ public class ServerResourceInstantiation {
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
     private OrderFactory orderFactory;
-
+    private PaymentMethodFactory paymentMethodFactory;
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
@@ -211,8 +216,10 @@ public class ServerResourceInstantiation {
         NotificationService<Transaction> transactionNotificationService =
                 new TransactionNotificationService(emailService);
         TransactionMapper transactionMapper = new TransactionMapper();
+        DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
+        paymentMethodFactory = new PaymentMethodFactory(dataCodec);
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
+                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService, transactionMapper,
                 transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
@@ -265,5 +272,15 @@ public class ServerResourceInstantiation {
         loadAccountMapper();
         loadAccountResource();
         resourcesCreated = true;
+    }
+
+    private SecretKey generateSecretKey() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            return keyGen.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to generate secret key for tests", e);
+        }
     }
 }
