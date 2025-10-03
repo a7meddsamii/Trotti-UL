@@ -24,8 +24,7 @@ public class OrderApiMapper {
                 transactionDto.status().toString(),
                 transactionDto.timestamp().toString(),
                 transactionDto.amount().toString(),
-                transactionDto.description(),
-                transactionDto.cardNumber()
+                transactionDto.description()
         );
     }
 }

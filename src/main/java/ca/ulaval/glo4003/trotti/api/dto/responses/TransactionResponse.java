@@ -5,7 +5,6 @@ public record TransactionResponse(
         String status,
         String timestamp,
         String amount,
-        String description,
-        String cardNumber
+        String description
 ) {
 }

@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterExcept
 import ca.ulaval.glo4003.trotti.domain.order.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import java.time.Duration;
 import java.util.List;
@@ -21,9 +22,15 @@ public class PassApiMapper {
         List<PassListResponse.PassResponse> passResponses = passDtoList.stream()
                 .map(passDto -> new PassListResponse.PassResponse(passDto.id().toString(),
                         passDto.maximumDailyTravelTime().toString(), passDto.session().toString(),
-                        passDto.billingFrequency().toString()))
+                        passDto.billingFrequency().toString(), passDto.maximumDailyTravelTime().calculateAmount().toString()))
                 .toList();
-        return new PassListResponse(passResponses);
+
+        Money totalCost = Money.zeroCad();
+        for (PassDto passDto : passDtoList) {
+            totalCost.plus(passDto.maximumDailyTravelTime().calculateAmount());
+        }
+
+        return new PassListResponse(passResponses, totalCost.toString());
     }
 
     private PassDto toPassDto(PassListRequest.PassRequest request) {

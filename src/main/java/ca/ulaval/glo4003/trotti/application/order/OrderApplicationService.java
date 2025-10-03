@@ -62,7 +62,7 @@ public class OrderApplicationService {
 
         transactionNotificationService.notify(buyer.getEmail(), transaction);
 
-        return transactionMapper.toDto(transaction, paymentMethod.getCardNumber());
+        return transactionMapper.toDto(transaction);
     }
 
     private CreditCard getPaymentMethod(Buyer buyer, PaymentInfoDto paymentInfoDto) {
