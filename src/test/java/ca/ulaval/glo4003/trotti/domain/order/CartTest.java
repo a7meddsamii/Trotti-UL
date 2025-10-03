@@ -1,20 +1,28 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class CartTest {
 
+    private Pass pass;
+    private Pass anotherPass;
+    private Cart cart;
+
+    @BeforeEach
+    void setup() {
+        pass = new PassFixture().build();
+        anotherPass = new PassFixture().build();
+        cart = new Cart(List.of(pass, anotherPass));
+    }
+
     @Test
     void givenCart_whenGetPasses_thenReturnedListIsUnmodifiable() {
-        Cart cart = new Cart();
-        Pass pass = new PassFixture().build();
-        cart.add(pass);
-        cart.add(pass);
-
         List<Pass> passList = cart.getPasses();
 
         Assertions.assertThrows(UnsupportedOperationException.class, passList::removeFirst);
@@ -22,7 +30,6 @@ class CartTest {
 
     @Test
     void givenCart_whenAddPass_thenPassIsAdded() {
-        Cart cart = new Cart();
         Pass pass = new PassFixture().build();
 
         boolean added = cart.add(pass);
@@ -33,10 +40,6 @@ class CartTest {
 
     @Test
     void givenCartWithPass_whenRemoveById_thenPassIsRemoved() {
-        Cart cart = new Cart();
-        Pass pass = new PassFixture().build();
-        cart.add(pass);
-
         boolean removed = cart.remove(pass.getId());
 
         Assertions.assertTrue(removed);
@@ -45,10 +48,6 @@ class CartTest {
 
     @Test
     void givenCart_whenClear_thenListIsEmpty() {
-        Cart cart = new Cart();
-        cart.add(new PassFixture().build());
-        cart.add(new PassFixture().build());
-
         cart.clear();
 
         Assertions.assertTrue(cart.getPasses().isEmpty());
@@ -56,15 +55,19 @@ class CartTest {
 
     @Test
     void givenCartWithPasses_whenCalculateAmount_thenReturnTotal() {
-        Cart cart = new Cart();
-        Pass pass1 = new PassFixture().build();
-        Pass pass2 = new PassFixture().build();
-        cart.add(pass1);
-        cart.add(pass2);
-
         Money actualTotal = cart.calculateAmount();
 
-        Money expectedTotal = pass1.calculateAmount().plus(pass2.calculateAmount());
+        Money expectedTotal = pass.calculateAmount().plus(pass.calculateAmount());
         Assertions.assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    void givenCartWithPasses_whenLinkPassesToBuyer_thenReturnLinkedPasses() {
+        Idul idul = pass.getBuyerIdul();
+        List<Pass> linkedPasses = cart.linkPassesToBuyer(idul);
+
+        Assertions.assertEquals(cart.getPasses().size(), linkedPasses.size());
+        Assertions.assertTrue(
+                linkedPasses.stream().allMatch(pass -> pass.getBuyerIdul().equals(idul)));
     }
 }

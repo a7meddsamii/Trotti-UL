@@ -59,25 +59,22 @@ public class Pass {
         return billingFrequency;
     }
 
+    public Idul getBuyerIdul() {
+        return owner;
+    }
+
     public Id getId() {
         return id;
     }
 
-    public Idul getIdul() {
-        return owner;
-    }
-
-    public boolean linkToBuyer(Idul idul) {
+    public Pass linkToBuyer(Idul idul) {
         if (this.owner != null) {
-            return false;
+            return this;
         }
 
         this.owner = idul;
-        return true;
-    }
-
-    public Idul getBuyerIdul() {
-        return owner;
+        return new Pass(this.maximumTravelingTime, this.session, this.billingFrequency, this.id,
+                this.owner);
     }
 
     public Money calculateAmount() {

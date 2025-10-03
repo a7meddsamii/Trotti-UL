@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,5 +107,42 @@ class BuyerTest {
         buyer.clearCart();
 
         Mockito.verify(cart).clear();
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenPassesArePurchased() {
+        List<Pass> passes = buyer.confirmCartPasses();
+
+        passes.forEach(p -> Assertions.assertTrue(p.isPurchased()));
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenCartConfirmsPasses() {
+        buyer.confirmCartPasses();
+
+        Mockito.verify(cart).linkPassesToBuyer(buyer.getIdul());
+    }
+
+    @Test
+    void whenConfirmCartPasses_thenCartIsCleared() {
+        buyer.confirmCartPasses();
+
+        Mockito.verify(cart).clear();
+    }
+
+    @Test
+    void whenGetCartBalance_thenCartCalculateAmount() {
+        buyer.getCartBalance();
+
+        Mockito.verify(cart).calculateAmount();
+    }
+
+    @Test
+    void givenBuyerConfirmsCartPasses_whenGetCartPasses_thenReturnsEmptyList() {
+        buyer.confirmCartPasses();
+
+        List<Pass> passes = buyer.getCartPasses();
+
+        Assertions.assertTrue(passes.isEmpty());
     }
 }

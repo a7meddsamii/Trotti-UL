@@ -19,7 +19,7 @@ public final class Invoice {
         this.invoiceId = Id.randomId();
         this.contextId = b.orderId;
         this.buyerIdul = b.buyer;
-        this.issueDate = b.issueDate;
+        this.issueDate = LocalDate.now();
         this.lines = List.copyOf(b.lines);
         this.totalAmount = b.totalAmount;
     }
@@ -56,7 +56,6 @@ public final class Invoice {
         private Id orderId;
         private Idul buyer;
         private List<InvoiceLine> lines = new ArrayList<>();
-        private LocalDate issueDate;
         private Money totalAmount;
 
         public Builder id(Id id) {
@@ -71,6 +70,14 @@ public final class Invoice {
 
         public Builder line(InvoiceLine line) {
             lines.add(line);
+            return this;
+        }
+
+        public Builder lines(List<InvoiceLine> lines) {
+            if (lines == null) {
+                return this;
+            }
+            this.lines.addAll(lines);
             return this;
         }
 

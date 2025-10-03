@@ -9,17 +9,25 @@ import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
+import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
-import ca.ulaval.glo4003.trotti.domain.trip.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
@@ -32,9 +40,12 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
@@ -78,7 +89,6 @@ public class ServerResourceInstantiation {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private BuyerRepository buyerRepository;
-
     private PassRepository passRepository;
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
@@ -128,7 +138,9 @@ public class ServerResourceInstantiation {
         UserInMemoryDatabase userInMemoryDatabase =
                 new UserInMemoryDatabase(accountTable, buyerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
     }
@@ -191,13 +203,22 @@ public class ServerResourceInstantiation {
     }
 
     private void loadOrderService() {
+        InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
+        NotificationService<Invoice> invoiceNotificationService =
+                new InvoiceNotificationService(emailService, invoiceFormatService);
+        NotificationService<Transaction> transactionNotificationService =
+                new TransactionNotificationService(emailService);
+        TransactionMapper transactionMapper = new TransactionMapper();
         OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, orderFactory, paymentService, emailService, null);
+                buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
+
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
 
     private void loadRidePermitActivationService() {
-        NotificationService notificationService = new NotificationService(emailService);
+        NotificationService<List<RidePermit>> notificationService =
+                new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
         TravelerRepository travelerRepository = new TravelerRepositoryInMemory(); // temporary
