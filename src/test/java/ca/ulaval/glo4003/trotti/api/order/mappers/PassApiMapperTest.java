@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.api.order.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.api.order.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.order.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
@@ -21,6 +22,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class PassApiMapperTest {
     private static final Session SESSION = new Session(Semester.FALL,
@@ -49,6 +51,15 @@ class PassApiMapperTest {
     }
 
     @Test
+    void givenNullPassListRequest_whenToPassDtoList_thenThrowsException() {
+        PassListRequest request = null;
+
+        Executable executable = () -> mapper.toPassDtoList(request);
+
+        Assertions.assertThrows(InvalidParameterException.class, executable);
+    }
+
+    @Test
     void givenPassDtoList_whenToPassListResponse_thenMapsCorrectly() {
         MaximumDailyTravelTime maxTime = MaximumDailyTravelTime.from(Duration.ofMinutes(60));
         PassDto passDto = new PassDto(maxTime, SESSION, BillingFrequency.MONTHLY, Id.randomId());
@@ -70,5 +81,18 @@ class PassApiMapperTest {
 
         Money expectedTotal = maxTime1.calculateAmount().plus(maxTime2.calculateAmount());
         Assertions.assertEquals(expectedTotal.toString(), response.total());
+    }
+
+    @Test
+    void givenEmptySessionProviderSessions_whenToPassListResponse_thenMapsCorrectly() {
+        SessionProvider sessionProviderMock = mock(SessionProvider.class);
+        when(sessionProviderMock.getSessions()).thenReturn(new ArrayList<>());
+        mapper = new PassApiMapper(sessionProviderMock);
+        PassListRequest request =
+                new PassListRequest(List.of(new PassListRequest.PassRequest(60, "A25", "MONTHLY")));
+
+        Executable executable = () -> mapper.toPassDtoList(request);
+
+        Assertions.assertThrows(InvalidParameterException.class, executable);
     }
 }
