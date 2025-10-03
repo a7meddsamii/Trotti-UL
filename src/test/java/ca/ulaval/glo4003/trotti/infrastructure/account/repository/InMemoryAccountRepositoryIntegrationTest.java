@@ -5,8 +5,9 @@ import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,8 +24,9 @@ class InMemoryAccountRepositoryIntegrationTest {
     void setup() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
     }
@@ -62,7 +64,7 @@ class InMemoryAccountRepositoryIntegrationTest {
     }
 
     @Test
-    void givenIdulOfNonExistingAccount_whenFindingByIdul_thenReturnsEmpty() {
+    void givenIdulOfNonExistingAccount_whenFindingByIdul_thenReturnEmpty() {
         Optional<Account> retrievedAccount =
                 accountRepository.findByIdul(IDUL_OF_NON_EXISTING_ACCOUNT);
 
@@ -70,7 +72,7 @@ class InMemoryAccountRepositoryIntegrationTest {
     }
 
     @Test
-    void givenIdulOfNonExistingAccount_whenFindingByEmail_thenReturnsEmpty() {
+    void givenIdulOfNonExistingAccount_whenFindingByEmail_thenReturnEmpty() {
         Optional<Account> retrievedAccount = accountRepository.findByEmail(AccountFixture.AN_EMAIL);
 
         Assertions.assertTrue(retrievedAccount.isEmpty());

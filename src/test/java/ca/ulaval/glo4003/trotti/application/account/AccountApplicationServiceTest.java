@@ -15,12 +15,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class AccountApplicationServiceTest {
 
     private AccountRepository accountRepository;
@@ -38,7 +35,6 @@ class AccountApplicationServiceTest {
         accountRepository = Mockito.mock(AccountRepository.class);
         authenticationService = Mockito.mock(AuthenticationService.class);
         accountFactory = Mockito.mock(AccountFactory.class);
-
         accountApplicationService = new AccountApplicationService(accountRepository,
                 authenticationService, accountFactory);
     }
@@ -104,8 +100,8 @@ class AccountApplicationServiceTest {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.empty());
 
-        Executable loginAttempt = () -> accountApplicationService
-                .login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+        Executable loginAttempt = () -> accountApplicationService.login(AccountFixture.AN_EMAIL,
+                AccountFixture.A_RAW_PASSWORD);
 
         Assertions.assertThrows(AuthenticationException.class, loginAttempt);
     }
@@ -114,8 +110,8 @@ class AccountApplicationServiceTest {
     void givenInvalidPassword_whenLogin_thenThrowAuthenticationException() {
         mockExistingAccountWithInvalidPassword();
 
-        Executable loginAttempt = () -> accountApplicationService
-                .login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+        Executable loginAttempt = () -> accountApplicationService.login(AccountFixture.AN_EMAIL,
+                AccountFixture.A_RAW_PASSWORD);
 
         Assertions.assertThrows(AuthenticationException.class, loginAttempt);
     }
@@ -126,8 +122,7 @@ class AccountApplicationServiceTest {
         Mockito.when(authenticationService.generateToken(AccountFixture.AN_IDUL))
                 .thenReturn(AccountFixture.AN_AUTH_TOKEN);
 
-        accountApplicationService.login(AccountFixture.AN_EMAIL_STRING,
-                AccountFixture.A_RAW_PASSWORD);
+        accountApplicationService.login(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
 
         Mockito.verify(authenticationService).generateToken(AccountFixture.AN_IDUL);
     }
@@ -138,8 +133,7 @@ class AccountApplicationServiceTest {
         Mockito.when(authenticationService.generateToken(AccountFixture.AN_IDUL))
                 .thenReturn(AccountFixture.AN_AUTH_TOKEN);
 
-        accountApplicationService.login(AccountFixture.AN_EMAIL_STRING,
-                AccountFixture.A_RAW_PASSWORD);
+        accountApplicationService.login(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
 
         Mockito.verify(accountRepository).findByEmail(AccountFixture.AN_EMAIL);
     }
@@ -150,8 +144,8 @@ class AccountApplicationServiceTest {
         Mockito.when(authenticationService.generateToken(AccountFixture.AN_IDUL))
                 .thenReturn(AccountFixture.AN_AUTH_TOKEN);
 
-        AuthenticationToken resultToken = accountApplicationService
-                .login(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+        AuthenticationToken resultToken = accountApplicationService.login(AccountFixture.AN_EMAIL,
+                AccountFixture.A_RAW_PASSWORD);
 
         Assertions.assertEquals(AccountFixture.AN_AUTH_TOKEN, resultToken);
     }
@@ -162,8 +156,7 @@ class AccountApplicationServiceTest {
         Mockito.when(authenticationService.generateToken(AccountFixture.AN_IDUL))
                 .thenReturn(AccountFixture.AN_AUTH_TOKEN);
 
-        accountApplicationService.login(AccountFixture.AN_EMAIL_STRING,
-                AccountFixture.A_RAW_PASSWORD);
+        accountApplicationService.login(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
 
         Mockito.verify(mockAccount).verifyPassword(AccountFixture.A_RAW_PASSWORD);
     }
@@ -198,6 +191,7 @@ class AccountApplicationServiceTest {
     private void mockExistingAccountWithValidPassword() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
+        Mockito.when(mockAccount.verifyPassword(AccountFixture.A_RAW_PASSWORD)).thenReturn(true);
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
     }
 }

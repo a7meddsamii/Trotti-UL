@@ -1,12 +1,19 @@
 package ca.ulaval.glo4003.trotti.domain.order.values;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Currency;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Objects;
 
 public class MaximumDailyTravelTime {
-    private static final int MINUTES_IN_A_DAY = 24 * 60;
-    private static final int MINIMUM_TRAVEL_TIME_IN_MINUTES = 30;
+    private static final long MINUTES_IN_A_DAY = Duration.ofDays(1).toMinutes();
+    private static final long BASE_DURATION_IN_MINUTES = Duration.ofMinutes(30).toMinutes();
+    private static final long MINIMUM_TRAVEL_TIME_IN_MINUTES = Duration.ofMinutes(10).toMinutes();
+    private static final Money BASE_PRICE = Money.of(new BigDecimal(45), Currency.CAD);
+    private static final Money PRICE_PER_ADDITIONAL_TEN_MINUTES =
+            Money.of(new BigDecimal(2), Currency.CAD);
 
     private final Duration duration;
 
@@ -17,6 +24,20 @@ public class MaximumDailyTravelTime {
 
     public static MaximumDailyTravelTime from(Duration value) {
         return new MaximumDailyTravelTime(value);
+    }
+
+    public Money calculateAmount() {
+        long minutes = duration.toMinutes();
+
+        if (minutes <= BASE_DURATION_IN_MINUTES) {
+            return BASE_PRICE;
+        }
+
+        long additionalMinutes = minutes - BASE_DURATION_IN_MINUTES;
+        long tenMinuteBlocks = additionalMinutes / 10;
+
+        return BASE_PRICE.plus(
+                PRICE_PER_ADDITIONAL_TEN_MINUTES.multiply(BigDecimal.valueOf(tenMinuteBlocks)));
     }
 
     @Override
@@ -51,7 +72,7 @@ public class MaximumDailyTravelTime {
                 || travelTimeInMinutes >= MINUTES_IN_A_DAY
                 || !isMultipleOfTen(travelTimeInMinutes)) {
             throw new InvalidParameterException(String.format(
-                    "Maximum daily travel time must be at least 30 minutes, multiple of 10, and less than %d minutes.",
+                    "Maximum daily travel time must be at least 10 minutes, multiple of 10, and less than %d minutes.",
                     MINUTES_IN_A_DAY));
         }
     }

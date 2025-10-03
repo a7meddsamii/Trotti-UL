@@ -1,12 +1,46 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
+import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.account.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
+import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.api.order.resources.CartResource;
+import ca.ulaval.glo4003.trotti.api.order.resources.OrderResource;
+import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
+import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
+import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.order.Invoice;
+import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
+import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
@@ -15,15 +49,33 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.payment.services.security.AesDataCodecAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
-import io.github.cdimascio.dotenv.Dotenv;
+import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
 import io.jsonwebtoken.Jwts;
+import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -43,18 +95,33 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
+    private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
+    private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
-    private final Dotenv dotenv;
 
+    private EmailService emailService;
     private PasswordHasher hasher;
+
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
-
+    private BuyerRepository buyerRepository;
+    private TravelerRepository travelerRepository;
+    private PassRepository passRepository;
+    private PassMapper passMapper;
+    private AccountApiMapper accountApiMapper;
+    private OrderFactory orderFactory;
+    private PassFactory passFactory;
+    private PaymentMethodFactory paymentMethodFactory;
+    private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
+    private OrderApplicationService orderApplicationService;
+    private SessionRegistry sessionRegistry;
+    private RidePermitActivationApplicationService ridePermitActivationService;
+    private EmployeeRegistry employeeRegistry;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -67,18 +134,17 @@ public class ServerResourceInstantiation {
     private ServerResourceInstantiation() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
-        this.dotenv = Dotenv.load();
     }
 
     private void loadAuthenticationService() {
         try {
-            String durationValue = StringUtils.isEmpty(dotenv.get(EXPIRATION_DURATION))
+            String durationValue = StringUtils.isEmpty(System.getenv(EXPIRATION_DURATION))
                     ? DEFAULT_TOKEN_EXPIRATION.toString()
-                    : dotenv.get(EXPIRATION_DURATION);
+                    : System.getenv(EXPIRATION_DURATION);
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             authenticationService = new JwtAuthenticationServiceAdapter(expirationDuration,
-                    authenticatorClock, SECRET_KEY);
+                    authenticatorClock, SECRET_KEY, this.employeeRegistry);
             locator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
@@ -89,25 +155,50 @@ public class ServerResourceInstantiation {
         }
     }
 
-    private void loadAccountRepository() {
+    private void loadUserRepositories() {
         ConcurrentMap<Idul, AccountRecord> accountTable = new ConcurrentHashMap<>();
         ConcurrentMap<Idul, BuyerRecord> buyerTable = new ConcurrentHashMap<>();
+        ConcurrentMap<Idul, TravelerRecord> travelerTable = new ConcurrentHashMap<>();
         UserInMemoryDatabase userInMemoryDatabase =
-                new UserInMemoryDatabase(accountTable, buyerTable);
+                new UserInMemoryDatabase(accountTable, buyerTable, travelerTable);
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
+        BuyerPersistenceMapper buyerMapper = new BuyerPersistenceMapper();
+        TravelerPersistenceMapper travelerMapper = new TravelerPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        travelerRepository = new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
+        buyerRepository = new InMemoryBuyerRepository(userInMemoryDatabase, buyerMapper);
         locator.register(AccountRepository.class, accountRepository);
+        locator.register(BuyerRepository.class, buyerRepository);
+        locator.register(TravelerRepository.class, travelerRepository);
+    }
+
+    private void loadDevData() {
+        new AccountDevDataFactory(accountRepository, hasher).run();
+    }
+
+    private void loadPassRepository() {
+        PassPersistenceMapper passMapper = new PassPersistenceMapper();
+        passRepository = new InMemoryPassRepository(passMapper);
+        locator.register(PassPersistenceMapper.class, passMapper);
+        locator.register(PassRepository.class, passRepository);
+    }
+
+    private void loadSessionProvider() {
+        SessionMapper sessionMapper = new SessionMapper();
+        SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
+        sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
+        locator.register(SessionRegistry.class, sessionRegistry);
     }
 
     private void loadEmailSender() {
-        String username = dotenv.get(EMAIL_USER);
-        String password = dotenv.get(EMAIL_PASSWORD);
-        String host = dotenv.get(EMAIL_HOST);
-        String port = dotenv.get(EMAIL_PORT);
+        String username = System.getenv(EMAIL_USER);
+        String password = System.getenv(EMAIL_PASSWORD);
+        String host = System.getenv(EMAIL_HOST);
+        String port = System.getenv(EMAIL_PORT);
 
         JakartaMailServiceConfiguration emailConfiguration =
                 JakartaMailServiceConfiguration.create(username, password, host, port);
-        EmailService emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
+        emailService = new JakartaEmailServiceAdapter(emailConfiguration.connect());
         locator.register(EmailService.class, emailService);
     }
 
@@ -128,17 +219,131 @@ public class ServerResourceInstantiation {
         locator.register(AccountApplicationService.class, accountApplicationService);
     }
 
+    private void loadPassMapper() {
+        passMapper = new PassMapper();
+        locator.register(PassMapper.class, passMapper);
+    }
+
+    private void loadOrderFactory() {
+        orderFactory = new OrderFactory();
+        locator.register(OrderFactory.class, orderFactory);
+    }
+
+    private void loadPaymentService() {
+        paymentService = new PaymentService();
+        locator.register(PaymentService.class, paymentService);
+    }
+
+    private void loadOrderService() {
+        InvoiceFormatService<String> invoiceFormatService = new TextInvoiceFormatServiceAdapter();
+        NotificationService<Invoice> invoiceNotificationService =
+                new InvoiceNotificationService(emailService, invoiceFormatService);
+        NotificationService<Transaction> transactionNotificationService =
+                new TransactionNotificationService(emailService);
+        TransactionMapper transactionMapper = new TransactionMapper();
+        DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
+        paymentMethodFactory = new PaymentMethodFactory(dataCodec);
+        orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
+
+        locator.register(OrderApplicationService.class, orderApplicationService);
+    }
+
+    private void loadRidePermitActivationService() {
+        NotificationService<List<RidePermit>> notificationService =
+                new RidePermitNotificationService(emailService);
+        RidePermitHistoryGateway ridePermitHistoryGateway =
+                new RidePermitHistoryGatewayAdapter(passRepository);
+        EmployeeRidePermitService employeeRidePermitService =
+                new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
+        RidePermitMapper ridePermitMapper = new RidePermitMapper();
+        ridePermitActivationService = new RidePermitActivationApplicationService(travelerRepository,
+                ridePermitHistoryGateway, notificationService, employeeRidePermitService,
+                ridePermitMapper);
+        locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
+        locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
+    }
+
+    private void loadAccountMapper() {
+        accountApiMapper = new AccountApiMapper(hasher);
+        locator.register(AccountApiMapper.class, accountApiMapper);
+    }
+
+    private void loadAccountResource() {
+        AccountResource accountResource =
+                new AccountResource(accountApplicationService, accountApiMapper);
+        AuthenticationResource authenticationResource =
+                new AuthenticationResource(accountApplicationService);
+        locator.register(AccountResource.class, accountResource);
+        locator.register(AuthenticationResource.class, authenticationResource);
+    }
+
+    private void loadEmployeeIdulRegistry() {
+        EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
+        Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
+        this.employeeRegistry = new EmployeeRegistry(employeesIduls);
+        locator.register(EmployeeRegistry.class, employeeRegistry);
+    }
+
+    private void loadTravelerResource() {
+        TravelerResource travelerResource =
+                new TravelerResource(ridePermitActivationService, authenticationService);
+        locator.register(TravelerResource.class, travelerResource);
+    }
+
+    private void loadCartResource() {
+        PassApiMapper passApiMapper = new PassApiMapper(SessionProvider.getInstance());
+        passFactory = new PassFactory();
+        CartApplicationService cartApplicationService =
+                new CartApplicationService(buyerRepository, passMapper, passFactory);
+        CartResource cartResource = new CartResource(cartApplicationService,
+                locator.resolve(AuthenticationService.class), passApiMapper);
+        locator.register(CartResource.class, cartResource);
+    }
+
+    private void loadOrderResource() {
+        OrderApiMapper orderApiMapper = new OrderApiMapper();
+        OrderResource orderResource = new OrderResource(orderApplicationService,
+                locator.resolve(AuthenticationService.class), orderApiMapper);
+        locator.register(OrderResource.class, orderResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
+        loadEmployeeIdulRegistry();
         loadAuthenticationService();
         loadEmailSender();
         loadPasswordHasher();
-        loadAccountRepository();
+        loadUserRepositories();
+        loadDevData();
+        loadPassRepository();
+        loadSessionProvider();
         loadAccountFactory();
         loadAccountService();
+        loadPassMapper();
+        loadOrderFactory();
+        loadPaymentService();
+        loadOrderService();
+        loadRidePermitActivationService();
+        loadAccountMapper();
+        loadAccountResource();
+        loadTravelerResource();
+        loadCartResource();
+        loadOrderResource();
         resourcesCreated = true;
+    }
+
+    private SecretKey generateSecretKey() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            return keyGen.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to generate secret key for tests", e);
+        }
     }
 }

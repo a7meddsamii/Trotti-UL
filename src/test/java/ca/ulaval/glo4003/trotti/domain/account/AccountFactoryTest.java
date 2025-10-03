@@ -17,44 +17,50 @@ class AccountFactoryTest {
 
     private static final Instant START_MOMENT = Instant.parse("2025-09-20T00:00:00Z");
     private static final ZoneOffset UTC = ZoneOffset.UTC;
-
     private static final LocalDate TODAY = LocalDate.ofInstant(START_MOMENT, UTC);
-    private static final LocalDate FUTURE_DATE = TODAY.plusDays(1);
-    private static final LocalDate PAST_DATE = TODAY.minusYears(20);
 
-    private AccountFactory factory;
+    private static final int MINIMUM_ACCOUNT_AGE = 16;
+    private static final LocalDate BIRTHDATE_EXACTLY_MINIMUM_AGE =
+            TODAY.minusYears(MINIMUM_ACCOUNT_AGE);
+    private static final LocalDate BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE =
+            BIRTHDATE_EXACTLY_MINIMUM_AGE.plusDays(1);
+    private static final LocalDate BIRTHDATE_OLDER_THAN_MINIMUM_AGE =
+            BIRTHDATE_EXACTLY_MINIMUM_AGE.minusYears(4);
+
+    private AccountFactory accountFactory;
     private Password password;
 
     @BeforeEach
     void setup() {
         password = Mockito.mock(Password.class);
         Clock clock = Clock.fixed(START_MOMENT, UTC);
-        factory = new AccountFactory(clock);
+        accountFactory = new AccountFactory(clock);
     }
 
     @Test
-    void givenBirthDateToday_whenCreateAccount_thenThrowInvalidParameterException() {
-        Executable executable = () -> factory.create(AccountFixture.A_NAME, TODAY,
-                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
+    void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
+        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+                BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
-        Assertions.assertThrows(InvalidParameterException.class, executable);
+        Assertions.assertThrows(InvalidParameterException.class, createAccount);
     }
 
     @Test
-    void givenFutureBirthDate_whenCreateAccount_thenThrowsInvalidParameterException() {
+    void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
+        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+                BIRTHDATE_EXACTLY_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
-        Executable executable = () -> factory.create(AccountFixture.A_NAME, FUTURE_DATE,
-                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
-
-        Assertions.assertThrows(InvalidParameterException.class, executable);
+        Assertions.assertDoesNotThrow(createAccount);
     }
 
     @Test
-    void givenPastBirthDate_whenCreateAccount_thenNoExceptionIsThrow() {
+    void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
+        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
-        Executable executable = () -> factory.create(AccountFixture.A_NAME, PAST_DATE,
-                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL, password);
-
-        Assertions.assertDoesNotThrow(executable);
+        Assertions.assertDoesNotThrow(createAccount);
     }
 }

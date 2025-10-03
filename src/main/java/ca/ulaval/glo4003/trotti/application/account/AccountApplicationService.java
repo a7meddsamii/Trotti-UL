@@ -36,11 +36,10 @@ public class AccountApplicationService {
         return account.getIdul();
     }
 
-    public AuthenticationToken login(String emailInput, String rawPassword) {
-        Email email = Email.from(emailInput);
+    public AuthenticationToken login(Email email, String rawPassword) {
         Account account = accountRepository.findByEmail(email)
+                .filter(found -> found.verifyPassword(rawPassword))
                 .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
-        account.verifyPassword(rawPassword);
 
         return authenticationService.generateToken(account.getIdul());
     }
@@ -48,8 +47,7 @@ public class AccountApplicationService {
     private void validateAccountDoesNotExist(Email email, Idul idul) {
         if (accountRepository.findByEmail(email).isPresent()
                 || accountRepository.findByIdul(idul).isPresent()) {
-            throw new AlreadyExistsException(
-                    "The email or idul used is already linked to an existing account");
+            throw new AlreadyExistsException("Email or Idul already in use");
         }
     }
 }

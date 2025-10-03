@@ -7,10 +7,10 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import java.time.LocalDate;
 
 public record AccountDto(
-  String name,
-  LocalDate birthDate,
-  Gender gender,
-  Idul idul,
-  Email email,
-  Password password
+    String name,
+    LocalDate birthDate,
+    Gender gender,
+    Idul idul,
+    Email email,
+    Password password
 ) {}

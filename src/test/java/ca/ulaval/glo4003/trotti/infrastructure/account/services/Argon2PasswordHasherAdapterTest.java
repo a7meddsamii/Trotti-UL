@@ -17,19 +17,19 @@ class Argon2PasswordHasherAdapterTest {
     private Argon2PasswordHasherAdapter argon2Hasher;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         argon2Hasher = new Argon2PasswordHasherAdapter(MEMORY_COST, ITERATIONS, THREADS);
     }
 
     @Test
-    void givenPassword_whenHash_thenReturnsPasswordHashedArgon2id() {
+    void givenPassword_whenHash_thenReturnPasswordHashedArgon2id() {
         String hashedPassword = argon2Hasher.hash(PLAIN_PASSWORD);
 
         Assertions.assertNotEquals(PLAIN_PASSWORD, hashedPassword);
     }
 
     @Test
-    void givenCorrectPasswordAndStoredHash_whenVerify_thenReturnsTrue() {
+    void givenCorrectPasswordAndStoredHash_whenVerify_thenReturnTrue() {
         String hashedPassword = argon2Hasher.hash(PLAIN_PASSWORD);
 
         boolean ok = argon2Hasher.matches(PLAIN_PASSWORD, hashedPassword);
@@ -54,7 +54,7 @@ class Argon2PasswordHasherAdapterTest {
     }
 
     @Test
-    void givenWrongPassword_whenVerify_thenReturnsFalse() {
+    void givenWrongPassword_whenVerify_thenReturnFalse() {
         String storedHash = argon2Hasher.hash(PLAIN_PASSWORD);
 
         boolean ok = argon2Hasher.matches(WRONG_PASSWORD, storedHash);
