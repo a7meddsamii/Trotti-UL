@@ -31,7 +31,7 @@ public class Traveler {
     }
 
     public boolean hasActiveRidePermits() {
-        return !extractActiveRidePermit(this.activeRidePermits).isEmpty();
+        return this.activeRidePermits.isEmpty();
     }
 
     public Idul getIdul() {
