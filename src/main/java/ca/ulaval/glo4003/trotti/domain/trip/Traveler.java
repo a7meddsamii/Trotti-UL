@@ -2,6 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,11 +21,12 @@ public class Traveler {
     }
 
     public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
-        List<RidePermit> activeRidePermits = extractActiveRidePermit(ridePermitsHistory);
+        List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
+				.filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
         List<RidePermit> newlyActiveRidePermits = ridePermitsHistory.stream()
                 .filter(ridePermit -> !this.activeRidePermits.contains(ridePermit)).toList();
         this.activeRidePermits = activeRidePermits;
-
+		
         return newlyActiveRidePermits;
     }
 
@@ -40,10 +44,5 @@ public class Traveler {
 
     public Email getEmail() {
         return email;
-    }
-
-    private List<RidePermit> extractActiveRidePermit(List<RidePermit> ridePermitsHistory) {
-        return ridePermitsHistory.stream()
-                .filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
     }
 }
