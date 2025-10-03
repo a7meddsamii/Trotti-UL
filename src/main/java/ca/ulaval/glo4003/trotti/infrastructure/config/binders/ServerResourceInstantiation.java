@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.infrastructure.employee.EmployeeIdulRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.employee.repository.InMemoryEmployeeRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.infrastructure.csv.EmployeeIdulCsvReader;
+import ca.ulaval.glo4003.trotti.infrastructure.employee.EmployeeIdulCsvReader;
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
@@ -98,7 +98,7 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     
-    private EmployeeIdulRepository employeeIdulRepository;
+    private InMemoryEmployeeRepository inMemoryEmployeeRepository;
     
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -248,15 +248,10 @@ public class ServerResourceInstantiation {
     }
     private void loadEmployeeIdulRepository() {
         var reader = new EmployeeIdulCsvReader();
-        var iduls = reader.readFromClasspathOrDie(EMPLOYEE_IDUL_CSV_PATH);
+        var iduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
         
-        LOGGER.info("Loaded {} employee IDULs from {}", iduls.size(), EMPLOYEE_IDUL_CSV_PATH);
-        if (!iduls.isEmpty()) {
-            LOGGER.debug("First 5 employees: {}", iduls.stream().limit(5).toList());
-        }
-        
-        this.employeeIdulRepository = new EmployeeIdulRepository(iduls);
-        locator.register(EmployeeIdulRepository.class, employeeIdulRepository);
+        this.inMemoryEmployeeRepository = new InMemoryEmployeeRepository(iduls);
+        locator.register(InMemoryEmployeeRepository.class, inMemoryEmployeeRepository);
     }
     
     
