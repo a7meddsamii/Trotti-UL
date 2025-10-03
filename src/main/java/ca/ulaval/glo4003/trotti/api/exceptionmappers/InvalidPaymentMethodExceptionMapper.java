@@ -4,13 +4,12 @@ import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodEx
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 
-public class InvalidPaymentMethodExceptionMapper implements ExceptionMapper<InvalidPaymentMethodException> {
+public class InvalidPaymentMethodExceptionMapper
+        implements ExceptionMapper<InvalidPaymentMethodException> {
 
     @Override
     public Response toResponse(InvalidPaymentMethodException exception) {
-        return ExceptionResponseFactory.errorResponse(
-                Response.Status.BAD_REQUEST,
-                exception.getMessage()
-        );
+        return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
+                exception.getMessage());
     }
 }

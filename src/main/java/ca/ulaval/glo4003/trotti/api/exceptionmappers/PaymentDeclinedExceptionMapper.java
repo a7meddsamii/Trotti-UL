@@ -8,9 +8,7 @@ public class PaymentDeclinedExceptionMapper implements ExceptionMapper<PaymentDe
 
     @Override
     public Response toResponse(PaymentDeclinedException exception) {
-        return ExceptionResponseFactory.errorResponse(
-                Response.Status.PAYMENT_REQUIRED,
-                exception.getMessage()
-        );
+        return ExceptionResponseFactory.errorResponse(Response.Status.PAYMENT_REQUIRED,
+                exception.getMessage());
     }
 }

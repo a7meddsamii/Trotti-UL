@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.api.resources.CartResource;
+import ca.ulaval.glo4003.trotti.api.resources.OrderResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
@@ -99,6 +101,7 @@ public class ServerResourceInstantiation {
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
+    private OrderApplicationService orderApplicationService;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -209,7 +212,7 @@ public class ServerResourceInstantiation {
         NotificationService<Transaction> transactionNotificationService =
                 new TransactionNotificationService(emailService);
         TransactionMapper transactionMapper = new TransactionMapper();
-        OrderApplicationService orderApplicationService = new OrderApplicationService(
+        orderApplicationService = new OrderApplicationService(
                 buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
                 transactionNotificationService, invoiceNotificationService);
 
@@ -257,6 +260,12 @@ public class ServerResourceInstantiation {
         locator.register(CartResource.class, cartResource);
     }
 
+    private void loadOrderResource() {
+        OrderApiMapper orderApiMapper = new OrderApiMapper();
+        OrderResource orderResource = new OrderResource(orderApplicationService, locator.resolve(AuthenticationService.class), orderApiMapper);
+        locator.register(OrderResource.class, orderResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -278,6 +287,7 @@ public class ServerResourceInstantiation {
         loadAccountMapper();
         loadAccountResource();
         loadCartResource();
+        loadOrderResource();
         resourcesCreated = true;
     }
 
