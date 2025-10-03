@@ -35,6 +35,7 @@ public class OrderResource {
             PaymentInfoRequest paymentInfoRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
+		authenticationService.confirmStudent(idul);
 
         PaymentInfoDto paymentInfoDto = orderApiMapper.toDto(paymentInfoRequest);
 

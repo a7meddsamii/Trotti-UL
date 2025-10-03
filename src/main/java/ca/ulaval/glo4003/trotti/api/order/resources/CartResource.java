@@ -37,6 +37,7 @@ public class CartResource {
     public Response getCart(@HeaderParam("Authorization") String tokenRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
+		authenticationService.confirmStudent(idul);
 
         List<PassDto> cart = cartApplicationService.getCart(idul);
 
@@ -50,6 +51,7 @@ public class CartResource {
             @Valid PassListRequest passListRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
+		authenticationService.confirmStudent(idul);
 
         List<PassDto> passDtoList = passApiMapper.toPassDtoList(passListRequest);
         List<PassDto> updatedCart = cartApplicationService.addToCart(idul, passDtoList);
@@ -65,6 +67,7 @@ public class CartResource {
             @PathParam("passId") String passId) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
+		authenticationService.confirmStudent(idul);
 
         Id id = Id.from(passId);
         cartApplicationService.removeFromCart(idul, id);
@@ -76,6 +79,7 @@ public class CartResource {
     public Response clearCart(@HeaderParam("Authorization") String tokenRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
+		authenticationService.confirmStudent(idul);
 
         cartApplicationService.clearCart(idul);
 
