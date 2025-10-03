@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.api.dto.requests;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.util.List;
 
 public record PassListRequest(
@@ -11,7 +11,7 @@ public record PassListRequest(
         @Valid List<PassRequest> passes
 ) {
     public record PassRequest(
-            @NotBlank(message = "Maximum daily travel time is required") int maximumDailyTravelTime,
+            @Min(1) int maximumDailyTravelTime,
             @NotBlank(message = "Session is required") String session,
             @NotBlank(message = "Billing frequency is required") String billingFrequency
     ) {

@@ -1,9 +1,12 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
 import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.resources.CartResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
@@ -17,6 +20,7 @@ import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
@@ -74,7 +78,8 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH = "src/main/resources/data/semesters-252627.json";
+    private static final String SEMESTER_DATA_FILE_PATH =
+            "src/main/resources/data/semesters-252627.json";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -90,7 +95,7 @@ public class ServerResourceInstantiation {
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
     private OrderFactory orderFactory;
-
+    private PassFactory passFactory;
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
@@ -242,6 +247,16 @@ public class ServerResourceInstantiation {
         locator.register(AuthenticationResource.class, authenticationResource);
     }
 
+    private void loadCartResource() {
+        PassApiMapper passApiMapper = new PassApiMapper();
+        passFactory = new PassFactory();
+        CartApplicationService cartApplicationService =
+                new CartApplicationService(buyerRepository, passMapper, passFactory);
+        CartResource cartResource = new CartResource(cartApplicationService,
+                locator.resolve(AuthenticationService.class), passApiMapper);
+        locator.register(CartResource.class, cartResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -262,6 +277,7 @@ public class ServerResourceInstantiation {
         loadRidePermitActivationService();
         loadAccountMapper();
         loadAccountResource();
+        loadCartResource();
         resourcesCreated = true;
     }
 

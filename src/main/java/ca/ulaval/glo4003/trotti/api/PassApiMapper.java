@@ -1,32 +1,36 @@
 package ca.ulaval.glo4003.trotti.api;
 
 import ca.ulaval.glo4003.trotti.api.dto.requests.PassListRequest;
+import ca.ulaval.glo4003.trotti.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.order.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
-
 import java.time.Duration;
 import java.util.List;
 
 public class PassApiMapper {
 
     public List<PassDto> toPassDtoList(PassListRequest request) {
-        return request.passes().stream()
-                .map(this::toPassDto)
+        return request.passes().stream().map(this::toPassDto).toList();
+    }
+
+    public PassListResponse toPassListResponse(List<PassDto> passDtoList) {
+        List<PassListResponse.PassResponse> passResponses = passDtoList.stream()
+                .map(passDto -> new PassListResponse.PassResponse(passDto.id().toString(),
+                        passDto.maximumDailyTravelTime().toString(), passDto.session().toString(),
+                        passDto.billingFrequency().toString()))
                 .toList();
+        return new PassListResponse(passResponses);
     }
 
     private PassDto toPassDto(PassListRequest.PassRequest request) {
         return new PassDto(
                 MaximumDailyTravelTime.from(Duration.ofMinutes(request.maximumDailyTravelTime())),
                 sessionFromString(request.session()),
-                BillingFrequency.fromString(request.billingFrequency()),
-                null
-        );
+                BillingFrequency.fromString(request.billingFrequency()), null);
     }
 
     private Session sessionFromString(String sessionRequest) {

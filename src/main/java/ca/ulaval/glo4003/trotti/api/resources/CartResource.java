@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.api.resources;
 
 import ca.ulaval.glo4003.trotti.api.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.dto.requests.PassListRequest;
+import ca.ulaval.glo4003.trotti.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
@@ -12,7 +13,6 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
 
 @Path("/cart")
@@ -27,8 +27,7 @@ public class CartResource {
     public CartResource(
             CartApplicationService cartApplicationService,
             AuthenticationService authenticationService,
-            PassApiMapper passApiMapper
-    ) {
+            PassApiMapper passApiMapper) {
         this.cartApplicationService = cartApplicationService;
         this.authenticationService = authenticationService;
         this.passApiMapper = passApiMapper;
@@ -41,23 +40,29 @@ public class CartResource {
 
         List<PassDto> cart = cartApplicationService.getCart(idul);
 
-        return Response.ok(cart).build();
+        PassListResponse passListResponse = passApiMapper.toPassListResponse(cart);
+
+        return Response.ok(passListResponse).build();
     }
 
     @PUT
-    public Response addToCart(@HeaderParam("Authorization") String tokenRequest, @Valid PassListRequest passListRequest) {
+    public Response addToCart(@HeaderParam("Authorization") String tokenRequest,
+            @Valid PassListRequest passListRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
         List<PassDto> passDtoList = passApiMapper.toPassDtoList(passListRequest);
         List<PassDto> updatedCart = cartApplicationService.addToCart(idul, passDtoList);
 
-        return Response.ok(updatedCart).build();
+        PassListResponse passListResponse = passApiMapper.toPassListResponse(updatedCart);
+
+        return Response.ok(passListResponse).build();
     }
 
     @DELETE
     @Path("/{passId}")
-    public Response removeFromCart(@HeaderParam("Authorization") String tokenRequest, @PathParam("passId") String passId) {
+    public Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
+            @PathParam("passId") String passId) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
