@@ -8,34 +8,43 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Currency;
 import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
 import ca.ulaval.glo4003.trotti.domain.payment.values.TransactionStatus;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.math.BigDecimal;
-
 class OrderApiMapperTest {
+
+    private static final String CARD_NUMBER = "4111111111111111";
+    private static final String CARD_HOLDER_NAME = "John Doe";
+    private static final String EXPIRATION_DATE_STRING = "2025-12";
+    private static final YearMonth EXPIRATION_DATE = YearMonth.of(2025, 12);
+    private static final String CVV = "123";
+    private static final BigDecimal AMOUNT_VALUE = new BigDecimal(45);
+    private static final Currency CURRENCY = Currency.CAD;
+    private static final String TRANSACTION_DESCRIPTION = "Payment completed";
+    private static final TransactionStatus TRANSACTION_STATUS = TransactionStatus.SUCCESS;
 
     private final OrderApiMapper mapper = new OrderApiMapper();
 
     @Test
     void givenValidPaymentInfoRequest_whenToDto_thenMapsCorrectly() {
-        PaymentInfoRequest request = new PaymentInfoRequest("4111111111111111",
-                "John Doe", "2025-12", "123");
+        PaymentInfoRequest request =
+                new PaymentInfoRequest(CARD_NUMBER, CARD_HOLDER_NAME, EXPIRATION_DATE_STRING, CVV);
 
         PaymentInfoDto dto = mapper.toDto(request);
 
-        Assertions.assertEquals("4111111111111111", dto.cardNumber());
-        Assertions.assertEquals("John Doe", dto.cardHolderName());
-        Assertions.assertEquals(YearMonth.of(2025, 12), dto.expirationDate());
-        Assertions.assertEquals("123", dto.cvv());
+        Assertions.assertEquals(CARD_NUMBER, dto.cardNumber());
+        Assertions.assertEquals(CARD_HOLDER_NAME, dto.cardHolderName());
+        Assertions.assertEquals(EXPIRATION_DATE, dto.expirationDate());
+        Assertions.assertEquals(CVV, dto.cvv());
     }
 
     @Test
     void givenNullExpirationDate_whenToDto_thenDtoHasNullExpirationDate() {
-        PaymentInfoRequest request = new PaymentInfoRequest("4111111111111111",
-                "John Doe", null, "123");
+        PaymentInfoRequest request =
+                new PaymentInfoRequest(CARD_NUMBER, CARD_HOLDER_NAME, null, CVV);
 
         PaymentInfoDto dto = mapper.toDto(request);
 
@@ -44,19 +53,15 @@ class OrderApiMapperTest {
 
     @Test
     void givenTransactionDto_whenToTransactionResponse_thenMapsCorrectly() {
-        TransactionDto dto = new TransactionDto(
-                Id.randomId(),
-                TransactionStatus.SUCCESS,
-                LocalDateTime.now(),
-                Money.of(new BigDecimal(45), Currency.CAD),
-                "Payment completed");
+        TransactionDto dto = new TransactionDto(Id.randomId(), TRANSACTION_STATUS,
+                LocalDateTime.now(), Money.of(AMOUNT_VALUE, CURRENCY), TRANSACTION_DESCRIPTION);
 
         TransactionResponse response = mapper.toTransactionResponse(dto);
 
         Assertions.assertEquals(dto.id().toString(), response.transactionId());
-        Assertions.assertEquals("SUCCESS", response.status());
+        Assertions.assertEquals(TRANSACTION_STATUS.name(), response.status());
         Assertions.assertEquals(dto.timestamp().toString(), response.timestamp());
-        Assertions.assertEquals(Money.of(new BigDecimal(45), Currency.CAD).toString(), response.amount());
-        Assertions.assertEquals("Payment completed", response.description());
+        Assertions.assertEquals(Money.of(AMOUNT_VALUE, CURRENCY).toString(), response.amount());
+        Assertions.assertEquals(TRANSACTION_DESCRIPTION, response.description());
     }
 }
