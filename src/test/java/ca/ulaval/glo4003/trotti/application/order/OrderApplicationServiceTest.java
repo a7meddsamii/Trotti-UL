@@ -90,7 +90,7 @@ class OrderApplicationServiceTest {
         when(buyer.getCartBalance()).thenReturn(cartBalance);
         when(buyer.getCartPasses()).thenReturn(passes);
         when(paymentInfoDto.cvv()).thenReturn(VALID_CVV);
-        when(transactionMapper.toDto(any(Transaction.class))).thenReturn(transactionDto);
+        when(transactionMapper.toDto(any(Transaction.class), any())).thenReturn(transactionDto);
     }
 
     @Test

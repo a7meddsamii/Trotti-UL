@@ -10,6 +10,7 @@ public record TransactionDto(
         TransactionStatus status,
         LocalDateTime timestamp,
         Money amount,
-        String description
+        String description,
+        String cardNumber
 ) {
 }

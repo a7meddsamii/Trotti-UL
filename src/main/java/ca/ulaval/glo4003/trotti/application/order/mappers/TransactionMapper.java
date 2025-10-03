@@ -5,8 +5,8 @@ import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
 
 public class TransactionMapper {
 
-    public TransactionDto toDto(Transaction t) {
+    public TransactionDto toDto(Transaction t, String cardNumber) {
         return new TransactionDto(t.getId(), t.getStatus(), t.getTimestamp(), t.getAmount(),
-                t.getDescription());
+                t.getDescription(), cardNumber);
     }
 }
