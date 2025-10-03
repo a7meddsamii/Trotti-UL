@@ -27,7 +27,7 @@ public class PassApiMapper {
 
         Money totalCost = Money.zeroCad();
         for (PassDto passDto : passDtoList) {
-            totalCost.plus(passDto.maximumDailyTravelTime().calculateAmount());
+            totalCost = totalCost.plus(passDto.maximumDailyTravelTime().calculateAmount());
         }
 
         return new PassListResponse(passResponses, totalCost.toString());
