@@ -6,9 +6,8 @@ import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
-import org.apache.commons.lang3.StringUtils;
-
 import java.time.YearMonth;
+import org.apache.commons.lang3.StringUtils;
 
 public class OrderApiMapper {
 

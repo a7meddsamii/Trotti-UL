@@ -294,7 +294,7 @@ public class ServerResourceInstantiation {
     }
 
     private void loadCartResource() {
-        PassApiMapper passApiMapper = new PassApiMapper();
+        PassApiMapper passApiMapper = new PassApiMapper(SessionProvider.getInstance());
         passFactory = new PassFactory();
         CartApplicationService cartApplicationService =
                 new CartApplicationService(buyerRepository, passMapper, passFactory);

@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
