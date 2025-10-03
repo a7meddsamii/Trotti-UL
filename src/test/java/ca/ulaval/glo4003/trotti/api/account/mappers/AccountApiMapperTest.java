@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.api.account.mappers;
 
 import ca.ulaval.glo4003.trotti.api.account.dto.request.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;

@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.api.account.resources;
 
-import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.api.account.dto.request.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
+import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
