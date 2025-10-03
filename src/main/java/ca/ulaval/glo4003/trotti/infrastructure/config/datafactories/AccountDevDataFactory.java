@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public final class AccountDevDataFactory {
     }
 
     private Account build(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-                          String rawPassword) {
+            String rawPassword) {
         Password password = Password.fromPlain(rawPassword, hasher);
         return new Account(name, birthDate, gender, idul, email, password);
     }
