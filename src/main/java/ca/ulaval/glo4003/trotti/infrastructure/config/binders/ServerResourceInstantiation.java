@@ -44,6 +44,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailService
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
@@ -90,10 +91,12 @@ public class ServerResourceInstantiation {
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
     private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
     private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
+    private static final String INITIALIZE_DEMO_DATA_KEY = "INITIALIZE_DEMO_DATA";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
+    private boolean initializeDemoData;
 
     private EmailService emailService;
     private PasswordHasher hasher;
@@ -125,6 +128,7 @@ public class ServerResourceInstantiation {
     private ServerResourceInstantiation() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
+        this.initializeDemoData = Boolean.parseBoolean(System.getenv(INITIALIZE_DEMO_DATA_KEY));
     }
 
     private void loadAuthenticationService() {
@@ -161,6 +165,12 @@ public class ServerResourceInstantiation {
         locator.register(AccountRepository.class, accountRepository);
         locator.register(BuyerRepository.class, buyerRepository);
         locator.register(TravelerRepository.class, travelerRepository);
+    }
+
+    private void loadDevData() {
+        if (initializeDemoData) {
+            new AccountDevDataFactory(accountRepository, hasher).run();
+        }
     }
 
     private void loadPassRepository() {
@@ -289,6 +299,7 @@ public class ServerResourceInstantiation {
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+        loadDevData();
         loadPassRepository();
         loadSessionProvider();
         loadAccountFactory();
