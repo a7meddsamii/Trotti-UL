@@ -19,9 +19,9 @@ class AccountFactoryTest {
     private static final ZoneOffset UTC = ZoneOffset.UTC;
     private static final LocalDate TODAY = LocalDate.ofInstant(START_MOMENT, UTC);
 
-    private static final int MINIMUM_AGE_YEARS = 16;
+    private static final int MINIMUM_ACCOUNT_AGE = 16;
     private static final LocalDate BIRTHDATE_EXACTLY_MINIMUM_AGE =
-            TODAY.minusYears(MINIMUM_AGE_YEARS);
+            TODAY.minusYears(MINIMUM_ACCOUNT_AGE);
     private static final LocalDate BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE =
             BIRTHDATE_EXACTLY_MINIMUM_AGE.plusDays(1);
     private static final LocalDate BIRTHDATE_OLDER_THAN_MINIMUM_AGE =
