@@ -24,10 +24,8 @@ import ca.ulaval.glo4003.trotti.domain.order.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
-import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
@@ -89,8 +87,7 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH =
-            "/app/data/semesters-252627.json";
+    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -229,9 +226,9 @@ public class ServerResourceInstantiation {
         TransactionMapper transactionMapper = new TransactionMapper();
         DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
         paymentMethodFactory = new PaymentMethodFactory(dataCodec);
-        orderApplicationService =new OrderApplicationService(
-                buyerRepository, passRepository, paymentMethodFactory, orderFactory, paymentService,
-                transactionMapper, transactionNotificationService, invoiceNotificationService);
+        orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
+                transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
     }
@@ -274,7 +271,8 @@ public class ServerResourceInstantiation {
 
     private void loadOrderResource() {
         OrderApiMapper orderApiMapper = new OrderApiMapper();
-        OrderResource orderResource = new OrderResource(orderApplicationService, locator.resolve(AuthenticationService.class), orderApiMapper);
+        OrderResource orderResource = new OrderResource(orderApplicationService,
+                locator.resolve(AuthenticationService.class), orderApiMapper);
         locator.register(OrderResource.class, orderResource);
     }
 

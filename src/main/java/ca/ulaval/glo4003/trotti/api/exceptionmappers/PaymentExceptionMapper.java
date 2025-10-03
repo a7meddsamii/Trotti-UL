@@ -10,6 +10,7 @@ public class PaymentExceptionMapper implements ExceptionMapper<PaymentException>
 
     @Override
     public Response toResponse(PaymentException exception) {
-        return ExceptionResponseFactory.errorResponse(Response.Status.PAYMENT_REQUIRED, exception.getMessage());
+        return ExceptionResponseFactory.errorResponse(Response.Status.PAYMENT_REQUIRED,
+                exception.getMessage());
     }
 }

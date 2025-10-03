@@ -21,16 +21,18 @@ public class OrderResource {
     private final AuthenticationService authenticationService;
     private final OrderApiMapper orderApiMapper;
 
-    public OrderResource(OrderApplicationService orderApplicationService,
-                         AuthenticationService authenticationService,
-                         OrderApiMapper orderApiMapper) {
+    public OrderResource(
+            OrderApplicationService orderApplicationService,
+            AuthenticationService authenticationService,
+            OrderApiMapper orderApiMapper) {
         this.orderApplicationService = orderApplicationService;
         this.authenticationService = authenticationService;
         this.orderApiMapper = orderApiMapper;
     }
 
     @POST
-    public Response confirm(@HeaderParam("Authorization") String tokenRequest, PaymentInfoRequest paymentInfoRequest) {
+    public Response confirm(@HeaderParam("Authorization") String tokenRequest,
+            PaymentInfoRequest paymentInfoRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 

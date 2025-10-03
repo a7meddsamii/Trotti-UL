@@ -45,12 +45,8 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
-                "transactionId=" + transactionId +
-                ", status=" + status +
-                ", timestamp=" + timestamp +
-                ", amount=" + amount +
-                ", description='" + description + '\'' +
-                '}';
+        return "Transaction{" + "transactionId=" + transactionId + ", status=" + status
+                + ", timestamp=" + timestamp + ", amount=" + amount + ", description='"
+                + description + '\'' + '}';
     }
 }

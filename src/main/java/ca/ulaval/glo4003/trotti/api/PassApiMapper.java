@@ -22,7 +22,8 @@ public class PassApiMapper {
         List<PassListResponse.PassResponse> passResponses = passDtoList.stream()
                 .map(passDto -> new PassListResponse.PassResponse(passDto.id().toString(),
                         passDto.maximumDailyTravelTime().toString(), passDto.session().toString(),
-                        passDto.billingFrequency().toString(), passDto.maximumDailyTravelTime().calculateAmount().toString()))
+                        passDto.billingFrequency().toString(),
+                        passDto.maximumDailyTravelTime().calculateAmount().toString()))
                 .toList();
 
         Money totalCost = Money.zeroCad();
