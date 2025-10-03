@@ -50,6 +50,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceM
 import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
 import java.time.Clock;
