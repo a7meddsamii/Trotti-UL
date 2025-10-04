@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.domain.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,18 +16,16 @@ public class Traveler {
         this.email = email;
         this.activeRidePermits = activeRidePermits;
     }
-	
-	public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
-		List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
-				.filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now()))
-				.toList();		
-		List<RidePermit> newlyActiveRidePermits = activeRidePermits.stream()
-				.filter(ridePermit -> !this.activeRidePermits.contains(ridePermit))
-				.toList();
-		this.activeRidePermits = activeRidePermits;
-		
-		return newlyActiveRidePermits;
-	}
+
+    public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
+        List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
+                .filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
+        List<RidePermit> newlyActiveRidePermits = activeRidePermits.stream()
+                .filter(ridePermit -> !this.activeRidePermits.contains(ridePermit)).toList();
+        this.activeRidePermits = activeRidePermits;
+
+        return newlyActiveRidePermits;
+    }
 
     public List<RidePermit> getRidePermits() {
         return List.copyOf(activeRidePermits);

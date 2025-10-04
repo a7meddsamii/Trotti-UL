@@ -48,9 +48,9 @@ public class RidePermitActivationApplicationService {
             newlyActivatedRidePermits =
                     employeeRidePermitService.handleEmployeeRidePermit(traveler);
         } else {
-			newlyActivatedRidePermits = traveler.updateActiveRidePermits(boughtRidePermitsHistory);
-		}
-		
+            newlyActivatedRidePermits = traveler.updateActiveRidePermits(boughtRidePermitsHistory);
+        }
+
         travelerRepository.update(traveler);
 
         if (!newlyActivatedRidePermits.isEmpty()) {
