@@ -18,8 +18,9 @@ public class Traveler {
     }
 
     public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
-        List<RidePermit> activeRidePermits = extractActiveRidePermit(ridePermitsHistory);
-        List<RidePermit> newlyActiveRidePermits = ridePermitsHistory.stream()
+        List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
+                .filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
+        List<RidePermit> newlyActiveRidePermits = activeRidePermits.stream()
                 .filter(ridePermit -> !this.activeRidePermits.contains(ridePermit)).toList();
         this.activeRidePermits = activeRidePermits;
 
@@ -40,10 +41,5 @@ public class Traveler {
 
     public Email getEmail() {
         return email;
-    }
-
-    private List<RidePermit> extractActiveRidePermit(List<RidePermit> ridePermitsHistory) {
-        return ridePermitsHistory.stream()
-                .filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
     }
 }
