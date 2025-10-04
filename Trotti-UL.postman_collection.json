@@ -193,35 +193,6 @@
 									"response": []
 								},
 								{
-									"name": "Login - Invalid Email Input",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"yaoua13@ulaval.ca\",\r\n  \"password\": \"incorrect password\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "localhost:8080/api/auth/login",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"api",
-												"auth",
-												"login"
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "Login - Empty Param",
 									"request": {
 										"method": "POST",
@@ -439,7 +410,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzZGQ1ZWVjYi01ODhmLTQ1ZDgtYWUwYi1mMjJjNGE2NzA3OTciLCJzdWIiOiJMVUdBVTE3IiwiaWF0IjoxNzU5NTIwMDYxLCJleHAiOjE3NTk1MjM2NjF9._b_Yj3oUdkj_1mQ8VF5N77MnQ5ETvBvxySQE-BrEo0c",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNTdjMGVhYy1lYmJhLTQxMzEtODg5Ny1jMmIwZmNmM2Y3YjQiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTMzMTYyLCJleHAiOjE3NTk1MzY3NjJ9.w6AbwBVxt89kQmmsBCDYm3WyBZ1pmz1jShsuyNm9U8Q",
 								"type": "text"
 							}
 						],
@@ -464,7 +435,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OTgwMTU4Ni1jZWFjLTRiOTUtOGZiYS03MThlZDhhMTI2ODQiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk1MDE5MDUsImV4cCI6MTc1OTUwNTUwNX0.XC-Zjcw8Ol0LLEMNyoG1LoS31U0FB_4dI3_967EjO0k",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNTdjMGVhYy1lYmJhLTQxMzEtODg5Ny1jMmIwZmNmM2Y3YjQiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTMzMTYyLCJleHAiOjE3NTk1MzY3NjJ9.w6AbwBVxt89kQmmsBCDYm3WyBZ1pmz1jShsuyNm9U8Q",
 								"type": "text"
 							}
 						],
@@ -529,7 +500,13 @@
 					"name": "DeleteCart",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost:8080/api/cart",
 							"host": [
@@ -551,12 +528,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2MTc5NjEzMC02YzRiLTQ1NzEtOWNlYy05OGRkOGI0Yzk4ZGEiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk0NjUyNjIsImV4cCI6MTc1OTQ2ODg2Mn0.1uWBKHpCh6gndMX4wrk8kHuNz5XPYBNmG4nWaCjYRcU",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/api/cart/08b09a9e-207e-4ac1-a4cd-222de2d8edec",
+							"raw": "localhost:8080/api/cart/de46c661-51dd-4ea1-801c-30404bec90f4",
 							"host": [
 								"localhost"
 							],
@@ -564,7 +541,7 @@
 							"path": [
 								"api",
 								"cart",
-								"08b09a9e-207e-4ac1-a4cd-222de2d8edec"
+								"de46c661-51dd-4ea1-801c-30404bec90f4"
 							]
 						}
 					},
@@ -577,7 +554,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwYWY5NWMyYS0wYWQ0LTQyNzQtYjMxNC0xNzY4MTI1NzllZWUiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk0NjgwMjIsImV4cCI6MTc1OTQ3MTYyMn0.yYNiLEeuAcLQ-v6Kytt5ynQ2KsttHMYJ_e2o3Zo7XJ8",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
 								"type": "text"
 							}
 						],
