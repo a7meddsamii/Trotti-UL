@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplication
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;

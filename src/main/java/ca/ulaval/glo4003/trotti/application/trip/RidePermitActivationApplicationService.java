@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.application.trip;
 import ca.ulaval.glo4003.trotti.application.trip.dto.RidePermitDto;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;

@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.*;
 import ca.ulaval.glo4003.trotti.domain.order.exceptions.CartException;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
