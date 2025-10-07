@@ -1,11 +1,10 @@
-package ca.ulaval.glo4003.trotti.domain.trip;
+package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;

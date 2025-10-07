@@ -1,8 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.entities.pass;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Order;
-import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;

@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.account.entities;
 
-import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.account.factories;
 
-import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;

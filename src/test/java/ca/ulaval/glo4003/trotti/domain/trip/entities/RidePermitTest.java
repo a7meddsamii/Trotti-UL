@@ -1,11 +1,10 @@
-package ca.ulaval.glo4003.trotti.domain.trip;
+package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import java.time.LocalDate;
 
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

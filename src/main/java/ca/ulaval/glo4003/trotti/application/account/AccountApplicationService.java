@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.AlreadyExistsException;
+import ca.ulaval.glo4003.trotti.domain.account.exceptions.AlreadyExistsException;
 
 public class AccountApplicationService {
 

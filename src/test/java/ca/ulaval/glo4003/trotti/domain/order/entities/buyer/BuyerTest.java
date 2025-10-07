@@ -1,10 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.entities.buyer;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Cart;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;

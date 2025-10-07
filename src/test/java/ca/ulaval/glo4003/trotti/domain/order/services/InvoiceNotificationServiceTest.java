@@ -1,12 +1,10 @@
-package ca.ulaval.glo4003.trotti.domain.payment.services;
+package ca.ulaval.glo4003.trotti.domain.order.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
-import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
-import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
