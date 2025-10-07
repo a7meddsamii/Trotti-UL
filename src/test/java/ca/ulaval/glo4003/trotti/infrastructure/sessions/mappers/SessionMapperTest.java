@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
+import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.infrastructure.sessions.SessionRecord;
 import java.time.LocalDate;
 import java.time.Month;

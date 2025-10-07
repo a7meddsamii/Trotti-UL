@@ -1,10 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.payment.values.method;
 
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
-
-import java.time.YearMonth;
-
 import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
+import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 
 public class CreditCard {

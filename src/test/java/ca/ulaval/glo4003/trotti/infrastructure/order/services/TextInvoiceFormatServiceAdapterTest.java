@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.InvoiceLine;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

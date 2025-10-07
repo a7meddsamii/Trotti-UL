@@ -19,7 +19,7 @@ public class AccountFactory {
     }
 
     public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-                          Password password) {
+            Password password) {
         validateBirthDate(birthDate);
         return new Account(name, birthDate, gender, idul, email, password);
     }

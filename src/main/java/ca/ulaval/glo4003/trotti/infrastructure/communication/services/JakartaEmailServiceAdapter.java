@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.communication.services;
 
 import ca.ulaval.glo4003.trotti.domain.communication.exceptions.EmailSendException;
-import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
+import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;

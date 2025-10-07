@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.domain.payment.values.transaction;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
-
 import java.time.LocalDateTime;
 
 public class Transaction {

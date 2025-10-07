@@ -3,8 +3,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.acl;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.acl.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import java.util.List;
 
 public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway {
