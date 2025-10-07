@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.api.account.exceptionmappers;
+package ca.ulaval.glo4003.trotti.api.commons.exceptionmappers;
 
+import ca.ulaval.glo4003.trotti.api.commons.ExceptionResponseFactory;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;

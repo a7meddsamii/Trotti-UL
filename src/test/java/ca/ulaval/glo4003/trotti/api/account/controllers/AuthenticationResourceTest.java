@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.trotti.api.account.resources;
+package ca.ulaval.glo4003.trotti.api.account.controllers;
 
-import ca.ulaval.glo4003.trotti.api.account.dto.request.LoginRequest;
-import ca.ulaval.glo4003.trotti.api.account.dto.response.LoginResponse;
+import ca.ulaval.glo4003.trotti.api.authentication.dto.LoginRequest;
+import ca.ulaval.glo4003.trotti.api.authentication.dto.LoginResponse;
+import ca.ulaval.glo4003.trotti.api.authentication.controllers.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;

@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.api.heartbeat.resources;
+package ca.ulaval.glo4003.trotti.api.heartbeat.controllers;
 
-import ca.ulaval.glo4003.trotti.api.heartbeat.dto.responses.HeartbeatResponse;
+import ca.ulaval.glo4003.trotti.api.heartbeat.dto.HeartbeatResponse;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;

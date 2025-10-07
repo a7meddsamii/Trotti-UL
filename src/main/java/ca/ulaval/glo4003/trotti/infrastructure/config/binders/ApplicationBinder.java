@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
 import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.account.resources.AccountResource;
-import ca.ulaval.glo4003.trotti.api.account.resources.AuthenticationResource;
-import ca.ulaval.glo4003.trotti.api.order.resources.CartResource;
-import ca.ulaval.glo4003.trotti.api.order.resources.OrderResource;
-import ca.ulaval.glo4003.trotti.api.resources.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.account.controllers.AccountResource;
+import ca.ulaval.glo4003.trotti.api.authentication.controllers.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.order.controllers.CartResource;
+import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;

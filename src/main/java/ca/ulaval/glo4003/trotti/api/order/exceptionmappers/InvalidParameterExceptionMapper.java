@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.api.order.exceptionmappers;
 
-import ca.ulaval.glo4003.trotti.api.account.exceptionmappers.ExceptionResponseFactory;
+import ca.ulaval.glo4003.trotti.api.commons.ExceptionResponseFactory;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

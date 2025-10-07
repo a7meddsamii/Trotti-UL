@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.heartbeat.dto.responses;
+package ca.ulaval.glo4003.trotti.api.heartbeat.dto;
 
 public class HeartbeatResponse {
 

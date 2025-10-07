@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.resources;
+package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.dto.RidePermitDto;

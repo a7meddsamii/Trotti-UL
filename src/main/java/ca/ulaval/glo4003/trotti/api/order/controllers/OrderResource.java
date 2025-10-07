@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.order.resources;
+package ca.ulaval.glo4003.trotti.api.order.controllers;
 
 import ca.ulaval.glo4003.trotti.api.order.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;

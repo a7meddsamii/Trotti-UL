@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.account.dto.response;
+package ca.ulaval.glo4003.trotti.api.authentication.dto;
 
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
 
