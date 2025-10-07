@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.records.RidePermitRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.List;
 
 public class TravelerPersistenceMapper {

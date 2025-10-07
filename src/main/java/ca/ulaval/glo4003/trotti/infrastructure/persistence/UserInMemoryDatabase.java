@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.trotti.infrastructure.persistence;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

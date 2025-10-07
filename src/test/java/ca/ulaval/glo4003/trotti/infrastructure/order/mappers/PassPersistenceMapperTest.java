@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.PassRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.PassRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
