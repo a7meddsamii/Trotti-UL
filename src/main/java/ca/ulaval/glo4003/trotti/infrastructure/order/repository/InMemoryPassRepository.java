@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.repository;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import java.util.HashMap;
 import java.util.List;

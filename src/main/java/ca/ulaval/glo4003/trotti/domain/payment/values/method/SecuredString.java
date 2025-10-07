@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.payment.utilities;
+package ca.ulaval.glo4003.trotti.domain.payment.values.method;
 
 import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
 

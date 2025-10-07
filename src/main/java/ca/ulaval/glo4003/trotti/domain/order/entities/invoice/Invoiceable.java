@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.entities.invoice;
 
 public interface Invoiceable {
 

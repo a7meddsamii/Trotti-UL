@@ -2,7 +2,10 @@ package ca.ulaval.glo4003.trotti.domain.order;
 
 import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.AN_IDUL;
 
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Order;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.exceptions.InvalidOrderException;
+import ca.ulaval.glo4003.trotti.domain.order.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

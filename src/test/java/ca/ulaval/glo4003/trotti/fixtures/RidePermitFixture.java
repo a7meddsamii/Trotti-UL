@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.fixtures;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.order.Session;
+import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
 import java.time.LocalDate;

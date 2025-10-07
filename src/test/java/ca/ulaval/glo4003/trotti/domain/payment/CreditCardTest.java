@@ -2,8 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.payment;
 
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentMethodException;
 import ca.ulaval.glo4003.trotti.domain.payment.security.DataCodec;
-import ca.ulaval.glo4003.trotti.domain.payment.utilities.SecuredString;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import ca.ulaval.glo4003.trotti.domain.payment.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.payment.values.method.SecuredString;
+import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

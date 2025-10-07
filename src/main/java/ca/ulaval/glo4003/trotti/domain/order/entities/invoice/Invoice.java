@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.entities.invoice;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
+import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

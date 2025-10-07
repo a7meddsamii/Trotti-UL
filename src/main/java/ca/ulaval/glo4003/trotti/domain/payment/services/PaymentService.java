@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentDeclinedException;
 import ca.ulaval.glo4003.trotti.domain.payment.exceptions.PaymentException;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
-import ca.ulaval.glo4003.trotti.domain.payment.values.TransactionStatus;
+import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.Transaction;
+import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.TransactionStatus;
 
 public class PaymentService {
 

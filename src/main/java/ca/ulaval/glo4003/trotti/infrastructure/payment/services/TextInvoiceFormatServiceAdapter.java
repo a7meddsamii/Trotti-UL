@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.order.Invoice;
-import ca.ulaval.glo4003.trotti.domain.order.InvoiceLine;
-import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.InvoiceLine;
+import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 
 public class TextInvoiceFormatServiceAdapter implements InvoiceFormatService<String> {
 

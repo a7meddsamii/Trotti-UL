@@ -1,12 +1,14 @@
-package ca.ulaval.glo4003.trotti.domain.order;
+package ca.ulaval.glo4003.trotti.domain.order.factories;
 
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
 
 public class PassFactory {
 
     public Pass create(MaximumDailyTravelTime maximumDailyTravelTime, Session session,
-            BillingFrequency billingFrequency) {
+                       BillingFrequency billingFrequency) {
         return new Pass(maximumDailyTravelTime, session, billingFrequency);
     }
 }

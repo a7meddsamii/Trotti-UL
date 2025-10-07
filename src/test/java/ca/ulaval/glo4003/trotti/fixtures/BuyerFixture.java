@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.fixtures;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.Cart;
+import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Cart;
 
 public class BuyerFixture {
 

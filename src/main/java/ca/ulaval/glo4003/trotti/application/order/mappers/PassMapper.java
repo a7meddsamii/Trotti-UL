@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.order.mappers;
 
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 
 public class PassMapper {
 

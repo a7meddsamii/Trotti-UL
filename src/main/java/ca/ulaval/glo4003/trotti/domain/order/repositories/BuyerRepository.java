@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.order.repository;
+package ca.ulaval.glo4003.trotti.domain.order.repositories;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
 
 public interface BuyerRepository {
     void update(Buyer buyer);

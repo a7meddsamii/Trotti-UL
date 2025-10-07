@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

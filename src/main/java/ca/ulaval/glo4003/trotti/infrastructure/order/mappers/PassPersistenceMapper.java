@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.PassRecord;
 
 public class PassPersistenceMapper {

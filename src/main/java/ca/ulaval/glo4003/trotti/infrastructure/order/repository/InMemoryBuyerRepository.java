@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.repository;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;

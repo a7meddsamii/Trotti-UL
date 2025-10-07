@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.payment.values;
+package ca.ulaval.glo4003.trotti.domain.payment.values.money;
 
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import java.math.BigDecimal;

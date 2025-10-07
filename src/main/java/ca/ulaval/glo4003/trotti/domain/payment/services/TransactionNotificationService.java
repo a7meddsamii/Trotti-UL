@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.communication.exceptions.EmailSendExcepti
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.Transaction;
 
 public class TransactionNotificationService implements NotificationService<Transaction> {
     private final EmailService emailService;

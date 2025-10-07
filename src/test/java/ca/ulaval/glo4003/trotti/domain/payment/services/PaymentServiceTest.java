@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Money;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.payment.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.Transaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

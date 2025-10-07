@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.order;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

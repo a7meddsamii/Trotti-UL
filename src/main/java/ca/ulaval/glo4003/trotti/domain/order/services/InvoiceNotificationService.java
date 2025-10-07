@@ -1,11 +1,11 @@
-package ca.ulaval.glo4003.trotti.domain.payment.services;
+package ca.ulaval.glo4003.trotti.domain.order.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.communication.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.order.Invoice;
+import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 
 public class InvoiceNotificationService implements NotificationService<Invoice> {
     private final EmailService emailService;
