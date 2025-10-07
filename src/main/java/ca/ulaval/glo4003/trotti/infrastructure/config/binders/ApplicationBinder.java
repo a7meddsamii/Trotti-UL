@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.acl.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 

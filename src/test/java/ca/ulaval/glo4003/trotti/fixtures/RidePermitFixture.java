@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import java.time.LocalDate;
 
 public class RidePermitFixture {

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.application.trip.dto.RidePermitDto;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;

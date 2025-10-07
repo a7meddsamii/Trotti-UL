@@ -36,11 +36,11 @@ import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService
 import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
 import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
 import ca.ulaval.glo4003.trotti.domain.payment.values.transaction.Transaction;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.acl.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;

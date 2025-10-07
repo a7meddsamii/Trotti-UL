@@ -1,10 +1,12 @@
-package ca.ulaval.glo4003.trotti.domain.trip;
+package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.communication.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+
 import java.util.List;
 
 public class RidePermitNotificationService implements NotificationService<List<RidePermit>> {

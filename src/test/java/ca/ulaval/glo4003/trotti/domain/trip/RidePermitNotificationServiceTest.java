@@ -5,6 +5,8 @@ import ca.ulaval.glo4003.trotti.domain.communication.exceptions.EmailSendExcepti
 import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.fixtures.RidePermitFixture;
 import java.util.List;
 import java.util.stream.IntStream;
