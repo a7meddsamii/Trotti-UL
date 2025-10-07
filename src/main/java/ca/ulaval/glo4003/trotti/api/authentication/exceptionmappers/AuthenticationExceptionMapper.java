@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.api.authentication.exceptionmappers;
 
 import ca.ulaval.glo4003.trotti.api.commons.ExceptionResponseFactory;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.AuthenticationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;

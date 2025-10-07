@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.fixtures;
 
-import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;

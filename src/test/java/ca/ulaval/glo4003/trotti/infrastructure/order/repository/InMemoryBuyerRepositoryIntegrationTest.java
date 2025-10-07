@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.order.repository;
 
-import ca.ulaval.glo4003.trotti.domain.account.Account;
-import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
+import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;

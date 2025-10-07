@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.account.repository;
+package ca.ulaval.glo4003.trotti.domain.account.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.account.exceptions;
+package ca.ulaval.glo4003.trotti.domain.authentication.exceptions;
 
 public class ExpiredTokenException extends AuthenticationException {
 

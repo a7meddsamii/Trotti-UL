@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.authentication;
 
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.MalformedTokenException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 

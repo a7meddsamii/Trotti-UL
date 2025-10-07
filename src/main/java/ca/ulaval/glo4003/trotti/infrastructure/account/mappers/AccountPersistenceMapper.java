@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.account.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.account.Account;
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
 
 public class AccountPersistenceMapper {

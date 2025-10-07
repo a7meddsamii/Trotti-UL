@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.account;
+package ca.ulaval.glo4003.trotti.domain.account.factories;
 
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
@@ -18,7 +19,7 @@ public class AccountFactory {
     }
 
     public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password) {
+                          Password password) {
         validateBirthDate(birthDate);
         return new Account(name, birthDate, gender, idul, email, password);
     }

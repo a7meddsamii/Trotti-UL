@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
 import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.domain.account.Account;
-import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
-import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
+import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.AuthenticationException;
+import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;

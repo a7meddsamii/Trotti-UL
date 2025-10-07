@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.authentication;
 
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AuthenticationException;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.ExpiredTokenException;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.AuthenticationException;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.ExpiredTokenException;
+import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.MalformedTokenException;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
