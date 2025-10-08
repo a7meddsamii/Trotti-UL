@@ -54,7 +54,7 @@ jobs:
           git tag -fa "$REMISE" -m "$REMISE"
           git push -f origin "$REMISE"
         env:
-          REMISE: remise-1
+          REMISE: remise-2
 
       - name: Downcast repository name
         run: |
