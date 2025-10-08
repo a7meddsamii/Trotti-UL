@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.api.order.exceptionmappers;
+package ca.ulaval.glo4003.trotti.api.commons.exceptionmappers;
 
 import ca.ulaval.glo4003.trotti.api.commons.ExceptionResponseFactory;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
