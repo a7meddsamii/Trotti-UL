@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Gender;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.account.values.Password;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import java.time.LocalDate;
 import org.mockito.Mockito;
 

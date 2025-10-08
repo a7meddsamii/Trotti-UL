@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.order.entities.buyer;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
-import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

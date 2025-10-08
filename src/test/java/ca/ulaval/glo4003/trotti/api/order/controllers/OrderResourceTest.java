@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;

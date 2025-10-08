@@ -2,10 +2,10 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.InvoiceLine;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

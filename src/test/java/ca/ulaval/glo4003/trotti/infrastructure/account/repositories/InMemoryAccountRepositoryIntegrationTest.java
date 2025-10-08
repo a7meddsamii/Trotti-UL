@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;

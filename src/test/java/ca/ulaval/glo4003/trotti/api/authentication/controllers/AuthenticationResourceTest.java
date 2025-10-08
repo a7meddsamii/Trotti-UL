@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.api.authentication.dto.LoginRequest;
 import ca.ulaval.glo4003.trotti.api.authentication.dto.LoginResponse;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

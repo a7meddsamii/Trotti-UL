@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.order.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.communication.services.EmailService;
-import ca.ulaval.glo4003.trotti.domain.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.communication.values.EmailMessage;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailService;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 
 public class InMemoryBuyerRepository implements BuyerRepository {
     private final UserInMemoryDatabase databaseDriver;

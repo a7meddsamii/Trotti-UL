@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.api.order.dto.responses.TransactionResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.payment.exceptions.InvalidPaymentRequestException;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.exceptions.InvalidPaymentRequestException;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 

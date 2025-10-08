@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import java.util.Optional;
 
 public class InMemoryAccountRepository implements AccountRepository {

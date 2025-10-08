@@ -2,10 +2,10 @@ package ca.ulaval.glo4003.trotti.domain.order.entities.pass;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.InvoiceLine;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoiceable;
-import ca.ulaval.glo4003.trotti.domain.payment.values.money.Money;
 import java.util.List;
 
 public class Order implements Invoiceable {

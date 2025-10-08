@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
