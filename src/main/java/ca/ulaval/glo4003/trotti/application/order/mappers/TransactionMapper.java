@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.order.mappers;
 
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.Transaction;
 
 public class TransactionMapper {
 
