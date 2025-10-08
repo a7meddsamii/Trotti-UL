@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.fixtures;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.order.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.Session;
+import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
+import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;

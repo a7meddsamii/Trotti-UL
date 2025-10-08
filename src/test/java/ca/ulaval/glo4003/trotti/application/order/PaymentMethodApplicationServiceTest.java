@@ -2,10 +2,10 @@ package ca.ulaval.glo4003.trotti.application.order;
 
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.Buyer;
-import ca.ulaval.glo4003.trotti.domain.order.PaymentMethodFactory;
-import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.domain.order.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
