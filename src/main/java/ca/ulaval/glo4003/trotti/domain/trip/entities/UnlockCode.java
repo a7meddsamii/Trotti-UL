@@ -12,17 +12,17 @@ public class UnlockCode {
     private static final int MINIMUM_CODE_VALUE = 1000;
     private static final int MAXIMUM_CODE_VALUE = 999999;
 
-    private final Id id;
+    private final Id ridePermitId;
     private final String code;
     private final Instant expiresAt;
 
-    private UnlockCode(String code, Instant expiresAt, Id id) {
+    private UnlockCode(String code, Instant expiresAt, Id ridePermitId) {
         this.code = code;
         this.expiresAt = expiresAt;
-        this.id = id;
+        this.ridePermitId = ridePermitId;
     }
 
-    public static UnlockCode generateFromPass(Id id) {
+    public static UnlockCode generateFromRidePermit(Id id) {
         Random random = new SecureRandom();
 
         int code = MINIMUM_CODE_VALUE + random.nextInt(MAXIMUM_CODE_VALUE - MINIMUM_CODE_VALUE + 1);
@@ -35,8 +35,8 @@ public class UnlockCode {
         return code;
     }
 
-    public Id getLinkedPass() {
-        return id;
+    public Id getRidePermitId() {
+        return ridePermitId;
     }
 
     public boolean isExpired() {
@@ -50,14 +50,14 @@ public class UnlockCode {
 
         UnlockCode that = (UnlockCode) o;
 
-        if (!id.equals(that.id)) return false;
+        if (!ridePermitId.equals(that.ridePermitId)) return false;
         if (!code.equals(that.code)) return false;
         return expiresAt.equals(that.expiresAt);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = ridePermitId.hashCode();
         result = 31 * result + code.hashCode();
         result = 31 * result + expiresAt.hashCode();
         return result;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.trip.services;
+package ca.ulaval.glo4003.trotti.domain.trip.store;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
@@ -9,7 +9,7 @@ public interface UnlockCodeStore {
 
     void store(UnlockCode unlockCode);
 
-    void remove(UnlockCode unlockCode);
+    void delete(UnlockCode unlockCode);
 
-    Optional<UnlockCode> getByPassId(Id code);
+    Optional<UnlockCode> getByRidePermitId(Id ridePermitId);
 }
