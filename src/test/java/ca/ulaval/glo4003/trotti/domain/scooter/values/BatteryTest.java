@@ -11,7 +11,7 @@ import org.junit.jupiter.api.function.Executable;
 
 class BatteryTest {
 	private static final BigDecimal INITIAL_VALUE = BigDecimal.valueOf(50);
-	private static final BigDecimal DIFFERENT_VALUE = BigDecimal.valueOf(50);
+	private static final BigDecimal DIFFERENT_VALUE = BigDecimal.valueOf(22);
 	private static final BigDecimal BELOW_MINIMUM_VALUE = BigDecimal.valueOf(-10);
 	private static final BigDecimal ABOVE_MAXIMUM_VALUE = BigDecimal.valueOf(110);
 	private static final BigDecimal POSITIVE_DELTA = BigDecimal.valueOf(15);
@@ -19,7 +19,6 @@ class BatteryTest {
 	private static final BigDecimal MAX_BATTERY_VALUE = BigDecimal.valueOf(100);
 	private static final BigDecimal MIN_BATTERY_VALUE = BigDecimal.ZERO;
 	private Battery battery;
-	
 	
 	@BeforeEach
 	void setup() {
@@ -138,7 +137,7 @@ class BatteryTest {
 	
 	@Test
 	void givenDifferentBatteryValue_whenHashCode_thenReturnDifferentValue() {
-		Battery anotherBattery = Battery.from(BigDecimal.valueOf(72));
+		Battery anotherBattery = Battery.from(DIFFERENT_VALUE);
 		
 		Assertions.assertNotEquals(battery.hashCode(), anotherBattery.hashCode());
 	}
