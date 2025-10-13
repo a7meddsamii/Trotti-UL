@@ -20,18 +20,6 @@ public class Battery {
         return new Battery(value);
     }
 
-    public Battery plus(Battery that) {
-        return Battery.from(value.add(that.value));
-    }
-
-    public Battery minus(Battery that) {
-        return Battery.from(value.subtract(that.value));
-    }
-
-    public Battery multiply(Battery that) {
-        return Battery.from(value.multiply(that.value));
-    }
-
     public Battery applyDelta(BigDecimal delta) {
         BigDecimal newValue = value.add(delta);
 		

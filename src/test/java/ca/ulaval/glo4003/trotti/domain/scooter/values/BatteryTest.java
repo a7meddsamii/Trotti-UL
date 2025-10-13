@@ -30,34 +30,7 @@ class BatteryTest {
 
         Assertions.assertEquals(Battery.from(BigDecimal.valueOf(80)), result);
     }
-
-    @Test
-    void whenPlus_thenReturnSumWithUpperBoundApplied() {
-        Battery other = Battery.from(BigDecimal.valueOf(60));
-
-        Battery result = battery.plus(other);
-
-        Assertions.assertEquals(Battery.from(BigDecimal.valueOf(100)), result);
-    }
-
-    @Test
-    void whenMinus_thenReturnDifferenceWithLowerBoundApplied() {
-        Battery other = Battery.from(BigDecimal.valueOf(80));
-
-        Battery result = battery.minus(other);
-
-        Assertions.assertEquals(Battery.from(BigDecimal.ZERO), result);
-    }
-
-    @Test
-    void whenMultiply_thenReturnProductWithUpperBoundApplied() {
-        Battery other = Battery.from(BigDecimal.valueOf(3));
-
-        Battery result = battery.multiply(other);
-
-        Assertions.assertEquals(Battery.from(BigDecimal.valueOf(100)), result);
-    }
-
+	
     @Test
     void givenPositiveDelta_whenApplyDelta_thenValueIncreases() {
         BigDecimal delta = BigDecimal.valueOf(15);
