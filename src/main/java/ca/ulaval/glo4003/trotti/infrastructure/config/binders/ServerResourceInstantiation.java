@@ -1,62 +1,81 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.binders;
 
-import ca.ulaval.glo4003.trotti.api.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.api.resources.AccountResource;
-import ca.ulaval.glo4003.trotti.api.resources.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.account.controllers.AccountResource;
+import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.api.authentication.controllers.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.api.order.controllers.CartResource;
+import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
+import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
+import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
-import ca.ulaval.glo4003.trotti.domain.account.AccountFactory;
-import ca.ulaval.glo4003.trotti.domain.account.repository.AccountRepository;
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
+import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
+import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.communication.EmailService;
-import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.order.Invoice;
-import ca.ulaval.glo4003.trotti.domain.order.OrderFactory;
-import ca.ulaval.glo4003.trotti.domain.order.repository.BuyerRepository;
-import ca.ulaval.glo4003.trotti.domain.order.repository.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceFormatService;
-import ca.ulaval.glo4003.trotti.domain.payment.services.InvoiceNotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.services.PaymentService;
-import ca.ulaval.glo4003.trotti.domain.payment.services.TransactionNotificationService;
-import ca.ulaval.glo4003.trotti.domain.payment.values.Transaction;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailService;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.services.PaymentService;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.Transaction;
+import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.domain.order.factories.OrderFactory;
+import ca.ulaval.glo4003.trotti.domain.order.factories.PassFactory;
+import ca.ulaval.glo4003.trotti.domain.order.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.account.repository.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.account.repository.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.account.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.communication.JakartaEmailServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.communication.services.JakartaEmailServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.payment.security.AesDataCodecAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.sessions.mappers.SessionMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryBuyerRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.InMemoryPassRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repository.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.payment.services.TextInvoiceFormatServiceAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.persistence.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.infrastructure.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryBuyerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryPassRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.records.TravelerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.repository.InMemoryTravelerRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.services.RidePermitHistoryGatewayAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -76,7 +95,8 @@ public class ServerResourceInstantiation {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
-    private static final String SEMESTER_DATA_FILE_PATH = "/app/data/semesters-252627.json";
+    private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
+    private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -93,10 +113,15 @@ public class ServerResourceInstantiation {
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
     private OrderFactory orderFactory;
-
+    private PassFactory passFactory;
+    private PaymentMethodFactory paymentMethodFactory;
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
+    private OrderApplicationService orderApplicationService;
+    private SessionRegistry sessionRegistry;
+    private RidePermitActivationApplicationService ridePermitActivationService;
+    private EmployeeRegistry employeeRegistry;
 
     public static ServerResourceInstantiation getInstance() {
         if (instance == null) {
@@ -119,7 +144,7 @@ public class ServerResourceInstantiation {
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = Clock.systemDefaultZone();
             authenticationService = new JwtAuthenticationServiceAdapter(expirationDuration,
-                    authenticatorClock, SECRET_KEY);
+                    authenticatorClock, SECRET_KEY, this.employeeRegistry);
             locator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
@@ -147,6 +172,10 @@ public class ServerResourceInstantiation {
         locator.register(TravelerRepository.class, travelerRepository);
     }
 
+    private void loadDevData() {
+        new AccountDevDataFactory(accountRepository, hasher).run();
+    }
+
     private void loadPassRepository() {
         PassPersistenceMapper passMapper = new PassPersistenceMapper();
         passRepository = new InMemoryPassRepository(passMapper);
@@ -156,8 +185,9 @@ public class ServerResourceInstantiation {
 
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
-        Path resourcePath = Path.of(SEMESTER_DATA_FILE_PATH);
-        SessionProvider.initialize(resourcePath, sessionMapper);
+        SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
+        sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
+        locator.register(SessionRegistry.class, sessionRegistry);
     }
 
     private void loadEmailSender() {
@@ -211,8 +241,10 @@ public class ServerResourceInstantiation {
         NotificationService<Transaction> transactionNotificationService =
                 new TransactionNotificationService(emailService);
         TransactionMapper transactionMapper = new TransactionMapper();
-        OrderApplicationService orderApplicationService = new OrderApplicationService(
-                buyerRepository, passRepository, orderFactory, paymentService, transactionMapper,
+        DataCodec dataCodec = new AesDataCodecAdapter(generateSecretKey());
+        paymentMethodFactory = new PaymentMethodFactory(dataCodec);
+        orderApplicationService = new OrderApplicationService(buyerRepository, passRepository,
+                paymentMethodFactory, orderFactory, paymentService, transactionMapper,
                 transactionNotificationService, invoiceNotificationService);
 
         locator.register(OrderApplicationService.class, orderApplicationService);
@@ -223,9 +255,12 @@ public class ServerResourceInstantiation {
                 new RidePermitNotificationService(emailService);
         RidePermitHistoryGateway ridePermitHistoryGateway =
                 new RidePermitHistoryGatewayAdapter(passRepository);
-        RidePermitActivationApplicationService ridePermitActivationService =
-                new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService);
+        EmployeeRidePermitService employeeRidePermitService =
+                new EmployeeRidePermitService(employeeRegistry, sessionRegistry);
+        RidePermitMapper ridePermitMapper = new RidePermitMapper();
+        ridePermitActivationService = new RidePermitActivationApplicationService(travelerRepository,
+                ridePermitHistoryGateway, notificationService, employeeRidePermitService,
+                ridePermitMapper);
         locator.register(RidePermitHistoryGateway.class, ridePermitHistoryGateway);
         locator.register(RidePermitActivationApplicationService.class, ridePermitActivationService);
     }
@@ -244,15 +279,47 @@ public class ServerResourceInstantiation {
         locator.register(AuthenticationResource.class, authenticationResource);
     }
 
+    private void loadEmployeeIdulRegistry() {
+        EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
+        Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
+        this.employeeRegistry = new EmployeeRegistry(employeesIduls);
+        locator.register(EmployeeRegistry.class, employeeRegistry);
+    }
+
+    private void loadTravelerResource() {
+        TravelerResource travelerResource =
+                new TravelerResource(ridePermitActivationService, authenticationService);
+        locator.register(TravelerResource.class, travelerResource);
+    }
+
+    private void loadCartResource() {
+        PassApiMapper passApiMapper = new PassApiMapper(SessionProvider.getInstance());
+        passFactory = new PassFactory();
+        CartApplicationService cartApplicationService =
+                new CartApplicationService(buyerRepository, passMapper, passFactory);
+        CartResource cartResource = new CartResource(cartApplicationService,
+                locator.resolve(AuthenticationService.class), passApiMapper);
+        locator.register(CartResource.class, cartResource);
+    }
+
+    private void loadOrderResource() {
+        OrderApiMapper orderApiMapper = new OrderApiMapper();
+        OrderResource orderResource = new OrderResource(orderApplicationService,
+                locator.resolve(AuthenticationService.class), orderApiMapper);
+        locator.register(OrderResource.class, orderResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
         }
 
+        loadEmployeeIdulRegistry();
         loadAuthenticationService();
         loadEmailSender();
         loadPasswordHasher();
         loadUserRepositories();
+        loadDevData();
         loadPassRepository();
         loadSessionProvider();
         loadAccountFactory();
@@ -264,6 +331,19 @@ public class ServerResourceInstantiation {
         loadRidePermitActivationService();
         loadAccountMapper();
         loadAccountResource();
+        loadTravelerResource();
+        loadCartResource();
+        loadOrderResource();
         resourcesCreated = true;
+    }
+
+    private SecretKey generateSecretKey() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            return keyGen.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to generate secret key for tests", e);
+        }
     }
 }

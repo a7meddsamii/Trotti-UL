@@ -1,13 +1,15 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
+import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.communication.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.RidePermitNotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.repository.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -28,14 +30,18 @@ class RidePermitActivationApplicationServiceTest {
     private RidePermitActivationApplicationService ridePermitActivationApplicationService;
     private NotificationService<List<RidePermit>> ridePermitNotificationService;
     private List<Traveler> existingTravelers;
+    private EmployeeRidePermitService employeeRidePermitService;
 
     @BeforeEach
     void setup() {
         travelerRepository = Mockito.mock(TravelerRepository.class);
         ridePermitHistoryGateway = Mockito.mock(RidePermitHistoryGateway.class);
         ridePermitNotificationService = Mockito.mock(RidePermitNotificationService.class);
+        employeeRidePermitService = Mockito.mock(EmployeeRidePermitService.class);
+        RidePermitMapper ridePermitMapper = Mockito.mock(RidePermitMapper.class);
         ridePermitActivationApplicationService = new RidePermitActivationApplicationService(
-                travelerRepository, ridePermitHistoryGateway, ridePermitNotificationService);
+                travelerRepository, ridePermitHistoryGateway, ridePermitNotificationService,
+                employeeRidePermitService, ridePermitMapper);
         existingTravelers = mockTravelers();
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
     }

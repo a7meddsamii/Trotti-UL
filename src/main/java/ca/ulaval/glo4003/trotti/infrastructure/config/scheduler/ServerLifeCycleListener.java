@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 public class ServerLifeCycleListener implements ApplicationEventListener {
     public static final Logger LOGGER =
             org.slf4j.LoggerFactory.getLogger(ServerLifeCycleListener.class);
-    public static final String EVERYDAY_AT_MIDNIGHT_AND_NOON = "0/30 * * * * ?";
+    public static final String EVERYDAY_AT_MIDNIGHT_AND_NOON = "0/5 * * * * ?";
 
     private final SchedulerManager schedulerManager;
 

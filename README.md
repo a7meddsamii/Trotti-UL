@@ -51,10 +51,6 @@ The **Scooter Pass** module enables students to purchase passes for using electr
 
 - **Java 21+**
 - **Docker**
-- **Maven** (optional, see note below)
-
-> **Note:** Maven is required only if you want to run the application without Docker.
-
 
 ### Clone the repository:
 
@@ -65,47 +61,35 @@ The **Scooter Pass** module enables students to purchase passes for using electr
     ```
 ## Starting the app
 
-The app can be run in a Docker Environment or directly with Maven.
+The app requires certain environment variables to be set for proper operation, therefore you need to provide an `.env` file.
 
-### Running with Maven
+#### 1. Create an `.env` file
 
-- Compile the project:
-   ```bash
-   mvn clean install
-    ```
-- Run the application:
-   ```bash
-   # with custom token expiration duration
-   TOKEN_EXPIRATION_DURATION=PT60M mvn exec:java
-    ```
-   ```bash
-    # with default token expiration duration (PT60M)
-    mvn exec:java # with default token expiration duration (PT60M)
-    ```
+- At the root of your project, create a file named `config.env`.
+
+#### 2. Add required environment variables
+
+Edit the `config.env` file and add the required variables, for example:
+
+```env
+TOKEN_EXPIRATION_DURATION=PT60M
+STMP_USER="email@adress.ca"
+STMP_PASS="password"
+STMP_HOST="smtp.example.com"
+STMP_PORT:"587"
+```
+Replace the values with information relevant to your setup.
 
 ### Running in Docker
+There is a runner script available to simplify the process of building and running the Docker container.
+Simply make sure you are at the root of the project before executing it.
 
-- Build the Docker image:
+- On Unix-based systems (Linux, macOS):
    ```bash
-   docker build -t application-glo4003 .
+    chmod +x run.sh
+    ./run.sh
     ```
-- Run the Docker container:
+- On Windows:
    ```bash
-    # with custom token expiration duration
-    docker run -p 8080:8080 -e TOKEN_EXPIRATION_DURATION=PT60M application-glo4003
+    .\run.bat
     ```
-
-    ```bash
-    # with default token expiration duration (PT60M)
-    docker run -p 8080:8080 application-glo4003 
-    ```
-> [!IMPORTANT]
-> The `TOKEN_EXPIRATION_DURATION` environment variable sets the duration for which a token remains valid.
-> The value required follows the [ISO-8601 format](https://en.wikipedia.org/wiki/ISO_8601) for durations.
-> <br>For example :
-> * **PT20M** → Period of Time: 20 Minutes
-> * **PT1H30M** → Period of Time: 1 Hour 30 Minutes
-> * **P2D** → Period of 2 Days (no T, because no time part)
-> * **P1DT2H** → Period of 1 Day and 2 Hours
->
-> The default value for our app is **PT60M** (60 minutes).

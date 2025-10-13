@@ -4,8 +4,10 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
 import java.net.URI;
 import org.eclipse.jetty.server.Server;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.validation.ValidationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,8 @@ public class TrottiULMain {
         final ResourceConfig config = new ResourceConfig();
         config.register(RestServerConfiguration.class);
         config.register(ServerLifeCycleListener.class);
+        config.register(ValidationFeature.class);
+        config.register(JacksonFeature.class);
         config.packages("ca.ulaval.glo4003.trotti.api");
 
         try {
