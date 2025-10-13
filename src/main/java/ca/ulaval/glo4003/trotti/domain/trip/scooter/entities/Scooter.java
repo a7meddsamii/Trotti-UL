@@ -10,22 +10,30 @@ import java.util.EnumMap;
 
 public class Scooter {
     private final Id id;
-    private Battery battery;
-    private final EnumMap<BatteryState, BatteryStrategy> batteryStrategies;
-    private LocalDateTime lastBatteryUpdate;
+	private final EnumMap<BatteryState, BatteryStrategy> batteryStrategies;
+	private Battery battery;
+	private BatteryState currentBatteryState;
+	private LocalDateTime lastBatteryUpdate;
 
     public Scooter(
             Id id,
-            Battery battery,
+			Battery battery,
 			EnumMap<BatteryState, BatteryStrategy> batteryStrategies,
-            LocalDateTime lastBatteryUpdate) {
+			LocalDateTime lastBatteryUpdate, BatteryState currentBatteryState) {
         this.id = id;
         this.battery = battery;
         this.batteryStrategies = batteryStrategies;
         this.lastBatteryUpdate = lastBatteryUpdate;
+		this.currentBatteryState = currentBatteryState;
     }
+	
+	public void updateBatteryState(BatteryState newState, LocalDateTime dateTimeOfChange) {
+		updateBattery(this.currentBatteryState, dateTimeOfChange);
+		this.lastBatteryUpdate = dateTimeOfChange;
+		this.currentBatteryState = newState;
+	}
 
-    public void updateBattery(BatteryState batteryState, LocalDateTime currentTime) {
+    private void updateBattery(BatteryState batteryState, LocalDateTime currentTime) {
         this.battery = batteryStrategies.get(batteryState).computeLevel(lastBatteryUpdate,
 																		currentTime, battery);
         this.lastBatteryUpdate = currentTime;

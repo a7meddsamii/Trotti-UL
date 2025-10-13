@@ -31,14 +31,14 @@ public class ScooterTest {
 				BatteryState.CHARGING, chargeStrategy,
 				BatteryState.DISCHARGING, dischargeStrategy
 		));
-        A_SCOOTER = new Scooter(AN_ID, A_BATTERY, batteryStrategyMap, A_LAST_BATTERY_UPDATE);
+        A_SCOOTER = new Scooter(AN_ID, A_BATTERY, batteryStrategyMap, A_LAST_BATTERY_UPDATE,BatteryState.CHARGING);
     }
 
     @Test
     public void givenChargeBatteryState_whenUpdateBattery_thenUsesChargeStrategy() {
         BatteryState CHARGE_BATTERY_STATE = BatteryState.CHARGING;
 
-        A_SCOOTER.updateBattery(CHARGE_BATTERY_STATE, CURRENT_TIME);
+        A_SCOOTER.updateBatteryState(CHARGE_BATTERY_STATE, CURRENT_TIME);
 
         Mockito.verify(chargeStrategy).computeLevel(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
 													A_BATTERY);
@@ -48,7 +48,7 @@ public class ScooterTest {
     public void givenDischargeBatteryState_whenUpdateBattery_thenUsesDischargeStrategy() {
         BatteryState DISCHARGE_BATTERY_STATE = BatteryState.DISCHARGING;
 
-        A_SCOOTER.updateBattery(DISCHARGE_BATTERY_STATE, CURRENT_TIME);
+        A_SCOOTER.updateBatteryState(DISCHARGE_BATTERY_STATE, CURRENT_TIME);
 
         Mockito.verify(dischargeStrategy).computeLevel(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
 													   A_BATTERY);
