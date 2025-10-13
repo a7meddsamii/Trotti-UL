@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DischargeBatteryStrategyTest {
-    private final DischargeBatteryStrategy strategy = new DischargeBatteryStrategy();
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+	private final DischargeBatteryStrategy strategy = DischargeBatteryStrategy.INSTANCE;
 
     @Test
     void givenNoTimeElapsed_whenCalculateBatteryValue_thenBatteryUnchanged() {

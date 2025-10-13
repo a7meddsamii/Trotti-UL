@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class ChargeBatteryStrategy implements BatteryStrategy {
+public enum ChargeBatteryStrategy implements BatteryStrategy {
+	INSTANCE;
+	
     private static final BigDecimal RATE_OF_CHANGE_PER_MINUTE = BigDecimal.valueOf(0.2);
 
     @Override

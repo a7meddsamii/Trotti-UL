@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.DischargeBatteryStr
 import java.time.LocalDateTime;
 
 public enum BatteryState {
-	DISCHARGING(new DischargeBatteryStrategy()), CHARGING(new ChargeBatteryStrategy());
+	DISCHARGING(DischargeBatteryStrategy.INSTANCE), CHARGING(ChargeBatteryStrategy.INSTANCE);
 	
 	private final BatteryStrategy batteryStrategy;
 	

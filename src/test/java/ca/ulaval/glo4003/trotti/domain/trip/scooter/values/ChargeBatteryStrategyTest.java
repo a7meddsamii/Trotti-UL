@@ -6,11 +6,12 @@ import java.time.LocalDateTime;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.ChargeBatteryStrategy;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ChargeBatteryStrategyTest {
-    private final ChargeBatteryStrategy strategy = new ChargeBatteryStrategy();
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.now();
+	private final ChargeBatteryStrategy strategy = ChargeBatteryStrategy.INSTANCE;
 
     @Test
     void givenNoTimeElapsed_whenCalculateBatteryValue_thenBatteryUnchanged() {

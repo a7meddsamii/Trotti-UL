@@ -88,7 +88,7 @@ class BatteryTest {
 	
 	@Test
 	void givenBatteryWithLowerValue_whenIsGreaterThan_thenReturnTrue() {
-		Battery lowerBattery = Battery.from(INITIAL_VALUE.subtract(BigDecimal.valueOf(1)));
+		Battery lowerBattery = Battery.from(INITIAL_VALUE.subtract(BigDecimal.ONE));
 		
 		boolean greater = battery.isGreaterThan(lowerBattery);
 		
@@ -97,7 +97,7 @@ class BatteryTest {
 	
 	@Test
 	void givenBatteryWithHigherValue_whenIsGreaterThan_thenReturnFalse() {
-		Battery higherBattery = Battery.from(INITIAL_VALUE.add(BigDecimal.valueOf(1)));
+		Battery higherBattery = Battery.from(INITIAL_VALUE.add(BigDecimal.ONE));
 		
 		boolean greater = battery.isGreaterThan(higherBattery);
 		

@@ -6,8 +6,11 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class DischargeBatteryStrategy implements BatteryStrategy {
-    private static final BigDecimal RATE_OF_CHANGE_PER_MINUTE = BigDecimal.valueOf(-0.5);
+public enum DischargeBatteryStrategy implements BatteryStrategy {
+	INSTANCE;
+	
+	private static final BigDecimal RATE_OF_CHANGE_PER_MINUTE = BigDecimal.valueOf(-0.5);
+	
 
     @Override
     public Battery computeLevel(LocalDateTime lastBatteryUpdate, LocalDateTime currentTime,
