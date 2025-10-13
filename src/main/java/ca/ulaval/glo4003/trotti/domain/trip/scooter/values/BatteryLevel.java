@@ -5,16 +5,16 @@ import ca.ulaval.glo4003.trotti.domain.trip.scooter.exceptions.InvalidBatteryVal
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Battery {
+public class BatteryLevel {
 	private static final BigDecimal MIN_BATTERY_VALUE = BigDecimal.ZERO;
 	private static final BigDecimal MAX_BATTERY_VALUE = BigDecimal.valueOf(100);
 	private final BigDecimal value;
 	
-	public static Battery from(BigDecimal value) {
-		return new Battery(value);
+	public static BatteryLevel from(BigDecimal value) {
+		return new BatteryLevel(value);
 	}
 	
-	private Battery(BigDecimal value) {
+	private BatteryLevel(BigDecimal value) {
 		validateBatteryValue(value);
 		this.value = value;
 	}
@@ -25,7 +25,7 @@ public class Battery {
 		}
 	}
 	
-	public Battery applyDelta(BigDecimal delta) {
+	public BatteryLevel applyDelta(BigDecimal delta) {
 		BigDecimal newValue = value.add(delta);
 		
 		if (newValue.compareTo(MIN_BATTERY_VALUE) < 0) {
@@ -35,10 +35,10 @@ public class Battery {
 			newValue = MAX_BATTERY_VALUE;
 		}
 		
-		return Battery.from(newValue);
+		return BatteryLevel.from(newValue);
 	}
 	
-	public boolean isGreaterThan(Battery that) {
+	public boolean isGreaterThan(BatteryLevel that) {
 		return this.value.compareTo(that.value) > 0;
 	}
 	
@@ -52,9 +52,9 @@ public class Battery {
 			return false;
 		}
 		
-		Battery battery = (Battery) o;
+		BatteryLevel batteryLevel = (BatteryLevel) o;
 		
-		return value.compareTo(battery.value) == 0;
+		return value.compareTo(batteryLevel.value) == 0;
 	}
 	
 	@Override

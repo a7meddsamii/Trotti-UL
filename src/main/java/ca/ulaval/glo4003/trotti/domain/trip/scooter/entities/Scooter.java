@@ -2,23 +2,23 @@ package ca.ulaval.glo4003.trotti.domain.trip.scooter.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.exceptions.InvalidBatteryUpdate;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryState;
 
 import java.time.LocalDateTime;
 
 public class Scooter {
     private final Id id;
-	private Battery battery;
+	private BatteryLevel batteryLevel;
 	private BatteryState currentBatteryState;
 	private LocalDateTime lastBatteryUpdate;
 
     public Scooter(
             Id id,
-			Battery battery,
+			BatteryLevel batteryLevel,
 			LocalDateTime lastBatteryUpdate, BatteryState currentBatteryState) {
         this.id = id;
-        this.battery = battery;
+        this.batteryLevel = batteryLevel;
         this.lastBatteryUpdate = lastBatteryUpdate;
 		this.currentBatteryState = currentBatteryState;
     }
@@ -32,13 +32,13 @@ public class Scooter {
 			return;
 		}
 		
-		this.battery = newState.computeLevel(battery, lastBatteryUpdate, dateTimeOfChange);
+		this.batteryLevel = newState.computeLevel(batteryLevel, lastBatteryUpdate, dateTimeOfChange);
 		this.lastBatteryUpdate = dateTimeOfChange;
 		this.currentBatteryState = newState;
 	}
 	
-	public Battery getBattery() {
-		return battery;
+	public BatteryLevel getBattery() {
+		return batteryLevel;
 	}
 	
 	public LocalDateTime getLastBatteryUpdate() {
