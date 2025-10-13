@@ -25,7 +25,7 @@ public class Scooter {
         this.lastBatteryUpdate = lastBatteryUpdate;
     }
 
-    public void calculateBatteryValue(BatteryState batteryState, LocalDateTime currentTime) {
+    public void updateBattery(BatteryState batteryState, LocalDateTime currentTime) {
         this.battery = batteryStrategyMap.get(batteryState).calculateBatteryValue(lastBatteryUpdate,
                 currentTime, battery);
         this.lastBatteryUpdate = currentTime;

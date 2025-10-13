@@ -35,20 +35,20 @@ public class ScooterTest {
     }
 
     @Test
-    public void givenChargeBatteryState_whenCalculateBatteryValue_thenUsesChargeStrategy() {
+    public void givenChargeBatteryState_whenUpdateBattery_thenUsesChargeStrategy() {
         BatteryState CHARGE_BATTERY_STATE = BatteryState.CHARGING;
 
-        A_SCOOTER.calculateBatteryValue(CHARGE_BATTERY_STATE, CURRENT_TIME);
+        A_SCOOTER.updateBattery(CHARGE_BATTERY_STATE, CURRENT_TIME);
 
         Mockito.verify(chargeStrategy).calculateBatteryValue(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
                 A_BATTERY);
     }
 
     @Test
-    public void givenDischargeBatteryState_whenCalculateBatteryValue_thenUsesDischargeStrategy() {
+    public void givenDischargeBatteryState_whenUpdateBattery_thenUsesDischargeStrategy() {
         BatteryState DISCHARGE_BATTERY_STATE = BatteryState.DISCHARGING;
 
-        A_SCOOTER.calculateBatteryValue(DISCHARGE_BATTERY_STATE, CURRENT_TIME);
+        A_SCOOTER.updateBattery(DISCHARGE_BATTERY_STATE, CURRENT_TIME);
 
         Mockito.verify(dischargeStrategy).calculateBatteryValue(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
                 A_BATTERY);
