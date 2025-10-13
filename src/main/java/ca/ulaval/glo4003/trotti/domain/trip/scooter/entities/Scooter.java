@@ -11,23 +11,23 @@ import java.util.EnumMap;
 public class Scooter {
     private final Id id;
     private Battery battery;
-    private final EnumMap<BatteryState, BatteryStrategy> batteryStrategyMap;
+    private final EnumMap<BatteryState, BatteryStrategy> batteryStrategies;
     private LocalDateTime lastBatteryUpdate;
 
     public Scooter(
             Id id,
             Battery battery,
-			EnumMap<BatteryState, BatteryStrategy> batteryStrategyMap,
+			EnumMap<BatteryState, BatteryStrategy> batteryStrategies,
             LocalDateTime lastBatteryUpdate) {
         this.id = id;
         this.battery = battery;
-        this.batteryStrategyMap = batteryStrategyMap;
+        this.batteryStrategies = batteryStrategies;
         this.lastBatteryUpdate = lastBatteryUpdate;
     }
 
     public void updateBattery(BatteryState batteryState, LocalDateTime currentTime) {
-        this.battery = batteryStrategyMap.get(batteryState).calculateBatteryValue(lastBatteryUpdate,
-                currentTime, battery);
+        this.battery = batteryStrategies.get(batteryState).computeLevel(lastBatteryUpdate,
+																		currentTime, battery);
         this.lastBatteryUpdate = currentTime;
     }
 

@@ -40,8 +40,8 @@ public class ScooterTest {
 
         A_SCOOTER.updateBattery(CHARGE_BATTERY_STATE, CURRENT_TIME);
 
-        Mockito.verify(chargeStrategy).calculateBatteryValue(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
-                A_BATTERY);
+        Mockito.verify(chargeStrategy).computeLevel(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
+													A_BATTERY);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ScooterTest {
 
         A_SCOOTER.updateBattery(DISCHARGE_BATTERY_STATE, CURRENT_TIME);
 
-        Mockito.verify(dischargeStrategy).calculateBatteryValue(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
-                A_BATTERY);
+        Mockito.verify(dischargeStrategy).computeLevel(A_LAST_BATTERY_UPDATE, CURRENT_TIME,
+													   A_BATTERY);
     }
 }

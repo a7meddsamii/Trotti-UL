@@ -16,17 +16,17 @@ class DischargeBatteryStrategyTest {
     void givenNoTimeElapsed_whenCalculateBatteryValue_thenBatteryUnchanged() {
         Battery initial = Battery.from(BigDecimal.valueOf(50));
 
-        Battery result = strategy.calculateBatteryValue(CURRENT_TIME, CURRENT_TIME, initial);
+        Battery result = strategy.computeLevel(CURRENT_TIME, CURRENT_TIME, initial);
 
         Assertions.assertEquals(initial, result);
     }
 
     @Test
-    void givenMinutesElapsed_whenCalculateBatteryValue_thenReturnsCorrectResult() {
+    void givenMinutesElapsed_whenComputeLevel_thenReturnsCorrectResult() {
         Battery initial = Battery.from(BigDecimal.valueOf(50));
         LocalDateTime later = CURRENT_TIME.plusMinutes(10);
 
-        Battery result = strategy.calculateBatteryValue(CURRENT_TIME, later, initial);
+        Battery result = strategy.computeLevel(CURRENT_TIME, later, initial);
 
         Battery expected = Battery.from(BigDecimal.valueOf(45));
         Assertions.assertEquals(expected, result);
