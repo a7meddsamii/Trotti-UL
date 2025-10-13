@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.ChargeBatteryStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.ChargeBatteryStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

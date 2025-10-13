@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryState;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.BatteryStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
