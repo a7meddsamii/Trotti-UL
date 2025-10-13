@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
 import java.time.LocalDateTime;
 

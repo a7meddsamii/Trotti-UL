@@ -2,6 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.scooter.values;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.DischargeBatteryStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

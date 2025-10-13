@@ -1,11 +1,11 @@
-package ca.ulaval.glo4003.trotti.domain.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class DischargeBatteryStrategy implements BatteryStrategy {
-    private static final BigDecimal RATE_OF_CHANGE_PER_MINUTE = BigDecimal.valueOf(-0.5);
+public class ChargeBatteryStrategy implements BatteryStrategy {
+    private static final BigDecimal RATE_OF_CHANGE_PER_MINUTE = BigDecimal.valueOf(0.2);
 
     @Override
     public Battery calculateBatteryValue(LocalDateTime lastBatteryUpdate, LocalDateTime currentTime,

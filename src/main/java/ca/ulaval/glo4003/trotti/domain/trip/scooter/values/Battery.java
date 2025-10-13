@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -34,11 +34,13 @@ public class Battery {
 
     public Battery applyDelta(BigDecimal delta) {
         BigDecimal newValue = value.add(delta);
+		
         if (newValue.compareTo(BigDecimal.ZERO) < 0) {
             newValue = BigDecimal.ZERO;
         } else if (newValue.compareTo(BigDecimal.valueOf(100)) > 0) {
             newValue = BigDecimal.valueOf(100);
         }
+		
         return Battery.from(newValue);
     }
 

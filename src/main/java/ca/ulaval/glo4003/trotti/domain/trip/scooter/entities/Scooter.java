@@ -1,9 +1,9 @@
-package ca.ulaval.glo4003.trotti.domain.scooter.entities;
+package ca.ulaval.glo4003.trotti.domain.trip.scooter.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.scooter.values.Battery;
-import ca.ulaval.glo4003.trotti.domain.scooter.values.BatteryState;
-import ca.ulaval.glo4003.trotti.domain.scooter.values.BatteryStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryState;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryStrategy;
 import java.time.LocalDateTime;
 import java.util.Map;
 

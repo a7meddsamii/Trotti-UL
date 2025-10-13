@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.scooter.values;
 
 import java.math.BigDecimal;
+
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
