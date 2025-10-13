@@ -38,8 +38,4 @@ public class Scooter {
 																		currentTime, battery);
         this.lastBatteryUpdate = currentTime;
     }
-
-    public Id getId() {
-        return id;
-    }
 }
