@@ -15,6 +15,7 @@ public class ChargeBatteryStrategy implements BatteryStrategy {
         long minutesElapsed = Duration.between(lastBatteryUpdate, currentTime).toMinutes();
         BigDecimal batteryDelta =
                 RATE_OF_CHANGE_PER_MINUTE.multiply(BigDecimal.valueOf(minutesElapsed));
+		
         return battery.applyDelta(batteryDelta);
     }
 }

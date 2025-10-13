@@ -43,6 +43,7 @@ public class Battery {
         }
 
         Battery battery = (Battery) o;
+		
         return value.compareTo(battery.value) == 0;
     }
 
