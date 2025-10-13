@@ -33,16 +33,4 @@ public class Scooter {
     public Id getId() {
         return id;
     }
-
-    public Battery getBattery() {
-        return battery;
-    }
-
-    public Map<BatteryState, BatteryStrategy> getBatteryStrategyMap() {
-        return batteryStrategyMap;
-    }
-
-    public LocalDateTime getLastBatteryUpdate() {
-        return lastBatteryUpdate;
-    }
 }
