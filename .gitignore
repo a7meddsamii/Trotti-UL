@@ -22,4 +22,4 @@ target/
 .project
 .settings
 
-/run-debug.sh
+run-debug.sh
