@@ -2,15 +2,17 @@ package ca.ulaval.glo4003.trotti.domain.scooter.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.entities.Scooter;
+import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.BatteryStrategy;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryState;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.BatteryStrategy;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class ScooterTest {
     private static final Id AN_ID = Id.randomId();
@@ -25,8 +27,10 @@ public class ScooterTest {
     void setup() {
         chargeStrategy = Mockito.mock(BatteryStrategy.class);
         dischargeStrategy = Mockito.mock(BatteryStrategy.class);
-        Map<BatteryState, BatteryStrategy> batteryStrategyMap = Map.of(BatteryState.CHARGING,
-																	   chargeStrategy, BatteryState.DISCHARGING, dischargeStrategy);
+        EnumMap<BatteryState, BatteryStrategy> batteryStrategyMap = new EnumMap<>(Map.of(
+				BatteryState.CHARGING, chargeStrategy,
+				BatteryState.DISCHARGING, dischargeStrategy
+		));
         A_SCOOTER = new Scooter(AN_ID, A_BATTERY, batteryStrategyMap, A_LAST_BATTERY_UPDATE);
     }
 
