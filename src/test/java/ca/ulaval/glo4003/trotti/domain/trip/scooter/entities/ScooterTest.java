@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.scooter.entities;
+package ca.ulaval.glo4003.trotti.domain.trip.scooter.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.scooter.entities.Scooter;
