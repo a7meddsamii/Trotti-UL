@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.StationLocation;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +19,7 @@ public class ScooterTest {
     private static final LocalDateTime LAST_BATTERY_UPDATE = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final LocalDateTime FUTURE_TIME = LocalDateTime.of(2024, 1, 1, 13, 0);
-    private static final Location A_LOCATION = new StationLocation("building A", "spot name");
+    private static final Location A_LOCATION = Location.from("building A", "spot name");
     private Scooter scooter;
 
     @BeforeEach
