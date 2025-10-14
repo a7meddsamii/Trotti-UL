@@ -21,6 +21,6 @@ class UnlockCodeMapperTest {
         UnlockCodeDto unlockCodeDto = unlockCodeMapper.toDto(unlockCode);
 
         Assertions.assertEquals(unlockCode.getCode(), unlockCodeDto.code());
-        Assertions.assertEquals(unlockCode.getExpiresAt(), unlockCodeDto.expirationTime());
+        Assertions.assertEquals(unlockCode.getRemainingTime(), unlockCodeDto.expirationTime());
     }
 }

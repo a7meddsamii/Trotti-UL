@@ -1,0 +1,41 @@
+package ca.ulaval.glo4003.trotti.api.trip.controllers;
+
+import ca.ulaval.glo4003.trotti.api.trip.mappers.UnlockCodeApiMapper;
+import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@Path("/api/unlock-code")
+@Produces(MediaType.APPLICATION_JSON)
+public class UnlockCodeResource {
+
+    private final AuthenticationService authenticationService;
+    private final UnlockCodeApplicationService unlockCodeApplicationService;
+    private final UnlockCodeApiMapper unlockCodeApiMapper;
+
+    public UnlockCodeResource(AuthenticationService authenticationService,
+                              UnlockCodeApplicationService unlockCodeApplicationService,
+                              UnlockCodeApiMapper unlockCodeApiMapper) {
+        this.authenticationService = authenticationService;
+        this.unlockCodeApplicationService = unlockCodeApplicationService;
+        this.unlockCodeApiMapper = unlockCodeApiMapper;
+    }
+
+    @POST
+    @Path("/{ridePermitId}")
+    public Response requestUnlockCode(@HeaderParam("Authorization") String tokenRequest,
+                                      @PathParam("ridePermitId") String ridePermitId) {
+        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
+        Idul idul = authenticationService.authenticate(token);
+
+        UnlockCodeDto unlockCodeDto = unlockCodeApplicationService.generateUnlockCode(idul, Id.from(ridePermitId));
+
+        return Response.ok().entity(unlockCodeApiMapper.toResponse(unlockCodeDto)).build();
+    }
+}

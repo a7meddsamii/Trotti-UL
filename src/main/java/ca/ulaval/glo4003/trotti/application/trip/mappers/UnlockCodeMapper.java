@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 public class UnlockCodeMapper {
 
     public UnlockCodeDto toDto(UnlockCode unlockCode) {
-        return new UnlockCodeDto(unlockCode.getCode(), unlockCode.getExpiresAt());
+        return new UnlockCodeDto(unlockCode.getCode(), unlockCode.getRemainingTime());
     }
 
 }

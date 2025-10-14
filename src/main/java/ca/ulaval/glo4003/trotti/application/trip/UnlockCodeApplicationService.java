@@ -34,7 +34,7 @@ public class UnlockCodeApplicationService {
                 traveler.getRidePermits().stream().filter(r -> r.matches(ridePermitId)).findFirst();
 
         if (ridePermit.isEmpty()) {
-            throw new NotFoundException("Ride permit not found/not activated yet");
+            throw new NotFoundException("Ride permit not found or not activated yet");
         }
 
         UnlockCode unlockCode = unlockCodeService.requestUnlockCode(ridePermitId);

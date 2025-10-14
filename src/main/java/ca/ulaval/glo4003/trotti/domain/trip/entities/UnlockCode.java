@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import java.security.SecureRandom;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Random;
 
@@ -33,8 +34,8 @@ public class UnlockCode {
         return new UnlockCode(String.valueOf(code), expiresAt, id, clock);
     }
 
-    public Instant getExpiresAt() {
-        return expiresAt;
+    public Duration getRemainingTime() {
+        return Duration.between(clock.instant(), expiresAt);
     }
 
     public String getCode() {
