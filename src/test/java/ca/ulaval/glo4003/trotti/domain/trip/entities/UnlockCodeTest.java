@@ -1,20 +1,18 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneOffset;
-
 class UnlockCodeTest {
 
     private static final Instant START_MOMENT = Instant.parse("2025-10-13T10:00:00Z");
-    private static final Instant FUTURE_TIME_EXPIRED =
-            START_MOMENT.plusSeconds(61);
+    private static final Instant FUTURE_TIME_EXPIRED = START_MOMENT.plusSeconds(61);
 
     private Clock clock;
     private static final String NUMERIC_REGEX = "\\d+";
@@ -25,6 +23,7 @@ class UnlockCodeTest {
     void setup() {
         clock = Mockito.spy(Clock.fixed(START_MOMENT, ZoneOffset.UTC));
     }
+
     @Test
     void whenCreatingUnlockCode_thenCodeLengthIs4DigistsOrMore() {
         unlockCode = UnlockCode.generateFromRidePermit(Id.randomId(), clock);

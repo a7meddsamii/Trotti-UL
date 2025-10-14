@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-
 import java.security.SecureRandom;
 import java.time.Clock;
 import java.time.Instant;
@@ -48,13 +47,17 @@ public class UnlockCode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         UnlockCode that = (UnlockCode) o;
 
-        if (!ridePermitId.equals(that.ridePermitId)) return false;
-        if (!code.equals(that.code)) return false;
+        if (!ridePermitId.equals(that.ridePermitId))
+            return false;
+        if (!code.equals(that.code))
+            return false;
         return expiresAt.equals(that.expiresAt);
     }
 
