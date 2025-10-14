@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.values;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 
-non-sealed class StationLocation extends Location {
+class StationLocation extends Location {
 	public StationLocation(String building, String spotName) {
 		super(building, spotName);
 		validate(building, spotName);

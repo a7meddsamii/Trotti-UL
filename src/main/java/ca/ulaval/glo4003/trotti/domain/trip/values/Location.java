@@ -3,10 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.values;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 import java.util.Objects;
 
-public abstract sealed
-
-class Location
-permits StationLocation, LocationEmpty
+public abstract class Location
 {
     private final String building;
     private final String spotName;
@@ -26,7 +23,7 @@ permits StationLocation, LocationEmpty
     }
 
     public boolean isEmpty() {
-        return building.isEmpty() && spotName.isEmpty();
+        return building.isBlank() && spotName.isBlank();
     }
 
     @Override
@@ -35,6 +32,7 @@ permits StationLocation, LocationEmpty
             return false;
 
         Location location = (Location) o;
+		
         return building.equals(location.building) && spotName.equals(location.spotName);
     }
 
