@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryTripRepository implements TripRepository {
-    private final Map<Id, TripRecord> tripTable = new ConcurrentHashMap<>();
+    private final Map<Id, TripRecord> tripTable;
     private final TripPersistenceMapper mapper;
     
     public InMemoryTripRepository(
             TripPersistenceMapper mapper
     ) {
+        this.tripTable = new ConcurrentHashMap<>();
         this.mapper = mapper;
     }
     
