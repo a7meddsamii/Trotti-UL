@@ -19,7 +19,7 @@ public class UnlockCodeNotificationService implements NotificationService<Unlock
     public void notify(Email recipient, UnlockCode content) {
         try {
             EmailMessage message = EmailMessage.builder().withRecipient(recipient)
-                    .withSubject("Unlock Code for your pass" + content.getRidePermitId()).withBody(content.getCode()).build();
+                    .withSubject("Unlock Code for your trip").withBody(content.getCode()).build();
             emailService.send(message);
         } catch (EmailSendException ignored) {
         }
