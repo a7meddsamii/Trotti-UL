@@ -1,22 +1,30 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.values;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class BatteryLevelTest {
-    private static final BigDecimal INITIAL_VALUE = BigDecimal.valueOf(50);
-    private static final BigDecimal DIFFERENT_VALUE = BigDecimal.valueOf(22);
-    private static final BigDecimal BELOW_MINIMUM_VALUE = BigDecimal.valueOf(-10);
-    private static final BigDecimal ABOVE_MAXIMUM_VALUE = BigDecimal.valueOf(110);
-    private static final BigDecimal POSITIVE_DELTA = BigDecimal.valueOf(15);
-    private static final BigDecimal NEGATIVE_DELTA = BigDecimal.valueOf(-10);
-    private static final BigDecimal MAX_BATTERY_VALUE = BigDecimal.valueOf(100);
-    private static final BigDecimal MIN_BATTERY_VALUE = BigDecimal.ZERO;
+    private static final BigDecimal INITIAL_VALUE =
+            BigDecimal.valueOf(50).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal DIFFERENT_VALUE =
+            BigDecimal.valueOf(22).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal BELOW_MINIMUM_VALUE =
+            BigDecimal.valueOf(-10).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal ABOVE_MAXIMUM_VALUE =
+            BigDecimal.valueOf(110).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal POSITIVE_DELTA =
+            BigDecimal.valueOf(15).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal NEGATIVE_DELTA =
+            BigDecimal.valueOf(-10).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal MAX_BATTERY_VALUE =
+            BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal MIN_BATTERY_VALUE =
+            BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     private BatteryLevel batteryLevel;
 
     @BeforeEach
