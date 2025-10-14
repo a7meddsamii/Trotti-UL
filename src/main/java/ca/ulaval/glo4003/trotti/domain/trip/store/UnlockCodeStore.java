@@ -8,7 +8,7 @@ public interface UnlockCodeStore {
 
     void store(UnlockCode unlockCode);
 
-    void revoke(UnlockCode unlockCode);
+    void revoke(Id ridePermitId);
 
     Optional<UnlockCode> getByRidePermitId(Id ridePermitId);
 }
