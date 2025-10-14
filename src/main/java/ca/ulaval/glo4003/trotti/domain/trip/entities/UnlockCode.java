@@ -44,28 +44,4 @@ public class UnlockCode {
     public boolean isExpired() {
         return clock.instant().isAfter(expiresAt);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        UnlockCode that = (UnlockCode) o;
-
-        if (!ridePermitId.equals(that.ridePermitId))
-            return false;
-        if (!code.equals(that.code))
-            return false;
-        return expiresAt.equals(that.expiresAt);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = ridePermitId.hashCode();
-        result = 31 * result + code.hashCode();
-        result = 31 * result + expiresAt.hashCode();
-        return result;
-    }
 }
