@@ -7,7 +7,7 @@ public non-sealed class EmptyLocation extends Location {
 		super("", "");
 	}
 	
-	public static EmptyLocation getInstance() {
+	protected static EmptyLocation getInstance() {
 		return INSTANCE;
 	}
 	

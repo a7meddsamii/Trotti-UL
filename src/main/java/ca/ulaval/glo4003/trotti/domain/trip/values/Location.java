@@ -20,6 +20,10 @@ public abstract sealed class Location permits StationLocation, EmptyLocation {
 		this.spotName = spotName;
 	}
 	
+	public boolean isEmpty(){
+		return building.isEmpty() && spotName.isEmpty();
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
