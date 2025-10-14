@@ -13,9 +13,10 @@ public class InMemoryTripRepository implements TripRepository {
     private final TripPersistenceMapper mapper;
     
     public InMemoryTripRepository(
+            Map<Id, TripRecord> tripTable,
             TripPersistenceMapper mapper
     ) {
-        this.tripTable = new ConcurrentHashMap<>();
+        this.tripTable = tripTable;
         this.mapper = mapper;
     }
     
