@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.station.entities;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.entities.Scooter;
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +9,13 @@ public class Station {
     private final String location;
     private final String name;
     private final Integer capacity;
-    private final List<Scooter> scooters;
+    private final List<Id> scooterIds;
 
     public Station(String location, String name, Integer capacity) {
         this.location = location;
         this.name = name;
         this.capacity = capacity;
-        this.scooters = new ArrayList<>(capacity);
+        this.scooterIds = new ArrayList<>(capacity);
     }
 
     public String getLocation() {
@@ -30,7 +30,7 @@ public class Station {
         return capacity;
     }
 
-    public List<Scooter> getScooters() {
-        return scooters;
+    public List<Id> getScooterIds() {
+        return scooterIds;
     }
 }
