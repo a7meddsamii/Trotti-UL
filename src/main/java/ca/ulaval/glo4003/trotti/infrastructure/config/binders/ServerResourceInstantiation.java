@@ -320,15 +320,15 @@ public class ServerResourceInstantiation {
     private void loadUnlockCodeApplicationService() {
         UnlockCodeStore unlockCodeStore = new GuavaUnlockCodeStore();
         locator.register(UnlockCodeStore.class, unlockCodeStore);
-        unlockCodeApplicationService = new UnlockCodeApplicationService(new UnlockCodeService(unlockCodeStore, SEVER_CLOCK),
-                travelerRepository, new UnlockCodeMapper());
+        unlockCodeApplicationService = new UnlockCodeApplicationService(
+                new UnlockCodeService(unlockCodeStore, SEVER_CLOCK), travelerRepository,
+                new UnlockCodeMapper());
     }
 
     private void loadUnlockCodeRessource() {
-        UnlockCodeResource unlockCodeResource = new UnlockCodeResource(
-                locator.resolve(AuthenticationService.class),
-                unlockCodeApplicationService,
-                new UnlockCodeApiMapper());
+        UnlockCodeResource unlockCodeResource =
+                new UnlockCodeResource(locator.resolve(AuthenticationService.class),
+                        unlockCodeApplicationService, new UnlockCodeApiMapper());
         locator.register(UnlockCodeResource.class, unlockCodeResource);
     }
 

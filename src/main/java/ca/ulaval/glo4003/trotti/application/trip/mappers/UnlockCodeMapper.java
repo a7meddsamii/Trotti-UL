@@ -8,5 +8,4 @@ public class UnlockCodeMapper {
     public UnlockCodeDto toDto(UnlockCode unlockCode) {
         return new UnlockCodeDto(unlockCode.getCode(), unlockCode.getRemainingTime());
     }
-
 }

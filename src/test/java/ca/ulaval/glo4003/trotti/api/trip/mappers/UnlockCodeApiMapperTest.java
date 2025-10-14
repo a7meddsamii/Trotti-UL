@@ -2,10 +2,9 @@ package ca.ulaval.glo4003.trotti.api.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.api.trip.dto.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
+import java.time.Duration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.time.Duration;
 
 class UnlockCodeApiMapperTest {
 

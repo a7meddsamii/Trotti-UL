@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-
 class UnlockCodeResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
@@ -30,19 +29,22 @@ class UnlockCodeResourceTest {
         authenticationService = Mockito.mock(AuthenticationService.class);
         unlockCodeDto = Mockito.mock(UnlockCodeDto.class);
 
-        unlockCodeResource = new UnlockCodeResource(authenticationService, unlockCodeApplicationService, unlockCodeApiMapper);
+        unlockCodeResource = new UnlockCodeResource(authenticationService,
+                unlockCodeApplicationService, unlockCodeApiMapper);
     }
 
     @Test
     void whenRequestUnlockCode_thenServiceGeneratesUnlockCode() {
         unlockCodeResource.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
 
-        Mockito.verify(unlockCodeApplicationService).generateUnlockCode(Mockito.any(), Mockito.any());
+        Mockito.verify(unlockCodeApplicationService).generateUnlockCode(Mockito.any(),
+                Mockito.any());
     }
 
     @Test
     void whenRequestUnlockCode_thenReturnsResponseAndHttpCode200() {
-        Mockito.when(unlockCodeApplicationService.generateUnlockCode(Mockito.any(), Mockito.any())).thenReturn(unlockCodeDto);
+        Mockito.when(unlockCodeApplicationService.generateUnlockCode(Mockito.any(), Mockito.any()))
+                .thenReturn(unlockCodeDto);
 
         Response response = unlockCodeResource.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
 

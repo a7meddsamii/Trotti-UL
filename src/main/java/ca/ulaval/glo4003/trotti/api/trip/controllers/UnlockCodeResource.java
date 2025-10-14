@@ -19,9 +19,10 @@ public class UnlockCodeResource {
     private final UnlockCodeApplicationService unlockCodeApplicationService;
     private final UnlockCodeApiMapper unlockCodeApiMapper;
 
-    public UnlockCodeResource(AuthenticationService authenticationService,
-                              UnlockCodeApplicationService unlockCodeApplicationService,
-                              UnlockCodeApiMapper unlockCodeApiMapper) {
+    public UnlockCodeResource(
+            AuthenticationService authenticationService,
+            UnlockCodeApplicationService unlockCodeApplicationService,
+            UnlockCodeApiMapper unlockCodeApiMapper) {
         this.authenticationService = authenticationService;
         this.unlockCodeApplicationService = unlockCodeApplicationService;
         this.unlockCodeApiMapper = unlockCodeApiMapper;
@@ -30,11 +31,12 @@ public class UnlockCodeResource {
     @POST
     @Path("/{ridePermitId}")
     public Response requestUnlockCode(@HeaderParam("Authorization") String tokenRequest,
-                                      @PathParam("ridePermitId") String ridePermitId) {
+            @PathParam("ridePermitId") String ridePermitId) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
-        UnlockCodeDto unlockCodeDto = unlockCodeApplicationService.generateUnlockCode(idul, Id.from(ridePermitId));
+        UnlockCodeDto unlockCodeDto =
+                unlockCodeApplicationService.generateUnlockCode(idul, Id.from(ridePermitId));
 
         return Response.ok().entity(unlockCodeApiMapper.toResponse(unlockCodeDto)).build();
     }

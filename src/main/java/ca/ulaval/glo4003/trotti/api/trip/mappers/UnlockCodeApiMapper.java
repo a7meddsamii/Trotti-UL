@@ -9,4 +9,3 @@ public class UnlockCodeApiMapper {
         return new UnlockCodeResponse(code.code(), code.expirationTime().getSeconds() + " seconds");
     }
 }
-
