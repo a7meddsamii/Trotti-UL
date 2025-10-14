@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
-import java.math.BigDecimal;
-
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
 import ca.ulaval.glo4003.trotti.domain.trip.strategy.DischargingStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
