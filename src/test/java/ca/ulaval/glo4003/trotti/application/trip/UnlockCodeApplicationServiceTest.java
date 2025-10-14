@@ -9,20 +9,19 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-import java.util.Collections;
-import java.util.List;
-
 class UnlockCodeApplicationServiceTest {
 
     private static final Idul A_IDUL = Idul.from("ABC123");
     private static final Id A_RIDE_PERMIT_ID = Id.randomId();
-    
+
     private TravelerRepository travelerRepository;
     private UnlockCodeMapper unlockCodeMapper;
     private UnlockCodeService unlockCodeService;
@@ -38,11 +37,8 @@ class UnlockCodeApplicationServiceTest {
         unlockCodeService = Mockito.mock(UnlockCodeService.class);
         ridePermit = Mockito.mock(RidePermit.class);
 
-        unlockCodeApplicationService = new UnlockCodeApplicationService(
-                unlockCodeService,
-                travelerRepository,
-                unlockCodeMapper
-        );
+        unlockCodeApplicationService = new UnlockCodeApplicationService(unlockCodeService,
+                travelerRepository, unlockCodeMapper);
     }
 
     @Test
@@ -65,7 +61,8 @@ class UnlockCodeApplicationServiceTest {
         Mockito.when(travelerRepository.findByIdul(A_IDUL)).thenReturn(traveler);
         Mockito.when(traveler.getRidePermits()).thenReturn(Collections.emptyList());
 
-        Executable action = () -> unlockCodeApplicationService.generateUnlockCode(A_IDUL, A_RIDE_PERMIT_ID);
+        Executable action =
+                () -> unlockCodeApplicationService.generateUnlockCode(A_IDUL, A_RIDE_PERMIT_ID);
 
         Assertions.assertThrows(NotFoundException.class, action);
     }
