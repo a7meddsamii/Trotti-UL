@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.values;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
-
 import java.util.Objects;
 
 public abstract sealed
@@ -11,13 +10,13 @@ permits StationLocation, LocationEmpty
 {
     private final String building;
     private final String spotName;
-	
-	protected Location(String building, String spotName) {
-		validate(building, spotName);
-		this.building = building;
-		this.spotName = spotName;
-	}
-	
+
+    protected Location(String building, String spotName) {
+        validate(building, spotName);
+        this.building = building;
+        this.spotName = spotName;
+    }
+
     public static Location empty() {
         return LocationEmpty.getInstance();
     }
@@ -48,12 +47,6 @@ permits StationLocation, LocationEmpty
     public String toString() {
         return building + " - " + spotName;
     }
-	
-	private void requireNonBlank(String value){
-		if(value.isBlank()){
-			throw new InvalidLocation("Building and spot name cannot be blank");
-		}
-	} 
 
     private void validate(String building, String spotName) {
         if (building == null || spotName == null) {

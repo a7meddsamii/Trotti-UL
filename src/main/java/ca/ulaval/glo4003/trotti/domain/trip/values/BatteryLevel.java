@@ -9,11 +9,11 @@ public class BatteryLevel {
     private static final BigDecimal MIN_BATTERY_VALUE = BigDecimal.ZERO;
     private static final BigDecimal MAX_BATTERY_VALUE = BigDecimal.valueOf(100);
     private final BigDecimal value;
-	
-	private BatteryLevel(BigDecimal value) {
-		validateBatteryValue(value);
-		this.value = value.setScale(2, RoundingMode.HALF_UP);
-	}
+
+    private BatteryLevel(BigDecimal value) {
+        validateBatteryValue(value);
+        this.value = value.setScale(2, RoundingMode.HALF_UP);
+    }
 
     public static BatteryLevel from(BigDecimal value) {
         return new BatteryLevel(value);
