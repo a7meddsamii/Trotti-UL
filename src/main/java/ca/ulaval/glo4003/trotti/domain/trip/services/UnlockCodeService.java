@@ -16,13 +16,13 @@ public class UnlockCodeService {
         this.clock = clock;
     }
 
-    public UnlockCode requestUnlockCode(Id passId) {
-        Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByRidePermitId(passId);
+    public UnlockCode requestUnlockCode(Id ridePermitId) {
+        Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByRidePermitId(ridePermitId);
         if (existingUnlockCode.isPresent()) {
             return existingUnlockCode.get();
         }
 
-        UnlockCode unlockCode = UnlockCode.generateFromRidePermit(passId, clock);
+        UnlockCode unlockCode = UnlockCode.generateFromRidePermit(ridePermitId, clock);
         unlockCodeStore.store(unlockCode);
 
         return unlockCode;
