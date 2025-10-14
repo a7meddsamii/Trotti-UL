@@ -1,9 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.ChargingStrategy;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.DischargingStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.strategy.ChargingStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.strategy.DischargingStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +21,7 @@ class BatteryLevelStateTest {
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
         BatteryLevel result = BatteryState.DISCHARGING.computeLevel(A_BATTERY_LEVEL,
-                LAST_BATTERY_UPDATE, CURRENT_TIME);
+																	LAST_BATTERY_UPDATE, CURRENT_TIME);
 
         Assertions.assertEquals(expectedResult, result);
     }

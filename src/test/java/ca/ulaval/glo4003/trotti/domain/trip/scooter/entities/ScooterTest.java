@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.scooter.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.exceptions.InvalidBatteryUpdate;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryState;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryUpdate;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;

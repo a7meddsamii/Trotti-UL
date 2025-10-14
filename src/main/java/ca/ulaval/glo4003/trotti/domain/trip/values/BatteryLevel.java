@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.exceptions.InvalidBatteryValue;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
 import java.math.BigDecimal;
 import java.util.Objects;
 

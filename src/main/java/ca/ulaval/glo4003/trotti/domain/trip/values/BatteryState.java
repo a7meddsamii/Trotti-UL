@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.BatteryStrategy;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.ChargingStrategy;
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy.DischargingStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.strategy.BatteryStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.strategy.ChargingStrategy;
+import ca.ulaval.glo4003.trotti.domain.trip.strategy.DischargingStrategy;
 import java.time.LocalDateTime;
 
 public enum BatteryState {

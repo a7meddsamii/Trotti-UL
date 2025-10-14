@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy;
+package ca.ulaval.glo4003.trotti.domain.trip.strategy;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
