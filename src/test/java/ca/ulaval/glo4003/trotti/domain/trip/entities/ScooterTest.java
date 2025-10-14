@@ -19,7 +19,7 @@ public class ScooterTest {
     private static final LocalDateTime LAST_BATTERY_UPDATE = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final LocalDateTime FUTURE_TIME = LocalDateTime.of(2024, 1, 1, 13, 0);
-    private static final Location A_LOCATION = Location.from("building A", "spot name");
+    private static final Location A_LOCATION = Location.of("building A", "spot name");
     private Scooter scooter;
 
     @BeforeEach
@@ -65,7 +65,7 @@ public class ScooterTest {
 
         scooter.dockAt(A_LOCATION, CURRENT_TIME);
 
-        Assertions.assertEquals(A_LOCATION, scooter.getStationLocation());
+        Assertions.assertEquals(A_LOCATION, scooter.getLocation());
     }
 
     @Test

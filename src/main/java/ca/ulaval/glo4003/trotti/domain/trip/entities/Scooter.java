@@ -28,22 +28,6 @@ public class Scooter {
         this.stationLocation = stationLocation;
     }
 
-    private void changeBatteryState(BatteryState newState, LocalDateTime dateTimeOfChange) {
-        if (dateTimeOfChange.isBefore(lastBatteryUpdate)) {
-            throw new InvalidBatteryUpdate(
-                    "The date of the battery state change cannot be before the last update.");
-        }
-
-        if (newState == currentBatteryState) {
-            return;
-        }
-
-        this.batteryLevel = this.currentBatteryState.computeLevel(batteryLevel, lastBatteryUpdate,
-                dateTimeOfChange);
-        this.lastBatteryUpdate = dateTimeOfChange;
-        this.currentBatteryState = newState;
-    }
-
     public void dockAt(Location location, LocalDateTime dockingTime) {
         if (!this.stationLocation.isEmpty()) {
             throw new InvalidLocation(
@@ -71,7 +55,23 @@ public class Scooter {
         return lastBatteryUpdate;
     }
 
-    public Location getStationLocation() {
+    public Location getLocation() {
         return stationLocation;
+    }
+
+    private void changeBatteryState(BatteryState newState, LocalDateTime dateTimeOfChange) {
+        if (dateTimeOfChange.isBefore(lastBatteryUpdate)) {
+            throw new InvalidBatteryUpdate(
+                    "The date of the battery state change cannot be before the last update.");
+        }
+
+        if (newState == currentBatteryState) {
+            return;
+        }
+
+        this.batteryLevel = this.currentBatteryState.computeLevel(batteryLevel, lastBatteryUpdate,
+                dateTimeOfChange);
+        this.lastBatteryUpdate = dateTimeOfChange;
+        this.currentBatteryState = newState;
     }
 }

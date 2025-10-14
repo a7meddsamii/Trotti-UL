@@ -3,8 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.values;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 import java.util.Objects;
 
-public abstract class Location
-{
+public abstract class Location {
     private final String building;
     private final String spotName;
 
@@ -18,7 +17,7 @@ public abstract class Location
         return LocationEmpty.getInstance();
     }
 
-    public static Location from(String building, String spotName) {
+    public static Location of(String building, String spotName) {
         return new StationLocation(building, spotName);
     }
 
@@ -32,7 +31,7 @@ public abstract class Location
             return false;
 
         Location location = (Location) o;
-		
+
         return building.equals(location.building) && spotName.equals(location.spotName);
     }
 
