@@ -16,36 +16,32 @@ class UnlockCodeServiceTest {
     private static final Id AN_ID = Id.randomId();
     private static final Clock NOW = Clock.systemUTC();
 
-    private UnlockCode unlockCode;
     private UnlockCodeStore unlockCodeStore;
     private UnlockCodeService unlockCodeService;
 
     @BeforeEach
     void setup() {
-        unlockCode = Mockito.mock(UnlockCode.class);
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
         unlockCodeService = new UnlockCodeService(unlockCodeStore, NOW);
     }
 
     @Test
     void givenExistingUnlockCode_whenRequestUnlockCode_thenReturnsExistingUnlockCode() {
+        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
         Mockito.when(unlockCodeStore.getByRidePermitId(AN_ID)).thenReturn(Optional.of(unlockCode));
 
-        UnlockCode result = unlockCodeService.requestUnlockCode(AN_ID);
+        UnlockCode generatedUnlockCode = unlockCodeService.requestUnlockCode(AN_ID);
 
-        Assertions.assertEquals(unlockCode, result);
+        Assertions.assertEquals(unlockCode, generatedUnlockCode);
         Mockito.verify(unlockCodeStore, Mockito.never()).store(Mockito.any(UnlockCode.class));
     }
 
     @Test
-    void givenNoExistingUnlockCode_whenRequestUnlockCode_thenGeneratesAndStoresNewUnlockCode() {
+    void givenNoExistingUnlockCode_whenRequestUnlockCode_thenStoresNewUnlockCode() {
         Mockito.when(unlockCodeStore.getByRidePermitId(AN_ID)).thenReturn(Optional.empty());
-        Mockito.mockStatic(UnlockCode.class).when(() -> UnlockCode.generateFromRidePermit(AN_ID, NOW)).thenReturn(unlockCode);
 
-        UnlockCode result = unlockCodeService.requestUnlockCode(AN_ID);
+        UnlockCode unlockCode = unlockCodeService.requestUnlockCode(AN_ID);
 
-        Assertions.assertEquals(unlockCode, result);
         Mockito.verify(unlockCodeStore).store(unlockCode);
     }
-
 }

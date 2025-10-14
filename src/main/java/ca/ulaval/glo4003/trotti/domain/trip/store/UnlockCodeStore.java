@@ -9,7 +9,7 @@ public interface UnlockCodeStore {
 
     void store(UnlockCode unlockCode);
 
-    void delete(UnlockCode unlockCode);
+    void revoke(UnlockCode unlockCode);
 
     Optional<UnlockCode> getByRidePermitId(Id ridePermitId);
 }
