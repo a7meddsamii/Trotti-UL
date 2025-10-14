@@ -6,24 +6,24 @@ import java.util.List;
 
 public class Station {
 
-    private final String location;
-    private final String name;
+    private final Id stationId;
+    private final StationLocation stationLocation;
     private final Integer capacity;
     private final List<Id> scooterIds;
 
-    public Station(String location, String name, Integer capacity) {
-        this.location = location;
-        this.name = name;
+    public Station(StationLocation stationLocation, Integer capacity) {
+        this.stationId = Id.randomId();
+        this.stationLocation = stationLocation;
         this.capacity = capacity;
         this.scooterIds = new ArrayList<>(capacity);
     }
 
-    public String getLocation() {
-        return location;
+    public Id getStationId() {
+        return stationId;
     }
 
-    public String getName() {
-        return name;
+    public StationLocation getStationLocation() {
+        return stationLocation;
     }
 
     public Integer getCapacity() {
