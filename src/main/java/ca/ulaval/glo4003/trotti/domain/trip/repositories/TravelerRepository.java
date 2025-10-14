@@ -1,11 +1,15 @@
 package ca.ulaval.glo4003.trotti.domain.trip.repositories;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import java.util.List;
+import java.util.Optional;
 
 public interface TravelerRepository {
 
     List<Traveler> findAll();
+
+    Traveler findByIdul(Idul idul);
 
     void update(Traveler traveler);
 }

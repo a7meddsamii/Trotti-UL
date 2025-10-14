@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemory
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.jupiter.api.Assertions;
@@ -70,6 +71,19 @@ class InMemoryTravelerRepositoryIntegrationTest {
         Assertions.assertEquals(2, retrievedTravelers.size());
         assertEquals(firstTraveler, retrievedTravelers.get(0));
         assertEquals(secondTraveler, retrievedTravelers.get(1));
+    }
+
+    @Test
+    void givenATraveler_whenFindByIdul_thenReturnsTraveler() {
+        Traveler traveler = new TravelerFixture().withIdul(AN_IDUL).build();
+        Account account = new AccountFixture().withIdul(AN_IDUL).build();
+        accountRepository.save(account);
+        travelerRepository.update(traveler);
+
+        Traveler retrievedTraveler = travelerRepository.findByIdul(AN_IDUL);
+
+        Assertions.assertNotNull(retrievedTraveler);
+        assertEquals(traveler, retrievedTraveler);
     }
 
     void assertEquals(Traveler savedTraveler, Traveler retrievedTraveler) {

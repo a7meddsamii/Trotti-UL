@@ -33,6 +33,10 @@ public class UnlockCode {
         return new UnlockCode(String.valueOf(code), expiresAt, id, clock);
     }
 
+    public Instant getExpiresAt() {
+        return expiresAt;
+    }
+
     public String getCode() {
         return code;
     }
