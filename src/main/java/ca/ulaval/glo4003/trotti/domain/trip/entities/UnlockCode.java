@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 
 import java.security.SecureRandom;
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Random;
 
@@ -15,20 +16,22 @@ public class UnlockCode {
     private final Id ridePermitId;
     private final String code;
     private final Instant expiresAt;
+    private final Clock clock;
 
-    private UnlockCode(String code, Instant expiresAt, Id ridePermitId) {
+    private UnlockCode(String code, Instant expiresAt, Id ridePermitId, Clock clock) {
         this.code = code;
         this.expiresAt = expiresAt;
         this.ridePermitId = ridePermitId;
+        this.clock = clock;
     }
 
-    public static UnlockCode generateFromRidePermit(Id id) {
+    public static UnlockCode generateFromRidePermit(Id id, Clock clock) {
         Random random = new SecureRandom();
 
         int code = MINIMUM_CODE_VALUE + random.nextInt(MAXIMUM_CODE_VALUE - MINIMUM_CODE_VALUE + 1);
-        Instant expiresAt = Instant.now().plusSeconds(LIFE_SPAN_IN_SECONDS);
+        Instant expiresAt = clock.instant().plusSeconds(LIFE_SPAN_IN_SECONDS);
 
-        return new UnlockCode(String.valueOf(code), expiresAt, id);
+        return new UnlockCode(String.valueOf(code), expiresAt, id, clock);
     }
 
     public String getCode() {
@@ -40,7 +43,7 @@ public class UnlockCode {
     }
 
     public boolean isExpired() {
-        return Instant.now().isAfter(expiresAt);
+        return clock.instant().isAfter(expiresAt);
     }
 
     @Override

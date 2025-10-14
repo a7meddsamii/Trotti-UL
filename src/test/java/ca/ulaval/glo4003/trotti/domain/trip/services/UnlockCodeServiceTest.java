@@ -8,11 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.Clock;
 import java.util.Optional;
 
 class UnlockCodeServiceTest {
 
     private static final Id AN_ID = Id.randomId();
+    private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCode unlockCode;
     private UnlockCodeStore unlockCodeStore;
@@ -22,7 +24,7 @@ class UnlockCodeServiceTest {
     void setup() {
         unlockCode = Mockito.mock(UnlockCode.class);
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
-        unlockCodeService = new UnlockCodeService(unlockCodeStore);
+        unlockCodeService = new UnlockCodeService(unlockCodeStore, NOW);
     }
 
     @Test
@@ -38,7 +40,7 @@ class UnlockCodeServiceTest {
     @Test
     void givenNoExistingUnlockCode_whenRequestUnlockCode_thenGeneratesAndStoresNewUnlockCode() {
         Mockito.when(unlockCodeStore.getByRidePermitId(AN_ID)).thenReturn(Optional.empty());
-        Mockito.mockStatic(UnlockCode.class).when(() -> UnlockCode.generateFromRidePermit(AN_ID)).thenReturn(unlockCode);
+        Mockito.mockStatic(UnlockCode.class).when(() -> UnlockCode.generateFromRidePermit(AN_ID, NOW)).thenReturn(unlockCode);
 
         UnlockCode result = unlockCodeService.requestUnlockCode(AN_ID);
 
