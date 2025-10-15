@@ -27,7 +27,6 @@ class PassMapperTest {
         Mockito.when(pass.getBillingFrequency()).thenReturn(billingFrequency);
         Mockito.when(pass.getId()).thenReturn(id);
 
-
         PassDto dto = passMapper.toDto(pass);
 
         Assertions.assertEquals(maximumDailyTravelTime, dto.maximumDailyTravelTime());
