@@ -50,8 +50,8 @@ public class ScooterTest {
     void givenStationLocationAndDockingTime_whenDockAt_thenComputeNewBatteryLevel() {
         scooter = new Scooter(AN_ID, A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING,
                 Location.empty());
-        BatteryLevel expectedBatteryLevel = BatteryState.DISCHARGING.computeLevel(A_BATTERY_LEVEL,
-                LAST_BATTERY_UPDATE, CURRENT_TIME);
+        BatteryLevel expectedBatteryLevel = BatteryState.DISCHARGING.computeLevel(
+                LAST_BATTERY_UPDATE, CURRENT_TIME, A_BATTERY_LEVEL);
 
         scooter.dockAt(A_LOCATION, CURRENT_TIME);
 
@@ -91,8 +91,8 @@ public class ScooterTest {
     void givenStationLocationAndUndockingTime_whenUndock_thenComputeNewBatteryLevel() {
         scooter = new Scooter(AN_ID, A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING,
                 A_LOCATION);
-        BatteryLevel expectedBatteryLevel = BatteryState.CHARGING.computeLevel(A_BATTERY_LEVEL,
-                LAST_BATTERY_UPDATE, FUTURE_TIME);
+        BatteryLevel expectedBatteryLevel = BatteryState.CHARGING.computeLevel(
+                LAST_BATTERY_UPDATE, FUTURE_TIME,A_BATTERY_LEVEL);
 
         scooter.undock(FUTURE_TIME);
 

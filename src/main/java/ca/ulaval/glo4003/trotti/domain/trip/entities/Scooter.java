@@ -69,8 +69,8 @@ public class Scooter {
             return;
         }
 
-        this.batteryLevel = this.currentBatteryState.computeLevel(batteryLevel, lastBatteryUpdate,
-                dateTimeOfChange);
+        this.batteryLevel = this.currentBatteryState.computeLevel(lastBatteryUpdate,
+                dateTimeOfChange, batteryLevel);
         this.lastBatteryUpdate = dateTimeOfChange;
         this.currentBatteryState = newState;
     }

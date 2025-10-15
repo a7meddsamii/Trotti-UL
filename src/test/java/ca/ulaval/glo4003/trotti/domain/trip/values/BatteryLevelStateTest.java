@@ -17,8 +17,8 @@ class BatteryLevelStateTest {
         BatteryLevel expectedResult = DischargingStrategy.INSTANCE.computeLevel(LAST_BATTERY_UPDATE,
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
-        BatteryLevel result = BatteryState.DISCHARGING.computeLevel(A_BATTERY_LEVEL,
-                LAST_BATTERY_UPDATE, CURRENT_TIME);
+        BatteryLevel result = BatteryState.DISCHARGING.computeLevel(
+                LAST_BATTERY_UPDATE, CURRENT_TIME, A_BATTERY_LEVEL);
 
         Assertions.assertEquals(expectedResult, result);
     }
@@ -28,8 +28,8 @@ class BatteryLevelStateTest {
         BatteryLevel expectedResult = ChargingStrategy.INSTANCE.computeLevel(LAST_BATTERY_UPDATE,
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
-        BatteryLevel result = BatteryState.CHARGING.computeLevel(A_BATTERY_LEVEL,
-                LAST_BATTERY_UPDATE, CURRENT_TIME);
+        BatteryLevel result = BatteryState.CHARGING.computeLevel(
+                LAST_BATTERY_UPDATE, CURRENT_TIME, A_BATTERY_LEVEL);
 
         Assertions.assertEquals(expectedResult, result);
     }

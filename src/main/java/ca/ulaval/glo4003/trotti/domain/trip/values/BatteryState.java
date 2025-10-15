@@ -14,8 +14,8 @@ public enum BatteryState {
         this.batteryStrategy = batteryStrategy;
     }
 
-    public BatteryLevel computeLevel(BatteryLevel batteryLevel, LocalDateTime lastBatteryUpdate,
-            LocalDateTime currentTime) {
+    public BatteryLevel computeLevel( LocalDateTime lastBatteryUpdate,
+            LocalDateTime currentTime,BatteryLevel batteryLevel) {
         return batteryStrategy.computeLevel(lastBatteryUpdate, currentTime, batteryLevel);
     }
 }
