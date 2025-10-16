@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ScooterFactoryTest {
+class ScooterFactoryTest {
 
     private static final Location A_STATION_LOCATION = Location.of("PEPS", "Station A");
     private static final int SCOOTER_COUNT = 5;
