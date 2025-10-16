@@ -22,7 +22,7 @@ public class Station {
             throw new InvalidDock("Scooter is already in this station");
         }
         if (scootersInStation.size() == maximumCapacity) {
-            throw new InvalidDock("Location is at capacity");
+            throw new InvalidDock("Station is at capacity");
         }
 
         scootersInStation.add(scooterId);

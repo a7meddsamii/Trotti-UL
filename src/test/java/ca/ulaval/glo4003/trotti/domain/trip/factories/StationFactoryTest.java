@@ -12,7 +12,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 public class StationFactoryTest {
-
     private static final Location A_LOCATION = Mockito.mock(Location.class);
     private static final Id A_SCOOTER_ID = Id.randomId();
     private static final List<Id> A_SCOOTER_ID_LIST = new ArrayList<>();

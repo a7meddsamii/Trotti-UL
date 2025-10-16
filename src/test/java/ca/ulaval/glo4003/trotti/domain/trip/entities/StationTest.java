@@ -13,7 +13,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
-
     private static final Id A_SCOOTER_ID = Id.randomId();
     private static final Id ANOTHER_SCOOTER_ID = Id.randomId();
     private static final Id THIRD_SCOOTER_ID = Id.randomId();
