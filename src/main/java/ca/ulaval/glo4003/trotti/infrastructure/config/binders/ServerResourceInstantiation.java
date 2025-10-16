@@ -37,10 +37,14 @@ import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
@@ -49,11 +53,13 @@ import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationS
 import ca.ulaval.glo4003.trotti.infrastructure.commons.communication.services.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.payment.security.AesDataCodecAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.StationProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryBuyerRepository;
@@ -97,6 +103,7 @@ public class ServerResourceInstantiation {
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
     private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
     private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
+    private static final Path STATION_DATA_FILE_PATH = Path.of("/app/data/campus-delivery-location.json");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -110,17 +117,24 @@ public class ServerResourceInstantiation {
     private BuyerRepository buyerRepository;
     private TravelerRepository travelerRepository;
     private PassRepository passRepository;
+    private ScooterRepository scooterRepository;
+    private StationRepository stationRepository;
+
     private PassMapper passMapper;
     private AccountApiMapper accountApiMapper;
+
     private OrderFactory orderFactory;
     private PassFactory passFactory;
     private PaymentMethodFactory paymentMethodFactory;
+    private ScooterFactory scooterFactory;
+
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     private OrderApplicationService orderApplicationService;
     private SessionRegistry sessionRegistry;
     private RidePermitActivationApplicationService ridePermitActivationService;
+    private StationInitializationService stationInitializationService;
     private EmployeeRegistry employeeRegistry;
 
     public static ServerResourceInstantiation getInstance() {
@@ -188,6 +202,20 @@ public class ServerResourceInstantiation {
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
         sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
         locator.register(SessionRegistry.class, sessionRegistry);
+    }
+
+    private void loadStationProvider() {
+//        scooterRepository = new InMemoryScooterRepository();
+//        stationRepository = new InMemoryStationRepository();
+
+        scooterFactory = new ScooterFactory();
+        stationInitializationService = new StationInitializationService(scooterFactory, stationRepository, scooterRepository);
+
+        StationMapper stationMapper = new StationMapper();
+        StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper, stationInitializationService);
+
+        locator.register(ScooterRepository.class, scooterRepository);
+        locator.register(StationRepository.class, stationRepository);
     }
 
     private void loadEmailSender() {
@@ -322,6 +350,7 @@ public class ServerResourceInstantiation {
         loadDevData();
         loadPassRepository();
         loadSessionProvider();
+        loadStationProvider();
         loadAccountFactory();
         loadAccountService();
         loadPassMapper();
