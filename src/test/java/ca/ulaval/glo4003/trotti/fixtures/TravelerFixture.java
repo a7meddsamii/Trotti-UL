@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripBook;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Wallet;
-import jakarta.mail.Address;
 
 import java.util.List;
 

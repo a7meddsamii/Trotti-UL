@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 
 import java.util.List;
 

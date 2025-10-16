@@ -30,7 +30,7 @@ class TripBookTest {
 
     @BeforeEach
     public void setUp() {
-        trips = new ArrayList();
+        trips = new ArrayList<>();
         trip = Mockito.mock(Trip.class);
         tripBook = new TripBook(trips);
     }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TripBook {
 
-    private List<Trip> unfinishedTrips;
+    private final List<Trip> unfinishedTrips;
 
 
     public TripBook(List<Trip> unfinishedTrips) {
