@@ -44,4 +44,8 @@ public class Scooter {
     public Location getLocation() {
         return stationLocation;
     }
+
+    public Id getId() {
+        return id;
+    }
 }

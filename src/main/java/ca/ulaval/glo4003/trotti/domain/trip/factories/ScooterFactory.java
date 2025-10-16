@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.factories;
+package ca.ulaval.glo4003.trotti.domain.trip.factories;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Battery;

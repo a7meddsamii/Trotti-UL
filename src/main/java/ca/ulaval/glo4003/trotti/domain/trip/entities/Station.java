@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Station {
 
+    private static final double INITIAL_FILL_RATIO = 0.8;
+
     private final Id stationId;
     private final Location stationLocation;
     private final Integer capacity;
@@ -33,5 +35,13 @@ public class Station {
 
     public List<Id> getScooterIds() {
         return scooterIds;
+    }
+
+    public void addScooter(Id scooterId) {
+        scooterIds.add(scooterId);
+    }
+
+    public int getInitialScooterCount() {
+        return (int) Math.floor(capacity * INITIAL_FILL_RATIO);
     }
 }
