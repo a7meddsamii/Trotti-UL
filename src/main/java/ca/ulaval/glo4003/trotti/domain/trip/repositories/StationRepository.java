@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.trip.station.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 
 public interface StationRepository {
 

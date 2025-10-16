@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
-import ca.ulaval.glo4003.trotti.domain.trip.station.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
