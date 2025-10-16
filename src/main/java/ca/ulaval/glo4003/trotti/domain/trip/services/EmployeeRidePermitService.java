@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;

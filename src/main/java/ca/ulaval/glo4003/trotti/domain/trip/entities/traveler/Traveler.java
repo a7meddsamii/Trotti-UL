@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;

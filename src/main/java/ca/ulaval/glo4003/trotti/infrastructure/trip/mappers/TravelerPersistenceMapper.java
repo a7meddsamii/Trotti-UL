@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler.Wallet;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Wallet;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.List;
