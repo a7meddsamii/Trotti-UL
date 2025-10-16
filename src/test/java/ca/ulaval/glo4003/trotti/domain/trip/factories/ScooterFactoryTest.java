@@ -65,4 +65,3 @@ class ScooterFactoryTest {
         Assertions.assertTrue(scooters.isEmpty());
     }
 }
-

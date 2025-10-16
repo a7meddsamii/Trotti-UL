@@ -104,7 +104,8 @@ public class ServerResourceInstantiation {
     private static final Clock SEVER_CLOCK = Clock.systemDefaultZone();
     private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
     private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
-    private static final Path STATION_DATA_FILE_PATH = Path.of("/app/data/campus-delivery-location.json");
+    private static final Path STATION_DATA_FILE_PATH =
+            Path.of("/app/data/campus-delivery-location.json");
 
     private static ServerResourceInstantiation instance;
     private final ServerResourceLocator locator;
@@ -210,16 +211,13 @@ public class ServerResourceInstantiation {
         StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper);
         List<Station> stations = StationProvider.getInstance().getStations();
 
-//        scooterRepository = new InMemoryScooterRepository();
-//        stationRepository = new InMemoryStationRepository();
+        // scooterRepository = new InMemoryScooterRepository();
+        // stationRepository = new InMemoryStationRepository();
 
         ScooterFactory scooterFactory = new ScooterFactory();
         StationInitializationService stationInitializationService =
-                new StationInitializationService(
-                        scooterFactory,
-                        stationRepository,
-                        scooterRepository
-                );
+                new StationInitializationService(scooterFactory, stationRepository,
+                        scooterRepository);
 
         stationInitializationService.initializeStations(stations);
 
