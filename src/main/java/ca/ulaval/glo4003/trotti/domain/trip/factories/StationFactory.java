@@ -7,13 +7,13 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import java.util.List;
 
 public class StationFactory {
-    public Station create(Location location, List<Id> scootersInStation, int maximumCapacity) {
-        validate(maximumCapacity);
-        return new Station(location, scootersInStation, maximumCapacity);
+    public Station create(Location location, List<Id> scootersInStation, int capacity) {
+        validateCapacity(capacity);
+        return new Station(location, scootersInStation, capacity);
     }
 
-    private void validate(int maximumCapacity) {
-        if (maximumCapacity <= 0) {
+    private void validateCapacity(int capacity) {
+        if (capacity <= 0) {
             throw new InvalidStation("Station maximum capacity cannot be 0 or negative");
         }
     }

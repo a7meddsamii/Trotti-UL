@@ -9,19 +9,19 @@ import java.util.List;
 public class Station {
     private final Location location;
     private final List<Id> scootersInStation;
-    private final int maximumCapacity;
+    private final int capacity;
 
-    public Station(Location location, List<Id> scootersInStation, int maximumCapacity) {
+    public Station(Location location, List<Id> scootersInStation, int capacity) {
         this.location = location;
         this.scootersInStation = scootersInStation;
-        this.maximumCapacity = maximumCapacity;
+        this.capacity = capacity;
     }
 
     public void dockScooter(Id scooterId) {
         if (scootersInStation.contains(scooterId)) {
             throw new InvalidDock("Scooter is already in this station");
         }
-        if (scootersInStation.size() == maximumCapacity) {
+        if (scootersInStation.size() == capacity) {
             throw new InvalidDock("Station is at capacity");
         }
 

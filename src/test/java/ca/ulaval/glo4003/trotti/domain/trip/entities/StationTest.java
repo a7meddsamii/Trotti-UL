@@ -14,23 +14,23 @@ import org.mockito.Mockito;
 
 class StationTest {
     private static final Id A_SCOOTER_ID = Id.randomId();
-    private static final Id ANOTHER_SCOOTER_ID = Id.randomId();
+    private static final Id SECOND_SCOOTER_ID = Id.randomId();
     private static final Id THIRD_SCOOTER_ID = Id.randomId();
-    private static final int A_MAXIMUM_CAPACITY = 2;
-    private final List<Id> scootersInStation = new ArrayList<>();
+    private static final int A_CAPACITY = 2;
+    private final List<Id> A_SCOOTER_ID_LIST = new ArrayList<>();
     private Station station;
 
     @BeforeEach
     void setup() {
         Location location = Mockito.mock(Location.class);
-        station = new Station(location, scootersInStation, A_MAXIMUM_CAPACITY);
+        station = new Station(location, A_SCOOTER_ID_LIST, A_CAPACITY);
     }
 
     @Test
     void givenStation_whenDockScooter_thenScooterIsAddedToStation() {
         station.dockScooter(A_SCOOTER_ID);
 
-        Assertions.assertTrue(scootersInStation.contains(A_SCOOTER_ID));
+        Assertions.assertTrue(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
     }
 
     @Test
@@ -45,7 +45,7 @@ class StationTest {
     @Test
     void givenStationAtMaximumCapacity_whenDockScooter_thenThrowsInvalidDockException() {
         station.dockScooter(A_SCOOTER_ID);
-        station.dockScooter(ANOTHER_SCOOTER_ID);
+        station.dockScooter(SECOND_SCOOTER_ID);
 
         Executable dock = () -> station.dockScooter(THIRD_SCOOTER_ID);
 
@@ -58,7 +58,7 @@ class StationTest {
 
         station.undockScooter(A_SCOOTER_ID);
 
-        Assertions.assertFalse(scootersInStation.contains(A_SCOOTER_ID));
+        Assertions.assertFalse(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
     }
 
     @Test
