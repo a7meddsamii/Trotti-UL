@@ -35,14 +35,14 @@ public class StationFactoryTest {
     }
 
     @Test
-    void whenCreateStationWithZeroCapacity_thenThrowInvalidStationException() {
+    void whenCreateStationWithZeroCapacity_thenThrowsInvalidStationException() {
         Executable creation = () -> factory.create(A_LOCATION, A_SCOOTER_ID_LIST, ZERO_CAPACITY);
 
         Assertions.assertThrows(InvalidStation.class, creation);
     }
 
     @Test
-    void whenCreateStationWithNegativeCapacity_thenThrowInvalidStationException() {
+    void whenCreateStationWithNegativeCapacity_thenThrowsInvalidStationException() {
         Executable creation =
                 () -> factory.create(A_LOCATION, A_SCOOTER_ID_LIST, NEGATIVE_CAPACITY);
 
