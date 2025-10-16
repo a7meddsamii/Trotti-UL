@@ -25,6 +25,14 @@ public class Trip {
         this.scooterId = scooterId;
     }
 
+    public Trip(Id id, LocalDateTime startTime, Id ridePermit,Idul TravelerIdul, Id scooterId) {
+        this.id = id;
+        this.startTime = startTime;
+        this.ridePermit = ridePermit;
+        this.travelerId = TravelerIdul;
+        this.scooterId = scooterId;
+    }
+
     private Trip(Id id, LocalDateTime startTime, Id ridePermit, Idul travelerId, Id scooterId, LocalDateTime endTime) {
         this.id = id;
         this.startTime = startTime;
@@ -42,6 +50,29 @@ public class Trip {
     }
 
 
+    public Id getId() {
+        return id;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public Id getRidePermit() {
+        return ridePermit;
+    }
+
+    public Id getScooterId() {
+        return scooterId;
+    }
+
+    public Idul getTravelerIdul() {
+        return travelerId;
+    }
+
+    public LocalDateTime getEndTime(){
+        return endTime;
+    }
 
 
 }
