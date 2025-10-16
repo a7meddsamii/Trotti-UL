@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidStation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,22 +36,22 @@ class StationTest {
     }
 
     @Test
-    void givenScooterAlreadyInStation_whenDockScooter_thenThrowInvalidStationException() {
+    void givenScooterAlreadyInStation_whenDockScooter_thenThrowInvalidDockException() {
         station.dockScooter(A_SCOOTER_ID);
 
-        Executable executable = () -> station.dockScooter(A_SCOOTER_ID);
+        Executable dock = () -> station.dockScooter(A_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidStation.class, executable);
+        Assertions.assertThrows(InvalidDock.class, dock);
     }
 
     @Test
-    void givenStationAtMaximumCapacity_whenDockScooter_thenThrowInvalidStation() {
+    void givenStationAtMaximumCapacity_whenDockScooter_thenThrowInvalidDockException() {
         station.dockScooter(A_SCOOTER_ID);
         station.dockScooter(ANOTHER_SCOOTER_ID);
 
-        Executable executable = () -> station.dockScooter(THIRD_SCOOTER_ID);
+        Executable dock = () -> station.dockScooter(THIRD_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidStation.class, executable);
+        Assertions.assertThrows(InvalidDock.class, dock);
     }
 
     @Test
@@ -63,9 +64,9 @@ class StationTest {
     }
 
     @Test
-    void givenScooterNotInStation_whenUndockScooter_thenThrowInvalidStation() {
-        Executable executable = () -> station.undockScooter(A_SCOOTER_ID);
+    void givenScooterNotInStation_whenUndockScooter_thenThrowInvalidUndockException() {
+        Executable undock = () -> station.undockScooter(A_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidStation.class, executable);
+        Assertions.assertThrows(InvalidUndock.class, undock);
     }
 }

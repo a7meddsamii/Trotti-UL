@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidStation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public class Station {
 
     public void dockScooter(Id scooterId) {
         if (scootersInStation.contains(scooterId)) {
-            throw new InvalidStation("Scooter is already in this station");
+            throw new InvalidDock("Scooter is already in this station");
         }
         if (scootersInStation.size() == maximumCapacity) {
-            throw new InvalidStation("Location is at capacity");
+            throw new InvalidDock("Location is at capacity");
         }
 
         scootersInStation.add(scooterId);
@@ -34,7 +35,7 @@ public class Station {
 
     public void undockScooter(Id scooterId) {
         if (!scootersInStation.contains(scooterId)) {
-            throw new InvalidStation("Scooter is not in this station");
+            throw new InvalidUndock("Scooter is not in this station");
         }
 
         scootersInStation.remove(scooterId);
