@@ -128,7 +128,6 @@ public class ServerResourceInstantiation {
     private OrderFactory orderFactory;
     private PassFactory passFactory;
     private PaymentMethodFactory paymentMethodFactory;
-    private ScooterFactory scooterFactory;
 
     private PaymentService paymentService;
     private AuthenticationService authenticationService;
@@ -136,7 +135,6 @@ public class ServerResourceInstantiation {
     private OrderApplicationService orderApplicationService;
     private SessionRegistry sessionRegistry;
     private RidePermitActivationApplicationService ridePermitActivationService;
-    private StationInitializationService stationInitializationService;
     private EmployeeRegistry employeeRegistry;
 
     public static ServerResourceInstantiation getInstance() {
