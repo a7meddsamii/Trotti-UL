@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.trip.entities;
+package ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Traveler {
         this.idul = idul;
         this.email = email;
         this.wallet = wallet;
-       
+
     }
 
     public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {

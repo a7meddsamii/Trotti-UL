@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler.Wallet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
