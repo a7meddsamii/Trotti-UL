@@ -19,6 +19,7 @@ RESOURCE_DIR="$(pwd)/src/main/resources/data/"
 EMPLOYEES_IDUL_FILE="Employe.e.s.csv"
 SEMESTER_FILE="semesters-252627.json"
 CONTAINER_NAME="trottiul_container_debug"
+STATION_FILE="campus-delivery-location.json"
 DEBUG_PORT=5005
 
 # Parse command line arguments for custom debug port
@@ -55,6 +56,7 @@ function run_image() {
         -e JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT" \
         -v "$RESOURCE_DIR$EMPLOYEES_IDUL_FILE:/app/data/Employe.e.s.csv" \
         -v "$RESOURCE_DIR$SEMESTER_FILE:/app/data/semesters-252627.json" \
+        -v "$RESOURCE_DIR$STATION_FILE:campus-delivery-location.json" \
         --name $CONTAINER_NAME \
         -p 8080:8080 \
         -p $DEBUG_PORT:$DEBUG_PORT \
