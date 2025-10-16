@@ -1,17 +1,18 @@
 package ca.ulaval.glo4003.trotti.domain.trip.station.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Station {
 
     private final Id stationId;
-    private final StationLocation stationLocation;
+    private final Location stationLocation;
     private final Integer capacity;
     private final List<Id> scooterIds;
 
-    public Station(StationLocation stationLocation, Integer capacity) {
+    public Station(Location stationLocation, Integer capacity) {
         this.stationId = Id.randomId();
         this.stationLocation = stationLocation;
         this.capacity = capacity;
@@ -22,7 +23,7 @@ public class Station {
         return stationId;
     }
 
-    public StationLocation getStationLocation() {
+    public Location getStationLocation() {
         return stationLocation;
     }
 
