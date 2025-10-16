@@ -22,6 +22,10 @@ public class StationInitializationService {
         this.scooterRepository = scooterRepository;
     }
 
+    public void initializeStations(List<Station> stations) {
+        stations.forEach(this::initializeStation);
+    }
+
     public void initializeStation(Station station) {
         int initialScooterCount = station.getInitialScooterCount();
         List<Scooter> scooters = scooterFactory.createScooters(initialScooterCount, station.getStationLocation());

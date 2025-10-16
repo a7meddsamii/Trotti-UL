@@ -37,6 +37,7 @@ import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
@@ -204,15 +205,23 @@ public class ServerResourceInstantiation {
         locator.register(SessionRegistry.class, sessionRegistry);
     }
 
-    private void loadStationProvider() {
+    private void loadStations() {
+        StationMapper stationMapper = new StationMapper();
+        StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper);
+        List<Station> stations = StationProvider.getInstance().getStations();
+
 //        scooterRepository = new InMemoryScooterRepository();
 //        stationRepository = new InMemoryStationRepository();
 
-        scooterFactory = new ScooterFactory();
-        stationInitializationService = new StationInitializationService(scooterFactory, stationRepository, scooterRepository);
+        ScooterFactory scooterFactory = new ScooterFactory();
+        StationInitializationService stationInitializationService =
+                new StationInitializationService(
+                        scooterFactory,
+                        stationRepository,
+                        scooterRepository
+                );
 
-        StationMapper stationMapper = new StationMapper();
-        StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper, stationInitializationService);
+        stationInitializationService.initializeStations(stations);
 
         locator.register(ScooterRepository.class, scooterRepository);
         locator.register(StationRepository.class, stationRepository);
@@ -350,7 +359,7 @@ public class ServerResourceInstantiation {
         loadDevData();
         loadPassRepository();
         loadSessionProvider();
-        loadStationProvider();
+        loadStations();
         loadAccountFactory();
         loadAccountService();
         loadPassMapper();

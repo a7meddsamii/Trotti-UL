@@ -16,7 +16,7 @@ public final class StationProvider {
     private static List<Station> stations;
     private static StationProvider instance;
 
-    private StationProvider(Path path, StationMapper stationMapper, StationInitializationService stationInitializationService) {
+    private StationProvider(Path path, StationMapper stationMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
         try (InputStream input = Files.newInputStream(path)) {
             List<StationRecord> stationRecords =
@@ -24,15 +24,14 @@ public final class StationProvider {
 
             stations = stationRecords.stream()
                     .map(stationMapper::toDomain)
-                    .peek(stationInitializationService::initializeStation)
                     .toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }
     }
 
-    public static void initialize(Path path, StationMapper stationMapper, StationInitializationService stationInitializationService) {
-        instance = new StationProvider(path, stationMapper, stationInitializationService);
+    public static void initialize(Path path, StationMapper stationMapper) {
+        instance = new StationProvider(path, stationMapper);
     }
 
     public static StationProvider getInstance() {
