@@ -59,7 +59,7 @@ class RidePermitActivationApplicationServiceTest {
         ridePermitActivationApplicationService.updateActivatedRidePermits();
 
         existingTravelers.forEach(
-                traveler -> Mockito.verify(traveler).updateActiveRidePermits(Mockito.anyList()));
+                traveler -> Mockito.verify(traveler).updateWallet(Mockito.anyList()));
     }
 
     @Test
@@ -89,7 +89,7 @@ class RidePermitActivationApplicationServiceTest {
 
     private List<Traveler> mockTravelersWithoutNewActivatedRidePermits() {
         List<Traveler> travelers = mockTravelers();
-        travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
+        travelers.forEach(traveler -> Mockito.when(traveler.updateWallet(Mockito.any()))
                 .thenReturn(Collections.emptyList()));
 
         return travelers;
@@ -99,7 +99,7 @@ class RidePermitActivationApplicationServiceTest {
         List<Traveler> travelers = mockTravelers();
         int numberOfRidePermits = RandomUtils.secure().randomInt(2, 20);
         List<RidePermit> newlyActivatedRidePermits = mockRidePermits(numberOfRidePermits);
-        travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
+        travelers.forEach(traveler -> Mockito.when(traveler.updateWallet(Mockito.any()))
                 .thenReturn(newlyActivatedRidePermits));
 
         return travelers;

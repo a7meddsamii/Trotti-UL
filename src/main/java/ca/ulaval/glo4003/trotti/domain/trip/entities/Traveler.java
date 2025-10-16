@@ -2,37 +2,34 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import java.time.LocalDate;
+
 import java.util.List;
 
 public class Traveler {
 
     private final Idul idul;
     private final Email email;
-    private List<RidePermit> activeRidePermits;
+    private final Wallet wallet;
 
-    public Traveler(Idul idul, Email email, List<RidePermit> activeRidePermits) {
+
+
+    public Traveler(Idul idul, Email email, Wallet wallet) {
         this.idul = idul;
         this.email = email;
-        this.activeRidePermits = activeRidePermits;
+        this.wallet = wallet;
+       
     }
 
-    public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
-        List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
-                .filter(ridePermit -> ridePermit.isActiveFor(LocalDate.now())).toList();
-        List<RidePermit> newlyActiveRidePermits = activeRidePermits.stream()
-                .filter(ridePermit -> !this.activeRidePermits.contains(ridePermit)).toList();
-        this.activeRidePermits = activeRidePermits;
-
-        return newlyActiveRidePermits;
+    public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {
+        return wallet.updateActiveRidePermits(ridePermitsHistory);
     }
 
-    public List<RidePermit> getRidePermits() {
-        return List.copyOf(activeRidePermits);
+    public List<RidePermit> getWallet() {
+        return wallet.getRidePermits();
     }
 
-    public boolean hasActiveRidePermits() {
-        return !this.activeRidePermits.isEmpty();
+    public boolean isWalletEmpty() {
+        return wallet.hasActiveRidePermits();
     }
 
     public Idul getIdul() {

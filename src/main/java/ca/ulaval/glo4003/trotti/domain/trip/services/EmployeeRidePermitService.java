@@ -27,14 +27,14 @@ public class EmployeeRidePermitService {
         LocalDate currentDate = LocalDate.now();
         Optional<Session> session = sessionRegistry.getSession(currentDate);
 
-        if (traveler.hasActiveRidePermits() || session.isEmpty()) {
+        if (traveler.isWalletEmpty() || session.isEmpty()) {
             return Collections.emptyList();
         }
 
         RidePermit employeeRidePermit =
                 new RidePermit(Id.randomId(), traveler.getIdul(), session.get());
 
-        return traveler.updateActiveRidePermits(List.of(employeeRidePermit));
+        return traveler.updateWallet(List.of(employeeRidePermit));
     }
 
     public boolean isEmployee(Idul idul) {

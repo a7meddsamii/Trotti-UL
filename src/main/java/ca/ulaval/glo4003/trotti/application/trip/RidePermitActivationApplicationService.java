@@ -48,7 +48,7 @@ public class RidePermitActivationApplicationService {
             newlyActivatedRidePermits =
                     employeeRidePermitService.handleEmployeeRidePermit(traveler);
         } else {
-            newlyActivatedRidePermits = traveler.updateActiveRidePermits(boughtRidePermitsHistory);
+            newlyActivatedRidePermits = traveler.updateWallet(boughtRidePermitsHistory);
         }
 
         travelerRepository.update(traveler);
@@ -66,6 +66,6 @@ public class RidePermitActivationApplicationService {
             return Collections.emptyList();
         }
 
-        return ridePermitMapper.toDto(traveler.get().getRidePermits());
+        return ridePermitMapper.toDto(traveler.get().getWallet());
     }
 }

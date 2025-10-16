@@ -50,7 +50,7 @@ class TravelerPersistenceMapperTest {
         TravelerRecord record = travelerMapper.toRecord(traveler);
 
         assertTravelersEqual(traveler, record);
-        assertPermitsEquals(traveler.getRidePermits(), record.ridePermits());
+        assertPermitsEquals(traveler.getWallet(), record.ridePermits());
     }
 
     @Test
@@ -60,7 +60,7 @@ class TravelerPersistenceMapperTest {
         Traveler traveler = travelerMapper.toDomain(record);
 
         assertTravelersEqual(traveler, record);
-        Assertions.assertTrue(traveler.getRidePermits().isEmpty());
+        Assertions.assertTrue(traveler.getWallet().isEmpty());
     }
 
     @Test
@@ -70,13 +70,13 @@ class TravelerPersistenceMapperTest {
         Traveler traveler = travelerMapper.toDomain(record);
 
         assertTravelersEqual(traveler, record);
-        assertPermitsEquals(traveler.getRidePermits(), record.ridePermits());
+        assertPermitsEquals(traveler.getWallet(), record.ridePermits());
     }
 
     void assertTravelersEqual(Traveler traveler, TravelerRecord record) {
         Assertions.assertEquals(traveler.getIdul(), record.idul());
         Assertions.assertEquals(traveler.getEmail(), record.email());
-        Assertions.assertEquals(traveler.getRidePermits().size(), record.ridePermits().size());
+        Assertions.assertEquals(traveler.getWallet().size(), record.ridePermits().size());
     }
 
     void assertPermitsEquals(List<RidePermit> ridePermits,

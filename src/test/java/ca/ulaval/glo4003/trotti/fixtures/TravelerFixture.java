@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Wallet;
+
 import java.util.List;
 
 public class TravelerFixture {
@@ -13,15 +15,15 @@ public class TravelerFixture {
 
     private Idul idul = AN_IDUL;
     private Email email = AN_EMAIL;
-    private List<RidePermit> permits = List.of();
+    private Wallet wallet = new Wallet(List.of());
 
     public TravelerFixture withNoRidePermit() {
-        this.permits = List.of();
+        this.wallet = new Wallet(List.of());
         return this;
     }
 
     public TravelerFixture withRidePermit() {
-        this.permits = List.of(new RidePermitFixture().build());
+        this.wallet.updateActiveRidePermits(List.of(new RidePermitFixture().build()));
         return this;
     }
 
@@ -31,6 +33,6 @@ public class TravelerFixture {
     }
 
     public Traveler build() {
-        return new Traveler(idul, email, permits);
+        return new Traveler(idul, email, wallet);
     }
 }
