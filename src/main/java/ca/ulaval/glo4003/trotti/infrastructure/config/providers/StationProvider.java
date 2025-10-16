@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,19 +16,23 @@ public final class StationProvider {
     private static List<Station> stations;
     private static StationProvider instance;
 
-    private StationProvider(Path path, StationMapper stationMapper) {
+    private StationProvider(Path path, StationMapper stationMapper, StationInitializationService stationInitializationService) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
         try (InputStream input = Files.newInputStream(path)) {
             List<StationRecord> stationRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
-            stations = stationRecords.stream().map(stationMapper::toDomain).toList();
+
+            stations = stationRecords.stream()
+                    .map(stationMapper::toDomain)
+                    .peek(stationInitializationService::initializeStation)
+                    .toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }
     }
 
-    public static void initialize(Path path, StationMapper stationMapper) {
-        instance = new StationProvider(path, stationMapper);
+    public static void initialize(Path path, StationMapper stationMapper, StationInitializationService stationInitializationService) {
+        instance = new StationProvider(path, stationMapper, stationInitializationService);
     }
 
     public static StationProvider getInstance() {
