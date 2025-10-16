@@ -43,7 +43,7 @@ class EmployeeRiderPermitServiceTest {
     @Test
     void givenEmployeeThatAlreadyHasActivePermit_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
-        Mockito.when(traveler.isWalletEmpty()).thenReturn(true);
+        Mockito.when(traveler.hasEmptyWallet()).thenReturn(true);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
 

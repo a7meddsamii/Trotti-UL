@@ -26,7 +26,7 @@ public class Wallet {
     }
 
     public List<RidePermit> getRidePermits() {
-        return Collections.unmodifiableList(activeRidePermits);
+        return List.copyOf(activeRidePermits);
     }
 
     public boolean hasActiveRidePermits() {

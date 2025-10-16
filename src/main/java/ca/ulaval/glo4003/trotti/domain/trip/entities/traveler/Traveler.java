@@ -25,11 +25,11 @@ public class Traveler {
         return wallet.updateActiveRidePermits(ridePermitsHistory);
     }
 
-    public List<RidePermit> getWallet() {
+    public List<RidePermit> getWalletPermits() {
         return wallet.getRidePermits();
     }
 
-    public boolean isWalletEmpty() {
+    public boolean hasEmptyWallet() {
         return wallet.hasActiveRidePermits();
     }
 

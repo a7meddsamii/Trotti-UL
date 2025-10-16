@@ -27,7 +27,7 @@ public class EmployeeRidePermitService {
         LocalDate currentDate = LocalDate.now();
         Optional<Session> session = sessionRegistry.getSession(currentDate);
 
-        if (traveler.isWalletEmpty() || session.isEmpty()) {
+        if (traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();
         }
 

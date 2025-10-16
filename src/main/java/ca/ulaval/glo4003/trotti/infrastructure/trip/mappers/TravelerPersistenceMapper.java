@@ -11,7 +11,7 @@ public class TravelerPersistenceMapper {
 
     public TravelerRecord toRecord(Traveler traveler) {
         List<RidePermitRecord> ridePermitRecords =
-                traveler.getWallet().stream().map(this::toRidePermitRecord).toList();
+                traveler.getWalletPermits().stream().map(this::toRidePermitRecord).toList();
 
         return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords);
     }

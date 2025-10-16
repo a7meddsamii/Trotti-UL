@@ -66,6 +66,6 @@ public class RidePermitActivationApplicationService {
             return Collections.emptyList();
         }
 
-        return ridePermitMapper.toDto(traveler.get().getWallet());
+        return ridePermitMapper.toDto(traveler.get().getWalletPermits());
     }
 }
