@@ -12,10 +12,7 @@ public class Scooter {
     private Battery battery;
     private Location stationLocation;
 
-    public Scooter(
-            Id id,
-			Battery battery,
-            Location stationLocation) {
+    public Scooter(Id id, Battery battery, Location stationLocation) {
         this.id = id;
         this.battery = battery;
         this.stationLocation = stationLocation;
@@ -28,20 +25,20 @@ public class Scooter {
         }
 
         this.stationLocation = location;
-		this.battery.changeBatteryState(BatteryState.CHARGING, dockingTime);
+        this.battery.changeBatteryState(BatteryState.CHARGING, dockingTime);
     }
 
     public void undock(LocalDateTime undockingTime) {
         if (this.stationLocation.isEmpty()) {
             throw new InvalidLocation("scooter seems to already be undocked");
         }
-		
-		if (!battery.hasEnoughCharge()) {
-			throw new InvalidBatteryValue("scooter does not have enough battery to be undocked");
-		}
+
+        if (!battery.hasEnoughCharge()) {
+            throw new InvalidBatteryValue("scooter does not have enough battery to be undocked");
+        }
 
         this.stationLocation = Location.empty();
-		this.battery.changeBatteryState(BatteryState.DISCHARGING, undockingTime);
+        this.battery.changeBatteryState(BatteryState.DISCHARGING, undockingTime);
     }
 
     public Location getLocation() {
