@@ -70,6 +70,8 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatS
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryScooterRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryStationRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import io.jsonwebtoken.Jwts;
@@ -209,8 +211,8 @@ public class ServerResourceInstantiation {
         StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper);
         List<Station> stations = StationProvider.getInstance().getStations();
 
-        // scooterRepository = new InMemoryScooterRepository();
-        // stationRepository = new InMemoryStationRepository();
+        scooterRepository = new InMemoryScooterRepository();
+        stationRepository = new InMemoryStationRepository();
 
         ScooterFactory scooterFactory = new ScooterFactory();
         StationInitializationService stationInitializationService =
