@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//placeholder
+// placeholder
 public class InMemoryStationRepository implements StationRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryStationRepository.class);
