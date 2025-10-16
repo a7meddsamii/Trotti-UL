@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public final class SessionProvider {
@@ -20,7 +23,30 @@ public final class SessionProvider {
         try (InputStream input = Files.newInputStream(path)) {
             List<SessionRecord> sessionRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
-            sessions = sessionRecords.stream().map(sessionMapper::toDomain).toList();
+
+            sessionRecords.sort(Comparator.comparing(SessionRecord::startDate));
+
+            List<Session> mappedSessions =
+                    sessionRecords.stream().map(sessionMapper::toDomain).toList();
+
+            List<Session> adjustedSessions = new ArrayList<>();
+
+            for (int i = 0; i < mappedSessions.size(); i++) {
+                Session current = mappedSessions.get(i);
+                LocalDate start = current.getStartDate();
+                LocalDate end;
+
+                if (i < mappedSessions.size() - 1) {
+                    LocalDate nextStart = mappedSessions.get(i + 1).getStartDate();
+                    end = nextStart.minusDays(1);
+                } else {
+                    end = current.getEndDate();
+                }
+
+                adjustedSessions.add(new Session(current.getSemester(), start, end));
+            }
+
+            sessions = List.copyOf(adjustedSessions);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load sessions file at startup", e);
         }
