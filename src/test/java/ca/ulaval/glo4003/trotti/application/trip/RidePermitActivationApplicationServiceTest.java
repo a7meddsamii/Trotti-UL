@@ -58,8 +58,8 @@ class RidePermitActivationApplicationServiceTest {
     void givenTravelers_whenUpdateTravelersPermits_thenEachTravelersShouldUpdateActivatedRidePermitActiveRidePermits() {
         ridePermitActivationApplicationService.updateActivatedRidePermits();
 
-        existingTravelers.forEach(
-                traveler -> Mockito.verify(traveler).updateWallet(Mockito.anyList()));
+        existingTravelers
+                .forEach(traveler -> Mockito.verify(traveler).updateWallet(Mockito.anyList()));
     }
 
     @Test

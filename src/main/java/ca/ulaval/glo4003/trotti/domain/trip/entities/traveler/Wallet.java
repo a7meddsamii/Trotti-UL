@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.WalletException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,6 @@ public class Wallet {
     public Wallet(List<RidePermit> activeRidePermits) {
         this.activeRidePermits = activeRidePermits;
     }
-
 
     public List<RidePermit> updateActiveRidePermits(List<RidePermit> ridePermitsHistory) {
         List<RidePermit> activeRidePermits = ridePermitsHistory.stream()
@@ -38,13 +36,13 @@ public class Wallet {
 
     public Trip startTrip(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
         RidePermit ridePermit = activeRidePermits.stream()
-                .filter((activeRidePermit) -> activeRidePermit.getId().equals(ridePermitId) )
+                .filter((activeRidePermit) -> activeRidePermit.getId().equals(ridePermitId))
                 .findFirst().orElse(null);
 
         if (ridePermit == null) {
             throw new WalletException(" Ride permit not found ");
         }
 
-        return new Trip(startTime,ridePermitId,ridePermit.getIdul(),scooterId );
+        return new Trip(startTime, ridePermitId, ridePermit.getIdul(), scooterId);
     }
 }

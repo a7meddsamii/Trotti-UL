@@ -29,8 +29,8 @@ public class UserInMemoryDatabase {
         BuyerRecord buyerRecord =
                 new BuyerRecord(account.idul(), account.name(), account.email(), List.of(), null);
         buyerTable.put(account.idul(), buyerRecord);
-        TravelerRecord travelerRecord =
-                new TravelerRecord(account.idul(), account.email(), Collections.emptyList(),Collections.emptyList());
+        TravelerRecord travelerRecord = new TravelerRecord(account.idul(), account.email(),
+                Collections.emptyList(), Collections.emptyList());
         travelerTable.put(account.idul(), travelerRecord);
     }
 

@@ -4,25 +4,21 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripBookException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-
 class TripBookTest {
-
 
     private static final Id AN_ID = Id.randomId();
     private static final LocalDateTime END_DATE = LocalDateTime.now();
     private static final LocalDateTime START_DATE = LocalDateTime.now();
     private static final Idul AN_IDUL = Idul.from("abc");
-
 
     private TripBook tripBook;
     private Trip trip;
@@ -46,7 +42,7 @@ class TripBookTest {
     void givenNullTrip_whenAddTrip_thenThrowsTripBookException() {
         Executable nullTripAdd = () -> tripBook.add(null);
 
-        Assertions.assertThrows(TripBookException.class,nullTripAdd);
+        Assertions.assertThrows(TripBookException.class, nullTripAdd);
     }
 
     @Test
@@ -55,7 +51,7 @@ class TripBookTest {
 
         Executable existingTripAdd = () -> tripBook.add(trip);
 
-        Assertions.assertThrows(TripBookException.class,existingTripAdd);
+        Assertions.assertThrows(TripBookException.class, existingTripAdd);
     }
 
     @Test
@@ -70,19 +66,19 @@ class TripBookTest {
 
     @Test
     void givenTripIdAndEndDate_whenEndTrip_ThenReturnsTripWithEndDate() {
-        Trip startTrip = new Trip(AN_ID,START_DATE,AN_ID,AN_IDUL,AN_ID);
+        Trip startTrip = new Trip(AN_ID, START_DATE, AN_ID, AN_IDUL, AN_ID);
         tripBook.add(startTrip);
 
         Trip endTrip = tripBook.endTrip(AN_ID, END_DATE);
 
-        Assertions.assertEquals(startTrip.end(END_DATE).getEndTime(), endTrip.getEndTime() );
+        Assertions.assertEquals(startTrip.end(END_DATE).getEndTime(), endTrip.getEndTime());
     }
 
     @Test
     void givenTripIdNotPresentAndStartDate_whenEndTrip_ThenThrowsTripBookException() {
         Executable NoTripEnd = () -> tripBook.endTrip(AN_ID, START_DATE);
 
-        Assertions.assertThrows(TripBookException.class,NoTripEnd);
+        Assertions.assertThrows(TripBookException.class, NoTripEnd);
     }
 
 }

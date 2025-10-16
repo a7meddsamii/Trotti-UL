@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Wallet;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
-
 import java.util.List;
 
 public class TravelerPersistenceMapper {
@@ -19,20 +18,21 @@ public class TravelerPersistenceMapper {
 
         List<TripRecord> trips = traveler.getBookTrips().stream().map(this::toTripRecord).toList();
 
-        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,trips);
+        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,
+                trips);
     }
 
     public Traveler toDomain(TravelerRecord travelerRecord) {
         List<RidePermit> ridePermits =
                 travelerRecord.ridePermits().stream().map(this::toRidePermitDomain).toList();
 
-        Wallet wallet =new Wallet(ridePermits);
+        Wallet wallet = new Wallet(ridePermits);
 
         List<Trip> trips = travelerRecord.trips().stream().map(this::toTripDomain).toList();
 
         TripBook tripBook = new TripBook(trips);
 
-        return new Traveler(travelerRecord.idul(), travelerRecord.email(), wallet,tripBook);
+        return new Traveler(travelerRecord.idul(), travelerRecord.email(), wallet, tripBook);
     }
 
     private RidePermit toRidePermitDomain(RidePermitRecord ridePermitRecord) {
@@ -40,9 +40,9 @@ public class TravelerPersistenceMapper {
                 ridePermitRecord.session());
     }
 
-    private Trip  toTripDomain(TripRecord tripRecord) {
-        return new Trip(tripRecord.id(),tripRecord.startDateTime(),
-                tripRecord.ridePermitId(),tripRecord.travelerIdul(),tripRecord.scooterId());
+    private Trip toTripDomain(TripRecord tripRecord) {
+        return new Trip(tripRecord.id(), tripRecord.startDateTime(), tripRecord.ridePermitId(),
+                tripRecord.travelerIdul(), tripRecord.scooterId());
     }
 
     private RidePermitRecord toRidePermitRecord(RidePermit ridePermit) {
@@ -51,12 +51,8 @@ public class TravelerPersistenceMapper {
     }
 
     private TripRecord toTripRecord(Trip trip) {
-        return new TripRecord(trip.getId(),
-                trip.getStartTime(),
-                trip.getRidePermit(),
-                trip.getTravelerIdul(),
-                trip.getScooterId());
+        return new TripRecord(trip.getId(), trip.getStartTime(), trip.getRidePermit(),
+                trip.getTravelerIdul(), trip.getScooterId());
     }
-
 
 }

@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripBook;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Wallet;
-
 import java.util.List;
 
 public class TravelerFixture {
@@ -34,8 +33,8 @@ public class TravelerFixture {
         return this;
     }
 
-    public TravelerFixture withTrips(Trip trip ) {
-        this.tripBook = new TripBook(List.of( trip ));
+    public TravelerFixture withTrips(Trip trip) {
+        this.tripBook = new TripBook(List.of(trip));
         return this;
     }
 

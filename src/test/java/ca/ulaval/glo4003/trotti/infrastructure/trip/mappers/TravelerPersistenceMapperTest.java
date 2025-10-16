@@ -11,12 +11,11 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-
-import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +29,11 @@ class TravelerPersistenceMapperTest {
     private static final Id TRIP_ID = Id.randomId();
     private static final Id SCOOTER_ID = Id.randomId();
     private static final LocalDateTime START_DATE = LocalDateTime.of(2019, Month.JANUARY, 1, 0, 0);
-    private static final List<TripRecord> TRIPS = List.of( new TripRecord(TRIP_ID,START_DATE,PERMIT_ID,IDUL,SCOOTER_ID));
+    private static final List<TripRecord> TRIPS =
+            List.of(new TripRecord(TRIP_ID, START_DATE, PERMIT_ID, IDUL, SCOOTER_ID));
     private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
             List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
                     LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
-
 
     private TravelerPersistenceMapper travelerMapper;
     private TravelerFixture travelerFixture;
@@ -66,7 +65,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithoutPermit_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(),List.of());
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), List.of());
 
         Traveler traveler = travelerMapper.toDomain(record);
 
@@ -76,7 +75,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithPermit_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS,TRIPS);
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS, TRIPS);
 
         Traveler traveler = travelerMapper.toDomain(record);
 
@@ -106,7 +105,7 @@ class TravelerPersistenceMapperTest {
     @Test
     void givenTravelerRecordWithTrips_whenToDomain_thenReturnCorrespondingTraveler() {
         TripRecord trip = Mockito.mock(TripRecord.class);
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(),List.of(trip));
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), List.of(trip));
 
         Traveler traveler = travelerMapper.toDomain(record);
 

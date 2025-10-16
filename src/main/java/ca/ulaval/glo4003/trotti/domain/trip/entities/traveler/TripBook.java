@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripBookException;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,11 +10,9 @@ public class TripBook {
 
     private final List<Trip> unfinishedTrips;
 
-
     public TripBook(List<Trip> unfinishedTrips) {
         this.unfinishedTrips = unfinishedTrips;
     }
-
 
     public void add(Trip startTrip) {
         if (startTrip == null) {
@@ -28,8 +25,8 @@ public class TripBook {
     }
 
     public Trip endTrip(Id tripId, LocalDateTime endDateTime) {
-        Trip endtrip = unfinishedTrips.stream()
-                .filter(trip -> trip.getId().equals(tripId)).findFirst().orElse(null);
+        Trip endtrip = unfinishedTrips.stream().filter(trip -> trip.getId().equals(tripId))
+                .findFirst().orElse(null);
         if (endtrip == null) {
             throw new TripBookException("Trip does not exist");
         }
