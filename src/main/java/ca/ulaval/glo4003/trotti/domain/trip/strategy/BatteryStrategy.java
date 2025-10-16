@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.strategy;
+package ca.ulaval.glo4003.trotti.domain.trip.strategy;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import java.time.LocalDateTime;
 
 public interface BatteryStrategy {

@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.trotti.domain.trip.scooter.values;
+package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.scooter.exceptions.InvalidBatteryValue;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public class BatteryLevel {
@@ -9,30 +10,18 @@ public class BatteryLevel {
     private static final BigDecimal MAX_BATTERY_VALUE = BigDecimal.valueOf(100);
     private final BigDecimal value;
 
+    private BatteryLevel(BigDecimal value) {
+        validateBatteryValue(value);
+        this.value = value.setScale(2, RoundingMode.HALF_UP);
+    }
+
     public static BatteryLevel from(BigDecimal value) {
         return new BatteryLevel(value);
     }
 
-    private BatteryLevel(BigDecimal value) {
-        validateBatteryValue(value);
-        this.value = value;
-    }
-
-    private void validateBatteryValue(BigDecimal value) {
-        if (value.compareTo(MIN_BATTERY_VALUE) < 0 || value.compareTo(MAX_BATTERY_VALUE) > 0) {
-            throw new InvalidBatteryValue("Battery value must be between" + MIN_BATTERY_VALUE
-                    + " and " + MAX_BATTERY_VALUE);
-        }
-    }
-
     public BatteryLevel applyDelta(BigDecimal delta) {
         BigDecimal newValue = value.add(delta);
-
-        if (newValue.compareTo(MIN_BATTERY_VALUE) < 0) {
-            newValue = MIN_BATTERY_VALUE;
-        } else if (newValue.compareTo(MAX_BATTERY_VALUE) > 0) {
-            newValue = MAX_BATTERY_VALUE;
-        }
+        newValue = clampValue(newValue);
 
         return BatteryLevel.from(newValue);
     }
@@ -64,5 +53,16 @@ public class BatteryLevel {
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    private void validateBatteryValue(BigDecimal value) {
+        if (value.compareTo(MIN_BATTERY_VALUE) < 0 || value.compareTo(MAX_BATTERY_VALUE) > 0) {
+            throw new InvalidBatteryValue("Battery value must be between" + MIN_BATTERY_VALUE
+                    + " and " + MAX_BATTERY_VALUE);
+        }
+    }
+
+    private BigDecimal clampValue(BigDecimal value) {
+        return value.max(MIN_BATTERY_VALUE).min(MAX_BATTERY_VALUE);
     }
 }
