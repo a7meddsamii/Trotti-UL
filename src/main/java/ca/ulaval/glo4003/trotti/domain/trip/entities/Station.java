@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-
 import java.util.List;
 
 public class Station {
@@ -12,11 +11,7 @@ public class Station {
     private final List<Id> scootersInStation;
     private final int maximumCapacity;
 
-    public Station(
-            Location location,
-            List<Id> scootersInStation,
-            int maximumCapacity
-    ) {
+    public Station(Location location, List<Id> scootersInStation, int maximumCapacity) {
         this.location = location;
         this.scootersInStation = scootersInStation;
         this.maximumCapacity = maximumCapacity;

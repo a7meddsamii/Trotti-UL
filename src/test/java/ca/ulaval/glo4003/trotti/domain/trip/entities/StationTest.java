@@ -4,14 +4,13 @@ import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class StationTest {
 
