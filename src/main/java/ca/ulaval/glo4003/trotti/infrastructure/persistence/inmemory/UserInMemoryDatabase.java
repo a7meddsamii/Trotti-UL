@@ -66,6 +66,10 @@ public class UserInMemoryDatabase {
         return List.copyOf(travelerTable.values());
     }
 
+    public TravelerRecord selectFromTravelerTable(Idul idul) {
+        return travelerTable.get(idul);
+    }
+
     private void enforceForeignKeyConstraint(Idul idul) {
         if (!accountTable.containsKey(idul)) {
             throw new IllegalStateException(

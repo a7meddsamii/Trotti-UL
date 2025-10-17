@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
@@ -21,6 +22,12 @@ public class InMemoryTravelerRepository implements TravelerRepository {
     @Override
     public List<Traveler> findAll() {
         return databaseDriver.getAllTravelers().stream().map(travelerMapper::toDomain).toList();
+    }
+
+    @Override
+    public Traveler findByIdul(Idul idul) {
+        TravelerRecord travelerRecord = databaseDriver.selectFromTravelerTable(idul);
+        return travelerMapper.toDomain(travelerRecord);
     }
 
     @Override

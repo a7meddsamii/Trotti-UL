@@ -30,6 +30,10 @@ public class Wallet {
         return List.copyOf(activeRidePermits);
     }
 
+    public boolean hasRidePermit(Id id) {
+        return this.activeRidePermits.stream().anyMatch(ridePermit -> ridePermit.matches(id));
+    }
+
     public boolean hasActiveRidePermits() {
         return !this.activeRidePermits.isEmpty();
     }
