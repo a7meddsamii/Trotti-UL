@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.commons.stations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record StationRecord(
+public record StationDataRecord(
         @JsonProperty("location") String location,
         @JsonProperty("name") String name,
         @JsonProperty("capacity") int capacity

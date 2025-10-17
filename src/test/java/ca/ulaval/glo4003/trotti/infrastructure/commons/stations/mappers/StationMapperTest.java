@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +21,9 @@ class StationMapperTest {
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnsCorrectStation() {
-        StationRecord stationRecord = new StationRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
+        StationDataRecord stationDataRecord = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
 
-        Station station = stationMapper.toDomain(stationRecord);
+        Station station = stationMapper.toDomain(stationDataRecord);
 
         Assertions.assertEquals(A_BUILDING, station.getStationLocation().getBuilding());
         Assertions.assertEquals(A_SPOT_NAME, station.getStationLocation().getSpotName());

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,10 +18,10 @@ public final class StationProvider {
     private StationProvider(Path path, StationMapper stationMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
         try (InputStream input = Files.newInputStream(path)) {
-            List<StationRecord> stationRecords =
+            List<StationDataRecord> stationDataRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
 
-            stations = stationRecords.stream().map(stationMapper::toDomain).toList();
+            stations = stationDataRecords.stream().map(stationMapper::toDomain).toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }
