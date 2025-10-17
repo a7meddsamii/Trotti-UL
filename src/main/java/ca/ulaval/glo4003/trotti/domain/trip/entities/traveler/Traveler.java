@@ -22,13 +22,14 @@ public class Traveler {
         this.tripBook = tripBook;
     }
 
-    public void startTraveling(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
+    public Id startTraveling(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
         Trip startTrip = wallet.startTrip(startTime, ridePermitId, scooterId);
         tripBook.add(startTrip);
+        return startTrip.getId();
     }
 
-    public Trip endTraveling(Id trip, LocalDateTime endDateTime) {
-        return tripBook.endTrip(trip, endDateTime);
+    public Trip endTraveling(Id tripId, LocalDateTime endDateTime) {
+        return tripBook.endTrip(tripId, endDateTime);
     }
 
     public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {
