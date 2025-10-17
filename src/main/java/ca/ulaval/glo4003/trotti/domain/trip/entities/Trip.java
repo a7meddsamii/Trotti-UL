@@ -48,6 +48,8 @@ public class Trip {
     public Trip end(LocalDateTime endTime) {
         if (this.endTime != null)
             throw new TripException("Cannot finish trip after end time");
+        if (endTime.isBefore(this.startTime))
+            throw new TripException("End time cannot be before start time");
 
         return new Trip(id, startTime, ridePermit, travelerId, scooterId, endTime);
     }

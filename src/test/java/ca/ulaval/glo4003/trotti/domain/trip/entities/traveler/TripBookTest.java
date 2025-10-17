@@ -25,7 +25,7 @@ class TripBookTest {
     private List<Trip> trips;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         trips = new ArrayList<>();
         trip = Mockito.mock(Trip.class);
         tripBook = new TripBook(trips);
