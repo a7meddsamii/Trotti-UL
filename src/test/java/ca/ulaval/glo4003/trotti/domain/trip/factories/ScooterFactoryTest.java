@@ -23,15 +23,15 @@ class ScooterFactoryTest {
     }
 
     @Test
-    void whenCreateScooters_thenReturnsCorrectNumberOfScooters() {
-        List<Scooter> scooters = scooterFactory.createScooters(SCOOTER_COUNT, A_STATION_LOCATION);
+    void whenCreateScooters_thenReturnsCorrectNumberOf() {
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
 
         Assertions.assertEquals(SCOOTER_COUNT, scooters.size());
     }
 
     @Test
-    void whenCreateScooters_thenAllScootersHaveUniqueIds() {
-        List<Scooter> scooters = scooterFactory.createScooters(SCOOTER_COUNT, A_STATION_LOCATION);
+    void whenCreateScooters_thenAllHaveUniqueIds() {
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
 
         long uniqueIds = scooters.stream().map(Scooter::getId).distinct().count();
 
@@ -39,8 +39,8 @@ class ScooterFactoryTest {
     }
 
     @Test
-    void whenCreateScooters_thenAllScootersAreAtStationLocation() {
-        List<Scooter> scooters = scooterFactory.createScooters(SCOOTER_COUNT, A_STATION_LOCATION);
+    void whenCreateScooters_thenAllAreAtStationLocation() {
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
 
         boolean allAtStation = scooters.stream()
                 .allMatch(scooter -> scooter.getLocation().equals(A_STATION_LOCATION));
@@ -49,8 +49,8 @@ class ScooterFactoryTest {
     }
 
     @Test
-    void whenCreateScooters_thenAllScootersHaveFullBattery() {
-        List<Scooter> scooters = scooterFactory.createScooters(SCOOTER_COUNT, A_STATION_LOCATION);
+    void whenCreateScooters_thenAllHaveFullBattery() {
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
 
         boolean allFullyCharged = scooters.stream()
                 .allMatch(scooter -> scooter.getBattery().getBatteryLevel().equals(FULL_CHARGE));
@@ -59,8 +59,8 @@ class ScooterFactoryTest {
     }
 
     @Test
-    void whenCreateScootersWithZeroCount_thenReturnsEmptyList() {
-        List<Scooter> scooters = scooterFactory.createScooters(0, A_STATION_LOCATION);
+    void whenCreateWithZeroCount_thenReturnsEmptyList() {
+        List<Scooter> scooters = scooterFactory.create(0, A_STATION_LOCATION);
 
         Assertions.assertTrue(scooters.isEmpty());
     }

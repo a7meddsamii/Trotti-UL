@@ -15,7 +15,7 @@ public class ScooterFactory {
 
     private static final BatteryLevel FULL_CHARGE = BatteryLevel.from(BigDecimal.valueOf(100));
 
-    public List<Scooter> createScooters(int count, Location stationLocation) {
+    public List<Scooter> create(int count, Location stationLocation) {
         List<Scooter> scooters = new ArrayList<>(count);
         LocalDateTime now = LocalDateTime.now();
 
