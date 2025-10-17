@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
@@ -14,14 +15,17 @@ public class UnlockCodeApplicationService {
 
     private final UnlockCodeService unlockCodeService;
     private final TravelerRepository travelerRepository;
+    private final NotificationService<UnlockCode> notificationService;
     private final UnlockCodeMapper unlockCodeMapper;
 
     public UnlockCodeApplicationService(
             UnlockCodeService unlockCodeService,
             TravelerRepository travelerRepository,
+            NotificationService<UnlockCode> notificationService,
             UnlockCodeMapper unlockCodeMapper) {
         this.unlockCodeService = unlockCodeService;
         this.travelerRepository = travelerRepository;
+        this.notificationService = notificationService;
         this.unlockCodeMapper = unlockCodeMapper;
     }
 
@@ -33,6 +37,8 @@ public class UnlockCodeApplicationService {
         }
 
         UnlockCode unlockCode = unlockCodeService.requestUnlockCode(ridePermitId);
+
+        notificationService.notify(traveler.getEmail(), unlockCode);
 
         return unlockCodeMapper.toDto(unlockCode);
     }

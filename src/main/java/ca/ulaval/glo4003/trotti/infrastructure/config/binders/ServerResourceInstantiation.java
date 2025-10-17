@@ -40,7 +40,9 @@ import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.communication.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
@@ -319,9 +321,11 @@ public class ServerResourceInstantiation {
 
     private void loadUnlockCodeApplicationService() {
         UnlockCodeStore unlockCodeStore = new GuavaUnlockCodeStore();
+        NotificationService<UnlockCode> notificationService =
+                new UnlockCodeNotificationService(emailService);
         locator.register(UnlockCodeStore.class, unlockCodeStore);
         unlockCodeApplicationService = new UnlockCodeApplicationService(
-                new UnlockCodeService(unlockCodeStore, SEVER_CLOCK), travelerRepository,
+                new UnlockCodeService(unlockCodeStore, SEVER_CLOCK), travelerRepository, notificationService,
                 new UnlockCodeMapper());
     }
 
