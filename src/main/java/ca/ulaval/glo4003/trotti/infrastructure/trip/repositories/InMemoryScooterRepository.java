@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 
 public class InMemoryScooterRepository implements ScooterRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryScooterRepository.class);
-
     private final Map<Id, ScooterRecord> scooters = new HashMap<>();
     private final ScooterPersistenceMapper scooterMapper;
 
@@ -24,7 +22,6 @@ public class InMemoryScooterRepository implements ScooterRepository {
 
     @Override
     public void save(Scooter scooter) {
-        LOGGER.info("Saving scooter {}", scooter.getId());
         ScooterRecord record = scooterMapper.toRecord(scooter);
         scooters.put(scooter.getId(), record);
     }

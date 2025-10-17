@@ -44,4 +44,12 @@ public class Scooter {
     public Location getLocation() {
         return stationLocation;
     }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Battery getBattery() {
+        return battery;
+    }
 }

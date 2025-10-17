@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.ScooterRecord;
@@ -9,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ScooterPersistenceMapperTest {
-
-    private static final Id SCOOTER_ID = Id.randomId();
 
     private ScooterPersistenceMapper scooterMapper;
     private ScooterFixture scooterFixture;
