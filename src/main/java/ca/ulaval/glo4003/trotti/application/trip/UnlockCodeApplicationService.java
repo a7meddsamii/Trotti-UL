@@ -5,12 +5,10 @@ import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-import java.util.Optional;
 
 public class UnlockCodeApplicationService {
 
@@ -30,11 +28,8 @@ public class UnlockCodeApplicationService {
     public UnlockCodeDto generateUnlockCode(Idul idul, Id ridePermitId) {
         Traveler traveler = travelerRepository.findByIdul(idul);
 
-        Optional<RidePermit> ridePermit =
-                traveler.getRidePermits().stream().filter(r -> r.matches(ridePermitId)).findFirst();
-
-        if (ridePermit.isEmpty()) {
-            throw new NotFoundException("Ride permit not found or not activated yet");
+        if (!traveler.hasRidePermit(ridePermitId)) {
+            throw new NotFoundException("Ride permit not found or not activated for this traveler");
         }
 
         UnlockCode unlockCode = unlockCodeService.requestUnlockCode(ridePermitId);

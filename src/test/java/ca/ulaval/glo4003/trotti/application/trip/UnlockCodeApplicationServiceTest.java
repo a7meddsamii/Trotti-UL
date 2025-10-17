@@ -4,13 +4,11 @@ import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +24,6 @@ class UnlockCodeApplicationServiceTest {
     private UnlockCodeMapper unlockCodeMapper;
     private UnlockCodeService unlockCodeService;
     private Traveler traveler;
-    private RidePermit ridePermit;
 
     private UnlockCodeApplicationService unlockCodeApplicationService;
 
@@ -35,7 +32,6 @@ class UnlockCodeApplicationServiceTest {
         travelerRepository = Mockito.mock(TravelerRepository.class);
         unlockCodeMapper = Mockito.mock(UnlockCodeMapper.class);
         unlockCodeService = Mockito.mock(UnlockCodeService.class);
-        ridePermit = Mockito.mock(RidePermit.class);
 
         unlockCodeApplicationService = new UnlockCodeApplicationService(unlockCodeService,
                 travelerRepository, unlockCodeMapper);
@@ -45,8 +41,7 @@ class UnlockCodeApplicationServiceTest {
     void givenTravelerWithPassId_whenGenerateUnlockCode_thenUnlockCodeServiceRequestsCode() {
         traveler = Mockito.mock(Traveler.class);
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        Mockito.when(traveler.getRidePermits()).thenReturn(List.of(ridePermit));
-        Mockito.when(ridePermit.matches(A_RIDE_PERMIT_ID)).thenReturn(true);
+        Mockito.when(traveler.hasRidePermit(A_RIDE_PERMIT_ID)).thenReturn(true);
         Mockito.when(travelerRepository.findByIdul(A_IDUL)).thenReturn(traveler);
         Mockito.when(unlockCodeService.requestUnlockCode(A_RIDE_PERMIT_ID)).thenReturn(unlockCode);
 
