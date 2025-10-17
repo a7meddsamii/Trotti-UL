@@ -21,7 +21,8 @@ class StationMapperTest {
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnsCorrectStation() {
-        StationDataRecord stationDataRecord = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
+        StationDataRecord stationDataRecord =
+                new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
 
         Station station = stationMapper.toDomain(stationDataRecord);
 

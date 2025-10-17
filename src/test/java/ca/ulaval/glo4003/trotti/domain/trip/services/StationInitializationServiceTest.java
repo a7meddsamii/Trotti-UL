@@ -54,8 +54,7 @@ class StationInitializationServiceTest {
 
         stationInitializationService.initializeStations(List.of(station));
 
-        Mockito.verify(scooterFactory).create(EXPECTED_INITIAL_SCOOTER_COUNT,
-                A_STATION_LOCATION);
+        Mockito.verify(scooterFactory).create(EXPECTED_INITIAL_SCOOTER_COUNT, A_STATION_LOCATION);
     }
 
     @Test
