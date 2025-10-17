@@ -34,7 +34,7 @@ class StationTest {
     }
 
     @Test
-    void givenScooterAlreadyInStation_whenDockScooter_thenThrowsInvalidDockException() {
+    void givenScooterAlreadyInStation_whenDockScooter_thenThrowsException() {
         station.dockScooter(A_SCOOTER_ID);
 
         Executable dock = () -> station.dockScooter(A_SCOOTER_ID);
@@ -43,7 +43,7 @@ class StationTest {
     }
 
     @Test
-    void givenStationAtMaximumCapacity_whenDockScooter_thenThrowsInvalidDockException() {
+    void givenStationAtMaximumCapacity_whenDockScooter_thenThrowsException() {
         station.dockScooter(A_SCOOTER_ID);
         station.dockScooter(SECOND_SCOOTER_ID);
 
@@ -62,7 +62,7 @@ class StationTest {
     }
 
     @Test
-    void givenScooterNotInStation_whenUndockScooter_thenThrowsInvalidUndockException() {
+    void givenScooterNotInStation_whenUndockScooter_thenThrowsException() {
         Executable undock = () -> station.undockScooter(A_SCOOTER_ID);
 
         Assertions.assertThrows(InvalidUndock.class, undock);
