@@ -2,7 +2,7 @@ name: PRNOTIFIER
 
 on:
   pull_request:
-    types: [opened, reopened, closed]
+    types: [opened, reopened, closed, ready_for_review]
 
 jobs:
   notify:
@@ -32,7 +32,7 @@ jobs:
           PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
         run: |
           case "$PR_ACTION" in
-            opened)
+            opened|ready_for_review)
               STATUS="Pull request opened"
               COLOR=5763719
               ;;

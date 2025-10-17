@@ -33,6 +33,10 @@ public class RidePermit {
         return session.contains(date);
     }
 
+    public boolean matches(Id id) {
+        return this.id.equals(id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
