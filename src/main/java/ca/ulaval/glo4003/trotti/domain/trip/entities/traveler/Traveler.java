@@ -43,6 +43,10 @@ public class Traveler {
         return tripBook.getTrips();
     }
 
+    public boolean walletHasPermit(Id ridePermitId) {
+        return wallet.hasRidePermit(ridePermitId);
+    }
+
     public boolean hasEmptyWallet() {
         return wallet.hasActiveRidePermits();
     }
