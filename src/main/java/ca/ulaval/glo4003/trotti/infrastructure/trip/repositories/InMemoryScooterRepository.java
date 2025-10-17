@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMa
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.ScooterRecord;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +30,9 @@ public class InMemoryScooterRepository implements ScooterRepository {
     }
 
     @Override
-    public Scooter findById(Id scooterId) {
-        ScooterRecord record = scooters.get(scooterId);
-        return record != null ? scooterMapper.toDomain(record) : null;
+    public Optional<Scooter> findById(Id scooterId) {
+
+        return Optional.ofNullable(scooters.get(scooterId))
+                .map(scooterMapper::toDomain);
     }
 }
