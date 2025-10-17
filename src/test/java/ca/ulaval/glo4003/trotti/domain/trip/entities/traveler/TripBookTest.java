@@ -16,8 +16,8 @@ import org.mockito.Mockito;
 class TripBookTest {
 
     private static final Id AN_ID = Id.randomId();
-    private static final LocalDateTime END_DATE = LocalDateTime.now();
     private static final LocalDateTime START_DATE = LocalDateTime.now();
+    private static final LocalDateTime END_DATE = START_DATE.plusMinutes(1);
     private static final Idul AN_IDUL = Idul.from("abc");
 
     private TripBook tripBook;

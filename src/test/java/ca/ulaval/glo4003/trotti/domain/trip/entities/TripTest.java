@@ -16,7 +16,7 @@ class TripTest {
     private static final Id AN_ID = Id.randomId();
     private static final Idul AN_IDUL = Idul.from("abcd123");
     private static final LocalDateTime START_TIME = LocalDateTime.now();
-    private static final LocalDateTime END_TIME = LocalDateTime.now();
+    private static final LocalDateTime END_TIME = START_TIME.plusMinutes(1);
 
 
     private Trip trip;
