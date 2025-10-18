@@ -35,4 +35,16 @@ public class Station {
 
         dockedScooters.remove(scooterId);
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public List<Id> getDockedScooters() {
+        return List.copyOf(dockedScooters);
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }
