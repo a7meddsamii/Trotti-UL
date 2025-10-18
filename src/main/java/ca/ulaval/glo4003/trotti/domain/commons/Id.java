@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**
  * @deprecated A following PR will make this class abstract to enforce the use of specific ID classes.
- *  so from this point on, please use or create specific ID classes (e.g., OrderId, UserId, etc.) that extend this class.
+ *  so from this point on, please use or create specific ID classes (e.g., OrderId, TransactionId, etc.) that extend this class.
  *  as an example, you can refer to {@link ca.ulaval.glo4003.trotti.domain.order.values.OrderId}.
  */
 public class Id {
