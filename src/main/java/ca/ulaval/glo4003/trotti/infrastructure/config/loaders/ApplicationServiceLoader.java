@@ -31,13 +31,13 @@ import java.util.List;
 public class ApplicationServiceLoader extends ResourceLoader {
     @Override
     public void load() {
-        loadAccountService();
+        loadAccountApplicationService();
         loadOrderApplicationService();
         loadRidePermitActivationApplicationService();
         loadCartApplicationService();
     }
 
-    private void loadAccountService() {
+    private void loadAccountApplicationService() {
         AccountRepository accountRepository = this.resourceLocator.resolve(AccountRepository.class);
         AuthenticationService authenticationService =
                 this.resourceLocator.resolve(AuthenticationService.class);
