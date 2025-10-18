@@ -7,11 +7,7 @@ public class RidePermitId extends Id {
 	public static RidePermitId from(String value) {
 		return new RidePermitId(value);
 	}
-
-	private RidePermitId() {
-		super();
-	}
-
+	
 	private RidePermitId(String value) {
 		super(value);
 	}
