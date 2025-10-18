@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
@@ -25,7 +24,6 @@ class UnlockCodeApplicationServiceTest {
 
     private TravelerRepository travelerRepository;
     private NotificationService<UnlockCode> notificationService;
-    private UnlockCodeMapper unlockCodeMapper;
     private UnlockCodeService unlockCodeService;
     private Traveler traveler;
 
@@ -35,11 +33,10 @@ class UnlockCodeApplicationServiceTest {
     void setup() {
         notificationService = Mockito.mock(NotificationService.class);
         travelerRepository = Mockito.mock(TravelerRepository.class);
-        unlockCodeMapper = Mockito.mock(UnlockCodeMapper.class);
         unlockCodeService = Mockito.mock(UnlockCodeService.class);
 
         unlockCodeApplicationService = new UnlockCodeApplicationService(unlockCodeService,
-                travelerRepository, notificationService, unlockCodeMapper);
+                travelerRepository, notificationService);
     }
 
     @Test
