@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StationFixture {
-    public static final Location A_LOCATION =Location.of("vachon", "stationX");
+    public static final Location A_LOCATION = Location.of("vachon", "stationX");
     public static final List<Id> DOCKED_SCOOTERS = new ArrayList<>();
     public static final int A_CAPACITY = 10;
 

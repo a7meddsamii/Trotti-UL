@@ -26,15 +26,13 @@ public class InMemoryStationRepository implements StationRepository {
 
     @Override
     public Optional<Station> findByLocation(Location location) {
-        return Optional.ofNullable(stations.get(location))
-            .map(stationMapper::toDomain);
+        return Optional.ofNullable(stations.get(location)).map(stationMapper::toDomain);
     }
 
     @Override
     public Optional<Station> findByScooterId(Id scooterId) {
         return stations.values().stream()
-            .filter(record ->  record.dockedScooters().contains(scooterId))
-            .findFirst()
-            .map(stationMapper::toDomain);
+                .filter(record -> record.dockedScooters().contains(scooterId)).findFirst()
+                .map(stationMapper::toDomain);
     }
 }

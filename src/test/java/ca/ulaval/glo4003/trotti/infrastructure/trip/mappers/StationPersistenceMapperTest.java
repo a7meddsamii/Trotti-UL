@@ -1,15 +1,12 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StationPersistenceMapperTest {
 
@@ -35,7 +32,8 @@ class StationPersistenceMapperTest {
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
-        StationRecord record = new StationRecord(StationFixture.A_LOCATION, StationFixture.DOCKED_SCOOTERS, StationFixture.A_CAPACITY);
+        StationRecord record = new StationRecord(StationFixture.A_LOCATION,
+                StationFixture.DOCKED_SCOOTERS, StationFixture.A_CAPACITY);
 
         Station station = stationMapper.toDomain(record);
 
