@@ -15,11 +15,11 @@ public class Id {
         return new Id();
     }
 
-    private Id() {
+    protected Id() {
         this.value = UUID.randomUUID();
     }
-
-    private Id(String value) {
+	
+	protected Id(String value) {
         try {
             this.value = UUID.fromString(value);
         } catch (IllegalArgumentException e) {
