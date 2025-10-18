@@ -8,7 +8,7 @@ public class OrderId extends Id {
 		return new OrderId(value);
 	}
 	
-	public static Id randomId() {
+	public static OrderId randomId() {
 		return new OrderId();
 	} 
 	
