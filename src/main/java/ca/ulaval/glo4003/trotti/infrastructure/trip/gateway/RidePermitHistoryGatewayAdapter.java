@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.util.List;
 
 public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway {
@@ -20,6 +21,7 @@ public class RidePermitHistoryGatewayAdapter implements RidePermitHistoryGateway
     }
 
     private RidePermit translate(Pass pass) {
-        return new RidePermit(pass.getId(), pass.getBuyerIdul(), pass.getSession());
+        return new RidePermit(RidePermitId.from(pass.getId().toString()), pass.getBuyerIdul(),
+                pass.getSession());
     }
 }

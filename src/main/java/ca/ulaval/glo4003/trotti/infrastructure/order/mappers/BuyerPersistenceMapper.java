@@ -48,7 +48,7 @@ public class BuyerPersistenceMapper {
 
     private Pass toPassDomain(PassRecord record) {
         return new Pass(record.maximumDailyTravelTime(), record.session(),
-                record.billingFrequency(), record.id(), record.owner());
+                record.billingFrequency(), record.passId(), record.owner());
     }
 
     private CreditCard toPaymentMethodDomain(CreditCardRecord record) {

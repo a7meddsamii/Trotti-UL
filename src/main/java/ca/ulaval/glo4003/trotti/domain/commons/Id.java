@@ -4,20 +4,21 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * @deprecated A following PR will make this class abstract to enforce the use of specific ID classes.
- *  so from this point on, please use or create specific ID classes (e.g., OrderId, TransactionId, etc.) that extend this class.
- *  as an example, you can refer to {@link ca.ulaval.glo4003.trotti.domain.order.values.OrderId}.
+ * @deprecated A following PR will make this class abstract to enforce the use of specific ID
+ *             classes. so from this point on, please use or create specific ID classes (e.g.,
+ *             OrderId, TransactionId, etc.) that extend this class. as an example, you can refer to
+ *             {@link ca.ulaval.glo4003.trotti.domain.order.values.OrderId}.
  */
 public class Id {
 
     private final UUID value;
 
-	@Deprecated
+    @Deprecated
     public static Id from(String value) {
         return new Id(value);
     }
 
-	@Deprecated
+    @Deprecated
     public static Id randomId() {
         return new Id();
     }
@@ -25,8 +26,8 @@ public class Id {
     protected Id() {
         this.value = UUID.randomUUID();
     }
-	
-	protected Id(String value) {
+
+    protected Id(String value) {
         try {
             this.value = UUID.fromString(value);
         } catch (IllegalArgumentException e) {

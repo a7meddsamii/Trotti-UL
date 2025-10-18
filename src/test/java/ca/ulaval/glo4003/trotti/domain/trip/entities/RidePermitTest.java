@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -21,12 +21,12 @@ class RidePermitTest {
     private static final int LENGTH_OF_RANDOM_STRING = 10;
     private Session session;
     private RidePermit ridePermit;
-    private Id ridePermitId;
+    private RidePermitId ridePermitId;
 
     @BeforeEach
     void setup() {
         session = Mockito.mock(Session.class);
-        ridePermitId = Id.randomId();
+        ridePermitId = RidePermitId.randomId();
         ridePermit = new RidePermit(ridePermitId, IDUL, session);
     }
 
@@ -61,7 +61,7 @@ class RidePermitTest {
     @Test
     void givenTwoRidePermitsWithDifferentId_whenEquals_thenReturnFalse() {
         RidePermit ridePermit1 = new RidePermit(ridePermitId, IDUL, session);
-        RidePermit ridePermit2 = new RidePermit(Id.randomId(), IDUL, session);
+        RidePermit ridePermit2 = new RidePermit(RidePermitId.randomId(), IDUL, session);
 
         boolean response = ridePermit1.equals(ridePermit2);
 

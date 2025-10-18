@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.MalformedTokenE
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -40,8 +39,9 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
     public AuthenticationToken generateToken(Idul idul) {
         Instant now = clock.instant();
 
-        String tokenValue = Jwts.builder().id(Id.randomId().toString()).subject(idul.toString())
-                .issuedAt(Date.from(now)).expiration(Date.from(now.plus(expirationDuration)))
+        String tokenValue = Jwts.builder().id(TokenId.randomId().toString())
+                .subject(idul.toString()).issuedAt(Date.from(now))
+                .expiration(Date.from(now.plus(expirationDuration)))
                 .signWith(secretKey, Jwts.SIG.HS256).compact();
 
         return AuthenticationToken.from(tokenValue);

@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class Traveler {
         return List.copyOf(activeRidePermits);
     }
 
-    public boolean hasRidePermit(Id id) {
+    public boolean hasRidePermit(RidePermitId id) {
         return this.activeRidePermits.stream().anyMatch(ridePermit -> ridePermit.matches(id));
     }
 
