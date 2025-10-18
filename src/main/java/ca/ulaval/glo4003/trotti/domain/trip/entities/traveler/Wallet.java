@@ -39,13 +39,10 @@ public class Wallet {
     }
 
     public Trip startTrip(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
+
         RidePermit ridePermit = activeRidePermits.stream()
                 .filter((activeRidePermit) -> activeRidePermit.getId().equals(ridePermitId))
-                .findFirst().orElse(null);
-
-        if (ridePermit == null) {
-            throw new WalletException(" Ride permit not found ");
-        }
+                .findFirst().orElseThrow(()->new WalletException(" Ride permit not found "));
 
         return new Trip(startTime, ridePermitId, ridePermit.getIdul(), scooterId);
     }

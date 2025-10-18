@@ -28,7 +28,7 @@ public class TravelerPersistenceMapper {
 
         Wallet wallet = new Wallet(ridePermits);
 
-        List<Trip> trips = travelerRecord.trips().stream().map(this::toTripDomain).toList();
+        List<Trip> trips = travelerRecord.unfinishedTrips().stream().map(this::toTripDomain).toList();
 
         TripBook tripBook = new TripBook(trips);
 
