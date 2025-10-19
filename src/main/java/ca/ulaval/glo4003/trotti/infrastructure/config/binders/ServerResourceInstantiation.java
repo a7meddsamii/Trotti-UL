@@ -62,7 +62,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerR
 import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
@@ -190,7 +189,7 @@ public class ServerResourceInstantiation {
         sessionRegistry = new SessionRegistry(SessionProvider.getInstance().getSessions());
         locator.register(SessionRegistry.class, sessionRegistry);
     }
-    
+
     private void loadEmailSender() {
         String username = System.getenv(EMAIL_USER);
         String password = System.getenv(EMAIL_PASSWORD);

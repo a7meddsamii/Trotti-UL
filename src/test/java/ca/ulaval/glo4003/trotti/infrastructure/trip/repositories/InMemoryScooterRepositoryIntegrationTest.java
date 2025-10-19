@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
-
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
@@ -70,7 +69,8 @@ class InMemoryScooterRepositoryIntegrationTest {
         scooterRepository.save(originalScooter);
 
         BatteryLevel newBatteryLevel = BatteryLevel.from(BigDecimal.valueOf(50));
-        Scooter updatedScooter = scooterFixture.withId(SCOOTER_ID).withBatteryLevel(newBatteryLevel).build();
+        Scooter updatedScooter =
+                scooterFixture.withId(SCOOTER_ID).withBatteryLevel(newBatteryLevel).build();
         scooterRepository.save(updatedScooter);
 
         Optional<Scooter> retrievedScooter = scooterRepository.findById(SCOOTER_ID);

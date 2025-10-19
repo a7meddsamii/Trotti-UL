@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

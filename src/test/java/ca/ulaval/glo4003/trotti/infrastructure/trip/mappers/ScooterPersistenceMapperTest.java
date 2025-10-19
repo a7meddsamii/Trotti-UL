@@ -30,7 +30,8 @@ class ScooterPersistenceMapperTest {
     @Test
     void givenScooterRecord_whenToDomain_thenReturnCorrespondingScooter() {
         Scooter scooter = scooterFixture.build();
-        ScooterRecord record = new ScooterRecord(scooter.getId(), scooter.getBattery(), scooter.getLocation());
+        ScooterRecord record =
+                new ScooterRecord(scooter.getId(), scooter.getBattery(), scooter.getLocation());
 
         Scooter resultScooter = scooterMapper.toDomain(record);
 
