@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +15,24 @@ class StationTest {
     private static final Id A_SCOOTER_ID = Id.randomId();
     private static final Id SECOND_SCOOTER_ID = Id.randomId();
     private static final Id THIRD_SCOOTER_ID = Id.randomId();
-    private static final int A_CAPACITY = 2;
-    private final List<Id> A_SCOOTER_ID_LIST = new ArrayList<>();
+    private final List<ScooterSlot> A_SCOOTER_SLOT_LIST = new ArrayList<>();
     private Station station;
 
     @BeforeEach
     void setup() {
         Location location = Mockito.mock(Location.class);
-        station = new Station(location, A_SCOOTER_ID_LIST, A_CAPACITY);
+        ScooterSlot FIRST_SCOOTER_SLOT = new ScooterSlot();
+        ScooterSlot SECOND_SCOOTER_SLOT = new ScooterSlot();
+        A_SCOOTER_SLOT_LIST.add(FIRST_SCOOTER_SLOT);
+        A_SCOOTER_SLOT_LIST.add(SECOND_SCOOTER_SLOT);
+        station = new Station(location, A_SCOOTER_SLOT_LIST);
     }
 
     @Test
     void givenStation_whenDockScooter_thenScooterIsAddedToStation() {
         station.dockScooter(A_SCOOTER_ID);
 
-        Assertions.assertTrue(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
+        Assertions.assertTrue(this.contains(A_SCOOTER_ID));
     }
 
     @Test
@@ -39,7 +41,7 @@ class StationTest {
 
         Executable dock = () -> station.dockScooter(A_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidDock.class, dock);
+        Assertions.assertThrows(DockingException.class, dock);
     }
 
     @Test
@@ -49,7 +51,7 @@ class StationTest {
 
         Executable dock = () -> station.dockScooter(THIRD_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidDock.class, dock);
+        Assertions.assertThrows(DockingException.class, dock);
     }
 
     @Test
@@ -58,13 +60,18 @@ class StationTest {
 
         station.undockScooter(A_SCOOTER_ID);
 
-        Assertions.assertFalse(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
+        Assertions.assertFalse(this.contains(A_SCOOTER_ID));
     }
 
     @Test
     void givenScooterNotInStation_whenUndockScooter_thenThrowsException() {
         Executable undock = () -> station.undockScooter(A_SCOOTER_ID);
 
-        Assertions.assertThrows(InvalidUndock.class, undock);
+        Assertions.assertThrows(DockingException.class, undock);
+    }
+
+    private boolean contains(Id scooterId) {
+        return A_SCOOTER_SLOT_LIST.stream().anyMatch(
+                slot -> slot.getScooterId().filter(id -> id.equals(scooterId)).isPresent());
     }
 }
