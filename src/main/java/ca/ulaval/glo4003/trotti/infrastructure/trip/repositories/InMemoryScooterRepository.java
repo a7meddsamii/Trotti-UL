@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class InMemoryScooterRepository implements ScooterRepository {
 
-    private final Map<Id, ScooterRecord> scooters = new HashMap<>();
     private final ScooterPersistenceMapper scooterMapper;
+    private Map<Id, ScooterRecord> scooters = new HashMap<>();
 
     public InMemoryScooterRepository(ScooterPersistenceMapper scooterMapper) {
         this.scooterMapper = scooterMapper;
