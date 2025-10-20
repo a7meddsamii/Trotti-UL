@@ -70,7 +70,8 @@ class RidePermitWalletTest {
         Mockito.when(newActiveRidePermit.isActiveFor(Mockito.any(LocalDate.class)))
                 .thenReturn(true);
 
-        List<RidePermit> newPermits = ridePermitWallet.updateActiveRidePermits(newlyActiveRidePermits);
+        List<RidePermit> newPermits =
+                ridePermitWallet.updateActiveRidePermits(newlyActiveRidePermits);
 
         Assertions.assertEquals(newlyActiveRidePermits.size(), newPermits.size());
     }

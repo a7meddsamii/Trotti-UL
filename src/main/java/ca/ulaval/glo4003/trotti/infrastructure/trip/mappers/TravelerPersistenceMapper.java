@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripWallet;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
@@ -33,7 +33,8 @@ public class TravelerPersistenceMapper {
 
         TripWallet tripWallet = new TripWallet(trips);
 
-        return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet, tripWallet);
+        return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,
+                tripWallet);
     }
 
     private RidePermit toRidePermitDomain(RidePermitRecord ridePermitRecord) {

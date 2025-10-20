@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.trotti.fixtures;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripWallet;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import java.util.List;
 
 public class TravelerFixture {

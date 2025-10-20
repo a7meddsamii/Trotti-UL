@@ -15,7 +15,11 @@ public class Traveler {
     private final RidePermitWallet ridePermitWallet;
     private final TripWallet tripWallet;
 
-    public Traveler(Idul idul, Email email, RidePermitWallet ridePermitWallet, TripWallet tripWallet) {
+    public Traveler(
+            Idul idul,
+            Email email,
+            RidePermitWallet ridePermitWallet,
+            TripWallet tripWallet) {
         this.idul = idul;
         this.email = email;
         this.ridePermitWallet = ridePermitWallet;
