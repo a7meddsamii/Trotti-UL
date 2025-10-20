@@ -7,48 +7,18 @@ import java.util.List;
 
 public class Station {
     private final Location location;
-    private final List<ScooterSlot> scooterSlots;
+	private final DockingArea dockingArea;
 
-    public Station(Location location, List<ScooterSlot> scooterSlots) {
+    public Station(Location location, DockingArea dockingArea) {
         this.location = location;
-        this.scooterSlots = scooterSlots;
+		this.dockingArea = dockingArea;
     }
+	
+	public Id getScooter(int slotNumber) {
+		return this.dockingArea.undock(slotNumber);
+	}
 
-    public void dockScooter(Id scooterId) {
-        if (this.contains(scooterId)) {
-            throw new DockingException("Scooter is already in this station");
-        }
-        if (this.atCapacity()) {
-            throw new DockingException("Station is at capacity");
-        }
-
-        for (ScooterSlot scooterSlot : scooterSlots) {
-            if (!scooterSlot.isOccupied()) {
-                scooterSlot.dock(scooterId);
-                break;
-            }
-        }
-    }
-
-    public void undockScooter(Id scooterId) {
-        if (!this.contains(scooterId)) {
-            throw new DockingException("Scooter is not in this station");
-        }
-
-        for (ScooterSlot scooterSlot : scooterSlots) {
-            if (scooterSlot.isOccupied()
-                    && scooterSlot.getScooterId().filter(id -> id.equals(scooterId)).isPresent()) {
-                scooterSlot.undock();
-            }
-        }
-    }
-
-    private boolean contains(Id scooterId) {
-        return scooterSlots.stream().anyMatch(
-                slot -> slot.getScooterId().filter(id -> id.equals(scooterId)).isPresent());
-    }
-
-    private boolean atCapacity() {
-        return scooterSlots.stream().allMatch(ScooterSlot::isOccupied);
+    public void returnScooter(int slotNumber, Id scooterId) {
+        this.dockingArea.dock(slotNumber, scooterId);
     }
 }
