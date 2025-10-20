@@ -6,11 +6,11 @@ import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripBookException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TripBook {
+public class TripWallet {
 
     private final List<Trip> unfinishedTrips;
 
-    public TripBook(List<Trip> unfinishedTrips) {
+    public TripWallet(List<Trip> unfinishedTrips) {
         this.unfinishedTrips = unfinishedTrips;
     }
 

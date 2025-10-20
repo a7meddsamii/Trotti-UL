@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripBook;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Wallet;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripWallet;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import java.util.List;
 
 public class TravelerFixture {
@@ -15,26 +15,26 @@ public class TravelerFixture {
 
     private Idul idul = AN_IDUL;
     private Email email = AN_EMAIL;
-    private Wallet wallet = new Wallet(List.of());
-    private TripBook tripBook = new TripBook(List.of());
+    private RidePermitWallet ridePermitWallet = new RidePermitWallet(List.of());
+    private TripWallet tripWallet = new TripWallet(List.of());
 
     public TravelerFixture withNoRidePermit() {
-        this.wallet = new Wallet(List.of());
+        this.ridePermitWallet = new RidePermitWallet(List.of());
         return this;
     }
 
     public TravelerFixture withRidePermit() {
-        this.wallet.updateActiveRidePermits(List.of(new RidePermitFixture().build()));
+        this.ridePermitWallet.updateActiveRidePermits(List.of(new RidePermitFixture().build()));
         return this;
     }
 
     public TravelerFixture withoutTrips() {
-        this.tripBook = new TripBook(List.of());
+        this.tripWallet = new TripWallet(List.of());
         return this;
     }
 
     public TravelerFixture withTrips(Trip trip) {
-        this.tripBook = new TripBook(List.of(trip));
+        this.tripWallet = new TripWallet(List.of(trip));
         return this;
     }
 
@@ -44,6 +44,6 @@ public class TravelerFixture {
     }
 
     public Traveler build() {
-        return new Traveler(idul, email, wallet, tripBook);
+        return new Traveler(idul, email, ridePermitWallet, tripWallet);
     }
 }

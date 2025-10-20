@@ -13,50 +13,50 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-class WalletTest {
+class RidePermitWalletTest {
 
     private static final List<RidePermit> NO_RIDE_PERMITS = List.of();
     private static final LocalDateTime START_TIME = LocalDateTime.now();
     private static final Id AN_ID = Id.randomId();
 
     private RidePermit permit;
-    private Wallet wallet;
+    private RidePermitWallet ridePermitWallet;
 
     @BeforeEach
     void setup() {
         permit = Mockito.mock(RidePermit.class);
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(true);
 
-        wallet = new Wallet(NO_RIDE_PERMITS);
+        ridePermitWallet = new RidePermitWallet(NO_RIDE_PERMITS);
     }
 
     @Test
     void givenNewlyActiveRidePermits_whenUpdateActiveRidePermits_thenAddNewlyWallet() {
         List<RidePermit> ridePermits = List.of(permit);
 
-        wallet.updateActiveRidePermits(ridePermits);
+        ridePermitWallet.updateActiveRidePermits(ridePermits);
 
-        Assertions.assertEquals(wallet.getRidePermits().size(), ridePermits.size());
+        Assertions.assertEquals(ridePermitWallet.getRidePermits().size(), ridePermits.size());
     }
 
     @Test
     void givenExpiredRidePermits_whenUpdateActiveRidePermits_thenRemoveExpiredRidePermits() {
         List<RidePermit> ExpiredPermits = List.of(permit);
-        wallet.updateActiveRidePermits(ExpiredPermits);
-        List<RidePermit> oldRidePermits = wallet.getRidePermits();
+        ridePermitWallet.updateActiveRidePermits(ExpiredPermits);
+        List<RidePermit> oldRidePermits = ridePermitWallet.getRidePermits();
         Mockito.when(permit.isActiveFor(Mockito.any(LocalDate.class))).thenReturn(false);
 
-        wallet.updateActiveRidePermits(ExpiredPermits);
+        ridePermitWallet.updateActiveRidePermits(ExpiredPermits);
 
-        Assertions.assertTrue(wallet.getRidePermits().size() < oldRidePermits.size());
+        Assertions.assertTrue(ridePermitWallet.getRidePermits().size() < oldRidePermits.size());
     }
 
     @Test
     void givenTravelerAlreadyHadActiveRidePermit_whenUpdateActiveRidePermits_theReturnsEmptyList() {
         List<RidePermit> activeRidePermits = List.of(permit);
-        wallet.updateActiveRidePermits(activeRidePermits);
+        ridePermitWallet.updateActiveRidePermits(activeRidePermits);
 
-        List<RidePermit> NewlyPermits = wallet.updateActiveRidePermits(activeRidePermits);
+        List<RidePermit> NewlyPermits = ridePermitWallet.updateActiveRidePermits(activeRidePermits);
 
         Assertions.assertTrue(NewlyPermits.isEmpty());
     }
@@ -64,13 +64,13 @@ class WalletTest {
     @Test
     void givenTravelerThatAlreadyHadActiveRidePermitAndNewlyActivatedPermits_whenUpdateActiveRidePermits_thenReturnsNewlyActiveRidePermit() {
         List<RidePermit> activeRidePermits = List.of(permit);
-        wallet.updateActiveRidePermits(activeRidePermits);
+        ridePermitWallet.updateActiveRidePermits(activeRidePermits);
         RidePermit newActiveRidePermit = Mockito.mock(RidePermit.class);
         List<RidePermit> newlyActiveRidePermits = List.of(newActiveRidePermit);
         Mockito.when(newActiveRidePermit.isActiveFor(Mockito.any(LocalDate.class)))
                 .thenReturn(true);
 
-        List<RidePermit> newPermits = wallet.updateActiveRidePermits(newlyActiveRidePermits);
+        List<RidePermit> newPermits = ridePermitWallet.updateActiveRidePermits(newlyActiveRidePermits);
 
         Assertions.assertEquals(newlyActiveRidePermits.size(), newPermits.size());
     }
@@ -78,10 +78,10 @@ class WalletTest {
     @Test
     void givenStartTimeExistingRidePassIdAndScooterId_whenStartTrip_thenReturnNewTrip() {
         List<RidePermit> activeRidePermits = List.of(permit);
-        wallet.updateActiveRidePermits(activeRidePermits);
+        ridePermitWallet.updateActiveRidePermits(activeRidePermits);
         Mockito.when(permit.getId()).thenReturn(AN_ID);
 
-        Trip trip = wallet.startTrip(START_TIME, AN_ID, AN_ID);
+        Trip trip = ridePermitWallet.startTrip(START_TIME, AN_ID, AN_ID);
 
         Mockito.verify(permit, Mockito.times(1)).getId();
         Assertions.assertEquals(Trip.class, trip.getClass());
@@ -90,7 +90,7 @@ class WalletTest {
     @Test
     void givenStartTimeNoExistingRidePassIdAndScooterId_whenStartTrip_thenThrowWalletException() {
         Executable startingTripWithWrongRiderPass =
-                () -> wallet.startTrip(START_TIME, AN_ID, AN_ID);
+                () -> ridePermitWallet.startTrip(START_TIME, AN_ID, AN_ID);
 
         Assertions.assertThrows(WalletException.class, startingTripWithWrongRiderPass);
     }

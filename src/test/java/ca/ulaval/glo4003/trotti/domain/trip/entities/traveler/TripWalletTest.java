@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-class TripBookTest {
+class TripWalletTest {
 
     private static final Id AN_ID = Id.randomId();
     private static final LocalDateTime START_DATE = LocalDateTime.now();
     private static final LocalDateTime END_DATE = START_DATE.plusMinutes(1);
     private static final Idul AN_IDUL = Idul.from("abc");
 
-    private TripBook tripBook;
+    private TripWallet tripWallet;
     private Trip trip;
     private List<Trip> trips;
 
@@ -28,55 +28,55 @@ class TripBookTest {
     public void setup() {
         trips = new ArrayList<>();
         trip = Mockito.mock(Trip.class);
-        tripBook = new TripBook(trips);
+        tripWallet = new TripWallet(trips);
     }
 
     @Test
     void givenTrip_whenAddTrip_thenAddTrip() {
-        tripBook.add(trip);
+        tripWallet.add(trip);
 
-        Assertions.assertEquals(trip, tripBook.getTrips().getFirst());
+        Assertions.assertEquals(trip, tripWallet.getTrips().getFirst());
     }
 
     @Test
     void givenNullTrip_whenAddTrip_thenThrowsTripBookException() {
-        Executable nullTripAdd = () -> tripBook.add(null);
+        Executable nullTripAdd = () -> tripWallet.add(null);
 
         Assertions.assertThrows(TripBookException.class, nullTripAdd);
     }
 
     @Test
     void givenTripAlreadyBooked_whenAddTrip_thenThrowsTripBookException() {
-        tripBook.add(trip);
+        tripWallet.add(trip);
 
-        Executable existingTripAdd = () -> tripBook.add(trip);
+        Executable existingTripAdd = () -> tripWallet.add(trip);
 
         Assertions.assertThrows(TripBookException.class, existingTripAdd);
     }
 
     @Test
     void givenTripIdAndEndDate_whenEndTrip_ThenRemovesTrip() {
-        tripBook.add(trip);
+        tripWallet.add(trip);
         Mockito.when(trip.getId()).thenReturn(AN_ID);
 
-        tripBook.endTrip(AN_ID, END_DATE);
+        tripWallet.endTrip(AN_ID, END_DATE);
 
-        Assertions.assertTrue(tripBook.getTrips().isEmpty());
+        Assertions.assertTrue(tripWallet.getTrips().isEmpty());
     }
 
     @Test
     void givenTripIdAndEndDate_whenEndTrip_ThenReturnsTripWithEndDate() {
         Trip startTrip = new Trip(AN_ID, START_DATE, AN_ID, AN_IDUL, AN_ID);
-        tripBook.add(startTrip);
+        tripWallet.add(startTrip);
 
-        Trip endTrip = tripBook.endTrip(AN_ID, END_DATE);
+        Trip endTrip = tripWallet.endTrip(AN_ID, END_DATE);
 
         Assertions.assertEquals(startTrip.end(END_DATE).getEndTime(), endTrip.getEndTime());
     }
 
     @Test
     void givenTripIdNotPresentAndStartDate_whenEndTrip_ThenThrowsTripBookException() {
-        Executable NoTripEnd = () -> tripBook.endTrip(AN_ID, START_DATE);
+        Executable NoTripEnd = () -> tripWallet.endTrip(AN_ID, START_DATE);
 
         Assertions.assertThrows(TripBookException.class, NoTripEnd);
     }

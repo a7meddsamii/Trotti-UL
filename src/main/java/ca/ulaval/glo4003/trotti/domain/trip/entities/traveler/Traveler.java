@@ -12,44 +12,44 @@ public class Traveler {
 
     private final Idul idul;
     private final Email email;
-    private final Wallet wallet;
-    private final TripBook tripBook;
+    private final RidePermitWallet ridePermitWallet;
+    private final TripWallet tripWallet;
 
-    public Traveler(Idul idul, Email email, Wallet wallet, TripBook tripBook) {
+    public Traveler(Idul idul, Email email, RidePermitWallet ridePermitWallet, TripWallet tripWallet) {
         this.idul = idul;
         this.email = email;
-        this.wallet = wallet;
-        this.tripBook = tripBook;
+        this.ridePermitWallet = ridePermitWallet;
+        this.tripWallet = tripWallet;
     }
 
     public Id startTraveling(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
-        Trip startTrip = wallet.startTrip(startTime, ridePermitId, scooterId);
-        tripBook.add(startTrip);
+        Trip startTrip = ridePermitWallet.startTrip(startTime, ridePermitId, scooterId);
+        tripWallet.add(startTrip);
         return startTrip.getId();
     }
 
-    public Trip endTraveling(Id tripId, LocalDateTime endDateTime) {
-        return tripBook.endTrip(tripId, endDateTime);
+    public Trip stopTraveling(Id tripId, LocalDateTime endDateTime) {
+        return tripWallet.endTrip(tripId, endDateTime);
     }
 
     public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {
-        return wallet.updateActiveRidePermits(ridePermitsHistory);
+        return ridePermitWallet.updateActiveRidePermits(ridePermitsHistory);
     }
 
     public List<RidePermit> getWalletPermits() {
-        return wallet.getRidePermits();
+        return ridePermitWallet.getRidePermits();
     }
 
     public List<Trip> getBookTrips() {
-        return tripBook.getTrips();
+        return tripWallet.getTrips();
     }
 
     public boolean walletHasPermit(Id ridePermitId) {
-        return wallet.hasRidePermit(ridePermitId);
+        return ridePermitWallet.hasRidePermit(ridePermitId);
     }
 
     public boolean hasEmptyWallet() {
-        return wallet.hasActiveRidePermits();
+        return !ridePermitWallet.hasActiveRidePermits();
     }
 
     public Idul getIdul() {

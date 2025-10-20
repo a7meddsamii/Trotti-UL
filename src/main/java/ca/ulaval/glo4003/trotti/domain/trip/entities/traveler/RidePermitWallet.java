@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Wallet {
+public class RidePermitWallet {
 
     private List<RidePermit> activeRidePermits;
 
-    public Wallet(List<RidePermit> activeRidePermits) {
+    public RidePermitWallet(List<RidePermit> activeRidePermits) {
         this.activeRidePermits = activeRidePermits;
     }
 
