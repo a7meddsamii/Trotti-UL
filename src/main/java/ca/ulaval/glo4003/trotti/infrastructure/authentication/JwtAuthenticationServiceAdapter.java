@@ -39,8 +39,7 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
     public AuthenticationToken generateToken(Idul idul) {
         Instant now = clock.instant();
 
-        String tokenValue = Jwts.builder().id(TokenId.randomId().toString())
-                .subject(idul.toString()).issuedAt(Date.from(now))
+        String tokenValue = Jwts.builder().subject(idul.toString()).issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expirationDuration)))
                 .signWith(secretKey, Jwts.SIG.HS256).compact();
 
