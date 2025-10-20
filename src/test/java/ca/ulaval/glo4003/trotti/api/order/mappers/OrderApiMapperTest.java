@@ -4,9 +4,9 @@ import ca.ulaval.glo4003.trotti.api.order.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.api.order.dto.responses.TransactionResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Currency;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.TransactionId;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.TransactionStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -53,7 +53,7 @@ class OrderApiMapperTest {
 
     @Test
     void givenTransactionDto_whenToTransactionResponse_thenMapsCorrectly() {
-        TransactionDto dto = new TransactionDto(Id.randomId(), TRANSACTION_STATUS,
+        TransactionDto dto = new TransactionDto(TransactionId.randomId(), TRANSACTION_STATUS,
                 LocalDateTime.now(), Money.of(AMOUNT_VALUE, CURRENCY), TRANSACTION_DESCRIPTION);
 
         TransactionResponse response = mapper.toTransactionResponse(dto);

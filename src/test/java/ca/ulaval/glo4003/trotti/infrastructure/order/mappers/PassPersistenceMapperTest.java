@@ -16,12 +16,12 @@ class PassPersistenceMapperTest {
     @Test
     void givenPassRecord_whenToDomain_thenReturnPass() {
         PassRecord passRecord =
-                new PassRecord(PassFixture.AN_ID, AN_IDUL, PassFixture.A_MAXIMUM_TRAVELING_TIME,
+                new PassRecord(PassFixture.AN_PASSID, AN_IDUL, PassFixture.A_MAXIMUM_TRAVELING_TIME,
                         PassFixture.A_SESSION, PassFixture.A_BILLING_FREQUENCY);
 
         Pass pass = mapper.toDomain(passRecord);
 
-        Assertions.assertEquals(passRecord.id(), pass.getId());
+        Assertions.assertEquals(passRecord.passId(), pass.getId());
         Assertions.assertEquals(passRecord.maximumDailyTravelTime(),
                 pass.getMaximumTravelingTime());
         Assertions.assertEquals(passRecord.session(), pass.getSession());
@@ -35,7 +35,7 @@ class PassPersistenceMapperTest {
 
         PassRecord passRecord = mapper.toRecord(pass);
 
-        Assertions.assertEquals(pass.getId(), passRecord.id());
+        Assertions.assertEquals(pass.getId(), passRecord.passId());
         Assertions.assertEquals(pass.getMaximumTravelingTime(),
                 passRecord.maximumDailyTravelTime());
         Assertions.assertEquals(pass.getSession(), passRecord.session());
