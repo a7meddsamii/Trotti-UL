@@ -1,66 +1,39 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
+import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 class StationTest {
-    // private static final Id A_SCOOTER_ID = Id.randomId();
-    // private static final Id SECOND_SCOOTER_ID = Id.randomId();
-    // private static final Id THIRD_SCOOTER_ID = Id.randomId();
-    // private final List<ScooterSlot> A_SCOOTER_SLOT_LIST = new ArrayList<>();
-    // private Station station;
-    //
-    // @BeforeEach
-    // void setup() {
-    // Location location = Mockito.mock(Location.class);
-    // ScooterSlot FIRST_SCOOTER_SLOT = new ScooterSlot();
-    // ScooterSlot SECOND_SCOOTER_SLOT = new ScooterSlot();
-    // A_SCOOTER_SLOT_LIST.add(FIRST_SCOOTER_SLOT);
-    // A_SCOOTER_SLOT_LIST.add(SECOND_SCOOTER_SLOT);
-    // station = new Station(location, A_SCOOTER_SLOT_LIST);
-    // }
-    //
-    // @Test
-    // void givenStation_whenDockScooter_thenScooterIsAddedToStation() {
-    // station.dockScooter(A_SCOOTER_ID);
-    //
-    // Assertions.assertTrue(this.contains(A_SCOOTER_ID));
-    // }
-    //
-    // @Test
-    // void givenScooterAlreadyInStation_whenDockScooter_thenThrowsException() {
-    // station.dockScooter(A_SCOOTER_ID);
-    //
-    // Executable dock = () -> station.dockScooter(A_SCOOTER_ID);
-    //
-    // Assertions.assertThrows(DockingException.class, dock);
-    // }
-    //
-    // @Test
-    // void givenStationAtMaximumCapacity_whenDockScooter_thenThrowsException() {
-    // station.dockScooter(A_SCOOTER_ID);
-    // station.dockScooter(SECOND_SCOOTER_ID);
-    //
-    // Executable dock = () -> station.dockScooter(THIRD_SCOOTER_ID);
-    //
-    // Assertions.assertThrows(DockingException.class, dock);
-    // }
-    //
-    // @Test
-    // void givenStation_whenUndockScooter_thenScooterIsRemovedFromStation() {
-    // station.dockScooter(A_SCOOTER_ID);
-    //
-    // station.undockScooter(A_SCOOTER_ID);
-    //
-    // Assertions.assertFalse(this.contains(A_SCOOTER_ID));
-    // }
-    //
-    // @Test
-    // void givenScooterNotInStation_whenUndockScooter_thenThrowsException() {
-    // Executable undock = () -> station.undockScooter(A_SCOOTER_ID);
-    //
-    // Assertions.assertThrows(DockingException.class, undock);
-    // }
-    //
-    // private boolean contains(Id scooterId) {
-    // return A_SCOOTER_SLOT_LIST.stream().anyMatch(
-    // slot -> slot.getScooterId().filter(id -> id.equals(scooterId)).isPresent());
-    // }
+    private static final int SLOT_NUMBER = 1;
+    private static final Id A_SCOOTER_ID = Id.randomId();
+    private DockingArea A_DOCKING_AREA;
+    private Station station;
+
+    @BeforeEach
+    void setup() {
+        A_DOCKING_AREA = Mockito.mock(DockingArea.class);
+        Location A_LOCATION = Mockito.mock(Location.class);
+        station = new Station(A_LOCATION, A_DOCKING_AREA);
+    }
+
+    @Test
+    void givenSlotNumber_whenGetScooter_thenReturnsScooterIdFromDockingAreaAndCallsUndockOnDockingArea() {
+        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
+
+        Id result = station.getScooter(SLOT_NUMBER);
+
+        Assertions.assertEquals(A_SCOOTER_ID, result);
+        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER);
+    }
+
+    @Test
+    void givenSlotNumberAndScooterId_whenReturnScooter_thenCallsDockOnDockingArea() {
+        station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
+
+        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
+    }
 }
