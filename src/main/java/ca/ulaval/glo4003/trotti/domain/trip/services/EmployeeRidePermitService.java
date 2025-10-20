@@ -23,11 +23,11 @@ public class EmployeeRidePermitService {
         this.sessionRegistry = sessionRegistry;
     }
 
-    public List<RidePermit> handleEmployeeRidePermit(Traveler traveler) {
+    public List<RidePermit> giveFreePermitToEmployee(Traveler traveler) {
         LocalDate currentDate = LocalDate.now();
         Optional<Session> session = sessionRegistry.getSession(currentDate);
 
-        if (traveler.hasEmptyWallet() || session.isEmpty()) {
+        if (!traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();
         }
 

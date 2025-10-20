@@ -46,7 +46,7 @@ public class RidePermitActivationApplicationService {
 
         if (employeeRidePermitService.isEmployee(traveler.getIdul())) {
             newlyActivatedRidePermits =
-                    employeeRidePermitService.handleEmployeeRidePermit(traveler);
+                    employeeRidePermitService.giveFreePermitToEmployee(traveler);
         } else {
             newlyActivatedRidePermits = traveler.updateWallet(boughtRidePermitsHistory);
         }

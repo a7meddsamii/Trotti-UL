@@ -34,8 +34,8 @@ public class RidePermitWallet {
         return this.activeRidePermits.stream().anyMatch(ridePermit -> ridePermit.matches(id));
     }
 
-    public boolean hasActiveRidePermits() {
-        return !this.activeRidePermits.isEmpty();
+    public boolean isEmpty() {
+        return this.activeRidePermits.isEmpty();
     }
 
     public Trip startTrip(LocalDateTime startTime, Id ridePermitId, Id scooterId) {

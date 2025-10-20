@@ -53,7 +53,7 @@ public class Traveler {
     }
 
     public boolean hasEmptyWallet() {
-        return !ridePermitWallet.hasActiveRidePermits();
+        return ridePermitWallet.isEmpty();
     }
 
     public Idul getIdul() {
