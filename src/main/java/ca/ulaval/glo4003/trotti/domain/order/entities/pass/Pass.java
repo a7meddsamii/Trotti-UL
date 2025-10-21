@@ -1,17 +1,17 @@
 package ca.ulaval.glo4003.trotti.domain.order.entities.pass;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 
 public class Pass {
     private final MaximumDailyTravelTime maximumTravelingTime;
     private final Session session;
     private final BillingFrequency billingFrequency;
-    private final Id id;
+    private final PassId id;
     private Idul owner;
 
     public Pass(
@@ -21,14 +21,14 @@ public class Pass {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
-        this.id = Id.randomId();
+        this.id = PassId.randomId();
     }
 
     public Pass(
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
             BillingFrequency billingFrequency,
-            Id id) {
+            PassId id) {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
         this.billingFrequency = billingFrequency;
@@ -39,7 +39,7 @@ public class Pass {
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
             BillingFrequency billingFrequency,
-            Id id,
+            PassId id,
             Idul owner) {
         this.maximumTravelingTime = maximumTravelingTime;
         this.session = session;
@@ -64,7 +64,7 @@ public class Pass {
         return owner;
     }
 
-    public Id getId() {
+    public PassId getId() {
         return id;
     }
 
