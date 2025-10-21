@@ -30,8 +30,8 @@ class ScooterPersistenceMapperTest {
     @Test
     void givenScooterRecord_whenToDomain_thenReturnCorrespondingScooter() {
         Scooter scooter = scooterFixture.build();
-        ScooterRecord record =
-                new ScooterRecord(scooter.getId(), scooter.getBattery(), scooter.getLocation());
+        ScooterRecord record = new ScooterRecord(scooter.getScooterId(), scooter.getBattery(),
+                scooter.getLocation());
 
         Scooter resultScooter = scooterMapper.toDomain(record);
 
@@ -39,7 +39,7 @@ class ScooterPersistenceMapperTest {
     }
 
     private void assertEqual(Scooter scooter, ScooterRecord record) {
-        Assertions.assertEquals(scooter.getId(), record.id());
+        Assertions.assertEquals(scooter.getScooterId(), record.id());
         Assertions.assertEquals(scooter.getBattery(), record.battery());
         Assertions.assertEquals(scooter.getLocation(), record.location());
     }

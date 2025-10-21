@@ -1,19 +1,19 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.time.LocalDateTime;
 
 public class Scooter {
-    private final Id id;
+    private final ScooterId scooterId;
     private Battery battery;
     private Location stationLocation;
 
-    public Scooter(Id id, Battery battery, Location stationLocation) {
-        this.id = id;
+    public Scooter(ScooterId scooterId, Battery battery, Location stationLocation) {
+        this.scooterId = scooterId;
         this.battery = battery;
         this.stationLocation = stationLocation;
     }
@@ -45,8 +45,8 @@ public class Scooter {
         return stationLocation;
     }
 
-    public Id getId() {
-        return id;
+    public ScooterId getScooterId() {
+        return scooterId;
     }
 
     public Battery getBattery() {

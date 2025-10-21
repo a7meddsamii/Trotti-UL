@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import java.math.BigDecimal;
@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 class InMemoryScooterRepositoryIntegrationTest {
 
-    private static final Id SCOOTER_ID = Id.randomId();
-    private static final Id ANOTHER_SCOOTER_ID = Id.randomId();
+    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
+    private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
 
     private InMemoryScooterRepository scooterRepository;
     private ScooterFixture scooterFixture;
@@ -56,7 +56,7 @@ class InMemoryScooterRepositoryIntegrationTest {
 
     @Test
     void givenNonExistentScooterId_whenFindById_thenReturnEmptyOptional() {
-        Id nonExistentId = Id.randomId();
+        ScooterId nonExistentId = ScooterId.randomId();
 
         Optional<Scooter> result = scooterRepository.findById(nonExistentId);
 
@@ -80,7 +80,7 @@ class InMemoryScooterRepositoryIntegrationTest {
     }
 
     private void assertEqual(Scooter expected, Scooter actual) {
-        Assertions.assertEquals(expected.getId(), actual.getId());
+        Assertions.assertEquals(expected.getScooterId(), actual.getScooterId());
         Assertions.assertEquals(expected.getBattery(), actual.getBattery());
         Assertions.assertEquals(expected.getLocation(), actual.getLocation());
     }
