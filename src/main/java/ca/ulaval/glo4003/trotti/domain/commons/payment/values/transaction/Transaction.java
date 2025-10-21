@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import java.time.LocalDateTime;
 
 public class Transaction {
 
-    private final Id transactionId;
+    private final TransactionId transactionId;
     private final TransactionStatus status;
     private final LocalDateTime timestamp;
     private final Money amount;
@@ -16,7 +15,7 @@ public class Transaction {
         this.status = status;
         this.amount = amount;
         this.description = description;
-        this.transactionId = Id.randomId();
+        this.transactionId = TransactionId.randomId();
         this.timestamp = LocalDateTime.now();
     }
 
@@ -24,7 +23,7 @@ public class Transaction {
         return this.status == TransactionStatus.SUCCESS;
     }
 
-    public Id getId() {
+    public TransactionId getId() {
         return transactionId;
     }
 
