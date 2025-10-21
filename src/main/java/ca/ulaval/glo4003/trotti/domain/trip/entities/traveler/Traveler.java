@@ -5,8 +5,13 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripBookException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class Traveler {
 
@@ -14,6 +19,7 @@ public class Traveler {
     private final Email email;
     private final RidePermitWallet ridePermitWallet;
     private final TripWallet tripWallet;
+    private Trip ongoingTrip;
 
     public Traveler(
             Idul idul,
@@ -26,14 +32,18 @@ public class Traveler {
         this.tripWallet = tripWallet;
     }
 
-    public Id startTraveling(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
+    public void startTraveling(LocalDateTime startTime, RidePermitId ridePermitId, ScooterId scooterId) {
         Trip startTrip = ridePermitWallet.startTrip(startTime, ridePermitId, scooterId);
         tripWallet.add(startTrip);
-        return startTrip.getId();
     }
 
-    public Trip stopTraveling(Id tripId, LocalDateTime endDateTime) {
-        return tripWallet.endTrip(tripId, endDateTime);
+    public Trip stopTraveling(LocalDateTime endDateTime) {
+        if (Optional.ofNullable(ongoingTrip).isEmpty()) {
+            throw new TripBookException("Trip does not exist");
+        }
+        Trip completedTrip = ongoingTrip.end(endDateTime);
+        ongoingTrip = null;
+        return completedTrip;
     }
 
     public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {
@@ -48,7 +58,7 @@ public class Traveler {
         return tripWallet.getTrips();
     }
 
-    public boolean walletHasPermit(Id ridePermitId) {
+    public boolean walletHasPermit(RidePermitId ridePermitId) {
         return ridePermitWallet.hasRidePermit(ridePermitId);
     }
 

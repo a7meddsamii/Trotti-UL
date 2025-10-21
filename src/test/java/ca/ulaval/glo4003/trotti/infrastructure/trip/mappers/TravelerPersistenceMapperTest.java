@@ -2,12 +2,13 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
@@ -25,12 +26,11 @@ class TravelerPersistenceMapperTest {
 
     private static final Idul IDUL = Idul.from("IDUL");
     private static final Email EMAIL = Email.from("john.doe@ulaval.ca");
-    private static final Id PERMIT_ID = Id.randomId();
-    private static final Id TRIP_ID = Id.randomId();
-    private static final Id SCOOTER_ID = Id.randomId();
+    private static final RidePermitId PERMIT_ID = RidePermitId.randomId();
+    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final LocalDateTime START_DATE = LocalDateTime.of(2019, Month.JANUARY, 1, 0, 0);
     private static final List<TripRecord> TRIPS =
-            List.of(new TripRecord(TRIP_ID, START_DATE, PERMIT_ID, IDUL, SCOOTER_ID));
+            List.of(new TripRecord( START_DATE, PERMIT_ID, IDUL, SCOOTER_ID));
     private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
             List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
                     LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
@@ -120,9 +120,11 @@ class TravelerPersistenceMapperTest {
 
     void assertPermitsEquals(List<RidePermit> ridePermits,
             List<RidePermitRecord> ridePermitRecords) {
-        Assertions.assertEquals(ridePermits.get(0).getId(), ridePermitRecords.get(0).permitId());
-        Assertions.assertEquals(ridePermits.get(0).getIdul(), ridePermitRecords.get(0).idul());
-        Assertions.assertEquals(ridePermits.get(0).getSession(),
-                ridePermitRecords.get(0).session());
+        Assertions.assertEquals(ridePermits.getFirst().getId(),
+                ridePermitRecords.getFirst().permitId());
+        Assertions.assertEquals(ridePermits.getFirst().getIdul(),
+                ridePermitRecords.getFirst().idul());
+        Assertions.assertEquals(ridePermits.getFirst().getSession(),
+                ridePermitRecords.getFirst().session());
     }
 }

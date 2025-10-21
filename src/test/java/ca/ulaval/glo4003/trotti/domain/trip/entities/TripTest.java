@@ -1,16 +1,19 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripException;
 import java.time.LocalDateTime;
+
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class TripTest {
-    private static final Id AN_ID = Id.randomId();
+    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
+    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final Idul AN_IDUL = Idul.from("abcd123");
     private static final LocalDateTime START_TIME = LocalDateTime.now();
     private static final LocalDateTime END_TIME = START_TIME.plusMinutes(1);
@@ -19,12 +22,12 @@ class TripTest {
 
     @BeforeEach
     public void setup() {
-        trip = new Trip(START_TIME, AN_ID, AN_IDUL, AN_ID);
+        trip = new Trip(START_TIME, RIDE_PERMIT_ID, AN_IDUL, SCOOTER_ID);
     }
 
     @Test
     void givenTripWithNoEndTime_whenEnd_thenReturnNewTripWithEndTime() {
-        Trip trip = new Trip(START_TIME, AN_ID, AN_IDUL, AN_ID);
+        Trip trip = new Trip(START_TIME, RIDE_PERMIT_ID, AN_IDUL, SCOOTER_ID);
 
         Trip result = trip.end(END_TIME);
 

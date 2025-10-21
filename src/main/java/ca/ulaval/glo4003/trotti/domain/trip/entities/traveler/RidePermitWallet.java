@@ -1,9 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.WalletException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +33,7 @@ public class RidePermitWallet {
         return List.copyOf(activeRidePermits);
     }
 
-    public boolean hasRidePermit(Id id) {
+    public boolean hasRidePermit(RidePermitId id) {
         return this.activeRidePermits.stream().anyMatch(ridePermit -> ridePermit.matches(id));
     }
 
@@ -38,7 +41,7 @@ public class RidePermitWallet {
         return this.activeRidePermits.isEmpty();
     }
 
-    public Trip startTrip(LocalDateTime startTime, Id ridePermitId, Id scooterId) {
+    public Trip startTrip(LocalDateTime startTime, RidePermitId ridePermitId, ScooterId scooterId) {
         RidePermit ridePermit = getRidePermit(ridePermitId);
         return new Trip(startTime, ridePermitId, ridePermit.getIdul(), scooterId);
     }

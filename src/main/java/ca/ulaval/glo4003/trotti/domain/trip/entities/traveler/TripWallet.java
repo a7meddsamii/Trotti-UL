@@ -24,16 +24,6 @@ public class TripWallet {
         unfinishedTrips.add(startTrip);
     }
 
-    public Trip endTrip(Id tripId, LocalDateTime endDateTime) {
-        Trip endtrip = unfinishedTrips.stream().filter(trip -> trip.getId().equals(tripId))
-                .findFirst().orElse(null);
-        if (endtrip == null) {
-            throw new TripBookException("Trip does not exist");
-        }
-        unfinishedTrips.remove(endtrip);
-        return endtrip.end(endDateTime);
-    }
-
     public List<Trip> getTrips() {
         return List.copyOf(unfinishedTrips);
     }

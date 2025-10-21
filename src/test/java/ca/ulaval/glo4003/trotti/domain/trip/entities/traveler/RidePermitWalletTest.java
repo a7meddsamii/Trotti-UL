@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.WalletException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,8 @@ class RidePermitWalletTest {
 
     private static final List<RidePermit> NO_RIDE_PERMITS = List.of();
     private static final LocalDateTime START_TIME = LocalDateTime.now();
-    private static final Id AN_ID = Id.randomId();
+    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
+    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
 
     private RidePermit permit;
     private RidePermitWallet ridePermitWallet;
@@ -80,9 +83,9 @@ class RidePermitWalletTest {
     void givenStartTimeExistingRidePassIdAndScooterId_whenStartTrip_thenReturnNewTrip() {
         List<RidePermit> activeRidePermits = List.of(permit);
         ridePermitWallet.updateActiveRidePermits(activeRidePermits);
-        Mockito.when(permit.getId()).thenReturn(AN_ID);
+        Mockito.when(permit.getId()).thenReturn(RIDE_PERMIT_ID);
 
-        Trip trip = ridePermitWallet.startTrip(START_TIME, AN_ID, AN_ID);
+        Trip trip = ridePermitWallet.startTrip(START_TIME, RIDE_PERMIT_ID, SCOOTER_ID);
 
         Mockito.verify(permit, Mockito.times(1)).getId();
         Assertions.assertEquals(Trip.class, trip.getClass());
@@ -91,7 +94,7 @@ class RidePermitWalletTest {
     @Test
     void givenStartTimeNoExistingRidePassIdAndScooterId_whenStartTrip_thenThrowWalletException() {
         Executable startingTripWithWrongRiderPass =
-                () -> ridePermitWallet.startTrip(START_TIME, AN_ID, AN_ID);
+                () -> ridePermitWallet.startTrip(START_TIME, RIDE_PERMIT_ID, SCOOTER_ID);
 
         Assertions.assertThrows(WalletException.class, startingTripWithWrongRiderPass);
     }
