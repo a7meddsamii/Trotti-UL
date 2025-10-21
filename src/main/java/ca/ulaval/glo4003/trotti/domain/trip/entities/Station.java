@@ -1,23 +1,23 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.List;
 
 public class Station {
     private final Location location;
-    private final List<Id> dockedScooters;
+    private final List<ScooterId> dockedScooters;
     private final int capacity;
 
-    public Station(Location location, List<Id> dockedScooters, int capacity) {
+    public Station(Location location, List<ScooterId> dockedScooters, int capacity) {
         this.location = location;
         this.dockedScooters = dockedScooters;
         this.capacity = capacity;
     }
 
-    public void dockScooter(Id scooterId) {
+    public void dockScooter(ScooterId scooterId) {
         if (dockedScooters.contains(scooterId)) {
             throw new InvalidDock("Scooter is already in this station");
         }
@@ -28,7 +28,7 @@ public class Station {
         dockedScooters.add(scooterId);
     }
 
-    public void undockScooter(Id scooterId) {
+    public void undockScooter(ScooterId scooterId) {
         if (!dockedScooters.contains(scooterId)) {
             throw new InvalidUndock("Scooter is not in this station");
         }
@@ -40,7 +40,7 @@ public class Station {
         return location;
     }
 
-    public List<Id> getDockedScooters() {
+    public List<ScooterId> getDockedScooters() {
         return List.copyOf(dockedScooters);
     }
 

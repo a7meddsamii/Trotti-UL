@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 class InMemoryStationRepositoryTest {
 
-    private static final Id SCOOTER_ID = Id.randomId();
-    private static final Id ANOTHER_SCOOTER_ID = Id.randomId();
+    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
+    private static final ScooterId ANOTHER_SCOOTER_ID = SCOOTER_ID.randomId();
 
     private InMemoryStationRepository stationRepository;
     private StationFixture stationFixture;

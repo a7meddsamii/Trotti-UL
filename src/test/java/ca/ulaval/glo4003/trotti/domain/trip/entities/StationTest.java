@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -13,11 +13,11 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
-    private static final Id A_SCOOTER_ID = Id.randomId();
-    private static final Id SECOND_SCOOTER_ID = Id.randomId();
-    private static final Id THIRD_SCOOTER_ID = Id.randomId();
+    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
+    private static final ScooterId SECOND_SCOOTER_ID = ScooterId.randomId();
+    private static final ScooterId THIRD_SCOOTER_ID = ScooterId.randomId();
     private static final int A_CAPACITY = 2;
-    private final List<Id> A_SCOOTER_ID_LIST = new ArrayList<>();
+    private final List<ScooterId> A_SCOOTER_ID_LIST = new ArrayList<>();
     private Station station;
 
     @BeforeEach

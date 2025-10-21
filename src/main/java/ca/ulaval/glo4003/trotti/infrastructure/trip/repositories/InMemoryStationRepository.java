@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class InMemoryStationRepository implements StationRepository {
     }
 
     @Override
-    public Optional<Station> findByScooterId(Id scooterId) {
+    public Optional<Station> findByScooterId(ScooterId scooterId) {
         return stations.values().stream()
                 .filter(record -> record.dockedScooters().contains(scooterId)).findFirst()
                 .map(stationMapper::toDomain);
