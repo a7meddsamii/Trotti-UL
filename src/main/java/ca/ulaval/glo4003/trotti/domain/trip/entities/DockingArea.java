@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.Map;
 
 public class DockingArea {
@@ -11,12 +11,12 @@ public class DockingArea {
         this.scooterSlots = scooterSlots;
     }
 
-    public void dock(int slotNumber, Id scooterId) {
+    public void dock(int slotNumber, ScooterId scooterId) {
         validateSlotNumber(slotNumber);
         scooterSlots.get(slotNumber).dock(scooterId);
     }
 
-    public Id undock(int slotNumber) {
+    public ScooterId undock(int slotNumber) {
         validateSlotNumber(slotNumber);
         return scooterSlots.get(slotNumber).undock();
     }

@@ -1,18 +1,18 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.Optional;
 
 public class ScooterSlot {
     private final int slotNumber;
-    private Id dockedScooter;
+    private ScooterId dockedScooter;
 
     public ScooterSlot(int slotNumber) {
         this.slotNumber = slotNumber;
     }
 
-    public void dock(Id scooterId) {
+    public void dock(ScooterId scooterId) {
         if (isOccupied()) {
             throw new DockingException("Slot " + slotNumber + " is occupied.");
         }
@@ -20,12 +20,12 @@ public class ScooterSlot {
         this.dockedScooter = scooterId;
     }
 
-    public Id undock() {
+    public ScooterId undock() {
         if (!isOccupied()) {
             throw new DockingException("Slot " + slotNumber + " does not hold a scooter.");
         }
 
-        Id unDockedScooter = this.dockedScooter;
+        ScooterId unDockedScooter = this.dockedScooter;
         this.dockedScooter = null;
         return unDockedScooter;
     }

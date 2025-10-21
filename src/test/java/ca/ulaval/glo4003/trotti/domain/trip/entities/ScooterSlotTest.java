@@ -1,14 +1,14 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class ScooterSlotTest {
-    private static final Id A_SCOOTER_ID = Id.randomId();
+    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private static final int SLOT_NUMBER = 1;
     private ScooterSlot slot;
 

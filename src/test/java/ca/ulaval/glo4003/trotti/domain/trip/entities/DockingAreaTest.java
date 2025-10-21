@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +14,7 @@ import org.mockito.Mockito;
 class DockingAreaTest {
     private static final int VALID_SLOT = 1;
     private static final int INVALID_SLOT = -1;
-    private static final Id A_SCOOTER_ID = Id.randomId();
+    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private ScooterSlot A_SCOOTER_SLOT;
     private DockingArea dockingArea;
 
