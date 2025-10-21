@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.order.repositories;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import java.util.List;
@@ -20,9 +20,9 @@ class InMemoryPassRepositoryIntegrationTest {
     @BeforeEach
     void setup() {
         passRepository = new InMemoryPassRepository(new PassPersistenceMapper());
-        passRepository
-                .saveAll(List.of(new PassFixture().withIdul(AN_IDUL).withId(Id.randomId()).build(),
-                        new PassFixture().withIdul(AN_IDUL).withId(Id.randomId()).build()));
+        passRepository.saveAll(
+                List.of(new PassFixture().withIdul(AN_IDUL).withId(PassId.randomId()).build(),
+                        new PassFixture().withIdul(AN_IDUL).withId(PassId.randomId()).build()));
     }
 
     @Test
@@ -43,14 +43,14 @@ class InMemoryPassRepositoryIntegrationTest {
 
     @Test
     void givenSavedPass_whenSaveAll_thenPassesAreSaved() {
-        Pass newPass = new PassFixture().withIdul(AN_IDUL).withId(PassFixture.AN_ID).build();
+        Pass newPass = new PassFixture().withIdul(AN_IDUL).withId(PassFixture.AN_PASSID).build();
         passRepository.saveAll(List.of(newPass));
 
         List<Pass> retrievedPassList = passRepository.findAllByIdul(AN_IDUL);
 
         Assertions.assertEquals(3, retrievedPassList.size());
         Assertions.assertTrue(retrievedPassList.stream()
-                .anyMatch(pass -> pass.getId().equals(PassFixture.AN_ID)));
+                .anyMatch(pass -> pass.getId().equals(PassFixture.AN_PASSID)));
     }
 
 }
