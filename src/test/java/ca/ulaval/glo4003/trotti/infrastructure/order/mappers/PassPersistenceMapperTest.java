@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.PassRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.PassRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,16 +15,18 @@ class PassPersistenceMapperTest {
 
     @Test
     void givenPassRecord_whenToDomain_thenReturnPass() {
-        PassRecord passRecord = new PassRecord(PassFixture.A_MAXIMUM_TRAVELING_TIME,
-                PassFixture.A_SESSION, PassFixture.A_BILLING_FREQUENCY, PassFixture.AN_ID, AN_IDUL);
+        PassRecord passRecord =
+                new PassRecord(PassFixture.AN_PASSID, AN_IDUL, PassFixture.A_MAXIMUM_TRAVELING_TIME,
+                        PassFixture.A_SESSION, PassFixture.A_BILLING_FREQUENCY);
 
         Pass pass = mapper.toDomain(passRecord);
 
-        Assertions.assertEquals(passRecord.id(), pass.getId());
-        Assertions.assertEquals(passRecord.maximumTravelingTime(), pass.getMaximumTravelingTime());
+        Assertions.assertEquals(passRecord.passId(), pass.getId());
+        Assertions.assertEquals(passRecord.maximumDailyTravelTime(),
+                pass.getMaximumTravelingTime());
         Assertions.assertEquals(passRecord.session(), pass.getSession());
         Assertions.assertEquals(passRecord.billingFrequency(), pass.getBillingFrequency());
-        Assertions.assertEquals(passRecord.idul(), pass.getBuyerIdul());
+        Assertions.assertEquals(passRecord.owner(), pass.getBuyerIdul());
     }
 
     @Test
@@ -33,10 +35,11 @@ class PassPersistenceMapperTest {
 
         PassRecord passRecord = mapper.toRecord(pass);
 
-        Assertions.assertEquals(pass.getId(), passRecord.id());
-        Assertions.assertEquals(pass.getMaximumTravelingTime(), passRecord.maximumTravelingTime());
+        Assertions.assertEquals(pass.getId(), passRecord.passId());
+        Assertions.assertEquals(pass.getMaximumTravelingTime(),
+                passRecord.maximumDailyTravelTime());
         Assertions.assertEquals(pass.getSession(), passRecord.session());
         Assertions.assertEquals(pass.getBillingFrequency(), passRecord.billingFrequency());
-        Assertions.assertEquals(pass.getBuyerIdul(), passRecord.idul());
+        Assertions.assertEquals(pass.getBuyerIdul(), passRecord.owner());
     }
 }
