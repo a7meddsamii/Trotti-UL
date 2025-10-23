@@ -31,10 +31,6 @@ public class ScooterSlot {
         return unDockedScooter;
     }
 
-    public SlotNumber getSlotNumber() {
-        return slotNumber;
-    }
-
     private boolean isOccupied() {
         return Optional.ofNullable(dockedScooter).isPresent();
     }
