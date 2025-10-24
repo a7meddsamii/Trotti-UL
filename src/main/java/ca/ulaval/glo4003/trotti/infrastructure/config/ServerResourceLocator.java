@@ -1,7 +1,10 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config;
 
+import ca.ulaval.glo4003.trotti.infrastructure.config.errors.ConfigurationError;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ServerResourceLocator {
 
@@ -24,7 +27,13 @@ public class ServerResourceLocator {
         services.put(serviceClass, serviceInstance);
     }
 
-    public <T> T resolve(Class<T> serviceClass) {
-        return serviceClass.cast(services.get(serviceClass));
+    public <T> T resolve(Class<T> serviceClass) throws ConfigurationError {
+		Object serviceInstance = services.get(serviceClass);
+		
+		if(Optional.ofNullable(serviceInstance).isEmpty()) {
+			throw new ConfigurationError(String.format("No service instance found for %s", serviceClass.getName()));
+		}
+		
+        return serviceClass.cast(serviceInstance);
     }
 }
