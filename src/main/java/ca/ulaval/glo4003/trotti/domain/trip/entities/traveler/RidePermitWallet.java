@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.List;
 

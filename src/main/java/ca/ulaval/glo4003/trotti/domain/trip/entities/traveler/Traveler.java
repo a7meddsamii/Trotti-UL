@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,36 +18,29 @@ public class Traveler {
     private final RidePermitWallet ridePermitWallet;
     private Trip ongoingTrip;
 
-    public Traveler(
-            Idul idul,
-            Email email,
-            RidePermitWallet ridePermitWallet) {
+    public Traveler(Idul idul, Email email, RidePermitWallet ridePermitWallet) {
         this.idul = idul;
         this.email = email;
         this.ridePermitWallet = ridePermitWallet;
         this.ongoingTrip = null;
     }
 
-    public Traveler(
-            Idul idul,
-            Email email,
-            RidePermitWallet ridePermitWallet,
-            Trip ongoingTrip) {
+    public Traveler(Idul idul, Email email, RidePermitWallet ridePermitWallet, Trip ongoingTrip) {
         this.idul = idul;
         this.email = email;
         this.ridePermitWallet = ridePermitWallet;
         this.ongoingTrip = ongoingTrip;
     }
 
-
-    public void startTraveling(LocalDateTime startTime, RidePermitId ridePermitId, ScooterId scooterId) {
+    public void startTraveling(LocalDateTime startTime, RidePermitId ridePermitId,
+            ScooterId scooterId) {
         if (Optional.ofNullable(ongoingTrip).isPresent()) {
             throw new TravelerException("A trip is already ongoing");
         }
-        if(!walletHasPermit(ridePermitId)) {
+        if (!walletHasPermit(ridePermitId)) {
             throw new TravelerException("Ride permit not found. ");
         }
-        ongoingTrip = new Trip(startTime,ridePermitId,idul,scooterId);
+        ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
     }
 
     public Trip stopTraveling(LocalDateTime endDateTime) {

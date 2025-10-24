@@ -18,7 +18,8 @@ public class TravelerPersistenceMapper {
 
         TripRecord ongoingTrip = traveler.getOngoingTrip().map(this::toTripRecord).orElse(null);
 
-        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,ongoingTrip);
+        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,
+                ongoingTrip);
     }
 
     public Traveler toDomain(TravelerRecord travelerRecord) {
@@ -29,8 +30,9 @@ public class TravelerPersistenceMapper {
 
         if (Optional.ofNullable(travelerRecord.ongoingTrip()).isPresent()) {
             Trip trip = toTripDomain(travelerRecord.ongoingTrip());
-            return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,trip);
-        }else {
+            return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,
+                    trip);
+        } else {
             return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet);
         }
 
@@ -52,8 +54,8 @@ public class TravelerPersistenceMapper {
     }
 
     private TripRecord toTripRecord(Trip trip) {
-        return new TripRecord(trip.getStartTime(), trip.getRidePermit(),
-                trip.getTravelerIdul(), trip.getScooterId());
+        return new TripRecord(trip.getStartTime(), trip.getRidePermit(), trip.getTravelerIdul(),
+                trip.getScooterId());
     }
 
 }

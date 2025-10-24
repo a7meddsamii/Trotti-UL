@@ -27,7 +27,6 @@ public class TravelerFixture {
         return this;
     }
 
-
     public TravelerFixture withIdul(Idul idul) {
         this.idul = idul;
         return this;
@@ -44,6 +43,6 @@ public class TravelerFixture {
     }
 
     public Traveler build() {
-        return new Traveler(idul, email, ridePermitWallet,trip);
+        return new Traveler(idul, email, ridePermitWallet, trip);
     }
 }

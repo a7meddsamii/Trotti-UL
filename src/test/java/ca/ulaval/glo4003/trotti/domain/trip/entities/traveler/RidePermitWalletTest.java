@@ -2,11 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,9 +11,6 @@ import org.mockito.Mockito;
 class RidePermitWalletTest {
 
     private static final List<RidePermit> NO_RIDE_PERMITS = List.of();
-    private static final LocalDateTime START_TIME = LocalDateTime.now();
-    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
 
     private RidePermit permit;
     private RidePermitWallet ridePermitWallet;
@@ -75,7 +68,5 @@ class RidePermitWalletTest {
 
         Assertions.assertEquals(newlyActiveRidePermits.size(), newPermits.size());
     }
-
-
 
 }

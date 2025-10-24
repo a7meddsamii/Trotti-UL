@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
-
 import java.time.LocalDateTime;
 
 public class Trip {
@@ -15,7 +14,11 @@ public class Trip {
     private final Idul travelerId;
     private LocalDateTime endTime;
 
-    public Trip(LocalDateTime startTime, RidePermitId ridePermit, Idul TravelerIdul, ScooterId scooterId) {
+    public Trip(
+            LocalDateTime startTime,
+            RidePermitId ridePermit,
+            Idul TravelerIdul,
+            ScooterId scooterId) {
         this.startTime = startTime;
         this.ridePermit = ridePermit;
         this.travelerId = TravelerIdul;

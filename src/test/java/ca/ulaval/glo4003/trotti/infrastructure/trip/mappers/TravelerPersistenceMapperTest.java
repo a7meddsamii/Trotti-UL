@@ -17,8 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +29,7 @@ class TravelerPersistenceMapperTest {
     private static final RidePermitId PERMIT_ID = RidePermitId.randomId();
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final LocalDateTime START_DATE = LocalDateTime.of(2019, Month.JANUARY, 1, 0, 0);
-    private static final TripRecord TRIP = new TripRecord(START_DATE,PERMIT_ID,IDUL,SCOOTER_ID);
+    private static final TripRecord TRIP = new TripRecord(START_DATE, PERMIT_ID, IDUL, SCOOTER_ID);
     private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
             List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
                     LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
@@ -76,7 +74,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithPermit_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS,TRIP);
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS, TRIP);
 
         Traveler traveler = travelerMapper.toDomain(record);
 
@@ -115,7 +113,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithoutTrip_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(),null);
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), null);
 
         Traveler traveler = travelerMapper.toDomain(record);
 
