@@ -1,70 +1,40 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidDock;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidUndock;
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
+    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
-    private static final ScooterId SECOND_SCOOTER_ID = ScooterId.randomId();
-    private static final ScooterId THIRD_SCOOTER_ID = ScooterId.randomId();
-    private static final int A_CAPACITY = 2;
-    private final List<ScooterId> A_SCOOTER_ID_LIST = new ArrayList<>();
+    private DockingArea A_DOCKING_AREA;
     private Station station;
 
     @BeforeEach
     void setup() {
-        Location location = Mockito.mock(Location.class);
-        station = new Station(location, A_SCOOTER_ID_LIST, A_CAPACITY);
+        A_DOCKING_AREA = Mockito.mock(DockingArea.class);
+        Location A_LOCATION = Mockito.mock(Location.class);
+        station = new Station(A_LOCATION, A_DOCKING_AREA);
     }
 
     @Test
-    void givenStation_whenDockScooter_thenScooterIsAddedToStation() {
-        station.dockScooter(A_SCOOTER_ID);
+    void givenSlotNumber_whenGetScooter_thenReturnsScooterIdFromDockingAreaAndCallsUndockOnDockingArea() {
+        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
 
-        Assertions.assertTrue(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
+        ScooterId result = station.getScooter(SLOT_NUMBER);
+
+        Assertions.assertEquals(A_SCOOTER_ID, result);
+        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER);
     }
 
     @Test
-    void givenScooterAlreadyInStation_whenDockScooter_thenThrowsException() {
-        station.dockScooter(A_SCOOTER_ID);
+    void givenSlotNumberAndScooterId_whenReturnScooter_thenCallsDockOnDockingArea() {
+        station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
 
-        Executable dock = () -> station.dockScooter(A_SCOOTER_ID);
-
-        Assertions.assertThrows(InvalidDock.class, dock);
-    }
-
-    @Test
-    void givenStationAtMaximumCapacity_whenDockScooter_thenThrowsException() {
-        station.dockScooter(A_SCOOTER_ID);
-        station.dockScooter(SECOND_SCOOTER_ID);
-
-        Executable dock = () -> station.dockScooter(THIRD_SCOOTER_ID);
-
-        Assertions.assertThrows(InvalidDock.class, dock);
-    }
-
-    @Test
-    void givenStation_whenUndockScooter_thenScooterIsRemovedFromStation() {
-        station.dockScooter(A_SCOOTER_ID);
-
-        station.undockScooter(A_SCOOTER_ID);
-
-        Assertions.assertFalse(A_SCOOTER_ID_LIST.contains(A_SCOOTER_ID));
-    }
-
-    @Test
-    void givenScooterNotInStation_whenUndockScooter_thenThrowsException() {
-        Executable undock = () -> station.undockScooter(A_SCOOTER_ID);
-
-        Assertions.assertThrows(InvalidUndock.class, undock);
+        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 }
