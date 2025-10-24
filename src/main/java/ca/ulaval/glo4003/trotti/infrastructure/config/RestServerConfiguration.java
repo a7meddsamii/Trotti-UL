@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config;
 
-import ca.ulaval.glo4003.trotti.infrastructure.config.binders.*;
+import ca.ulaval.glo4003.trotti.infrastructure.config.binders.ApplicationBinder;
 import ca.ulaval.glo4003.trotti.infrastructure.config.loaders.ServerResourceInstantiation;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 

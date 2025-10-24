@@ -2,12 +2,12 @@ package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 class UnlockCodeApplicationServiceTest {
 
     private static final Idul A_IDUL = Idul.from("ABC123");
-    private static final Id A_RIDE_PERMIT_ID = Id.randomId();
+    private static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
 
     private TravelerRepository travelerRepository;
     private UnlockCodeMapper unlockCodeMapper;
