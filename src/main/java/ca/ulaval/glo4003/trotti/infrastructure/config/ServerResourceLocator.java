@@ -31,7 +31,7 @@ public class ServerResourceLocator {
 		Object serviceInstance = services.get(serviceClass);
 		
 		if(Optional.ofNullable(serviceInstance).isEmpty()) {
-			throw new ConfigurationException(String.format("No service instance found for %s", serviceClass.getName()));
+			throw new ConfigurationException(String.format("No server resource instance found for %s", serviceClass.getName()));
 		}
 		
         return serviceClass.cast(serviceInstance);
