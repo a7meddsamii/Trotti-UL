@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 public class ScooterTest {
-    private static final Id AN_ID = Id.randomId();
+    private static final ScooterId AN_ID = ScooterId.randomId();
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final LocalDateTime FUTURE_TIME = LocalDateTime.of(2024, 1, 1, 13, 0);
     private static final Location A_LOCATION = Location.of("building A", "spot name");

@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
@@ -43,7 +43,7 @@ class UnlockCodeApplicationServiceTest {
     void givenTravelerWithPassId_whenGenerateUnlockCode_thenUnlockCodeServiceRequestsCode() {
         traveler = Mockito.mock(Traveler.class);
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        Mockito.when(traveler.hasRidePermit(A_RIDE_PERMIT_ID)).thenReturn(true);
+        Mockito.when(traveler.walletHasPermit(A_RIDE_PERMIT_ID)).thenReturn(true);
         Mockito.when(travelerRepository.findByIdul(A_IDUL)).thenReturn(traveler);
         Mockito.when(unlockCodeService.requestUnlockCode(A_RIDE_PERMIT_ID)).thenReturn(unlockCode);
 
@@ -70,7 +70,7 @@ class UnlockCodeApplicationServiceTest {
     void givenTravelerWithInvalidPassId_whenGenerateUnlockCode_thenThrowsNotFoundException() {
         traveler = Mockito.mock(Traveler.class);
         Mockito.when(travelerRepository.findByIdul(A_IDUL)).thenReturn(traveler);
-        Mockito.when(traveler.getRidePermits()).thenReturn(Collections.emptyList());
+        Mockito.when(traveler.getWalletPermits()).thenReturn(Collections.emptyList());
 
         Executable action =
                 () -> unlockCodeApplicationService.generateUnlockCode(A_IDUL, A_RIDE_PERMIT_ID);

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
@@ -88,7 +88,7 @@ class InMemoryTravelerRepositoryIntegrationTest {
     void assertEquals(Traveler savedTraveler, Traveler retrievedTraveler) {
         Assertions.assertEquals(savedTraveler.getIdul(), retrievedTraveler.getIdul());
         Assertions.assertEquals(savedTraveler.getEmail(), retrievedTraveler.getEmail());
-        Assertions.assertEquals(savedTraveler.getRidePermits().size(),
-                retrievedTraveler.getRidePermits().size());
+        Assertions.assertEquals(savedTraveler.getWalletPermits().size(),
+                retrievedTraveler.getWalletPermits().size());
     }
 }
