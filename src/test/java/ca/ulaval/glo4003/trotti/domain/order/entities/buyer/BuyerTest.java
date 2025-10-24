@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.order.entities.buyer;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +21,7 @@ class BuyerTest {
     private Cart cart;
     private CreditCard paymentMethod;
     private Pass pass;
-    private Id passId;
+    private PassId passId;
     private Buyer buyer;
 
     @BeforeEach
@@ -31,7 +31,7 @@ class BuyerTest {
         cart = Mockito.mock(Cart.class);
         paymentMethod = Mockito.mock(CreditCard.class);
         pass = Mockito.mock(Pass.class);
-        passId = Mockito.mock(Id.class);
+        passId = Mockito.mock(PassId.class);
 
         buyer = new Buyer(idul, BUYER_NAME, email, cart, paymentMethod);
     }

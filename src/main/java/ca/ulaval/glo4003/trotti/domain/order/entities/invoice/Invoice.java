@@ -1,22 +1,23 @@
 package ca.ulaval.glo4003.trotti.domain.order.entities.invoice;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.domain.order.values.InvoiceId;
+import ca.ulaval.glo4003.trotti.domain.order.values.OrderId;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Invoice {
-    private final Id invoiceId;
-    private final Id contextId;
+    private final InvoiceId invoiceId;
+    private final OrderId contextId;
     private final Idul buyerIdul;
     private final LocalDate issueDate;
     private final List<InvoiceLine> lines;
     private final Money totalAmount;
 
     private Invoice(Builder b) {
-        this.invoiceId = Id.randomId();
+        this.invoiceId = InvoiceId.randomId();
         this.contextId = b.orderId;
         this.buyerIdul = b.buyer;
         this.issueDate = LocalDate.now();
@@ -28,11 +29,11 @@ public final class Invoice {
         return new Builder();
     }
 
-    public Id getId() {
+    public InvoiceId getId() {
         return invoiceId;
     }
 
-    public Id getContextId() {
+    public OrderId getContextId() {
         return contextId;
     }
 
@@ -53,13 +54,13 @@ public final class Invoice {
     }
 
     public static class Builder {
-        private Id orderId;
+        private OrderId orderId;
         private Idul buyer;
         private List<InvoiceLine> lines = new ArrayList<>();
         private Money totalAmount;
 
-        public Builder id(Id id) {
-            this.orderId = id;
+        public Builder id(OrderId orderId) {
+            this.orderId = orderId;
             return this;
         }
 

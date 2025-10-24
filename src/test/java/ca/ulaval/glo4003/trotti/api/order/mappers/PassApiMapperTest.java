@@ -6,11 +6,11 @@ import static org.mockito.Mockito.when;
 import ca.ulaval.glo4003.trotti.api.order.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.api.order.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
@@ -62,7 +62,8 @@ class PassApiMapperTest {
     @Test
     void givenPassDtoList_whenToPassListResponse_thenMapsCorrectly() {
         MaximumDailyTravelTime maxTime = MaximumDailyTravelTime.from(Duration.ofMinutes(60));
-        PassDto passDto = new PassDto(maxTime, SESSION, BillingFrequency.MONTHLY, Id.randomId());
+        PassDto passDto =
+                new PassDto(maxTime, SESSION, BillingFrequency.MONTHLY, PassId.randomId());
 
         PassListResponse response = mapper.toPassListResponse(List.of(passDto));
 
@@ -74,8 +75,10 @@ class PassApiMapperTest {
     void givenMultiplePasses_whenToPassListResponse_thenAggregatesTotalCorrectly() {
         MaximumDailyTravelTime maxTime1 = MaximumDailyTravelTime.from(Duration.ofMinutes(60));
         MaximumDailyTravelTime maxTime2 = MaximumDailyTravelTime.from(Duration.ofMinutes(120));
-        PassDto passDto1 = new PassDto(maxTime1, SESSION, BillingFrequency.MONTHLY, Id.randomId());
-        PassDto passDto2 = new PassDto(maxTime2, SESSION, BillingFrequency.MONTHLY, Id.randomId());
+        PassDto passDto1 =
+                new PassDto(maxTime1, SESSION, BillingFrequency.MONTHLY, PassId.randomId());
+        PassDto passDto2 =
+                new PassDto(maxTime2, SESSION, BillingFrequency.MONTHLY, PassId.randomId());
 
         PassListResponse response = mapper.toPassListResponse(List.of(passDto1, passDto2));
 

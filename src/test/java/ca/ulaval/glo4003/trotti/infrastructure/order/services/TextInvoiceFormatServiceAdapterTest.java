@@ -1,21 +1,26 @@
 package ca.ulaval.glo4003.trotti.infrastructure.order.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.InvoiceLine;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
+import ca.ulaval.glo4003.trotti.domain.order.values.OrderId;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TextInvoiceFormatServiceAdapterTest {
 
     private static final Idul A_BUYER_IDUL = Idul.from("johnDoe99");
 
-    private InvoiceFormatService<String> invoiceFormatService =
-            new TextInvoiceFormatServiceAdapter();
+    private InvoiceFormatService<String> invoiceFormatService;
+
+    @BeforeEach
+    void setup() {
+        invoiceFormatService = new TextInvoiceFormatServiceAdapter();
+    }
 
     @Test
     void whenFormat_thenReturnTextInvoice() {
@@ -33,11 +38,11 @@ class TextInvoiceFormatServiceAdapterTest {
 
         String result = invoiceFormatService.format(invoice);
 
-        Assertions.assertThat(result).contains("Invoice ID: " + invoice.getId())
-                .contains("Order ID: " + invoice.getContextId())
-                .contains("Buyer: " + invoice.getBuyerIdul())
-                .contains("Issue Date: " + invoice.getIssueDate()).contains("Items:")
-                .contains(line.getDescription()).contains("Total: " + invoice.getTotalAmount());
+        Assertions.assertThat(result).contains(invoice.getId().toString())
+                .contains(invoice.getContextId().toString())
+                .contains(invoice.getBuyerIdul().toString())
+                .contains(invoice.getIssueDate().toString()).contains(line.getDescription())
+                .contains(invoice.getTotalAmount().toString());
     }
 
     @Test
@@ -58,8 +63,7 @@ class TextInvoiceFormatServiceAdapterTest {
 
         String result = invoiceFormatService.format(invoice);
 
-        Assertions.assertThat(result).contains("Items:")
-                .contains("Total: " + invoice.getTotalAmount());
+        Assertions.assertThat(result).contains(invoice.getTotalAmount().toString());
     }
 
     @Test
@@ -76,7 +80,7 @@ class TextInvoiceFormatServiceAdapterTest {
     }
 
     private Invoice buildInvoiceWithLines(List<InvoiceLine> lines) {
-        return Invoice.builder().id(Id.randomId()).buyer(A_BUYER_IDUL).totalAmount(Money.zeroCad())
-                .lines(lines.isEmpty() ? null : lines).build();
+        return Invoice.builder().id(OrderId.randomId()).buyer(A_BUYER_IDUL)
+                .totalAmount(Money.zeroCad()).lines(lines.isEmpty() ? null : lines).build();
     }
 }

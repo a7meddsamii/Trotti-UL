@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 class CartResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
-    private static final String PASS_ID = Id.randomId().toString();
+    private static final String PASS_ID = PassId.randomId().toString();
 
     private CartApplicationService cartApplicationService;
     private AuthenticationService authenticationService;
@@ -100,7 +100,7 @@ class CartResourceTest {
 
         Mockito.verify(authenticationService).authenticate(ArgumentMatchers.any());
         Mockito.verify(cartApplicationService).removeFromCart(Mockito.eq(idul),
-                Mockito.any(Id.class));
+                Mockito.any(PassId.class));
         Mockito.verifyNoInteractions(passApiMapper);
     }
 
