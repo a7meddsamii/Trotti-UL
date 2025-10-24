@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class DockingAreaTest {
-    private static final int VALID_SLOT = 1;
-    private static final int INVALID_SLOT = -1;
+    private static final SlotNumber VALID_SLOT = new SlotNumber(1);
+    private static final SlotNumber INVALID_SLOT = new SlotNumber(99);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private ScooterSlot A_SCOOTER_SLOT;
     private DockingArea dockingArea;
@@ -21,7 +21,7 @@ class DockingAreaTest {
     @BeforeEach
     void setup() {
         A_SCOOTER_SLOT = Mockito.mock(ScooterSlot.class);
-        Map<Integer, ScooterSlot> scooterSlots = new HashMap<>();
+        Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
         scooterSlots.put(VALID_SLOT, A_SCOOTER_SLOT);
         dockingArea = new DockingArea(scooterSlots);
     }
@@ -45,7 +45,7 @@ class DockingAreaTest {
     void givenValidSlot_whenUndock_thenDelegatesToScooterSlotAndReturnsScooterId() {
         Mockito.when(A_SCOOTER_SLOT.undock()).thenReturn(A_SCOOTER_ID);
 
-        Id result = dockingArea.undock(VALID_SLOT);
+        ScooterId result = dockingArea.undock(VALID_SLOT);
 
         Assertions.assertEquals(A_SCOOTER_ID, result);
         Mockito.verify(A_SCOOTER_SLOT).undock();

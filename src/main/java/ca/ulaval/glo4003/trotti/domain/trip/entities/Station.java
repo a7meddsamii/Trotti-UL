@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 
@@ -12,11 +13,11 @@ public class Station {
         this.dockingArea = dockingArea;
     }
 
-    public ScooterId getScooter(int slotNumber) {
+    public ScooterId getScooter(SlotNumber slotNumber) {
         return this.dockingArea.undock(slotNumber);
     }
 
-    public void returnScooter(int slotNumber, ScooterId scooterId) {
+    public void returnScooter(SlotNumber slotNumber, ScooterId scooterId) {
         this.dockingArea.dock(slotNumber, scooterId);
     }
 }
