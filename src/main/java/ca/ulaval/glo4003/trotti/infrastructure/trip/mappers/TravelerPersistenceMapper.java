@@ -54,7 +54,7 @@ public class TravelerPersistenceMapper {
     }
 
     private TripRecord toTripRecord(Trip trip) {
-        return new TripRecord(trip.getStartTime(), trip.getRidePermit(), trip.getTravelerIdul(),
+        return new TripRecord(trip.getStartTime(), trip.getRidePermitId(), trip.getTravelerIdul(),
                 trip.getScooterId());
     }
 
