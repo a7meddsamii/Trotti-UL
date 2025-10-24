@@ -2,8 +2,9 @@ package ca.ulaval.glo4003.trotti.fixtures;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import java.util.List;
 
 public class TravelerFixture {
@@ -13,15 +14,16 @@ public class TravelerFixture {
 
     private Idul idul = AN_IDUL;
     private Email email = AN_EMAIL;
-    private List<RidePermit> permits = List.of();
+    private RidePermitWallet ridePermitWallet = new RidePermitWallet(List.of());
+    private Trip trip = null;
 
     public TravelerFixture withNoRidePermit() {
-        this.permits = List.of();
+        this.ridePermitWallet = new RidePermitWallet(List.of());
         return this;
     }
 
     public TravelerFixture withRidePermit() {
-        this.permits = List.of(new RidePermitFixture().build());
+        this.ridePermitWallet.updateActiveRidePermits(List.of(new RidePermitFixture().build()));
         return this;
     }
 
@@ -30,7 +32,17 @@ public class TravelerFixture {
         return this;
     }
 
+    public TravelerFixture withTrip(Trip trip) {
+        this.trip = trip;
+        return this;
+    }
+
+    public TravelerFixture withNoTrip() {
+        this.trip = null;
+        return this;
+    }
+
     public Traveler build() {
-        return new Traveler(idul, email, permits);
+        return new Traveler(idul, email, ridePermitWallet, trip);
     }
 }
