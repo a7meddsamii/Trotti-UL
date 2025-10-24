@@ -24,6 +24,8 @@ public class RegistryLoader extends ResourceLoader {
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
         SessionRegistry sessionRegistry =
                 new SessionRegistry(SessionProvider.getInstance().getSessions());
+		
+		this.resourceLocator.register(SessionProvider.class, SessionProvider.getInstance());
         this.resourceLocator.register(SessionRegistry.class, sessionRegistry);
     }
 

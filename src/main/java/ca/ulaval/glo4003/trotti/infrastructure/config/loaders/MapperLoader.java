@@ -38,9 +38,10 @@ public class MapperLoader extends ResourceLoader {
 
     private void loadApiMappers() {
         PasswordHasher hasher = this.resourceLocator.resolve(PasswordHasher.class);
+		SessionProvider sessionProvider = this.resourceLocator.resolve(SessionProvider.class);
         this.resourceLocator.register(AccountApiMapper.class, new AccountApiMapper(hasher));
         this.resourceLocator.register(OrderApiMapper.class, new OrderApiMapper());
         this.resourceLocator.register(PassApiMapper.class,
-                new PassApiMapper(SessionProvider.getInstance()));
+                new PassApiMapper(sessionProvider));
     }
 }
