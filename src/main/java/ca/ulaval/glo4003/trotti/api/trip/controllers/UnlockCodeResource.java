@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -31,7 +31,7 @@ public class UnlockCodeResource {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
-        unlockCodeApplicationService.generateUnlockCode(idul, Id.from(ridePermitId));
+        unlockCodeApplicationService.generateUnlockCode(idul, RidePermitId.from(ridePermitId));
 
         return Response.ok()
                 .entity(new UnlockCodeResponse("Unlock Code is generated successfully.")).build();
