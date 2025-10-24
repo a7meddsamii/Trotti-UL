@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.WalletException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +10,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class RidePermitWalletTest {
@@ -79,24 +76,6 @@ class RidePermitWalletTest {
         Assertions.assertEquals(newlyActiveRidePermits.size(), newPermits.size());
     }
 
-    @Test
-    void givenStartTimeExistingRidePassIdAndScooterId_whenStartTrip_thenReturnNewTrip() {
-        List<RidePermit> activeRidePermits = List.of(permit);
-        ridePermitWallet.updateActiveRidePermits(activeRidePermits);
-        Mockito.when(permit.getId()).thenReturn(RIDE_PERMIT_ID);
 
-        Trip trip = ridePermitWallet.startTrip(START_TIME, RIDE_PERMIT_ID, SCOOTER_ID);
-
-        Mockito.verify(permit, Mockito.times(1)).getId();
-        Assertions.assertEquals(Trip.class, trip.getClass());
-    }
-
-    @Test
-    void givenStartTimeNoExistingRidePassIdAndScooterId_whenStartTrip_thenThrowWalletException() {
-        Executable startingTripWithWrongRiderPass =
-                () -> ridePermitWallet.startTrip(START_TIME, RIDE_PERMIT_ID, SCOOTER_ID);
-
-        Assertions.assertThrows(WalletException.class, startingTripWithWrongRiderPass);
-    }
 
 }

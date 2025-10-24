@@ -4,11 +4,11 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.RidePermitWallet;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.TripWallet;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
 import java.util.List;
+import java.util.Optional;
 
 public class TravelerPersistenceMapper {
 
@@ -16,10 +16,9 @@ public class TravelerPersistenceMapper {
         List<RidePermitRecord> ridePermitRecords =
                 traveler.getWalletPermits().stream().map(this::toRidePermitRecord).toList();
 
-        List<TripRecord> trips = traveler.getBookTrips().stream().map(this::toTripRecord).toList();
+        TripRecord ongoingTrip = traveler.getOngoingTrip().map(this::toTripRecord).orElse(null);
 
-        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,
-                trips);
+        return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,ongoingTrip);
     }
 
     public Traveler toDomain(TravelerRecord travelerRecord) {
@@ -28,13 +27,13 @@ public class TravelerPersistenceMapper {
 
         RidePermitWallet ridePermitWallet = new RidePermitWallet(ridePermits);
 
-        List<Trip> trips =
-                travelerRecord.unfinishedTrips().stream().map(this::toTripDomain).toList();
+        if (Optional.ofNullable(travelerRecord.ongoingTrip()).isPresent()) {
+            Trip trip = toTripDomain(travelerRecord.ongoingTrip());
+            return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,trip);
+        }else {
+            return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet);
+        }
 
-        TripWallet tripWallet = new TripWallet(trips);
-
-        return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,
-                tripWallet);
     }
 
     private RidePermit toRidePermitDomain(RidePermitRecord ridePermitRecord) {

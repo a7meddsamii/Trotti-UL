@@ -17,6 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,8 +31,7 @@ class TravelerPersistenceMapperTest {
     private static final RidePermitId PERMIT_ID = RidePermitId.randomId();
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final LocalDateTime START_DATE = LocalDateTime.of(2019, Month.JANUARY, 1, 0, 0);
-    private static final List<TripRecord> TRIPS =
-            List.of(new TripRecord( START_DATE, PERMIT_ID, IDUL, SCOOTER_ID));
+    private static final TripRecord TRIP = new TripRecord(START_DATE,PERMIT_ID,IDUL,SCOOTER_ID);
     private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
             List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
                     LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));
@@ -65,7 +66,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithoutPermit_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), List.of());
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), TRIP);
 
         Traveler traveler = travelerMapper.toDomain(record);
 
@@ -75,7 +76,7 @@ class TravelerPersistenceMapperTest {
 
     @Test
     void givenTravelerRecordWithPermit_whenToDomain_thenReturnCorrespondingTraveler() {
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS, TRIPS);
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, RIDE_PERMIT_RECORDS,TRIP);
 
         Traveler traveler = travelerMapper.toDomain(record);
 
@@ -84,8 +85,8 @@ class TravelerPersistenceMapperTest {
     }
 
     @Test
-    void givenTravelerWithoutTrips_whenToRecord_thenReturnCorrespondingTravelerRecord() {
-        Traveler traveler = travelerFixture.withoutTrips().build();
+    void givenTravelerWithoutTrip_whenToRecord_thenReturnCorrespondingTravelerRecord() {
+        Traveler traveler = travelerFixture.withNoTrip().build();
 
         TravelerRecord record = travelerMapper.toRecord(traveler);
 
@@ -93,9 +94,9 @@ class TravelerPersistenceMapperTest {
     }
 
     @Test
-    void givenTravelerWithTrips_whenToRecord_thenReturnCorrespondingTravelerRecord() {
+    void givenTravelerWithTrip_whenToRecord_thenReturnCorrespondingTravelerRecord() {
         Trip trip = Mockito.mock(Trip.class);
-        Traveler traveler = travelerFixture.withTrips(trip).build();
+        Traveler traveler = travelerFixture.withTrip(trip).build();
 
         TravelerRecord record = travelerMapper.toRecord(traveler);
 
@@ -103,9 +104,18 @@ class TravelerPersistenceMapperTest {
     }
 
     @Test
-    void givenTravelerRecordWithTrips_whenToDomain_thenReturnCorrespondingTraveler() {
+    void givenTravelerRecordWithTrip_whenToDomain_thenReturnCorrespondingTraveler() {
         TripRecord trip = Mockito.mock(TripRecord.class);
-        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), List.of(trip));
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(), trip);
+
+        Traveler traveler = travelerMapper.toDomain(record);
+
+        assertTravelersEqual(traveler, record);
+    }
+
+    @Test
+    void givenTravelerRecordWithoutTrip_whenToDomain_thenReturnCorrespondingTraveler() {
+        TravelerRecord record = new TravelerRecord(IDUL, EMAIL, List.of(),null);
 
         Traveler traveler = travelerMapper.toDomain(record);
 

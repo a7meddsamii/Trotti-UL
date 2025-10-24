@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -38,7 +37,7 @@ public class Trip {
 
     public Trip end(LocalDateTime endTime) {
         if (this.endTime != null)
-            throw new TripException("Cannot finish trip after end time");
+            throw new TripException("Cannot finish trip that has already ended");
         if (endTime.isBefore(this.startTime))
             throw new TripException("End time cannot be before start time");
 

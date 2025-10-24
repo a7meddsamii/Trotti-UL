@@ -1,14 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.WalletException;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class RidePermitWallet {
@@ -41,14 +36,4 @@ public class RidePermitWallet {
         return this.activeRidePermits.isEmpty();
     }
 
-    public Trip startTrip(LocalDateTime startTime, RidePermitId ridePermitId, ScooterId scooterId) {
-        RidePermit ridePermit = getRidePermit(ridePermitId);
-        return new Trip(startTime, ridePermitId, ridePermit.getIdul(), scooterId);
-    }
-
-    private RidePermit getRidePermit(Id ridePermitId) {
-        return activeRidePermits.stream()
-                .filter((activeRidePermit) -> activeRidePermit.getId().equals(ridePermitId))
-                .findFirst().orElseThrow(() -> new WalletException(" Ride permit not found "));
-    }
 }
