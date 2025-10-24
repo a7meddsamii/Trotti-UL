@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 class UnlockCodeResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
-    private static final String RIDE_PERMIT_ID = Id.randomId().toString();
+    private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private UnlockCodeApplicationService unlockCodeApplicationService;
     private AuthenticationService authenticationService;

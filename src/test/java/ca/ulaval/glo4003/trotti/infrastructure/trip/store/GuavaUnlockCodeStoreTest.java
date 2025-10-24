@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.store;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 
 class GuavaUnlockCodeStoreTest {
 
-    private static final Id RIDE_PERMIT_ID = Id.randomId();
+    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
     private static final String CODE = "1234";
 
     private UnlockCode unlockCode;

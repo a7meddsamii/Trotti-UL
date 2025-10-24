@@ -57,7 +57,7 @@ class UnlockCodeApplicationServiceTest {
         traveler = Mockito.mock(Traveler.class);
         Mockito.when(traveler.getEmail()).thenReturn(AN_EMAIL);
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        Mockito.when(traveler.hasRidePermit(A_RIDE_PERMIT_ID)).thenReturn(true);
+        Mockito.when(traveler.walletHasPermit(A_RIDE_PERMIT_ID)).thenReturn(true);
         Mockito.when(travelerRepository.findByIdul(A_IDUL)).thenReturn(traveler);
         Mockito.when(unlockCodeService.requestUnlockCode(A_RIDE_PERMIT_ID)).thenReturn(unlockCode);
 
