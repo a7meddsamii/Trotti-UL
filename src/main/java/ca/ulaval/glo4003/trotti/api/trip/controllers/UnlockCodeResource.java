@@ -33,7 +33,8 @@ public class UnlockCodeResource {
 
         unlockCodeApplicationService.generateUnlockCode(idul, RidePermitId.from(ridePermitId));
 
-        return Response.ok()
-                .entity(new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail.")).build();
+        return Response.ok().entity(
+                new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
+                .build();
     }
 }
