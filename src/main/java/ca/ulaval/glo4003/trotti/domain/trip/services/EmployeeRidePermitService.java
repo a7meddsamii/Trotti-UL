@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +32,7 @@ public class EmployeeRidePermitService {
         }
 
         RidePermit employeeRidePermit =
-                new RidePermit(Id.randomId(), traveler.getIdul(), session.get());
+                new RidePermit(RidePermitId.randomId(), traveler.getIdul(), session.get());
 
         return traveler.updateActiveRidePermits(List.of(employeeRidePermit));
     }

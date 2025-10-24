@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -69,8 +69,8 @@ public class CartResource {
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);
 
-        Id id = Id.from(passId);
-        cartApplicationService.removeFromCart(idul, id);
+        PassId passIdToRemove = PassId.from(passId);
+        cartApplicationService.removeFromCart(idul, passIdToRemove);
 
         return Response.noContent().build();
     }

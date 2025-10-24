@@ -1,12 +1,8 @@
 package ca.ulaval.glo4003.trotti.fixtures;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.values.BillingFrequency;
-import ca.ulaval.glo4003.trotti.domain.order.values.MaximumDailyTravelTime;
-import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
-import ca.ulaval.glo4003.trotti.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.domain.order.values.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
@@ -18,16 +14,16 @@ public class PassFixture {
             LocalDate.of(2025, Month.SEPTEMBER, 1), LocalDate.of(2025, Month.DECEMBER, 31));
     public static final BillingFrequency A_BILLING_FREQUENCY = BillingFrequency.PER_TRIP;
 
-    public static final Id AN_ID = Id.randomId();
+    public static final PassId AN_PASSID = PassId.randomId();
     private Idul idul = Idul.from("A1234567");
-    private Id id = AN_ID;
+    private PassId id = AN_PASSID;
 
     public PassFixture withIdul(Idul idul) {
         this.idul = idul;
         return this;
     }
 
-    public PassFixture withId(Id id) {
+    public PassFixture withId(PassId id) {
         this.id = id;
         return this;
     }

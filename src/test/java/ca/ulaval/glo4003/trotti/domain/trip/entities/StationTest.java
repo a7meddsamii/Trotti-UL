@@ -1,55 +1,40 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class StationTest {
-
-    private static final Location A_STATION_LOCATION = Location.of("PEPS", "Station A");
-    private static final int STATION_CAPACITY = 10;
-
+    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
+    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
+    private DockingArea A_DOCKING_AREA;
     private Station station;
 
     @BeforeEach
     void setup() {
-        station = new Station(A_STATION_LOCATION, STATION_CAPACITY);
+        A_DOCKING_AREA = Mockito.mock(DockingArea.class);
+        Location A_LOCATION = Mockito.mock(Location.class);
+        station = new Station(A_LOCATION, A_DOCKING_AREA);
     }
 
     @Test
-    void givenStation_whenGetInitialScooterCount_thenReturns80PercentOfCapacity() {
-        int initialCount = station.getInitialScooterCount();
-        int expectedInitialCount = 8;
+    void givenSlotNumber_whenGetScooter_thenReturnsScooterIdFromDockingAreaAndCallsUndockOnDockingArea() {
+        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
 
-        Assertions.assertEquals(expectedInitialCount, initialCount);
+        ScooterId result = station.getScooter(SLOT_NUMBER);
+
+        Assertions.assertEquals(A_SCOOTER_ID, result);
+        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER);
     }
 
     @Test
-    void givenScooterId_whenAddScooter_thenScooterIsAddedToStation() {
-        Id scooterId = Id.randomId();
+    void givenSlotNumberAndScooterId_whenReturnScooter_thenCallsDockOnDockingArea() {
+        station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
 
-        station.addScooter(scooterId);
-
-        Assertions.assertTrue(station.getScooterIds().contains(scooterId));
-    }
-
-    @Test
-    void givenMultipleScooterIds_whenAddScooter_thenAllScootersAreAdded() {
-        Id scooterId1 = Id.randomId();
-        Id scooterId2 = Id.randomId();
-
-        station.addScooter(scooterId1);
-        station.addScooter(scooterId2);
-
-        Assertions.assertEquals(2, station.getScooterIds().size());
-        Assertions.assertTrue(station.getScooterIds().contains(scooterId1));
-        Assertions.assertTrue(station.getScooterIds().contains(scooterId2));
-    }
-
-    @Test
-    void whenCreateStation_thenScooterListIsEmpty() {
-        Assertions.assertTrue(station.getScooterIds().isEmpty());
+        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 }

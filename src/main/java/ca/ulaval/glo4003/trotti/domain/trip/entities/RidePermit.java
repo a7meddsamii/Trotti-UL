@@ -1,23 +1,23 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class RidePermit {
-    private final Id id;
+    private final RidePermitId id;
     private final Idul idul;
     private final Session session;
 
-    public RidePermit(Id id, Idul idul, Session session) {
+    public RidePermit(RidePermitId id, Idul idul, Session session) {
         this.id = id;
         this.idul = idul;
         this.session = session;
     }
 
-    public Id getId() {
+    public RidePermitId getId() {
         return id;
     }
 
@@ -31,6 +31,10 @@ public class RidePermit {
 
     public boolean isActiveFor(LocalDate date) {
         return session.contains(date);
+    }
+
+    public boolean matches(RidePermitId id) {
+        return this.id.equals(id);
     }
 
     @Override
