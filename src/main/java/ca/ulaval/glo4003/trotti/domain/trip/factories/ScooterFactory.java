@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.trip.factories;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ScooterFactory {
 
         for (int i = 0; i < count; i++) {
             Battery battery = new Battery(FULL_CHARGE, now, BatteryState.CHARGING);
-            Scooter scooter = new Scooter(Id.randomId(), battery, stationLocation);
+            Scooter scooter = new Scooter(ScooterId.randomId(), battery, stationLocation);
             scooters.add(scooter);
         }
 
