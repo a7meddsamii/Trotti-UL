@@ -9,7 +9,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 public class OrderController implements OrderResource {
@@ -28,8 +27,7 @@ public class OrderController implements OrderResource {
     }
 
     @Override
-    public Response confirm(String tokenRequest,
-            PaymentInfoRequest paymentInfoRequest) {
+    public Response confirm(String tokenRequest, PaymentInfoRequest paymentInfoRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);

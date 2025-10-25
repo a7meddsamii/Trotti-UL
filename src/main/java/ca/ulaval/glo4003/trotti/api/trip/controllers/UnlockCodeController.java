@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationSer
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 public class UnlockCodeController implements UnlockCodeResource {

@@ -11,5 +11,5 @@ public interface UnlockCodeResource {
     @Path("/{ridePermitId}")
     @Produces(MediaType.APPLICATION_JSON)
     Response requestUnlockCode(@HeaderParam("Authorization") String tokenRequest,
-                                      @PathParam("ridePermitId") String ridePermitId);
+            @PathParam("ridePermitId") String ridePermitId);
 }

@@ -12,5 +12,5 @@ public interface OrderResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     Response confirm(@HeaderParam("Authorization") String tokenRequest,
-                            PaymentInfoRequest paymentInfoRequest);
+            PaymentInfoRequest paymentInfoRequest);
 }

@@ -17,14 +17,12 @@ public interface CartResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     Response addToCart(@HeaderParam("Authorization") String tokenRequest,
-                              @Valid PassListRequest passListRequest);
-
+            @Valid PassListRequest passListRequest);
 
     @DELETE
     @Path("/{passId}")
     Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
-                                   @PathParam("passId") String passId);
-
+            @PathParam("passId") String passId);
 
     @DELETE
     Response clearCart(@HeaderParam("Authorization") String tokenRequest);
