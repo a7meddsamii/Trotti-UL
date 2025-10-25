@@ -33,8 +33,8 @@ class ScooterPersistenceMapperTest {
     void givenScooterRecord_whenToDomain_thenReturnCorrespondingScooter() {
         Scooter scooter = scooterFixture.build();
         BatteryRecord batteryRecord = toBatteryRecord(scooter.getBattery());
-        ScooterRecord record = new ScooterRecord(scooter.getScooterId(), batteryRecord,
-                scooter.getLocation());
+        ScooterRecord record =
+                new ScooterRecord(scooter.getScooterId(), batteryRecord, scooter.getLocation());
 
         Scooter resultScooter = scooterMapper.toDomain(record);
 
@@ -54,10 +54,7 @@ class ScooterPersistenceMapperTest {
     }
 
     private BatteryRecord toBatteryRecord(Battery battery) {
-        return new BatteryRecord(
-            battery.getBatteryLevel(),
-            battery.getLastBatteryUpdate(),
-            battery.getCurrentBatteryState()
-        );
+        return new BatteryRecord(battery.getBatteryLevel(), battery.getLastBatteryUpdate(),
+                battery.getCurrentBatteryState());
     }
 }

@@ -23,6 +23,7 @@ public class ScooterPersistenceMapper {
     }
 
     private BatteryRecord toRecordBattery(Battery battery) {
-        return  new BatteryRecord( battery.getBatteryLevel(), battery.getLastBatteryUpdate(), battery.getCurrentBatteryState());
+        return new BatteryRecord(battery.getBatteryLevel(), battery.getLastBatteryUpdate(),
+                battery.getCurrentBatteryState());
     }
 }
