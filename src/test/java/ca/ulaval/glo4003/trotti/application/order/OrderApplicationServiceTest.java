@@ -1,7 +1,8 @@
 // File: src/test/java/ca/ulaval/glo4003/trotti/application/order/OrderApplicationServiceTest.java
 package ca.ulaval.glo4003.trotti.application.order;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;

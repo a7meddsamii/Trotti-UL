@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -23,18 +23,18 @@ public class EmployeeRidePermitService {
         this.sessionRegistry = sessionRegistry;
     }
 
-    public List<RidePermit> handleEmployeeRidePermit(Traveler traveler) {
+    public List<RidePermit> giveFreePermitToEmployee(Traveler traveler) {
         LocalDate currentDate = LocalDate.now();
         Optional<Session> session = sessionRegistry.getSession(currentDate);
 
-        if (traveler.hasActiveRidePermits() || session.isEmpty()) {
+        if (!traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();
         }
 
         RidePermit employeeRidePermit =
-                new RidePermit(Id.randomId(), traveler.getIdul(), session.get());
+                new RidePermit(RidePermitId.randomId(), traveler.getIdul(), session.get());
 
-        return traveler.updateActiveRidePermits(List.of(employeeRidePermit));
+        return traveler.updateWallet(List.of(employeeRidePermit));
     }
 
     public boolean isEmployee(Idul idul) {

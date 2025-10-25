@@ -30,7 +30,7 @@ public class UserInMemoryDatabase {
                 new BuyerRecord(account.idul(), account.name(), account.email(), List.of(), null);
         buyerTable.put(account.idul(), buyerRecord);
         TravelerRecord travelerRecord =
-                new TravelerRecord(account.idul(), account.email(), Collections.emptyList());
+                new TravelerRecord(account.idul(), account.email(), Collections.emptyList(), null);
         travelerTable.put(account.idul(), travelerRecord);
     }
 
@@ -64,6 +64,10 @@ public class UserInMemoryDatabase {
 
     public List<TravelerRecord> getAllTravelers() {
         return List.copyOf(travelerTable.values());
+    }
+
+    public TravelerRecord selectFromTravelerTable(Idul idul) {
+        return travelerTable.get(idul);
     }
 
     private void enforceForeignKeyConstraint(Idul idul) {

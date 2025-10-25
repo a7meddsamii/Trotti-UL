@@ -3,11 +3,11 @@ package ca.ulaval.glo4003.trotti.application.order;
 import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.order.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.domain.order.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
+import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
 import java.util.List;
 
 public class CartApplicationService {
@@ -44,7 +44,7 @@ public class CartApplicationService {
         return buyer.getCart().getPasses().stream().map(passMapper::toDto).toList();
     }
 
-    public List<PassDto> removeFromCart(Idul idul, Id passId) {
+    public List<PassDto> removeFromCart(Idul idul, PassId passId) {
         Buyer buyer = buyerRepository.findByIdul(idul);
 
         buyer.removeFromCart(passId);

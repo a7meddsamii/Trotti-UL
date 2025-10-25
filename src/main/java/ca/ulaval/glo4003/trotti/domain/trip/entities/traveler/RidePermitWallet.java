@@ -1,19 +1,15 @@
-package ca.ulaval.glo4003.trotti.domain.trip.entities;
+package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Traveler {
+public class RidePermitWallet {
 
-    private final Idul idul;
-    private final Email email;
     private List<RidePermit> activeRidePermits;
 
-    public Traveler(Idul idul, Email email, List<RidePermit> activeRidePermits) {
-        this.idul = idul;
-        this.email = email;
+    public RidePermitWallet(List<RidePermit> activeRidePermits) {
         this.activeRidePermits = activeRidePermits;
     }
 
@@ -31,15 +27,12 @@ public class Traveler {
         return List.copyOf(activeRidePermits);
     }
 
-    public boolean hasActiveRidePermits() {
-        return !this.activeRidePermits.isEmpty();
+    public boolean hasRidePermit(RidePermitId id) {
+        return this.activeRidePermits.stream().anyMatch(ridePermit -> ridePermit.matches(id));
     }
 
-    public Idul getIdul() {
-        return idul;
+    public boolean isEmpty() {
+        return this.activeRidePermits.isEmpty();
     }
 
-    public Email getEmail() {
-        return email;
-    }
 }
