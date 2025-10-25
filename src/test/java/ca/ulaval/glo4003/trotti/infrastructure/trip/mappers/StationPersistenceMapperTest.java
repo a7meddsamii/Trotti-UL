@@ -1,15 +1,19 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.ScooterSlot;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StationPersistenceMapperTest {
 
@@ -31,19 +35,20 @@ class StationPersistenceMapperTest {
         StationRecord record = stationMapper.toRecord(station);
 
         assertEquals(station.getLocation(), record.location());
-        assertEquals(station.getDockingArea(), record.dockingArea());
+        assertEquals(1, record.slots().size());
+        assertEquals(SCOOTER_ID, record.slots().get(SLOT_NUMBER));
     }
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
-        DockingArea dockingArea =
-                stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build().getDockingArea();
-        StationRecord record = new StationRecord(StationFixture.A_LOCATION, dockingArea);
+        Map<SlotNumber, ScooterId> slots = Map.of(SLOT_NUMBER, SCOOTER_ID);
+        StationRecord record = new StationRecord(StationFixture.A_LOCATION, slots);
 
         Station station = stationMapper.toDomain(record);
 
         assertEquals(record.location(), station.getLocation());
-        assertEquals(record.dockingArea(), station.getDockingArea());
+        ScooterSlot retrievedSlot = station.getDockingArea().getScooterSlots().get(SLOT_NUMBER);
+        assertTrue(retrievedSlot.containsScooterId(SCOOTER_ID));
     }
 
 }

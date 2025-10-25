@@ -28,7 +28,7 @@ public class DockingArea {
         }
     }
 
-    public boolean containsScooterId(ScooterId scooterId) {
-        return scooterSlots.values().stream().anyMatch(slot -> slot.containsScooterId(scooterId));
+    public Map<SlotNumber, ScooterSlot> getScooterSlots() {
+        return Map.copyOf(scooterSlots);
     }
 }
