@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -16,6 +14,8 @@ class StationPersistenceMapperTest {
 
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
+    private static final SlotNumber ANOTHER_SLOT_NUMBER = new SlotNumber(2);
+    private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
     private StationPersistenceMapper stationMapper;
     private StationFixture stationFixture;
 
@@ -31,19 +31,20 @@ class StationPersistenceMapperTest {
 
         StationRecord record = stationMapper.toRecord(station);
 
-        assertEquals(station.getLocation(), record.location());
-        assertEquals(1, record.slots().size());
-        assertEquals(SCOOTER_ID, record.slots().get(SLOT_NUMBER));
+        Assertions.assertEquals(station.getLocation(), record.location());
+        Assertions.assertEquals(1, record.slots().size());
+        Assertions.assertEquals(SCOOTER_ID, record.slots().get(SLOT_NUMBER));
     }
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
-        Map<SlotNumber, ScooterId> slots = Map.of(SLOT_NUMBER, SCOOTER_ID);
+        Map<SlotNumber, ScooterId> slots =
+                Map.of(SLOT_NUMBER, SCOOTER_ID, ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID);
         StationRecord record = new StationRecord(StationFixture.A_LOCATION, slots);
 
         Station station = stationMapper.toDomain(record);
 
-        assertEquals(record.location(), station.getLocation());
+        Assertions.assertEquals(record.location(), station.getLocation());
         asserAllScootersAreInTheCorrectSlotAsPersisted(station, slots);
     }
 

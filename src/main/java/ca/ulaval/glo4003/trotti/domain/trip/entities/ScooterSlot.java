@@ -36,11 +36,6 @@ public class ScooterSlot {
         return unDockedScooter;
     }
 
-    public boolean containsScooterId(ScooterId scooterId) {
-        return Optional.ofNullable(dockedScooter).map(docked -> docked.equals(scooterId))
-                .orElse(false);
-    }
-
     public Optional<ScooterId> getDockedScooter() {
         return Optional.ofNullable(dockedScooter);
     }
