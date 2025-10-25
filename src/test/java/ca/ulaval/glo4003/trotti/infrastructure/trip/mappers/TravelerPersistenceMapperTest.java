@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.Travele
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +27,10 @@ class TravelerPersistenceMapperTest {
     private static final Email EMAIL = Email.from("john.doe@ulaval.ca");
     private static final RidePermitId PERMIT_ID = RidePermitId.randomId();
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final LocalDateTime START_DATE = LocalDateTime.of(2019, Month.JANUARY, 1, 0, 0);
-    private static final TripRecord TRIP = new TripRecord(START_DATE, PERMIT_ID, IDUL, SCOOTER_ID);
+    private static final LocalDateTime START_TIME = LocalDateTime.now();
+    private static final LocalDateTime END_TIME = START_TIME.plusHours(1);
+    private static final TripRecord TRIP =
+            new TripRecord(START_TIME, PERMIT_ID, IDUL, SCOOTER_ID, END_TIME);
     private static final List<RidePermitRecord> RIDE_PERMIT_RECORDS =
             List.of(new RidePermitRecord(PERMIT_ID, IDUL, new Session(Semester.FALL,
                     LocalDate.parse("2025-09-02"), LocalDate.parse("2025-12-12"))));

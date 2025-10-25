@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
@@ -15,7 +16,9 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryPassRe
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -25,6 +28,7 @@ public class RepositoryLoader extends Bootstrapper {
     public void load() {
         loadUserRepositories();
         loadPassRepository();
+        loadTripRepository();
     }
 
     private void loadUserRepositories() {
@@ -71,6 +75,15 @@ public class RepositoryLoader extends Bootstrapper {
         TravelerRepository travelerRepository =
                 new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
         this.resourceLocator.register(TravelerRepository.class, travelerRepository);
+    }
+
+    private void loadTripRepository() {
+        TripPersistenceMapper tripMapper =
+                this.resourceLocator.resolve(TripPersistenceMapper.class);
+
+        TripRepository tripRepository = new InMemoryTripRepository(tripMapper);
+
+        this.resourceLocator.register(TripRepository.class, tripRepository);
     }
 
     private void loadPassRepository() {
