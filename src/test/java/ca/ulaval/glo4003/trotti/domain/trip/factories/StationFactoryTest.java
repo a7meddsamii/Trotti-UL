@@ -1,12 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.factories;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -28,8 +26,8 @@ class StationFactoryTest {
     void givenLocationAndCapacity_whenCreate_thenCreatesStationWithCorrectConfiguration() {
         Station station = stationFactory.create(A_LOCATION, A_CAPACITY);
 
-        assertThat(A_LOCATION).isEqualTo(station.getLocation());
-        assertThat(A_CAPACITY).isEqualTo(station.getDockingArea().getCapacity());
+        Assertions.assertEquals(A_LOCATION, station.getLocation());
+        Assertions.assertEquals(A_CAPACITY, station.getDockingArea().getCapacity());
     }
 
     @Test
@@ -38,6 +36,6 @@ class StationFactoryTest {
 
         Executable undockEmptySlot = () -> station.getScooter(SLOT_NUMBER);
 
-        assertThrows(DockingException.class, undockEmptySlot);
+        Assertions.assertThrows(DockingException.class, undockEmptySlot);
     }
 }
