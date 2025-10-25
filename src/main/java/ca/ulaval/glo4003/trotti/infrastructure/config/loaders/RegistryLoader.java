@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import java.nio.file.Path;
 import java.util.Set;
 
-public class RegistryLoader extends ResourceLoader {
+public class RegistryLoader extends Bootstrapper {
     private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
     private static final Path SEMESTER_DATA_FILE_PATH = Path.of("/app/data/semesters-252627.json");
 
@@ -24,8 +24,8 @@ public class RegistryLoader extends ResourceLoader {
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
         SessionRegistry sessionRegistry =
                 new SessionRegistry(SessionProvider.getInstance().getSessions());
-		
-		this.resourceLocator.register(SessionProvider.class, SessionProvider.getInstance());
+
+        this.resourceLocator.register(SessionProvider.class, SessionProvider.getInstance());
         this.resourceLocator.register(SessionRegistry.class, sessionRegistry);
     }
 

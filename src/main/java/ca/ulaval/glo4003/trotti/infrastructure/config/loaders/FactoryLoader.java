@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.domain.order.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.factories.PaymentMethodFactory;
 import java.time.Clock;
 
-public class FactoryLoader extends ResourceLoader {
+public class FactoryLoader extends Bootstrapper {
     @Override
     public void load() {
         loadPaymentMethodFactory();

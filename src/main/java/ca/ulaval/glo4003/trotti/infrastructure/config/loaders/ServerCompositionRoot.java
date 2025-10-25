@@ -6,21 +6,21 @@ import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
 import java.time.Clock;
 
-public class ServerResourceInstantiation {
+public class ServerCompositionRoot {
 
-    private static ServerResourceInstantiation instance;
+    private static ServerCompositionRoot instance;
     private final ServerResourceLocator locator;
     private boolean resourcesCreated;
 
-    public static ServerResourceInstantiation getInstance() {
+    public static ServerCompositionRoot getInstance() {
         if (instance == null) {
-            instance = new ServerResourceInstantiation();
+            instance = new ServerCompositionRoot();
         }
 
         return instance;
     }
 
-    private ServerResourceInstantiation() {
+    private ServerCompositionRoot() {
         this.locator = ServerResourceLocator.getInstance();
         this.resourcesCreated = false;
     }

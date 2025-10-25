@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationServi
 import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
 
-public class DomainServiceLoader extends ResourceLoader {
+public class DomainServiceLoader extends Bootstrapper {
     @Override
     public void load() {
         loadOrderDomainServices();

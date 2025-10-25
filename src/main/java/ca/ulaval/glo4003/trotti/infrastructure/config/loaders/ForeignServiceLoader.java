@@ -22,16 +22,16 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ForeignServiceLoader extends ResourceLoader {
+public class ForeignServiceLoader extends Bootstrapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForeignServiceLoader.class);
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
-    private static final String EMAIL_USER = "STMP_USER";
-    private static final String EMAIL_PASSWORD = "STMP_PASS";
-    private static final String EMAIL_HOST = "STMP_HOST";
-    private static final String EMAIL_PORT = "STMP_PORT";
+    private static final String EMAIL_SMTP_USER = "STMP_USER";
+    private static final String EMAIL_SMTP_PASSWORD = "STMP_PASS";
+    private static final String EMAIL_SMTP_HOST = "STMP_HOST";
+    private static final String EMAIL_SMTP_PORT = "STMP_PORT";
 
     private static final int HASHER_MEMORY_COST = 65536;
     private static final int HASHER_ITERATIONS = 3;
@@ -52,10 +52,10 @@ public class ForeignServiceLoader extends ResourceLoader {
     }
 
     private void loadEmailService() {
-        String username = System.getenv(EMAIL_USER);
-        String password = System.getenv(EMAIL_PASSWORD);
-        String host = System.getenv(EMAIL_HOST);
-        String port = System.getenv(EMAIL_PORT);
+        String username = System.getenv(EMAIL_SMTP_USER);
+        String password = System.getenv(EMAIL_SMTP_PASSWORD);
+        String host = System.getenv(EMAIL_SMTP_HOST);
+        String port = System.getenv(EMAIL_SMTP_PORT);
 
         JakartaMailServiceConfiguration emailConfiguration =
                 JakartaMailServiceConfiguration.create(username, password, host, port);

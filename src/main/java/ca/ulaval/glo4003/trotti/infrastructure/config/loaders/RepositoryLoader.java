@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.Travele
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class RepositoryLoader extends ResourceLoader {
+public class RepositoryLoader extends Bootstrapper {
     @Override
     public void load() {
         loadUserRepositories();

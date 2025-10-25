@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMap
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 
-public class MapperLoader extends ResourceLoader {
+public class MapperLoader extends Bootstrapper {
     @Override
     public void load() {
         loadPersistenceMappers();
@@ -38,10 +38,9 @@ public class MapperLoader extends ResourceLoader {
 
     private void loadApiMappers() {
         PasswordHasher hasher = this.resourceLocator.resolve(PasswordHasher.class);
-		SessionProvider sessionProvider = this.resourceLocator.resolve(SessionProvider.class);
+        SessionProvider sessionProvider = this.resourceLocator.resolve(SessionProvider.class);
         this.resourceLocator.register(AccountApiMapper.class, new AccountApiMapper(hasher));
         this.resourceLocator.register(OrderApiMapper.class, new OrderApiMapper());
-        this.resourceLocator.register(PassApiMapper.class,
-                new PassApiMapper(sessionProvider));
+        this.resourceLocator.register(PassApiMapper.class, new PassApiMapper(sessionProvider));
     }
 }

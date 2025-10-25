@@ -28,7 +28,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import java.util.List;
 
-public class ApplicationServiceLoader extends ResourceLoader {
+public class ApplicationServiceLoader extends Bootstrapper {
     @Override
     public void load() {
         loadAccountApplicationService();
