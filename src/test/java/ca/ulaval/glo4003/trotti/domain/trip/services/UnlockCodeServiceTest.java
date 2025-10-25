@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.services;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 
 class UnlockCodeServiceTest {
 
-    private static final Id AN_ID = Id.randomId();
+    private static final RidePermitId AN_ID = RidePermitId.randomId();
     private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;

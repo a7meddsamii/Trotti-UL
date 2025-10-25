@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.api.authentication.controllers.AuthenticationRes
 import ca.ulaval.glo4003.trotti.api.order.controllers.CartResource;
 import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
@@ -43,5 +44,6 @@ public class ApplicationBinder extends AbstractBinder {
         bind(locator.resolve(CartResource.class)).to(CartResource.class);
         bind(locator.resolve(OrderResource.class)).to(OrderResource.class);
         bind(locator.resolve(TravelerResource.class)).to(TravelerResource.class);
+        bind(locator.resolve(UnlockCodeResource.class)).to(UnlockCodeResource.class);
     }
 }

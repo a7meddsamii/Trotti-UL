@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
@@ -58,8 +58,8 @@ class RidePermitActivationApplicationServiceTest {
     void givenTravelers_whenUpdateTravelersPermits_thenEachTravelersShouldUpdateActivatedRidePermitActiveRidePermits() {
         ridePermitActivationApplicationService.updateActivatedRidePermits();
 
-        existingTravelers.forEach(
-                traveler -> Mockito.verify(traveler).updateActiveRidePermits(Mockito.anyList()));
+        existingTravelers
+                .forEach(traveler -> Mockito.verify(traveler).updateWallet(Mockito.anyList()));
     }
 
     @Test
@@ -89,7 +89,7 @@ class RidePermitActivationApplicationServiceTest {
 
     private List<Traveler> mockTravelersWithoutNewActivatedRidePermits() {
         List<Traveler> travelers = mockTravelers();
-        travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
+        travelers.forEach(traveler -> Mockito.when(traveler.updateWallet(Mockito.any()))
                 .thenReturn(Collections.emptyList()));
 
         return travelers;
@@ -99,7 +99,7 @@ class RidePermitActivationApplicationServiceTest {
         List<Traveler> travelers = mockTravelers();
         int numberOfRidePermits = RandomUtils.secure().randomInt(2, 20);
         List<RidePermit> newlyActivatedRidePermits = mockRidePermits(numberOfRidePermits);
-        travelers.forEach(traveler -> Mockito.when(traveler.updateActiveRidePermits(Mockito.any()))
+        travelers.forEach(traveler -> Mockito.when(traveler.updateWallet(Mockito.any()))
                 .thenReturn(newlyActivatedRidePermits));
 
         return travelers;
