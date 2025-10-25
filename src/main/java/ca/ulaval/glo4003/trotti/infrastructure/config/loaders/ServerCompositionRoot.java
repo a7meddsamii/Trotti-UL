@@ -3,10 +3,13 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
+import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
-import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.StationDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.providers.StationProvider;
 import java.time.Clock;
+import java.util.List;
 
 public class ServerCompositionRoot {
 
@@ -42,6 +45,7 @@ public class ServerCompositionRoot {
         new ResourceLoader().load();
 
         loadDevData();
+        loadStations();
         componentsCreated = true;
     }
 
@@ -50,9 +54,14 @@ public class ServerCompositionRoot {
         AccountRepository accountRepository = locator.resolve(AccountRepository.class);
         PasswordHasher hasher = locator.resolve(PasswordHasher.class);
         new AccountDevDataFactory(accountRepository, hasher).run();
+    }
 
+    private void loadStations() {
+        ServerComponentLocator locator = ServerComponentLocator.getInstance();
         StationInitializationService stationInitializationService =
                 locator.resolve(StationInitializationService.class);
-        new StationDataFactory(stationInitializationService).run();
+        List<StationConfiguration> configs =
+                StationProvider.getInstance().getStationConfigurations();
+        stationInitializationService.initializeStations(configs);
     }
 }

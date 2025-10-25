@@ -20,14 +20,14 @@ class StationMapperTest {
     }
 
     @Test
-    void givenStationDataRecord_whenToStationConfiguration_thenReturnsCorrectConfiguration() {
+    void givenStationDataRecord_whenToDomain_thenReturnsCorrectStationInitializationData() {
         StationDataRecord record = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
 
-        StationConfiguration result = stationMapper.toStationConfiguration(record);
+        StationConfiguration result = stationMapper.toDomain(record);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(A_BUILDING, result.location().getBuilding());
-        Assertions.assertEquals(A_SPOT_NAME, result.location().getSpotName());
+        Assertions.assertEquals(A_BUILDING, result.building());
+        Assertions.assertEquals(A_SPOT_NAME, result.spotName());
         Assertions.assertEquals(A_CAPACITY, result.capacity());
     }
 }

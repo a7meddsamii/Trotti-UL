@@ -7,7 +7,9 @@ import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import java.util.List;
 
 public class StationInitializationService {
@@ -30,16 +32,16 @@ public class StationInitializationService {
         this.scooterRepository = scooterRepository;
     }
 
-    public void initializeStations(List<StationConfiguration> stations) {
-        stations.forEach(this::initializeStation);
+    public void initializeStations(List<StationConfiguration> stationConfigs) {
+        stationConfigs.forEach(this::initializeStation);
     }
 
-    private void initializeStation(StationConfiguration stationConfig) {
-        Station station = stationFactory.create(stationConfig.location(), stationConfig.capacity());
+    private void initializeStation(StationConfiguration config) {
+        Location location = Location.of(config.building(), config.spotName());
+        Station station = stationFactory.create(location, config.capacity());
 
-        int initialScooterCount = calculateInitialScooterCount(stationConfig.capacity());
-        List<Scooter> scooters =
-                scooterFactory.create(initialScooterCount, stationConfig.location());
+        int initialScooterCount = calculateInitialScooterCount(config.capacity());
+        List<Scooter> scooters = scooterFactory.create(initialScooterCount, location);
 
         for (int i = 0; i < scooters.size(); i++) {
             Scooter scooter = scooters.get(i);

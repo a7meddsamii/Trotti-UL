@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StationInitializationServiceTest {
 
-    private static final Location A_STATION_LOCATION = Location.of("PEPS", "Station A");
-    private static final Location ANOTHER_STATION_LOCATION = Location.of("PEPS", "Station B");
+    private static final String A_BUILDING = "PEPS";
+    private static final String A_SPOT_NAME = "Station A";
+    private static final String ANOTHER_SPOT_NAME = "Station B";
+    private static final Location A_STATION_LOCATION = Location.of(A_BUILDING, A_SPOT_NAME);
+    private static final Location ANOTHER_STATION_LOCATION = Location.of(A_BUILDING, ANOTHER_SPOT_NAME);
     private static final int STATION_CAPACITY = 10;
     private static final int EXPECTED_INITIAL_SCOOTER_COUNT = 8;
 
@@ -53,37 +57,37 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationConfiguration_whenInitializeStations_thenCreatesStationWithCorrectParameters() {
-        StationConfiguration config =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
+    void givenStationInitializationData_whenInitializeStations_thenCreatesStationWithCorrectParameters() {
+        StationConfiguration data =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(A_STATION_LOCATION, STATION_CAPACITY))
                 .thenReturn(mockStation);
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(List.of());
 
-        stationInitializationService.initializeStations(List.of(config));
+        stationInitializationService.initializeStations(List.of(data));
 
         Mockito.verify(stationFactory).create(A_STATION_LOCATION, STATION_CAPACITY);
     }
 
     @Test
-    void givenStationConfiguration_whenInitializeStations_thenCreatesCorrectNumberOfScooters() {
-        StationConfiguration config =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
+    void givenStationInitializationData_whenInitializeStations_thenCreatesCorrectNumberOfScooters() {
+        StationConfiguration data =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(mockStation);
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(List.of());
 
-        stationInitializationService.initializeStations(List.of(config));
+        stationInitializationService.initializeStations(List.of(data));
 
         Mockito.verify(scooterFactory).create(EXPECTED_INITIAL_SCOOTER_COUNT, A_STATION_LOCATION);
     }
 
     @Test
-    void givenStationConfiguration_whenInitializeStations_thenSavesAllScootersToRepository() {
-        StationConfiguration config =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
+    void givenStationInitializationData_whenInitializeStations_thenSavesAllScootersToRepository() {
+        StationConfiguration data =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         ScooterId scooterId = ScooterId.randomId();
         Mockito.when(mockScooter.getScooterId()).thenReturn(scooterId);
         List<Scooter> scooters = List.of(mockScooter, mockScooter, mockScooter);
@@ -93,15 +97,15 @@ class StationInitializationServiceTest {
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(scooters);
 
-        stationInitializationService.initializeStations(List.of(config));
+        stationInitializationService.initializeStations(List.of(data));
 
         Mockito.verify(scooterRepository, Mockito.times(scooters.size())).save(mockScooter);
     }
 
     @Test
-    void givenStationConfiguration_whenInitializeStations_thenReturnsScootersToStationInOrder() {
-        StationConfiguration config =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
+    void givenStationInitializationData_whenInitializeStations_thenReturnsScootersToStationInOrder() {
+        StationConfiguration data =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         ScooterId scooterId1 = ScooterId.randomId();
         ScooterId scooterId2 = ScooterId.randomId();
 
@@ -117,33 +121,33 @@ class StationInitializationServiceTest {
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(scooters);
 
-        stationInitializationService.initializeStations(List.of(config));
+        stationInitializationService.initializeStations(List.of(data));
 
         Mockito.verify(mockStation).returnScooter(new SlotNumber(0), scooterId1);
         Mockito.verify(mockStation).returnScooter(new SlotNumber(1), scooterId2);
     }
 
     @Test
-    void givenStationConfiguration_whenInitializeStations_thenSavesStationToRepository() {
-        StationConfiguration config =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
+    void givenStationInitializationData_whenInitializeStations_thenSavesStationToRepository() {
+        StationConfiguration data =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(mockStation);
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(List.of());
 
-        stationInitializationService.initializeStations(List.of(config));
+        stationInitializationService.initializeStations(List.of(data));
 
         Mockito.verify(stationRepository).save(mockStation);
     }
 
     @Test
-    void givenMultipleStationConfigurations_whenInitializeStations_thenInitializesAllStations() {
-        StationConfiguration config1 =
-                new StationConfiguration(A_STATION_LOCATION, STATION_CAPACITY);
-        StationConfiguration config2 =
-                new StationConfiguration(ANOTHER_STATION_LOCATION, STATION_CAPACITY);
-        List<StationConfiguration> configs = List.of(config1, config2);
+    void givenMultipleStationInitializationData_whenInitializeStations_thenInitializesAllStations() {
+        StationConfiguration data1 =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
+        StationConfiguration data2 =
+                new StationConfiguration(A_BUILDING, ANOTHER_SPOT_NAME, STATION_CAPACITY);
+        List<StationConfiguration> dataList = List.of(data1, data2);
 
         Station station1 = Mockito.mock(Station.class);
         Station station2 = Mockito.mock(Station.class);
@@ -155,7 +159,7 @@ class StationInitializationServiceTest {
         Mockito.when(scooterFactory.create(Mockito.anyInt(), Mockito.any(Location.class)))
                 .thenReturn(List.of());
 
-        stationInitializationService.initializeStations(configs);
+        stationInitializationService.initializeStations(dataList);
 
         Mockito.verify(stationRepository).save(station1);
         Mockito.verify(stationRepository).save(station2);
@@ -167,7 +171,8 @@ class StationInitializationServiceTest {
     void givenCapacityOf10_whenInitializeStations_thenFillsTo80PercentCapacity() {
         int capacity = 10;
         int expectedScooters = 8;
-        StationConfiguration config = new StationConfiguration(A_STATION_LOCATION, capacity);
+        StationConfiguration config =
+                new StationConfiguration(A_BUILDING, A_SPOT_NAME, capacity);
 
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(mockStation);
