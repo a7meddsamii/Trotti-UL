@@ -32,7 +32,8 @@ class InMemoryStationRepositoryTest {
 
     @Test
     void givenStation_whenSaving_thenItIsSaved() {
-        Station station = stationFixture.withLocation(A_LOCATION).withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build();
+        Station station = stationFixture.withLocation(A_LOCATION)
+                .withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build();
 
         stationRepository.save(station);
 
@@ -54,7 +55,8 @@ class InMemoryStationRepositoryTest {
 
     @Test
     void givenExistingStationWithScooterId_whenFindByScooterId_thenReturnStation() {
-        Station station = stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).withOccupiedSlot(ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID).build();
+        Station station = stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID)
+                .withOccupiedSlot(ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID).build();
         stationRepository.save(station);
 
         Optional<Station> retrievedStation = stationRepository.findByScooterId(SCOOTER_ID);

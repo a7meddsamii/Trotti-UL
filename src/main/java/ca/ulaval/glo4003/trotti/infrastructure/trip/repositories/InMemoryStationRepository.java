@@ -33,7 +33,6 @@ public class InMemoryStationRepository implements StationRepository {
     public Optional<Station> findByScooterId(ScooterId scooterId) {
         return stations.values().stream()
                 .filter(stationRecord -> stationRecord.dockingArea().containsScooterId(scooterId))
-                .findFirst()
-                .map(stationMapper::toDomain);
+                .findFirst().map(stationMapper::toDomain);
     }
 }

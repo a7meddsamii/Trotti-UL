@@ -36,7 +36,8 @@ class StationPersistenceMapperTest {
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
-        DockingArea dockingArea = stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build().getDockingArea();
+        DockingArea dockingArea =
+                stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build().getDockingArea();
         StationRecord record = new StationRecord(StationFixture.A_LOCATION, dockingArea);
 
         Station station = stationMapper.toDomain(record);
