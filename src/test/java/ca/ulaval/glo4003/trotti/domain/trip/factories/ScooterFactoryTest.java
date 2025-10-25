@@ -33,7 +33,7 @@ class ScooterFactoryTest {
     void whenCreateScooters_thenAllHaveUniqueIds() {
         List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
 
-        long uniqueIds = scooters.stream().map(Scooter::getId).distinct().count();
+        long uniqueIds = scooters.stream().map(Scooter::getScooterId).distinct().count();
 
         Assertions.assertEquals(SCOOTER_COUNT, uniqueIds);
     }
