@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-class OrderResourceTest {
+class OrderControllerTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
 
@@ -24,7 +24,7 @@ class OrderResourceTest {
     private AuthenticationService authenticationService;
     private OrderApiMapper orderApiMapper;
 
-    private OrderResource resource;
+    private OrderController resource;
 
     @BeforeEach
     void setup() {
@@ -33,7 +33,7 @@ class OrderResourceTest {
         orderApiMapper = Mockito.mock(OrderApiMapper.class);
 
         resource =
-                new OrderResource(orderApplicationService, authenticationService, orderApiMapper);
+                new OrderController(orderApplicationService, authenticationService, orderApiMapper);
     }
 
     @Test

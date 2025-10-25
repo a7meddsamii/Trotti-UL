@@ -11,13 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class AuthenticationResourceTest {
+class AuthenticationControllerTest {
 
     private AccountApplicationService accountApplicationService;
     private LoginRequest request;
     private AuthenticationToken expectedToken;
 
-    private AuthenticationResource authenticationResource;
+    private AuthenticationController authenticationController;
 
     @BeforeEach
     void setup() {
@@ -28,19 +28,19 @@ class AuthenticationResourceTest {
                 accountApplicationService.login(Email.from(request.email()), request.password()))
                 .thenReturn(expectedToken);
 
-        authenticationResource = new AuthenticationResource(accountApplicationService);
+        authenticationController = new AuthenticationController(accountApplicationService);
     }
 
     @Test
     void givenValidLoginRequest_whenLogin_thenReturnsLoginResponseWithToken() {
-        LoginResponse response = authenticationResource.login(request);
+        LoginResponse response = authenticationController.login(request);
 
         Assertions.assertEquals(expectedToken.toString(), response.token());
     }
 
     @Test
     void givenValidLoginRequest_whenLogin_thenServiceIsCalledWithEmailAndPassword() {
-        authenticationResource.login(request);
+        authenticationController.login(request);
 
         Mockito.verify(accountApplicationService).login(Email.from(request.email()),
                 request.password());

@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-class CartResourceTest {
+class CartControllerTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
     private static final String PASS_ID = PassId.randomId().toString();
@@ -25,7 +25,7 @@ class CartResourceTest {
     private AuthenticationService authenticationService;
     private PassApiMapper passApiMapper;
 
-    private CartResource resource;
+    private CartController resource;
 
     @BeforeEach
     void setup() {
@@ -33,7 +33,7 @@ class CartResourceTest {
         authenticationService = Mockito.mock(AuthenticationService.class);
         passApiMapper = Mockito.mock(PassApiMapper.class);
 
-        resource = new CartResource(cartApplicationService, authenticationService, passApiMapper);
+        resource = new CartController(cartApplicationService, authenticationService, passApiMapper);
     }
 
     private List<PassDto> passDtos() {
