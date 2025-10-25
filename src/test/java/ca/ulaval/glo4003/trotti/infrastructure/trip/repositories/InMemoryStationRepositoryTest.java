@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.ScooterSlot;
@@ -12,9 +13,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMa
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class InMemoryStationRepositoryTest {
 
@@ -45,7 +43,8 @@ class InMemoryStationRepositoryTest {
                 stationRepository.findByLocation(station.getLocation());
         assertTrue(retrievedStation.isPresent());
         assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        ScooterSlot retrievedSlot = retrievedStation.get().getDockingArea().getScooterSlots().get(SLOT_NUMBER);
+        ScooterSlot retrievedSlot =
+                retrievedStation.get().getDockingArea().getScooterSlots().get(SLOT_NUMBER);
         assertTrue(retrievedSlot.containsScooterId(SCOOTER_ID));
     }
 
@@ -68,7 +67,8 @@ class InMemoryStationRepositoryTest {
 
         assertTrue(retrievedStation.isPresent());
         assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        ScooterSlot retrievedSlot = retrievedStation.get().getDockingArea().getScooterSlots().get(SLOT_NUMBER);
+        ScooterSlot retrievedSlot =
+                retrievedStation.get().getDockingArea().getScooterSlots().get(SLOT_NUMBER);
         assertTrue(retrievedSlot.containsScooterId(SCOOTER_ID));
     }
 

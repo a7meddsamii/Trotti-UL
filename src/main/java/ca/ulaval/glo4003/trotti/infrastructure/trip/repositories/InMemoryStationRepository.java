@@ -32,9 +32,7 @@ public class InMemoryStationRepository implements StationRepository {
     @Override
     public Optional<Station> findByScooterId(ScooterId scooterId) {
         return stations.values().stream()
-            .filter(record -> record.slots().values().stream()
-                .anyMatch(scooterId::equals))
-            .findFirst()
-            .map(stationMapper::toDomain);
+                .filter(record -> record.slots().values().stream().anyMatch(scooterId::equals))
+                .findFirst().map(stationMapper::toDomain);
     }
 }
