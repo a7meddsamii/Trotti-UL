@@ -1,34 +1,32 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.trotti.infrastructure.config.RestServerConfiguration;
-import ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.ServerLifeCycleListener;
-import java.net.URI;
+import ca.ulaval.glo4003.trotti.infrastructure.config.JerseyConfiguration;
 import org.eclipse.jetty.server.Server;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.validation.ValidationFeature;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TrottiULMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(TrottiULMain.class);
-    public static final String BASE_URI = "http://localhost:8080/";
+
+    private static final int PORT = 8080;
 
     public static void main(String[] args) {
         LOGGER.info("Setup resources (API)");
-        final ResourceConfig config = new ResourceConfig();
-        config.register(RestServerConfiguration.class);
-        config.register(ServerLifeCycleListener.class);
-        config.register(ValidationFeature.class);
-        config.register(JacksonFeature.class);
-        config.packages("ca.ulaval.glo4003.trotti.api");
-
+        final ResourceConfig config = new JerseyConfiguration();
         try {
             LOGGER.info("Setup http server");
-            final Server server =
-                    JettyHttpContainerFactory.createServer(URI.create(BASE_URI), config);
-
+            final Server server = new Server(PORT);
+            ServletContextHandler context =
+                    new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
+            context.setContextPath("/");
+            server.setHandler(context);
+            ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(config));
+            context.addServlet(jerseyServlet, "/api/*");
+            server.start();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     LOGGER.info("Shutting down the application...");
@@ -42,8 +40,8 @@ public class TrottiULMain {
             }));
 
             LOGGER.info("Application started. Stop the application using CTRL+C");
-            Thread.currentThread().join();
-        } catch (InterruptedException e) {
+            server.join();
+        } catch (Exception e) {
             LOGGER.error("Error starting up the server", e);
         }
     }

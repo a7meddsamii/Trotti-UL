@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.domain.order.values.Session;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,36 +30,36 @@ class EmployeeRiderPermitServiceTest {
     }
 
     @Test
-    void givenEmployeeIdulAndCurrentDateInSession_whenHandleEmployeeRidePermit_thenAddPermitToEmployee() {
+    void givenEmployeeIdulAndCurrentDateInSession_whenGiveFreePermitToEmployee_thenAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
 
-        service.handleEmployeeRidePermit(traveler);
+        service.giveFreePermitToEmployee(traveler);
 
-        Mockito.verify(traveler).updateActiveRidePermits(Mockito.anyList());
+        Mockito.verify(traveler).updateWallet(Mockito.anyList());
     }
 
     @Test
-    void givenEmployeeThatAlreadyHasActivePermit_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
+    void givenEmployeeThatAlreadyHasActivePermit_whenGiveFreePermitToEmployee_thenDoNotAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
-        Mockito.when(traveler.hasActiveRidePermits()).thenReturn(true);
+        Mockito.when(traveler.hasEmptyWallet()).thenReturn(false);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
 
-        service.handleEmployeeRidePermit(traveler);
+        service.giveFreePermitToEmployee(traveler);
 
-        Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
+        Mockito.verify(traveler, Mockito.never()).updateWallet(Mockito.anyList());
     }
 
     @Test
-    void givenEmployeeIdulAndCurrentDateOutsideOfAnySession_whenHandleEmployeeRidePermit_thenDoNotAddPermitToEmployee() {
+    void givenEmployeeIdulAndCurrentDateOutsideOfAnySession_whenGiveFreePermitToEmployee_thenDoNotAddPermitToEmployee() {
         Mockito.when(employeeRegistry.isEmployee(traveler.getIdul())).thenReturn(true);
         Mockito.when(sessionRegistry.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.empty());
 
-        service.handleEmployeeRidePermit(traveler);
+        service.giveFreePermitToEmployee(traveler);
 
-        Mockito.verify(traveler, Mockito.never()).updateActiveRidePermits(Mockito.anyList());
+        Mockito.verify(traveler, Mockito.never()).updateWallet(Mockito.anyList());
     }
 }
