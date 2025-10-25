@@ -9,15 +9,9 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
-import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/cart")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class CartController implements CartResource {
 
     private final CartApplicationService cartApplicationService;
@@ -33,8 +27,8 @@ public class CartController implements CartResource {
         this.passApiMapper = passApiMapper;
     }
 
-    @GET
-    public Response getCart(@HeaderParam("Authorization") String tokenRequest) {
+    @Override
+    public Response getCart(String tokenRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);
@@ -46,9 +40,8 @@ public class CartController implements CartResource {
         return Response.ok(passListResponse).build();
     }
 
-    @PUT
-    public Response addToCart(@HeaderParam("Authorization") String tokenRequest,
-            @Valid PassListRequest passListRequest) {
+    @Override
+    public Response addToCart(String tokenRequest, PassListRequest passListRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);
@@ -61,10 +54,8 @@ public class CartController implements CartResource {
         return Response.ok(passListResponse).build();
     }
 
-    @DELETE
-    @Path("/{passId}")
-    public Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
-            @PathParam("passId") String passId) {
+    @Override
+    public Response removeFromCart(String tokenRequest, String passId) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);
@@ -75,8 +66,8 @@ public class CartController implements CartResource {
         return Response.noContent().build();
     }
 
-    @DELETE
-    public Response clearCart(@HeaderParam("Authorization") String tokenRequest) {
+    @Override
+    public Response clearCart(String tokenRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
         authenticationService.confirmStudent(idul);

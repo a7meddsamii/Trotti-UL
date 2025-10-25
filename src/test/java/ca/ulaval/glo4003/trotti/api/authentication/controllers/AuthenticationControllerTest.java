@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,10 @@ class AuthenticationControllerTest {
 
     @Test
     void givenValidLoginRequest_whenLogin_thenReturnsLoginResponseWithToken() {
-        LoginResponse response = authenticationController.login(request);
+        Response response = authenticationController.login(request);
 
-        Assertions.assertEquals(expectedToken.toString(), response.token());
+        LoginResponse expectedResponse = new LoginResponse(expectedToken);
+        Assertions.assertEquals(expectedResponse, response.getEntity());
     }
 
     @Test

@@ -10,8 +10,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/unlock-code")
-@Produces(MediaType.APPLICATION_JSON)
 public class UnlockCodeController implements UnlockCodeResource {
 
     private final AuthenticationService authenticationService;
@@ -24,10 +22,8 @@ public class UnlockCodeController implements UnlockCodeResource {
         this.unlockCodeApplicationService = unlockCodeApplicationService;
     }
 
-    @POST
-    @Path("/{ridePermitId}")
-    public Response requestUnlockCode(@HeaderParam("Authorization") String tokenRequest,
-            @PathParam("ridePermitId") String ridePermitId) {
+    @Override
+    public Response requestUnlockCode(String tokenRequest, String ridePermitId) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 

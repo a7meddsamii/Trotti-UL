@@ -13,8 +13,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/traveler")
-@Produces(MediaType.APPLICATION_JSON)
 public class TravelerController implements TravelerResource {
 
     private final RidePermitActivationApplicationService ridePermitActivationService;
@@ -27,8 +25,8 @@ public class TravelerController implements TravelerResource {
         this.authenticationService = authenticationService;
     }
 
-    @GET
-    public Response getRidePermits(@HeaderParam("Authorization") String tokenRequest) {
+    @Override
+    public Response getRidePermits(String tokenRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 

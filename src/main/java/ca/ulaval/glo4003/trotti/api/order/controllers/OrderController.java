@@ -12,9 +12,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/cart/confirm")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class OrderController implements OrderResource {
 
     private final OrderApplicationService orderApplicationService;
@@ -30,8 +27,8 @@ public class OrderController implements OrderResource {
         this.orderApiMapper = orderApiMapper;
     }
 
-    @POST
-    public Response confirm(@HeaderParam("Authorization") String tokenRequest,
+    @Override
+    public Response confirm(String tokenRequest,
             PaymentInfoRequest paymentInfoRequest) {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
