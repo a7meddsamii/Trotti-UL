@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.application.trip.dto;
 
-import java.time.Instant;
+import java.time.Duration;
 
-public record UnlockCodeDto(String code, Instant expirationTime) {
+public record UnlockCodeDto(String code, Duration expirationTime) {
 }

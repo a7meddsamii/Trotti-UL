@@ -8,12 +8,14 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
@@ -36,11 +38,15 @@ import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.communication.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
@@ -65,6 +71,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGat
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.store.GuavaUnlockCodeStore;
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
@@ -119,6 +126,7 @@ public class ServerResourceInstantiation {
     private AuthenticationService authenticationService;
     private AccountApplicationService accountApplicationService;
     private OrderApplicationService orderApplicationService;
+    private UnlockCodeApplicationService unlockCodeApplicationService;
     private SessionRegistry sessionRegistry;
     private RidePermitActivationApplicationService ridePermitActivationService;
     private EmployeeRegistry employeeRegistry;
@@ -309,6 +317,22 @@ public class ServerResourceInstantiation {
         locator.register(OrderResource.class, orderResource);
     }
 
+    private void loadUnlockCodeApplicationService() {
+        UnlockCodeStore unlockCodeStore = new GuavaUnlockCodeStore();
+        NotificationService<UnlockCode> notificationService =
+                new UnlockCodeNotificationService(emailService);
+        locator.register(UnlockCodeStore.class, unlockCodeStore);
+        unlockCodeApplicationService = new UnlockCodeApplicationService(
+                new UnlockCodeService(unlockCodeStore, SEVER_CLOCK), travelerRepository,
+                notificationService);
+    }
+
+    private void loadUnlockCodeRessource() {
+        UnlockCodeResource unlockCodeResource = new UnlockCodeResource(
+                locator.resolve(AuthenticationService.class), unlockCodeApplicationService);
+        locator.register(UnlockCodeResource.class, unlockCodeResource);
+    }
+
     public void initiate() {
         if (resourcesCreated) {
             return;
@@ -329,11 +353,13 @@ public class ServerResourceInstantiation {
         loadPaymentService();
         loadOrderService();
         loadRidePermitActivationService();
+        loadUnlockCodeApplicationService();
         loadAccountMapper();
         loadAccountResource();
         loadTravelerResource();
         loadCartResource();
         loadOrderResource();
+        loadUnlockCodeRessource();
         resourcesCreated = true;
     }
 

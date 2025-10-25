@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
-import ca.ulaval.glo4003.trotti.application.trip.mappers.UnlockCodeMapper;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
@@ -14,18 +13,18 @@ public class UnlockCodeApplicationService {
 
     private final UnlockCodeService unlockCodeService;
     private final TravelerRepository travelerRepository;
-    private final UnlockCodeMapper unlockCodeMapper;
+    private final NotificationService<UnlockCode> notificationService;
 
     public UnlockCodeApplicationService(
             UnlockCodeService unlockCodeService,
             TravelerRepository travelerRepository,
-            UnlockCodeMapper unlockCodeMapper) {
+            NotificationService<UnlockCode> notificationService) {
         this.unlockCodeService = unlockCodeService;
         this.travelerRepository = travelerRepository;
-        this.unlockCodeMapper = unlockCodeMapper;
+        this.notificationService = notificationService;
     }
 
-    public UnlockCodeDto generateUnlockCode(Idul idul, RidePermitId ridePermitId) {
+    public void generateUnlockCode(Idul idul, RidePermitId ridePermitId) {
         Traveler traveler = travelerRepository.findByIdul(idul);
 
         if (!traveler.walletHasPermit(ridePermitId)) {
@@ -34,6 +33,6 @@ public class UnlockCodeApplicationService {
 
         UnlockCode unlockCode = unlockCodeService.requestUnlockCode(ridePermitId);
 
-        return unlockCodeMapper.toDto(unlockCode);
+        notificationService.notify(traveler.getEmail(), unlockCode);
     }
 }
