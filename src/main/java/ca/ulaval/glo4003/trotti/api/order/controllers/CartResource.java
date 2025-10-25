@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.Response;
 public interface CartResource {
 
     @GET
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     Response getCart(@HeaderParam("Authorization") String tokenRequest);
 
     @PUT

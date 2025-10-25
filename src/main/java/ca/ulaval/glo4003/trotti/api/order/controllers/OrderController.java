@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 public class OrderController implements OrderResource {
