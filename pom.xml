@@ -118,6 +118,16 @@
             <artifactId>swagger-jaxrs2-jakarta</artifactId>
             <version>${io.swagger.core.v3.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-integration-jakarta</artifactId>
+            <version>${io.swagger.core.v3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>${io.swagger.core.v3.version}</version>
+        </dependency>
 
         <!-- PasswordHasher -->
         <dependency>
@@ -396,7 +406,9 @@
                             <outputFormat>JSON</outputFormat>
                             <resourcePackages>
                                 <package>ca.ulaval.glo4003.trotti.api</package>
+                                <package>ca.ulaval.glo4003.trotti.infrastructure.config</package>
                             </resourcePackages>
+                            <prettyPrint>true</prettyPrint>
                         </configuration>
                     </execution>
                 </executions>

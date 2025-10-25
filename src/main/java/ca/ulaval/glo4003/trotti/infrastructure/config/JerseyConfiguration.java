@@ -11,11 +11,11 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.validation.ValidationFeature;
 
-@OpenAPIDefinition(
-        info = @Info(title = "TrottiUL API", version = "2.0",
-                description = "API Documentation for TrottiUL Application",
-                contact = @Contact(name = "TrottiUL - Team 10", email = "trotti.ul.10@gmail.com")),
-        servers = {@Server(url = "http://localhost:8080/api", description = "Development Server")})
+@OpenAPIDefinition(info = @Info(title = "Projet Trotti-UL - REST API", version = "2.0",
+        description = "Service de l’Université Laval de location de trottinettes électriques pour une locomotion optimale",
+        contact = @Contact(name = "TrottiUL - Equipe 10", email = "trotti.ul.10@gmail.com")),
+        servers = {@Server(url = "http://localhost:8080/api",
+                description = "Serveur de développement")})
 public class JerseyConfiguration extends ResourceConfig {
     private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti.api";
 
