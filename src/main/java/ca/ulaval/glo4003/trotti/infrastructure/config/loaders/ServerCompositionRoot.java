@@ -10,7 +10,7 @@ public class ServerCompositionRoot {
 
     private static ServerCompositionRoot instance;
     private boolean componentsCreated;
-	
+
     public static ServerCompositionRoot getInstance() {
         if (instance == null) {
             instance = new ServerCompositionRoot();
@@ -18,33 +18,33 @@ public class ServerCompositionRoot {
 
         return instance;
     }
-	
-	private ServerCompositionRoot() {
-		this.componentsCreated = false;
-	}
-	
-	public void initiate() {
-		if (componentsCreated) {
-			return;
-		}
-		
-		ServerComponentLocator locator = ServerComponentLocator.getInstance();
-		locator.register(Clock.class, Clock.systemDefaultZone());
-		new RegistryLoader().load();
-		new ForeignServiceLoader().load();
-		new MapperLoader().load();
-		new RepositoryLoader().load();
-		new FactoryLoader().load();
-		new DomainServiceLoader().load();
-		new ApplicationServiceLoader().load();
-		new ResourceLoader().load();
-		
-		loadDevData();
-		componentsCreated = true;
-	}
+
+    private ServerCompositionRoot() {
+        this.componentsCreated = false;
+    }
+
+    public void initiate() {
+        if (componentsCreated) {
+            return;
+        }
+
+        ServerComponentLocator locator = ServerComponentLocator.getInstance();
+        locator.register(Clock.class, Clock.systemDefaultZone());
+        new RegistryLoader().load();
+        new ForeignServiceLoader().load();
+        new MapperLoader().load();
+        new RepositoryLoader().load();
+        new FactoryLoader().load();
+        new DomainServiceLoader().load();
+        new ApplicationServiceLoader().load();
+        new ResourceLoader().load();
+
+        loadDevData();
+        componentsCreated = true;
+    }
 
     private void loadDevData() {
-		ServerComponentLocator locator = ServerComponentLocator.getInstance();
+        ServerComponentLocator locator = ServerComponentLocator.getInstance();
         AccountRepository accountRepository = locator.resolve(AccountRepository.class);
         PasswordHasher hasher = locator.resolve(PasswordHasher.class);
         new AccountDevDataFactory(accountRepository, hasher).run();
