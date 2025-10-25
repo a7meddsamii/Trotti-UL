@@ -12,7 +12,7 @@ public class InMemoryStationRepository implements StationRepository {
 
     @Override
     public void save(Station station) {
-        LOGGER.info("Saving station {}", station.getStationLocation().getSpotName());
+        LOGGER.info("Saving station {}", station.getLocation().getSpotName());
     }
 
     @Override
