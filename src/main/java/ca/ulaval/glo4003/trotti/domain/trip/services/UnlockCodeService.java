@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.trip.services;
 
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ public class UnlockCodeService {
         this.clock = clock;
     }
 
-    public UnlockCode requestUnlockCode(Id ridePermitId) {
+    public UnlockCode requestUnlockCode(RidePermitId ridePermitId) {
         Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByRidePermitId(ridePermitId);
         if (existingUnlockCode.isPresent()) {
             return existingUnlockCode.get();

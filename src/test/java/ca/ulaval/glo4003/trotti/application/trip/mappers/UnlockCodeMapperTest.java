@@ -1,15 +1,15 @@
 package ca.ulaval.glo4003.trotti.application.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
-import ca.ulaval.glo4003.trotti.domain.commons.Id;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class UnlockCodeMapperTest {
 
-    private static final Id A_RIDE_PERMIT_ID = Id.randomId();
+    private static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
     private static final Clock A_CLOCK = Clock.systemUTC();
 
     private UnlockCodeMapper unlockCodeMapper = new UnlockCodeMapper();
@@ -21,6 +21,7 @@ class UnlockCodeMapperTest {
         UnlockCodeDto unlockCodeDto = unlockCodeMapper.toDto(unlockCode);
 
         Assertions.assertEquals(unlockCode.getCode(), unlockCodeDto.code());
-        Assertions.assertEquals(unlockCode.getExpiresAt(), unlockCodeDto.expirationTime());
+        Assertions.assertEquals(unlockCode.getRemainingTime().getSeconds(),
+                unlockCodeDto.expirationTime().getSeconds());
     }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class Scooter {
     private final ScooterId scooterId;
-    private Battery battery;
+    private final Battery battery;
     private Location location;
 
     public Scooter(ScooterId scooterId, Battery battery, Location location) {
@@ -42,5 +42,13 @@ public class Scooter {
 
     public Location getLocation() {
         return location;
+    }
+
+    public ScooterId getScooterId() {
+        return scooterId;
+    }
+
+    public Battery getBattery() {
+        return battery;
     }
 }
