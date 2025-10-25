@@ -1,15 +1,14 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.ScooterSlot;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,8 +44,13 @@ class StationPersistenceMapperTest {
         Station station = stationMapper.toDomain(record);
 
         assertEquals(record.location(), station.getLocation());
-        ScooterSlot retrievedSlot = station.getDockingArea().getScooterSlots().get(SLOT_NUMBER);
-        assertTrue(retrievedSlot.containsScooterId(SCOOTER_ID));
+        asserAllScootersAreInTheCorrectSlotAsPersisted(station, slots);
     }
 
+    private static void asserAllScootersAreInTheCorrectSlotAsPersisted(Station station,
+            Map<SlotNumber, ScooterId> slots) {
+        station.getDockingArea().getScooterSlots().forEach((slotNumber, slot) -> {
+            Assertions.assertEquals(slots.get(slotNumber), slot.getDockedScooter().orElse(null));
+        });
+    }
 }

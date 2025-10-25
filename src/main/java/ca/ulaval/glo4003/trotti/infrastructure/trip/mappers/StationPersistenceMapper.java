@@ -12,18 +12,7 @@ import java.util.Map;
 public class StationPersistenceMapper {
 
     public Station toDomain(StationRecord stationRecord) {
-        Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
-
-        stationRecord.slots().forEach((slotNumber, scooterId) -> {
-            ScooterSlot slot = new ScooterSlot(slotNumber);
-            if (scooterId != null) {
-                slot.dock(scooterId);
-            }
-            scooterSlots.put(slotNumber, slot);
-        });
-
-        DockingArea dockingArea = new DockingArea(scooterSlots);
-
+        DockingArea dockingArea = toDomainDockingArea(stationRecord.slots());
         return new Station(stationRecord.location(), dockingArea);
     }
 
@@ -35,5 +24,16 @@ public class StationPersistenceMapper {
         });
 
         return new StationRecord(station.getLocation(), slots);
+    }
+
+    private DockingArea toDomainDockingArea(Map<SlotNumber, ScooterId> scooterSlotsRecord) {
+        Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
+
+        scooterSlotsRecord.forEach((slotNumber, scooterId) -> {
+            ScooterSlot slot = new ScooterSlot(slotNumber, scooterId);
+            scooterSlots.put(slotNumber, slot);
+        });
+
+        return new DockingArea(scooterSlots);
     }
 }
