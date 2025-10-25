@@ -21,9 +21,8 @@ public final class StationProvider {
             List<StationDataRecord> stationDataRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
 
-            stationConfigurations = stationDataRecords.stream()
-                    .map(stationMapper::toDomain)
-                    .toList();
+            stationConfigurations =
+                    stationDataRecords.stream().map(stationMapper::toDomain).toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }

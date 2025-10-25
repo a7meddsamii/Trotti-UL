@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,8 @@ class StationInitializationServiceTest {
     private static final String A_SPOT_NAME = "Station A";
     private static final String ANOTHER_SPOT_NAME = "Station B";
     private static final Location A_STATION_LOCATION = Location.of(A_BUILDING, A_SPOT_NAME);
-    private static final Location ANOTHER_STATION_LOCATION = Location.of(A_BUILDING, ANOTHER_SPOT_NAME);
+    private static final Location ANOTHER_STATION_LOCATION =
+            Location.of(A_BUILDING, ANOTHER_SPOT_NAME);
     private static final int STATION_CAPACITY = 10;
     private static final int EXPECTED_INITIAL_SCOOTER_COUNT = 8;
 
@@ -171,8 +171,7 @@ class StationInitializationServiceTest {
     void givenCapacityOf10_whenInitializeStations_thenFillsTo80PercentCapacity() {
         int capacity = 10;
         int expectedScooters = 8;
-        StationConfiguration config =
-                new StationConfiguration(A_BUILDING, A_SPOT_NAME, capacity);
+        StationConfiguration config = new StationConfiguration(A_BUILDING, A_SPOT_NAME, capacity);
 
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(mockStation);

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.StationProvider;

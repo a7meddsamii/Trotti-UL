@@ -9,7 +9,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import java.util.List;
 
 public class StationInitializationService {

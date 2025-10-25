@@ -6,10 +6,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecor
 public class StationMapper {
 
     public StationConfiguration toDomain(StationDataRecord record) {
-        return new StationConfiguration(
-                record.location(),
-                record.name(),
-                record.capacity()
-        );
+        return new StationConfiguration(record.location(), record.name(), record.capacity());
     }
 }
