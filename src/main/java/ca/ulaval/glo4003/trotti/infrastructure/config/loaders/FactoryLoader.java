@@ -5,6 +5,8 @@ import ca.ulaval.glo4003.trotti.domain.commons.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.domain.order.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.domain.order.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.domain.order.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.StationFactory;
 import java.time.Clock;
 
 public class FactoryLoader extends Bootstrapper {
@@ -14,7 +16,8 @@ public class FactoryLoader extends Bootstrapper {
         loadOrderFactory();
         loadAccountFactory();
         loadPassFactory();
-
+        loadStationFactory();
+        loadScooterFactory();
     }
 
     private void loadPaymentMethodFactory() {
@@ -36,4 +39,11 @@ public class FactoryLoader extends Bootstrapper {
         this.resourceLocator.register(PassFactory.class, new PassFactory());
     }
 
+    private void loadStationFactory() {
+        this.resourceLocator.register(StationFactory.class, new StationFactory());
+    }
+
+    private void loadScooterFactory() {
+        this.resourceLocator.register(ScooterFactory.class, new ScooterFactory());
+    }
 }

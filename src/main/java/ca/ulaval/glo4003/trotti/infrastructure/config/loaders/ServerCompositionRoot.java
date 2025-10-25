@@ -2,8 +2,11 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
+import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.StationDataFactory;
 import java.time.Clock;
 
 public class ServerCompositionRoot {
@@ -48,5 +51,8 @@ public class ServerCompositionRoot {
         AccountRepository accountRepository = locator.resolve(AccountRepository.class);
         PasswordHasher hasher = locator.resolve(PasswordHasher.class);
         new AccountDevDataFactory(accountRepository, hasher).run();
+
+        StationInitializationService stationInitializationService = locator.resolve(StationInitializationService.class);
+        new StationDataFactory(stationInitializationService).run();
     }
 }

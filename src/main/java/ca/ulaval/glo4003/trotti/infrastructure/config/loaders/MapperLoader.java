@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenc
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.order.mappers.PassPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 
 public class MapperLoader extends Bootstrapper {
@@ -29,6 +30,7 @@ public class MapperLoader extends Bootstrapper {
         this.resourceLocator.register(BuyerPersistenceMapper.class, new BuyerPersistenceMapper());
         this.resourceLocator.register(PassPersistenceMapper.class, new PassPersistenceMapper());
         this.resourceLocator.register(RidePermitMapper.class, new RidePermitMapper());
+        this.resourceLocator.register(ScooterPersistenceMapper.class, new ScooterPersistenceMapper());
     }
 
     private void loadApplicationMappers() {

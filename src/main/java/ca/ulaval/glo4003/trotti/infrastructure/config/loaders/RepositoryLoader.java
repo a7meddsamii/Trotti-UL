@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
@@ -14,7 +16,10 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryBuyerR
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryScooterRepository;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryStationRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +30,8 @@ public class RepositoryLoader extends Bootstrapper {
     public void load() {
         loadUserRepositories();
         loadPassRepository();
+        loadStationRepository();
+        loadScooterRepository();
     }
 
     private void loadUserRepositories() {
@@ -78,5 +85,17 @@ public class RepositoryLoader extends Bootstrapper {
                 this.resourceLocator.resolve(PassPersistenceMapper.class);
         PassRepository passRepository = new InMemoryPassRepository(passMapper);
         this.resourceLocator.register(PassRepository.class, passRepository);
+    }
+
+    private void loadStationRepository() {
+        InMemoryStationRepository stationRepository = new InMemoryStationRepository();
+        this.resourceLocator.register(StationRepository.class, stationRepository);
+    }
+
+    private void loadScooterRepository() {
+        ScooterPersistenceMapper scooterMapper =
+                this.resourceLocator.resolve(ScooterPersistenceMapper.class);
+        ScooterRepository scooterRepository = new InMemoryScooterRepository(scooterMapper);
+        this.resourceLocator.register(ScooterRepository.class, scooterRepository);
     }
 }

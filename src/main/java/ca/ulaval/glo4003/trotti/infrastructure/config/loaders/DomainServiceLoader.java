@@ -9,9 +9,14 @@ import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.communication.services.UnlockCodeNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
@@ -24,6 +29,7 @@ public class DomainServiceLoader extends Bootstrapper {
         loadOrderDomainServices();
         loadRidePermitActivationDomainServices();
         loadUnlockCodeDomainServices();
+        loadStationInitializationService();
     }
 
     private void loadRidePermitActivationDomainServices() {
@@ -62,5 +68,21 @@ public class DomainServiceLoader extends Bootstrapper {
         this.resourceLocator.register(UnlockCodeService.class, unlockCodeService);
         this.resourceLocator.register(UnlockCodeNotificationService.class,
                 unlockCodeNotificationService);
+    }
+
+    private void loadStationInitializationService() {
+        StationFactory stationFactory = this.resourceLocator.resolve(StationFactory.class);
+        ScooterFactory scooterFactory = this.resourceLocator.resolve(ScooterFactory.class);
+        StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+        ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
+
+        StationInitializationService stationInitializationService =
+                new StationInitializationService(
+                        stationFactory,
+                        scooterFactory,
+                        stationRepository,
+                        scooterRepository);
+
+        this.resourceLocator.register(StationInitializationService.class, stationInitializationService);
     }
 }
