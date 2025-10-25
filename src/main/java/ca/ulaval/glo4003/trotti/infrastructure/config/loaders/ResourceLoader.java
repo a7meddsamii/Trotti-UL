@@ -80,9 +80,12 @@ public class ResourceLoader extends Bootstrapper {
     }
 
     private void loadUnlockCodeResource() {
-        AuthenticationService authenticationService = this.resourceLocator.resolve(AuthenticationService.class);
-        UnlockCodeApplicationService unlockCodeApplicationService = this.resourceLocator.resolve(UnlockCodeApplicationService.class);
-        UnlockCodeResource unlockCodeResource = new UnlockCodeResource(authenticationService, unlockCodeApplicationService);
+        AuthenticationService authenticationService =
+                this.resourceLocator.resolve(AuthenticationService.class);
+        UnlockCodeApplicationService unlockCodeApplicationService =
+                this.resourceLocator.resolve(UnlockCodeApplicationService.class);
+        UnlockCodeResource unlockCodeResource =
+                new UnlockCodeResource(authenticationService, unlockCodeApplicationService);
         this.resourceLocator.register(UnlockCodeResource.class, unlockCodeResource);
     }
 }

@@ -30,7 +30,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-
 import java.util.List;
 
 public class ApplicationServiceLoader extends Bootstrapper {
@@ -102,15 +101,15 @@ public class ApplicationServiceLoader extends Bootstrapper {
     }
 
     private void loadUnlockCodeApplicationService() {
-        UnlockCodeService unlockCodeService =
-                this.resourceLocator.resolve(UnlockCodeService.class);
+        UnlockCodeService unlockCodeService = this.resourceLocator.resolve(UnlockCodeService.class);
         TravelerRepository travelerRepository =
                 this.resourceLocator.resolve(TravelerRepository.class);
         NotificationService<UnlockCode> notificationService =
                 this.resourceLocator.resolve(UnlockCodeNotificationService.class);
 
         UnlockCodeApplicationService unlockCodeApplicationService =
-                new UnlockCodeApplicationService(unlockCodeService, travelerRepository, notificationService);
+                new UnlockCodeApplicationService(unlockCodeService, travelerRepository,
+                        notificationService);
 
         this.resourceLocator.register(UnlockCodeApplicationService.class,
                 unlockCodeApplicationService);

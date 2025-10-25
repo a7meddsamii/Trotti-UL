@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/api/traveler")
+@Path("/traveler")
 @Produces(MediaType.APPLICATION_JSON)
 public class TravelerResource {
 
