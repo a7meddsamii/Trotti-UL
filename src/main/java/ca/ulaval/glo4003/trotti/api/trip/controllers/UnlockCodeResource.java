@@ -10,7 +10,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/api/unlock-code")
+@Path("/unlock-code")
 @Produces(MediaType.APPLICATION_JSON)
 public class UnlockCodeResource {
 

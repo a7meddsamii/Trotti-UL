@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;

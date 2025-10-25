@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class Scooter {
     private final ScooterId scooterId;
-    private Battery battery;
+    private final Battery battery;
     private Location stationLocation;
 
     public Scooter(ScooterId scooterId, Battery battery, Location stationLocation) {
