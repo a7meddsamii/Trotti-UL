@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 
-public class ApiEndPointLoader extends Bootstrapper {
+public class ResourceLoader extends Bootstrapper {
     @Override
     public void load() {
         loadAccountResource();

@@ -5,20 +5,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ServerResourceLocator {
+public final class ServerComponentLocator {
 
     private final Map<Class<?>, Object> services;
-    private static ServerResourceLocator instance;
+    private static ServerComponentLocator instance;
 
-    public static ServerResourceLocator getInstance() {
+    public static ServerComponentLocator getInstance() {
         if (instance == null) {
-            instance = new ServerResourceLocator();
+            instance = new ServerComponentLocator();
         }
 
         return instance;
     }
 
-    private ServerResourceLocator() {
+    private ServerComponentLocator() {
         services = new HashMap<>();
     }
 
@@ -31,7 +31,7 @@ public class ServerResourceLocator {
 
         if (Optional.ofNullable(serviceInstance).isEmpty()) {
             throw new ConfigurationException(String
-                    .format("No server resource instance found for %s", serviceClass.getName()));
+                    .format("No server component instance found for %s", serviceClass.getName()));
         }
 
         return serviceClass.cast(serviceInstance);

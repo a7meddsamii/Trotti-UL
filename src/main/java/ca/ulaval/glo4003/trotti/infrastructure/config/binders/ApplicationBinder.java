@@ -16,14 +16,14 @@ import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailServi
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
-import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 public class ApplicationBinder extends AbstractBinder {
 
     @Override
     protected void configure() {
-        ServerResourceLocator locator = ServerResourceLocator.getInstance();
+        ServerComponentLocator locator = ServerComponentLocator.getInstance();
         bind(locator.resolve(AuthenticationService.class)).to(AuthenticationService.class);
         bind(locator.resolve(EmailService.class)).to(EmailService.class);
         bind(locator.resolve(PasswordHasher.class)).to(PasswordHasher.class);
