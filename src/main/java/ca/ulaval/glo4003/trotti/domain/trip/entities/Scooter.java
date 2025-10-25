@@ -9,27 +9,26 @@ import java.time.LocalDateTime;
 
 public class Scooter {
     private final ScooterId scooterId;
-    private Battery battery;
-    private Location stationLocation;
+    private final Battery battery;
+    private Location location;
 
-    public Scooter(ScooterId scooterId, Battery battery, Location stationLocation) {
+    public Scooter(ScooterId scooterId, Battery battery, Location location) {
         this.scooterId = scooterId;
         this.battery = battery;
-        this.stationLocation = stationLocation;
+        this.location = location;
     }
 
     public void dockAt(Location location, LocalDateTime dockingTime) {
-        if (!this.stationLocation.isEmpty()) {
-            throw new InvalidLocation(
-                    "scooter seems to be already docked at " + this.stationLocation);
+        if (!this.location.isEmpty()) {
+            throw new InvalidLocation("scooter seems to be already docked at " + this.location);
         }
 
-        this.stationLocation = location;
+        this.location = location;
         this.battery.changeBatteryState(BatteryState.CHARGING, dockingTime);
     }
 
     public void undock(LocalDateTime undockingTime) {
-        if (this.stationLocation.isEmpty()) {
+        if (this.location.isEmpty()) {
             throw new InvalidLocation("scooter seems to already be undocked");
         }
 
@@ -37,12 +36,12 @@ public class Scooter {
             throw new InvalidBatteryValue("scooter does not have enough battery to be undocked");
         }
 
-        this.stationLocation = Location.empty();
+        this.location = Location.empty();
         this.battery.changeBatteryState(BatteryState.DISCHARGING, undockingTime);
     }
 
     public Location getLocation() {
-        return stationLocation;
+        return location;
     }
 
     public ScooterId getScooterId() {
