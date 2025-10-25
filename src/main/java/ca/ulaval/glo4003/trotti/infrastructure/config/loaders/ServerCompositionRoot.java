@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
@@ -52,7 +51,8 @@ public class ServerCompositionRoot {
         PasswordHasher hasher = locator.resolve(PasswordHasher.class);
         new AccountDevDataFactory(accountRepository, hasher).run();
 
-        StationInitializationService stationInitializationService = locator.resolve(StationInitializationService.class);
+        StationInitializationService stationInitializationService =
+                locator.resolve(StationInitializationService.class);
         new StationDataFactory(stationInitializationService).run();
     }
 }

@@ -77,12 +77,10 @@ public class DomainServiceLoader extends Bootstrapper {
         ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
 
         StationInitializationService stationInitializationService =
-                new StationInitializationService(
-                        stationFactory,
-                        scooterFactory,
-                        stationRepository,
+                new StationInitializationService(stationFactory, scooterFactory, stationRepository,
                         scooterRepository);
 
-        this.resourceLocator.register(StationInitializationService.class, stationInitializationService);
+        this.resourceLocator.register(StationInitializationService.class,
+                stationInitializationService);
     }
 }

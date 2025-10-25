@@ -30,7 +30,8 @@ public class MapperLoader extends Bootstrapper {
         this.resourceLocator.register(BuyerPersistenceMapper.class, new BuyerPersistenceMapper());
         this.resourceLocator.register(PassPersistenceMapper.class, new PassPersistenceMapper());
         this.resourceLocator.register(RidePermitMapper.class, new RidePermitMapper());
-        this.resourceLocator.register(ScooterPersistenceMapper.class, new ScooterPersistenceMapper());
+        this.resourceLocator.register(ScooterPersistenceMapper.class,
+                new ScooterPersistenceMapper());
     }
 
     private void loadApplicationMappers() {
