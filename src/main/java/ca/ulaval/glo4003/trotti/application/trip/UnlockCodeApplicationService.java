@@ -31,7 +31,7 @@ public class UnlockCodeApplicationService {
             throw new NotFoundException("Ride permit not found or not activated for this traveler");
         }
 
-        UnlockCode unlockCode = unlockCodeService.requestUnlockCode(ridePermitId);
+        UnlockCode unlockCode = unlockCodeService.requestUnlockCode(traveler.getIdul());
 
         notificationService.notify(traveler.getEmail(), unlockCode);
     }

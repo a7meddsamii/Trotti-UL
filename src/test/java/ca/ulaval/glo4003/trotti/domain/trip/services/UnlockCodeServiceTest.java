@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.services;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
@@ -12,7 +13,7 @@ import org.mockito.Mockito;
 
 class UnlockCodeServiceTest {
 
-    private static final RidePermitId AN_ID = RidePermitId.randomId();
+    private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
     private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;
@@ -27,9 +28,9 @@ class UnlockCodeServiceTest {
     @Test
     void givenExistingUnlockCode_whenRequestUnlockCode_thenReturnsExistingUnlockCode() {
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        Mockito.when(unlockCodeStore.getByRidePermitId(AN_ID)).thenReturn(Optional.of(unlockCode));
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID)).thenReturn(Optional.of(unlockCode));
 
-        UnlockCode generatedUnlockCode = unlockCodeService.requestUnlockCode(AN_ID);
+        UnlockCode generatedUnlockCode = unlockCodeService.requestUnlockCode(A_TRAVELER_ID);
 
         Assertions.assertEquals(unlockCode, generatedUnlockCode);
         Mockito.verify(unlockCodeStore, Mockito.never()).store(Mockito.any(UnlockCode.class));
@@ -37,9 +38,9 @@ class UnlockCodeServiceTest {
 
     @Test
     void givenNoExistingUnlockCode_whenRequestUnlockCode_thenStoresNewUnlockCode() {
-        Mockito.when(unlockCodeStore.getByRidePermitId(AN_ID)).thenReturn(Optional.empty());
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID)).thenReturn(Optional.empty());
 
-        UnlockCode unlockCode = unlockCodeService.requestUnlockCode(AN_ID);
+        UnlockCode unlockCode = unlockCodeService.requestUnlockCode(A_TRAVELER_ID);
 
         Mockito.verify(unlockCodeStore).store(unlockCode);
     }
