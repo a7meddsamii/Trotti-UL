@@ -34,4 +34,10 @@ public class ScooterSlot {
     private boolean isOccupied() {
         return Optional.ofNullable(dockedScooter).isPresent();
     }
+
+    public boolean containsScooterId(ScooterId scooterId) {
+        return Optional.ofNullable(dockedScooter)
+                .map(docked -> docked.equals(scooterId))
+                .orElse(false);
+    }
 }

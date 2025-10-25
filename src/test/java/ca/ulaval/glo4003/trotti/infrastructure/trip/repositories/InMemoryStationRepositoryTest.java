@@ -2,20 +2,23 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class InMemoryStationRepositoryTest {
 
+    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final ScooterId ANOTHER_SCOOTER_ID = SCOOTER_ID.randomId();
+    private static final SlotNumber ANOTHER_SLOT_NUMBER = new SlotNumber(2);
+    private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
+    private static final Location A_LOCATION = Location.of("vachon", "stationX");
 
     private InMemoryStationRepository stationRepository;
     private StationFixture stationFixture;
@@ -29,7 +32,7 @@ class InMemoryStationRepositoryTest {
 
     @Test
     void givenStation_whenSaving_thenItIsSaved() {
-        Station station = stationFixture.build();
+        Station station = stationFixture.withLocation(A_LOCATION).withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build();
 
         stationRepository.save(station);
 
@@ -37,8 +40,7 @@ class InMemoryStationRepositoryTest {
                 stationRepository.findByLocation(station.getLocation());
         assertTrue(retrievedStation.isPresent());
         assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        assertEquals(station.getCapacity(), retrievedStation.get().getCapacity());
-        assertEquals(station.getDockedScooters(), retrievedStation.get().getDockedScooters());
+        assertEquals(station.getDockingArea(), retrievedStation.get().getDockingArea());
     }
 
     @Test
@@ -52,21 +54,19 @@ class InMemoryStationRepositoryTest {
 
     @Test
     void givenExistingStationWithScooterId_whenFindByScooterId_thenReturnStation() {
-        Station station =
-                stationFixture.withDockedScooters(List.of(SCOOTER_ID, ANOTHER_SCOOTER_ID)).build();
+        Station station = stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).withOccupiedSlot(ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID).build();
         stationRepository.save(station);
 
         Optional<Station> retrievedStation = stationRepository.findByScooterId(SCOOTER_ID);
 
         assertTrue(retrievedStation.isPresent());
         assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        assertEquals(station.getCapacity(), retrievedStation.get().getCapacity());
-        assertEquals(station.getDockedScooters(), retrievedStation.get().getDockedScooters());
+        assertEquals(station.getDockingArea(), retrievedStation.get().getDockingArea());
     }
 
     @Test
     void givenNonExistentStationWithScooterId_whenFindByScooterId_thenReturnEmptyOptional() {
-        Station station = stationFixture.withDockedScooters(List.of(ANOTHER_SCOOTER_ID)).build();
+        Station station = stationFixture.withEmptySlot(SLOT_NUMBER).build();
         stationRepository.save(station);
 
         Optional<Station> retrievedStation = stationRepository.findByScooterId(SCOOTER_ID);

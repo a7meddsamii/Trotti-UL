@@ -6,12 +6,10 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.Station
 public class StationPersistenceMapper {
 
     public Station toDomain(StationRecord stationRecord) {
-        return new Station(stationRecord.location(), stationRecord.dockedScooters(),
-                stationRecord.capacity());
+        return new Station(stationRecord.location(), stationRecord.dockingArea());
     }
 
     public StationRecord toRecord(Station station) {
-        return new StationRecord(station.getLocation(), station.getDockedScooters(),
-                station.getCapacity());
+        return new StationRecord(station.getLocation(), station.getDockingArea());
     }
 }

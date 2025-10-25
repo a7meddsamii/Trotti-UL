@@ -27,4 +27,8 @@ public class DockingArea {
             throw new DockingException("Slot " + slotNumber + " does not exist at this station.");
         }
     }
+
+    public boolean containsScooterId(ScooterId scooterId) {
+        return scooterSlots.values().stream().anyMatch(slot -> slot.containsScooterId(scooterId));
+    }
 }

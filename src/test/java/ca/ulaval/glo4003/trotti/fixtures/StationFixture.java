@@ -1,37 +1,39 @@
 package ca.ulaval.glo4003.trotti.fixtures;
 
+import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.ScooterSlot;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StationFixture {
     public static final Location A_LOCATION = Location.of("vachon", "stationX");
-    public static final List<ScooterId> DOCKED_SCOOTERS = new ArrayList<>();
-    public static final int A_CAPACITY = 10;
-
+    private final Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
     private Location location = A_LOCATION;
-    private List<ScooterId> dockedScooters = DOCKED_SCOOTERS;
-    private int capacity = A_CAPACITY;
+
+    public StationFixture withEmptySlot(SlotNumber slotNumber) {
+        scooterSlots.put(slotNumber, new ScooterSlot(slotNumber));
+        return this;
+    }
+
+    public StationFixture withOccupiedSlot(SlotNumber slotNumber, ScooterId scooterId) {
+        ScooterSlot slot = new ScooterSlot(slotNumber);
+        slot.dock(scooterId);
+        scooterSlots.put(slotNumber, slot);
+        return this;
+    }
 
     public StationFixture withLocation(Location location) {
         this.location = location;
         return this;
     }
 
-    public StationFixture withDockedScooters(List<ScooterId> dockedScooters) {
-        this.dockedScooters = dockedScooters;
-        return this;
-    }
-
-    public StationFixture withCapacity(int capacity) {
-        this.capacity = capacity;
-        return this;
-    }
-
     public Station build() {
-        return new Station(location, dockedScooters, capacity);
+        DockingArea dockingArea = new DockingArea(scooterSlots);
+        return new Station(location, dockingArea);
     }
 
 }
