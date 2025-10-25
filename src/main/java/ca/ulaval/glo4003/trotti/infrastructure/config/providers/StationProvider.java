@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.providers;
 
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public final class StationProvider {
 
-    private static List<Station> stations;
+    private static List<StationConfiguration> stationConfigurations;
     private static StationProvider instance;
 
     private StationProvider(Path path, StationMapper stationMapper) {
@@ -21,7 +22,7 @@ public final class StationProvider {
             List<StationDataRecord> stationDataRecords =
                     objectMapper.readValue(input, new TypeReference<>() {});
 
-            stations = stationDataRecords.stream().map(stationMapper::toDomain).toList();
+            stationConfigurations = stationDataRecords.stream().map(stationMapper::toStationConfiguration).toList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }
@@ -39,7 +40,7 @@ public final class StationProvider {
         return instance;
     }
 
-    public List<Station> getStations() {
-        return stations;
+    public List<StationConfiguration> getStationConfigurations() {
+        return stationConfigurations;
     }
 }
