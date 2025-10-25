@@ -5,11 +5,13 @@ import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationSer
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailService;
 import ca.ulaval.glo4003.trotti.domain.commons.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.infrastructure.account.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.authentication.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.communication.services.JakartaEmailServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.payment.security.AesDataCodecAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.config.JakartaMailServiceConfiguration;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.store.GuavaUnlockCodeStore;
 import io.jsonwebtoken.Jwts;
 import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
@@ -43,6 +45,7 @@ public class ForeignServiceLoader extends Bootstrapper {
         loadEmailService();
         loadAuthenticationService();
         loadDataEncoder();
+        loadGuavaCachingStore();
     }
 
     private void loadPasswordHasherService() {
@@ -68,9 +71,8 @@ public class ForeignServiceLoader extends Bootstrapper {
             EmployeeRegistry employeeRegistry =
                     this.resourceLocator.resolve(EmployeeRegistry.class);
 
-            String durationValue = StringUtils.isEmpty(System.getenv(EXPIRATION_DURATION))
-                    ? DEFAULT_TOKEN_EXPIRATION.toString()
-                    : System.getenv(EXPIRATION_DURATION);
+            String durationValue = StringUtils.defaultIfBlank(System.getenv(EXPIRATION_DURATION),
+                    DEFAULT_TOKEN_EXPIRATION.toString());
 
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = this.resourceLocator.resolve(Clock.class);
@@ -85,6 +87,11 @@ public class ForeignServiceLoader extends Bootstrapper {
                     exception);
             throw exception;
         }
+    }
+
+    private void loadGuavaCachingStore() {
+        UnlockCodeStore unlockCodeStore = new GuavaUnlockCodeStore();
+        this.resourceLocator.register(UnlockCodeStore.class, unlockCodeStore);
     }
 
     private void loadDataEncoder() {

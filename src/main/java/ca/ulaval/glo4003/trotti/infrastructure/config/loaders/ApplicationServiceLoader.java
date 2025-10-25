@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
@@ -21,11 +22,15 @@ import ca.ulaval.glo4003.trotti.domain.order.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.domain.order.services.InvoiceNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.communication.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+
 import java.util.List;
 
 public class ApplicationServiceLoader extends Bootstrapper {
@@ -35,6 +40,7 @@ public class ApplicationServiceLoader extends Bootstrapper {
         loadOrderApplicationService();
         loadRidePermitActivationApplicationService();
         loadCartApplicationService();
+        loadUnlockCodeApplicationService();
     }
 
     private void loadAccountApplicationService() {
@@ -93,5 +99,20 @@ public class ApplicationServiceLoader extends Bootstrapper {
                         ridePermitMapper);
         this.resourceLocator.register(RidePermitActivationApplicationService.class,
                 ridePermitActivationService);
+    }
+
+    private void loadUnlockCodeApplicationService() {
+        UnlockCodeService unlockCodeService =
+                this.resourceLocator.resolve(UnlockCodeService.class);
+        TravelerRepository travelerRepository =
+                this.resourceLocator.resolve(TravelerRepository.class);
+        NotificationService<UnlockCode> notificationService =
+                this.resourceLocator.resolve(UnlockCodeNotificationService.class);
+
+        UnlockCodeApplicationService unlockCodeApplicationService =
+                new UnlockCodeApplicationService(unlockCodeService, travelerRepository, notificationService);
+
+        this.resourceLocator.register(UnlockCodeApplicationService.class,
+                unlockCodeApplicationService);
     }
 }

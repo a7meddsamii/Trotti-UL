@@ -8,10 +8,12 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 
 public class ApiEndPointLoader extends Bootstrapper {
@@ -22,6 +24,7 @@ public class ApiEndPointLoader extends Bootstrapper {
         loadTravelerResource();
         loadCartResource();
         loadOrderResource();
+        loadUnlockCodeResource();
     }
 
     private void loadAccountResource() {
@@ -74,5 +77,12 @@ public class ApiEndPointLoader extends Bootstrapper {
         OrderResource orderResource =
                 new OrderResource(orderApplicationService, authenticationService, orderApiMapper);
         this.resourceLocator.register(OrderResource.class, orderResource);
+    }
+
+    private void loadUnlockCodeResource() {
+        AuthenticationService authenticationService = this.resourceLocator.resolve(AuthenticationService.class);
+        UnlockCodeApplicationService unlockCodeApplicationService = this.resourceLocator.resolve(UnlockCodeApplicationService.class);
+        UnlockCodeResource unlockCodeResource = new UnlockCodeResource(authenticationService, unlockCodeApplicationService);
+        this.resourceLocator.register(UnlockCodeResource.class, unlockCodeResource);
     }
 }
