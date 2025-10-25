@@ -31,7 +31,7 @@ class UnlockCodeNotificationServiceTest {
     }
 
     @Test
-    void givenUnlockCod_whenNotify_thenEmailServiceIsCalled() {
+    void givenUnlockCode_whenNotify_thenEmailServiceIsCalled() {
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
         Mockito.when(unlockCode.getCode()).thenReturn(A_CODE);
 
