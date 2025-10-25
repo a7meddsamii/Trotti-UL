@@ -24,7 +24,7 @@ class OrderControllerTest {
     private AuthenticationService authenticationService;
     private OrderApiMapper orderApiMapper;
 
-    private OrderController resource;
+    private OrderResource resource;
 
     @BeforeEach
     void setup() {

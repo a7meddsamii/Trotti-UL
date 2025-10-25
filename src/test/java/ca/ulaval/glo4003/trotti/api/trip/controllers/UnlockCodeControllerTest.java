@@ -15,7 +15,7 @@ class UnlockCodeControllerTest {
     private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private UnlockCodeApplicationService unlockCodeApplicationService;
-    private UnlockCodeController unlockCodeController;
+    private UnlockCodeResource unlockCodeController;
 
     @BeforeEach
     void setup() {

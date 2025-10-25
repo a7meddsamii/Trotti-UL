@@ -18,7 +18,7 @@ class AuthenticationControllerTest {
     private LoginRequest request;
     private AuthenticationToken expectedToken;
 
-    private AuthenticationController authenticationController;
+    private AuthenticationResource authenticationController;
 
     @BeforeEach
     void setup() {

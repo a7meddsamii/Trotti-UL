@@ -25,7 +25,7 @@ class CartControllerTest {
     private AuthenticationService authenticationService;
     private PassApiMapper passApiMapper;
 
-    private CartController resource;
+    private CartResource resource;
 
     @BeforeEach
     void setup() {

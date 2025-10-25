@@ -21,7 +21,7 @@ class AccountControllerTest {
     private AccountDto mappedDto;
     private CreateAccountRequest request;
 
-    private AccountController accountController;
+    private AccountResource accountController;
 
     @BeforeEach
     void setUp() {
