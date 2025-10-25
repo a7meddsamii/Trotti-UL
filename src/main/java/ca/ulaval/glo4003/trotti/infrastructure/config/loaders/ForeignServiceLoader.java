@@ -28,10 +28,10 @@ public class ForeignServiceLoader extends Bootstrapper {
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
-    private static final String EMAIL_SMTP_USER = "STMP_USER";
-    private static final String EMAIL_SMTP_PASSWORD = "STMP_PASS";
-    private static final String EMAIL_SMTP_HOST = "STMP_HOST";
-    private static final String EMAIL_SMTP_PORT = "STMP_PORT";
+    private static final String EMAIL_SMTP_USER = "SMTP_USER";
+    private static final String EMAIL_SMTP_PASSWORD = "SMTP_PASS";
+    private static final String EMAIL_SMTP_HOST = "SMTP_HOST";
+    private static final String EMAIL_SMTP_PORT = "SMTP_PORT";
 
     private static final int HASHER_MEMORY_COST = 65536;
     private static final int HASHER_ITERATIONS = 3;
