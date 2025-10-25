@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.scheduler.jobs;
 
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
-import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -16,7 +16,7 @@ public class RidePermitActivationJob implements Job {
     @Override
     public void execute(JobExecutionContext ctx) throws JobExecutionException {
         try {
-            RidePermitActivationApplicationService service = ServerResourceLocator.getInstance()
+            RidePermitActivationApplicationService service = ServerComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.updateActivatedRidePermits();
             LOGGER.info("RidePermitActivationJob executed");

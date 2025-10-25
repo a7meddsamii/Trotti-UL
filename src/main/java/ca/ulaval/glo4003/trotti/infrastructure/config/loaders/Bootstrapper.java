@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.infrastructure.config.ServerResourceLocator;
+import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 
 public abstract class Bootstrapper {
-    protected final ServerResourceLocator resourceLocator;
+    protected final ServerComponentLocator resourceLocator;
 
     protected Bootstrapper() {
-        this.resourceLocator = ServerResourceLocator.getInstance();
+        this.resourceLocator = ServerComponentLocator.getInstance();
     }
 
     public abstract void load();
