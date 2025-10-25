@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -81,7 +82,13 @@ class InMemoryScooterRepositoryIntegrationTest {
 
     private void assertEqual(Scooter expected, Scooter actual) {
         Assertions.assertEquals(expected.getScooterId(), actual.getScooterId());
-        Assertions.assertEquals(expected.getBattery(), actual.getBattery());
+        assertEqual(expected.getBattery(), actual.getBattery());
         Assertions.assertEquals(expected.getLocation(), actual.getLocation());
+    }
+
+    private void assertEqual(Battery expected, Battery actual) {
+        Assertions.assertEquals(expected.getBatteryLevel(), actual.getBatteryLevel());
+        Assertions.assertEquals(expected.getLastBatteryUpdate(), actual.getLastBatteryUpdate());
+        Assertions.assertEquals(expected.getCurrentBatteryState(), actual.getCurrentBatteryState());
     }
 }
