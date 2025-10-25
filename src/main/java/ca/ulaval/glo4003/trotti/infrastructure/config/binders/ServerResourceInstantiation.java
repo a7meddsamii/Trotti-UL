@@ -43,6 +43,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
+import ca.ulaval.glo4003.trotti.domain.trip.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
@@ -52,6 +53,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationServi
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.domain.trip.services.StationInitializationService;
+import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
@@ -75,6 +77,7 @@ import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerR
 import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryStationRepository;
@@ -216,18 +219,20 @@ public class ServerResourceInstantiation {
 
     private void loadStations() {
         StationMapper stationMapper = new StationMapper();
+        ScooterPersistenceMapper scooterMapper = new ScooterPersistenceMapper();
         StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper);
-        List<Station> stations = StationProvider.getInstance().getStations();
+        List<StationConfiguration> stationConfigs = StationProvider.getInstance().getStationConfigurations();
 
-        scooterRepository = new InMemoryScooterRepository();
+        scooterRepository = new InMemoryScooterRepository(scooterMapper);
         stationRepository = new InMemoryStationRepository();
 
         ScooterFactory scooterFactory = new ScooterFactory();
+        StationFactory stationFactory = new StationFactory();
         StationInitializationService stationInitializationService =
-                new StationInitializationService(scooterFactory, stationRepository,
+                new StationInitializationService(stationFactory, scooterFactory, stationRepository,
                         scooterRepository);
 
-        stationInitializationService.initializeStations(stations);
+        stationInitializationService.initializeStations(stationConfigs);
 
         locator.register(ScooterRepository.class, scooterRepository);
         locator.register(StationRepository.class, stationRepository);
