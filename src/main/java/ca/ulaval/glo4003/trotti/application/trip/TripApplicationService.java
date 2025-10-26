@@ -15,6 +15,8 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 public class TripApplicationService {
@@ -24,18 +26,21 @@ public class TripApplicationService {
     private final StationRepository stationRepository;
     private final ScooterRepository scooterRepository;
     private final TripRepository tripRepository;
+    private final Clock clock;
 
     public TripApplicationService(
             TravelerRepository travelerRepository,
             StationRepository stationRepository,
             ScooterRepository scooterRepository,
             TripRepository tripRepository,
-            UnlockCodeService unlockCodeService) {
+            UnlockCodeService unlockCodeService,
+            Clock clock) {
         this.unlockCodeService = unlockCodeService;
         this.travelerRepository = travelerRepository;
         this.stationRepository = stationRepository;
         this.tripRepository = tripRepository;
         this.scooterRepository = scooterRepository;
+        this.clock = clock;
     }
 
     public void startTrip(Idul idul, RidePermitId ridePermitId, UnlockCode unlockCodeValue,
@@ -46,9 +51,9 @@ public class TripApplicationService {
         ScooterId scooterId = station.getScooter(slotNumber);
 
         Scooter scooter = scooterRepository.findById(scooterId);
-        scooter.undock(LocalDateTime.now());
+        scooter.undock(LocalDateTime.now(clock));
 
-        traveler.startTraveling(LocalDateTime.now(), ridePermitId, scooterId);
+        traveler.startTraveling(LocalDateTime.now(clock), ridePermitId, scooterId);
 
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
@@ -62,8 +67,8 @@ public class TripApplicationService {
         ScooterId scooterId = station.getScooter(slotNumber);
         Scooter scooter = scooterRepository.findById(scooterId);
 
-        scooter.dockAt(location, LocalDateTime.now());
-        Trip completetrip = traveler.stopTraveling(LocalDateTime.now());
+        scooter.dockAt(location, LocalDateTime.now(clock));
+        Trip completetrip = traveler.stopTraveling(LocalDateTime.now(clock));
 
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
