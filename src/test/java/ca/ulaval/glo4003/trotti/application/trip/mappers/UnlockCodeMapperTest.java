@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ class UnlockCodeMapperTest {
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
     private static final Instant FIXED_INSTANT = Instant.now();
     private static final Clock FIXED_CLOCK = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
-
 
     private UnlockCodeMapper unlockCodeMapper;
 
