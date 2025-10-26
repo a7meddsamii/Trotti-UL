@@ -57,7 +57,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationInitializationData_whenInitializeStations_thenCreatesStationWithCorrectParameters() {
+    void givenStationConfiguration_whenInitializeStations_thenCreatesStationWithCorrectParameters() {
         StationConfiguration data =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(A_STATION_LOCATION, STATION_CAPACITY))
@@ -71,7 +71,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationInitializationData_whenInitializeStations_thenCreatesCorrectNumberOfScooters() {
+    void givenStationConfiguration_whenInitializeStations_thenCreatesCorrectNumberOfScooters() {
         StationConfiguration data =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
@@ -85,7 +85,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationInitializationData_whenInitializeStations_thenSavesAllScootersToRepository() {
+    void givenStationConfiguration_whenInitializeStations_thenSavesAllScootersToRepository() {
         StationConfiguration data =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         ScooterId scooterId = ScooterId.randomId();
@@ -103,7 +103,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationInitializationData_whenInitializeStations_thenReturnsScootersToStationInOrder() {
+    void givenStationConfiguration_whenInitializeStations_thenReturnsScootersToStationInOrder() {
         StationConfiguration data =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         ScooterId scooterId1 = ScooterId.randomId();
@@ -128,7 +128,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenStationInitializationData_whenInitializeStations_thenSavesStationToRepository() {
+    void givenStationConfiguration_whenInitializeStations_thenSavesStationToRepository() {
         StationConfiguration data =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         Mockito.when(stationFactory.create(Mockito.any(), Mockito.anyInt()))
@@ -142,7 +142,7 @@ class StationInitializationServiceTest {
     }
 
     @Test
-    void givenMultipleStationInitializationData_whenInitializeStations_thenInitializesAllStations() {
+    void givenMultipleStationConfigurations_whenInitializeStations_thenInitializesAllStations() {
         StationConfiguration data1 =
                 new StationConfiguration(A_BUILDING, A_SPOT_NAME, STATION_CAPACITY);
         StationConfiguration data2 =
