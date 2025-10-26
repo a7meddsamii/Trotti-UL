@@ -1,5 +1,10 @@
 package ca.ulaval.glo4003.trotti.infrastructure.config.datafactories;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
@@ -11,17 +16,11 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 class StationDataFactoryTest {
 
@@ -46,12 +45,8 @@ class StationDataFactoryTest {
         stationRepository = Mockito.mock(StationRepository.class);
         scooterRepository = Mockito.mock(ScooterRepository.class);
 
-        stationDataFactory = new StationDataFactory(
-                stationFactory,
-                scooterFactory,
-                stationRepository,
-                scooterRepository
-        );
+        stationDataFactory = new StationDataFactory(stationFactory, scooterFactory,
+                stationRepository, scooterRepository);
 
         mockStation = Mockito.mock(Station.class);
         mockScooters = createMockScooters(EXPECTED_INITIAL_SCOOTER_COUNT);

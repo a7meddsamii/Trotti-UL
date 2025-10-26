@@ -32,7 +32,6 @@ public class Station {
         return dockingArea;
     }
 
-
     public int calculateInitialScooterCount() {
         return (int) Math.round(dockingArea.getCapacity() * INITIAL_FILL_PERCENTAGE);
     }

@@ -16,8 +16,7 @@ public final class StationProvider {
     private StationProvider(Path path) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
         try (InputStream input = Files.newInputStream(path)) {
-            stationDataRecords =
-                    objectMapper.readValue(input, new TypeReference<>() {});
+            stationDataRecords = objectMapper.readValue(input, new TypeReference<>() {});
         } catch (Exception e) {
             throw new RuntimeException("Failed to load stations file at startup", e);
         }

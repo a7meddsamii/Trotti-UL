@@ -20,9 +20,9 @@ import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemory
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryStationRepository;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
@@ -104,7 +104,8 @@ public class RepositoryLoader extends Bootstrapper {
     private void loadStationRepository() {
         StationPersistenceMapper stationPersistenceMapper =
                 this.resourceLocator.resolve(StationPersistenceMapper.class);
-        InMemoryStationRepository stationRepository = new InMemoryStationRepository(stationPersistenceMapper);
+        InMemoryStationRepository stationRepository =
+                new InMemoryStationRepository(stationPersistenceMapper);
         this.resourceLocator.register(StationRepository.class, stationRepository);
     }
 

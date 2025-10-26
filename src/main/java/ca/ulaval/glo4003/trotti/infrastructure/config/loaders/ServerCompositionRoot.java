@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.values.StationConfiguration;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.StationDataRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.config.ServerComponentLocator;
 import ca.ulaval.glo4003.trotti.infrastructure.config.datafactories.AccountDevDataFactory;
@@ -64,14 +63,10 @@ public class ServerCompositionRoot {
         ServerComponentLocator locator = ServerComponentLocator.getInstance();
 
         StationDataFactory stationDataFactory = new StationDataFactory(
-                locator.resolve(StationFactory.class),
-                locator.resolve(ScooterFactory.class),
-                locator.resolve(StationRepository.class),
-                locator.resolve(ScooterRepository.class)
-        );
+                locator.resolve(StationFactory.class), locator.resolve(ScooterFactory.class),
+                locator.resolve(StationRepository.class), locator.resolve(ScooterRepository.class));
 
-        List<StationDataRecord> stationData =
-                StationProvider.getInstance().getStationDataRecords();
+        List<StationDataRecord> stationData = StationProvider.getInstance().getStationDataRecords();
 
         stationDataFactory.run(stationData);
     }
