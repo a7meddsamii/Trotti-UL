@@ -62,11 +62,27 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenValidUnlockCodeAndAvailableScooter_whenStartTrip_thenTravelerStartsTraveling() {
+    void givenValidUnlockCode_whenStartTrip_thenTravelerStartsTraveling() {
 
         tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
                 STATION_LOCATION, SLOT_NUMBER);
         Mockito.verify(traveler).startTraveling(Mockito.any(LocalDateTime.class),
                 Mockito.eq(RIDE_PERMIT_ID), Mockito.eq(SCOOTER_ID));
+    }
+
+    @Test
+    void givenValidUnlockCode_whenStartTrip_thenScooterIsUndocked() {
+        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
+                STATION_LOCATION, SLOT_NUMBER);
+
+        Mockito.verify(scooter).undock(Mockito.any(LocalDateTime.class));
+    }
+
+    @Test
+    void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidated() {
+        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
+                STATION_LOCATION, SLOT_NUMBER);
+
+        Mockito.verify(unlockCodeService).validateCode(UNLOCK_CODE_VALUE, TRAVELER_IDUL);
     }
 }
