@@ -50,7 +50,7 @@ public class UnlockCode {
         return clock.instant().isAfter(expiresAt);
     }
 
-    public boolean isCorrectValue(String codeValue) {
-        return codeValue.equals(code);
+    public boolean isCorrectValue(UnlockCode codeValue) {
+        return this.code.equals(codeValue.getCode());
     }
 }

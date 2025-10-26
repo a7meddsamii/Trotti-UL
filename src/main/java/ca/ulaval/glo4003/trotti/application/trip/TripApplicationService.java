@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
@@ -41,7 +42,7 @@ public class TripApplicationService {
         this.unlockCodeStore = unlockCodeStore;
     }
 
-    public void startTrip(Idul idul, RidePermitId ridePermitId, String unlockCodeValue,
+    public void startTrip(Idul idul, RidePermitId ridePermitId, UnlockCode unlockCodeValue,
             Location location, SlotNumber slotNumber) {
         unlockCodeService.validateCode(unlockCodeValue, idul);
         Traveler traveler = travelerRepository.findByIdul(idul);

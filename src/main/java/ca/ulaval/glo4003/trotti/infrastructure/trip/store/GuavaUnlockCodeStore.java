@@ -37,7 +37,7 @@ public class GuavaUnlockCodeStore implements UnlockCodeStore {
         return Optional.ofNullable(unlockCode);
     }
 
-    public boolean isValid(String codeValue, Idul travelerId) {
+    public boolean isValid(UnlockCode codeValue, Idul travelerId) {
         Optional<UnlockCode> code = Optional.ofNullable(codeCache.getIfPresent(travelerId));
 
         return code.isPresent() && code.get().isCorrectValue(codeValue);

@@ -12,5 +12,5 @@ public interface UnlockCodeStore {
 
     Optional<UnlockCode> getByTravelerId(Idul travelerId);
 
-    boolean isValid(String codeValue, Idul travelerId);
+    boolean isValid(UnlockCode codeValue, Idul travelerId);
 }

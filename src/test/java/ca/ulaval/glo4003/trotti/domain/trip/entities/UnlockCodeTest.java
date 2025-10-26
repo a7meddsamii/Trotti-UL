@@ -11,11 +11,11 @@ import org.mockito.Mockito;
 
 class UnlockCodeTest {
 
-    private static final String INCORRECT_CODE_VALUE = "000000";
     private static final Instant START_MOMENT = Instant.parse("2025-10-13T10:00:00Z");
     private static final Instant FUTURE_TIME_EXPIRED = START_MOMENT.plusSeconds(61);
     private static final String NUMERIC_REGEX = "\\d+";
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
+    private static final Idul ANOTHER_TRAVELER_ID = Idul.from("anotherTravelerId");
 
     private Clock clock;
     private UnlockCode unlockCode;
@@ -63,11 +63,14 @@ class UnlockCodeTest {
 
     @Test
     void givenCorrectCodeValue_whenIsCorrectValue_thenReturnsTrue() {
-        Assertions.assertTrue(unlockCode.isCorrectValue(unlockCode.getCode()));
+        Assertions.assertTrue(unlockCode.isCorrectValue(unlockCode));
     }
 
     @Test
-    void givenIncorrectCodeValue_whenIsCorrectValue_thenReturnsFalse() {
-        Assertions.assertFalse(unlockCode.isCorrectValue(INCORRECT_CODE_VALUE));
+    void givenDifferentCodeValue_whenIsCorrectValue_thenReturnsFalse() {
+        UnlockCode differentUnlockCode =
+                UnlockCode.generateFromTravelerId(ANOTHER_TRAVELER_ID, clock);
+
+        Assertions.assertFalse(unlockCode.isCorrectValue(differentUnlockCode));
     }
 }

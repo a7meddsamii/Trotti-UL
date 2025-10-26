@@ -29,7 +29,7 @@ public class UnlockCodeService {
         return unlockCode;
     }
 
-    public void validateCode(String codeValue, Idul travelerId) {
+    public void validateCode(UnlockCode codeValue, Idul travelerId) {
         if (!unlockCodeStore.isValid(codeValue, travelerId)) {
             throw new UnlockCodeException("Invalid code");
         }
