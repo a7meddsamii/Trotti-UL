@@ -10,15 +10,12 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 class TravelerResourceTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
     private static final String VALID_IDUL = "Equipe10";
-
 
     private RidePermitActivationApplicationService ridePermitService;
     private AuthenticationService authenticationService;
@@ -46,7 +43,8 @@ class TravelerResourceTest {
     @Test
     void givenValidToken_whenGetRidePermits_thenReturns200() {
         stubValidAuthentication();
-        List<RidePermitDto> permits = List.of(Mockito.mock(RidePermitDto.class), Mockito.mock(RidePermitDto.class));
+        List<RidePermitDto> permits =
+                List.of(Mockito.mock(RidePermitDto.class), Mockito.mock(RidePermitDto.class));
         Mockito.when(ridePermitService.getRidePermit(idul)).thenReturn(permits);
 
         Response response = resource.getRidePermits(AUTH_HEADER);
@@ -72,7 +70,7 @@ class TravelerResourceTest {
 
     @Test
     void givenInvalidToken_whenGetRidePermits_thenThrowException() {
-       stubInvalidAuthentication(new RuntimeException("auth failed"));
+        stubInvalidAuthentication(new RuntimeException("auth failed"));
 
         Assertions.assertThrows(RuntimeException.class, () -> resource.getRidePermits(AUTH_HEADER));
         Mockito.verify(authenticationService).authenticate(token);
