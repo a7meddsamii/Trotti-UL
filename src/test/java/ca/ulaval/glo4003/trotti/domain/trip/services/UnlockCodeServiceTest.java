@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 class UnlockCodeServiceTest {
 
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static final String VALID_CODE_VALUE = "123456";
-    private static final String INVALID_CODE_VALUE = "000000";
+    private static UnlockCode VALID_CODE_VALUE;
+    private static UnlockCode INVALID_CODE_VALUE;
     private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;
@@ -26,6 +26,8 @@ class UnlockCodeServiceTest {
     void setup() {
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
         unlockCodeService = new UnlockCodeService(unlockCodeStore, NOW);
+        VALID_CODE_VALUE = Mockito.mock(UnlockCode.class);
+        INVALID_CODE_VALUE = Mockito.mock(UnlockCode.class);
     }
 
     @Test

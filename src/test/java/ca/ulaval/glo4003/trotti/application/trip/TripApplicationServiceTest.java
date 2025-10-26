@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
@@ -27,7 +28,8 @@ import org.mockito.Mockito;
 class TripApplicationServiceTest {
     private static final Idul TRAVELER_IDUL = Idul.from("ulaval");
     private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
-    private static final String UNLOCK_CODE_VALUE = "123456";
+    private static final UnlockCode UNLOCK_CODE_VALUE =
+            UnlockCode.generateFromTravelerId(TRAVELER_IDUL, java.time.Clock.systemDefaultZone());
     private static final Location STATION_LOCATION = Location.of("VACHON", "Entrée Vachon #1");
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
