@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.api.trip.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.api.trip.dto.requests.StartTripRequest;
-import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
@@ -22,16 +21,13 @@ public class TripResource {
 
     private final TripApplicationService tripApplicationService;
     private final AuthenticationService authenticationService;
-    private final TripApiMapper tripApiMapper;
 
     public TripResource(
             TripApplicationService tripApplicationService,
-            AuthenticationService authenticationService,
-            TripApiMapper tripApiMapper
+            AuthenticationService authenticationService
     ) {
         this.tripApplicationService = tripApplicationService;
         this.authenticationService = authenticationService;
-        this.tripApiMapper = tripApiMapper;
     }
 
     @POST
