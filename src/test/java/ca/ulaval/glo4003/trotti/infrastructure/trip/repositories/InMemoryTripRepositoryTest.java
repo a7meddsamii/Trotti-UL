@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import java.util.List;
 
 
@@ -51,6 +50,13 @@ class InMemoryTripRepositoryTest {
 
         List<Trip> result = repository.getTravelerTrips(TRAVELER_ID);
         Assertions.assertEquals(List.of(trip,trip), result);
+    }
+
+    @Test
+    void givenNoTripsFromTraveler_whenGetTravelerTrips_thenReturnEmptyList() {
+        List<Trip> result = repository.getTravelerTrips(TRAVELER_ID);
+
+        Assertions.assertEquals(List.of(), result);
     }
 
 }

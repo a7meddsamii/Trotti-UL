@@ -5,10 +5,14 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
+import java.util.Optional;
+
 
 public class InMemoryTripRepository implements TripRepository {
     private Map<Idul, List<TripRecord>> tripTable = new HashMap<>();
@@ -26,6 +30,9 @@ public class InMemoryTripRepository implements TripRepository {
     }
 
     public List<Trip> getTravelerTrips(Idul travelerId) {
-        return tripTable.get(travelerId).stream().map(mapper::toDomain).toList();
+        if (tripTable.containsKey(travelerId)) {
+            return tripTable.get(travelerId).stream().map(mapper::toDomain).toList();
+        }
+        return Collections.emptyList();
     }
 }
