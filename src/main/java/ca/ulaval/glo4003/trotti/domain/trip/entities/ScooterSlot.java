@@ -13,6 +13,11 @@ public class ScooterSlot {
         this.slotNumber = slotNumber;
     }
 
+    public ScooterSlot(SlotNumber slotNumber, ScooterId dockedScooter) {
+        this.dockedScooter = dockedScooter;
+        this.slotNumber = slotNumber;
+    }
+
     public void dock(ScooterId scooterId) {
         if (isOccupied()) {
             throw new DockingException("Slot " + slotNumber + " is occupied.");
@@ -31,7 +36,12 @@ public class ScooterSlot {
         return unDockedScooter;
     }
 
+    public Optional<ScooterId> getDockedScooter() {
+        return Optional.ofNullable(dockedScooter);
+    }
+
     private boolean isOccupied() {
         return Optional.ofNullable(dockedScooter).isPresent();
     }
+
 }

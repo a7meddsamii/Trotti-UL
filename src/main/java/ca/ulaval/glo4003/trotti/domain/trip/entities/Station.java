@@ -20,4 +20,12 @@ public class Station {
     public void returnScooter(SlotNumber slotNumber, ScooterId scooterId) {
         this.dockingArea.dock(slotNumber, scooterId);
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public DockingArea getDockingArea() {
+        return dockingArea;
+    }
 }
