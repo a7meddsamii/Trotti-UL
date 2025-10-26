@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.store;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import java.util.Optional;
@@ -38,12 +37,10 @@ public class GuavaUnlockCodeStore implements UnlockCodeStore {
         return Optional.ofNullable(unlockCode);
     }
 
-    public boolean isAlive(String codeValue){
-        return getByCodeValue(codeValue).isPresent();
+    public boolean isValid(String codeValue, Idul travelerId) {
+        Optional<UnlockCode> code = Optional.ofNullable(codeCache.getIfPresent(travelerId));
+
+        return code.isPresent() && code.get().isCorrectValue(codeValue);
     }
 
-    private Optional<UnlockCode> getByCodeValue(String codeValue) {
-        return codeCache.asMap().values().stream()
-                .filter(unlockCode -> unlockCode.getCode().equals(codeValue)).findFirst();
-    }
 }

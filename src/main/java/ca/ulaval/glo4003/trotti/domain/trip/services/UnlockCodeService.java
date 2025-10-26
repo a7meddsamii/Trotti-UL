@@ -2,9 +2,8 @@ package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
-
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.UnlockCodeException;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 import java.util.Optional;
 
@@ -30,15 +29,9 @@ public class UnlockCodeService {
         return unlockCode;
     }
 
-//    public void validateAndRetrieveUnlockCode(String codeValue, Traveler traveler) throws ScooterUnlockException {
-//        unlockCodeStore.isAlive(codeValue);
-//        validateCodeBelongsToTraveler(unlockCode, traveler);
-//    }
-
-//    private void validateCodeBelongsToTraveler(UnlockCode unlockCode, Traveler traveler) {
-//        if (!traveler.walletHasPermit(unlockCode.getTravelerId())) {
-//            throw new ScooterUnlockException(
-//                    "Unlock code does not match any active ride permit for this traveler");
-//        }
-//    }
+    public void validateCode(String codeValue, Idul travelerId) {
+        if (!unlockCodeStore.isValid(codeValue, travelerId)) {
+            throw new UnlockCodeException("Invalid code");
+        }
+    }
 }

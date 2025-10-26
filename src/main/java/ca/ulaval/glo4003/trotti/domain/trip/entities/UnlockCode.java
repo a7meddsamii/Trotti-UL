@@ -49,4 +49,8 @@ public class UnlockCode {
     public boolean isExpired() {
         return clock.instant().isAfter(expiresAt);
     }
+
+    public boolean isCorrectValue(String codeValue) {
+        return codeValue.equals(code);
+    }
 }

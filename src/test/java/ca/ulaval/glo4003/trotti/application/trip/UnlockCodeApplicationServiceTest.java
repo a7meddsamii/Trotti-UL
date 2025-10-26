@@ -44,7 +44,7 @@ class UnlockCodeApplicationServiceTest {
         traveler = Mockito.mock(Traveler.class);
         UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
         Mockito.when(traveler.walletHasPermit(A_RIDE_PERMIT_ID)).thenReturn(true);
-        Mockito.when(traveler.getIdul()).thenReturn(A_TRAVELER_ID);    
+        Mockito.when(traveler.getIdul()).thenReturn(A_TRAVELER_ID);
         Mockito.when(travelerRepository.findByIdul(A_TRAVELER_ID)).thenReturn(traveler);
         Mockito.when(unlockCodeService.requestUnlockCode(A_TRAVELER_ID)).thenReturn(unlockCode);
 
@@ -74,8 +74,8 @@ class UnlockCodeApplicationServiceTest {
         Mockito.when(travelerRepository.findByIdul(A_TRAVELER_ID)).thenReturn(traveler);
         Mockito.when(traveler.getWalletPermits()).thenReturn(Collections.emptyList());
 
-        Executable action =
-                () -> unlockCodeApplicationService.generateUnlockCode(A_TRAVELER_ID, A_RIDE_PERMIT_ID);
+        Executable action = () -> unlockCodeApplicationService.generateUnlockCode(A_TRAVELER_ID,
+                A_RIDE_PERMIT_ID);
 
         Assertions.assertThrows(NotFoundException.class, action);
     }

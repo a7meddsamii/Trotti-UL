@@ -13,7 +13,7 @@ class UnlockCodeMapperTest {
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
     private static final Clock A_CLOCK = Clock.systemUTC();
 
-    private UnlockCodeMapper unlockCodeMapper ;
+    private UnlockCodeMapper unlockCodeMapper;
 
     @BeforeEach
     void setup() {
