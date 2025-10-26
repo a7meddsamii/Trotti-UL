@@ -4,6 +4,9 @@ import ca.ulaval.glo4003.trotti.application.trip.dto.UnlockCodeDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +14,9 @@ import org.junit.jupiter.api.Test;
 class UnlockCodeMapperTest {
 
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static final Clock A_CLOCK = Clock.systemUTC();
+    private static final Instant FIXED_INSTANT = Instant.now();
+    private static final Clock FIXED_CLOCK = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
+
 
     private UnlockCodeMapper unlockCodeMapper;
 
@@ -22,7 +27,7 @@ class UnlockCodeMapperTest {
 
     @Test
     void whenToDto_thenReturnsCorrectDto() {
-        UnlockCode unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, A_CLOCK);
+        UnlockCode unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, FIXED_CLOCK);
 
         UnlockCodeDto unlockCodeDto = unlockCodeMapper.toDto(unlockCode);
 
