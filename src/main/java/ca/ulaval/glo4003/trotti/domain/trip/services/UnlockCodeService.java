@@ -29,9 +29,13 @@ public class UnlockCodeService {
         return unlockCode;
     }
 
-    public void validateCode(UnlockCode codeValue, Idul travelerId) {
-        if (!unlockCodeStore.isValid(codeValue, travelerId)) {
-            throw new UnlockCodeException("Invalid code");
+    public void validateAndRevoke(UnlockCode unlockCode, Idul travelerId) {
+        UnlockCode storedCode = unlockCodeStore.getByTravelerId(travelerId)
+                .orElseThrow(() -> new UnlockCodeException("No unlock code found for traveler"));
+
+        if (!storedCode.belongsToTravelerAndIsValid(unlockCode, travelerId)) {
+            throw new UnlockCodeException("Invalid or expired unlock code");
         }
+        unlockCodeStore.revoke(travelerId);
     }
 }

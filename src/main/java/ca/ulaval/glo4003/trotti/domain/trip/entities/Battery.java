@@ -45,4 +45,12 @@ public class Battery {
     public BatteryLevel getBatteryLevel() {
         return batteryLevel;
     }
+
+    public BatteryState getCurrentBatteryState() {
+        return currentBatteryState;
+    }
+
+    public LocalDateTime getLastBatteryUpdate() {
+        return lastBatteryUpdate;
+    }
 }

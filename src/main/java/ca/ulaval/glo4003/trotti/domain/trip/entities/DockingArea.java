@@ -27,4 +27,8 @@ public class DockingArea {
             throw new DockingException("Slot " + slotNumber + " does not exist at this station.");
         }
     }
+
+    public Map<SlotNumber, ScooterSlot> getScooterSlots() {
+        return Map.copyOf(scooterSlots);
+    }
 }
