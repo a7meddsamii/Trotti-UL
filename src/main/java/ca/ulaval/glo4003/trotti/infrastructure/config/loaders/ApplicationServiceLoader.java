@@ -123,11 +123,11 @@ public class ApplicationServiceLoader extends Bootstrapper {
     }
 
     private void loadTripApplicationService() {
-        TravelerRepository travelerRepository = resourceLocator.resolve(TravelerRepository.class);
-        StationRepository stationRepository = resourceLocator.resolve(StationRepository.class);
-        ScooterRepository scooterRepository = resourceLocator.resolve(ScooterRepository.class);
-        TripRepository tripRepository = resourceLocator.resolve(TripRepository.class);
-        UnlockCodeService unlockCodeService = resourceLocator.resolve(UnlockCodeService.class);
+        TravelerRepository travelerRepository = this.resourceLocator.resolve(TravelerRepository.class);
+        StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+        ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
+        TripRepository tripRepository = this.resourceLocator.resolve(TripRepository.class);
+        UnlockCodeService unlockCodeService = this.resourceLocator.resolve(UnlockCodeService.class);
 
         Clock clock = Clock.systemUTC();
 
