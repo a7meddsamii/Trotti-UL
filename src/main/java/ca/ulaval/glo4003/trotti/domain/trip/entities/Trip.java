@@ -12,7 +12,7 @@ public class Trip {
     private final RidePermitId ridePermitId;
     private final ScooterId scooterId;
     private final Idul travelerId;
-    private LocalDateTime endTime;
+    private final LocalDateTime endTime;
 
     public Trip(
             LocalDateTime startTime,
@@ -23,6 +23,7 @@ public class Trip {
         this.ridePermitId = ridePermitId;
         this.travelerId = TravelerIdul;
         this.scooterId = scooterId;
+        this.endTime = null;
     }
 
     private Trip(

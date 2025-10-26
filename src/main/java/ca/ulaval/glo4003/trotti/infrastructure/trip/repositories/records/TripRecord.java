@@ -5,6 +5,4 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.time.LocalDateTime;
 
-public record TripRecord(LocalDateTime startDateTime, RidePermitId ridePermitId, Idul travelerIdul, ScooterId scooterId) {
-
-}
+public record TripRecord(LocalDateTime startTime, RidePermitId ridePermitId, Idul travelerIdul, ScooterId scooterId, LocalDateTime endTime) {}

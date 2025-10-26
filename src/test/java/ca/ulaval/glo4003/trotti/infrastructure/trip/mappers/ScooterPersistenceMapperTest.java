@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Battery;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
+import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.BatteryRecord;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.ScooterRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,8 +32,9 @@ class ScooterPersistenceMapperTest {
     @Test
     void givenScooterRecord_whenToDomain_thenReturnCorrespondingScooter() {
         Scooter scooter = scooterFixture.build();
-        ScooterRecord record = new ScooterRecord(scooter.getScooterId(), scooter.getBattery(),
-                scooter.getLocation());
+        BatteryRecord batteryRecord = toBatteryRecord(scooter.getBattery());
+        ScooterRecord record =
+                new ScooterRecord(scooter.getScooterId(), batteryRecord, scooter.getLocation());
 
         Scooter resultScooter = scooterMapper.toDomain(record);
 
@@ -40,7 +43,18 @@ class ScooterPersistenceMapperTest {
 
     private void assertEqual(Scooter scooter, ScooterRecord record) {
         Assertions.assertEquals(scooter.getScooterId(), record.id());
-        Assertions.assertEquals(scooter.getBattery(), record.battery());
+        assertEqual(scooter.getBattery(), record.batteryRecord());
         Assertions.assertEquals(scooter.getLocation(), record.location());
+    }
+
+    private void assertEqual(Battery battery, BatteryRecord record) {
+        Assertions.assertEquals(battery.getBatteryLevel(), record.BatteryLevel());
+        Assertions.assertEquals(battery.getLastBatteryUpdate(), record.lastBatteryUpdate());
+        Assertions.assertEquals(battery.getCurrentBatteryState(), record.currentState());
+    }
+
+    private BatteryRecord toBatteryRecord(Battery battery) {
+        return new BatteryRecord(battery.getBatteryLevel(), battery.getLastBatteryUpdate(),
+                battery.getCurrentBatteryState());
     }
 }
