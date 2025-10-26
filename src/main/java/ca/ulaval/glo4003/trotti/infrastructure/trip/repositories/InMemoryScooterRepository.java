@@ -22,6 +22,7 @@ public class InMemoryScooterRepository implements ScooterRepository {
     public void save(Scooter scooter) {
         ScooterRecord record = scooterMapper.toRecord(scooter);
         scooters.put(scooter.getScooterId(), record);
+        System.out.println("Scooter saved: " + scooter.getScooterId());
     }
 
     @Override

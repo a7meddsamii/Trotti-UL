@@ -5,6 +5,9 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 
 public class Station {
+
+    private static final double INITIAL_FILL_PERCENTAGE = 0.8;
+
     private final Location location;
     private final DockingArea dockingArea;
 
@@ -27,5 +30,9 @@ public class Station {
 
     public DockingArea getDockingArea() {
         return dockingArea;
+    }
+
+    public int calculateInitialScooterCount() {
+        return (int) Math.round(dockingArea.getCapacity() * INITIAL_FILL_PERCENTAGE);
     }
 }
