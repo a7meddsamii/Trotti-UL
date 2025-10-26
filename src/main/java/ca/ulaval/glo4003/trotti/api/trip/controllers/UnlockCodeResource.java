@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
-import ca.ulaval.glo4003.trotti.api.trip.dto.UnlockCodeResponse;
+import ca.ulaval.glo4003.trotti.api.trip.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
