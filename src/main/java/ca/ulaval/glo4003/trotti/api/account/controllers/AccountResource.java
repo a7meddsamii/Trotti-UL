@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.api.account.controllers;
 
 import ca.ulaval.glo4003.trotti.api.account.dto.CreateAccountRequest;
+import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,17 +22,18 @@ public interface AccountResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Create a new account",
-            description = "Creates a new user account with the provided information.",
+    @Operation(summary = "Créer un nouveau compte utilisateur",
+            description = "Créer un nouveau compte utilisateur avec les infos demandées.",
             requestBody = @RequestBody(description = "Account creation",
                     content = @Content(
                             schema = @Schema(implementation = CreateAccountRequest.class))),
             responses = {
                     @ApiResponse(responseCode = "201", description = "Compte créé avec succès",
                             headers = {
-                                    @Header(name = "Location", description = "URI of the created account", schema = @Schema(type = "string", format = "uri"))
+                                    @Header(name = "Location", description = "URI du compte créé", schema = @Schema(type = "string", format = "uri"))
                             }),
                     @ApiResponse(responseCode = "400", description = "Request invalide",
-                            content = @Content)})
+                            content = @Content(schema =  @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "409", description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
     Response createAccount(@Valid CreateAccountRequest request);
 }
