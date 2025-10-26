@@ -2,17 +2,21 @@ package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.UnlockCodeException;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import java.time.Clock;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class UnlockCodeServiceTest {
 
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
+    private static final String VALID_CODE_VALUE = "123456";
+    private static final String INVALID_CODE_VALUE = "000000";
     private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;
@@ -43,5 +47,34 @@ class UnlockCodeServiceTest {
         UnlockCode unlockCode = unlockCodeService.requestUnlockCode(A_TRAVELER_ID);
 
         Mockito.verify(unlockCodeStore).store(unlockCode);
+    }
+
+    @Test
+    void givenInvalidCodeForTraveler_whenValidateCode_thenThrowsUnlockCodeException() {
+        Mockito.when(unlockCodeStore.isValid(INVALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(false);
+
+        Executable validation =
+                () -> unlockCodeService.validateCode(INVALID_CODE_VALUE, A_TRAVELER_ID);
+
+        Assertions.assertThrows(UnlockCodeException.class, validation);
+    }
+
+    @Test
+    void givenValidCodeAndTravelerId_whenValidateCode_thenCallsUnlockCodeStoreWithCorrectParameters() {
+        Mockito.when(unlockCodeStore.isValid(VALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(true);
+
+        unlockCodeService.validateCode(VALID_CODE_VALUE, A_TRAVELER_ID);
+
+        Mockito.verify(unlockCodeStore).isValid(VALID_CODE_VALUE, A_TRAVELER_ID);
+    }
+
+    @Test
+    void givenValidCodeAndTravelerId_whenValidateCode_thenNoExceptionIsThrown() {
+        Mockito.when(unlockCodeStore.isValid(VALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(true);
+
+        Executable validation =
+                () -> unlockCodeService.validateCode(VALID_CODE_VALUE, A_TRAVELER_ID);
+
+        Assertions.assertDoesNotThrow(validation);
     }
 }
