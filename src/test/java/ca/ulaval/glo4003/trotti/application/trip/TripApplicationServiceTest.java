@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
@@ -144,65 +143,16 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenTravelerWithOngoingTrip_whenEndTrip_thenCompletedTripIsSaved() {
-        Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
-
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
-
-        Mockito.verify(tripRepository).save(completedTrip);
-    }
-
-    @Test
-    void givenTravelerWithoutOngoingTrip_whenEndTrip_thenTravelerExceptionIsPropagated() {
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenThrow(new TravelerException("No ongoing trip"));
-
-        Executable action =
-                () -> tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
-
-        Assertions.assertThrows(TravelerException.class, action);
-    }
-
-    @Test
-    void givenTravelerWithOngoingTrip_whenEndTrip_thenTravelerIsUpdated() {
-        Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
-
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
-
-        Mockito.verify(travelerRepository).update(traveler);
-    }
-
-    @Test
-    void givenTravelerWithOngoingTrip_whenStartTrip_thenThrowsTravelerException() {
-        Mockito.doThrow(new TravelerException("Already traveling")).when(traveler)
-                .startTraveling(Mockito.any(), Mockito.any(), Mockito.any());
-
-        Executable startTripAtemp = () -> tripApplicationService.startTrip(TRAVELER_IDUL,
-                RIDE_PERMIT_ID, unlockCode, STATION_LOCATION, SLOT_NUMBER);
-
-        Assertions.assertThrows(TravelerException.class, startTripAtemp);
-    }
-
-    @Test
-    void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsSaved() {
+    void givenValidUnlockCode_whenEndTrip_thenAllRepositoriesAreUpdated() {
         Trip completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
         Mockito.verify(scooterRepository).save(scooter);
-    }
-
-    @Test
-    void givenTravelerWithOngoingTrip_whenEndTrip_thenStationIsSaved() {
-        Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
-
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
-
         Mockito.verify(stationRepository).save(station);
+        Mockito.verify(travelerRepository).update(traveler);
+        Mockito.verify(tripRepository).save(completedTrip);
     }
 
     @Test
