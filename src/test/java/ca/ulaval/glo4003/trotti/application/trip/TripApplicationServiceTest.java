@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
+import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
+import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
@@ -48,6 +50,8 @@ class TripApplicationServiceTest {
     private Station station;
     private Clock clock;
     private UnlockCode unlockCode;
+    private StartTripDto startTripDto;
+    private EndTripDto endTripDto;
 
     @BeforeEach
     void setUp() {
@@ -66,9 +70,12 @@ class TripApplicationServiceTest {
 
         Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL)).thenReturn(traveler);
         Mockito.when(stationRepository.findByLocation(STATION_LOCATION)).thenReturn(station);
-
         Mockito.when(station.getScooter(SLOT_NUMBER)).thenReturn(SCOOTER_ID);
         Mockito.when(scooterRepository.findById(SCOOTER_ID)).thenReturn(scooter);
+
+        startTripDto = new StartTripDto(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode, STATION_LOCATION,
+                SLOT_NUMBER);
+        endTripDto = new EndTripDto(TRAVELER_IDUL, STATION_LOCATION, SLOT_NUMBER);
 
         tripApplicationService = new TripApplicationService(travelerRepository, stationRepository,
                 scooterRepository, tripRepository, unlockCodeService, clock);
@@ -77,8 +84,7 @@ class TripApplicationServiceTest {
     @Test
     void givenValidUnlockCode_whenStartTrip_thenTravelerStartsTraveling() {
 
-        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                STATION_LOCATION, SLOT_NUMBER);
+        tripApplicationService.startTrip(startTripDto);
 
         Mockito.verify(traveler).startTraveling(Mockito.eq(EXPECTED_TIME),
                 Mockito.eq(RIDE_PERMIT_ID), Mockito.eq(SCOOTER_ID));
@@ -86,24 +92,21 @@ class TripApplicationServiceTest {
 
     @Test
     void givenValidUnlockCode_whenStartTrip_thenScooterIsUndocked() {
-        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                STATION_LOCATION, SLOT_NUMBER);
+        tripApplicationService.startTrip(startTripDto);
 
         Mockito.verify(scooter).undock(Mockito.eq(EXPECTED_TIME));
     }
 
     @Test
     void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidatedAndRevoked() {
-        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                STATION_LOCATION, SLOT_NUMBER);
+        tripApplicationService.startTrip(startTripDto);
 
         Mockito.verify(unlockCodeService).validateAndRevoke(unlockCode, TRAVELER_IDUL);
     }
 
     @Test
     void givenValidUnlockCode_whenStartTrip_thenAllRepositoriesAreUpdated() {
-        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                STATION_LOCATION, SLOT_NUMBER);
+        tripApplicationService.startTrip(startTripDto);
 
         Mockito.verify(travelerRepository).update(traveler);
         Mockito.verify(scooterRepository).save(scooter);
@@ -115,8 +118,7 @@ class TripApplicationServiceTest {
         Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL))
                 .thenThrow(new NotFoundException("Traveler not found"));
 
-        Executable action = () -> tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID,
-                unlockCode, STATION_LOCATION, SLOT_NUMBER);
+        Executable action = () -> tripApplicationService.startTrip(startTripDto);
 
         Assertions.assertThrows(NotFoundException.class, action);
     }
@@ -127,7 +129,7 @@ class TripApplicationServiceTest {
         Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
                 .thenReturn(completedTrip);
 
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+        tripApplicationService.endTrip(endTripDto);
 
         Mockito.verify(traveler).stopTraveling(Mockito.eq(EXPECTED_TIME));
     }
@@ -137,7 +139,7 @@ class TripApplicationServiceTest {
         Trip completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+        tripApplicationService.endTrip(endTripDto);
 
         Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
     }
@@ -147,7 +149,7 @@ class TripApplicationServiceTest {
         Trip completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
-        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+        tripApplicationService.endTrip(endTripDto);
 
         Mockito.verify(scooterRepository).save(scooter);
         Mockito.verify(stationRepository).save(station);
@@ -160,8 +162,7 @@ class TripApplicationServiceTest {
         Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL))
                 .thenThrow(new NotFoundException("Traveler not found"));
 
-        Executable action =
-                () -> tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+        Executable action = () -> tripApplicationService.endTrip(endTripDto);
 
         Assertions.assertThrows(NotFoundException.class, action);
     }

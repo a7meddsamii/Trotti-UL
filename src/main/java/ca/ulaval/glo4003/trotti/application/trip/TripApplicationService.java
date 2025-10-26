@@ -1,19 +1,16 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
+import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -42,17 +39,16 @@ public class TripApplicationService {
         this.clock = clock;
     }
 
-    public void startTrip(Idul idul, RidePermitId ridePermitId, UnlockCode unlockCodeValue,
-            Location location, SlotNumber slotNumber) {
-        Traveler traveler = travelerRepository.findByIdul(idul);
-        Station station = stationRepository.findByLocation(location);
-        unlockCodeService.validateAndRevoke(unlockCodeValue, idul);
-        ScooterId scooterId = station.getScooter(slotNumber);
+    public void startTrip(StartTripDto startTripDto) {
+        Traveler traveler = travelerRepository.findByIdul(startTripDto.idul());
+        Station station = stationRepository.findByLocation(startTripDto.location());
+        unlockCodeService.validateAndRevoke(startTripDto.unlockCode(), startTripDto.idul());
+        ScooterId scooterId = station.getScooter(startTripDto.slotNumber());
 
         Scooter scooter = scooterRepository.findById(scooterId);
         scooter.undock(LocalDateTime.now(clock));
 
-        traveler.startTraveling(LocalDateTime.now(clock), ridePermitId, scooterId);
+        traveler.startTraveling(LocalDateTime.now(clock), startTripDto.ridePermitId(), scooterId);
 
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
@@ -60,13 +56,13 @@ public class TripApplicationService {
 
     }
 
-    public void endTrip(Idul idul, SlotNumber slotNumber, Location location) {
-        Traveler traveler = travelerRepository.findByIdul(idul);
-        Station station = stationRepository.findByLocation(location);
-        ScooterId scooterId = station.getScooter(slotNumber);
+    public void endTrip(EndTripDto endTripDto) {
+        Traveler traveler = travelerRepository.findByIdul(endTripDto.idul());
+        Station station = stationRepository.findByLocation(endTripDto.location());
+        ScooterId scooterId = station.getScooter(endTripDto.slotNumber());
         Scooter scooter = scooterRepository.findById(scooterId);
 
-        scooter.dockAt(location, LocalDateTime.now(clock));
+        scooter.dockAt(endTripDto.location(), LocalDateTime.now(clock));
         Trip completetrip = traveler.stopTraveling(LocalDateTime.now(clock));
 
         travelerRepository.update(traveler);
