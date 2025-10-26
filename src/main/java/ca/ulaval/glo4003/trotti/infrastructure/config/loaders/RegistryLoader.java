@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.domain.commons.SessionRegistry;
 import ca.ulaval.glo4003.trotti.infrastructure.commons.sessions.mappers.SessionMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.stations.mappers.StationMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.SessionProvider;
 import ca.ulaval.glo4003.trotti.infrastructure.config.providers.StationProvider;
@@ -42,8 +41,7 @@ public class RegistryLoader extends Bootstrapper {
     }
 
     private void loadStationProvider() {
-        StationMapper stationMapper = new StationMapper();
-        StationProvider.initialize(STATION_DATA_FILE_PATH, stationMapper);
+        StationProvider.initialize(STATION_DATA_FILE_PATH);
         this.resourceLocator.register(StationProvider.class, StationProvider.getInstance());
     }
 }
