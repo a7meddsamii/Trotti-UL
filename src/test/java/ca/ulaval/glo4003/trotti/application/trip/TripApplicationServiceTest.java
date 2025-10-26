@@ -85,4 +85,14 @@ class TripApplicationServiceTest {
 
         Mockito.verify(unlockCodeService).validateCode(UNLOCK_CODE_VALUE, TRAVELER_IDUL);
     }
+
+    @Test
+    void givenValidUnlockCode_whenStartTrip_thenAllRepositoriesAreUpdated() {
+        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
+                STATION_LOCATION, SLOT_NUMBER);
+
+        Mockito.verify(travelerRepository).update(traveler);
+        Mockito.verify(scooterRepository).save(scooter);
+        Mockito.verify(stationRepository).save(station);
+    }
 }
