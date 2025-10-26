@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 class UnlockCodeTest {
 
+    private static final String INCORRECT_CODE_VALUE = "000000";
     private static final Instant START_MOMENT = Instant.parse("2025-10-13T10:00:00Z");
     private static final Instant FUTURE_TIME_EXPIRED = START_MOMENT.plusSeconds(61);
     private static final String NUMERIC_REGEX = "\\d+";
@@ -22,27 +23,22 @@ class UnlockCodeTest {
     @BeforeEach
     void setup() {
         clock = Mockito.spy(Clock.fixed(START_MOMENT, ZoneOffset.UTC));
+        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
     }
 
     @Test
     void whenCreatingUnlockCode_thenCodeLengthIs4DigistsOrMore() {
-        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
-
         Assertions.assertNotNull(unlockCode);
         Assertions.assertTrue(unlockCode.getCode().length() >= 4);
     }
 
     @Test
     void whenCreatingUnlockCode_thenCodeLengthIs6DigitsOrLess() {
-        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
-
         Assertions.assertTrue(unlockCode.getCode().length() <= 6);
     }
 
     @Test
     void whenCreatingUnlockCode_thenCodeIsNumeric() {
-        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
-
         Assertions.assertTrue(unlockCode.getCode().matches(NUMERIC_REGEX));
     }
 
@@ -56,16 +52,22 @@ class UnlockCodeTest {
 
     @Test
     void whenCreatingUnlockCode_thenItIsNotExpired() {
-        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
-
         Assertions.assertFalse(unlockCode.isExpired());
     }
 
     @Test
     void givenUnlockCodeAndSixtySecondsPassed_whenIsExpired_thenItIsExpired() {
-        unlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
         Mockito.when(clock.instant()).thenReturn(FUTURE_TIME_EXPIRED);
-
         Assertions.assertTrue(unlockCode.isExpired());
+    }
+
+    @Test
+    void givenCorrectCodeValue_whenIsCorrectValue_thenReturnsTrue() {
+        Assertions.assertTrue(unlockCode.isCorrectValue(unlockCode.getCode()));
+    }
+
+    @Test
+    void givenIncorrectCodeValue_whenIsCorrectValue_thenReturnsFalse() {
+        Assertions.assertFalse(unlockCode.isCorrectValue(INCORRECT_CODE_VALUE));
     }
 }
