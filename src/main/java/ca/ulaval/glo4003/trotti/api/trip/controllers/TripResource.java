@@ -6,9 +6,6 @@ import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -24,8 +21,7 @@ public class TripResource {
 
     public TripResource(
             TripApplicationService tripApplicationService,
-            AuthenticationService authenticationService
-    ) {
+            AuthenticationService authenticationService) {
         this.tripApplicationService = tripApplicationService;
         this.authenticationService = authenticationService;
     }
@@ -33,17 +29,12 @@ public class TripResource {
     @POST
     @Path("/start")
     public Response startTrip(@HeaderParam("Authorization") String tokenHeader,
-                              @Valid StartTripRequest request) {
+            @Valid StartTripRequest request) {
         AuthenticationToken token = AuthenticationToken.from(tokenHeader);
         Idul idul = authenticationService.authenticate(token);
 
-        tripApplicationService.startTrip(
-                idul,
-                request.ridePermitId(),
-                request.unlockCode(),
-                request.location(),
-                request.slotNumber()
-        );
+        tripApplicationService.startTrip(idul, request.ridePermitId(), request.unlockCode(),
+                request.location(), request.slotNumber());
 
         return Response.ok().build();
     }
@@ -51,15 +42,11 @@ public class TripResource {
     @POST
     @Path("/end")
     public Response endTrip(@HeaderParam("Authorization") String tokenHeader,
-                            @Valid EndTripRequest request) {
+            @Valid EndTripRequest request) {
         AuthenticationToken token = AuthenticationToken.from(tokenHeader);
         Idul idul = authenticationService.authenticate(token);
 
-        tripApplicationService.endTrip(
-                idul,
-                request.slotNumber(),
-                request.location()
-        );
+        tripApplicationService.endTrip(idul, request.slotNumber(), request.location());
 
         return Response.noContent().build();
     }
