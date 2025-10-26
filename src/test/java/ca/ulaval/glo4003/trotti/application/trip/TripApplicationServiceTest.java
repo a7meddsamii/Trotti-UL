@@ -1,10 +1,13 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
+import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
@@ -14,8 +17,10 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class TripApplicationServiceTest {
@@ -25,8 +30,6 @@ class TripApplicationServiceTest {
     private static final Location STATION_LOCATION = Location.of("VACHON", "Entrée Vachon #1");
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final LocalDateTime START_TIME = LocalDateTime.now();
-    private static final LocalDateTime END_TIME = LocalDateTime.now().plusMinutes(10);
 
     private TravelerRepository travelerRepository;
     private StationRepository stationRepository;
@@ -66,6 +69,7 @@ class TripApplicationServiceTest {
 
         tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
                 STATION_LOCATION, SLOT_NUMBER);
+
         Mockito.verify(traveler).startTraveling(Mockito.any(LocalDateTime.class),
                 Mockito.eq(RIDE_PERMIT_ID), Mockito.eq(SCOOTER_ID));
     }
@@ -93,6 +97,106 @@ class TripApplicationServiceTest {
 
         Mockito.verify(travelerRepository).update(traveler);
         Mockito.verify(scooterRepository).save(scooter);
+        Mockito.verify(stationRepository).save(station);
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenTravelerStopsTraveling() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Mockito.verify(traveler).stopTraveling(Mockito.any(LocalDateTime.class));
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsDockedAtStation() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION),
+                Mockito.any(LocalDateTime.class));
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenCompletedTripIsSaved() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Mockito.verify(tripRepository).save(completedTrip);
+    }
+
+    @Test
+    void givenTravelerWithoutOngoingTrip_whenEndTrip_thenTravelerExceptionIsPropagated() {
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenThrow(new TravelerException("No ongoing trip"));
+
+        Executable action =
+                () -> tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Assertions.assertThrows(TravelerException.class, action);
+    }
+
+    @Test
+    void givenNonExistentTraveler_whenStartTrip_thenThrowsException() {
+        Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL))
+                .thenThrow(new NotFoundException("Traveler not found"));
+
+        Executable action = () -> tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID,
+                UNLOCK_CODE_VALUE, STATION_LOCATION, SLOT_NUMBER);
+
+        Assertions.assertThrows(NotFoundException.class, action);
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenTravelerIsUpdated() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Mockito.verify(travelerRepository).update(traveler);
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenStartTrip_thenThrowsTravelerException() {
+        Mockito.doThrow(new TravelerException("Already traveling")).when(traveler)
+                .startTraveling(Mockito.any(), Mockito.any(), Mockito.any());
+
+        Executable startTripAtemp = () -> tripApplicationService.startTrip(TRAVELER_IDUL,
+                RIDE_PERMIT_ID, UNLOCK_CODE_VALUE, STATION_LOCATION, SLOT_NUMBER);
+
+        Assertions.assertThrows(TravelerException.class, startTripAtemp);
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsSaved() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Mockito.verify(scooterRepository).save(scooter);
+    }
+
+    @Test
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenStationIsSaved() {
+        Trip completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
+
+        tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
         Mockito.verify(stationRepository).save(station);
     }
 }
