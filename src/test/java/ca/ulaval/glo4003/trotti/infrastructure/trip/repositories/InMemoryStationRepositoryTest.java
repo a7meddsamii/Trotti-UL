@@ -16,8 +16,6 @@ class InMemoryStationRepositoryTest {
 
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final SlotNumber ANOTHER_SLOT_NUMBER = new SlotNumber(2);
-    private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
     private static final Location A_LOCATION = Location.of("vachon", "stationX");
 
     private InMemoryStationRepository stationRepository;
@@ -49,29 +47,6 @@ class InMemoryStationRepositoryTest {
         Location nonExistentLocation = Location.of("Building", "Name");
 
         Optional<Station> retrievedStation = stationRepository.findByLocation(nonExistentLocation);
-
-        Assertions.assertTrue(retrievedStation.isEmpty());
-    }
-
-    @Test
-    void givenExistingStationWithScooterId_whenFindByScooterId_thenReturnStation() {
-        Station station = stationFixture.withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID)
-                .withOccupiedSlot(ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID).build();
-        stationRepository.save(station);
-
-        Optional<Station> retrievedStation = stationRepository.findByScooterId(SCOOTER_ID);
-
-        Assertions.assertTrue(retrievedStation.isPresent());
-        Assertions.assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        assertEqual(station.getDockingArea(), retrievedStation.get().getDockingArea());
-    }
-
-    @Test
-    void givenNonExistentStationWithScooterId_whenFindByScooterId_thenReturnEmptyOptional() {
-        Station station = stationFixture.withEmptySlot(SLOT_NUMBER).build();
-        stationRepository.save(station);
-
-        Optional<Station> retrievedStation = stationRepository.findByScooterId(SCOOTER_ID);
 
         Assertions.assertTrue(retrievedStation.isEmpty());
     }
