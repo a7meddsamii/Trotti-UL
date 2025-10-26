@@ -44,7 +44,7 @@ public class TravelerPersistenceMapper {
     }
 
     private Trip toTripDomain(TripRecord tripRecord) {
-        return new Trip(tripRecord.startDateTime(), tripRecord.ridePermitId(),
+        return new Trip(tripRecord.startTime(), tripRecord.ridePermitId(),
                 tripRecord.travelerIdul(), tripRecord.scooterId());
     }
 
@@ -55,7 +55,7 @@ public class TravelerPersistenceMapper {
 
     private TripRecord toTripRecord(Trip trip) {
         return new TripRecord(trip.getStartTime(), trip.getRidePermitId(), trip.getTravelerIdul(),
-                trip.getScooterId());
+                trip.getScooterId(), trip.getEndTime());
     }
 
 }
