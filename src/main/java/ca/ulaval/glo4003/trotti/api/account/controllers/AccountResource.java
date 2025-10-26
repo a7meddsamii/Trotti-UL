@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/accounts")
-@Tag(name = "Accounts", description = "Opérations liées aux comptes utilisateurs")
+@Tag(name = "Accounts", description = "Endpoint pour les opérations liées aux comptes utilisateurs")
 public interface AccountResource {
 
     @POST
@@ -27,13 +27,13 @@ public interface AccountResource {
             requestBody = @RequestBody(description = "Account creation",
                     content = @Content(
                             schema = @Schema(implementation = CreateAccountRequest.class))),
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Compte créé avec succès",
-                            headers = {
-                                    @Header(name = "Location", description = "URI du compte créé", schema = @Schema(type = "string", format = "uri"))
-                            }),
+            responses = {@ApiResponse(responseCode = "201", description = "Compte créé avec succès",
+                    headers = {@Header(name = "Location", description = "URI du compte créé",
+                            schema = @Schema(type = "string", format = "uri"))}),
                     @ApiResponse(responseCode = "400", description = "Request invalide",
-                            content = @Content(schema =  @Schema(implementation = ApiErrorResponse.class))),
-                    @ApiResponse(responseCode = "409", description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "409",
+                            description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
     Response createAccount(@Valid CreateAccountRequest request);
 }

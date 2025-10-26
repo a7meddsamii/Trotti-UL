@@ -24,20 +24,22 @@ public interface AuthenticationResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-            summary = "Se connecter / Login",
+    @Operation(summary = "Se connecter / Login",
             description = "Authentifie l'utilisateur avec email et password.",
-            requestBody = @RequestBody(
-                    description = "Login request (email et password)",
+            requestBody = @RequestBody(description = "Login request (email et password)",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = LoginRequest.class))
-            ),
+                    content = @Content(schema = @Schema(implementation = LoginRequest.class))),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Authentifié avec succès (returns JWT token)",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", example = "eyJhbGciOiJI..."))),
-                    @ApiResponse(responseCode = "400", description = "Request invalide", content = @Content),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - Crédentiels invalides", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
-            }
-    )
+                    @ApiResponse(responseCode = "200",
+                            description = "Authentifié avec succès (returns JWT token)",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(type = "string",
+                                            example = "eyJhbGciOiJI..."))),
+                    @ApiResponse(responseCode = "400", description = "Request invalide",
+                            content = @Content),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized - Crédentiels invalides",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
     Response login(@Valid LoginRequest request);
 }
