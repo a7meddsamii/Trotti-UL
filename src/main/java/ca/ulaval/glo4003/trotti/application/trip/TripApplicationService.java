@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -23,18 +24,21 @@ public class TripApplicationService {
     private final StationRepository stationRepository;
     private final ScooterRepository scooterRepository;
     private final TripRepository tripRepository;
+    private final UnlockCodeStore unlockCodeStore;
 
     public TripApplicationService(
             TravelerRepository travelerRepository,
             StationRepository stationRepository,
             ScooterRepository scooterRepository,
             TripRepository tripRepository,
-            UnlockCodeService unlockCodeService) {
+            UnlockCodeService unlockCodeService,
+            UnlockCodeStore unlockCodeStore) {
         this.unlockCodeService = unlockCodeService;
         this.travelerRepository = travelerRepository;
         this.stationRepository = stationRepository;
         this.tripRepository = tripRepository;
         this.scooterRepository = scooterRepository;
+        this.unlockCodeStore = unlockCodeStore;
     }
 
     public void startTrip(Idul idul, RidePermitId ridePermitId, String unlockCodeValue,
@@ -49,9 +53,11 @@ public class TripApplicationService {
 
         traveler.startTraveling(LocalDateTime.now(), ridePermitId, scooterId);
 
+        unlockCodeStore.revoke(idul);
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
         stationRepository.save(station);
+
     }
 
     public void endTrip(Idul idul, SlotNumber slotNumber, Location location) {
