@@ -14,7 +14,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -39,7 +38,6 @@ class TripApplicationServiceTest {
     private ScooterRepository scooterRepository;
     private TripRepository tripRepository;
     private UnlockCodeService unlockCodeService;
-    private UnlockCodeStore unlockCodeStore;
     private TripApplicationService tripApplicationService;
 
     private Traveler traveler;
@@ -53,7 +51,6 @@ class TripApplicationServiceTest {
         scooterRepository = Mockito.mock(ScooterRepository.class);
         tripRepository = Mockito.mock(TripRepository.class);
         unlockCodeService = Mockito.mock(UnlockCodeService.class);
-        unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
 
         traveler = Mockito.mock(Traveler.class);
         scooter = Mockito.mock(Scooter.class);
@@ -66,7 +63,7 @@ class TripApplicationServiceTest {
         Mockito.when(scooterRepository.findById(SCOOTER_ID)).thenReturn(scooter);
 
         tripApplicationService = new TripApplicationService(travelerRepository, stationRepository,
-                scooterRepository, tripRepository, unlockCodeService, unlockCodeStore);
+                scooterRepository, tripRepository, unlockCodeService);
     }
 
     @Test
@@ -88,19 +85,11 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidated() {
+    void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidatedAndRevoked() {
         tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
                 STATION_LOCATION, SLOT_NUMBER);
 
-        Mockito.verify(unlockCodeService).validateCode(UNLOCK_CODE_VALUE, TRAVELER_IDUL);
-    }
-
-    @Test
-    void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsRevoked() {
-        tripApplicationService.startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE_VALUE,
-                STATION_LOCATION, SLOT_NUMBER);
-
-        Mockito.verify(unlockCodeStore).revoke(TRAVELER_IDUL);
+        Mockito.verify(unlockCodeService).validateAndRevoke(UNLOCK_CODE_VALUE, TRAVELER_IDUL);
     }
 
     @Test
@@ -211,5 +200,16 @@ class TripApplicationServiceTest {
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
         Mockito.verify(stationRepository).save(station);
+    }
+
+    @Test
+    void givenNonExistentTraveler_whenEndTrip_thenThrowsException() {
+        Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL))
+                .thenThrow(new NotFoundException("Traveler not found"));
+
+        Executable action =
+                () -> tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
+
+        Assertions.assertThrows(NotFoundException.class, action);
     }
 }

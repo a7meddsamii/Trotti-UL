@@ -29,8 +29,13 @@ public class UnlockCodeService {
         return unlockCode;
     }
 
-    public void validateCode(UnlockCode codeValue, Idul travelerId) {
-        if (!unlockCodeStore.isValid(codeValue, travelerId)) {
+    public void validateAndRevoke(UnlockCode unlockCode, Idul travelerId) {
+        validateCode(unlockCode, travelerId);
+        unlockCodeStore.revoke(travelerId);
+    }
+
+    private void validateCode(UnlockCode unlockCode, Idul travelerId) {
+        if (!unlockCodeStore.isValid(unlockCode, travelerId)) {
             throw new UnlockCodeException("Invalid code");
         }
     }
