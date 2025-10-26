@@ -4,12 +4,11 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import java.util.List;
-
 
 class InMemoryTripRepositoryTest {
 
@@ -49,7 +48,7 @@ class InMemoryTripRepositoryTest {
         repository.save(trip);
 
         List<Trip> result = repository.getTravelerTrips(TRAVELER_ID);
-        Assertions.assertEquals(List.of(trip,trip), result);
+        Assertions.assertEquals(List.of(trip, trip), result);
     }
 
     @Test

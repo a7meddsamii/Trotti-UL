@@ -5,14 +5,11 @@ import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TripRecord;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
-import java.util.Optional;
-
 
 public class InMemoryTripRepository implements TripRepository {
     private Map<Idul, List<TripRecord>> tripTable = new HashMap<>();
