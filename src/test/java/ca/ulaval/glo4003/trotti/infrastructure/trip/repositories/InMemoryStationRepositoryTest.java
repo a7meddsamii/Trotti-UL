@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,20 +34,21 @@ class InMemoryStationRepositoryTest {
 
         stationRepository.save(station);
 
-        Optional<Station> retrievedStation =
-                stationRepository.findByLocation(station.getLocation());
-        Assertions.assertTrue(retrievedStation.isPresent());
-        Assertions.assertEquals(station.getLocation(), retrievedStation.get().getLocation());
-        assertEqual(station.getDockingArea(), retrievedStation.get().getDockingArea());
+        Station retrievedStation = stationRepository.findByLocation(station.getLocation());
+        Assertions.assertEquals(station.getLocation(), retrievedStation.getLocation());
+        assertEqual(station.getDockingArea(), retrievedStation.getDockingArea());
     }
 
     @Test
-    void givenNonExistentStation_whenFindByLocation_thenReturnEmptyOptional() {
-        Location nonExistentLocation = Location.of("Building", "Name");
+    void givenExistentStation_whenFindByLocation_thenReturnStation() {
+        Station station = stationFixture.withLocation(A_LOCATION)
+                .withOccupiedSlot(SLOT_NUMBER, SCOOTER_ID).build();
+        stationRepository.save(station);
 
-        Optional<Station> retrievedStation = stationRepository.findByLocation(nonExistentLocation);
+        Station retrievedStation = stationRepository.findByLocation(station.getLocation());
 
-        Assertions.assertTrue(retrievedStation.isEmpty());
+        Assertions.assertEquals(station.getLocation(), retrievedStation.getLocation());
+        assertEqual(station.getDockingArea(), retrievedStation.getDockingArea());
     }
 
     private static void assertEqual(DockingArea expected, DockingArea actual) {

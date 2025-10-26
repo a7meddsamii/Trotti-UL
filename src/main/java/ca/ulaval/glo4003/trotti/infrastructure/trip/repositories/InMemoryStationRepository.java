@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMa
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class InMemoryStationRepository implements StationRepository {
     private final Map<Location, StationRecord> stations = new HashMap<>();
@@ -24,8 +23,8 @@ public class InMemoryStationRepository implements StationRepository {
     }
 
     @Override
-    public Optional<Station> findByLocation(Location location) {
-        return Optional.ofNullable(stations.get(location)).map(stationMapper::toDomain);
+    public Station findByLocation(Location location) {
+        return stationMapper.toDomain(stations.get(location));
     }
 
 }
