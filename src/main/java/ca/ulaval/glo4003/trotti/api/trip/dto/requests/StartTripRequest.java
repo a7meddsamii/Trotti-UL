@@ -1,13 +1,11 @@
 package ca.ulaval.glo4003.trotti.api.trip.dto.requests;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import jakarta.validation.constraints.NotBlank;
 
-public record StartTripRequest (
-    RidePermitId ridePermitId,
-    UnlockCode unlockCode,
-    Location location,
-    SlotNumber slotNumber
+public record StartTripRequest(
+        @NotBlank(message = "Ride permit ID is required") String ridePermitId,
+        @NotBlank(message = "Unlock code is required") String unlockCode,
+        @NotBlank(message = "Location code is required") String location,
+        @NotBlank(message = "Slot number is required") String slotNumber
+
 ) {}

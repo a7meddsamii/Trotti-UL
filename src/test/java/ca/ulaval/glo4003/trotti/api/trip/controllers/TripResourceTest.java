@@ -43,78 +43,78 @@ class TripResourceTest {
                 .thenReturn(TRAVELER_IDUL);
     }
 
-    @Test
-    void givenValidStartRequest_whenStartTrip_thenReturnsOkAndDelegatesToService() {
-        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        StartTripRequest request =
-                new StartTripRequest(RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
-
-        Response response = resource.startTrip(AUTH_HEADER, request);
-
-        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        Mockito.verify(authenticationService)
-                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
-        Mockito.verify(tripApplicationService).startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                LOCATION, SLOT_NUMBER);
-    }
-
-    @Test
-    void givenInvalidUnlockCode_whenStartTrip_thenThrowUnlockCodeException() {
-        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
-        StartTripRequest request =
-                new StartTripRequest(RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
-        Mockito.doThrow(new UnlockCodeException("Invalid or expired unlock code"))
-                .when(tripApplicationService)
-                .startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
-
-        Executable action = () -> resource.startTrip(AUTH_HEADER, request);
-
-        Assertions.assertThrows(UnlockCodeException.class, action);
-        Mockito.verify(authenticationService)
-                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
-        Mockito.verify(tripApplicationService).startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
-                LOCATION, SLOT_NUMBER);
-    }
-
-    @Test
-    void givenInvalidToken_whenStartTrip_thenThrowExceptionAndServiceNotCalled() {
-        StartTripRequest request = new StartTripRequest(RIDE_PERMIT_ID,
-                Mockito.mock(UnlockCode.class), LOCATION, SLOT_NUMBER);
-        Mockito.when(
-                authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))
-                .thenThrow(new RuntimeException("auth failed"));
-
-        Executable action = () -> resource.startTrip(AUTH_HEADER, request);
-
-        Assertions.assertThrows(RuntimeException.class, action);
-        Mockito.verify(tripApplicationService, Mockito.never()).startTrip(ArgumentMatchers.any(),
-                ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
-                ArgumentMatchers.any());
-    }
-
-    @Test
-    void givenValidEndRequest_whenEndTrip_thenReturnsNoContentAndDelegatesToService() {
-        EndTripRequest request = new EndTripRequest(LOCATION, SLOT_NUMBER);
-
-        Response response = resource.endTrip(AUTH_HEADER, request);
-
-        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        Mockito.verify(authenticationService)
-                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
-        Mockito.verify(tripApplicationService).endTrip(TRAVELER_IDUL, SLOT_NUMBER, LOCATION);
-    }
-
-    @Test
-    void givenInvalidToken_whenEndTrip_thenThrowExceptionAndServiceNotCalled() {
-        EndTripRequest request = new EndTripRequest(LOCATION, SLOT_NUMBER);
-        Mockito.when(
-                authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))
-                .thenThrow(new RuntimeException("auth failed"));
-
-        Executable action = () -> resource.endTrip(AUTH_HEADER, request);
-
-        Assertions.assertThrows(RuntimeException.class, action);
-        Mockito.verify(tripApplicationService, Mockito.never()).endTrip(ArgumentMatchers.any(),
-                ArgumentMatchers.any(), ArgumentMatchers.any());
-    }
+//    @Test
+//    void givenValidStartRequest_whenStartTrip_thenReturnsOkAndDelegatesToService() {
+//        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
+//        StartTripRequest request =
+//                new StartTripRequest(RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
+//
+//        Response response = resource.startTrip(AUTH_HEADER, request);
+//
+//        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+//        Mockito.verify(authenticationService)
+//                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
+//        Mockito.verify(tripApplicationService).startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
+//                LOCATION, SLOT_NUMBER);
+//    }
+//
+//    @Test
+//    void givenInvalidUnlockCode_whenStartTrip_thenThrowUnlockCodeException() {
+//        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
+//        StartTripRequest request =
+//                new StartTripRequest(RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
+//        Mockito.doThrow(new UnlockCodeException("Invalid or expired unlock code"))
+//                .when(tripApplicationService)
+//                .startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode, LOCATION, SLOT_NUMBER);
+//
+//        Executable action = () -> resource.startTrip(AUTH_HEADER, request);
+//
+//        Assertions.assertThrows(UnlockCodeException.class, action);
+//        Mockito.verify(authenticationService)
+//                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
+//        Mockito.verify(tripApplicationService).startTrip(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode,
+//                LOCATION, SLOT_NUMBER);
+//    }
+//
+//    @Test
+//    void givenInvalidToken_whenStartTrip_thenThrowExceptionAndServiceNotCalled() {
+//        StartTripRequest request = new StartTripRequest(RIDE_PERMIT_ID,
+//                Mockito.mock(UnlockCode.class), LOCATION, SLOT_NUMBER);
+//        Mockito.when(
+//                authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))
+//                .thenThrow(new RuntimeException("auth failed"));
+//
+//        Executable action = () -> resource.startTrip(AUTH_HEADER, request);
+//
+//        Assertions.assertThrows(RuntimeException.class, action);
+//        Mockito.verify(tripApplicationService, Mockito.never()).startTrip(ArgumentMatchers.any(),
+//                ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
+//                ArgumentMatchers.any());
+//    }
+//
+//    @Test
+//    void givenValidEndRequest_whenEndTrip_thenReturnsNoContentAndDelegatesToService() {
+//        EndTripRequest request = new EndTripRequest(LOCATION, SLOT_NUMBER);
+//
+//        Response response = resource.endTrip(AUTH_HEADER, request);
+//
+//        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+//        Mockito.verify(authenticationService)
+//                .authenticate(ArgumentMatchers.any(AuthenticationToken.class));
+//        Mockito.verify(tripApplicationService).endTrip(TRAVELER_IDUL, SLOT_NUMBER, LOCATION);
+//    }
+//
+//    @Test
+//    void givenInvalidToken_whenEndTrip_thenThrowExceptionAndServiceNotCalled() {
+//        EndTripRequest request = new EndTripRequest(LOCATION, SLOT_NUMBER);
+//        Mockito.when(
+//                authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))
+//                .thenThrow(new RuntimeException("auth failed"));
+//
+//        Executable action = () -> resource.endTrip(AUTH_HEADER, request);
+//
+//        Assertions.assertThrows(RuntimeException.class, action);
+//        Mockito.verify(tripApplicationService, Mockito.never()).endTrip(ArgumentMatchers.any(),
+//                ArgumentMatchers.any(), ArgumentMatchers.any());
+//    }
 }

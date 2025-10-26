@@ -33,8 +33,7 @@ public class TripResource {
         AuthenticationToken token = AuthenticationToken.from(tokenHeader);
         Idul idul = authenticationService.authenticate(token);
 
-        tripApplicationService.startTrip(idul, request.ridePermitId(), request.unlockCode(),
-                request.location(), request.slotNumber());
+        //tripApplicationService.startTrip
 
         return Response.ok().build();
     }
@@ -44,9 +43,6 @@ public class TripResource {
     public Response endTrip(@HeaderParam("Authorization") String tokenHeader,
             @Valid EndTripRequest request) {
         AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-
-        tripApplicationService.endTrip(idul, request.slotNumber(), request.location());
 
         return Response.noContent().build();
     }
