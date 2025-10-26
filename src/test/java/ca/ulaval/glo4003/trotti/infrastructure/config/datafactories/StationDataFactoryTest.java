@@ -80,7 +80,7 @@ class StationDataFactoryTest {
     }
 
     @Test
-    void givenStationData_whenRun_thenCalculatesInitialScooterCountFromStation() {
+    void givenStationData_whenRun_thenCreatesScootersWithInitialScooterCountFromStation() {
         StationDataRecord record = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
         when(stationFactory.create(any(Location.class), eq(A_CAPACITY))).thenReturn(mockStation);
         when(mockStation.calculateInitialScooterCount()).thenReturn(EXPECTED_INITIAL_SCOOTER_COUNT);
