@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
+import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.api.trip.dto.UnlockCodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,10 +30,12 @@ public interface UnlockCodeResource {
                                     schema = @Schema(implementation = UnlockCodeResponse.class))),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized: token manquant ou erroné",
-                            content = @Content),
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Ride permit non trouvé/non active pour cette session",
-                            content = @Content)})
+                            content = @Content(
+                                    schema = @Schema(implementation = UnlockCodeResponse.class)))})
     Response requestUnlockCode(
             @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
             @HeaderParam("Authorization") String tokenRequest,

@@ -14,15 +14,15 @@ public record CreateAccountRequest(
         String birthDate,
 
         @NotBlank(message = "Gender is required")
-        @Schema(description = "Genre de l'utilisateur", example = "masculin", requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "Genre de l'utilisateur", example = "MALE", requiredMode = Schema.RequiredMode.REQUIRED)
         String gender,
 
         @NotBlank(message = "IDUL is required")
-        @Schema(description = "Identifiant Ulaval (IDUL)", example = "abcd1234", requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "Identifiant Ulaval (IDUL)", example = "user123", requiredMode = Schema.RequiredMode.REQUIRED)
         String idul,
 
         @NotBlank(message = "Email is required")
-        @Schema(description = "Adresse courriel de l'utilisateur", example = "utilisateur@exemple.com", format = "email", requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "Adresse courriel de l'utilisateur", example = "utilisateur@ulaval.ca", format = "email", requiredMode = Schema.RequiredMode.REQUIRED)
         String email,
 
         @NotBlank(message = "Password is required")

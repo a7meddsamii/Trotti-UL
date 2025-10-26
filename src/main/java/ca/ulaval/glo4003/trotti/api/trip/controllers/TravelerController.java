@@ -25,7 +25,7 @@ public class TravelerController implements TravelerResource {
         AuthenticationToken token = AuthenticationToken.from(tokenRequest);
         Idul idul = authenticationService.authenticate(token);
 
-        List<RidePermitDto> ridePermits = ridePermitActivationService.getRidePermit(idul);
+        List<RidePermitDto> ridePermits = ridePermitActivationService.getRidePermits(idul);
 
         return Response.ok(ridePermits).build();
     }
