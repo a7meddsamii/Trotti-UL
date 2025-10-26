@@ -66,7 +66,7 @@ class TripApplicationServiceTest {
         station = Mockito.mock(Station.class);
 
         clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
-        unlockCode = UnlockCode.generateFromTravelerId(TRAVELER_IDUL, clock);
+        unlockCode = UnlockCode.generateFromTravelerId(TRAVELER_IDUL);
 
         Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL)).thenReturn(traveler);
         Mockito.when(stationRepository.findByLocation(STATION_LOCATION)).thenReturn(station);

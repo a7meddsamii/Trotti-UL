@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.UnlockCodeException;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
-import java.time.Clock;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,6 @@ class UnlockCodeServiceTest {
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
     private static UnlockCode storedUnlockCode;
     private static UnlockCode providedUnlockCode;
-    private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;
     private UnlockCodeService unlockCodeService;
@@ -25,7 +23,7 @@ class UnlockCodeServiceTest {
     @BeforeEach
     void setup() {
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
-        unlockCodeService = new UnlockCodeService(unlockCodeStore, NOW);
+        unlockCodeService = new UnlockCodeService(unlockCodeStore);
         storedUnlockCode = Mockito.mock(UnlockCode.class);
         providedUnlockCode = Mockito.mock(UnlockCode.class);
     }

@@ -33,7 +33,7 @@ public class TripResource {
         AuthenticationToken token = AuthenticationToken.from(tokenHeader);
         Idul idul = authenticationService.authenticate(token);
 
-        //tripApplicationService.startTrip
+        // tripApplicationService.startTrip
 
         return Response.ok().build();
     }

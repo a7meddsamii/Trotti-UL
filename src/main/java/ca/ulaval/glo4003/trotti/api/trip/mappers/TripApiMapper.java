@@ -1,14 +1,7 @@
 package ca.ulaval.glo4003.trotti.api.trip.mappers;
 
-import ca.ulaval.glo4003.trotti.api.trip.dto.requests.EndTripRequest;
-import ca.ulaval.glo4003.trotti.api.trip.dto.requests.StartTripRequest;
-import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
-import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 
 public class TripApiMapper {
@@ -19,17 +12,16 @@ public class TripApiMapper {
         this.clock = clock;
     }
 
-//    public StartTripDto toStartTripDto(StartTripRequest request) {
-//        if (request == null) {
-//            throw new InvalidParameterException("StartTripRequest cannot be null");
-//        }
-//        RidePermitId ridePermitId = RidePermitId.from(request.ridePermitId());
-//        UnlockCode unlockCode =
-//
-//
-//        return new StartTripDto(ridePermitId, unlockCode, location, slotNumber);
-//    }
-
+    // public StartTripDto toStartTripDto(StartTripRequest request) {
+    // if (request == null) {
+    // throw new InvalidParameterException("StartTripRequest cannot be null");
+    // }
+    // RidePermitId ridePermitId = RidePermitId.from(request.ridePermitId());
+    // UnlockCode unlockCode =
+    //
+    //
+    // return new StartTripDto(ridePermitId, unlockCode, location, slotNumber);
+    // }
 
     private SlotNumber parseSlotNumber(String slotNumberValue) {
         try {
