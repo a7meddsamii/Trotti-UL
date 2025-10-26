@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 class UnlockCodeServiceTest {
 
     private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static UnlockCode VALID_CODE_VALUE;
-    private static UnlockCode INVALID_CODE_VALUE;
+    private static UnlockCode storedUnlockCode;
+    private static UnlockCode providedUnlockCode;
     private static final Clock NOW = Clock.systemUTC();
 
     private UnlockCodeStore unlockCodeStore;
@@ -26,8 +26,8 @@ class UnlockCodeServiceTest {
     void setup() {
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
         unlockCodeService = new UnlockCodeService(unlockCodeStore, NOW);
-        VALID_CODE_VALUE = Mockito.mock(UnlockCode.class);
-        INVALID_CODE_VALUE = Mockito.mock(UnlockCode.class);
+        storedUnlockCode = Mockito.mock(UnlockCode.class);
+        providedUnlockCode = Mockito.mock(UnlockCode.class);
     }
 
     @Test
@@ -52,40 +52,54 @@ class UnlockCodeServiceTest {
     }
 
     @Test
-    void givenInvalidCodeForTraveler_whenValidateCode_thenThrowsUnlockCodeException() {
-        Mockito.when(unlockCodeStore.isValid(INVALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(false);
+    void givenNoStoredUnlockCode_whenValidateAndRevoke_thenThrowsUnlockCodeException() {
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID)).thenReturn(Optional.empty());
 
-        Executable validation =
-                () -> unlockCodeService.validateAndRevoke(INVALID_CODE_VALUE, A_TRAVELER_ID);
+        Executable action =
+                () -> unlockCodeService.validateAndRevoke(providedUnlockCode, A_TRAVELER_ID);
 
-        Assertions.assertThrows(UnlockCodeException.class, validation);
+        Assertions.assertThrows(UnlockCodeException.class, action);
     }
 
     @Test
-    void givenValidCodeAndTravelerId_whenValidateCode_thenCallsUnlockCodeStoreWithCorrectParameters() {
-        Mockito.when(unlockCodeStore.isValid(VALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(true);
+    void givenStoredUnlockCodeThatIsInvalid_whenValidateAndRevoke_thenThrowsUnlockCodeException() {
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID))
+                .thenReturn(Optional.of(storedUnlockCode));
+        Mockito.when(
+                storedUnlockCode.belongsToTravelerAndIsValid(providedUnlockCode, A_TRAVELER_ID))
+                .thenReturn(false);
 
-        unlockCodeService.validateAndRevoke(VALID_CODE_VALUE, A_TRAVELER_ID);
+        Executable action =
+                () -> unlockCodeService.validateAndRevoke(providedUnlockCode, A_TRAVELER_ID);
 
-        Mockito.verify(unlockCodeStore).isValid(VALID_CODE_VALUE, A_TRAVELER_ID);
+        Assertions.assertThrows(UnlockCodeException.class, action);
+        Mockito.verify(unlockCodeStore, Mockito.never()).revoke(A_TRAVELER_ID);
     }
 
     @Test
-    void givenValidCodeAndTravelerId_whenValidateCode_thenNoExceptionIsThrown() {
-        Mockito.when(unlockCodeStore.isValid(VALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(true);
+    void givenStoredUnlockCodeThatIsValid_whenValidateAndRevoke_thenRevokesUnlockCode() {
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID))
+                .thenReturn(Optional.of(storedUnlockCode));
+        Mockito.when(
+                storedUnlockCode.belongsToTravelerAndIsValid(providedUnlockCode, A_TRAVELER_ID))
+                .thenReturn(true);
 
-        Executable validation =
-                () -> unlockCodeService.validateAndRevoke(VALID_CODE_VALUE, A_TRAVELER_ID);
-
-        Assertions.assertDoesNotThrow(validation);
-    }
-
-    @Test
-    void givenValidCodeAndTravelerId_whenValidateCode_thenUnlockCodeIsRevokedAfterValidation() {
-        Mockito.when(unlockCodeStore.isValid(VALID_CODE_VALUE, A_TRAVELER_ID)).thenReturn(true);
-
-        unlockCodeService.validateAndRevoke(VALID_CODE_VALUE, A_TRAVELER_ID);
+        unlockCodeService.validateAndRevoke(providedUnlockCode, A_TRAVELER_ID);
 
         Mockito.verify(unlockCodeStore).revoke(A_TRAVELER_ID);
+    }
+
+    @Test
+    void givenStoredUnlockCodeThatIsValid_whenValidateAndRevoke_thenNoExceptionIsThrown() {
+        Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID))
+                .thenReturn(Optional.of(storedUnlockCode));
+        Mockito.when(
+                storedUnlockCode.belongsToTravelerAndIsValid(providedUnlockCode, A_TRAVELER_ID))
+                .thenReturn(true);
+
+        Executable action =
+                () -> unlockCodeService.validateAndRevoke(providedUnlockCode, A_TRAVELER_ID);
+
+        Assertions.assertDoesNotThrow(action);
     }
 }

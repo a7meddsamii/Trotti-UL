@@ -62,15 +62,33 @@ class UnlockCodeTest {
     }
 
     @Test
-    void givenCorrectCodeValue_whenIsCorrectValue_thenReturnsTrue() {
-        Assertions.assertTrue(unlockCode.isCorrectValue(unlockCode));
+    void givenSameCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
+        Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
     }
 
     @Test
-    void givenDifferentCodeValue_whenIsCorrectValue_thenReturnsFalse() {
-        UnlockCode differentUnlockCode =
-                UnlockCode.generateFromTravelerId(ANOTHER_TRAVELER_ID, clock);
+    void givenDifferentCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
+        UnlockCode differentUnlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID, clock);
 
-        Assertions.assertFalse(unlockCode.isCorrectValue(differentUnlockCode));
+        Assertions.assertFalse(
+                unlockCode.belongsToTravelerAndIsValid(differentUnlockCode, A_TRAVELER_ID));
+    }
+
+    @Test
+    void givenDifferentTravelerId_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
+        Assertions.assertFalse(
+                unlockCode.belongsToTravelerAndIsValid(unlockCode, ANOTHER_TRAVELER_ID));
+    }
+
+    @Test
+    void givenExpiredUnlockCode_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
+        Mockito.when(clock.instant()).thenReturn(FUTURE_TIME_EXPIRED);
+
+        Assertions.assertFalse(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
+    }
+
+    @Test
+    void givenMatchingTravelerAndCodeAndNotExpired_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
+        Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
     }
 }

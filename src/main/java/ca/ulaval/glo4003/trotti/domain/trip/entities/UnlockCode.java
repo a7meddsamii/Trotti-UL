@@ -50,7 +50,11 @@ public class UnlockCode {
         return clock.instant().isAfter(expiresAt);
     }
 
-    public boolean isCorrectValue(UnlockCode codeValue) {
-        return this.code.equals(codeValue.getCode());
+    private boolean isCorrectValue(UnlockCode unlockCode) {
+        return this.code.equals(unlockCode.getCode());
+    }
+
+    public boolean belongsToTravelerAndIsValid(UnlockCode unlockCode, Idul travelerId) {
+        return this.travelerId.equals(travelerId) && isCorrectValue(unlockCode) && !isExpired();
     }
 }

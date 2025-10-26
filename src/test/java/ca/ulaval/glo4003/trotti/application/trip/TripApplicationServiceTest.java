@@ -17,12 +17,10 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +34,8 @@ class TripApplicationServiceTest {
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
-    private static final LocalDateTime EXPECTED_TIME = LocalDateTime.ofInstant(FIXED_INSTANT, ZoneOffset.UTC);
+    private static final LocalDateTime EXPECTED_TIME =
+            LocalDateTime.ofInstant(FIXED_INSTANT, ZoneOffset.UTC);
 
     private TravelerRepository travelerRepository;
     private StationRepository stationRepository;
@@ -45,13 +44,11 @@ class TripApplicationServiceTest {
     private UnlockCodeService unlockCodeService;
     private TripApplicationService tripApplicationService;
 
-
     private Traveler traveler;
     private Scooter scooter;
     private Station station;
     private Clock clock;
     private UnlockCode unlockCode;
-
 
     @BeforeEach
     void setUp() {
@@ -139,20 +136,17 @@ class TripApplicationServiceTest {
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsDockedAtStation() {
         Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
-        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION),
-                Mockito.eq(EXPECTED_TIME));
+        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
     }
 
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenCompletedTripIsSaved() {
         Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
@@ -170,13 +164,10 @@ class TripApplicationServiceTest {
         Assertions.assertThrows(TravelerException.class, action);
     }
 
-
-
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenTravelerIsUpdated() {
         Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
@@ -197,8 +188,7 @@ class TripApplicationServiceTest {
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsSaved() {
         Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
@@ -208,8 +198,7 @@ class TripApplicationServiceTest {
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenStationIsSaved() {
         Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME)))
-                .thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(TRAVELER_IDUL, SLOT_NUMBER, STATION_LOCATION);
 
