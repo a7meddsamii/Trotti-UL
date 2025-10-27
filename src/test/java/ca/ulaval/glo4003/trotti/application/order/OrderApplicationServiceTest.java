@@ -38,10 +38,7 @@ class OrderApplicationServiceTest {
     private static final String VALID_CVV = "123";
     private static final String VALID_CARD_NUMBER = "4111111111111111";
     private static final String VALID_CARD_HOLDER = "John Doe";
-    private static final String ALTERNATE_CVV = "321";
     private static final String NO_SAVED_PAYMENT_METHOD_MSG = "No saved payment method";
-    private static final String INVALID_PAYMENT_METHOD_MSG =
-            "Invalid or incomplete payment method information";
 
     private BuyerRepository buyerRepository;
     private PassRepository passRepository;
