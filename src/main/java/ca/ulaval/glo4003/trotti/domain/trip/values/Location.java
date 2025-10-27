@@ -49,7 +49,7 @@ public abstract class Location {
 
     @Override
     public int hashCode() {
-        return Objects.hash(building, spotName);
+        return Objects.hash(building);
     }
 
     @Override
