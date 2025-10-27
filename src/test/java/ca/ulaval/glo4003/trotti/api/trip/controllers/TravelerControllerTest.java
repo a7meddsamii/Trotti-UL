@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-class TravelerResourceTest {
+class TravelerControllerTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
     private static final String VALID_IDUL = "Equipe10";
