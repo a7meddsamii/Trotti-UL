@@ -13,13 +13,14 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderController;
 import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
-import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.TripResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeController;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
-import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 

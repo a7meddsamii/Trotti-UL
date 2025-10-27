@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
-import ca.ulaval.glo4003.trotti.api.trip.dto.UnlockCodeResponse;
+import ca.ulaval.glo4003.trotti.api.trip.dto.responses.UnlockCodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
