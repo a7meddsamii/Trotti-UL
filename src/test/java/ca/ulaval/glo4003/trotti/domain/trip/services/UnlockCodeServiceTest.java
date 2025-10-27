@@ -73,28 +73,30 @@ class UnlockCodeServiceTest {
     }
 
     @Test
-    void givenStoredUnlockCodeThatIsValid_whenRevoke_thenRevokesUnlockCode() {
+    void givenStoredUnlockCodeThatMatches_whenRevoke_thenRevokesUnlockCode() {
+        UnlockCode storedUnlockCode = createUnlockCodeForTraveler(A_TRAVELER_ID);
         Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID))
                 .thenReturn(Optional.of(storedUnlockCode));
-        Mockito.when(
-                storedUnlockCode.belongsToTravelerAndIsValid(providedUnlockCode, A_TRAVELER_ID))
-                .thenReturn(true);
 
-        unlockCodeService.revoke(providedUnlockCode);
+        unlockCodeService.revoke(storedUnlockCode);
 
         Mockito.verify(unlockCodeStore).revoke(A_TRAVELER_ID);
     }
 
     @Test
-    void givenStoredUnlockCodeThatIsValid_whenRevoke_thenNoExceptionIsThrown() {
+    void givenStoredUnlockCodeThatMatches_whenRevoke_thenNoExceptionIsThrown() {
+        UnlockCode storedUnlockCode = createUnlockCodeForTraveler(A_TRAVELER_ID);
         Mockito.when(unlockCodeStore.getByTravelerId(A_TRAVELER_ID))
                 .thenReturn(Optional.of(storedUnlockCode));
-        Mockito.when(
-                storedUnlockCode.belongsToTravelerAndIsValid(providedUnlockCode, A_TRAVELER_ID))
-                .thenReturn(true);
 
-        Executable action = () -> unlockCodeService.revoke(providedUnlockCode);
+        Executable action = () -> unlockCodeService.revoke(storedUnlockCode);
 
         Assertions.assertDoesNotThrow(action);
+    }
+
+    private UnlockCode createUnlockCodeForTraveler(Idul travelerId) {
+        UnlockCode unlockCode = Mockito.mock(UnlockCode.class);
+        Mockito.when(unlockCode.getTravelerId()).thenReturn(travelerId);
+        return unlockCode;
     }
 }
