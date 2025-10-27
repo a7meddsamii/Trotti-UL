@@ -13,10 +13,9 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderController;
 import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
-import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerController;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
-import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeController;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
+import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
@@ -29,10 +28,10 @@ public class ResourceLoader extends Bootstrapper {
     public void load() {
         loadAccountResource();
         loadAuthenticationResource();
-        loadTravelerResource();
         loadCartResource();
         loadOrderResource();
         loadUnlockCodeResource();
+        loadTripResource();
         loadHeartbeatResource();
     }
 
@@ -56,16 +55,6 @@ public class ResourceLoader extends Bootstrapper {
                 new AuthenticationController(accountApplicationService);
 
         this.resourceLocator.register(AuthenticationResource.class, authenticationController);
-    }
-
-    private void loadTravelerResource() {
-        RidePermitActivationApplicationService ridePermitActivationApplicationService =
-                this.resourceLocator.resolve(RidePermitActivationApplicationService.class);
-        AuthenticationService authenticationService =
-                this.resourceLocator.resolve(AuthenticationService.class);
-
-        this.resourceLocator.register(TravelerResource.class, new TravelerController(
-                ridePermitActivationApplicationService, authenticationService));
     }
 
     private void loadCartResource() {
@@ -100,5 +89,17 @@ public class ResourceLoader extends Bootstrapper {
         UnlockCodeResource unlockCodeController =
                 new UnlockCodeController(authenticationService, unlockCodeApplicationService);
         this.resourceLocator.register(UnlockCodeResource.class, unlockCodeController);
+    }
+
+    private void loadTripResource() {
+        TripApiMapper tripApiMapper = resourceLocator.resolve(TripApiMapper.class);
+        TripApplicationService tripApplicationService =
+                resourceLocator.resolve(TripApplicationService.class);
+        AuthenticationService authenticationService =
+                resourceLocator.resolve(AuthenticationService.class);
+
+        TripResource tripResource =
+                new TripResource(tripApplicationService, authenticationService, tripApiMapper);
+        resourceLocator.register(TripResource.class, tripResource);
     }
 }

@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.application.trip.dto.RidePermitDto;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
@@ -54,11 +52,5 @@ public class RidePermitActivationApplicationService {
         if (!newlyActivatedRidePermits.isEmpty()) {
             ridePermitNotificationService.notify(traveler.getEmail(), newlyActivatedRidePermits);
         }
-    }
-
-    public List<RidePermitDto> getRidePermits(Idul idul) {
-        Traveler traveler = travelerRepository.findByIdul(idul);
-
-        return ridePermitMapper.toDto(traveler.getWalletPermits());
     }
 }

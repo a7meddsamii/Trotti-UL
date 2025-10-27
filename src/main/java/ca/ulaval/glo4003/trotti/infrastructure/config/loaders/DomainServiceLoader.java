@@ -16,7 +16,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.infrastructure.order.services.TextInvoiceFormatServiceAdapter;
 import ca.ulaval.glo4003.trotti.infrastructure.trip.gateway.RidePermitHistoryGatewayAdapter;
-import java.time.Clock;
 
 public class DomainServiceLoader extends Bootstrapper {
     @Override
@@ -54,8 +53,7 @@ public class DomainServiceLoader extends Bootstrapper {
 
     private void loadUnlockCodeDomainServices() {
         UnlockCodeStore unlockCodeStore = this.resourceLocator.resolve(UnlockCodeStore.class);
-        Clock clock = this.resourceLocator.resolve(Clock.class);
-        UnlockCodeService unlockCodeService = new UnlockCodeService(unlockCodeStore, clock);
+        UnlockCodeService unlockCodeService = new UnlockCodeService(unlockCodeStore);
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         UnlockCodeNotificationService unlockCodeNotificationService =
                 new UnlockCodeNotificationService(emailService);

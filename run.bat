@@ -16,6 +16,7 @@ set IMAGE_NAME=trottiul
 set RESOURCE_DIR=%cd%\src\main\resources\data\
 set EMPLOYEES_IDUL_FILE=Employe.e.s.csv
 set SEMESTER_FILE=semesters-252627.json
+set STATION_FILE=campus-delivery-location.json
 set CONTAINER_NAME=trottiul_container
 
 REM Stop and remove any existing container with the same name
@@ -34,6 +35,7 @@ docker run ^
     --env-file config.env ^
     -v "%RESOURCE_DIR%%EMPLOYEES_IDUL_FILE%:/app/data/Employe.e.s.csv" ^
     -v "%RESOURCE_DIR%%SEMESTER_FILE%:/app/data/semesters-252627.json" ^
+    -v "%RESOURCE_DIR%%STATION_FILE%:/app/data/campus-delivery-location.json" ^
     --name %CONTAINER_NAME% ^
     -p 8080:8080 ^
     %IMAGE_NAME%

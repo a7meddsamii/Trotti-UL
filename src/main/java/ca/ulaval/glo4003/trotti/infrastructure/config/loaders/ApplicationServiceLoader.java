@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.application.order.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
@@ -26,10 +27,15 @@ import ca.ulaval.glo4003.trotti.domain.trip.communication.services.UnlockCodeNot
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
+
+import java.time.Clock;
 import java.util.List;
 
 public class ApplicationServiceLoader extends Bootstrapper {
@@ -40,6 +46,7 @@ public class ApplicationServiceLoader extends Bootstrapper {
         loadRidePermitActivationApplicationService();
         loadCartApplicationService();
         loadUnlockCodeApplicationService();
+        loadTripApplicationService();
     }
 
     private void loadAccountApplicationService() {
@@ -114,4 +121,23 @@ public class ApplicationServiceLoader extends Bootstrapper {
         this.resourceLocator.register(UnlockCodeApplicationService.class,
                 unlockCodeApplicationService);
     }
+
+    private void loadTripApplicationService() {
+        TravelerRepository travelerRepository =
+                this.resourceLocator.resolve(TravelerRepository.class);
+        StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+        ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
+        TripRepository tripRepository = this.resourceLocator.resolve(TripRepository.class);
+        UnlockCodeService unlockCodeService = this.resourceLocator.resolve(UnlockCodeService.class);
+        Clock clock = this.resourceLocator.resolve(Clock.class);
+        TripApplicationService tripApplicationService = new TripApplicationService(
+                travelerRepository,
+                stationRepository,
+                scooterRepository,
+                tripRepository,
+                unlockCodeService,
+                clock);
+        this.resourceLocator.register(TripApplicationService.class, tripApplicationService);
+    }
+
 }
