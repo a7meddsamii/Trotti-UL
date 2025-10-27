@@ -26,14 +26,14 @@ public class UnlockCodeService {
         return unlockCode;
     }
 
-    public void validateAndRevoke(UnlockCode unlockCode, Idul travelerId) {
-        UnlockCode storedCode = unlockCodeStore.getByTravelerId(travelerId).orElseThrow(
-                () -> new UnlockCodeException("Unlock code not found or is expired for traveler"));
+    public void revoke(UnlockCode unlockCode) {
+        Optional<UnlockCode> storedCode =
+                unlockCodeStore.getByTravelerId(unlockCode.getTravelerId());
 
-        if (!storedCode.belongsToTravelerAndIsValid(unlockCode, travelerId)) {
+        if (storedCode.isEmpty() || !storedCode.get().equals(unlockCode)) {
             throw new UnlockCodeException("Invalid or expired unlock code");
         }
 
-        unlockCodeStore.revoke(travelerId);
+        unlockCodeStore.revoke(unlockCode.getTravelerId());
     }
 }

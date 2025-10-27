@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.api.trip.dto.requests;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import jakarta.validation.constraints.NotBlank;
 
 public record EndTripRequest(
-        Location location,
-        SlotNumber slotNumber
+        @NotBlank(message = "Location code is required") String location,
+        @NotBlank(message = "Slot number is required") String slotNumber
 ) {
 }

@@ -40,15 +40,16 @@ public class TripApplicationService {
     }
 
     public void startTrip(StartTripDto startTripDto) {
+        unlockCodeService.revoke(startTripDto.unlockCode());
         Traveler traveler = travelerRepository.findByIdul(startTripDto.idul());
         Station station = stationRepository.findByLocation(startTripDto.location());
-        unlockCodeService.validateAndRevoke(startTripDto.unlockCode(), startTripDto.idul());
         ScooterId scooterId = station.getScooter(startTripDto.slotNumber());
 
+        LocalDateTime startTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
         Scooter scooter = scooterRepository.findById(scooterId);
-        scooter.undock(LocalDateTime.now(clock));
+        scooter.undock(startTime);
 
-        traveler.startTraveling(LocalDateTime.now(clock), startTripDto.ridePermitId(), scooterId);
+        traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
 
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
@@ -61,9 +62,10 @@ public class TripApplicationService {
         Station station = stationRepository.findByLocation(endTripDto.location());
         ScooterId scooterId = station.getScooter(endTripDto.slotNumber());
         Scooter scooter = scooterRepository.findById(scooterId);
+        LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        scooter.dockAt(endTripDto.location(), LocalDateTime.now(clock));
-        Trip completetrip = traveler.stopTraveling(LocalDateTime.now(clock));
+        scooter.dockAt(endTripDto.location(), endTime);
+        Trip completetrip = traveler.stopTraveling(endTime);
 
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);

@@ -101,7 +101,7 @@ class TripApplicationServiceTest {
     void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidatedAndRevoked() {
         tripApplicationService.startTrip(startTripDto);
 
-        Mockito.verify(unlockCodeService).validateAndRevoke(unlockCode, TRAVELER_IDUL);
+        Mockito.verify(unlockCodeService).revoke(unlockCode);
     }
 
     @Test

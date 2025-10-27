@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Random;
 
 public class UnlockCode {
@@ -33,7 +34,24 @@ public class UnlockCode {
         return travelerId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        UnlockCode that = (UnlockCode) o;
+        return Objects.equals(travelerId, that.travelerId) && Objects.equals(code, that.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(travelerId, code);
+    }
+
     public boolean belongsToTravelerAndIsValid(UnlockCode unlockCode, Idul travelerId) {
         return this.travelerId.equals(travelerId) && this.code.equals(unlockCode.getCode());
+    }
+
+    public static UnlockCode generateFromCode(String code, Idul travelerId) {
+        return new UnlockCode(code, travelerId);
     }
 }

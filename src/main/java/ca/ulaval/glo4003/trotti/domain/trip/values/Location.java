@@ -21,6 +21,10 @@ public abstract class Location {
         return new StationLocation(building, spotName);
     }
 
+    public static Location of(String building) {
+        return new StationLocation(building, "");
+    }
+
     public boolean isEmpty() {
         return building.isBlank() && spotName.isBlank();
     }
@@ -32,7 +36,7 @@ public abstract class Location {
 
         Location location = (Location) o;
 
-        return building.equals(location.building) && spotName.equals(location.spotName);
+        return building.equals(location.building);
     }
 
     @Override
