@@ -9,27 +9,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class UnlockCodeResourceTest {
+class UnlockCodeControllerTest {
 
     private static final String AUTH_HEADER = "Bearer test.jwt.token";
     private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private UnlockCodeApplicationService unlockCodeApplicationService;
-    private AuthenticationService authenticationService;
-    private UnlockCodeResource unlockCodeResource;
+    private UnlockCodeResource unlockCodeController;
 
     @BeforeEach
     void setup() {
         unlockCodeApplicationService = Mockito.mock(UnlockCodeApplicationService.class);
-        authenticationService = Mockito.mock(AuthenticationService.class);
+        AuthenticationService authenticationService = Mockito.mock(AuthenticationService.class);
 
-        unlockCodeResource =
-                new UnlockCodeResource(authenticationService, unlockCodeApplicationService);
+        unlockCodeController =
+                new UnlockCodeController(authenticationService, unlockCodeApplicationService);
     }
 
     @Test
     void whenRequestUnlockCode_thenServiceGeneratesUnlockCode() {
-        unlockCodeResource.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
+        unlockCodeController.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
 
         Mockito.verify(unlockCodeApplicationService).generateUnlockCode(Mockito.any(),
                 Mockito.any());
@@ -40,7 +39,7 @@ class UnlockCodeResourceTest {
         Mockito.doNothing().when(unlockCodeApplicationService).generateUnlockCode(Mockito.any(),
                 Mockito.any());
 
-        Response response = unlockCodeResource.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
+        Response response = unlockCodeController.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
 
         Assertions.assertEquals(200, response.getStatus());
     }

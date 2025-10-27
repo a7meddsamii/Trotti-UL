@@ -19,7 +19,6 @@ public class RidePermitActivationJob implements Job {
             RidePermitActivationApplicationService service = ServerComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.updateActivatedRidePermits();
-            LOGGER.info("RidePermitActivationJob executed");
         } catch (Exception e) {
             LOGGER.error("RidePermitActivationJob failed", e);
             throw new JobExecutionException(e, false);

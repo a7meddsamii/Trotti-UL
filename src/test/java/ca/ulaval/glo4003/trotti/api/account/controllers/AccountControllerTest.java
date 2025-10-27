@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class AccountResourceTest {
+class AccountControllerTest {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
 
@@ -21,7 +21,7 @@ class AccountResourceTest {
     private AccountDto mappedDto;
     private CreateAccountRequest request;
 
-    private AccountResource accountResource;
+    private AccountResource accountController;
 
     @BeforeEach
     void setUp() {
@@ -31,7 +31,7 @@ class AccountResourceTest {
         request = buildValidRequest();
         Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(mappedDto);
 
-        accountResource = new AccountResource(accountApplicationService, accountApiMapper);
+        accountController = new AccountController(accountApplicationService, accountApiMapper);
     }
 
     @Test
@@ -39,7 +39,7 @@ class AccountResourceTest {
         AccountDto dto = Mockito.mock(AccountDto.class);
         Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(dto);
 
-        Response response = accountResource.createAccount(request);
+        Response response = accountController.createAccount(request);
 
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
@@ -47,7 +47,7 @@ class AccountResourceTest {
 
     @Test
     void givenValidCreateAccountRequest_whenCreateAccount_thenSetsLocationHeaderWithRequestIdul() {
-        Response response = accountResource.createAccount(request);
+        Response response = accountController.createAccount(request);
 
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
@@ -56,7 +56,7 @@ class AccountResourceTest {
     @Test
     void givenValidRequest_whenCreateAccount_thenServiceIsCalled() {
 
-        accountResource.createAccount(request);
+        accountController.createAccount(request);
 
         Mockito.verify(accountApplicationService).createAccount(mappedDto);
     }
@@ -64,7 +64,7 @@ class AccountResourceTest {
     @Test
     void givenValidCreateAccountRequest_whenCreateAccount_thenMapperIsCalledWithRequest() {
 
-        accountResource.createAccount(request);
+        accountController.createAccount(request);
 
         Mockito.verify(accountApiMapper).toAccountDto(request);
     }

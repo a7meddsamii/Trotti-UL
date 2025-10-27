@@ -1,88 +1,100 @@
 package ca.ulaval.glo4003.trotti.api.order.controllers;
 
+import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.api.order.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.api.order.dto.responses.PassListResponse;
-import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
-import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
-import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/cart")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class CartResource {
-
-    private final CartApplicationService cartApplicationService;
-    private final AuthenticationService authenticationService;
-    private final PassApiMapper passApiMapper;
-
-    public CartResource(
-            CartApplicationService cartApplicationService,
-            AuthenticationService authenticationService,
-            PassApiMapper passApiMapper) {
-        this.cartApplicationService = cartApplicationService;
-        this.authenticationService = authenticationService;
-        this.passApiMapper = passApiMapper;
-    }
+@Tag(name = "Cart", description = "Endpoints for managing the shopping cart")
+public interface CartResource {
 
     @GET
-    public Response getCart(@HeaderParam("Authorization") String tokenRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        List<PassDto> cart = cartApplicationService.getCart(idul);
-
-        PassListResponse passListResponse = passApiMapper.toPassListResponse(cart);
-
-        return Response.ok(passListResponse).build();
-    }
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get le panier", description = "Retourne le panier courant de l'user",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Panier retourné avec succès",
+                            content = @Content(
+                                    schema = @Schema(implementation = PassListResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response getCart(@HeaderParam("Authorization") String tokenRequest);
 
     @PUT
-    public Response addToCart(@HeaderParam("Authorization") String tokenRequest,
-            @Valid PassListRequest passListRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        List<PassDto> passDtoList = passApiMapper.toPassDtoList(passListRequest);
-        List<PassDto> updatedCart = cartApplicationService.addToCart(idul, passDtoList);
-
-        PassListResponse passListResponse = passApiMapper.toPassListResponse(updatedCart);
-
-        return Response.ok(passListResponse).build();
-    }
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Add des passes au panier",
+            description = "Ajoute une liste de passes dans le panier",
+            requestBody = @RequestBody(description = "Payload avec les passes à ajouter",
+                    required = true,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = PassListRequest.class))),
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Panier mis à jour",
+                            content = @Content(
+                                    schema = @Schema(implementation = PassListResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Request invalide",
+                            content = @Content),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response addToCart(@HeaderParam("Authorization") String tokenRequest,
+            @Valid PassListRequest passListRequest);
 
     @DELETE
     @Path("/{passId}")
-    public Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
-            @PathParam("passId") String passId) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        PassId passIdToRemove = PassId.from(passId);
-        cartApplicationService.removeFromCart(idul, passIdToRemove);
-
-        return Response.noContent().build();
-    }
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Enlève un pass du panier",
+            description = "Supprime le pass identifié par passId du panier — on l'enlève, c'est simple.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Pass enlevé",
+                            content = @Content),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
+            @Parameter(description = "ID du pass à enlever") @PathParam("passId") String passId);
 
     @DELETE
-    public Response clearCart(@HeaderParam("Authorization") String tokenRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        cartApplicationService.clearCart(idul);
-
-        return Response.noContent().build();
-    }
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Clear le panier", description = "Vider le panier au complet.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {@ApiResponse(responseCode = "204", description = "Panier vidé"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response clearCart(@HeaderParam("Authorization") String tokenRequest);
 }

@@ -19,6 +19,7 @@
         <rest-assured.version>5.3.2</rest-assured.version>
         <slf4j.version>2.0.16</slf4j.version>
         <jsonwebtoken.version>0.13.0</jsonwebtoken.version>
+        <io.swagger.core.v3.version>2.2.22</io.swagger.core.v3.version>
     </properties>
 
     <dependencies>
@@ -109,6 +110,29 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Swagger/OpenAPI -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-jakarta</artifactId>
+            <version>${io.swagger.core.v3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-integration-jakarta</artifactId>
+            <version>${io.swagger.core.v3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>${io.swagger.core.v3.version}</version>
+        </dependency>
+        <!-- Swagger UI webjar (for Jetty serving static files) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>5.17.14</version>
         </dependency>
 
         <!-- PasswordHasher -->
@@ -210,10 +234,21 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.17.2</version>
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.17.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>application</finalName>
@@ -367,6 +402,30 @@
                             <!-- exclude junit, we need runtime dependency only -->
                             <includeScope>runtime</includeScope>
                             <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-maven-plugin-jakarta</artifactId>
+                <version>${io.swagger.core.v3.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                        <configuration>
+                            <outputFileName>openapi</outputFileName>
+                            <outputPath>${project.build.directory}</outputPath>
+                            <outputFormat>JSON</outputFormat>
+                            <resourcePackages>
+                                <package>ca.ulaval.glo4003.trotti.api</package>
+                                <package>ca.ulaval.glo4003.trotti.infrastructure.config</package>
+                            </resourcePackages>
+                            <prettyPrint>true</prettyPrint>
                         </configuration>
                     </execution>
                 </executions>

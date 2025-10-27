@@ -1,40 +1,47 @@
 package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
-import ca.ulaval.glo4003.trotti.api.trip.dto.UnlockCodeResponse;
-import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.api.trip.dto.responses.UnlockCodeResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/unlock-code")
-@Produces(MediaType.APPLICATION_JSON)
-public class UnlockCodeResource {
-
-    private final AuthenticationService authenticationService;
-    private final UnlockCodeApplicationService unlockCodeApplicationService;
-
-    public UnlockCodeResource(
-            AuthenticationService authenticationService,
-            UnlockCodeApplicationService unlockCodeApplicationService) {
-        this.authenticationService = authenticationService;
-        this.unlockCodeApplicationService = unlockCodeApplicationService;
-    }
+@Tag(name = "Unlock Code",
+        description = "Endpoint de demande d'un code pour déverrouiller une trottinette")
+public interface UnlockCodeResource {
 
     @POST
     @Path("/{ridePermitId}")
-    public Response requestUnlockCode(@HeaderParam("Authorization") String tokenRequest,
-            @PathParam("ridePermitId") String ridePermitId) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-
-        unlockCodeApplicationService.generateUnlockCode(idul, RidePermitId.from(ridePermitId));
-
-        return Response.ok().entity(
-                new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
-                .build();
-    }
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Demande un unlock code",
+            description = "Génère un code pour déverrouiller la trottinette associée à ridePermitId.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Code de déverrouillage généré avec succès",
+                            content = @Content(
+                                    schema = @Schema(implementation = UnlockCodeResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Ride permit non trouvé/non active pour cette session",
+                            content = @Content(
+                                    schema = @Schema(implementation = UnlockCodeResponse.class)))})
+    Response requestUnlockCode(
+            @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
+            @HeaderParam("Authorization") String tokenRequest,
+            @PathParam("ridePermitId") String ridePermitId);
 }
