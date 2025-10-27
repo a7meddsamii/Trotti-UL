@@ -36,6 +36,10 @@ public class ResourceLoader extends Bootstrapper {
         loadHeartbeatResource();
     }
 
+    private void loadHeartbeatResource() {
+        this.resourceLocator.register(HeartbeatResource.class, new HeartbeatController());
+    }
+
     private void loadAccountResource() {
         AccountApiMapper accountApiMapper = this.resourceLocator.resolve(AccountApiMapper.class);
         AccountApplicationService accountApplicationService =
@@ -96,9 +100,5 @@ public class ResourceLoader extends Bootstrapper {
         UnlockCodeResource unlockCodeController =
                 new UnlockCodeController(authenticationService, unlockCodeApplicationService);
         this.resourceLocator.register(UnlockCodeResource.class, unlockCodeController);
-    }
-
-    private void loadHeartbeatResource() {
-        this.resourceLocator.register(HeartbeatResource.class, new HeartbeatController());
     }
 }

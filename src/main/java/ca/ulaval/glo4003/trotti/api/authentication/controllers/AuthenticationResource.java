@@ -28,7 +28,8 @@ public interface AuthenticationResource {
             description = "Authentifie l'utilisateur avec email et password.",
             requestBody = @RequestBody(description = "Login request (email et password)",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = LoginRequest.class))),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = LoginRequest.class))),
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Authentifié avec succès (returns JWT token)",

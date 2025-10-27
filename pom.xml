@@ -128,6 +128,12 @@
             <artifactId>swagger-annotations-jakarta</artifactId>
             <version>${io.swagger.core.v3.version}</version>
         </dependency>
+        <!-- Swagger UI webjar (for Jetty serving static files) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>5.17.14</version>
+        </dependency>
 
         <!-- PasswordHasher -->
         <dependency>

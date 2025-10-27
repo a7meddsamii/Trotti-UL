@@ -23,6 +23,10 @@ public interface UnlockCodeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Demande un unlock code",
             description = "Génère un code pour déverrouiller la trottinette associée à ridePermitId.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Code de déverrouillage généré avec succès",

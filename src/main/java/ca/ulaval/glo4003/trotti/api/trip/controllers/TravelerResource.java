@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +24,10 @@ public interface TravelerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Obtenir les permis de passes currently actifs",
             description = "Retourne la liste des permis de passees associés au voyageur authentifié, actifs pour la session actuelle.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Permis de passes retournés avec succès",

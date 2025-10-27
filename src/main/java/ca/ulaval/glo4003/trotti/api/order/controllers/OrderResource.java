@@ -23,10 +23,14 @@ public interface OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Confirmer le panier / placer la commande",
             description = "Confirme le panier et tente de placer l'order en utilisant les PaymentInfo fournis.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
             requestBody = @RequestBody(
                     description = "Payment information pour le checkout (card number, card holder, expiration date, cvv)",
                     required = true,
-                    content = @Content(
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = PaymentInfoRequest.class))),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Order placé avec succès",

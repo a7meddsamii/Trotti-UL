@@ -25,7 +25,7 @@ public interface AccountResource {
     @Operation(summary = "Créer un nouveau compte utilisateur",
             description = "Créer un nouveau compte utilisateur avec les infos demandées.",
             requestBody = @RequestBody(description = "Account creation",
-                    content = @Content(
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = CreateAccountRequest.class))),
             responses = {@ApiResponse(responseCode = "201", description = "Compte créé avec succès",
                     headers = {@Header(name = "Location", description = "URI du compte créé",
