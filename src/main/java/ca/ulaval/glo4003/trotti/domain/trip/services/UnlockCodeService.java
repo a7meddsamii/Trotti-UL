@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.trip.services;
 
+import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.UnlockCodeException;
 import ca.ulaval.glo4003.trotti.domain.trip.store.UnlockCodeStore;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
 import java.time.Clock;
 import java.util.Optional;
 
@@ -16,15 +17,25 @@ public class UnlockCodeService {
         this.clock = clock;
     }
 
-    public UnlockCode requestUnlockCode(RidePermitId ridePermitId) {
-        Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByRidePermitId(ridePermitId);
+    public UnlockCode requestUnlockCode(Idul travelerId) {
+        Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByTravelerId(travelerId);
         if (existingUnlockCode.isPresent()) {
             return existingUnlockCode.get();
         }
 
-        UnlockCode unlockCode = UnlockCode.generateFromRidePermit(ridePermitId, clock);
+        UnlockCode unlockCode = UnlockCode.generateFromTravelerId(travelerId, clock);
         unlockCodeStore.store(unlockCode);
 
         return unlockCode;
+    }
+
+    public void validateAndRevoke(UnlockCode unlockCode, Idul travelerId) {
+        UnlockCode storedCode = unlockCodeStore.getByTravelerId(travelerId)
+                .orElseThrow(() -> new UnlockCodeException("No unlock code found for traveler"));
+
+        if (!storedCode.belongsToTravelerAndIsValid(unlockCode, travelerId)) {
+            throw new UnlockCodeException("Invalid or expired unlock code");
+        }
+        unlockCodeStore.revoke(travelerId);
     }
 }
