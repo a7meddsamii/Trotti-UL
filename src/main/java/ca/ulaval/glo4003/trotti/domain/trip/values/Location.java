@@ -29,6 +29,14 @@ public abstract class Location {
         return building.isBlank() && spotName.isBlank();
     }
 
+    public String getBuilding() {
+        return building;
+    }
+
+    public String getSpotName() {
+        return spotName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass())

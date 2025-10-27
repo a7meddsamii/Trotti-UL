@@ -73,10 +73,10 @@ Edit the `config.env` file and add the required variables, for example:
 
 ```env
 TOKEN_EXPIRATION_DURATION=PT60M
-STMP_USER="email@adress.ca"
-STMP_PASS="password"
-STMP_HOST="smtp.example.com"
-STMP_PORT:"587"
+SMTP_USER="email@adress.ca"
+SMTP_PASS="password"
+SMTP_HOST="smtp.example.com"
+SMTP_PORT:"587"
 ```
 Replace the values with information relevant to your setup.
 
