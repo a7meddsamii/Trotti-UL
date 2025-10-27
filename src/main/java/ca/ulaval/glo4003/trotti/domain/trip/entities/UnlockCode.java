@@ -50,8 +50,4 @@ public class UnlockCode {
     public boolean belongsToTravelerAndIsValid(UnlockCode unlockCode, Idul travelerId) {
         return this.travelerId.equals(travelerId) && this.code.equals(unlockCode.getCode());
     }
-
-    public static UnlockCode generateFromCode(String code, Idul travelerId) {
-        return new UnlockCode(code, travelerId);
-    }
 }

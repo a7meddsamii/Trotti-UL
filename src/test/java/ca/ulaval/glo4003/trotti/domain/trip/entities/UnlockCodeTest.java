@@ -42,28 +42,27 @@ class UnlockCodeTest {
         Assertions.assertNotEquals(firstUnlockCode.getCode(), secondUnlockCode.getCode());
     }
 
-    // @Test
-    // void givenSameCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
-    // Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
-    // }
-    //
-    // @Test
-    // void givenDifferentCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
-    // UnlockCode differentUnlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID);
-    //
-    // Assertions.assertFalse(
-    // unlockCode.belongsToTravelerAndIsValid(differentUnlockCode, A_TRAVELER_ID));
-    // }
-    //
-    // @Test
-    // void givenDifferentTravelerId_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
-    // Assertions.assertFalse(
-    // unlockCode.belongsToTravelerAndIsValid(unlockCode, ANOTHER_TRAVELER_ID));
-    // }
-    //
-    // @Test
-    // void
-    // givenMatchingTravelerAndCodeAndNotExpired_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
-    // Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
-    // }
+    @Test
+    void givenSameCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
+        Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
+    }
+
+    @Test
+    void givenDifferentCodeValue_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
+        UnlockCode differentUnlockCode = UnlockCode.generateFromTravelerId(A_TRAVELER_ID);
+
+        Assertions.assertFalse(
+                unlockCode.belongsToTravelerAndIsValid(differentUnlockCode, A_TRAVELER_ID));
+    }
+
+    @Test
+    void givenDifferentTravelerId_whenBelongsToTravelerAndIsValid_thenReturnsFalse() {
+        Assertions.assertFalse(
+                unlockCode.belongsToTravelerAndIsValid(unlockCode, ANOTHER_TRAVELER_ID));
+    }
+
+    @Test
+    void givenMatchingTravelerAndCodeAndNotExpired_whenBelongsToTravelerAndIsValid_thenReturnsTrue() {
+        Assertions.assertTrue(unlockCode.belongsToTravelerAndIsValid(unlockCode, A_TRAVELER_ID));
+    }
 }
