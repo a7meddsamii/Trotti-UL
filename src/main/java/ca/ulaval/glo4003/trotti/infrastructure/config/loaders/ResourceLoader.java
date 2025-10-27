@@ -7,14 +7,12 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.CartResource;
 import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
-import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
-import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
@@ -24,7 +22,6 @@ public class ResourceLoader extends Bootstrapper {
     public void load() {
         loadAccountResource();
         loadAuthenticationResource();
-        loadTravelerResource();
         loadCartResource();
         loadOrderResource();
         loadUnlockCodeResource();
@@ -47,16 +44,6 @@ public class ResourceLoader extends Bootstrapper {
                 new AuthenticationResource(accountApplicationService);
 
         this.resourceLocator.register(AuthenticationResource.class, authenticationResource);
-    }
-
-    private void loadTravelerResource() {
-        RidePermitActivationApplicationService ridePermitActivationApplicationService =
-                this.resourceLocator.resolve(RidePermitActivationApplicationService.class);
-        AuthenticationService authenticationService =
-                this.resourceLocator.resolve(AuthenticationService.class);
-
-        this.resourceLocator.register(TravelerResource.class, new TravelerResource(
-                ridePermitActivationApplicationService, authenticationService));
     }
 
     private void loadCartResource() {
