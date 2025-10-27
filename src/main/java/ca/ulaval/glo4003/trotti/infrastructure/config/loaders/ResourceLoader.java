@@ -8,11 +8,14 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TravelerResource;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
+import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
 import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
 import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
 
@@ -25,6 +28,7 @@ public class ResourceLoader extends Bootstrapper {
         loadCartResource();
         loadOrderResource();
         loadUnlockCodeResource();
+        loadTripResource();
     }
 
     private void loadAccountResource() {
@@ -87,5 +91,17 @@ public class ResourceLoader extends Bootstrapper {
         UnlockCodeResource unlockCodeResource =
                 new UnlockCodeResource(authenticationService, unlockCodeApplicationService);
         this.resourceLocator.register(UnlockCodeResource.class, unlockCodeResource);
+    }
+
+    private void loadTripResource() {
+        TripApiMapper tripApiMapper = resourceLocator.resolve(TripApiMapper.class);
+        TripApplicationService tripApplicationService =
+                resourceLocator.resolve(TripApplicationService.class);
+        AuthenticationService authenticationService =
+                resourceLocator.resolve(AuthenticationService.class);
+
+        TripResource tripResource =
+                new TripResource(tripApplicationService, authenticationService, tripApiMapper);
+        resourceLocator.register(TripResource.class, tripResource);
     }
 }
