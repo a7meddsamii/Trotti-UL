@@ -13,6 +13,7 @@ import ca.ulaval.glo4003.trotti.api.order.controllers.OrderController;
 import ca.ulaval.glo4003.trotti.api.order.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.api.trip.controllers.TripController;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeController;
 import ca.ulaval.glo4003.trotti.api.trip.controllers.UnlockCodeResource;
@@ -99,8 +100,8 @@ public class ResourceLoader extends Bootstrapper {
         AuthenticationService authenticationService =
                 resourceLocator.resolve(AuthenticationService.class);
 
-        TripResource tripResource =
-                new TripResource(tripApplicationService, authenticationService, tripApiMapper);
-        resourceLocator.register(TripResource.class, tripResource);
+        TripResource tripController =
+                new TripController(tripApplicationService, authenticationService, tripApiMapper);
+        resourceLocator.register(TripResource.class, tripController);
     }
 }

@@ -23,7 +23,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +80,8 @@ class TripApplicationServiceTest {
         Mockito.when(traveler.getOngoingTrip()).thenReturn(Optional.of(ongoingTrip));
         Mockito.when(ongoingTrip.getScooterId()).thenReturn(SCOOTER_ID);
         completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class))).thenReturn(completedTrip);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
 
         startTripDto = new StartTripDto(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode, STATION_LOCATION,
                 SLOT_NUMBER);

@@ -34,7 +34,6 @@ import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-
 import java.time.Clock;
 import java.util.List;
 
@@ -130,13 +129,9 @@ public class ApplicationServiceLoader extends Bootstrapper {
         TripRepository tripRepository = this.resourceLocator.resolve(TripRepository.class);
         UnlockCodeService unlockCodeService = this.resourceLocator.resolve(UnlockCodeService.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
-        TripApplicationService tripApplicationService = new TripApplicationService(
-                travelerRepository,
-                stationRepository,
-                scooterRepository,
-                tripRepository,
-                unlockCodeService,
-                clock);
+        TripApplicationService tripApplicationService =
+                new TripApplicationService(travelerRepository, stationRepository, scooterRepository,
+                        tripRepository, unlockCodeService, clock);
         this.resourceLocator.register(TripApplicationService.class, tripApplicationService);
     }
 

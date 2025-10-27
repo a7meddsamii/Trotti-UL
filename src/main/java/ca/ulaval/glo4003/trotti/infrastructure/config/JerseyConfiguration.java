@@ -21,9 +21,7 @@ import org.glassfish.jersey.server.validation.ValidationFeature;
         servers = {@Server(url = "http://localhost:8080/api",
                 description = "Serveur de développement")},
         security = {@SecurityRequirement(name = "auth")})
-@SecurityScheme(name = "auth",
-        type = SecuritySchemeType.APIKEY,
-        in = SecuritySchemeIn.HEADER,
+@SecurityScheme(name = "auth", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER,
         paramName = "Authorization")
 public class JerseyConfiguration extends ResourceConfig {
     private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti.api";

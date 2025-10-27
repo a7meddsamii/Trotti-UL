@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.application.trip;
 
 import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
@@ -65,7 +65,7 @@ public class TripApplicationService {
         Optional<Trip> ongoingTrip = traveler.getOngoingTrip();
 
         if (ongoingTrip.isEmpty()) {
-            throw new TripException("Traveler is not currently on a trip");
+            throw new NotFoundException("Traveler is not currently on a trip");
         }
 
         ScooterId scooterId = ongoingTrip.get().getScooterId();

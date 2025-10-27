@@ -2,59 +2,49 @@ package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
 import ca.ulaval.glo4003.trotti.api.trip.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.api.trip.dto.requests.StartTripRequest;
-import ca.ulaval.glo4003.trotti.api.trip.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.application.trip.TripApplicationService;
-import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
-import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/trips")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class TripResource {
-
-    private final TripApplicationService tripApplicationService;
-    private final AuthenticationService authenticationService;
-    private final TripApiMapper tripApiMapper;
-
-    public TripResource(
-            TripApplicationService tripApplicationService,
-            AuthenticationService authenticationService,
-            TripApiMapper tripApiMapper) {
-        this.tripApplicationService = tripApplicationService;
-        this.authenticationService = authenticationService;
-        this.tripApiMapper = tripApiMapper;
-    }
+@Tag(name = "Trips", description = "Endpoints pour opérations liées aux voyages de voyageur")
+public interface TripResource {
 
     @POST
     @Path("/start")
-    public Response startTrip(@HeaderParam("Authorization") String tokenHeader,
-            @Valid StartTripRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        StartTripDto startTripDto = tripApiMapper.toStartTripDto(idul, request);
-
-        tripApplicationService.startTrip(startTripDto);
-
-        return Response.ok().build();
-    }
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Démarrer un voyage",
+            description = "Permet à un utilisateur de démarrer un nouveau voyage.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Voyage démarré avec succès"),
+                    @ApiResponse(responseCode = "400",
+                            description = "Bad Request: Requête invalide"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not found: RidePermit non trouvé"),})
+    Response startTrip(@HeaderParam("Authorization") String tokenHeader,
+            @Valid StartTripRequest request);
 
     @POST
     @Path("/end")
-    public Response endTrip(@HeaderParam("Authorization") String tokenHeader,
-            @Valid EndTripRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        EndTripDto endTripDto = tripApiMapper.toEndTripDto(idul, request);
-
-        tripApplicationService.endTrip(endTripDto);
-
-        return Response.ok().build();
-    }
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Finir un voyage",
+            description = "Permet à un utilisateur de finir son voyage en courant.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Voyage fini avec succès"),
+                    @ApiResponse(responseCode = "400",
+                            description = "Bad Request: Requête invalide"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not found: Aucun trajet en cours")})
+    Response endTrip(@HeaderParam("Authorization") String tokenHeader,
+            @Valid EndTripRequest request);
 }

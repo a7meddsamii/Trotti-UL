@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-class TripResourceTest {
+class TripControllerTest {
 
     private static final String AUTH_HEADER = "bdhhd22uemenehjebnee32j3un33kj3n3n3n";
     private static final String IDUL_VALUE = "Equipe10";
@@ -32,7 +32,7 @@ class TripResourceTest {
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
 
-    private TripResource resource;
+    private TripController resource;
 
     @BeforeEach
     void setUp() {
@@ -42,7 +42,7 @@ class TripResourceTest {
         startTripDto = Mockito.mock(StartTripDto.class);
         endTripDto = Mockito.mock(EndTripDto.class);
 
-        resource = new TripResource(tripApplicationService, authenticationService, tripApiMapper);
+        resource = new TripController(tripApplicationService, authenticationService, tripApiMapper);
 
         Mockito.when(
                 authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))

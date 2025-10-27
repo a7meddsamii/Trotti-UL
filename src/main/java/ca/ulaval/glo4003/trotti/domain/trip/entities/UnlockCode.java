@@ -45,7 +45,7 @@ public class UnlockCode {
 
         UnlockCode that = (UnlockCode) o;
 
-        return this.code.equals(that.code)  && this.travelerId.equals(that.travelerId);
+        return this.code.equals(that.code) && this.travelerId.equals(that.travelerId);
     }
 
     @Override
