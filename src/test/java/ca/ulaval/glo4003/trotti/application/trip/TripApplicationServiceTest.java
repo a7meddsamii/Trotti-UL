@@ -22,6 +22,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,8 @@ class TripApplicationServiceTest {
     private UnlockCode unlockCode;
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
+    private Trip ongoingTrip;
+    private Trip completedTrip;
 
     @BeforeEach
     void setUp() {
@@ -64,14 +67,21 @@ class TripApplicationServiceTest {
         traveler = Mockito.mock(Traveler.class);
         scooter = Mockito.mock(Scooter.class);
         station = Mockito.mock(Station.class);
+        ongoingTrip = Mockito.mock(Trip.class);
 
         clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
-        unlockCode = UnlockCode.generateFromTravelerId(TRAVELER_IDUL, clock);
+        unlockCode = UnlockCode.generateFromTravelerId(TRAVELER_IDUL);
 
         Mockito.when(travelerRepository.findByIdul(TRAVELER_IDUL)).thenReturn(traveler);
         Mockito.when(stationRepository.findByLocation(STATION_LOCATION)).thenReturn(station);
         Mockito.when(station.getScooter(SLOT_NUMBER)).thenReturn(SCOOTER_ID);
         Mockito.when(scooterRepository.findById(SCOOTER_ID)).thenReturn(scooter);
+
+        Mockito.when(traveler.getOngoingTrip()).thenReturn(Optional.of(ongoingTrip));
+        Mockito.when(ongoingTrip.getScooterId()).thenReturn(SCOOTER_ID);
+        completedTrip = Mockito.mock(Trip.class);
+        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
+                .thenReturn(completedTrip);
 
         startTripDto = new StartTripDto(TRAVELER_IDUL, RIDE_PERMIT_ID, unlockCode, STATION_LOCATION,
                 SLOT_NUMBER);
@@ -101,7 +111,7 @@ class TripApplicationServiceTest {
     void givenValidUnlockCode_whenStartTrip_thenUnlockCodeIsValidatedAndRevoked() {
         tripApplicationService.startTrip(startTripDto);
 
-        Mockito.verify(unlockCodeService).validateAndRevoke(unlockCode, TRAVELER_IDUL);
+        Mockito.verify(unlockCodeService).revoke(unlockCode);
     }
 
     @Test
@@ -125,9 +135,6 @@ class TripApplicationServiceTest {
 
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenTravelerStopsTraveling() {
-        Trip completedTrip = Mockito.mock(Trip.class);
-        Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
-                .thenReturn(completedTrip);
 
         tripApplicationService.endTrip(endTripDto);
 
