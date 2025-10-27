@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocationException;
 
 final class StationLocation extends Location {
     public StationLocation(String building, String spotName) {
@@ -10,7 +10,7 @@ final class StationLocation extends Location {
 
     private void validate(String building) {
         if (building.isBlank()) {
-            throw new InvalidLocation("Building and spot name cannot be empty");
+            throw new InvalidLocationException("Building and spot name cannot be empty");
         }
     }
 }

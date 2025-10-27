@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocationException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -20,7 +20,7 @@ public class Scooter {
 
     public void dockAt(Location location, LocalDateTime dockingTime) {
         if (!this.location.isEmpty()) {
-            throw new InvalidLocation("scooter seems to be already docked at " + this.location);
+            throw new InvalidLocationException("scooter seems to be already docked at " + this.location);
         }
 
         this.location = location;
@@ -29,7 +29,7 @@ public class Scooter {
 
     public void undock(LocalDateTime undockingTime) {
         if (this.location.isEmpty()) {
-            throw new InvalidLocation("scooter seems to already be undocked");
+            throw new InvalidLocationException("scooter seems to already be undocked");
         }
 
         if (!battery.hasEnoughCharge()) {

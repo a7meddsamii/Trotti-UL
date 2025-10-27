@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
@@ -46,7 +47,7 @@ class TravelerTest {
         Executable startingTravelingWithWrongRiderPass =
                 () -> traveler.startTraveling(A_TIME, A_RIDE_PERMIT_ID, A_SCOOTER_ID);
 
-        Assertions.assertThrows(TravelerException.class, startingTravelingWithWrongRiderPass);
+        Assertions.assertThrows(NotFoundException.class, startingTravelingWithWrongRiderPass);
     }
 
     @Test
@@ -81,7 +82,7 @@ class TravelerTest {
     void givenEndTimeWithoutOngoingTrip_whenStopTraveling_thenThrowTravelerException() {
         Executable endingTripWithoutOngoingTrip = () -> traveler.stopTraveling(A_TIME);
 
-        Assertions.assertThrows(TravelerException.class, endingTripWithoutOngoingTrip);
+        Assertions.assertThrows(NotFoundException.class, endingTripWithoutOngoingTrip);
     }
 
 }

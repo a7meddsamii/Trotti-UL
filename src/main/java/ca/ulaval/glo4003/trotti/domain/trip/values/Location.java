@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocationException;
 import java.util.Objects;
 
 public abstract class Location {
@@ -59,7 +59,7 @@ public abstract class Location {
 
     private void validate(String building, String spotName) {
         if (building == null || spotName == null) {
-            throw new InvalidLocation("Building and spot name cannot be null");
+            throw new InvalidLocationException("Building and spot name cannot be null");
         }
     }
 }

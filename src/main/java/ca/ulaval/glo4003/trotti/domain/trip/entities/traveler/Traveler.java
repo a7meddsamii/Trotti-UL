@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.domain.account.values.Email;
 import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TravelerException;
@@ -38,14 +39,14 @@ public class Traveler {
             throw new TravelerException("A trip is already ongoing");
         }
         if (!walletHasPermit(ridePermitId)) {
-            throw new TravelerException("Ride permit not found. ");
+            throw new NotFoundException("Ride permit not found. ");
         }
         ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
     }
 
     public Trip stopTraveling(LocalDateTime endDateTime) {
         if (Optional.ofNullable(ongoingTrip).isEmpty()) {
-            throw new TravelerException("Trip does not exist");
+            throw new NotFoundException("Trip does not exist");
         }
         Trip completedTrip = ongoingTrip.end(endDateTime);
         ongoingTrip = null;

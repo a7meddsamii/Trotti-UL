@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
 import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocation;
+import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidLocationException;
 import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
 import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
 import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
@@ -31,7 +31,7 @@ public class ScooterTest {
     void givenScooterAlreadyDocked_whenDockAt_thenThrowsException() {
         Executable dockAt = () -> scooter.dockAt(A_LOCATION, CURRENT_TIME);
 
-        Assertions.assertThrows(InvalidLocation.class, dockAt);
+        Assertions.assertThrows(InvalidLocationException.class, dockAt);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ScooterTest {
 
         Executable undock = () -> scooter.undock(CURRENT_TIME);
 
-        Assertions.assertThrows(InvalidLocation.class, undock);
+        Assertions.assertThrows(InvalidLocationException.class, undock);
     }
 
     @Test
