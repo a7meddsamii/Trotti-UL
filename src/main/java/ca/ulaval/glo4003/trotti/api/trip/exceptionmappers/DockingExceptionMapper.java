@@ -8,9 +8,9 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class DockingExceptionMapper implements ExceptionMapper<DockingException> {
-	@Override
-	public Response toResponse(DockingException exception) {
-		return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
-													  exception.getMessage());
-	}
+    @Override
+    public Response toResponse(DockingException exception) {
+        return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
+                exception.getMessage());
+    }
 }

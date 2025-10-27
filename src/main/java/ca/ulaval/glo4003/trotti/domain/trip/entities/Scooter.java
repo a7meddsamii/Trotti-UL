@@ -20,7 +20,8 @@ public class Scooter {
 
     public void dockAt(Location location, LocalDateTime dockingTime) {
         if (!this.location.isEmpty()) {
-            throw new InvalidLocationException("scooter seems to be already docked at " + this.location);
+            throw new InvalidLocationException(
+                    "scooter seems to be already docked at " + this.location);
         }
 
         this.location = location;

@@ -8,9 +8,9 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class TravelerExceptionMapper implements ExceptionMapper<TravelerException> {
-	@Override
-	public Response toResponse(TravelerException exception) {
-		return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
-													  exception.getMessage());
-	}
+    @Override
+    public Response toResponse(TravelerException exception) {
+        return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
+                exception.getMessage());
+    }
 }

@@ -8,9 +8,9 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class InvalidLocationExceptionMapper implements ExceptionMapper<InvalidLocationException> {
-	@Override
-	public Response toResponse(InvalidLocationException exception) {
-		return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
-													  exception.getMessage());
-	}
+    @Override
+    public Response toResponse(InvalidLocationException exception) {
+        return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
+                exception.getMessage());
+    }
 }
