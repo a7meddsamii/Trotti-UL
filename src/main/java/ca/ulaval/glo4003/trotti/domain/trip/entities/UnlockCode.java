@@ -18,6 +18,10 @@ public class UnlockCode {
         this.travelerId = travelerId;
     }
 
+    public static UnlockCode of(Idul travelerId, String code) {
+        return new UnlockCode(code, travelerId);
+    }
+
     public static UnlockCode generateFromTravelerId(Idul id) {
         Random random = new SecureRandom();
 
@@ -38,8 +42,10 @@ public class UnlockCode {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass())
             return false;
+
         UnlockCode that = (UnlockCode) o;
-        return Objects.equals(travelerId, that.travelerId) && Objects.equals(code, that.code);
+
+        return this.code.equals(that.code)  && this.travelerId.equals(that.travelerId);
     }
 
     @Override
