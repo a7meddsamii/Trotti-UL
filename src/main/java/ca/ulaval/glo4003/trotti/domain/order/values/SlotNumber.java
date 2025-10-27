@@ -7,7 +7,7 @@ public class SlotNumber {
     private final int value;
 
     public SlotNumber(int value) {
-        if (value < 1) {
+        if (value < 0) {
             throw new InvalidParameterException("Slot number must be positive.");
         }
         this.value = value;

@@ -22,9 +22,17 @@ public class DockingArea {
         return scooterSlots.get(slotNumber).undock();
     }
 
+    public int getCapacity() {
+        return scooterSlots.size();
+    }
+
     private void validateSlotNumber(SlotNumber slotNumber) {
         if (!scooterSlots.containsKey(slotNumber)) {
             throw new DockingException("Slot " + slotNumber + " does not exist at this station.");
         }
+    }
+
+    public Map<SlotNumber, ScooterSlot> getScooterSlots() {
+        return Map.copyOf(scooterSlots);
     }
 }

@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.ScooterPersistenceMa
 import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.ScooterRecord;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class InMemoryScooterRepository implements ScooterRepository {
 
@@ -22,11 +21,12 @@ public class InMemoryScooterRepository implements ScooterRepository {
     public void save(Scooter scooter) {
         ScooterRecord record = scooterMapper.toRecord(scooter);
         scooters.put(scooter.getScooterId(), record);
+        System.out.println("Scooter saved: " + scooter.getScooterId());
     }
 
     @Override
-    public Optional<Scooter> findById(ScooterId scooterId) {
+    public Scooter findById(ScooterId scooterId) {
+        return scooterMapper.toDomain(scooters.get(scooterId));
 
-        return Optional.ofNullable(scooters.get(scooterId)).map(scooterMapper::toDomain);
     }
 }

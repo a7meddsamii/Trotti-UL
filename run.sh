@@ -18,6 +18,7 @@ IMAGE_NAME="trottiul"
 RESOURCE_DIR="$(pwd)/src/main/resources/data/"
 EMPLOYEES_IDUL_FILE="Employe.e.s.csv"
 SEMESTER_FILE="semesters-252627.json"
+STATION_FILE="campus-delivery-location.json"
 CONTAINER_NAME="trottiul_container"
 
 # stop and remove any existing container with the same name if it exists
@@ -35,6 +36,7 @@ function run_image() {
         --env-file config.env \
         -v "$RESOURCE_DIR$EMPLOYEES_IDUL_FILE:/app/data/Employe.e.s.csv" \
         -v "$RESOURCE_DIR$SEMESTER_FILE:/app/data/semesters-252627.json" \
+        -v "$RESOURCE_DIR$STATION_FILE:/app/data/campus-delivery-location.json" \
         --name $CONTAINER_NAME \
         -p 8080:8080 \
         $IMAGE_NAME

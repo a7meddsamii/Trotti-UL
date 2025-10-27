@@ -12,12 +12,13 @@ class StationTest {
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private DockingArea A_DOCKING_AREA;
+    private Location A_LOCATION;
     private Station station;
 
     @BeforeEach
     void setup() {
         A_DOCKING_AREA = Mockito.mock(DockingArea.class);
-        Location A_LOCATION = Mockito.mock(Location.class);
+        A_LOCATION = Mockito.mock(Location.class);
         station = new Station(A_LOCATION, A_DOCKING_AREA);
     }
 
@@ -36,5 +37,15 @@ class StationTest {
         station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
 
         Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
+    }
+
+    @Test
+    void givenStationWithCapacityOf10_whenCalculateInitialScooterCount_thenReturns80PercentOfCapacity() {
+        Mockito.when(A_DOCKING_AREA.getCapacity()).thenReturn(10);
+        Station stationWithCapacity = new Station(A_LOCATION, A_DOCKING_AREA);
+
+        int result = stationWithCapacity.calculateInitialScooterCount();
+
+        Assertions.assertEquals(8, result);
     }
 }
