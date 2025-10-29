@@ -1,9 +1,11 @@
 package ca.ulaval.glo4003.trotti.api.account.controllers;
 
-import ca.ulaval.glo4003.trotti.api.account.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.api.controllers.AccountController;
+import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
+import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
+import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;

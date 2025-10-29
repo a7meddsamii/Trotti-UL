@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.api.account.mappers;
 
-import ca.ulaval.glo4003.trotti.api.account.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.domain.account.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
+import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;

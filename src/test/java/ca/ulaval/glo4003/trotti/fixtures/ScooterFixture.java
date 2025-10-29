@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.fixtures;
 
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Battery;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryState;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

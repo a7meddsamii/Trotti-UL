@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.StationRecord;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.StationRecord;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

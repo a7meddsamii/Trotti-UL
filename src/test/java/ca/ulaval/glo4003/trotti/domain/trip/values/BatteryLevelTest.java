@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.values;
 
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryValue;
+import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidBatteryValue;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

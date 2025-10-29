@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.trip.strategy;
 
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.trip.domain.strategy.ChargingStrategy;
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;

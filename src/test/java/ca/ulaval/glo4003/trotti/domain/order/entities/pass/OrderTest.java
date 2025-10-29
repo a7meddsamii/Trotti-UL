@@ -1,9 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.order.entities.pass;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import java.util.List;
+
+import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Order;
+import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,14 +1,16 @@
 package ca.ulaval.glo4003.trotti.domain.trip.services;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.exceptions.EmailSendException;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailService;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.communication.domain.exceptions.EmailSendException;
+import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
+import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
+import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.fixtures.RidePermitFixture;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

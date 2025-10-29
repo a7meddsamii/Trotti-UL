@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.domain.order.values;
 
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

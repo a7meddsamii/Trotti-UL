@@ -1,11 +1,13 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.gateway;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.repositories.PassRepository;
-import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
+import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import java.util.List;
+
+import ca.ulaval.glo4003.trotti.trip.infrastructure.gateway.RidePermitHistoryGatewayAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

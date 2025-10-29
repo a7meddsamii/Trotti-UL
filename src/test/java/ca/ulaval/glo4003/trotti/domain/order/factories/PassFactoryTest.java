@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.order.factories;
 
-import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
+import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

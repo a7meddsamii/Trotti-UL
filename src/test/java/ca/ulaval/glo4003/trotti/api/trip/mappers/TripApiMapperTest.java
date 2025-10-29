@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.trotti.api.trip.mappers;
 
-import ca.ulaval.glo4003.trotti.api.trip.dto.requests.EndTripRequest;
-import ca.ulaval.glo4003.trotti.api.trip.dto.requests.StartTripRequest;
-import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
-import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

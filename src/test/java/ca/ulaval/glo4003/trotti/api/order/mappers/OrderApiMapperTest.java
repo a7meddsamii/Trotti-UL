@@ -1,16 +1,18 @@
 package ca.ulaval.glo4003.trotti.api.order.mappers;
 
-import ca.ulaval.glo4003.trotti.api.order.dto.requests.PaymentInfoRequest;
-import ca.ulaval.glo4003.trotti.api.order.dto.responses.TransactionResponse;
-import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
-import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Currency;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.TransactionId;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.TransactionStatus;
+import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
+import ca.ulaval.glo4003.trotti.order.api.dto.responses.TransactionResponse;
+import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
+import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.TransactionId;
+import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.TransactionStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+
+import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

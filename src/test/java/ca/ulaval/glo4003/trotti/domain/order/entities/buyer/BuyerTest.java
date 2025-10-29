@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.order.entities.buyer;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.order.entities.pass.Pass;
-import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Cart;
+import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
+import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

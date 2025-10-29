@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.infrastructure.commons.sessions.mappers;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.Semester;
-import ca.ulaval.glo4003.trotti.domain.order.values.Session;
-import ca.ulaval.glo4003.trotti.infrastructure.commons.sessions.SessionRecord;
+import ca.ulaval.glo4003.trotti.commons.sessions.mappers.SessionMapper;
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
+import ca.ulaval.glo4003.trotti.order.domain.values.Session;
+import ca.ulaval.glo4003.trotti.commons.sessions.SessionRecord;
 import java.time.LocalDate;
 import java.time.Month;
 import org.junit.jupiter.api.Assertions;

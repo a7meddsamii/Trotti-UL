@@ -1,15 +1,16 @@
 package ca.ulaval.glo4003.trotti.application.account;
 
-import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
-import ca.ulaval.glo4003.trotti.domain.account.exceptions.AlreadyExistsException;
-import ca.ulaval.glo4003.trotti.domain.account.factories.AccountFactory;
-import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.account.values.Password;
-import ca.ulaval.glo4003.trotti.domain.authentication.exceptions.AuthenticationException;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.values.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
+import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
+import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;

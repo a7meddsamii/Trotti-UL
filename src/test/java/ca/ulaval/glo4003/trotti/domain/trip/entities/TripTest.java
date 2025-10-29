@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.TripException;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

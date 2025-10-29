@@ -2,6 +2,9 @@ package ca.ulaval.glo4003.trotti.domain.order.values;
 
 import java.time.LocalDate;
 import java.time.Month;
+
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
+import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

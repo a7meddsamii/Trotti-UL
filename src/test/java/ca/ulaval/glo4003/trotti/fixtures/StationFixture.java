@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.fixtures;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.DockingArea;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.ScooterSlot;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.ScooterSlot;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.util.HashMap;
 import java.util.Map;
 

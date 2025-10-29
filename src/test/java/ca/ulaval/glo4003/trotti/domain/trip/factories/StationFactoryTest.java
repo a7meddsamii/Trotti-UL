@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.factories;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.DockingException;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
+import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.trip.domain.factories.StationFactory;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

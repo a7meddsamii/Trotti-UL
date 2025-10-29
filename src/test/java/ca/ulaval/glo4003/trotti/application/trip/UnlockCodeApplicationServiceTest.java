@@ -1,15 +1,17 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
+import ca.ulaval.glo4003.trotti.commons.exceptions.NotFoundException;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import java.util.Collections;
+
+import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

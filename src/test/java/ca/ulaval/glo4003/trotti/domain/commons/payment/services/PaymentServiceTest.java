@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.commons.payment.services;
 
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.transaction.Transaction;
+import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,14 +1,16 @@
 package ca.ulaval.glo4003.trotti.api.order.controllers;
 
-import ca.ulaval.glo4003.trotti.api.order.dto.requests.PaymentInfoRequest;
-import ca.ulaval.glo4003.trotti.api.order.dto.responses.TransactionResponse;
-import ca.ulaval.glo4003.trotti.api.order.mappers.OrderApiMapper;
-import ca.ulaval.glo4003.trotti.application.order.OrderApplicationService;
-import ca.ulaval.glo4003.trotti.application.order.dto.PaymentInfoDto;
-import ca.ulaval.glo4003.trotti.application.order.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.order.api.controllers.OrderController;
+import ca.ulaval.glo4003.trotti.order.api.controllers.OrderResource;
+import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
+import ca.ulaval.glo4003.trotti.order.api.dto.responses.TransactionResponse;
+import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
+import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
+import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

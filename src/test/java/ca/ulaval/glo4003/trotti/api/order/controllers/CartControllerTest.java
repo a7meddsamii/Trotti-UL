@@ -1,13 +1,15 @@
 package ca.ulaval.glo4003.trotti.api.order.controllers;
 
-import ca.ulaval.glo4003.trotti.api.order.dto.requests.PassListRequest;
-import ca.ulaval.glo4003.trotti.api.order.dto.responses.PassListResponse;
-import ca.ulaval.glo4003.trotti.api.order.mappers.PassApiMapper;
-import ca.ulaval.glo4003.trotti.application.order.CartApplicationService;
-import ca.ulaval.glo4003.trotti.application.order.dto.PassDto;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.order.values.PassId;
+import ca.ulaval.glo4003.trotti.order.api.controllers.CartController;
+import ca.ulaval.glo4003.trotti.order.api.controllers.CartResource;
+import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
+import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
+import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
+import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

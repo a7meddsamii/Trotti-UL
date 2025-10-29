@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities;
 
-import ca.ulaval.glo4003.trotti.domain.trip.exceptions.InvalidBatteryUpdate;
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.domain.trip.values.BatteryState;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
+import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidBatteryUpdate;
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryState;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;

@@ -1,15 +1,16 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.application.trip.mappers.RidePermitMapper;
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.gateway.RidePermitHistoryGateway;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.EmployeeRidePermitService;
-import ca.ulaval.glo4003.trotti.domain.trip.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.mappers.RidePermitMapper;
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
+import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;

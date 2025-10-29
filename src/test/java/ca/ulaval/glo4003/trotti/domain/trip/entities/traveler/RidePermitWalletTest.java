@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.trip.entities.traveler;
 
-import ca.ulaval.glo4003.trotti.domain.trip.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import java.time.LocalDate;
 import java.util.List;
+
+import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.RidePermitWallet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

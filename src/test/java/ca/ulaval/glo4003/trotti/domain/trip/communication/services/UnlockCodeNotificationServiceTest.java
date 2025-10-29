@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.trotti.domain.trip.communication.services;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Email;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.EmailService;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.services.NotificationService;
-import ca.ulaval.glo4003.trotti.domain.commons.communication.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
+import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
+import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

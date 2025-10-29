@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.domain.order.values;
 
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Currency;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.math.BigDecimal;
 import java.time.Duration;
+
+import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

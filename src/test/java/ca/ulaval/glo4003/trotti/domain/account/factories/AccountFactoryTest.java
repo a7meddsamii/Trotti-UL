@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.domain.account.factories;
 
-import ca.ulaval.glo4003.trotti.domain.account.values.Password;
-import ca.ulaval.glo4003.trotti.domain.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
+import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import java.time.Clock;
 import java.time.Instant;

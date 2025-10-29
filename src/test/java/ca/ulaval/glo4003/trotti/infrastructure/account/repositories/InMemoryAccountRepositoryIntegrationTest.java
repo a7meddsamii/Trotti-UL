@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.trotti.infrastructure.account.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.account.entities.Account;
-import ca.ulaval.glo4003.trotti.domain.account.repositories.AccountRepository;
-import ca.ulaval.glo4003.trotti.domain.account.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
+import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.account.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.infrastructure.account.repositories.records.AccountRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.order.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.infrastructure.persistence.inmemory.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.repositories.records.TravelerRecord;
+import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
+import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
+import ca.ulaval.glo4003.trotti.commons.persistence.inmemory.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

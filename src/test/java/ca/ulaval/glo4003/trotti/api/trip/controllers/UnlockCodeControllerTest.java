@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.api.trip.controllers;
 
-import ca.ulaval.glo4003.trotti.application.trip.UnlockCodeApplicationService;
-import ca.ulaval.glo4003.trotti.domain.authentication.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.domain.trip.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeController;
+import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeResource;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

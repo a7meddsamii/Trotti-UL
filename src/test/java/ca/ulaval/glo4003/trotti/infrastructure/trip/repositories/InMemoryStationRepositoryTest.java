@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
-import ca.ulaval.glo4003.trotti.domain.order.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.DockingArea;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.domain.trip.values.Location;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fixtures.StationFixture;
-import ca.ulaval.glo4003.trotti.infrastructure.trip.mappers.StationPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

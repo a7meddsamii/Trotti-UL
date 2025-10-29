@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.domain.commons.payment.values.method;
 
-import ca.ulaval.glo4003.trotti.domain.commons.payment.exceptions.InvalidPaymentMethodException;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.security.DataCodec;
-import ca.ulaval.glo4003.trotti.domain.commons.payment.values.money.Money;
+import ca.ulaval.glo4003.trotti.payment.domain.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ class CreditCardTest {
     void givenEmptyCardHolder_whenCreatingCreditCard_thenThrowsException() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         Executable creatingInvalidCreditCard = () -> CreditCard.from(validSecured,
-                INVALID_CARD_HOLDER, YearMonth.now().plusYears(1));
+																	 INVALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }
