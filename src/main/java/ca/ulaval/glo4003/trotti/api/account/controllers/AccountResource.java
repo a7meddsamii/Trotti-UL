@@ -1,42 +1,39 @@
 package ca.ulaval.glo4003.trotti.api.account.controllers;
 
 import ca.ulaval.glo4003.trotti.api.account.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.api.account.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.application.account.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.application.account.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.api.commons.dto.ApiErrorResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
 
 @Path("/accounts")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class AccountResource {
-    private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
-    private static final String PATH_SEPARATOR = "/";
-
-    private final AccountApplicationService accountApplicationService;
-    private final AccountApiMapper accountApiMapper;
-
-    public AccountResource(
-            AccountApplicationService accountApplicationService,
-            AccountApiMapper accountApiMapper) {
-        this.accountApplicationService = accountApplicationService;
-        this.accountApiMapper = accountApiMapper;
-    }
+@Tag(name = "Accounts", description = "Endpoint pour les opérations liées aux comptes utilisateurs")
+public interface AccountResource {
 
     @POST
-    public Response createAccount(@Valid CreateAccountRequest request) {
-        AccountDto accountDto = accountApiMapper.toAccountDto(request);
-
-        accountApplicationService.createAccount(accountDto);
-
-        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
-        return Response.created(location).build();
-    }
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Créer un nouveau compte utilisateur",
+            description = "Créer un nouveau compte utilisateur avec les infos demandées.",
+            requestBody = @RequestBody(description = "Account creation",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = CreateAccountRequest.class))),
+            responses = {@ApiResponse(responseCode = "201", description = "Compte créé avec succès",
+                    headers = {@Header(name = "Location", description = "URI du compte créé",
+                            schema = @Schema(type = "string", format = "uri"))}),
+                    @ApiResponse(responseCode = "400", description = "Request invalide",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "409",
+                            description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
+    Response createAccount(@Valid CreateAccountRequest request);
 }
