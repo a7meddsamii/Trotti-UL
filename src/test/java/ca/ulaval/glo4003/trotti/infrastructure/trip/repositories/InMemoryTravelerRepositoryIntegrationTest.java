@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers.Acco
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.commons.persistence.inmemory.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;

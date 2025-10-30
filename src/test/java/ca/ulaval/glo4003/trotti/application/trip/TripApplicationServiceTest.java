@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.exceptions.NotFoundException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;

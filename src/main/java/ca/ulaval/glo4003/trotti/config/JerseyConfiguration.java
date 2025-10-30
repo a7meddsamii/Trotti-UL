@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.config;
 
-import ca.ulaval.glo4003.trotti.config.loaders.ServerCompositionRoot;
-import ca.ulaval.glo4003.trotti.config.scheduler.ServerLifeCycleListener;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
@@ -27,9 +26,8 @@ public class JerseyConfiguration extends ResourceConfig {
     private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti.api";
 
     public JerseyConfiguration() {
-        ServerCompositionRoot.getInstance().initiate();
-
-        register(RestServerConfiguration.class);
+        ApplicationContext.getInstance().initiate();
+        register(RestServerBinder.class);
         register(ServerLifeCycleListener.class);
         register(ValidationFeature.class);
         register(JacksonFeature.class);

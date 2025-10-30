@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.PassPersistenceMapp
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.InMemoryBuyerRepository;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.InMemoryPassRepository;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.commons.persistence.inmemory.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TravelerPersistenceMapper;

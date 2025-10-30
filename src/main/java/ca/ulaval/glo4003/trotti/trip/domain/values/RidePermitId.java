@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.values;
 
-import ca.ulaval.glo4003.trotti.commons.Id;
+import ca.ulaval.glo4003.trotti.commons.domain.Id;
 
 public class RidePermitId extends Id {
 

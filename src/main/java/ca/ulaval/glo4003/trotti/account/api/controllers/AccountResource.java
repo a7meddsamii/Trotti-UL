@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.commons.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;

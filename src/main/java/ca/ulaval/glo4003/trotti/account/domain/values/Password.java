@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.RegexValidator;

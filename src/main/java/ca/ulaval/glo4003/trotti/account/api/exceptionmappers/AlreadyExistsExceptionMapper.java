@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.api.exceptionmappers;
 
-import ca.ulaval.glo4003.trotti.commons.ExceptionResponseFactory;
+import ca.ulaval.glo4003.trotti.commons.api.exceptionmappers.ExceptionResponseFactory;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

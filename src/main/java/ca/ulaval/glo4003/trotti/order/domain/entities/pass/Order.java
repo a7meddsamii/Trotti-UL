@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.trotti.order.domain.entities.pass;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.InvoiceDto;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoice;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.InvoiceLine;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoiceable;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.InvoiceLine;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoiceable;
 import ca.ulaval.glo4003.trotti.order.domain.values.OrderId;
 import java.util.List;
 
@@ -51,4 +52,8 @@ public class Order implements Invoiceable {
 
         return invoiceBuilder.totalAmount(calculateTotalAmount()).build();
     }
+	
+	public class Info implements InvoiceDto{
+		
+	}
 }

@@ -1,0 +1,24 @@
+package ca.ulaval.glo4003.trotti.communication.infrastructure.config;
+
+import ca.ulaval.glo4003.trotti.communication.infrastructure.config.loaders.CommunicationForeignServiceLoader;
+import ca.ulaval.glo4003.trotti.config.Configuration;
+
+public class CommunicationConfiguration extends Configuration {
+
+    private CommunicationConfiguration() {
+        super();
+    }
+	
+	public static Configuration getInstance() {
+		if (instance == null) {
+			instance = new CommunicationConfiguration();
+		}
+		
+		return instance;
+	}
+	
+	@Override
+	protected void load() {
+		new CommunicationForeignServiceLoader().load();
+	}
+}

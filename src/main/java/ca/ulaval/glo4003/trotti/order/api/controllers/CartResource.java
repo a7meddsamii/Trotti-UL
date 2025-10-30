@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
-import ca.ulaval.glo4003.trotti.commons.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import io.swagger.v3.oas.annotations.Operation;

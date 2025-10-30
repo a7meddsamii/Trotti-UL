@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.domain.values;
 
-import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
 import java.util.Objects;
 
 public class SlotNumber {

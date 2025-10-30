@@ -1,0 +1,33 @@
+package ca.ulaval.glo4003.trotti.config;
+
+import ca.ulaval.glo4003.trotti.account.infrastructure.config.AccountConfiguration;
+import ca.ulaval.glo4003.trotti.communication.infrastructure.config.CommunicationConfiguration;
+import ca.ulaval.glo4003.trotti.order.infrastructure.config.OrderConfiguration;
+import ca.ulaval.glo4003.trotti.payment.infrastructure.config.PaymentConfiguration;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.config.TripConfiguration;
+
+import java.time.Clock;
+
+public class ApplicationContext extends Configuration {
+	
+	
+	public static Configuration getInstance() {
+		if (instance == null) {
+			instance = new ApplicationContext();
+		}
+		
+		return instance;
+	}
+	
+	@Override
+	protected void load() {
+		ServerComponentLocator locator = ServerComponentLocator.getInstance();
+		locator.register(Clock.class, Clock.systemDefaultZone());
+		
+		AccountConfiguration.getInstance().load();
+		CommunicationConfiguration.getInstance().load();
+		PaymentConfiguration.getInstance().load();
+		OrderConfiguration.getInstance().load();
+		TripConfiguration.getInstance().load();
+	}
+}

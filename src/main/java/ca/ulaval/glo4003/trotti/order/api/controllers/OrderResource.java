@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
-import ca.ulaval.glo4003.trotti.commons.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

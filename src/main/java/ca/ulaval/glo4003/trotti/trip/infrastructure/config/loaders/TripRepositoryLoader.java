@@ -1,0 +1,61 @@
+package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
+
+import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
+import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTravelerRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TravelerPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
+
+public class TripRepositoryLoader extends Bootstrapper {
+    @Override
+    public void load() {
+		loadTravelerRepository();
+        loadTripRepository();
+        loadStationRepository();
+        loadScooterRepository();
+    }
+
+    private void loadTravelerRepository() {
+        UserInMemoryDatabase userInMemoryDatabase =
+                this.resourceLocator.resolve(UserInMemoryDatabase.class);
+        TravelerPersistenceMapper travelerMapper =
+                this.resourceLocator.resolve(TravelerPersistenceMapper.class);
+
+        TravelerRepository travelerRepository =
+                new InMemoryTravelerRepository(userInMemoryDatabase, travelerMapper);
+        this.resourceLocator.register(TravelerRepository.class, travelerRepository);
+    }
+
+    private void loadTripRepository() {
+        TripPersistenceMapper tripMapper =
+                this.resourceLocator.resolve(TripPersistenceMapper.class);
+
+        TripRepository tripRepository = new InMemoryTripRepository(tripMapper);
+
+        this.resourceLocator.register(TripRepository.class, tripRepository);
+    }
+	
+    private void loadStationRepository() {
+        StationPersistenceMapper stationPersistenceMapper =
+                this.resourceLocator.resolve(StationPersistenceMapper.class);
+        InMemoryStationRepository stationRepository =
+                new InMemoryStationRepository(stationPersistenceMapper);
+        this.resourceLocator.register(StationRepository.class, stationRepository);
+    }
+
+    private void loadScooterRepository() {
+        ScooterPersistenceMapper scooterMapper =
+                this.resourceLocator.resolve(ScooterPersistenceMapper.class);
+        ScooterRepository scooterRepository = new InMemoryScooterRepository(scooterMapper);
+        this.resourceLocator.register(ScooterRepository.class, scooterRepository);
+    }
+}

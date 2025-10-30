@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.domain.factories;
 
-import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
 import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;

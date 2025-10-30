@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.config.loaders;
 
-import ca.ulaval.glo4003.trotti.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.SessionRegistry;
+import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
 import ca.ulaval.glo4003.trotti.payment.domain.services.TransactionNotificationService;
@@ -29,14 +29,14 @@ public class DomainServiceLoader extends Bootstrapper {
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         PassRepository passRepository = this.resourceLocator.resolve(PassRepository.class);
         EmployeeRegistry employeeRegistry = this.resourceLocator.resolve(EmployeeRegistry.class);
-        SessionRegistry sessionRegistry = this.resourceLocator.resolve(SessionRegistry.class);
+        SessionEnum sessionEnum = this.resourceLocator.resolve(SessionEnum.class);
 
         this.resourceLocator.register(RidePermitNotificationService.class,
                 new RidePermitNotificationService(emailService));
         this.resourceLocator.register(RidePermitHistoryGateway.class,
                 new RidePermitHistoryGatewayAdapter(passRepository));
         this.resourceLocator.register(EmployeeRidePermitService.class,
-                new EmployeeRidePermitService(employeeRegistry, sessionRegistry));
+                new EmployeeRidePermitService(employeeRegistry, sessionEnum));
     }
 
     private void loadOrderDomainServices() {

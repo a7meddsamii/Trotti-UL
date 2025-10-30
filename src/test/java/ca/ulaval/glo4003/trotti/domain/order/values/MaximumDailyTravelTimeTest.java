@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.domain.order.values;
 
-import ca.ulaval.glo4003.trotti.commons.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.math.BigDecimal;

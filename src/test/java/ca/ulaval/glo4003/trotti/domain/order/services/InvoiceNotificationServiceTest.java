@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceNotificationService;
 import org.junit.jupiter.api.BeforeEach;

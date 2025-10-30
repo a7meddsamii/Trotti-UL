@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.application;
 
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.commons.exceptions.NotFoundException;
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;

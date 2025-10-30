@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.SessionRegistry;
+import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
@@ -14,18 +14,19 @@ import java.util.Optional;
 
 public class EmployeeRidePermitService {
     private final EmployeeRegistry employeeRegistry;
-    private final SessionRegistry sessionRegistry;
+    private final SessionEnum sessionEnum;
 
     public EmployeeRidePermitService(
             EmployeeRegistry employeeRegistry,
-            SessionRegistry sessionRegistry) {
+            SessionEnum sessionEnum
+	) {
         this.employeeRegistry = employeeRegistry;
-        this.sessionRegistry = sessionRegistry;
+        this.sessionEnum = sessionEnum;
     }
 
     public List<RidePermit> giveFreePermitToEmployee(Traveler traveler) {
         LocalDate currentDate = LocalDate.now();
-        Optional<Session> session = sessionRegistry.getSession(currentDate);
+        Optional<Session> session = sessionEnum.getSession(currentDate);
 
         if (!traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();

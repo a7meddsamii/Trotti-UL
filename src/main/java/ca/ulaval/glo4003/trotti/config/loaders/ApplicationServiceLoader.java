@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationServic
 import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
 import ca.ulaval.glo4003.trotti.payment.domain.services.TransactionNotificationService;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;

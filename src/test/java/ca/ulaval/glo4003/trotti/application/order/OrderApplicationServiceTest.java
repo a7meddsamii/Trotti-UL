@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
-import ca.ulaval.glo4003.trotti.order.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Order;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.exceptions.CartException;
