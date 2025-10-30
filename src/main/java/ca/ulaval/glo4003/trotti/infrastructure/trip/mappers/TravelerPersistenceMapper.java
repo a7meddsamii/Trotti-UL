@@ -16,7 +16,7 @@ public class TravelerPersistenceMapper {
         List<RidePermitRecord> ridePermitRecords =
                 traveler.getWalletPermits().stream().map(this::toRidePermitRecord).toList();
 
-        TripRecord ongoingTrip = toTripRecord(traveler.getOngoingTrip());
+        TripRecord ongoingTrip = traveler.getOngoingTrip().map(this::toTripRecord).orElse(null);
 
         return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,
                 ongoingTrip);

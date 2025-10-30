@@ -77,8 +77,8 @@ public class Traveler {
         return email;
     }
 
-    public Trip getOngoingTrip() {
-        return ongoingTrip;
+    public Optional<Trip> getOngoingTrip() {
+        return Optional.ofNullable(ongoingTrip);
     }
 
     public ScooterId getUsedScooter() {
