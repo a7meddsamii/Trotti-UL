@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.trotti.config;
+package ca.ulaval.glo4003.trotti.config.jersey;
 
 import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.order.api.controllers.CartResource;
 import ca.ulaval.glo4003.trotti.order.api.controllers.OrderResource;
@@ -9,11 +10,11 @@ import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeResource;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-public class RestServerBinder extends AbstractBinder {
+public class JerseyBinder extends AbstractBinder {
 
     @Override
     protected void configure() {
-        ServerComponentLocator locator = ServerComponentLocator.getInstance();
+        ComponentLocator locator = ComponentLocator.getInstance();
 
         bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);

@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.config;
 import ca.ulaval.glo4003.trotti.account.infrastructure.config.AccountConfiguration;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.CommonsConfiguration;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.CommunicationConfiguration;
+import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.order.infrastructure.config.OrderConfiguration;
 import ca.ulaval.glo4003.trotti.payment.infrastructure.config.PaymentConfiguration;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.TripConfiguration;
@@ -21,7 +22,7 @@ public class ApplicationContext extends Configuration {
 
     @Override
     protected void load() {
-        ServerComponentLocator locator = ServerComponentLocator.getInstance();
+        ComponentLocator locator = ComponentLocator.getInstance();
         locator.register(Clock.class, Clock.systemDefaultZone());
 
         CommonsConfiguration.getInstance().load();

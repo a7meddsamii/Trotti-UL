@@ -1,24 +1,24 @@
-package ca.ulaval.glo4003.trotti.config;
+package ca.ulaval.glo4003.trotti.config.locator;
 
 import ca.ulaval.glo4003.trotti.config.exceptions.ConfigurationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public final class ServerComponentLocator {
+public final class ComponentLocator {
 
     private final Map<Class<?>, Object> services;
-    private static ServerComponentLocator instance;
+    private static ComponentLocator instance;
 
-    public static ServerComponentLocator getInstance() {
+    public static ComponentLocator getInstance() {
         if (instance == null) {
-            instance = new ServerComponentLocator();
+            instance = new ComponentLocator();
         }
 
         return instance;
     }
 
-    private ServerComponentLocator() {
+    private ComponentLocator() {
         services = new HashMap<>();
     }
 

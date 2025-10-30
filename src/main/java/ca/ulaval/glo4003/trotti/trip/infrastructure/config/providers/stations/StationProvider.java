@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations;
 
-import ca.ulaval.glo4003.trotti.config.providers.CustomJsonProvider;
+import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;

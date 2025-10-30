@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions;
 
-import ca.ulaval.glo4003.trotti.config.providers.CustomJsonProvider;
+import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
