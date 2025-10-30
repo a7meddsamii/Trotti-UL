@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.trotti.order.infrastructure.repositories;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 
 public class InMemoryBuyerRepository implements BuyerRepository {
     private final UserInMemoryDatabase databaseDriver;

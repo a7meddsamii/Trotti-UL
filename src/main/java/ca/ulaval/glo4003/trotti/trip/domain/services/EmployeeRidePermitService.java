@@ -16,10 +16,7 @@ public class EmployeeRidePermitService {
     private final EmployeeRegistry employeeRegistry;
     private final SessionEnum sessionEnum;
 
-    public EmployeeRidePermitService(
-            EmployeeRegistry employeeRegistry,
-            SessionEnum sessionEnum
-	) {
+    public EmployeeRidePermitService(EmployeeRegistry employeeRegistry, SessionEnum sessionEnum) {
         this.employeeRegistry = employeeRegistry;
         this.sessionEnum = sessionEnum;
     }

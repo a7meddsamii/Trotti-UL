@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.account.mappers;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
+import ca.ulaval.glo4003.trotti.fixtures.AccountFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

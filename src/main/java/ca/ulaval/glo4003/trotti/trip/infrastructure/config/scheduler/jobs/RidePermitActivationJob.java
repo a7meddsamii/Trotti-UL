@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.jobs;
 
-import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.config.ServerComponentLocator;
+import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

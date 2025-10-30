@@ -2,13 +2,12 @@ package ca.ulaval.glo4003.trotti.domain.trip.services;
 
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
-import java.time.LocalDate;
-
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

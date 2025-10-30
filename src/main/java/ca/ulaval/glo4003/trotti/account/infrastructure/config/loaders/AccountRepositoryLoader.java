@@ -7,18 +7,19 @@ import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryData
 import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
 
 public class AccountRepositoryLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		this.loadRepository();
-	}
-	
-	private void loadRepository() {
-		UserInMemoryDatabase userInMemoryDatabase =
-				this.resourceLocator.resolve(UserInMemoryDatabase.class);
-		AccountPersistenceMapper accountMapper =
-				this.resourceLocator.resolve(AccountPersistenceMapper.class);
-		AccountRepository accountRepository = new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
-		this.resourceLocator.register(AccountRepository.class, accountRepository);
-	}
+
+    @Override
+    public void load() {
+        this.loadRepository();
+    }
+
+    private void loadRepository() {
+        UserInMemoryDatabase userInMemoryDatabase =
+                this.resourceLocator.resolve(UserInMemoryDatabase.class);
+        AccountPersistenceMapper accountMapper =
+                this.resourceLocator.resolve(AccountPersistenceMapper.class);
+        AccountRepository accountRepository =
+                new InMemoryAccountRepository(userInMemoryDatabase, accountMapper);
+        this.resourceLocator.register(AccountRepository.class, accountRepository);
+    }
 }

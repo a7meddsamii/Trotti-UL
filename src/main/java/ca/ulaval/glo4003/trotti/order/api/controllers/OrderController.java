@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import jakarta.ws.rs.core.Response;
 
 public class OrderController implements OrderResource {

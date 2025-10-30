@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.domain.commons.payment.values.money;
 
 import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
-import java.math.BigDecimal;
-
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

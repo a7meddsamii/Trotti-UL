@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
+import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.BatteryRecord;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.ScooterRecord;

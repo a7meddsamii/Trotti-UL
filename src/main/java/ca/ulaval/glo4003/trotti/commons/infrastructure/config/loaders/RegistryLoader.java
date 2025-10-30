@@ -3,11 +3,10 @@ package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.employees.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionMapper;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.employees.EmployeeIdulCsvProvider;
-
 import java.nio.file.Path;
 import java.util.Set;
 
@@ -24,8 +23,7 @@ public class RegistryLoader extends Bootstrapper {
     private void loadSessionProvider() {
         SessionMapper sessionMapper = new SessionMapper();
         SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
-        SessionEnum sessionEnum =
-                new SessionEnum(SessionProvider.getInstance().getSessions());
+        SessionEnum sessionEnum = new SessionEnum(SessionProvider.getInstance().getSessions());
 
         this.resourceLocator.register(SessionProvider.class, SessionProvider.getInstance());
         this.resourceLocator.register(SessionEnum.class, sessionEnum);

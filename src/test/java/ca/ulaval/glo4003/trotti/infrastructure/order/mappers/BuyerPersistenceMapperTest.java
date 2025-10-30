@@ -2,12 +2,12 @@ package ca.ulaval.glo4003.trotti.infrastructure.order.mappers;
 
 import static ca.ulaval.glo4003.trotti.fixtures.AccountFixture.*;
 
-import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.BuyerPersistenceMapper;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;
-import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.fixtures.BuyerFixture;
+import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.CreditCardRecord;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;
 import java.time.YearMonth;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

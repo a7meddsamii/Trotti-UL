@@ -5,12 +5,11 @@ import ca.ulaval.glo4003.trotti.communication.domain.exceptions.EmailSendExcepti
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.fixtures.RidePermitFixture;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
+import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

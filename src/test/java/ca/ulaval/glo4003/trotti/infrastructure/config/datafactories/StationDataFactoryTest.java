@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
@@ -15,6 +14,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
 import java.util.ArrayList;
 import java.util.List;

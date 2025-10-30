@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.payment.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.config.Configuration;
-import ca.ulaval.glo4003.trotti.config.loaders.DomainServiceLoader;
-import ca.ulaval.glo4003.trotti.config.loaders.ForeignServiceLoader;
+import ca.ulaval.glo4003.trotti.payment.infrastructure.config.loaders.PaymentDomainServiceLoader;
+import ca.ulaval.glo4003.trotti.payment.infrastructure.config.loaders.PaymentForeignServiceLoader;
 
 public class PaymentConfiguration extends Configuration {
+
+    protected static Configuration instance;
 
     public static Configuration getInstance() {
         if (instance == null) {
@@ -19,8 +21,8 @@ public class PaymentConfiguration extends Configuration {
     }
 
     @Override
-	protected void load() {
-		new ForeignServiceLoader().load();
-		new DomainServiceLoader().load();
-	}
+    protected void load() {
+        new PaymentForeignServiceLoader().load();
+        new PaymentDomainServiceLoader().load();
+    }
 }

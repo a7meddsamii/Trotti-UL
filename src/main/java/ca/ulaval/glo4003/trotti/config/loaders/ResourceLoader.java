@@ -2,9 +2,11 @@ package ca.ulaval.glo4003.trotti.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.api.controllers.AccountController;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
-import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationController;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
+import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
+import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatController;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.order.api.controllers.CartController;
@@ -13,17 +15,15 @@ import ca.ulaval.glo4003.trotti.order.api.controllers.OrderController;
 import ca.ulaval.glo4003.trotti.order.api.controllers.OrderResource;
 import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
+import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
+import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 
 public class ResourceLoader extends Bootstrapper {
     @Override

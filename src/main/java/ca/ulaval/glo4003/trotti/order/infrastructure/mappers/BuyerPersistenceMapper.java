@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.mappers;
 
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Cart;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.CreditCardRecord;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.PassRecord;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
 import java.util.ArrayList;
 import java.util.List;
 

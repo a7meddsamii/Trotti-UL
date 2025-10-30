@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.store.GuavaUnlockCodeStore;
 
 public class TripForeignServiceLoader extends Bootstrapper {
-	
+
     @Override
     public void load() {
         loadGuavaCachingStore();

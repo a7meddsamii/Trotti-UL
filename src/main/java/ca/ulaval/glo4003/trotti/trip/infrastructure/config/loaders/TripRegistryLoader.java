@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationProvider;
-
 import java.nio.file.Path;
 
 public class TripRegistryLoader extends Bootstrapper {

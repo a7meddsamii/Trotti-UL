@@ -24,7 +24,7 @@ class CreditCardTest {
     void givenEmptyCardHolder_whenCreatingCreditCard_thenThrowsException() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
         Executable creatingInvalidCreditCard = () -> CreditCard.from(validSecured,
-																	 INVALID_CARD_HOLDER, YearMonth.now().plusYears(1));
+                INVALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
         Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
     }

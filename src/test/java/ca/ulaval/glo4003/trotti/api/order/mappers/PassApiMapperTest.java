@@ -3,24 +3,23 @@ package ca.ulaval.glo4003.trotti.api.order.mappers;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
+import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import ca.ulaval.glo4003.trotti.order.domain.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
+import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

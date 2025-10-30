@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
 import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
@@ -17,7 +16,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
-
 import java.time.Clock;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         loadTripApplicationService();
     }
 
-
     private void loadRidePermitActivationApplicationService() {
         TravelerRepository travelerRepository =
                 this.resourceLocator.resolve(TravelerRepository.class);
@@ -37,14 +34,12 @@ public class TripApplicationServiceLoader extends Bootstrapper {
                 this.resourceLocator.resolve(RidePermitHistoryGateway.class);
         NotificationService<List<RidePermit>> notificationService =
                 this.resourceLocator.resolve(RidePermitNotificationService.class);
-        RidePermitMapper ridePermitMapper = this.resourceLocator.resolve(RidePermitMapper.class);
         EmployeeRidePermitService employeeRidePermitService =
                 this.resourceLocator.resolve(EmployeeRidePermitService.class);
 
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService, employeeRidePermitService,
-                        ridePermitMapper);
+                        ridePermitHistoryGateway, notificationService, employeeRidePermitService);
         this.resourceLocator.register(RidePermitActivationApplicationService.class,
                 ridePermitActivationService);
     }

@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.application.trip;
 
-import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
+import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
@@ -39,10 +38,9 @@ class RidePermitActivationApplicationServiceTest {
         ridePermitHistoryGateway = Mockito.mock(RidePermitHistoryGateway.class);
         ridePermitNotificationService = Mockito.mock(RidePermitNotificationService.class);
         employeeRidePermitService = Mockito.mock(EmployeeRidePermitService.class);
-        RidePermitMapper ridePermitMapper = Mockito.mock(RidePermitMapper.class);
         ridePermitActivationApplicationService = new RidePermitActivationApplicationService(
                 travelerRepository, ridePermitHistoryGateway, ridePermitNotificationService,
-                employeeRidePermitService, ridePermitMapper);
+                employeeRidePermitService);
         existingTravelers = mockTravelers();
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
     }

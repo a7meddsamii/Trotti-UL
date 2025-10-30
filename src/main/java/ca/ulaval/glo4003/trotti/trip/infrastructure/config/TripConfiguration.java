@@ -5,19 +5,21 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders.*;
 
 public class TripConfiguration extends Configuration {
 
+    protected static Configuration instance;
+
     private TripConfiguration() {
         super();
     }
-	
-	public static Configuration getInstance() {
-		if (instance == null) {
-			instance = new TripConfiguration();
-		}
-		
-		return instance;
-	}
 
-	@Override
+    public static Configuration getInstance() {
+        if (instance == null) {
+            instance = new TripConfiguration();
+        }
+
+        return instance;
+    }
+
+    @Override
     protected void load() {
         new TripRegistryLoader().load();
         new TripForeignServiceLoader().load();

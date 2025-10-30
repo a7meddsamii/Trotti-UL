@@ -1,14 +1,13 @@
 package ca.ulaval.glo4003.trotti.infrastructure.order.repositories;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
-import ca.ulaval.glo4003.trotti.fixtures.PassFixture;
 import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.PassPersistenceMapper;
-import java.util.List;
-
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.InMemoryPassRepository;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

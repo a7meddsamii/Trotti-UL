@@ -1,29 +1,27 @@
 package ca.ulaval.glo4003.trotti.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.mappers.PassMapper;
-import ca.ulaval.glo4003.trotti.order.application.mappers.TransactionMapper;
-import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
-import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
-import ca.ulaval.glo4003.trotti.payment.domain.services.TransactionNotificationService;
-import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
-import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
+import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
+import ca.ulaval.glo4003.trotti.order.application.mappers.PassMapper;
+import ca.ulaval.glo4003.trotti.order.application.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceNotificationService;
-import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
+import ca.ulaval.glo4003.trotti.payment.domain.services.TransactionNotificationService;
+import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
+import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
@@ -33,6 +31,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
+import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
 import java.time.Clock;
 import java.util.List;
@@ -94,14 +93,12 @@ public class ApplicationServiceLoader extends Bootstrapper {
                 this.resourceLocator.resolve(RidePermitHistoryGateway.class);
         NotificationService<List<RidePermit>> notificationService =
                 this.resourceLocator.resolve(RidePermitNotificationService.class);
-        RidePermitMapper ridePermitMapper = this.resourceLocator.resolve(RidePermitMapper.class);
         EmployeeRidePermitService employeeRidePermitService =
                 this.resourceLocator.resolve(EmployeeRidePermitService.class);
 
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitHistoryGateway, notificationService, employeeRidePermitService,
-                        ridePermitMapper);
+                        ridePermitHistoryGateway, notificationService, employeeRidePermitService);
         this.resourceLocator.register(RidePermitActivationApplicationService.class,
                 ridePermitActivationService);
     }

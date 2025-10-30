@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

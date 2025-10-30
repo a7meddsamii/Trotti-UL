@@ -1,14 +1,13 @@
 package ca.ulaval.glo4003.trotti.infrastructure.trip.repositories;
 
+import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.fixtures.ScooterFixture;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import java.math.BigDecimal;
-
-import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

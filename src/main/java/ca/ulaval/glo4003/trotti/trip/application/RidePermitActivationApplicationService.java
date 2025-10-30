@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.trip.application.mappers.RidePermitMapper;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
@@ -15,19 +14,16 @@ public class RidePermitActivationApplicationService {
     private final RidePermitHistoryGateway ridePermitHistoryGateway;
     private final NotificationService<List<RidePermit>> ridePermitNotificationService;
     private final EmployeeRidePermitService employeeRidePermitService;
-    private final RidePermitMapper ridePermitMapper;
 
     public RidePermitActivationApplicationService(
             TravelerRepository travelerRepository,
             RidePermitHistoryGateway ridePermitHistoryGateway,
             NotificationService<List<RidePermit>> ridePermitNotificationService,
-            EmployeeRidePermitService employeeRidePermitService,
-            RidePermitMapper ridePermitMapper) {
+            EmployeeRidePermitService employeeRidePermitService) {
         this.travelerRepository = travelerRepository;
         this.ridePermitHistoryGateway = ridePermitHistoryGateway;
         this.ridePermitNotificationService = ridePermitNotificationService;
         this.employeeRidePermitService = employeeRidePermitService;
-        this.ridePermitMapper = ridePermitMapper;
     }
 
     public void updateActivatedRidePermits() {

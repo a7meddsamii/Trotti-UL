@@ -5,20 +5,22 @@ import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class CommunicationConfiguration extends Configuration {
 
+    protected static Configuration instance;
+
     private CommunicationConfiguration() {
         super();
     }
-	
-	public static Configuration getInstance() {
-		if (instance == null) {
-			instance = new CommunicationConfiguration();
-		}
-		
-		return instance;
-	}
-	
-	@Override
-	protected void load() {
-		new CommunicationForeignServiceLoader().load();
-	}
+
+    public static Configuration getInstance() {
+        if (instance == null) {
+            instance = new CommunicationConfiguration();
+        }
+
+        return instance;
+    }
+
+    @Override
+    protected void load() {
+        new CommunicationForeignServiceLoader().load();
+    }
 }

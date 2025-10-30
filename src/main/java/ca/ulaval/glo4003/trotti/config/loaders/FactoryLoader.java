@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
-import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
 import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
 import ca.ulaval.glo4003.trotti.trip.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.factories.StationFactory;
 import java.time.Clock;

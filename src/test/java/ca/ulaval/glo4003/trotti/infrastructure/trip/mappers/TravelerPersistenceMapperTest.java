@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.infrastructure.trip.mappers;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
@@ -9,7 +10,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.fixtures.TravelerFixture;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.RidePermitRecord;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;

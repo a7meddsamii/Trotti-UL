@@ -1,17 +1,11 @@
 package ca.ulaval.glo4003.trotti.order.application;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
 import ca.ulaval.glo4003.trotti.order.application.mappers.TransactionMapper;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
-import ca.ulaval.glo4003.trotti.payment.domain.exceptions.InvalidPaymentMethodException;
-import ca.ulaval.glo4003.trotti.payment.domain.exceptions.PaymentException;
-import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
-import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Order;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.exceptions.CartException;
@@ -19,6 +13,12 @@ import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
+import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
+import ca.ulaval.glo4003.trotti.payment.domain.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.payment.domain.exceptions.PaymentException;
+import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
+import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 

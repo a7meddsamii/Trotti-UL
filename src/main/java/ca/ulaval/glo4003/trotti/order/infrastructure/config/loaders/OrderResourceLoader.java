@@ -12,34 +12,34 @@ import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
 import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
 
 public class OrderResourceLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		loadOrderResource();
-		loadCartResource();
-	}
-	
-	private void loadOrderResource() {
-		OrderApiMapper orderApiMapper = this.resourceLocator.resolve(OrderApiMapper.class);
-		AuthenticationService authenticationService =
-				this.resourceLocator.resolve(AuthenticationService.class);
-		OrderApplicationService orderApplicationService =
-				this.resourceLocator.resolve(OrderApplicationService.class);
-		
-		OrderResource orderController =
-				new OrderController(orderApplicationService, authenticationService, orderApiMapper);
-		this.resourceLocator.register(OrderResource.class, orderController);
-	}
-	
-	private void loadCartResource() {
-		PassApiMapper passApiMapper = this.resourceLocator.resolve(PassApiMapper.class);
-		AuthenticationService authenticationService =
-				this.resourceLocator.resolve(AuthenticationService.class);
-		CartApplicationService cartApplicationService =
-				this.resourceLocator.resolve(CartApplicationService.class);
-		
-		CartResource cartController =
-				new CartController(cartApplicationService, authenticationService, passApiMapper);
-		this.resourceLocator.register(CartResource.class, cartController);
-	}
+
+    @Override
+    public void load() {
+        loadOrderResource();
+        loadCartResource();
+    }
+
+    private void loadOrderResource() {
+        OrderApiMapper orderApiMapper = this.resourceLocator.resolve(OrderApiMapper.class);
+        AuthenticationService authenticationService =
+                this.resourceLocator.resolve(AuthenticationService.class);
+        OrderApplicationService orderApplicationService =
+                this.resourceLocator.resolve(OrderApplicationService.class);
+
+        OrderResource orderController =
+                new OrderController(orderApplicationService, authenticationService, orderApiMapper);
+        this.resourceLocator.register(OrderResource.class, orderController);
+    }
+
+    private void loadCartResource() {
+        PassApiMapper passApiMapper = this.resourceLocator.resolve(PassApiMapper.class);
+        AuthenticationService authenticationService =
+                this.resourceLocator.resolve(AuthenticationService.class);
+        CartApplicationService cartApplicationService =
+                this.resourceLocator.resolve(CartApplicationService.class);
+
+        CartResource cartController =
+                new CartController(cartApplicationService, authenticationService, passApiMapper);
+        this.resourceLocator.register(CartResource.class, cartController);
+    }
 }

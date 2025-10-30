@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPer
 public class TripRepositoryLoader extends Bootstrapper {
     @Override
     public void load() {
-		loadTravelerRepository();
+        loadTravelerRepository();
         loadTripRepository();
         loadStationRepository();
         loadScooterRepository();
@@ -43,7 +43,7 @@ public class TripRepositoryLoader extends Bootstrapper {
 
         this.resourceLocator.register(TripRepository.class, tripRepository);
     }
-	
+
     private void loadStationRepository() {
         StationPersistenceMapper stationPersistenceMapper =
                 this.resourceLocator.resolve(StationPersistenceMapper.class);
