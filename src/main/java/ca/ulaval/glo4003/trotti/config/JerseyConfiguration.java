@@ -23,10 +23,11 @@ import org.glassfish.jersey.server.validation.ValidationFeature;
 @SecurityScheme(name = "auth", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER,
         paramName = "Authorization")
 public class JerseyConfiguration extends ResourceConfig {
-    private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti.api";
+    private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti";
 
     public JerseyConfiguration() {
         ApplicationContext.getInstance().initiate();
+
         register(RestServerBinder.class);
         register(ServerLifeCycleListener.class);
         register(ValidationFeature.class);
