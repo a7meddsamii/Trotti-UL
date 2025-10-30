@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceNotificationService;
 import ca.ulaval.glo4003.trotti.order.infrastructure.services.TextInvoiceFormatServiceAdapter;

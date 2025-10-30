@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class AccountApplicationLoader extends Bootstrapper {
     @Override

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers.AccountPersistenceMapper;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class AccountMapperLoader extends Bootstrapper {
 

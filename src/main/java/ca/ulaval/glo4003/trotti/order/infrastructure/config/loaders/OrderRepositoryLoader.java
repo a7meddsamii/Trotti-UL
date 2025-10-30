@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.BuyerPersistenceMapper;

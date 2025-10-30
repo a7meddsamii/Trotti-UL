@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
 import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
-import ca.ulaval.glo4003.trotti.order.application.mappers.PassMapper;
-import ca.ulaval.glo4003.trotti.order.application.mappers.TransactionMapper;
+import ca.ulaval.glo4003.trotti.order.application.PassMapper;
+import ca.ulaval.glo4003.trotti.order.application.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;

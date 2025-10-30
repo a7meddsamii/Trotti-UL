@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;
 import java.util.concurrent.ConcurrentHashMap;

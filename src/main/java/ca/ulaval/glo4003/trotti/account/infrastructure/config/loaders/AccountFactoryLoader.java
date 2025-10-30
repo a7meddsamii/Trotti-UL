@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.time.Clock;
 
 public class AccountFactoryLoader extends Bootstrapper {

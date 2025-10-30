@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationController
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class AccountResourceLoader extends Bootstrapper {
 

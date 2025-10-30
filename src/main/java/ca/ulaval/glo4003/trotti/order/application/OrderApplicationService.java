@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.order.application.mappers.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Order;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;

@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.employees.EmployeeIdulCsvProvider;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionMapper;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.nio.file.Path;
 import java.util.Set;
 

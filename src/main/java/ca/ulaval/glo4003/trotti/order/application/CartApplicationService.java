@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.order.application;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
-import ca.ulaval.glo4003.trotti.order.application.mappers.PassMapper;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;

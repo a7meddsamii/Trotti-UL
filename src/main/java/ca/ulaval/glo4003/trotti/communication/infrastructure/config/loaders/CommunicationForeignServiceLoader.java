@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.communication.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.mail.JakartaMailServiceConfiguration;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.services.JakartaEmailServiceAdapter;
-import ca.ulaval.glo4003.trotti.config.loaders.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class CommunicationForeignServiceLoader extends Bootstrapper {
 
