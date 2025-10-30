@@ -58,7 +58,7 @@ public class TripApplicationService {
     public void endTrip(EndTripDto endTripDto) {
         Traveler traveler = travelerRepository.findByIdul(endTripDto.idul());
         Station station = stationRepository.findByLocation(endTripDto.location());
-        ScooterId scooterId = traveler.getOngoingTrip().getScooterId();
+        ScooterId scooterId = traveler.getUsedScooter();
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
