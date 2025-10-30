@@ -77,8 +77,11 @@ public class Traveler {
         return email;
     }
 
-    public Optional<Trip> getOngoingTrip() {
-        return Optional.ofNullable(ongoingTrip);
+    public Trip getOngoingTrip() {
+        if (Optional.ofNullable(ongoingTrip).isEmpty()) {
+            throw new NotFoundException("Traveler is not currently on a trip");
+        }
+        return ongoingTrip;
     }
 
 }
