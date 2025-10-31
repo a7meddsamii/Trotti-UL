@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;

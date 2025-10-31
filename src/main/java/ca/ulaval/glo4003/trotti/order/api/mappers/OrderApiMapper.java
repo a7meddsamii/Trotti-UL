@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.api.mappers;
 
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.TransactionResponse;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;

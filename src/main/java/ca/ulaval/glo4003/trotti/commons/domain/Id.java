@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.util.Objects;
 import java.util.UUID;
 

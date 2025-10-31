@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.account.api.dto.LoginResponse;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;
 
 public class AuthenticationController implements AuthenticationResource {

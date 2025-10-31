@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
-import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.api.exceptions;
+package ca.ulaval.glo4003.trotti.commons.domain.exceptions;
 
 public class NotFoundException extends RuntimeException {
 
