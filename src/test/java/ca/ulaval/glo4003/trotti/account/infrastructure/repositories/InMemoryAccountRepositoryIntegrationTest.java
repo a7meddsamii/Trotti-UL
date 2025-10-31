@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.repositories;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.account.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;

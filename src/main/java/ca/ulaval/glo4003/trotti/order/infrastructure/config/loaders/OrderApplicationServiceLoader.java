@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.order.application.PassMapper;
 import ca.ulaval.glo4003.trotti.order.application.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.domain.factories.OrderFactory;
 import ca.ulaval.glo4003.trotti.order.domain.factories.PassFactory;
-import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.payment.domain.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceNotificationService;

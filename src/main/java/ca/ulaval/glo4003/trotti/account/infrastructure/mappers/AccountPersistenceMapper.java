@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.infrastructure.repositories.mappers;
+package ca.ulaval.glo4003.trotti.account.infrastructure.mappers;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.payment.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.order.domain.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.payment.domain.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
 import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
 
