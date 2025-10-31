@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.trotti.infrastructure.config.JerseyConfiguration;
+import ca.ulaval.glo4003.trotti.config.jersey.JerseyConfiguration;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
