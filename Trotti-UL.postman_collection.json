@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "726f0ebe-8e07-4ab0-8777-2599a9cee68e",
+		"_postman_id": "8668e97a-50ea-4d20-a16d-fbc66482c271",
 		"name": "Trotti-UL",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25085332"
+		"_exporter_id": "32431257"
 	},
 	"item": [
 		{
@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"name\": \"Yannick André\",\r\n  \"birthDate\": \"1990-05-15\",\r\n  \"gender\": \"Male\",\r\n  \"idul\": \"yaoua13\",\r\n  \"email\": \"yaoua13@ulaval.ca\",\r\n  \"password\": \"StrongPass!23\"\r\n}\r\n",
+									"raw": "{\r\n  \"name\": \"samy khalfallah\",\r\n  \"birthDate\": \"1990-05-15\",\r\n  \"gender\": \"Male\",\r\n  \"idul\": \"sakha65\",\r\n  \"email\": \"sakha65@ulaval.ca\",\r\n  \"password\": \"StrongPass!23\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -42,12 +42,38 @@
 						},
 						{
 							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"pm.environment.set(\"AuthToken\", response.token);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"email\": \"yaoua13@ulaval.ca\",\r\n  \"password\": \"StrongPass!23\"\r\n}\r\n",
+									"raw": "{\r\n  \"email\": \"sakha65@ulaval.ca\",\r\n  \"password\": \"StrongPass!23\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -410,7 +436,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNTdjMGVhYy1lYmJhLTQxMzEtODg5Ny1jMmIwZmNmM2Y3YjQiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTMzMTYyLCJleHAiOjE3NTk1MzY3NjJ9.w6AbwBVxt89kQmmsBCDYm3WyBZ1pmz1jShsuyNm9U8Q",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
@@ -430,18 +456,33 @@
 				},
 				{
 					"name": "AddToCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.environment.set(\"RidePermitId\", response.passes[0].id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNTdjMGVhYy1lYmJhLTQxMzEtODg5Ny1jMmIwZmNmM2Y3YjQiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTMzMTYyLCJleHAiOjE3NTk1MzY3NjJ9.w6AbwBVxt89kQmmsBCDYm3WyBZ1pmz1jShsuyNm9U8Q",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"passes\": [\r\n    {\r\n      \"maximumDailyTravelTime\": 30,\r\n      \"session\": \"E26\",\r\n      \"billingFrequency\": \"MONTHLY\"\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"passes\": [\r\n    {\r\n      \"maximumDailyTravelTime\": 30,\r\n      \"session\": \"A25\",\r\n      \"billingFrequency\": \"MONTHLY\"\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -469,7 +510,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OTgwMTU4Ni1jZWFjLTRiOTUtOGZiYS03MThlZDhhMTI2ODQiLCJzdWIiOiJBSFNBTTIiLCJpYXQiOjE3NTk1MDE5MDUsImV4cCI6MTc1OTUwNTUwNX0.XC-Zjcw8Ol0LLEMNyoG1LoS31U0FB_4dI3_967EjO0k",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
@@ -503,12 +544,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "localhost:8080/api/cart",
+							"raw": "localhost:8080/api/cart?=",
 							"host": [
 								"localhost"
 							],
@@ -516,6 +557,12 @@
 							"path": [
 								"api",
 								"cart"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": ""
+								}
 							]
 						}
 					},
@@ -528,7 +575,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
@@ -554,7 +601,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzhlYWFlNi0xNGYwLTQwOWUtODhlNy05YWQ1NmJmZmNmYWMiLCJzdWIiOiJ5YW91YTEzIiwiaWF0IjoxNzU5NTI2MzY4LCJleHAiOjE3NTk1Mjk5Njh9.ytAAoT5EgzqYKtuLm9_0tk3bl_ApMKy-I_bR8oPYGd4",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
@@ -585,35 +632,134 @@
 			]
 		},
 		{
-			"name": "Trip",
+			"name": "UnlockCode",
 			"item": [
 				{
-					"name": "Get ride permits",
+					"name": "requestUnlockCode",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3MGQ0MzBjOC1mNTdlLTQ2M2YtYmQ5Yi0yZjdkYjJkMDViZWIiLCJzdWIiOiJMVUdBVTE3IiwiaWF0IjoxNzU5NDczNTY1LCJleHAiOjE3NTk0NzcxNjV9.M6ibl-PypIBCP7yDoTl-D4Ei7ruycgvTk4t-6xXQzXE",
+								"value": "{{AuthToken}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/traveler",
-							"protocol": "http",
+							"raw": "localhost:8080/api/unlock-code/{{RidePermitId}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"traveler"
+								"unlock-code",
+								"{{RidePermitId}}"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Trip",
+			"item": [
+				{
+					"name": "Start Trip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AuthToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ridePermitId\": \"{{RidePermitId}}\",\r\n  \"unlockCode\": \"614409\",\r\n  \"location\": \"VACHON\",\r\n  \"slotNumber\": \"1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/trips/start",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"trips",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "end trip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AuthToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"location\": \"PEPS\",\n  \"slotNumber\": \"20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/trips/end",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"trips",
+								"end"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

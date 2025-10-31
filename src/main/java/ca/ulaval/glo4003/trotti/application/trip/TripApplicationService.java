@@ -46,8 +46,8 @@ public class TripApplicationService {
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime startTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        scooter.undock(startTime);
         traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
+        scooter.undock(startTime);
 
         unlockCodeService.revoke(startTripDto.unlockCode());
         travelerRepository.update(traveler);
