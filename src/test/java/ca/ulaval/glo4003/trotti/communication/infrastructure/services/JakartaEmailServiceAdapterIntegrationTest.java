@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.communication.infrastructure.services;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.communication.infrastructure.services.JakartaEmailServiceAdapter;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import jakarta.mail.MessagingException;

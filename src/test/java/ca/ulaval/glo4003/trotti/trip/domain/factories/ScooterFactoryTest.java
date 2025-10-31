@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.factories;
 
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.trip.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import java.math.BigDecimal;

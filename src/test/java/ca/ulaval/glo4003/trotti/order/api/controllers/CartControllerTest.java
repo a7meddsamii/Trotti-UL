@@ -2,8 +2,6 @@ package ca.ulaval.glo4003.trotti.order.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.order.api.controllers.CartController;
-import ca.ulaval.glo4003.trotti.order.api.controllers.CartResource;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;

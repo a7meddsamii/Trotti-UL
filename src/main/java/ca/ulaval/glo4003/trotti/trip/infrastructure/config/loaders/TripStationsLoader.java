@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.trip.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;

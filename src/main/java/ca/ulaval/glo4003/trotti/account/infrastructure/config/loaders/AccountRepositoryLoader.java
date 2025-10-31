@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
-import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.account.infrastructure.mappers.AccountPersistenceMapper;
+import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 

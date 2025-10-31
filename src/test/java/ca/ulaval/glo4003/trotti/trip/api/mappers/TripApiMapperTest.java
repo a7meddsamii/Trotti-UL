@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
-import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;

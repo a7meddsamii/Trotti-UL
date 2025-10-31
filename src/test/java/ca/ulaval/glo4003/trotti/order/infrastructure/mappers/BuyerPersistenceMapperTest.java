@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.trotti.order.infrastructure.mappers;
 
 import static ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture.*;
 
-import ca.ulaval.glo4003.trotti.order.fixtures.BuyerFixture;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
+import ca.ulaval.glo4003.trotti.order.fixtures.BuyerFixture;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.CreditCardRecord;
 import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;

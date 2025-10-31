@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import java.time.LocalDate;
 import org.apache.commons.lang3.RandomStringUtils;

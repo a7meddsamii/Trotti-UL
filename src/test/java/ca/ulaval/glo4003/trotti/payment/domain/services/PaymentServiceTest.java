@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.payment.domain.services;
 
-import ca.ulaval.glo4003.trotti.payment.domain.services.PaymentService;
 import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;

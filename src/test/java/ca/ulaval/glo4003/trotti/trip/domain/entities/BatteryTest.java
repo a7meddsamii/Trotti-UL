@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidBatteryUpdate;
 import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryState;

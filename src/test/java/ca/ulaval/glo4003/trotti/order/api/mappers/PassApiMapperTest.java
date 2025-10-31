@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
-import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
 import ca.ulaval.glo4003.trotti.order.domain.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;

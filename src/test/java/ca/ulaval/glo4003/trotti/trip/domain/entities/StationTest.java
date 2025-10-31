@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import org.junit.jupiter.api.Assertions;

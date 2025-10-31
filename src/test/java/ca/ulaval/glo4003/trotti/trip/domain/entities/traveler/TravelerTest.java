@@ -4,8 +4,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.api.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.RidePermitWallet;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TravelerException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;

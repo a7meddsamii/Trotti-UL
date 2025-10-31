@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeController;
-import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import jakarta.ws.rs.core.Response;

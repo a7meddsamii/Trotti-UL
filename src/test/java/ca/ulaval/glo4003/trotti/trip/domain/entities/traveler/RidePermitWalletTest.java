@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.RidePermitWallet;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

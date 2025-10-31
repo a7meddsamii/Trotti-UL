@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
 import ca.ulaval.glo4003.trotti.commons.api.exceptions.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
