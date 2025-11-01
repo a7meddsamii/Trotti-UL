@@ -20,6 +20,40 @@ EMPLOYEES_IDUL_FILE="Employe.e.s.csv"
 SEMESTER_FILE="semesters-252627.json"
 STATION_FILE="campus-delivery-location.json"
 CONTAINER_NAME="trottiul_container"
+DEBUG_PORT=5005
+DEBUG_MODE=false
+
+usage() {
+    echo "Usage: $0 [--help] [--debug] [--debug-port PORT]"
+    echo "Options:"
+    echo "  no options          Start the application in normal mode"
+    echo "  --debug             Start the application in DEBUG mode"
+    echo "  --debug-port PORT   Specify the debug port (default: 5005)"
+    echo "  --help              Show this help message and exit"
+    exit 1
+}
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --debug)
+            DEBUG_MODE=true
+            shift
+            ;;
+        --debug-port)
+            DEBUG_PORT="$2"
+            shift 2
+            ;;
+        --help)
+            usage
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage
+            ;;
+    esac
+done
+
 
 # stop and remove any existing container with the same name if it exists
 function stop_container() {
@@ -42,6 +76,23 @@ function run_image() {
         $IMAGE_NAME
 }
 
+# Run the Docker container in debug mode
+function run_image_debug() {
+  echo "############# Starting container with JVM debug on port $DEBUG_PORT... #############"
+  echo "############# Connect your IDE debugger to localhost:$DEBUG_PORT #############"
+  
+  docker run \
+          --env-file config.env \
+          -e JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT" \
+          -v "$RESOURCE_DIR$EMPLOYEES_IDUL_FILE:/app/data/Employe.e.s.csv" \
+          -v "$RESOURCE_DIR$SEMESTER_FILE:/app/data/semesters-252627.json" \
+          -v "$RESOURCE_DIR$STATION_FILE:/app/data/campus-delivery-location.json" \
+          --name $CONTAINER_NAME \
+          -p 8080:8080 \
+          -p "$DEBUG_PORT":"$DEBUG_PORT" \
+          $IMAGE_NAME
+}
+
 # Build the Docker image, failing if there are any errors
 function start_app() {
     stop_container
@@ -53,7 +104,11 @@ function start_app() {
         exit 1
     fi
     
-    run_image
+    if [ "$DEBUG_MODE" = true ]; then
+        run_image_debug
+    else
+        run_image
+    fi
 }
 
 start_app
