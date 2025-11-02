@@ -1,17 +1,17 @@
-package ca.ulaval.glo4003.trotti.application.trip;
+package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.application.trip.dto.EndTripDto;
-import ca.ulaval.glo4003.trotti.application.trip.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Scooter;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Station;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.Trip;
-import ca.ulaval.glo4003.trotti.domain.trip.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.TravelerRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.repositories.TripRepository;
-import ca.ulaval.glo4003.trotti.domain.trip.services.UnlockCodeService;
-import ca.ulaval.glo4003.trotti.domain.trip.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
