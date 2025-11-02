@@ -53,7 +53,6 @@ class TripApplicationServiceTest {
     private UnlockCode unlockCode;
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
-    private Trip ongoingTrip;
     private Trip completedTrip;
 
     @BeforeEach
@@ -67,7 +66,6 @@ class TripApplicationServiceTest {
         traveler = Mockito.mock(Traveler.class);
         scooter = Mockito.mock(Scooter.class);
         station = Mockito.mock(Station.class);
-        ongoingTrip = Mockito.mock(Trip.class);
 
         clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
         unlockCode = UnlockCode.generateFromTravelerId(TRAVELER_IDUL);
@@ -77,8 +75,7 @@ class TripApplicationServiceTest {
         Mockito.when(station.getScooter(SLOT_NUMBER)).thenReturn(SCOOTER_ID);
         Mockito.when(scooterRepository.findById(SCOOTER_ID)).thenReturn(scooter);
 
-        Mockito.when(traveler.getOngoingTrip()).thenReturn(Optional.of(ongoingTrip));
-        Mockito.when(ongoingTrip.getScooterId()).thenReturn(SCOOTER_ID);
+        Mockito.when(traveler.getUsedScooter()).thenReturn(SCOOTER_ID);
         completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
                 .thenReturn(completedTrip);
@@ -142,18 +139,17 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsDockedAtStation() {
-        Trip completedTrip = Mockito.mock(Trip.class);
+    void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsDockedAndReturnedToStation() {
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(endTripDto);
 
         Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
+        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
     }
 
     @Test
     void givenValidUnlockCode_whenEndTrip_thenAllRepositoriesAreUpdated() {
-        Trip completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
 
         tripApplicationService.endTrip(endTripDto);
