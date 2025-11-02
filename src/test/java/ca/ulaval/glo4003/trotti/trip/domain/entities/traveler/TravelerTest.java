@@ -85,4 +85,18 @@ class TravelerTest {
         Assertions.assertThrows(NotFoundException.class, endingTripWithoutOngoingTrip);
     }
 
+    @Test
+    void givenOngoingTrip_whenGetUsedScooter_thenReturnsScooterId() {
+        traveler.startTraveling(A_TIME, A_RIDE_PERMIT_ID, A_SCOOTER_ID);
+
+        Assertions.assertEquals(A_SCOOTER_ID, traveler.getUsedScooter());
+    }
+
+    @Test
+    void givenNoOngoingTrip_whenGetUsedScooter_thenThrowTravelerException() {
+        Executable usedScooter = () -> traveler.getUsedScooter();
+
+        Assertions.assertThrows(NotFoundException.class, usedScooter);
+    }
+
 }
