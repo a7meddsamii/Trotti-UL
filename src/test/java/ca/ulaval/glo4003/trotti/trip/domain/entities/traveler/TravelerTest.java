@@ -86,15 +86,15 @@ class TravelerTest {
     }
 
     @Test
-    void givenOngoingTrip_whenGetUsedScooter_thenReturnsScooterId() {
+    void givenOngoingTrip_whenGetUsedScooter_thenReturnsScooterIdId() {
         traveler.startTraveling(A_TIME, A_RIDE_PERMIT_ID, A_SCOOTER_ID);
 
-        Assertions.assertEquals(A_SCOOTER_ID, traveler.getUsedScooter());
+        Assertions.assertEquals(A_SCOOTER_ID, traveler.getUsedScooterId());
     }
 
     @Test
-    void givenNoOngoingTrip_whenGetUsedScooter_thenThrowTravelerException() {
-        Executable usedScooter = () -> traveler.getUsedScooter();
+    void givenNoOngoingTrip_whenGetUsedScooter_Id_thenThrowTravelerException() {
+        Executable usedScooter = () -> traveler.getUsedScooterId();
 
         Assertions.assertThrows(NotFoundException.class, usedScooter);
     }

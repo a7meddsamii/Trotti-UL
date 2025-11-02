@@ -74,7 +74,7 @@ class TripApplicationServiceTest {
         Mockito.when(station.getScooter(SLOT_NUMBER)).thenReturn(SCOOTER_ID);
         Mockito.when(scooterRepository.findById(SCOOTER_ID)).thenReturn(scooter);
 
-        Mockito.when(traveler.getUsedScooter()).thenReturn(SCOOTER_ID);
+        Mockito.when(traveler.getUsedScooterId()).thenReturn(SCOOTER_ID);
         completedTrip = Mockito.mock(Trip.class);
         Mockito.when(traveler.stopTraveling(Mockito.any(LocalDateTime.class)))
                 .thenReturn(completedTrip);
