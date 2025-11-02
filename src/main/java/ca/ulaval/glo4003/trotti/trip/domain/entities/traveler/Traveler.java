@@ -85,7 +85,7 @@ public class Traveler {
         if (Optional.ofNullable(ongoingTrip).isEmpty()) {
             throw new NotFoundException("Traveler is not currently on a trip");
         }
-        return  ongoingTrip.getScooterId();
+        return ongoingTrip.getScooterId();
     }
 
 }
