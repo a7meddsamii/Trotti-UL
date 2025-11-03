@@ -8,18 +8,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
+
 class StationTest {
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private DockingArea A_DOCKING_AREA;
     private Location A_LOCATION;
     private Station station;
+    private Scooter scooter;
 
     @BeforeEach
     void setup() {
         A_DOCKING_AREA = Mockito.mock(DockingArea.class);
         A_LOCATION = Mockito.mock(Location.class);
         station = new Station(A_LOCATION, A_DOCKING_AREA);
+        scooter = Mockito.mock(Scooter.class);
     }
 
     @Test
@@ -33,9 +37,12 @@ class StationTest {
     }
 
     @Test
-    void givenSlotNumberAndScooterId_whenReturnScooter_thenCallsDockOnDockingArea() {
-        station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
+    void givenSlotNumberAndScooter_whenReturnScooter_thenScooterIsDockedAndCallsDockingArea() {
+        LocalDateTime now = LocalDateTime.now();
+        Mockito.when(scooter.getScooterId()).thenReturn(A_SCOOTER_ID);
+        station.returnScooter(SLOT_NUMBER, scooter, now);
 
+        Mockito.verify(scooter).dockAt(A_LOCATION, now);
         Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 

@@ -140,11 +140,11 @@ class TripApplicationServiceTest {
     @Test
     void givenTravelerWithOngoingTrip_whenEndTrip_thenScooterIsDockedAndReturnedToStation() {
         Mockito.when(traveler.stopTraveling(Mockito.eq(EXPECTED_TIME))).thenReturn(completedTrip);
+        Mockito.when(scooter.getScooterId()).thenReturn(SCOOTER_ID);
 
         tripApplicationService.endTrip(endTripDto);
 
-        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
-        Mockito.verify(scooter).dockAt(Mockito.eq(STATION_LOCATION), Mockito.eq(EXPECTED_TIME));
+        Mockito.verify(station).returnScooter(Mockito.eq(SLOT_NUMBER), Mockito.eq(scooter), Mockito.eq(EXPECTED_TIME));
     }
 
     @Test
