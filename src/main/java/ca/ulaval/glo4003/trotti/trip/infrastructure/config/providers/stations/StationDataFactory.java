@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

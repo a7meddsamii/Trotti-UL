@@ -3,12 +3,11 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDateTime;
 
 class StationTest {
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);

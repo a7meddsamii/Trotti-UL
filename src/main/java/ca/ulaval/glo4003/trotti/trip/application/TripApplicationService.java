@@ -49,7 +49,6 @@ public class TripApplicationService {
         scooter.undock(startTime);
         traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
 
-
         unlockCodeService.revoke(startTripDto.unlockCode());
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
@@ -63,8 +62,7 @@ public class TripApplicationService {
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-
-        station.returnScooter(endTripDto.slotNumber(), scooter,  endTime);
+        station.returnScooter(endTripDto.slotNumber(), scooter, endTime);
         Trip completetrip = traveler.stopTraveling(endTime);
 
         travelerRepository.update(traveler);
