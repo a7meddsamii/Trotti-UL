@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import java.time.LocalDateTime;
 
 public class Station {
 
@@ -20,8 +21,9 @@ public class Station {
         return this.dockingArea.undock(slotNumber);
     }
 
-    public void returnScooter(SlotNumber slotNumber, ScooterId scooterId) {
-        this.dockingArea.dock(slotNumber, scooterId);
+    public void returnScooter(SlotNumber slotNumber, Scooter scooter, LocalDateTime time) {
+        scooter.dockAt(this.location, time);
+        this.dockingArea.dock(slotNumber, scooter.getScooterId());
     }
 
     public Location getLocation() {

@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
@@ -47,8 +46,8 @@ public class TripApplicationService {
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime startTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
         scooter.undock(startTime);
+        traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
 
         unlockCodeService.revoke(startTripDto.unlockCode());
         travelerRepository.update(traveler);
@@ -59,12 +58,11 @@ public class TripApplicationService {
     public void endTrip(EndTripDto endTripDto) {
         Traveler traveler = travelerRepository.findByIdul(endTripDto.idul());
         Station station = stationRepository.findByLocation(endTripDto.location());
-        ScooterId scooterId = traveler.getUsedScooter();
+        ScooterId scooterId = traveler.getUsedScooterId();
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        scooter.dockAt(endTripDto.location(), endTime);
-        station.returnScooter(endTripDto.slotNumber(), scooterId);
+        station.returnScooter(endTripDto.slotNumber(), scooter, endTime);
         Trip completetrip = traveler.stopTraveling(endTime);
 
         travelerRepository.update(traveler);

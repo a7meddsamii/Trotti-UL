@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public final class StationDataFactory {
@@ -42,7 +43,7 @@ public final class StationDataFactory {
         for (int i = 0; i < scooters.size(); i++) {
             Scooter scooter = scooters.get(i);
             scooterRepository.save(scooter);
-            station.returnScooter(new SlotNumber(i), scooter.getScooterId());
+            station.returnScooter(new SlotNumber(i), scooter, LocalDateTime.now());
         }
 
         stationRepository.save(station);
