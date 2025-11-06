@@ -6,6 +6,10 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Account {
     private final String name;
@@ -14,6 +18,7 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
+    private final Set<Permission> permissions;
 
     public Account(
             String name,
@@ -28,6 +33,19 @@ public class Account {
         this.idul = idul;
         this.email = email;
         this.password = password;
+        this.permissions = new HashSet<>();
+    }
+
+    public void  addPermission(Permission... permission) {
+        permissions.addAll(Arrays.stream(permission).toList());
+    }
+
+    public Set<Permission> getPermissions() {
+        return Collections.unmodifiableSet(permissions);
+    }
+
+    public void removePermission(Permission permission) {
+        permissions.remove(permission);
     }
 
     public String getName() {
