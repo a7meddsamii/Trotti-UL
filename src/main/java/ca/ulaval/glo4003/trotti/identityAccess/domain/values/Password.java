@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.identityAccess.domain.values;
 
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.identityAccess.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.identityAccess.domain.services.PasswordHasher;
 
 import java.util.Objects;
 

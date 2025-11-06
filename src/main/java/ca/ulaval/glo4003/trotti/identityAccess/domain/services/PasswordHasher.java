@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.identityAccess.services;
+package ca.ulaval.glo4003.trotti.identityAccess.domain.services;
 
 public interface PasswordHasher {
     String hash(String plainPassword);
