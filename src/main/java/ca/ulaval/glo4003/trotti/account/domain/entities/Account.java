@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Arrays;
@@ -38,7 +37,7 @@ public class Account {
         this.permissions = new HashSet<>();
     }
 
-    public void  addPermission(Permission... permission) {
+    public void addPermission(Permission... permission) {
         permissions.addAll(Arrays.stream(permission).toList());
     }
 
