@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
@@ -15,7 +14,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class TripApplicationService {
 
@@ -42,38 +40,29 @@ public class TripApplicationService {
     }
 
     public void startTrip(StartTripDto startTripDto) {
-        unlockCodeService.revoke(startTripDto.unlockCode());
         Traveler traveler = travelerRepository.findByIdul(startTripDto.idul());
         Station station = stationRepository.findByLocation(startTripDto.location());
         ScooterId scooterId = station.getScooter(startTripDto.slotNumber());
-
-        LocalDateTime startTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
         Scooter scooter = scooterRepository.findById(scooterId);
-        scooter.undock(startTime);
+        LocalDateTime startTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
+        scooter.undock(startTime);
         traveler.startTraveling(startTime, startTripDto.ridePermitId(), scooterId);
 
+        unlockCodeService.revoke(startTripDto.unlockCode());
         travelerRepository.update(traveler);
         scooterRepository.save(scooter);
         stationRepository.save(station);
-
     }
 
     public void endTrip(EndTripDto endTripDto) {
         Traveler traveler = travelerRepository.findByIdul(endTripDto.idul());
         Station station = stationRepository.findByLocation(endTripDto.location());
-        Optional<Trip> ongoingTrip = traveler.getOngoingTrip();
-
-        if (ongoingTrip.isEmpty()) {
-            throw new NotFoundException("Traveler is not currently on a trip");
-        }
-
-        ScooterId scooterId = ongoingTrip.get().getScooterId();
+        ScooterId scooterId = traveler.getUsedScooterId();
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        scooter.dockAt(endTripDto.location(), endTime);
-        station.returnScooter(endTripDto.slotNumber(), scooterId);
+        station.returnScooter(endTripDto.slotNumber(), scooter, endTime);
         Trip completetrip = traveler.stopTraveling(endTime);
 
         travelerRepository.update(traveler);
