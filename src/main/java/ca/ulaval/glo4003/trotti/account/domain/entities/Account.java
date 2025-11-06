@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Arrays;
