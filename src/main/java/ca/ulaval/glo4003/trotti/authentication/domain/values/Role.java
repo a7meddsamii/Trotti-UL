@@ -1,4 +1,6 @@
-package ca.ulaval.glo4003.trotti.identityAccess.domain.values;
+package ca.ulaval.glo4003.trotti.authentication.domain.values;
+
+import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
 
 public enum Role {
     STUDENT,
@@ -11,6 +13,7 @@ public enum Role {
                 return role;
             }
         }
-        throw new IllegalArgumentException("Unknown role: " + value);
+		
+        throw new AuthenticationException("Unknown role: " + value);
     }
 }

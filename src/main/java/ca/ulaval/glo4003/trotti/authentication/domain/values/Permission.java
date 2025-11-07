@@ -1,4 +1,6 @@
-package ca.ulaval.glo4003.trotti.identityAccess.domain.values;
+package ca.ulaval.glo4003.trotti.authentication.domain.values;
+
+import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
 
 public enum Permission {
     ORDER_CONFIRM,
@@ -17,6 +19,7 @@ public enum Permission {
                 return permission;
             }
         }
-        throw new IllegalArgumentException("Unknown permission: " + value);
+		
+        throw new AuthenticationException("Unknown permission: " + value);
     }
 }

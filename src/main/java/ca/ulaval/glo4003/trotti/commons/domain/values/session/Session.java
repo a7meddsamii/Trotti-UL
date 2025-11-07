@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.order.domain.values;
+package ca.ulaval.glo4003.trotti.commons.domain.values.session;
 
 import java.time.LocalDate;
 import java.util.Objects;

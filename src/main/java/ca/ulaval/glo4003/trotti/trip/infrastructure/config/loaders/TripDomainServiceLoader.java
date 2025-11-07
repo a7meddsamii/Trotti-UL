@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.SessionEnum;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;

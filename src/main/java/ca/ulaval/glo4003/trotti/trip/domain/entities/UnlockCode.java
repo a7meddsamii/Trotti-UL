@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;

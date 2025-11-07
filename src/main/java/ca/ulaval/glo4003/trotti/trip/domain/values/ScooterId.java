@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.values;
 
-import ca.ulaval.glo4003.trotti.commons.domain.Id;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Id;
 
 public class ScooterId extends Id {
 

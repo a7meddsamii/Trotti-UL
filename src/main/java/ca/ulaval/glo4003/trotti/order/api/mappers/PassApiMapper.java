@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
 import ca.ulaval.glo4003.trotti.order.domain.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;
-import ca.ulaval.glo4003.trotti.order.domain.values.Session;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.Session;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.time.Duration;
 import java.util.List;

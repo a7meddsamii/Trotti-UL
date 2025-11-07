@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;

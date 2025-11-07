@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;

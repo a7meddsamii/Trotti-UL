@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.domain.factories;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;

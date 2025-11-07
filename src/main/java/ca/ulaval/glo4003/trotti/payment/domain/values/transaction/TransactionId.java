@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.payment.domain.values.transaction;
 
-import ca.ulaval.glo4003.trotti.commons.domain.Id;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Id;
 
 public class TransactionId extends Id {
 

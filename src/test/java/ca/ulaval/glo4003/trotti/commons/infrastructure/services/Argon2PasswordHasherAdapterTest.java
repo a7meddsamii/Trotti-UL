@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.infrastructure.services;
+package ca.ulaval.glo4003.trotti.commons.infrastructure.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

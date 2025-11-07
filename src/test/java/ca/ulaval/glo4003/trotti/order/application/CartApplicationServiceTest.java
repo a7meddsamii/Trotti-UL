@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.application;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Buyer;
 import ca.ulaval.glo4003.trotti.order.domain.entities.buyer.Cart;
@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.trotti.order.domain.repositories.BuyerRepository;
 import ca.ulaval.glo4003.trotti.order.domain.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
-import ca.ulaval.glo4003.trotti.order.domain.values.Session;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.Session;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.mappers;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;

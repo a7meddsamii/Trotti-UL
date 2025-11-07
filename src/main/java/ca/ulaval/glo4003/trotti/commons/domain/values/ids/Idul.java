@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.trotti.account.domain.values;
+package ca.ulaval.glo4003.trotti.commons.domain.values.ids;
+
+import java.util.Objects;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public class Idul {

@@ -200,11 +200,11 @@ La courte description doit être en **minuscules**, avec des mots séparés par 
 - Utiliser l’impératif et le présent.
 - Commencer par un verbe d’action suivi d’une description concise.
 - Exemples :
-  - `Add user authentication`
+  - `Add identity authentication`
   - `Fix null pointer exception in ContactService`
   - `Update README with setup instructions`
 - Mauvais examples :
-  - `user authentication` → Quoi avec l'authentification de l'utilisateur ?
+  - `identity authentication` → Quoi avec l'authentification de l'utilisateur ?
   - `Fixing null pointer exception`  → On ne sait pas où.
   - `Updated README with setup instructions` → Pas impératif.
 

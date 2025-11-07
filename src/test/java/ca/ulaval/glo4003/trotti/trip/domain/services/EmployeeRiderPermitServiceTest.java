@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
-import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
-import ca.ulaval.glo4003.trotti.order.domain.values.Session;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.SessionEnum;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.Semester;
+import ca.ulaval.glo4003.trotti.commons.domain.values.session.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.fixtures.TravelerFixture;
 import java.time.LocalDate;
