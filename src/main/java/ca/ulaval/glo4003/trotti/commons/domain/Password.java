@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.domain.values;
+package ca.ulaval.glo4003.trotti.commons.domain;
 
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;

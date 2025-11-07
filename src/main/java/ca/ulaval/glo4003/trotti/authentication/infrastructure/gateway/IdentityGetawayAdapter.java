@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.application.port.AccountQuery;
 import ca.ulaval.glo4003.trotti.authentication.domain.entities.Identity;
 import ca.ulaval.glo4003.trotti.authentication.domain.gateway.IdentityGateway;
-import ca.ulaval.glo4003.trotti.commons.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Email;
 
 public class IdentityGetawayAdapter implements IdentityGateway {
 	
