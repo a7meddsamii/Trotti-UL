@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.authentication.domain.entities;
 
 
 import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
-import ca.ulaval.glo4003.trotti.authentication.domain.values.Password;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Password;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
 import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
