@@ -4,6 +4,6 @@ import ca.ulaval.glo4003.trotti.authentication.domain.entities.Identity;
 import ca.ulaval.glo4003.trotti.commons.domain.Email;
 
 public interface IdentityGateway {
-	
-	Identity findByEmail(Email email);
+
+    Identity findByEmail(Email email);
 }

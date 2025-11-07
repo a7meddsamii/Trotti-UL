@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-
-import java.util.Objects;
 
 public class Email {
     private static final String ULAVAL_DOMAIN = "@ulaval.ca";

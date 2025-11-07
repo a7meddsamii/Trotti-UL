@@ -1,11 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
-
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.commons.domain.service.PasswordHasher;
-
 import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.RegexValidator;
 
@@ -54,7 +51,7 @@ public class Password {
     private static void ensurePasswordMeetsPolicy(String password) {
         if (!REGEX_VALIDATOR.isValid(password)) {
             throw new InvalidParameterException(
-                "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
+                    "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
         }
     }
 
@@ -64,4 +61,3 @@ public class Password {
         }
     }
 }
-
