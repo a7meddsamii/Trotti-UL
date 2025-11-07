@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.session.SessionEnum;
-import ca.ulaval.glo4003.trotti.commons.domain.values.session.Semester;
-import ca.ulaval.glo4003.trotti.commons.domain.values.session.Session;
+import ca.ulaval.glo4003.trotti.commons.domain.values.SessionEnum;
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
+import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

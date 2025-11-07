@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;

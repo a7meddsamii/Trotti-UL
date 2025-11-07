@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.session.Semester;
-import ca.ulaval.glo4003.trotti.commons.domain.values.session.Session;
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
+import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 
 public class SessionMapper {
 

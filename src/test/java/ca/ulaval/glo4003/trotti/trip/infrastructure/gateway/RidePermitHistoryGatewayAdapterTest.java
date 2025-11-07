@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.gateway;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;

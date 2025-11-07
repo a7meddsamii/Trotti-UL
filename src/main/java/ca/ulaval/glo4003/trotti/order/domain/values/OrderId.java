@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.domain.values;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Id;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Id;
 
 public class OrderId extends Id {
 

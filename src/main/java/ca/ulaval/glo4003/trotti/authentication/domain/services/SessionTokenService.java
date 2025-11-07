@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.authentication.domain.services;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.SessionToken;
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
 
 import java.util.Set;
 

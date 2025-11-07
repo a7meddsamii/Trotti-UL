@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.fixtures;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.RidePermitWallet;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;

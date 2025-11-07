@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.ids.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
 
 import java.util.Set;
 
