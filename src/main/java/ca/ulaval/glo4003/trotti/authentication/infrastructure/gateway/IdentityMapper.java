@@ -10,13 +10,11 @@ import java.util.HashSet;
 public class IdentityMapper {
 
     PasswordHasher passwordHasher;
-
+	
+	// TODO we will change this after Roles and Permissions are implemented in Account
     public Identity toDomain(AccountDto accountDto) {
-        return new Identity(accountDto.idul(), Role.fromString("STUDENT"), // TODO we will change
-                                                                           // this after roles are
-                                                                           // implemented in Account
-                new HashSet<>(), // TODO we will change this after Permissions are implemented in
-                                 // Account
+        return new Identity(accountDto.idul(), Role.fromString("STUDENT"),
+                new HashSet<>(),
                 Password.fromHashed(accountDto.password().toString(), passwordHasher));
     }
 }
