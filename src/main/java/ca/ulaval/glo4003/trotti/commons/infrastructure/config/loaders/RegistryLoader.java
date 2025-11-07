@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import ca.ulaval.glo4003.trotti.commons.domain.values.SessionEnum;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.employees.EmployeeIdulCsvProvider;

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.TransactionResponse;

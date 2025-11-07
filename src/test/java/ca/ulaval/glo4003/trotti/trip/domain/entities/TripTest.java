@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;

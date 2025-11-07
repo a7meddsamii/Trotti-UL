@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.order.domain.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;

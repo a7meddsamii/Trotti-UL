@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationEx
 import ca.ulaval.glo4003.trotti.commons.domain.values.Password;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 
 import java.util.Collections;
 import java.util.Set;

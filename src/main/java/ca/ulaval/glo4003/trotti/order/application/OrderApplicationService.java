@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.application;
 
-import ca.ulaval.glo4003.trotti.commons.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;

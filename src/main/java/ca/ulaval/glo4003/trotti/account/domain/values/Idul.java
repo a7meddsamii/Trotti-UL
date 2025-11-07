@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.domain.values;
+package ca.ulaval.glo4003.trotti.account.domain.values;
 
 import java.util.Objects;
 
