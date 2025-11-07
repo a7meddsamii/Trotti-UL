@@ -12,8 +12,7 @@ import java.time.Month;
 public class PassFixture {
     public static final MaximumDailyTravelTime A_MAXIMUM_TRAVELING_TIME =
             MaximumDailyTravelTime.from(Duration.ofMinutes(30));
-    public static final Session A_SESSION = new Session(
-			Semester.FALL,
+    public static final Session A_SESSION = new Session(Semester.FALL,
 			LocalDate.of(2025, Month.SEPTEMBER, 1), LocalDate.of(2025, Month.DECEMBER, 31));
     public static final BillingFrequency A_BILLING_FREQUENCY = BillingFrequency.PER_TRIP;
 

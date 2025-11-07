@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.order.domain.values;
 
 import java.time.LocalDate;
 import java.time.Month;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

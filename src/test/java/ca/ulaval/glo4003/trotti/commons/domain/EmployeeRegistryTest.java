@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import java.util.Set;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
