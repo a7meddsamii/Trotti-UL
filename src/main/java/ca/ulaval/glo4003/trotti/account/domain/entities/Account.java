@@ -1,16 +1,10 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Account {
     private final String name;
@@ -19,7 +13,8 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
-    private final Set<Permission> permissions;
+    private Role role;
+    
 
     public Account(
             String name,
@@ -27,27 +22,18 @@ public class Account {
             Gender gender,
             Idul idul,
             Email email,
-            Password password) {
+            Password password,
+            Role role
+            ) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.idul = idul;
         this.email = email;
         this.password = password;
-        this.permissions = new HashSet<>();
+        this.role = role;
     }
 
-    public void addPermission(Permission... permission) {
-        permissions.addAll(Arrays.stream(permission).toList());
-    }
-
-    public Set<Permission> getPermissions() {
-        return Collections.unmodifiableSet(permissions);
-    }
-
-    public void removePermission(Permission permission) {
-        permissions.remove(permission);
-    }
 
     public String getName() {
         return name;
@@ -81,4 +67,13 @@ public class Account {
     public boolean verifyPassword(String rawPassword) {
         return this.password.matches(rawPassword);
     }
+    
+    public Role getRole() {
+        return role;
+    }
+    public void assignRole(Role newRole){
+    this.role = Objects.requireNonNull(newRole, "newRole");
+    }
+    
+    
 }

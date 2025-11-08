@@ -1,10 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.LocalDate;
@@ -18,12 +15,26 @@ public class AccountFactory {
         this.clock = clock;
     }
 
-    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password) {
+    private Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
+            Password password, Role role) {
         validateBirthDate(birthDate);
-        return new Account(name, birthDate, gender, idul, email, password);
+        return new Account(name, birthDate, gender, idul, email, password, role);
     }
-
+    public Account createEtudiant(String name, LocalDate birthDate, Gender gender,
+                                  Idul idul, Email email, Password password) {
+        return create(name, birthDate, gender, idul, email, password, Role.ETUDIANT);
+    }
+    
+    public Account createEmploye(String name, LocalDate birthDate, Gender gender,
+                                 Idul idul, Email email, Password password) {
+        return create(name, birthDate, gender, idul, email, password, Role.EMPLOYE);
+    }
+    
+    public Account createTechnicien(String name, LocalDate birthDate, Gender gender,
+                                    Idul idul, Email email, Password password) {
+        return create(name, birthDate, gender, idul, email, password, Role.TECHNICIEN);
+    }
+    
     private void validateBirthDate(LocalDate birthDate) {
         LocalDate today = LocalDate.now(clock);
         LocalDate minimumValidBirthDate = today.minusYears(MINIMUM_AGE_YEARS);
@@ -32,4 +43,5 @@ public class AccountFactory {
                     "User must be at least " + MINIMUM_AGE_YEARS + " years old.");
         }
     }
+    
 }
