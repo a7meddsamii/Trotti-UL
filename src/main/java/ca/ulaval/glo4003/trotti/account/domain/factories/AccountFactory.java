@@ -20,21 +20,22 @@ public class AccountFactory {
         validateBirthDate(birthDate);
         return new Account(name, birthDate, gender, idul, email, password, role);
     }
-    public Account createUser(String name, LocalDate birthDate, Gender gender,
-                              Idul idul, Email email, Password password) {
+
+    public Account createUser(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password) {
         return create(name, birthDate, gender, idul, email, password, Role.USER);
     }
-    
-    public Account createEmployee(String name, LocalDate birthDate, Gender gender,
-                                 Idul idul, Email email, Password password) {
+
+    public Account createEmployee(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password) {
         return create(name, birthDate, gender, idul, email, password, Role.EMPLOYEE);
     }
-    
-    public Account createTechnician(String name, LocalDate birthDate, Gender gender,
-                                    Idul idul, Email email, Password password) {
+
+    public Account createTechnician(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password) {
         return create(name, birthDate, gender, idul, email, password, Role.TECHNICIAN);
     }
-    
+
     private void validateBirthDate(LocalDate birthDate) {
         LocalDate today = LocalDate.now(clock);
         LocalDate minimumValidBirthDate = today.minusYears(MINIMUM_AGE_YEARS);
@@ -43,5 +44,5 @@ public class AccountFactory {
                     "User must be at least " + MINIMUM_AGE_YEARS + " years old.");
         }
     }
-    
+
 }

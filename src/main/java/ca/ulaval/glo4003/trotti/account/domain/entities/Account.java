@@ -14,7 +14,6 @@ public class Account {
     private final Gender gender;
     private final Email email;
     private Role role;
-    
 
     public Account(
             String name,
@@ -23,8 +22,7 @@ public class Account {
             Idul idul,
             Email email,
             Password password,
-            Role role
-            ) {
+            Role role) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
@@ -33,7 +31,6 @@ public class Account {
         this.password = password;
         this.role = role;
     }
-
 
     public String getName() {
         return name;
@@ -72,10 +69,10 @@ public class Account {
         return this.password.matches(rawPassword);
     }
 
-    public void assignRole(Role newRole){
-    this.role = Objects.requireNonNull(newRole, "Role can't be null");
+    public void assignRole(Role newRole) {
+        this.role = Objects.requireNonNull(newRole, "Role can't be null");
     }
-    
+
     public boolean hasPermission(Permission permission) {
         return role.getPermissions().contains(permission);
     }

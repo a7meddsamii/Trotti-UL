@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.account.domain.entities;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.account.domain.values.Role;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.CartPermissions;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.MaintenancePermissions;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.TripPermissions;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import java.time.LocalDate;
@@ -80,7 +79,7 @@ class AccountTest {
     }
 
     @Test
-    void givenUserAccount_whenCheckPermission_thenDelegatesToRole() {
+    void givenAccountWithPermissions_whenCheckPermission_thenReturnsTrue() {
         Account student = new AccountFixture().withRole(Role.USER).build();
 
         boolean hasPermission = student.hasPermission(CartPermissions.CART_MODIFICATION);
@@ -89,7 +88,7 @@ class AccountTest {
     }
 
     @Test
-    void givenEmployeeAccount_whenCheckPermissionNotInRole_thenReturnsFalse() {
+    void givenAccountWithoutPermissions_whenCheckPermission_thenReturnsFalse() {
         Account employee = new AccountFixture().withRole(Role.EMPLOYEE).build();
 
         boolean hasPermission = employee.hasPermission(CartPermissions.CART_MODIFICATION);
@@ -107,7 +106,6 @@ class AccountTest {
         Assertions.assertFalse(account.hasPermission(CartPermissions.CART_MODIFICATION));
         Assertions.assertTrue(account.hasPermission(TripPermissions.MAKE_TRIP));
     }
-
 
     private Account createAccountWithMockPassword() {
         return new Account(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,

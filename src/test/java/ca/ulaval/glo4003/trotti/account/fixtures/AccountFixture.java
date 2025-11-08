@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.account.fixtures;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-
 import java.time.LocalDate;
 import org.mockito.Mockito;
 

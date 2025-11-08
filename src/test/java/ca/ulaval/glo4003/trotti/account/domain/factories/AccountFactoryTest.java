@@ -68,42 +68,27 @@ class AccountFactoryTest {
 
     @Test
     void givenUserRole_whenCreateAccount_thenCreatesAccountWithStudentRole() {
-        Account account = accountFactory.createUser(
-                AccountFixture.A_NAME,
-                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
-                AccountFixture.A_GENDER,
-                AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL,
-                password
-        );
+        Account account = accountFactory.createUser(AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
         Assertions.assertEquals(Role.USER, account.getRole());
     }
 
     @Test
     void givenEmployeeRole_whenCreateAccount_thenCreatesAccountWithEmployeeRole() {
-        Account account = accountFactory.createEmployee(
-                AccountFixture.A_NAME,
-                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
-                AccountFixture.A_GENDER,
-                AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL,
-                password
-        );
+        Account account = accountFactory.createEmployee(AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
         Assertions.assertEquals(Role.EMPLOYEE, account.getRole());
     }
 
     @Test
     void givenTechnicianRole_whenCreateAccount_thenCreatesAccountWithTechnicianRole() {
-        Account account = accountFactory.createTechnician(
-                AccountFixture.A_NAME,
-                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
-                AccountFixture.A_GENDER,
-                AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL,
-                password
-        );
+        Account account = accountFactory.createTechnician(AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL, password);
 
         Assertions.assertEquals(Role.TECHNICIAN, account.getRole());
     }

@@ -58,7 +58,7 @@ class AccountControllerTest {
 
         accountController.createAccount(request);
 
-        Mockito.verify(accountApplicationService).createAccount(mappedDto);
+        Mockito.verify(accountApplicationService).createUserAccount(mappedDto);
     }
 
     @Test
