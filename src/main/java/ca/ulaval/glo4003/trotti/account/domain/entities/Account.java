@@ -75,5 +75,7 @@ public class Account {
     this.role = Objects.requireNonNull(newRole, "newRole");
     }
     
-    
+    public boolean hasPermission(Permission permission) {
+        return role.getPermissions().contains(permission);
+    }
 }

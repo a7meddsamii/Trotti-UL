@@ -2,9 +2,11 @@ package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.util.Set;
 
 public class AccountFactory {
     private static final int MINIMUM_AGE_YEARS = 16;
@@ -22,17 +24,17 @@ public class AccountFactory {
     }
     public Account createEtudiant(String name, LocalDate birthDate, Gender gender,
                                   Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.ETUDIANT);
+        return create(name, birthDate, gender, idul, email, password, Role.USER);
     }
     
     public Account createEmploye(String name, LocalDate birthDate, Gender gender,
                                  Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.EMPLOYE);
+        return create(name, birthDate, gender, idul, email, password, Role.EMPLOYEE);
     }
     
     public Account createTechnicien(String name, LocalDate birthDate, Gender gender,
                                     Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.TECHNICIEN);
+        return create(name, birthDate, gender, idul, email, password, Role.TECHNICIAN);
     }
     
     private void validateBirthDate(LocalDate birthDate) {
