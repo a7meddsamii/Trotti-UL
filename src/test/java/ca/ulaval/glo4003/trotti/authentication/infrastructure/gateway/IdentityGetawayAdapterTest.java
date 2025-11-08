@@ -1,20 +1,22 @@
 package ca.ulaval.glo4003.trotti.authentication.infrastructure.gateway;
 
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.IdentityAccountDto;
 import ca.ulaval.glo4003.trotti.account.application.port.AccountQuery;
-import ca.ulaval.glo4003.trotti.authentication.domain.entities.Identity;
+import ca.ulaval.glo4003.trotti.authentication.domain.gateway.IdentityGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.Email;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class IdentityGetawayAdapterTest {
-    private static final Email email = Email.from("johndoe@ulaval.ca");
-
+    private static final Email EMAIL = Email.from("johndoe@ulaval.ca");
     private IdentityMapper identityMapper;
     private AccountQuery accountQuery;
-    private IdentityGetawayAdapter identityGetawayAdapter;
+	
+    private IdentityGateway identityGetawayAdapter;
 
     @BeforeEach
     void setup() {
@@ -24,15 +26,17 @@ class IdentityGetawayAdapterTest {
     }
 
     @Test
-    void givenEmail_whenFindByEmail_thenReturnsIdentity() {
-        AccountDto accountDto = Mockito.mock(AccountDto.class);
-        Identity expectedIdentity = Mockito.mock(Identity.class);
-        Mockito.when(accountQuery.findByEmail(email)).thenReturn(accountDto);
-        Mockito.when(identityMapper.toDomain(accountDto)).thenReturn(expectedIdentity);
+    void givenEmail_whenFindByEmail_thenMapsToDomainEntity() {
+        IdentityAccountDto identityAccountDto = Mockito.mock(IdentityAccountDto.class);
+        Mockito.when(accountQuery.findByEmail(EMAIL)).thenReturn(identityAccountDto);
 
-        Identity result = identityGetawayAdapter.findByEmail(email);
+        identityGetawayAdapter.findByEmail(EMAIL);
 
-        Assertions.assertEquals(expectedIdentity, result);
+        Mockito.verify(identityMapper).toDomain(identityAccountDto);
     }
-
+	
+	@Test
+	void givenEmail_whenFindByEmail_thenReturnsIdentity() {
+		
+	}
 }

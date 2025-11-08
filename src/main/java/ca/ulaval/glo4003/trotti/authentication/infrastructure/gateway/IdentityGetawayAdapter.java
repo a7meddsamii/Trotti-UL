@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.authentication.infrastructure.gateway;
 
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.IdentityAccountDto;
 import ca.ulaval.glo4003.trotti.account.application.port.AccountQuery;
 import ca.ulaval.glo4003.trotti.authentication.domain.entities.Identity;
 import ca.ulaval.glo4003.trotti.authentication.domain.gateway.IdentityGateway;
@@ -18,7 +19,7 @@ public class IdentityGetawayAdapter implements IdentityGateway {
 
     @Override
     public Identity findByEmail(Email email) {
-        AccountDto accountDto = accountQuery.findByEmail(email);
-        return identityMapper.toDomain(accountDto);
+        IdentityAccountDto identityAccountDto = accountQuery.findByEmail(email);
+        return identityMapper.toDomain(identityAccountDto);
     }
 }
