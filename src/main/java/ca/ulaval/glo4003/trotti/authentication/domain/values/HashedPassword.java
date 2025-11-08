@@ -40,7 +40,7 @@ public class HashedPassword {
 
     private static void validateNotBlank(String hashedPassword) {
         if (StringUtils.isBlank(hashedPassword)) {
-            throw new InvalidParameterException("Password cannot be null or empty.");
+            throw new InvalidParameterException("Hashed password cannot be null or empty.");
         }
     }
 }
