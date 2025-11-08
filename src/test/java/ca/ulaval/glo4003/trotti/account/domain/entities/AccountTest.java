@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.Role;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.CartPermissions;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.MaintenancePermissions;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.TripPermissions;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import java.time.LocalDate;
 import java.time.Month;
@@ -59,9 +63,55 @@ class AccountTest {
         Mockito.verify(mockPassword).matches(VALID_RAW_PASSWORD);
     }
 
+    @Test
+    void givenAccount_whenAssignNewRole_thenRoleChanges() {
+        Account account = new AccountFixture().withRole(Role.USER).build();
+
+        account.assignRole(Role.EMPLOYEE);
+
+        Assertions.assertEquals(Role.EMPLOYEE, account.getRole());
+    }
+
+    @Test
+    void givenNullRole_whenAssignRole_thenThrowsNullPointerException() {
+        Account account = new AccountFixture().withRole(Role.USER).build();
+
+        Assertions.assertThrows(NullPointerException.class, () -> account.assignRole(null));
+    }
+
+    @Test
+    void givenUserAccount_whenCheckPermission_thenDelegatesToRole() {
+        Account student = new AccountFixture().withRole(Role.USER).build();
+
+        boolean hasPermission = student.hasPermission(CartPermissions.CART_MODIFICATION);
+
+        Assertions.assertTrue(hasPermission);
+    }
+
+    @Test
+    void givenEmployeeAccount_whenCheckPermissionNotInRole_thenReturnsFalse() {
+        Account employee = new AccountFixture().withRole(Role.EMPLOYEE).build();
+
+        boolean hasPermission = employee.hasPermission(CartPermissions.CART_MODIFICATION);
+
+        Assertions.assertFalse(hasPermission);
+    }
+
+    @Test
+    void givenAccountWithRoleChange_whenCheckPermissions_thenPermissionsChangeAccordingly() {
+        Account account = new AccountFixture().withRole(Role.USER).build();
+        Assertions.assertTrue(account.hasPermission(CartPermissions.CART_MODIFICATION));
+
+        account.assignRole(Role.EMPLOYEE);
+
+        Assertions.assertFalse(account.hasPermission(CartPermissions.CART_MODIFICATION));
+        Assertions.assertTrue(account.hasPermission(TripPermissions.MAKE_TRIP));
+    }
+
+
     private Account createAccountWithMockPassword() {
         return new Account(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                mockPassword);
+                mockPassword, AccountFixture.A_ROLE);
     }
 }

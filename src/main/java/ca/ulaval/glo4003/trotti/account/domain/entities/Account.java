@@ -59,6 +59,10 @@ public class Account {
         return password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
     public int getAge() {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
@@ -67,12 +71,9 @@ public class Account {
     public boolean verifyPassword(String rawPassword) {
         return this.password.matches(rawPassword);
     }
-    
-    public Role getRole() {
-        return role;
-    }
+
     public void assignRole(Role newRole){
-    this.role = Objects.requireNonNull(newRole, "newRole");
+    this.role = Objects.requireNonNull(newRole, "Role can't be null");
     }
     
     public boolean hasPermission(Permission permission) {
