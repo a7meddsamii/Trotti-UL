@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
-import ca.ulaval.glo4003.trotti.commons.domain.Password;
+import ca.ulaval.glo4003.trotti.authentication.domain.values.HashedPassword;
 import java.util.Collections;
 import java.util.Set;
 
@@ -12,17 +12,17 @@ public class Identity {
     private final Idul idul;
     private final Role role;
     private final Set<Permission> permissions;
-    private final Password password;
+    private final HashedPassword hashedPassword;
 
-    public Identity(Idul idul, Role role, Set<Permission> permissions, Password password) {
+    public Identity(Idul idul, Role role, Set<Permission> permissions, HashedPassword hashedPassword) {
         this.idul = idul;
         this.role = role;
         this.permissions = permissions;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
     }
 
     public void verifyPassword(String rawPassword) {
-        if (!this.password.matches(rawPassword)) {
+        if (!this.hashedPassword.matches(rawPassword)) {
             throw new AuthenticationException("Invalid email or password");
         }
     }

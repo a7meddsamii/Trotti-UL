@@ -30,7 +30,7 @@ Laval University’s electric scooter rental service for optimal transportation.
 The **Account Management** module allows students to create and manage their accounts for the electric scooter service. Features include:
 
 - Create a personal account with identity details (name, birthdate, gender, age, University Laval ID)
-- Set up login credentials (email and secure password) with sessions expiring after 60 minutes
+- Set up login credentials (email and secure hashedPassword) with sessions expiring after 60 minutes
 
 
 ### Buy electric scooter passes
@@ -74,7 +74,7 @@ Edit the `config.env` file and add the required variables, for example:
 ```env
 TOKEN_EXPIRATION_DURATION=PT60M
 SMTP_USER="email@adress.ca"
-SMTP_PASS="password"
+SMTP_PASS="hashedPassword"
 SMTP_HOST="smtp.example.com"
 SMTP_PORT:"587"
 ```

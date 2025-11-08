@@ -34,9 +34,4 @@ class IdentityGetawayAdapterTest {
 
         Mockito.verify(identityMapper).toDomain(identityAccountDto);
     }
-	
-	@Test
-	void givenEmail_whenFindByEmail_thenReturnsIdentity() {
-		
-	}
 }
