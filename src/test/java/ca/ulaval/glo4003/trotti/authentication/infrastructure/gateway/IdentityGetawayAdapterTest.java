@@ -15,7 +15,7 @@ class IdentityGetawayAdapterTest {
     private static final Email EMAIL = Email.from("johndoe@ulaval.ca");
     private IdentityMapper identityMapper;
     private AccountQuery accountQuery;
-	
+
     private IdentityGateway identityGetawayAdapter;
 
     @BeforeEach

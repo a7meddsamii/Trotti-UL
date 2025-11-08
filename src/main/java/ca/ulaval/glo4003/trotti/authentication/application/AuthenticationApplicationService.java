@@ -7,8 +7,8 @@ import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenServi
 import ca.ulaval.glo4003.trotti.authentication.domain.values.SessionToken;
 
 public class AuthenticationApplicationService {
-    SessionTokenService sessionTokenService;
-    IdentityGateway identityGateway;
+    private final SessionTokenService sessionTokenService;
+    private final IdentityGateway identityGateway;
 
     public AuthenticationApplicationService(
             SessionTokenService sessionTokenService,

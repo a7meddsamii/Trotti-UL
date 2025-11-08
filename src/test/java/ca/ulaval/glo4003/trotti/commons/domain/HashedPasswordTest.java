@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.commons.domain;
 
-import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.HashedPassword;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.commons.domain.service.PasswordHasher;
@@ -58,27 +57,26 @@ class HashedPasswordTest {
     @Test
     void givenTwoPasswordsWithDifferentValue_whenCompare_thenTheyAreNotEqual() {
         HashedPassword hashedPassword1 = HashedPassword.fromHashed(HASHED_PASSWORD, hasher);
-        HashedPassword hashedPassword2 = HashedPassword.fromHashed(DIFFERENT_HASHED_PASSWORD, hasher);
+        HashedPassword hashedPassword2 =
+                HashedPassword.fromHashed(DIFFERENT_HASHED_PASSWORD, hasher);
 
         Assertions.assertNotEquals(hashedPassword1, hashedPassword2);
     }
-	
-	@Test
-	void givenRawPassword_whenMatches_thenPasswordHasherMatchesIsCalled() {
-		HashedPassword hashedPassword = HashedPassword.fromHashed(HASHED_PASSWORD, hasher);
-		Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD))
-				.thenReturn(true);
-		
-		hashedPassword.matches(VALID_RAW_PASSWORD);
-		
-		Mockito.verify(hasher).matches(VALID_RAW_PASSWORD, HASHED_PASSWORD);
-	}
-	
+
+    @Test
+    void givenRawPassword_whenMatches_thenPasswordHasherMatchesIsCalled() {
+        HashedPassword hashedPassword = HashedPassword.fromHashed(HASHED_PASSWORD, hasher);
+        Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD)).thenReturn(true);
+
+        hashedPassword.matches(VALID_RAW_PASSWORD);
+
+        Mockito.verify(hasher).matches(VALID_RAW_PASSWORD, HASHED_PASSWORD);
+    }
+
     @Test
     void givenMatchingRawPassword_whenMatches_thenReturnTrue() {
         HashedPassword hashedPassword = HashedPassword.fromHashed(HASHED_PASSWORD, hasher);
-        Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD))
-                .thenReturn(true);
+        Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD)).thenReturn(true);
 
         boolean result = hashedPassword.matches(VALID_RAW_PASSWORD);
 
@@ -88,8 +86,7 @@ class HashedPasswordTest {
     @Test
     void givenNonMatchingRawPassword_whenMatches_thenReturnFalse() {
         HashedPassword hashedPassword = HashedPassword.fromHashed(HASHED_PASSWORD, hasher);
-        Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD))
-                .thenReturn(false);
+        Mockito.when(hasher.matches(VALID_RAW_PASSWORD, HASHED_PASSWORD)).thenReturn(false);
 
         boolean result = hashedPassword.matches(VALID_RAW_PASSWORD);
 
