@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.domain.factories;
 
+import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.Role;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
@@ -39,7 +41,7 @@ class AccountFactoryTest {
 
     @Test
     void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+        Executable createAccount = () -> accountFactory.createUser(AccountFixture.A_NAME,
                 BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
                 AccountFixture.AN_EMAIL, password);
 
@@ -48,7 +50,7 @@ class AccountFactoryTest {
 
     @Test
     void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+        Executable createAccount = () -> accountFactory.createUser(AccountFixture.A_NAME,
                 BIRTHDATE_EXACTLY_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
                 AccountFixture.AN_EMAIL, password);
 
@@ -57,10 +59,52 @@ class AccountFactoryTest {
 
     @Test
     void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
+        Executable createAccount = () -> accountFactory.createUser(AccountFixture.A_NAME,
                 BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
                 AccountFixture.AN_EMAIL, password);
 
         Assertions.assertDoesNotThrow(createAccount);
+    }
+
+    @Test
+    void givenUserRole_whenCreateAccount_thenCreatesAccountWithStudentRole() {
+        Account account = accountFactory.createUser(
+                AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
+                AccountFixture.A_GENDER,
+                AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL,
+                password
+        );
+
+        Assertions.assertEquals(Role.USER, account.getRole());
+    }
+
+    @Test
+    void givenEmployeeRole_whenCreateAccount_thenCreatesAccountWithEmployeeRole() {
+        Account account = accountFactory.createEmployee(
+                AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
+                AccountFixture.A_GENDER,
+                AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL,
+                password
+        );
+
+        Assertions.assertEquals(Role.EMPLOYEE, account.getRole());
+    }
+
+    @Test
+    void givenTechnicianRole_whenCreateAccount_thenCreatesAccountWithTechnicianRole() {
+        Account account = accountFactory.createTechnician(
+                AccountFixture.A_NAME,
+                BIRTHDATE_OLDER_THAN_MINIMUM_AGE,
+                AccountFixture.A_GENDER,
+                AccountFixture.AN_IDUL,
+                AccountFixture.AN_EMAIL,
+                password
+        );
+
+        Assertions.assertEquals(Role.TECHNICIAN, account.getRole());
     }
 }
