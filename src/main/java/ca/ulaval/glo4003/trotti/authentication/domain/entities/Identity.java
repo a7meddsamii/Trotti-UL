@@ -11,13 +11,13 @@ import java.util.Set;
 public class Identity {
     private final Idul idul;
     private final Role role;
-    private final Set<Permission> permission;
+    private final Set<Permission> permissions;
     private final Password password;
 
-    public Identity(Idul idul, Role role, Set<Permission> permission, Password password) {
+    public Identity(Idul idul, Role role, Set<Permission> permissions, Password password) {
         this.idul = idul;
         this.role = role;
-        this.permission = permission;
+        this.permissions = permissions;
         this.password = password;
     }
 
@@ -36,6 +36,6 @@ public class Identity {
     }
 
     public Set<Permission> getPermissions() {
-        return Collections.unmodifiableSet(permission);
+        return Collections.unmodifiableSet(permissions);
     }
 }
