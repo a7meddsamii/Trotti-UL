@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
@@ -53,5 +54,54 @@ class StationTest {
         int result = stationWithCapacity.calculateInitialScooterCount();
 
         Assertions.assertEquals(8, result);
+    }
+
+    @Test
+    void givenNewStation_whenCheckingMaintenanceStatus_thenIsNotUnderMaintenance() {
+        Assertions.assertFalse(station.isUnderMaintenance());
+    }
+
+    @Test
+    void givenStation_whenStartMaintenance_thenIsUnderMaintenance() {
+        station.startMaintenance();
+        
+        Assertions.assertTrue(station.isUnderMaintenance());
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenEndMaintenance_thenIsNotUnderMaintenance() {
+        station.startMaintenance();
+        station.endMaintenance();
+        
+        Assertions.assertFalse(station.isUnderMaintenance());
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenGetScooter_thenThrowsStationMaintenanceException() {
+        station.startMaintenance();
+        
+        Assertions.assertThrows(StationMaintenanceException.class, () -> station.getScooter(SLOT_NUMBER));
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenReturnScooter_thenThrowsStationMaintenanceException() {
+        station.startMaintenance();
+        LocalDateTime now = LocalDateTime.now();
+        
+        Assertions.assertThrows(StationMaintenanceException.class, 
+                () -> station.returnScooter(SLOT_NUMBER, scooter, now));
+    }
+
+    @Test
+    void givenStationWithDockedScooters_whenGetDockedScooterIds_thenReturnsDockedScooterIds() {
+        Mockito.when(A_DOCKING_AREA.getScooterSlots()).thenReturn(
+                java.util.Map.of(SLOT_NUMBER, Mockito.mock(ScooterSlot.class)));
+        ScooterSlot slot = A_DOCKING_AREA.getScooterSlots().get(SLOT_NUMBER);
+        Mockito.when(slot.getDockedScooter()).thenReturn(java.util.Optional.of(A_SCOOTER_ID));
+        
+        java.util.List<ScooterId> dockedScooters = station.getDockedScooterIds();
+        
+        Assertions.assertEquals(1, dockedScooters.size());
+        Assertions.assertEquals(A_SCOOTER_ID, dockedScooters.get(0));
     }
 }
