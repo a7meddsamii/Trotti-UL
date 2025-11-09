@@ -22,14 +22,16 @@ public class Station {
 
     public ScooterId getScooter(SlotNumber slotNumber) {
         if (underMaintenance) {
-            throw new StationMaintenanceException("Cannot get scooter from station under maintenance");
+            throw new StationMaintenanceException(
+                    "Cannot get scooter from station under maintenance");
         }
         return this.dockingArea.undock(slotNumber);
     }
 
     public void returnScooter(SlotNumber slotNumber, Scooter scooter, LocalDateTime time) {
         if (underMaintenance) {
-            throw new StationMaintenanceException("Cannot return scooter to station under maintenance");
+            throw new StationMaintenanceException(
+                    "Cannot return scooter to station under maintenance");
         }
         scooter.dockAt(this.location, time);
         this.dockingArea.dock(slotNumber, scooter.getScooterId());
@@ -62,7 +64,6 @@ public class Station {
     public java.util.List<ScooterId> getDockedScooterIds() {
         return dockingArea.getScooterSlots().values().stream()
                 .map(slot -> slot.getDockedScooter().orElse(null))
-                .filter(java.util.Objects::nonNull)
-                .toList();
+                .filter(java.util.Objects::nonNull).toList();
     }
 }

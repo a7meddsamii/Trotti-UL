@@ -7,7 +7,8 @@ import ca.ulaval.glo4003.trotti.trip.domain.strategy.IdleStrategy;
 import java.time.LocalDateTime;
 
 public enum BatteryState {
-    DISCHARGING(DischargingStrategy.INSTANCE), CHARGING(ChargingStrategy.INSTANCE), IDLE(IdleStrategy.INSTANCE);
+    DISCHARGING(DischargingStrategy.INSTANCE), CHARGING(ChargingStrategy.INSTANCE), IDLE(
+            IdleStrategy.INSTANCE);
 
     private final BatteryStrategy batteryStrategy;
 

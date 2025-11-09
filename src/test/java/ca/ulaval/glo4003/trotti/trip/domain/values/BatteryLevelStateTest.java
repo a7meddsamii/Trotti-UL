@@ -40,8 +40,8 @@ class BatteryLevelStateTest {
         BatteryLevel expectedResult = IdleStrategy.INSTANCE.computeLevel(LAST_BATTERY_UPDATE,
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
-        BatteryLevel result = BatteryState.IDLE.computeLevel(LAST_BATTERY_UPDATE, CURRENT_TIME,
-                A_BATTERY_LEVEL);
+        BatteryLevel result =
+                BatteryState.IDLE.computeLevel(LAST_BATTERY_UPDATE, CURRENT_TIME, A_BATTERY_LEVEL);
 
         Assertions.assertEquals(expectedResult, result);
     }

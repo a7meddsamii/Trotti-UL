@@ -14,7 +14,8 @@ class IdleStrategyTest {
         LocalDateTime lastUpdate = LocalDateTime.now().minusHours(2);
         LocalDateTime currentTime = LocalDateTime.now();
 
-        BatteryLevel result = IdleStrategy.INSTANCE.computeLevel(lastUpdate, currentTime, initialLevel);
+        BatteryLevel result =
+                IdleStrategy.INSTANCE.computeLevel(lastUpdate, currentTime, initialLevel);
 
         Assertions.assertEquals(initialLevel, result);
     }
