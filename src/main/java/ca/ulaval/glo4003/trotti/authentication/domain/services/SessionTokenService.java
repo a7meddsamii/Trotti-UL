@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface SessionTokenService {
     SessionToken generateToken(Idul idul, Role role, Set<Permission> permissions);
+	Idul deserialize(SessionToken sessionToken);
 }
