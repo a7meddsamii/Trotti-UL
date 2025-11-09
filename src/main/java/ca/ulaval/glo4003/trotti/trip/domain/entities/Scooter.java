@@ -52,4 +52,8 @@ public class Scooter {
     public Battery getBattery() {
         return battery;
     }
+
+    public void setIdleMode(LocalDateTime time) {
+        this.battery.changeBatteryState(BatteryState.IDLE, time);
+    }
 }
