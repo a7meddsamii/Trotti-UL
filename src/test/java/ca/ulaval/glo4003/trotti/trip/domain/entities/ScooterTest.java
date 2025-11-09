@@ -76,4 +76,11 @@ public class ScooterTest {
 
         Assertions.assertThrows(InvalidBatteryValue.class, undock);
     }
+
+    @Test
+    void givenTime_whenSetIdleMode_thenBatteryChangesToIdleState() {
+        scooter.setIdleMode(CURRENT_TIME);
+
+        Mockito.verify(battery).changeBatteryState(BatteryState.IDLE, CURRENT_TIME);
+    }
 }
