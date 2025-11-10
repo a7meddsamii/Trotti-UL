@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,11 +36,9 @@ class StationTest {
 
     @Test
     void givenSlotNumberAndScooter_whenReturnScooter_thenScooterIsDockedAndCallsDockingArea() {
-        LocalDateTime now = LocalDateTime.now();
         Mockito.when(scooter.getScooterId()).thenReturn(A_SCOOTER_ID);
-        station.returnScooter(SLOT_NUMBER, scooter, now);
+        station.returnScooter(SLOT_NUMBER, scooter.getScooterId());
 
-        Mockito.verify(scooter).dockAt(A_LOCATION, now);
         Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 
