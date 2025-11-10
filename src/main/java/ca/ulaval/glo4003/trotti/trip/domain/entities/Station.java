@@ -24,8 +24,6 @@ public class Station {
         this.dockingArea.dock(slotNumber, scooterId);
     }
 
-
-
     public Location getLocation() {
         return location;
     }
