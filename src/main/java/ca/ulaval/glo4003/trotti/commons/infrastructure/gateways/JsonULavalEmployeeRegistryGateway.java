@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.services;
+package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistryGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.EmployeeNotAuthorized;
+import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

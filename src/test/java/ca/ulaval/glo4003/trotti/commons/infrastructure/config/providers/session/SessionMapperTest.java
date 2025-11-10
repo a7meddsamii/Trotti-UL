@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.session;
 
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionMapper;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionRecord;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions.SessionMapper;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions.SessionRecord;
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import java.time.LocalDate;
