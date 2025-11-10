@@ -3,7 +3,9 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class DockingArea {
     private final Map<SlotNumber, ScooterSlot> scooterSlots;
@@ -35,4 +37,10 @@ public class DockingArea {
     public Map<SlotNumber, ScooterSlot> getScooterSlots() {
         return Map.copyOf(scooterSlots);
     }
+
+    public List<ScooterId> collectScootersForTransfer(List<ScooterSlot> selectedSlots) {
+        return selectedSlots.stream().map(ScooterSlot::getDockedScooter).flatMap(Optional::stream)
+                .toList();
+    }
+
 }

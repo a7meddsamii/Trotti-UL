@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceExcepti
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Station {
 
@@ -61,9 +62,8 @@ public class Station {
         return underMaintenance;
     }
 
-    public java.util.List<ScooterId> getDockedScooterIds() {
-        return dockingArea.getScooterSlots().values().stream()
-                .map(slot -> slot.getDockedScooter().orElse(null))
-                .filter(java.util.Objects::nonNull).toList();
+    public List<ScooterId> getScootersForTransfer(List<ScooterSlot> selectedSlots) {
+        return dockingArea.collectScootersForTransfer(selectedSlots);
     }
+
 }

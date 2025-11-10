@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceExcepti
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,15 +95,15 @@ class StationTest {
     }
 
     @Test
-    void givenStationWithDockedScooters_whenGetDockedScooterIds_thenReturnsDockedScooterIds() {
-        Mockito.when(A_DOCKING_AREA.getScooterSlots())
-                .thenReturn(java.util.Map.of(SLOT_NUMBER, Mockito.mock(ScooterSlot.class)));
-        ScooterSlot slot = A_DOCKING_AREA.getScooterSlots().get(SLOT_NUMBER);
-        Mockito.when(slot.getDockedScooter()).thenReturn(java.util.Optional.of(A_SCOOTER_ID));
+    void givenSelectedSlots_whenGetScootersForTransfer_thenReturnsScootersFromDockingArea() {
+        List<ScooterSlot> selectedSlots = List.of(Mockito.mock(ScooterSlot.class));
+        List<ScooterId> expectedScooters = List.of(A_SCOOTER_ID);
+        Mockito.when(A_DOCKING_AREA.collectScootersForTransfer(selectedSlots))
+                .thenReturn(expectedScooters);
 
-        java.util.List<ScooterId> dockedScooters = station.getDockedScooterIds();
+        List<ScooterId> result = station.getScootersForTransfer(selectedSlots);
 
-        Assertions.assertEquals(1, dockedScooters.size());
-        Assertions.assertEquals(A_SCOOTER_ID, dockedScooters.get(0));
+        Assertions.assertEquals(expectedScooters, result);
+        Mockito.verify(A_DOCKING_AREA).collectScootersForTransfer(selectedSlots);
     }
 }
