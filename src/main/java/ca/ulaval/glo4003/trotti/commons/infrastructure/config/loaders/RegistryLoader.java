@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.commons.infrastructure.services.JsonULavalEmploy
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.nio.file.Path;
 
 public class RegistryLoader extends Bootstrapper {
@@ -22,17 +21,19 @@ public class RegistryLoader extends Bootstrapper {
     }
 
     private void loadSessionProvider() {
-		// TODO not done
-		ObjectMapper objectMapper = CustomJsonProvider.getMapper();
-		SessionMapper sessionMapper = this.resourceLocator.resolve(SessionMapper.class);
-		SchoolSessionGateway schoolSessionGateway = new JsonSessionGateway(SEMESTER_DATA_FILE_PATH, sessionMapper, objectMapper);
+        // TODO not done
+        ObjectMapper objectMapper = CustomJsonProvider.getMapper();
+        SessionMapper sessionMapper = this.resourceLocator.resolve(SessionMapper.class);
+        SchoolSessionGateway schoolSessionGateway =
+                new JsonSessionGateway(SEMESTER_DATA_FILE_PATH, sessionMapper, objectMapper);
         this.resourceLocator.register(SchoolSessionGateway.class, schoolSessionGateway);
     }
 
     private void loadEmployeeIdulRegistry() {
-		// TODO not done
-		EmployeeRegistryGateway employeeRegistryGateway = new JsonULavalEmployeeRegistryGateway(EMPLOYEE_IDUL_CSV_PATH);
-		
+        // TODO not done
+        EmployeeRegistryGateway employeeRegistryGateway =
+                new JsonULavalEmployeeRegistryGateway(EMPLOYEE_IDUL_CSV_PATH);
+
         this.resourceLocator.register(EmployeeRegistryGateway.class, employeeRegistryGateway);
     }
 }
