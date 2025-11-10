@@ -40,7 +40,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
 
     private void loadAuthenticationService() {
         try {
-			EmployeeRegistryGateway employeeRegistryGateway =
+            EmployeeRegistryGateway employeeRegistryGateway =
                     this.resourceLocator.resolve(EmployeeRegistryGateway.class);
 
             String durationValue = StringUtils.defaultIfBlank(System.getenv(EXPIRATION_DURATION),

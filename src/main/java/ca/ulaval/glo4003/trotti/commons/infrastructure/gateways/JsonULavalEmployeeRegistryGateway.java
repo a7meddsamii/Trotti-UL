@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +20,7 @@ public class JsonULavalEmployeeRegistryGateway implements EmployeeRegistryGatewa
 
     @Override
     public boolean exist(Idul idul) {
-		return readFromClasspath().contains(idul);
+        return readFromClasspath().contains(idul);
     }
 
     private Set<Idul> readFromClasspath() {
