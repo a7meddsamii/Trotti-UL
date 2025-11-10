@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenService;
+import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.SessionToken;
@@ -17,6 +18,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 
 import javax.crypto.SecretKey;
+
+import java.security.Principal;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -51,13 +54,13 @@ public class SessionTokenServiceAdapter implements SessionTokenService {
 	}
 	
 	@Override
-	public Idul deserialize(SessionToken token) {
+	public AuthenticatedIdentity deserialize(SessionToken token) {
 		try {
 			String idulValue =
 					Jwts.parser().verifyWith(secretKey).clock(() -> Date.from(clock.instant()))
 							.build().parseSignedClaims(token.toString()).getPayload().getSubject();
 			
-			return Idul.from(idulValue);
+			return new AuthenticatedIdentity(Idul.from(idulValue), Role.REGULAR_EMPLOYEE, Set.of(Permission.START_MAINTENANCE, Permission.END_MAINTENANCE));
 		} catch (ExpiredJwtException exception) {
 			throw new ExpiredTokenException();
 		} catch (MalformedJwtException exception) {
