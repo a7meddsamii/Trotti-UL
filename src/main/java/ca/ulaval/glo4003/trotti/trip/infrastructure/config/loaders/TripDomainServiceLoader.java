@@ -23,8 +23,10 @@ public class TripDomainServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationDomainServices() {
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         PassRepository passRepository = this.resourceLocator.resolve(PassRepository.class);
-		EmployeeRegistryGateway employeeRegistryGateway = this.resourceLocator.resolve(EmployeeRegistryGateway.class);
-		SchoolSessionGateway schoolSessionGateway = this.resourceLocator.resolve(SchoolSessionGateway.class);
+        EmployeeRegistryGateway employeeRegistryGateway =
+                this.resourceLocator.resolve(EmployeeRegistryGateway.class);
+        SchoolSessionGateway schoolSessionGateway =
+                this.resourceLocator.resolve(SchoolSessionGateway.class);
 
         this.resourceLocator.register(RidePermitNotificationService.class,
                 new RidePermitNotificationService(emailService));

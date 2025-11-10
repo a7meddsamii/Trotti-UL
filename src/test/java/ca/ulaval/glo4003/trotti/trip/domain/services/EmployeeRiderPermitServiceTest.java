@@ -6,11 +6,10 @@ import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.fixtures.TravelerFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
 
 class EmployeeRiderPermitServiceTest {
 
@@ -24,7 +23,7 @@ class EmployeeRiderPermitServiceTest {
 
     @BeforeEach
     void setup() {
-		employeeRegistryGateway = Mockito.mock(EmployeeRegistryGateway.class);
+        employeeRegistryGateway = Mockito.mock(EmployeeRegistryGateway.class);
         schoolSessionGateway = Mockito.mock(SchoolSessionGateway.class);
         traveler = Mockito.spy(new TravelerFixture().build());
         service = new EmployeeRidePermitService(employeeRegistryGateway, schoolSessionGateway);
