@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.EmployeeNotAuthorized;
 import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +20,8 @@ public class JsonULavalEmployeeRegistryGateway implements EmployeeRegistryGatewa
     }
 
     @Override
-    public void validateIdentity(Idul idul) {
-        Set<Idul> employeesIduls = readFromClasspath();
-        if (!employeesIduls.contains(idul)) {
-            throw new EmployeeNotAuthorized("IDUL " + idul + " is not a valid employee IDUL.");
-        }
+    public boolean exist(Idul idul) {
+		return readFromClasspath().contains(idul);
     }
 
     private Set<Idul> readFromClasspath() {

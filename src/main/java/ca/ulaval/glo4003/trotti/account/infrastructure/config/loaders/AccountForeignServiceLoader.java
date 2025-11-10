@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.JwtAuthenticationServiceAdapter;
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
+import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -40,8 +40,8 @@ public class AccountForeignServiceLoader extends Bootstrapper {
 
     private void loadAuthenticationService() {
         try {
-            EmployeeRegistry employeeRegistry =
-                    this.resourceLocator.resolve(EmployeeRegistry.class);
+			EmployeeRegistryGateway employeeRegistryGateway =
+                    this.resourceLocator.resolve(EmployeeRegistryGateway.class);
 
             String durationValue = StringUtils.defaultIfBlank(System.getenv(EXPIRATION_DURATION),
                     DEFAULT_TOKEN_EXPIRATION.toString());
@@ -49,7 +49,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
             Duration expirationDuration = Duration.parse(durationValue);
             Clock authenticatorClock = this.resourceLocator.resolve(Clock.class);
             AuthenticationService authenticationService = new JwtAuthenticationServiceAdapter(
-                    expirationDuration, authenticatorClock, SECRET_KEY, employeeRegistry);
+                    expirationDuration, authenticatorClock, SECRET_KEY, employeeRegistryGateway);
 
             this.resourceLocator.register(AuthenticationService.class, authenticationService);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
