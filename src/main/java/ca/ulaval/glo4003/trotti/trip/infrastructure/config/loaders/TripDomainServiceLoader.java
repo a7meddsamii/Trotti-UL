@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
+import ca.ulaval.glo4003.trotti.commons.domain.gateways.SchoolSessionGateway;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
@@ -23,15 +23,15 @@ public class TripDomainServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationDomainServices() {
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         PassRepository passRepository = this.resourceLocator.resolve(PassRepository.class);
-        EmployeeRegistry employeeRegistry = this.resourceLocator.resolve(EmployeeRegistry.class);
-        SessionEnum sessionEnum = this.resourceLocator.resolve(SessionEnum.class);
+		EmployeeRegistryGateway employeeRegistryGateway = this.resourceLocator.resolve(EmployeeRegistryGateway.class);
+		SchoolSessionGateway schoolSessionGateway = this.resourceLocator.resolve(SchoolSessionGateway.class);
 
         this.resourceLocator.register(RidePermitNotificationService.class,
                 new RidePermitNotificationService(emailService));
         this.resourceLocator.register(RidePermitHistoryGateway.class,
                 new RidePermitHistoryGatewayAdapter(passRepository));
         this.resourceLocator.register(EmployeeRidePermitService.class,
-                new EmployeeRidePermitService(employeeRegistry, sessionEnum));
+                new EmployeeRidePermitService(employeeRegistryGateway, schoolSessionGateway));
     }
 
     private void loadUnlockCodeDomainServices() {
