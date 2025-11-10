@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.employees.EmployeeIdulCsvProvider;
+import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistryGateway;
+import ca.ulaval.glo4003.trotti.commons.domain.SchoolSessionGateway;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionMapper;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.services.JsonSessionGateway;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.services.JsonULavalEmployeeRegistryGateway;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
+import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.nio.file.Path;
-import java.util.Set;
 
 public class RegistryLoader extends Bootstrapper {
     private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
@@ -21,18 +22,17 @@ public class RegistryLoader extends Bootstrapper {
     }
 
     private void loadSessionProvider() {
-        SessionMapper sessionMapper = new SessionMapper();
-        SessionProvider.initialize(SEMESTER_DATA_FILE_PATH, sessionMapper);
-        SessionEnum sessionEnum = new SessionEnum(SessionProvider.getInstance().getSessions());
-
-        this.resourceLocator.register(SessionProvider.class, SessionProvider.getInstance());
-        this.resourceLocator.register(SessionEnum.class, sessionEnum);
+		// TODO not done
+		ObjectMapper objectMapper = CustomJsonProvider.getMapper();
+		SessionMapper sessionMapper = this.resourceLocator.resolve(SessionMapper.class);
+		SchoolSessionGateway schoolSessionGateway = new JsonSessionGateway(SEMESTER_DATA_FILE_PATH, sessionMapper, objectMapper);
+        this.resourceLocator.register(SchoolSessionGateway.class, schoolSessionGateway);
     }
 
     private void loadEmployeeIdulRegistry() {
-        EmployeeIdulCsvProvider reader = new EmployeeIdulCsvProvider();
-        Set<Idul> employeesIduls = reader.readFromClasspath(EMPLOYEE_IDUL_CSV_PATH);
-        EmployeeRegistry employeeRegistry = new EmployeeRegistry(employeesIduls);
-        this.resourceLocator.register(EmployeeRegistry.class, employeeRegistry);
+		// TODO not done
+		EmployeeRegistryGateway employeeRegistryGateway = new JsonULavalEmployeeRegistryGateway(EMPLOYEE_IDUL_CSV_PATH);
+		
+        this.resourceLocator.register(EmployeeRegistryGateway.class, employeeRegistryGateway);
     }
 }
