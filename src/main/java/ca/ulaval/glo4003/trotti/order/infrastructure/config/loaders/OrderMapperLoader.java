@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionProvider;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;

@@ -1,9 +1,7 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.services;
+package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions;
 
-import ca.ulaval.glo4003.trotti.commons.domain.SchoolSessionGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.SessionException;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionMapper;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions.SessionRecord;
+import ca.ulaval.glo4003.trotti.commons.domain.gateways.SchoolSessionGateway;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +10,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JsonSessionGateway implements SchoolSessionGateway {
