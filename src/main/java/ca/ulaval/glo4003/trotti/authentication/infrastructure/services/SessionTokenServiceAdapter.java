@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.authentication.infrastructure.services;
 
-import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
 import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenService;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
@@ -62,11 +62,11 @@ public class SessionTokenServiceAdapter implements SessionTokenService {
 			
 			return new AuthenticatedIdentity(Idul.from(idulValue), Role.REGULAR_EMPLOYEE, Set.of(Permission.START_MAINTENANCE, Permission.END_MAINTENANCE));
 		} catch (ExpiredJwtException exception) {
-			throw new ExpiredTokenException();
+			throw new AuthenticationException("Session is already expired");
 		} catch (MalformedJwtException exception) {
-			throw new MalformedTokenException("The token received is either malformed or invalid");
+			throw new AuthenticationException("Session token is either malformed or invalid");
 		} catch (JwtException exception) {
-			throw new AuthenticationException("Something went wrong during the authentication");
+			throw new AuthenticationException("Something went wrong during the session authentication");
 		}
 	}
 }

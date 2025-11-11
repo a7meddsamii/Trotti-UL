@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.security;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.jwtsecuritycontext;
 
 import jakarta.ws.rs.core.SecurityContext;
 
@@ -21,6 +21,7 @@ public class JwtSecurityContext implements SecurityContext {
         return jwtPrincipal.getRole().toString().equalsIgnoreCase(role);
     }
 
+	// TODO review this method
     public boolean hasPermission(String permission) {
         return jwtPrincipal.getPermissions().stream()
                 .anyMatch(p -> p.toString().equalsIgnoreCase(permission));
