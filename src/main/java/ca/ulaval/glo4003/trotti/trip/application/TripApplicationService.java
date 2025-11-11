@@ -62,7 +62,8 @@ public class TripApplicationService {
         Scooter scooter = scooterRepository.findById(scooterId);
         LocalDateTime endTime = LocalDateTime.ofInstant(clock.instant(), clock.getZone());
 
-        station.returnScooter(endTripDto.slotNumber(), scooter, endTime);
+        station.returnScooter(endTripDto.slotNumber(), scooter.getScooterId());
+        scooter.dockAt(station.getLocation(), endTime);
         Trip completetrip = traveler.stopTraveling(endTime);
 
         travelerRepository.update(traveler);
