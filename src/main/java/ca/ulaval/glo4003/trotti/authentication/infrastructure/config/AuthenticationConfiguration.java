@@ -21,6 +21,7 @@ public class AuthenticationConfiguration extends Configuration {
 
     @Override
     protected void load() {
+		new AuthenticationForeignServiceLoader().load();
         new AuthenticationFactoryLoader().load();
         new AuthenticationMapperLoader().load();
 		new AuthenticationGatewayLoader().load();

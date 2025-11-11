@@ -18,8 +18,17 @@ import org.slf4j.LoggerFactory;
 
 public class AccountForeignServiceLoader extends Bootstrapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountForeignServiceLoader.class);
-    private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
-    private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
+	/**
+	 * @deprecated delete this constant
+	 */
+	private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
+	/**
+	 * @deprecated delete this constant
+	 */
+	private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
+	/**
+	 * @deprecated delete this constant
+	 */
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
     private static final int HASHER_MEMORY_COST = 65536;
@@ -37,7 +46,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
                 HASHER_ITERATIONS, HASHER_NUMBER_OF_THREADS);
         this.resourceLocator.register(PasswordHasher.class, hasher);
     }
-
+	
+	/**
+	 * @deprecated this will be deleted once the new authentication module is plugged to the account module
+	 */
     private void loadAuthenticationService() {
         try {
             EmployeeRegistry employeeRegistry =
