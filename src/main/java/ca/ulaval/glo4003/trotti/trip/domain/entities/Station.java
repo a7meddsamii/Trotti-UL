@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class Station {
@@ -29,13 +28,12 @@ public class Station {
         return this.dockingArea.undock(slotNumber);
     }
 
-    public void returnScooter(SlotNumber slotNumber, Scooter scooter, LocalDateTime time) {
+    public void returnScooter(SlotNumber slotNumber, ScooterId scooterId) {
         if (underMaintenance) {
             throw new StationMaintenanceException(
                     "Cannot return scooter to station under maintenance");
         }
-        scooter.dockAt(this.location, time);
-        this.dockingArea.dock(slotNumber, scooter.getScooterId());
+        this.dockingArea.dock(slotNumber, scooterId);
     }
 
     public Location getLocation() {

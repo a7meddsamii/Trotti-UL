@@ -120,8 +120,8 @@ class StationDataFactoryTest {
 
         for (int i = 0; i < mockScooters.size(); i++) {
             SlotNumber expectedSlot = new SlotNumber(i);
-            Scooter expectedScooter = mockScooters.get(i);
-            verify(mockStation).returnScooter(eq(expectedSlot), eq(expectedScooter), any());
+            ScooterId expectedScooterId = mockScooters.get(i).getScooterId();
+            verify(mockStation).returnScooter(eq(expectedSlot), eq(expectedScooterId));
         }
     }
 

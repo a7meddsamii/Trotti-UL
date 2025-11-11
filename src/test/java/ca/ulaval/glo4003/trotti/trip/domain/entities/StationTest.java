@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 
 class StationTest {
     private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
-    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(1);
+    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
 
@@ -92,7 +92,7 @@ class StationTest {
         LocalDateTime now = LocalDateTime.now();
 
         Assertions.assertThrows(StationMaintenanceException.class,
-                () -> station.returnScooter(SLOT_NUMBER, scooter, now));
+                () -> station.returnScooter(SLOT_NUMBER, scooter.getScooterId()));
     }
 
     @Test
