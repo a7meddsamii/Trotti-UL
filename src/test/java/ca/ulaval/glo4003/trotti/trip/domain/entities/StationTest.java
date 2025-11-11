@@ -12,10 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class StationTest {
-    private static final SlotNumber SLOT_NUMBER_1 = new SlotNumber(1);
-    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
+    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
+    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(1);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
+
     private DockingArea A_DOCKING_AREA;
     private Location A_LOCATION;
     private Station station;
@@ -31,22 +32,20 @@ class StationTest {
 
     @Test
     void givenSlotNumber_whenGetScooter_thenReturnsScooterIdFromDockingAreaAndCallsUndockOnDockingArea() {
-        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER_1)).thenReturn(A_SCOOTER_ID);
+        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
 
-        ScooterId result = station.getScooter(SLOT_NUMBER_1);
+        ScooterId result = station.getScooter(SLOT_NUMBER);
 
         Assertions.assertEquals(A_SCOOTER_ID, result);
-        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER_1);
+        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER);
     }
 
     @Test
     void givenSlotNumberAndScooter_whenReturnScooter_thenScooterIsDockedAndCallsDockingArea() {
-        LocalDateTime now = LocalDateTime.now();
         Mockito.when(scooter.getScooterId()).thenReturn(A_SCOOTER_ID);
-        station.returnScooter(SLOT_NUMBER_1, scooter, now);
+        station.returnScooter(SLOT_NUMBER, scooter.getScooterId());
 
-        Mockito.verify(scooter).dockAt(A_LOCATION, now);
-        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER_1, A_SCOOTER_ID);
+        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 
     @Test
@@ -84,7 +83,7 @@ class StationTest {
         station.startMaintenance();
 
         Assertions.assertThrows(StationMaintenanceException.class,
-                () -> station.getScooter(SLOT_NUMBER_1));
+                () -> station.getScooter(SLOT_NUMBER));
     }
 
     @Test
@@ -93,13 +92,13 @@ class StationTest {
         LocalDateTime now = LocalDateTime.now();
 
         Assertions.assertThrows(StationMaintenanceException.class,
-                () -> station.returnScooter(SLOT_NUMBER_1, scooter, now));
+                () -> station.returnScooter(SLOT_NUMBER, scooter, now));
     }
 
     @Test
     void givenSlotNumbers_whenRetrieveScootersForTransfer_thenReturnsScooterIds() {
-        List<SlotNumber> slotNumbers = List.of(SLOT_NUMBER_1, SLOT_NUMBER_2);
-        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER_1)).thenReturn(A_SCOOTER_ID);
+        List<SlotNumber> slotNumbers = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
+        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
         Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER_2)).thenReturn(ANOTHER_SCOOTER_ID);
 
         List<ScooterId> result = station.retrieveScootersForTransfer(slotNumbers);
@@ -111,7 +110,7 @@ class StationTest {
 
     @Test
     void givenStation_whenGetAvailableSlots_thenReturnsAvailableSlotNumbers() {
-        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER_1, SLOT_NUMBER_2);
+        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
         Mockito.when(A_DOCKING_AREA.findAvailableSlots()).thenReturn(expectedSlots);
 
         List<SlotNumber> result = station.getAvailableSlots();
@@ -122,7 +121,7 @@ class StationTest {
 
     @Test
     void givenStation_whenGetOccupiedSlots_thenReturnsOccupiedSlotNumbers() {
-        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER_1);
+        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER);
         Mockito.when(A_DOCKING_AREA.findOccupiedSlots()).thenReturn(expectedSlots);
 
         List<SlotNumber> result = station.getOccupiedSlots();
@@ -130,4 +129,5 @@ class StationTest {
         Assertions.assertEquals(expectedSlots, result);
         Mockito.verify(A_DOCKING_AREA).findOccupiedSlots();
     }
+
 }
