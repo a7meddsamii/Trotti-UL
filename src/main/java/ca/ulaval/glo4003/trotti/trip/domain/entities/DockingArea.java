@@ -38,9 +38,4 @@ public class DockingArea {
         return Map.copyOf(scooterSlots);
     }
 
-    public List<ScooterId> collectScootersForTransfer(List<ScooterSlot> selectedSlots) {
-        return selectedSlots.stream().map(ScooterSlot::getDockedScooter).flatMap(Optional::stream)
-                .toList();
-    }
-
 }
