@@ -7,17 +7,16 @@ import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdenti
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.SessionToken;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.*;
 
 import javax.crypto.SecretKey;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JwtSessionTokenGeneratorAdapter implements SessionTokenGenerator {
 	
@@ -39,7 +38,10 @@ public class JwtSessionTokenGeneratorAdapter implements SessionTokenGenerator {
 	public SessionToken generateToken(Idul idul, Role role, Set<Permission> permissions) {
 		Instant now = clock.instant();
 		
-		String tokenValue = Jwts.builder().subject(idul.toString()).issuedAt(Date.from(now))
+		String tokenValue = Jwts.builder().subject(idul.toString())
+				.claim("role", role.toString())
+				.claim("permissions", permissions.stream().map(Enum::toString).toList())
+				.issuedAt(Date.from(now))
 				.expiration(Date.from(now.plus(expirationDuration)))
 				.signWith(secretKey, Jwts.SIG.HS256).compact();
 		
@@ -49,11 +51,20 @@ public class JwtSessionTokenGeneratorAdapter implements SessionTokenGenerator {
 	@Override
 	public AuthenticatedIdentity deserialize(SessionToken token) {
 		try {
-			String idulValue =
-					Jwts.parser().verifyWith(secretKey).clock(() -> Date.from(clock.instant()))
-							.build().parseSignedClaims(token.toString()).getPayload().getSubject();
+			Claims claims = Jwts.parser().verifyWith(secretKey).clock(() -> Date.from(clock.instant()))
+					.build().parseSignedClaims(token.toString()).getPayload();
 			
-			return new AuthenticatedIdentity(Idul.from(idulValue), Role.REGULAR_EMPLOYEE, Set.of(Permission.START_MAINTENANCE, Permission.END_MAINTENANCE));
+			Idul idul = Idul.from(claims.getSubject());
+			Role role = Role.fromString(claims.get("role", String.class));
+			List<?> permsRaw = claims.get("permissions", List.class);
+			Set<Permission> permissions = permsRaw.stream()
+					.filter(String.class::isInstance)
+					.map(String.class::cast)
+					.map(Permission::valueOf)
+					.collect(Collectors.toSet());
+			
+			
+			return new AuthenticatedIdentity(idul, role, permissions);
 		} catch (ExpiredJwtException exception) {
 			throw new AuthenticationException("Session is already expired");
 		} catch (MalformedJwtException exception) {
