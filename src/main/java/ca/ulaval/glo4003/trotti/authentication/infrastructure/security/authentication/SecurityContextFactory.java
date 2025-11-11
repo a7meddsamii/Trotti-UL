@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.security;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication;
 
 import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
 import jakarta.ws.rs.core.SecurityContext;

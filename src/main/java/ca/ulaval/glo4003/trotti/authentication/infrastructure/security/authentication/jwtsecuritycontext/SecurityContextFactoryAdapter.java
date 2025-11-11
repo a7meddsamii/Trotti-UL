@@ -1,7 +1,7 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.jwtsecuritycontext;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.jwtsecuritycontext;
 
 import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.SecurityContextFactory;
+import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.SecurityContextFactory;
 import jakarta.ws.rs.core.SecurityContext;
 
 public class SecurityContextFactoryAdapter implements SecurityContextFactory {

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.security;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication;
 
 import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
@@ -10,7 +10,9 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.Provider;
 
+@Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthFilter implements ContainerRequestFilter {
     private final SessionTokenServiceAdapter sessionTokenService;

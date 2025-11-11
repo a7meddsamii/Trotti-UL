@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.jwtsecuritycontext;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.jwtsecuritycontext;
 
 import jakarta.ws.rs.core.SecurityContext;
 
@@ -19,12 +19,6 @@ public class JwtSecurityContext implements SecurityContext {
     @Override
     public boolean isUserInRole(String role) {
         return jwtPrincipal.getRole().toString().equalsIgnoreCase(role);
-    }
-
-	// TODO review this method
-    public boolean hasPermission(String permission) {
-        return jwtPrincipal.getPermissions().stream()
-                .anyMatch(p -> p.toString().equalsIgnoreCase(permission));
     }
 
     @Override
