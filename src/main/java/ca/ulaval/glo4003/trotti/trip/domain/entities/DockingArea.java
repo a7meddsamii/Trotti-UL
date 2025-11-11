@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class DockingArea {
     private final Map<SlotNumber, ScooterSlot> scooterSlots;
@@ -36,6 +35,18 @@ public class DockingArea {
 
     public Map<SlotNumber, ScooterSlot> getScooterSlots() {
         return Map.copyOf(scooterSlots);
+    }
+
+    public List<SlotNumber> findOccupiedSlots() {
+        return scooterSlots.entrySet().stream()
+                .filter(entry -> entry.getValue().getDockedScooter().isPresent())
+                .map(Map.Entry::getKey).toList();
+    }
+
+    public List<SlotNumber> findAvailableSlots() {
+        return scooterSlots.entrySet().stream()
+                .filter(entry -> entry.getValue().getDockedScooter().isEmpty())
+                .map(Map.Entry::getKey).toList();
     }
 
 }

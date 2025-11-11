@@ -6,8 +6,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,32 +110,24 @@ class StationTest {
     }
 
     @Test
-    void givenDockingAreaWithEmptySlots_whenGetAvailableSlots_thenReturnsEmptySlotNumbers() {
-        ScooterSlot emptySlot = Mockito.mock(ScooterSlot.class);
-        ScooterSlot occupiedSlot = Mockito.mock(ScooterSlot.class);
-        Mockito.when(emptySlot.getDockedScooter()).thenReturn(Optional.empty());
-        Mockito.when(occupiedSlot.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
-        Mockito.when(A_DOCKING_AREA.getScooterSlots()).thenReturn(
-                Map.of(SLOT_NUMBER_1, emptySlot, SLOT_NUMBER_2, occupiedSlot));
+    void givenStation_whenGetAvailableSlots_thenReturnsAvailableSlotNumbers() {
+        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER_1, SLOT_NUMBER_2);
+        Mockito.when(A_DOCKING_AREA.findAvailableSlots()).thenReturn(expectedSlots);
 
         List<SlotNumber> result = station.getAvailableSlots();
 
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(SLOT_NUMBER_1, result.getFirst());
+        Assertions.assertEquals(expectedSlots, result);
+        Mockito.verify(A_DOCKING_AREA).findAvailableSlots();
     }
 
     @Test
-    void givenDockingAreaWithOccupiedSlots_whenGetOccupiedSlots_thenReturnsOccupiedSlotNumbers() {
-        ScooterSlot emptySlot = Mockito.mock(ScooterSlot.class);
-        ScooterSlot occupiedSlot = Mockito.mock(ScooterSlot.class);
-        Mockito.when(emptySlot.getDockedScooter()).thenReturn(Optional.empty());
-        Mockito.when(occupiedSlot.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
-        Mockito.when(A_DOCKING_AREA.getScooterSlots()).thenReturn(
-                Map.of(SLOT_NUMBER_1, emptySlot, SLOT_NUMBER_2, occupiedSlot));
+    void givenStation_whenGetOccupiedSlots_thenReturnsOccupiedSlotNumbers() {
+        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER_1);
+        Mockito.when(A_DOCKING_AREA.findOccupiedSlots()).thenReturn(expectedSlots);
 
         List<SlotNumber> result = station.getOccupiedSlots();
 
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(SLOT_NUMBER_2, result.getFirst());
+        Assertions.assertEquals(expectedSlots, result);
+        Mockito.verify(A_DOCKING_AREA).findOccupiedSlots();
     }
 }

@@ -27,15 +27,15 @@ public class Transfer {
 
     public List<ScooterId> removeScootersFromTransit(int numberOfScooters) {
         if (numberOfScooters > scootersInTransit.size()) {
-            throw new InsufficientScootersInTransitException(
-                "Cannot store " + numberOfScooters + " scooters, only " + scootersInTransit.size() + " in transit");
+            throw new InsufficientScootersInTransitException("Cannot store " + numberOfScooters
+                    + " scooters, only " + scootersInTransit.size() + " in transit");
         }
-        
+
         List<ScooterId> scootersToStore = new ArrayList<>();
         for (int i = 0; i < numberOfScooters; i++) {
             scootersToStore.add(scootersInTransit.removeFirst());
         }
-        
+
         return scootersToStore;
     }
 

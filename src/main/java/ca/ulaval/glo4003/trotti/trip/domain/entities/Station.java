@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public class Station {
 
@@ -64,22 +63,14 @@ public class Station {
     }
 
     public List<SlotNumber> getOccupiedSlots() {
-        return dockingArea.getScooterSlots().entrySet().stream()
-                .filter(entry -> entry.getValue().getDockedScooter().isPresent())
-                .map(Map.Entry::getKey)
-                .toList();
+        return dockingArea.findOccupiedSlots();
     }
 
     public List<SlotNumber> getAvailableSlots() {
-        return dockingArea.getScooterSlots().entrySet().stream()
-                .filter(entry -> entry.getValue().getDockedScooter().isEmpty())
-                .map(Map.Entry::getKey)
-                .toList();
+        return dockingArea.findAvailableSlots();
     }
 
     public List<ScooterId> retrieveScootersForTransfer(List<SlotNumber> slotNumbers) {
-        return slotNumbers.stream()
-                .map(this.dockingArea::undock)
-                .toList();
+        return slotNumbers.stream().map(this.dockingArea::undock).toList();
     }
 }

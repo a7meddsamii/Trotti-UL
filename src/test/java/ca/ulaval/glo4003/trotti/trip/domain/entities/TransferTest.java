@@ -32,9 +32,9 @@ class TransferTest {
     @Test
     void givenTransfer_whenAddScootersToTransit_thenScootersAreInTransit() {
         List<ScooterId> scooterIds = List.of(ScooterId.randomId(), ScooterId.randomId());
-        
+
         transfer.addScootersToTransit(scooterIds);
-        
+
         Assertions.assertEquals(2, transfer.getRemainingScooterCount());
         Assertions.assertTrue(transfer.getScootersInTransit().containsAll(scooterIds));
     }
@@ -43,9 +43,9 @@ class TransferTest {
     void givenTransferWithScootersInTransit_whenRemoveAllScooters_thenNoScootersRemain() {
         List<ScooterId> scooterIds = List.of(ScooterId.randomId(), ScooterId.randomId());
         transfer.addScootersToTransit(scooterIds);
-        
+
         List<ScooterId> removedScooters = transfer.removeScootersFromTransit(2);
-        
+
         Assertions.assertEquals(2, removedScooters.size());
         Assertions.assertEquals(0, transfer.getRemainingScooterCount());
     }
@@ -54,7 +54,7 @@ class TransferTest {
     void givenTransferWithTwoScooters_whenTryToRemoveThree_thenThrowsException() {
         List<ScooterId> scooterIds = List.of(ScooterId.randomId(), ScooterId.randomId());
         transfer.addScootersToTransit(scooterIds);
-        
+
         Assertions.assertThrows(InsufficientScootersInTransitException.class,
                 () -> transfer.removeScootersFromTransit(3));
     }

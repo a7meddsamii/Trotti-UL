@@ -4,7 +4,9 @@ import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,9 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class DockingAreaTest {
+
+    private static final int ONE_SLOT = 1;
+
     private static final SlotNumber VALID_SLOT = new SlotNumber(1);
     private static final SlotNumber INVALID_SLOT = new SlotNumber(99);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
@@ -57,5 +62,25 @@ class DockingAreaTest {
 
         Assertions.assertThrows(DockingException.class, undock);
         Mockito.verifyNoInteractions(A_SCOOTER_SLOT);
+    }
+
+    @Test
+    void givenOccupiedSlot_whenFindOccupiedSlots_thenReturnsThatSlot() {
+        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
+
+        List<SlotNumber> occupiedSlots = dockingArea.findOccupiedSlots();
+
+        Assertions.assertEquals(ONE_SLOT, occupiedSlots.size());
+        Assertions.assertTrue(occupiedSlots.contains(VALID_SLOT));
+    }
+
+    @Test
+    void givenAvailableSlot_whenFindAvailableSlots_thenReturnsThatSlot() {
+        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.empty());
+
+        List<SlotNumber> availableSlots = dockingArea.findAvailableSlots();
+
+        Assertions.assertEquals(ONE_SLOT, availableSlots.size());
+        Assertions.assertTrue(availableSlots.contains(VALID_SLOT));
     }
 }
