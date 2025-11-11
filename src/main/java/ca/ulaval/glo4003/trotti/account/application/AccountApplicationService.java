@@ -12,6 +12,9 @@ import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
+
+import java.util.Set;
 
 public class AccountApplicationService implements AccountService {
 
@@ -55,6 +58,15 @@ public class AccountApplicationService implements AccountService {
 	
 	@Override
 	public IdentityAccountDto findByEmail(ca.ulaval.glo4003.trotti.commons.domain.Email email) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Account account = accountRepository.findByEmail( Email.from(email.toString()))
+				.orElseThrow(() -> new NotFoundException("Account not found"));
+		
+		return new IdentityAccountDto(
+				account.getIdul(),
+				"TECHNICIAN",
+				Set.of("START_MAINTENANCE", "END_MAINTENANCE", "MAKE_TRIP"),
+				account.getPassword().toString(),
+				account.getPassword().getHasher()
+		);
 	}
 }

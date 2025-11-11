@@ -33,8 +33,13 @@ public class Password {
     public boolean matches(String rawPassword) {
         return hasher.matches(rawPassword, this.hashedValue);
     }
-
-    @Override
+	
+	//TODO delete
+	public PasswordHasher getHasher() {
+		return hasher;
+	}
+	
+	@Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
