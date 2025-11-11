@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.authentication.infrastructure.services;
+package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.jwtsecuritycontext;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.authentication.domain.exception.AuthenticationException;
-import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenService;
+import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenGenerator;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdentity;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Role;
@@ -19,13 +19,13 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Set;
 
-public class SessionTokenServiceAdapter implements SessionTokenService {
+public class JwtSessionTokenGeneratorAdapter implements SessionTokenGenerator {
 	
 	private final Duration expirationDuration;
 	private final Clock clock;
 	private final SecretKey secretKey;
 	
-	public SessionTokenServiceAdapter(
+	public JwtSessionTokenGeneratorAdapter(
 			Duration expirationDuration,
 			Clock clock,
 			SecretKey secretKey

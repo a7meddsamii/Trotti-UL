@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.application;
 
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.IdentityAccountDto;
+import ca.ulaval.glo4003.trotti.account.application.port.AccountService;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
@@ -11,7 +13,7 @@ import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 
-public class AccountApplicationService {
+public class AccountApplicationService implements AccountService {
 
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
@@ -50,4 +52,9 @@ public class AccountApplicationService {
             throw new AlreadyExistsException("Email or Idul already in use");
         }
     }
+	
+	@Override
+	public IdentityAccountDto findByEmail(ca.ulaval.glo4003.trotti.commons.domain.Email email) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 }

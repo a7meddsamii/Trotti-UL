@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.authentication.application;
 import ca.ulaval.glo4003.trotti.authentication.application.dto.LoginInfo;
 import ca.ulaval.glo4003.trotti.authentication.domain.entities.Identity;
 import ca.ulaval.glo4003.trotti.authentication.domain.gateway.IdentityGateway;
-import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenService;
+import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenGenerator;
 import ca.ulaval.glo4003.trotti.commons.domain.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,18 +17,18 @@ class AuthenticationApplicationServiceTest {
     private static final LoginInfo LOGIN_INFO = new LoginInfo(AN_EMAIL, "aRawPassword");
 
     private Identity identity;
-    private SessionTokenService sessionTokenService;
+    private SessionTokenGenerator sessionTokenGenerator;
     private IdentityGateway identityGateway;
 
-    private AuthenticationApplicationService authenticationApplicationService;
+    private AuthenticationService authenticationApplicationService;
 
     @BeforeEach
     void setup() {
         identity = Mockito.mock(Identity.class);
-        sessionTokenService = Mockito.mock(SessionTokenService.class);
+        sessionTokenGenerator = Mockito.mock(SessionTokenGenerator.class);
         identityGateway = Mockito.mock(IdentityGateway.class);
         authenticationApplicationService =
-                new AuthenticationApplicationService(sessionTokenService, identityGateway);
+                new AuthenticationApplicationService(sessionTokenGenerator, identityGateway);
     }
 
     @Test
@@ -46,7 +46,7 @@ class AuthenticationApplicationServiceTest {
 
         authenticationApplicationService.login(LOGIN_INFO);
 
-        Mockito.verify(sessionTokenService).generateToken(identity.getIdul(), identity.getRole(),
-                identity.getPermissions());
+        Mockito.verify(sessionTokenGenerator).generateToken(identity.getIdul(), identity.getRole(),
+															identity.getPermissions());
     }
 }

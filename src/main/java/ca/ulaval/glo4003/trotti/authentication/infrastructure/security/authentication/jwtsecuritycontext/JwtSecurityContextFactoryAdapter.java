@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.authentication.domain.values.AuthenticatedIdenti
 import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.SecurityContextFactory;
 import jakarta.ws.rs.core.SecurityContext;
 
-public class SecurityContextFactoryAdapter implements SecurityContextFactory {
+public class JwtSecurityContextFactoryAdapter implements SecurityContextFactory {
 
     @Override
     public SecurityContext create(AuthenticatedIdentity identity, boolean secure) {
