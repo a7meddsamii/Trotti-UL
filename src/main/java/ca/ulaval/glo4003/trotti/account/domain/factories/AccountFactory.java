@@ -2,39 +2,33 @@ package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.RolePermissionsRegistry;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.util.Set;
 
 public class AccountFactory {
     private static final int MINIMUM_AGE_YEARS = 16;
 
     private final Clock clock;
+    private final RolePermissionsRegistry registry;
 
-    public AccountFactory(Clock clock) {
+    public AccountFactory(Clock clock, RolePermissionsRegistry registry) {
         this.clock = clock;
+        this.registry = registry;
     }
-
-    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password, Role role) {
+    
+    public Account create(String name, LocalDate birthDate, Gender gender,
+                          Idul idul, Email email, Password password, Role role) {
+        
         validateBirthDate(birthDate);
-        return new Account(name, birthDate, gender, idul, email, password, role);
-    }
-    public Account createUser(String name, LocalDate birthDate, Gender gender,
-                              Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.STUDENT);
+        Set<Permission> permission = registry.get(role);
+        return new Account(name, birthDate, gender, idul, email, password, role, permission);
     }
     
-    public Account createEmployee(String name, LocalDate birthDate, Gender gender,
-                                 Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.EMPLOYEE);
-    }
-    
-    public Account createTechnician(String name, LocalDate birthDate, Gender gender,
-                                    Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.TECHNICIAN);
-    }
-    
+    //this needs to be moved elsewhere
     private void validateBirthDate(LocalDate birthDate) {
         LocalDate today = LocalDate.now(clock);
         LocalDate minimumValidBirthDate = today.minusYears(MINIMUM_AGE_YEARS);

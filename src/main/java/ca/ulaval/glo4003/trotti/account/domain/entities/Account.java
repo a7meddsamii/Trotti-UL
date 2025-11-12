@@ -1,8 +1,13 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.RolePermissionsRegistry;
+
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
+import java.util.Set;
 
 
 public class Account {
@@ -13,6 +18,7 @@ public class Account {
     private final Gender gender;
     private final Email email;
     private Role role;
+    private Set<Permission> permissions;
     
 
     public Account(
@@ -22,7 +28,8 @@ public class Account {
             Idul idul,
             Email email,
             Password password,
-            Role role
+            Role role,
+            Set<Permission> permissions
             ) {
         this.name = name;
         this.gender = gender;
@@ -31,6 +38,7 @@ public class Account {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.permissions =Set.copyOf(Objects.requireNonNull(permissions, "permissions"));
     }
 
 
@@ -61,11 +69,14 @@ public class Account {
     public Role getRole() {
         return role;
     }
-
+    
+    public Set<Permission> getPermissions() { return permissions; }
+    
     public int getAge() {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
     }
+    
 
     public boolean verifyPassword(String rawPassword) {
         return this.password.matches(rawPassword);
