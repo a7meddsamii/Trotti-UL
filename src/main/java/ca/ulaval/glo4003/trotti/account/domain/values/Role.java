@@ -1,13 +1,11 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.*;
-
-
 import java.util.Set;
 
 public enum Role {
     
-    USER(Set.of(CartPermissions.CART_MODIFICATION,
+    STUDENT(Set.of(CartPermissions.CART_MODIFICATION,
             OrderPermissions.ORDER_CONFIRM,
             TripPermissions.MAKE_TRIP,
             MaintenancePermissions.REQUEST_MAINTENANCE

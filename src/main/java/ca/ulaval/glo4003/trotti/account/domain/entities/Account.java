@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+
 
 public class Account {
     private final String name;
@@ -70,13 +69,5 @@ public class Account {
 
     public boolean verifyPassword(String rawPassword) {
         return this.password.matches(rawPassword);
-    }
-
-    public void assignRole(Role newRole){
-    this.role = Objects.requireNonNull(newRole, "Role can't be null");
-    }
-    
-    public boolean hasPermission(Permission permission) {
-        return role.getPermissions().contains(permission);
     }
 }

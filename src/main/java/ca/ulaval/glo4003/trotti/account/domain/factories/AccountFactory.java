@@ -15,14 +15,14 @@ public class AccountFactory {
         this.clock = clock;
     }
 
-    private Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
+    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
             Password password, Role role) {
         validateBirthDate(birthDate);
         return new Account(name, birthDate, gender, idul, email, password, role);
     }
     public Account createUser(String name, LocalDate birthDate, Gender gender,
                               Idul idul, Email email, Password password) {
-        return create(name, birthDate, gender, idul, email, password, Role.USER);
+        return create(name, birthDate, gender, idul, email, password, Role.STUDENT);
     }
     
     public Account createEmployee(String name, LocalDate birthDate, Gender gender,
