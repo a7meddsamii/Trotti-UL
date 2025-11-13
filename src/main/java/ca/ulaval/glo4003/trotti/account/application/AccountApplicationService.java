@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.values.Role;
 
 public class AccountApplicationService {
 
@@ -30,7 +31,7 @@ public class AccountApplicationService {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
-                registration.password());
+                registration.password(), registration.role());
         accountRepository.save(account);
 
         return account.getIdul();
