@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.entities.userAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
@@ -13,7 +13,7 @@ public class EmployeeCreationNode extends UserAccountCreationNode {
     private final Set<Permission> permissions = Set.of(TripPermissions.MAKE_TRIP,
             MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    EmployeeCreationNode(UserAccountCreationNode next) {
+    public EmployeeCreationNode(UserAccountCreationNode next) {
         this.next = next;
     }
 
@@ -26,6 +26,8 @@ public class EmployeeCreationNode extends UserAccountCreationNode {
                                      Password password,
                                      Role role)  {
         if (role == Role.EMPLOYEE) {
+
+
 
 
             return new Account(name,birthDate,gender,idul,email,password,role,permissions);
