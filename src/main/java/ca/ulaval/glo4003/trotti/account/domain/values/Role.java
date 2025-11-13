@@ -12,7 +12,7 @@ public enum Role {
     TECHNICIAN("technician"),
     ADMIN("admin");
 
-    private String role;
+    private final String role;
 
     Role(String role) {
         this.role = role;

@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.values.Role;
+
 
 public class AccountApplicationService {
 
