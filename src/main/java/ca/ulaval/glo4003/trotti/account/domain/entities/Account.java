@@ -2,11 +2,9 @@ package ca.ulaval.glo4003.trotti.account.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.RolePermissionsRegistry;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -17,8 +15,8 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
-    private Role role;
-    private Set<Permission> permissions;
+    private final Role role;
+    private final Set<Permission> permissions;
     
 
     public Account(
@@ -38,7 +36,7 @@ public class Account {
         this.email = email;
         this.password = password;
         this.role = role;
-        this.permissions =Set.copyOf(Objects.requireNonNull(permissions, "permissions"));
+        this.permissions =Set.copyOf(permissions);
     }
 
 
