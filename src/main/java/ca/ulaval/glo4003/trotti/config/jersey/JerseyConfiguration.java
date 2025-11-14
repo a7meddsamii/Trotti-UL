@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.config.jersey;
 
+import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.AuthenticationFilter;
+import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authorization.AuthorizationFilter;
 import ca.ulaval.glo4003.trotti.config.ApplicationContext;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
@@ -15,25 +17,35 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.validation.ValidationFeature;
 
-@OpenAPIDefinition(info = @Info(title = "Projet Trotti-UL - REST API", version = "2.0",
-        description = "Service de l’Université Laval de location de trottinettes électriques pour une locomotion optimale",
-        contact = @Contact(name = "TrottiUL - Equipe 10", email = "trotti.ul.10@gmail.com")),
-        servers = {@Server(url = "http://localhost:8080/api",
-                description = "Serveur de développement")},
-        security = {@SecurityRequirement(name = "auth")})
-@SecurityScheme(name = "auth", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER,
-        paramName = "Authorization")
+@OpenAPIDefinition(
+		info = @Info(
+				title = "Projet Trotti-UL - REST API", version = "2.0",
+				description = "Service de l’Université Laval de location de trottinettes électriques pour une locomotion optimale",
+				contact = @Contact(name = "TrottiUL - Equipe 10", email = "trotti.ul.10@gmail.com")
+		),
+		servers = {@Server(
+				url = "http://localhost:8080/api",
+				description = "Serveur de développement"
+		)},
+		security = {@SecurityRequirement(name = "auth")}
+)
+@SecurityScheme(
+		name = "auth", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER,
+		paramName = "Authorization"
+)
 public class JerseyConfiguration extends ResourceConfig {
-    private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti";
-
-    public JerseyConfiguration() {
-        ApplicationContext.getInstance().initiate();
-
-        register(JerseyBinder.class);
-        register(ServerLifeCycleListener.class);
-        register(ValidationFeature.class);
-        register(JacksonFeature.class);
-        register(OpenApiResource.class);
-        packages(BASE_PACKAGE);
-    }
+	private static final String BASE_PACKAGE = "ca.ulaval.glo4003.trotti";
+	
+	public JerseyConfiguration() {
+		ApplicationContext.getInstance().initiate();
+		
+		register(JerseyBinder.class);
+		register(AuthenticationFilter.class);
+		register(AuthorizationFilter.class);
+		register(ServerLifeCycleListener.class);
+		register(ValidationFeature.class);
+		register(JacksonFeature.class);
+		register(OpenApiResource.class);
+		packages(BASE_PACKAGE);
+	}
 }

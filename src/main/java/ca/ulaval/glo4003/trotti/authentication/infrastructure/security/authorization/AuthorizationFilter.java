@@ -15,6 +15,7 @@ import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.Provider;
+import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -25,15 +26,17 @@ import java.util.Set;
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
-	
+	public static final Logger LOGGER =
+			org.slf4j.LoggerFactory.getLogger(AuthorizationFilter.class);
 	@Context
 	private ResourceInfo resourceInfo;
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) {
+		LOGGER.info("Authorization filter");
 		AnnotatedElement methodCalled = resourceInfo.getResourceMethod();
 		AnnotatedElement resourceClass = resourceInfo.getResourceClass();
-		
+		LOGGER.info("Method called: {}, class: {}", methodCalled, resourceClass);
 		if (isAnnotated(methodCalled, PermitAll.class) || isAnnotated(resourceClass, PermitAll.class)) {
 			return;
 		}

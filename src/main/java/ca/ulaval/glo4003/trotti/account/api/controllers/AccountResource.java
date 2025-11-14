@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -22,6 +23,7 @@ public interface AccountResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
     @Operation(summary = "Créer un nouveau compte utilisateur",
             description = "Créer un nouveau compte utilisateur avec les infos demandées.",
             requestBody = @RequestBody(description = "Account creation",
