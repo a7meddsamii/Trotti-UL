@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authorization;
 
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.authentication.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.UserPrincipal;
 import jakarta.annotation.Priority;
@@ -7,7 +8,6 @@ import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.ForbiddenException;
-import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -53,7 +53,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	
 	private UserPrincipal extractPrincipal(SecurityContext securityContext) {
 		if (securityContext == null || securityContext.getUserPrincipal() == null) {
-			throw new NotAuthorizedException("Bearer realm=\"api\"");
+			throw new AuthenticationException("Bearer realm=\"api\"");
 		}
 		
 		return (UserPrincipal) securityContext.getUserPrincipal();
