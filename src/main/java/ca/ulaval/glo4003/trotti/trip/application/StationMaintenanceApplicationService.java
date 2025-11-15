@@ -15,7 +15,7 @@ public class StationMaintenanceApplicationService {
 
     private final StationRepository stationRepository;
     private final ScooterRepository scooterRepository;
-    private Clock clock;
+    private final Clock clock;
 
     public StationMaintenanceApplicationService(
             StationRepository stationRepository,
