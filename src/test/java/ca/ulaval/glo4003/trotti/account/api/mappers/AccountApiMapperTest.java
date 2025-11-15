@@ -48,7 +48,7 @@ class AccountApiMapperTest {
         CreateAccountRequest request =
                 new CreateAccountRequest(AccountFixture.A_NAME, AN_INVALID_BIRTHDATE_FORMAT,
                         AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD,AccountFixture.A_ROLE_STRING);
 
         Executable toAccountDtoExecutable = () -> accountApiMapper.toAccountDto(request);
 
@@ -60,7 +60,7 @@ class AccountApiMapperTest {
         CreateAccountRequest request =
                 new CreateAccountRequest(AccountFixture.A_NAME, A_WRONG_FORMATTED_BIRTHDATE,
                         AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+                        AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
 
         Executable executable = () -> accountApiMapper.toAccountDto(request);
 
@@ -70,6 +70,6 @@ class AccountApiMapperTest {
     private CreateAccountRequest buildValidRequest() {
         return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
     }
 }

@@ -26,10 +26,6 @@ public class EmployeeCreationNode extends UserAccountCreationNode {
                                      Password password,
                                      Role role)  {
         if (role == Role.EMPLOYEE) {
-
-
-
-
             return new Account(name,birthDate,gender,idul,email,password,role,permissions);
         }
         return next.CreateUserAccount(name, birthDate, gender, idul, email, password, role);

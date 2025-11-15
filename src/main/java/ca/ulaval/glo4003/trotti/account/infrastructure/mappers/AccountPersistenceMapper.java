@@ -7,11 +7,11 @@ public class AccountPersistenceMapper {
 
     public AccountRecord toDTO(Account account) {
         return new AccountRecord(account.getIdul(), account.getName(), account.getBirthDate(),
-                account.getGender(), account.getEmail(), account.getPassword());
+                account.getGender(), account.getEmail(), account.getPassword(), account.getRole(), account.getPermissions());
     }
 
     public Account toEntity(AccountRecord accountFound) {
         return new Account(accountFound.name(), accountFound.birthDate(), accountFound.gender(),
-                accountFound.idul(), accountFound.email(), accountFound.password());
+                accountFound.idul(), accountFound.email(), accountFound.password(), accountFound.role(), accountFound.permissions() );
     }
 }
