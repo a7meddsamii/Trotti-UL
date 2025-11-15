@@ -95,7 +95,6 @@ class StationMaintenanceApplicationServiceTest {
         Mockito.verify(scooterRepository).save(scooter2);
     }
 
-
     @Test
     void givenValidEndDto_whenEndMaintenance_thenStationIsLoaded() {
         Mockito.when(stationRepository.findByLocation(LOCATION)).thenReturn(station);
