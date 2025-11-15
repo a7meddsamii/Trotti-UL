@@ -1,18 +1,14 @@
 package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class BirthdayValidationTest {
 
@@ -30,7 +26,6 @@ class BirthdayValidationTest {
 
     BirthdayValidation birthdayValidation;
 
-
     @BeforeEach
     void setup() {
         Clock clock = Clock.fixed(START_MOMENT, UTC);
@@ -39,21 +34,24 @@ class BirthdayValidationTest {
 
     @Test
     void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
-        Executable tooYoungException = () -> birthdayValidation.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
+        Executable tooYoungException =
+                () -> birthdayValidation.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 
         Assertions.assertThrows(InvalidParameterException.class, tooYoungException);
     }
 
     @Test
     void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable exactAgeValidation = () -> birthdayValidation.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
+        Executable exactAgeValidation =
+                () -> birthdayValidation.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
 
         Assertions.assertDoesNotThrow(exactAgeValidation);
     }
 
     @Test
     void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable olderAgeValidation = () -> birthdayValidation.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
+        Executable olderAgeValidation =
+                () -> birthdayValidation.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
 
         Assertions.assertDoesNotThrow(olderAgeValidation);
     }

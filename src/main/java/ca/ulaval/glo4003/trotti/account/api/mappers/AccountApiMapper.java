@@ -27,7 +27,6 @@ public class AccountApiMapper {
         LocalDate birthDate = parseDate(request.birthDate());
         Role role = Role.fromString(request.role());
 
-
         return new AccountDto(request.name(), birthDate, gender, idul, email, password, role);
     }
 

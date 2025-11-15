@@ -22,11 +22,15 @@ public class AccountFactoryLoader extends Bootstrapper {
 
     private void loadFactory() {
 
-        BirthdayValidation birthdayValidation  = new BirthdayValidation(this.resourceLocator.resolve(Clock.class));
-        UserAccountCreationNode userChain = new EmployeeCreationNode(new StudentCreationNode( new NoUserAccountCreationNode()));
-        CompanyAccountCreationNode companyChain = new AdminCreationNode(new TechnicianCreationNode(new NoCompanyAccountCreationNode()));
-        AccountFactory accountFactory = new AccountFactory(birthdayValidation, userChain, companyChain);
+        BirthdayValidation birthdayValidation =
+                new BirthdayValidation(this.resourceLocator.resolve(Clock.class));
+        UserAccountCreationNode userChain =
+                new EmployeeCreationNode(new StudentCreationNode(new NoUserAccountCreationNode()));
+        CompanyAccountCreationNode companyChain = new AdminCreationNode(
+                new TechnicianCreationNode(new NoCompanyAccountCreationNode()));
+        AccountFactory accountFactory =
+                new AccountFactory(birthdayValidation, userChain, companyChain);
 
-        this.resourceLocator.register(AccountFactory.class, accountFactory );
+        this.resourceLocator.register(AccountFactory.class, accountFactory);
     }
 }

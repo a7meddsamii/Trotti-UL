@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 
-
 public class AccountApplicationService {
 
     private final AuthenticationService authenticationService;

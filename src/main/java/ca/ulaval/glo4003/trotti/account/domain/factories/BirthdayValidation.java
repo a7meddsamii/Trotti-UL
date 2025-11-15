@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.domain.factories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-
 import java.time.Clock;
 import java.time.LocalDate;
 
@@ -22,6 +21,5 @@ public class BirthdayValidation {
                     "User must be at least " + MINIMUM_AGE_YEARS + " years old.");
         }
     }
-
 
 }

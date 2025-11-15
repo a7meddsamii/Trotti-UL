@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 class AccountPersistenceMapperTest {
 
     private AccountPersistenceMapper accountMapper;
@@ -37,7 +36,8 @@ class AccountPersistenceMapperTest {
     void givenPersistenceEntity_whenToDomain_thenReturnAccount() {
         AccountRecord persistenceEntity = new AccountRecord(AccountFixture.AN_IDUL,
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
-                AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD,AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
+                AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD, AccountFixture.A_ROLE,
+                AccountFixture.A_SET_OF_PERMISSION);
 
         Account account = accountMapper.toEntity(persistenceEntity);
 

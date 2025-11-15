@@ -3,12 +3,11 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationCha
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
 
 class EmployeeCreationNodeTest {
 
@@ -19,11 +18,9 @@ class EmployeeCreationNodeTest {
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
     private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
-
     private UserAccountCreationNode nextNode;
     private Role role;
     private EmployeeCreationNode employeeCreationNode;
-
 
     @BeforeEach
     void setUp() {
@@ -35,7 +32,8 @@ class EmployeeCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         role = Role.EMPLOYEE;
 
-        Account expected = employeeCreationNode.CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        Account expected = employeeCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER,
+                AN_IDUL, A_EMAIL, A_PASSWORD, role);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
@@ -51,11 +49,11 @@ class EmployeeCreationNodeTest {
     void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        employeeCreationNode.CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        employeeCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                A_PASSWORD, role);
 
-        Mockito.verify(nextNode).CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        Mockito.verify(nextNode).CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                A_PASSWORD, role);
     }
-
-
 
 }

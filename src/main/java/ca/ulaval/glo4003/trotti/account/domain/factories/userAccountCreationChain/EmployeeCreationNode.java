@@ -10,23 +10,18 @@ import java.util.Set;
 
 public class EmployeeCreationNode extends UserAccountCreationNode {
 
-    private final Set<Permission> permissions = Set.of(TripPermissions.MAKE_TRIP,
-            MaintenancePermissions.REQUEST_MAINTENANCE);
+    private final Set<Permission> permissions =
+            Set.of(TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
     public EmployeeCreationNode(UserAccountCreationNode next) {
         this.next = next;
     }
 
     @Override
-    public Account CreateUserAccount(String name,
-                                     LocalDate birthDate,
-                                     Gender gender,
-                                     Idul idul,
-                                     Email email,
-                                     Password password,
-                                     Role role)  {
+    public Account CreateUserAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password, Role role) {
         if (role == Role.EMPLOYEE) {
-            return new Account(name,birthDate,gender,idul,email,password,role,permissions);
+            return new Account(name, birthDate, gender, idul, email, password, role, permissions);
         }
         return next.CreateUserAccount(name, birthDate, gender, idul, email, password, role);
     }

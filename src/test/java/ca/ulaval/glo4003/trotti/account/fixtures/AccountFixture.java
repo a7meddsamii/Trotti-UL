@@ -3,11 +3,9 @@ package ca.ulaval.glo4003.trotti.account.fixtures;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.util.Set;
-
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import org.mockito.Mockito;
 
 public class AccountFixture {
@@ -20,7 +18,6 @@ public class AccountFixture {
     public static final String A_STRING_BIRTHDATE = "2000-01-01";
     public static final LocalDate A_BIRTHDATE = LocalDate.of(2000, 1, 1);
     public static final String A_ROLE_STRING = "STUDENT";
-
 
     public static final Gender A_GENDER = Gender.fromString(A_GENDER_STRING);
     public static final Idul AN_IDUL = Idul.from(AN_IDUL_STRING);
@@ -53,6 +50,6 @@ public class AccountFixture {
     }
 
     public Account build() {
-        return new Account(name, birthDate, gender, idul, email, password, role,permissions);
+        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
 }

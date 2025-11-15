@@ -1,16 +1,12 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum Role {
-    
-    STUDENT("student"),
-    EMPLOYEE("employee"),
-    TECHNICIAN("technician"),
-    ADMIN("admin");
+
+    STUDENT("student"), EMPLOYEE("employee"), TECHNICIAN("technician"), ADMIN("admin");
 
     private final String role;
 
@@ -31,15 +27,13 @@ public enum Role {
         };
     }
 
-        @Override
-        public String toString() {
-            return role;
-        }
+    @Override
+    public String toString() {
+        return role;
+    }
 
-        private static String acceptedValues() {
-            return Arrays.stream(Role.values()).map(Role::toString)
-                    .collect(Collectors.joining(", "));
-        }
+    private static String acceptedValues() {
+        return Arrays.stream(Role.values()).map(Role::toString).collect(Collectors.joining(", "));
+    }
 
 }
-

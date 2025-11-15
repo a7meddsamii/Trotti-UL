@@ -3,12 +3,11 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationCha
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
 
 class StudentCreationNodeTest {
 
@@ -19,11 +18,9 @@ class StudentCreationNodeTest {
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
     private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
-
     private UserAccountCreationNode nextNode;
     private Role role;
     private StudentCreationNode studentCreationNode;
-
 
     @BeforeEach
     void setUp() {
@@ -35,7 +32,8 @@ class StudentCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         role = Role.STUDENT;
 
-        Account expected = studentCreationNode.CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        Account expected = studentCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER,
+                AN_IDUL, A_EMAIL, A_PASSWORD, role);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
@@ -51,10 +49,11 @@ class StudentCreationNodeTest {
     void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        studentCreationNode.CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        studentCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                A_PASSWORD, role);
 
-        Mockito.verify(nextNode).CreateUserAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role);
+        Mockito.verify(nextNode).CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                A_PASSWORD, role);
     }
-
 
 }

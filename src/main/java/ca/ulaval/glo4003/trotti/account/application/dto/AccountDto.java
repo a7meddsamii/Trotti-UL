@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.application.dto;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-
 import java.time.LocalDate;
 
 public record AccountDto(

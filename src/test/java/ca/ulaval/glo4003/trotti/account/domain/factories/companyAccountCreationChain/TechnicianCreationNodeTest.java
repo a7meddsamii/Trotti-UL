@@ -5,15 +5,13 @@ import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthorizationException
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
+import java.time.LocalDate;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
-import java.util.Set;
-
 
 class TechnicianCreationNodeTest {
 
@@ -24,12 +22,10 @@ class TechnicianCreationNodeTest {
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
     private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
-
     private Set<Permission> availablePermissions;
     private CompanyAccountCreationNode nextNode;
     private Role role;
     private TechnicianCreationNode TechnicianCreationNode;
-
 
     @BeforeEach
     void setUp() {
@@ -43,7 +39,8 @@ class TechnicianCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = TechnicianCreationNode.CreateCompanyAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role,availablePermissions );
+        Account expected = TechnicianCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE,
+                A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
@@ -59,19 +56,22 @@ class TechnicianCreationNodeTest {
     void givenNoTechnicianRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.EMPLOYEE;
 
-        TechnicianCreationNode.CreateCompanyAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role,availablePermissions );
+        TechnicianCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                A_PASSWORD, role, availablePermissions);
 
-        Mockito.verify(nextNode).CreateCompanyAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role,availablePermissions);
+        Mockito.verify(nextNode).CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+                A_EMAIL, A_PASSWORD, role, availablePermissions);
     }
 
     @Test
     void givenNoPermissions_whenCreateCompanyAccount_thenThrowsAuthorizationException() {
-        Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(false);
+        Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
+                .thenReturn(false);
 
-        Executable executable = () -> TechnicianCreationNode.CreateCompanyAccount(A_NAME,A_BIRTHDATE,A_GENDER,AN_IDUL, A_EMAIL,A_PASSWORD,role,availablePermissions);
+        Executable executable = () -> TechnicianCreationNode.CreateCompanyAccount(A_NAME,
+                A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
-        Assertions.assertThrows(AuthorizationException.class,executable);
+        Assertions.assertThrows(AuthorizationException.class, executable);
     }
-
 
 }

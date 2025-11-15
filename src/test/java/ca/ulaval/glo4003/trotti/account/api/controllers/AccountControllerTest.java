@@ -50,6 +50,7 @@ class AccountControllerTest {
     private CreateAccountRequest buildValidRequest() {
         return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
+                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD,
+                AccountFixture.A_ROLE_STRING);
     }
 }

@@ -59,7 +59,6 @@ class AccountTest {
         Mockito.verify(mockPassword).matches(VALID_RAW_PASSWORD);
     }
 
-
     private Account createAccountWithMockPassword() {
         return new Account(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
