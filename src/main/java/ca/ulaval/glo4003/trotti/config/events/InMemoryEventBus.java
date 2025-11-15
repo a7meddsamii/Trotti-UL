@@ -14,7 +14,7 @@ public class InMemoryEventBus implements EventBus {
 
     private Map<Class<? extends Event>, List<EventHandler<? extends Event>>> listeners = new HashMap<>();
 
-    public <T extends Event> void register(EventHandler<T> subscriber) {
+    public <T extends Event> void subscribe(EventHandler<T> subscriber) {
         listeners.computeIfAbsent(subscriber.eventType(), k -> new ArrayList<>())
                 .add(subscriber);
     }
