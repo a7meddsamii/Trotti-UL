@@ -83,4 +83,13 @@ class DockingAreaTest {
         Assertions.assertEquals(ONE_SLOT, availableSlots.size());
         Assertions.assertTrue(availableSlots.contains(VALID_SLOT));
     }
+
+    @Test
+    void givenScooterSlots_whenGetAllScooterIds_thenReturnsAllScooterIds() {
+        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
+
+        List<ScooterId> result = dockingArea.getAllScooterIds();
+
+        Assertions.assertEquals(List.of(A_SCOOTER_ID), result);
+    }
 }

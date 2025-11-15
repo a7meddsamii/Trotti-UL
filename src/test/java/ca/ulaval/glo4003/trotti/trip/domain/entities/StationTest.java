@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
@@ -16,28 +17,30 @@ class StationTest {
     private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
     private static final ScooterId ANOTHER_SCOOTER_ID = ScooterId.randomId();
+    private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
+    private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
 
-    private DockingArea A_DOCKING_AREA;
+    private DockingArea dockingArea;
     private Location A_LOCATION;
     private Station station;
     private Scooter scooter;
 
     @BeforeEach
     void setup() {
-        A_DOCKING_AREA = Mockito.mock(DockingArea.class);
+        dockingArea = Mockito.mock(DockingArea.class);
         A_LOCATION = Mockito.mock(Location.class);
-        station = new Station(A_LOCATION, A_DOCKING_AREA);
+        station = new Station(A_LOCATION, dockingArea);
         scooter = Mockito.mock(Scooter.class);
     }
 
     @Test
     void givenSlotNumber_whenGetScooter_thenReturnsScooterIdFromDockingAreaAndCallsUndockOnDockingArea() {
-        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
+        Mockito.when(dockingArea.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
 
         ScooterId result = station.getScooter(SLOT_NUMBER);
 
         Assertions.assertEquals(A_SCOOTER_ID, result);
-        Mockito.verify(A_DOCKING_AREA).undock(SLOT_NUMBER);
+        Mockito.verify(dockingArea).undock(SLOT_NUMBER);
     }
 
     @Test
@@ -45,13 +48,13 @@ class StationTest {
         Mockito.when(scooter.getScooterId()).thenReturn(A_SCOOTER_ID);
         station.returnScooter(SLOT_NUMBER, scooter.getScooterId());
 
-        Mockito.verify(A_DOCKING_AREA).dock(SLOT_NUMBER, A_SCOOTER_ID);
+        Mockito.verify(dockingArea).dock(SLOT_NUMBER, A_SCOOTER_ID);
     }
 
     @Test
     void givenStationWithCapacityOf10_whenCalculateInitialScooterCount_thenReturns80PercentOfCapacity() {
-        Mockito.when(A_DOCKING_AREA.getCapacity()).thenReturn(10);
-        Station stationWithCapacity = new Station(A_LOCATION, A_DOCKING_AREA);
+        Mockito.when(dockingArea.getCapacity()).thenReturn(10);
+        Station stationWithCapacity = new Station(A_LOCATION, dockingArea);
 
         int result = stationWithCapacity.calculateInitialScooterCount();
 
@@ -59,75 +62,94 @@ class StationTest {
     }
 
     @Test
-    void givenNewStation_whenCheckingMaintenanceStatus_thenIsNotUnderMaintenance() {
-        Assertions.assertFalse(station.isUnderMaintenance());
+    void givenNewStation_whenIsUnderMaintenance_thenReturnsFalse() {
+        boolean result = station.isUnderMaintenance();
+
+        Assertions.assertFalse(result);
     }
 
     @Test
-    void givenStation_whenStartMaintenance_thenIsUnderMaintenance() {
-        station.startMaintenance();
+    void givenStation_whenStartMaintenance_thenStationIsUnderMaintenance() {
+        station.startMaintenance(TECHNICIAN_ID);
 
-        Assertions.assertTrue(station.isUnderMaintenance());
+        boolean result = station.isUnderMaintenance();
+
+        Assertions.assertTrue(result);
     }
 
     @Test
-    void givenStationUnderMaintenance_whenEndMaintenance_thenIsNotUnderMaintenance() {
-        station.startMaintenance();
-        station.endMaintenance();
+    void givenStationAlreadyUnderMaintenance_whenStartMaintenance_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID);
 
-        Assertions.assertFalse(station.isUnderMaintenance());
+        Executable action = () -> station.startMaintenance(TECHNICIAN_ID);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
-    void givenStationUnderMaintenance_whenGetScooter_thenThrowsStationMaintenanceException() {
-        station.startMaintenance();
+    void givenStationNotUnderMaintenance_whenEndMaintenance_thenThrowsException() {
+        Executable action = () -> station.endMaintenance(TECHNICIAN_ID);
 
-        Assertions.assertThrows(StationMaintenanceException.class,
-                () -> station.getScooter(SLOT_NUMBER));
+        Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
-    void givenStationUnderMaintenance_whenReturnScooter_thenThrowsStationMaintenanceException() {
-        station.startMaintenance();
-        LocalDateTime now = LocalDateTime.now();
+    void givenDifferentTechnician_whenEndMaintenance_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID);
 
-        Assertions.assertThrows(StationMaintenanceException.class,
-                () -> station.returnScooter(SLOT_NUMBER, scooter.getScooterId()));
+        Executable action = () -> station.endMaintenance(OTHER_TECHNICIAN_ID);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenGetScooter_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID);
+
+        Executable action = () -> station.getScooter(SLOT_NUMBER);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenReturnScooter_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID);
+
+        Executable action = () -> station.returnScooter(SLOT_NUMBER, A_SCOOTER_ID);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenSlotNumbers_whenRetrieveScootersForTransfer_thenReturnsScooterIds() {
-        List<SlotNumber> slotNumbers = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
-        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
-        Mockito.when(A_DOCKING_AREA.undock(SLOT_NUMBER_2)).thenReturn(ANOTHER_SCOOTER_ID);
+        List<SlotNumber> slots = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
+        Mockito.when(dockingArea.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
+        Mockito.when(dockingArea.undock(SLOT_NUMBER_2)).thenReturn(ANOTHER_SCOOTER_ID);
 
-        List<ScooterId> result = station.retrieveScootersForTransfer(slotNumbers);
+        List<ScooterId> result = station.retrieveScootersForTransfer(slots);
 
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals(A_SCOOTER_ID, result.get(0));
-        Assertions.assertEquals(ANOTHER_SCOOTER_ID, result.get(1));
+        Assertions.assertEquals(List.of(A_SCOOTER_ID, ANOTHER_SCOOTER_ID), result);
     }
 
     @Test
-    void givenStation_whenGetAvailableSlots_thenReturnsAvailableSlotNumbers() {
-        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
-        Mockito.when(A_DOCKING_AREA.findAvailableSlots()).thenReturn(expectedSlots);
+    void givenStation_whenGetAvailableSlots_thenReturnsValuesFromDockingArea() {
+        List<SlotNumber> expected = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
+        Mockito.when(dockingArea.findAvailableSlots()).thenReturn(expected);
 
         List<SlotNumber> result = station.getAvailableSlots();
 
-        Assertions.assertEquals(expectedSlots, result);
-        Mockito.verify(A_DOCKING_AREA).findAvailableSlots();
+        Assertions.assertEquals(expected, result);
+        Mockito.verify(dockingArea).findAvailableSlots();
     }
 
     @Test
-    void givenStation_whenGetOccupiedSlots_thenReturnsOccupiedSlotNumbers() {
-        List<SlotNumber> expectedSlots = List.of(SLOT_NUMBER);
-        Mockito.when(A_DOCKING_AREA.findOccupiedSlots()).thenReturn(expectedSlots);
+    void givenStation_whenGetOccupiedSlots_thenReturnsValuesFromDockingArea() {
+        List<SlotNumber> expected = List.of(SLOT_NUMBER);
+        Mockito.when(dockingArea.findOccupiedSlots()).thenReturn(expected);
 
         List<SlotNumber> result = station.getOccupiedSlots();
 
-        Assertions.assertEquals(expectedSlots, result);
-        Mockito.verify(A_DOCKING_AREA).findOccupiedSlots();
+        Assertions.assertEquals(expected, result);
+        Mockito.verify(dockingArea).findOccupiedSlots();
     }
-
 }
