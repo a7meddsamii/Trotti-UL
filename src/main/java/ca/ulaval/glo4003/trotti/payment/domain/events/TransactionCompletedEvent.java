@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.payment.domain.events;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
-
 import java.time.LocalDateTime;
 
 public class TransactionCompletedEvent extends Event {
@@ -15,14 +14,15 @@ public class TransactionCompletedEvent extends Event {
     private final String transactionDescription;
     private final LocalDateTime transactionTimestamp;
 
-    public TransactionCompletedEvent(Idul idul,
-                                     String transactionId,
-                                     String transactionStatus,
-                                     String paymentMethod,
-                                     Money amount,
-                                     String transactionDescription,
-                                     LocalDateTime transactionTimestamp) {
-        super(idul,"transaction." + transactionStatus.toLowerCase());
+    public TransactionCompletedEvent(
+            Idul idul,
+            String transactionId,
+            String transactionStatus,
+            String paymentMethod,
+            Money amount,
+            String transactionDescription,
+            LocalDateTime transactionTimestamp) {
+        super(idul, "transaction." + transactionStatus.toLowerCase());
         this.transactionId = transactionId;
         this.transactionStatus = transactionStatus;
         this.paymentMethod = paymentMethod;

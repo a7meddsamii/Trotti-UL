@@ -10,11 +10,12 @@ public class RidePermitActivatedEvent extends Event {
     private final String billingFrequency;
     private final String maximumDailyTravelTime;
 
-    public RidePermitActivatedEvent(Idul idul,
-                                    String ridePermitId,
-                                    String session,
-                                    String billingFrequency,
-                                    String maximumDailyTravelTime) {
+    public RidePermitActivatedEvent(
+            Idul idul,
+            String ridePermitId,
+            String session,
+            String billingFrequency,
+            String maximumDailyTravelTime) {
         super(idul, "ride_permit.activated");
         this.ridePermitId = ridePermitId;
         this.session = session;
