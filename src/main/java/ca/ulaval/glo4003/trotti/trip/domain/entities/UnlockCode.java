@@ -16,6 +16,7 @@ public class UnlockCode {
     private UnlockCode(String code, Idul travelerId) {
         this.code = code;
         this.travelerId = travelerId;
+
     }
 
     public static UnlockCode of(Idul travelerId, String code) {
@@ -51,9 +52,5 @@ public class UnlockCode {
     @Override
     public int hashCode() {
         return Objects.hash(travelerId, code);
-    }
-
-    public boolean belongsToTravelerAndIsValid(UnlockCode unlockCode, Idul travelerId) {
-        return this.travelerId.equals(travelerId) && this.code.equals(unlockCode.getCode());
     }
 }

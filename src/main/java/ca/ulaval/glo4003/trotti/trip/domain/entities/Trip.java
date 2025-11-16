@@ -2,10 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,6 +17,7 @@ public class Trip {
     private final Location startLocation;
     private LocalDateTime endTime;
     private Location endLocation;
+    private TripStatus tripStatus;
 
     private Trip(Idul idul,
                  RidePermitId ridePermitId,
@@ -32,6 +30,7 @@ public class Trip {
         this.scooterId = scooterId;
         this.startTime = startTime;
         this.startLocation = startLocation;
+        this.tripStatus = TripStatus.ONGOING;
     }
 
     private Trip(TripId tripId,
@@ -41,7 +40,8 @@ public class Trip {
                  LocalDateTime startTime,
                  Location startLocation,
                  LocalDateTime endTime,
-                 Location endLocation) {
+                 Location endLocation,
+                 TripStatus tripStatus) {
         this.tripId = tripId;
         this.idul = idul;
         this.ridePermitId = ridePermitId;
@@ -50,6 +50,7 @@ public class Trip {
         this.startLocation = startLocation;
         this.endTime = endTime;
         this.endLocation = endLocation;
+        this.tripStatus = tripStatus;
     }
 
     public static Trip start(RidePermitId ridePermitId,
@@ -67,8 +68,9 @@ public class Trip {
                             LocalDateTime startTime,
                             Location startLocation,
                             LocalDateTime endTime,
-                            Location endLocation) {
-        return new Trip(tripId,idul, ridePermitId, scooterId, startTime, startLocation, endTime, endLocation);
+                            Location endLocation,
+                            TripStatus tripStatus) {
+        return new Trip(tripId,idul, ridePermitId, scooterId, startTime, startLocation, endTime, endLocation, tripStatus);
     }
 
     public void complete(Location endLocation, LocalDateTime endTime) {
@@ -77,6 +79,7 @@ public class Trip {
 
         this.endLocation = endLocation;
         this.endTime = endTime;
+        this.tripStatus = TripStatus.COMPLETED;
     }
 
     public Duration calculateDuration() {
@@ -113,5 +116,9 @@ public class Trip {
 
     public Location getEndLocation() {
         return endLocation;
+    }
+
+    public TripStatus getStatus() {
+        return tripStatus;
     }
 }

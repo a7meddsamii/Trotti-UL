@@ -18,7 +18,8 @@ public class TripPersistenceMapper {
                               trip.getStartTime(),
                               trip.getStartLocation(),
                               trip.getEndTime(),
-                              trip.getEndLocation());
+                              trip.getEndLocation(),
+                              trip.getStatus());
     }
 
     public Trip toDomain(TripRecord record) {
@@ -29,7 +30,8 @@ public class TripPersistenceMapper {
                         record.startTime(),
                         Location.of(record.startLocation().getBuilding(), record.startLocation().getSpotName()),
                         record.endTime(),
-                        Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName())
+                        Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName()),
+                        record.tripStatus()
                         );
     }
 }
