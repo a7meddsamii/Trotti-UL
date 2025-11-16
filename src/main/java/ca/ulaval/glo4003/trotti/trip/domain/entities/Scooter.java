@@ -54,15 +54,10 @@ public class Scooter {
     }
 
     public void pauseCharging(LocalDateTime pausedTime) {
-        if (battery.getCurrentBatteryState() == BatteryState.CHARGING) {
-            this.battery.changeBatteryState(BatteryState.IDLE, pausedTime);
-        }
+        battery.pause(pausedTime);
     }
 
     public void resumeCharging(LocalDateTime resumedTime) {
-        if (battery.getCurrentBatteryState() == BatteryState.IDLE) {
-            this.battery.changeBatteryState(BatteryState.CHARGING, resumedTime);
-        }
+        battery.resume(resumedTime);
     }
-
 }
