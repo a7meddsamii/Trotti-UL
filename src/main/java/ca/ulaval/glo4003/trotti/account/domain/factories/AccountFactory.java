@@ -27,14 +27,15 @@ public class AccountFactory {
             Password password, Role role) {
 
         accountValidator.validateBirthDate(birthDate);
-        return userChain.createStandardAccount(name, birthDate, gender, idul, email, password, role);
+        return userChain.createStandardAccount(name, birthDate, gender, idul, email, password,
+                role);
     }
 
     public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
             Password password, Role role, Set<Permission> availablePermissions) {
 
         accountValidator.validateBirthDate(birthDate);
-        return companyChain.createAdminManagedAccount(name, birthDate, gender, idul, email, password,
-                role, availablePermissions);
+        return companyChain.createAdminManagedAccount(name, birthDate, gender, idul, email,
+                password, role, availablePermissions);
     }
 }

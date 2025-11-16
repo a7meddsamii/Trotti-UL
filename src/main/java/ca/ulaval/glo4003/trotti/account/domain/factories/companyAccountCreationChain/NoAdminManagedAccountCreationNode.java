@@ -10,8 +10,9 @@ import java.util.Set;
 public class NoAdminManagedAccountCreationNode extends AdminManagedAccountCreationNode {
 
     @Override
-    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-                                             Email email, Password password, Role role, Set<Permission> availablePermissions) {
+    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
+            Idul idul, Email email, Password password, Role role,
+            Set<Permission> availablePermissions) {
         throw new UnableToCreateAccountException("Unable to create company account");
     }
 }

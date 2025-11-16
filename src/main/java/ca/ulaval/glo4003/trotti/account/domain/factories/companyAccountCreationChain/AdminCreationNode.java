@@ -17,8 +17,9 @@ public class AdminCreationNode extends AdminManagedAccountCreationNode {
     }
 
     @Override
-    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-                                             Email email, Password password, Role role, Set<Permission> availablePermissions) {
+    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
+            Idul idul, Email email, Password password, Role role,
+            Set<Permission> availablePermissions) {
 
         if (role == Role.ADMIN) {
 

@@ -52,8 +52,8 @@ class StudentCreationNodeTest {
         studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 A_PASSWORD, role);
 
-        Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                A_PASSWORD, role);
+        Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+                A_EMAIL, A_PASSWORD, role);
     }
 
 }

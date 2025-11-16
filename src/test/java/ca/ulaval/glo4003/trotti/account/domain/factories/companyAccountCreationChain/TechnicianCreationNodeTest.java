@@ -56,8 +56,8 @@ class TechnicianCreationNodeTest {
     void givenNoTechnicianRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = Role.EMPLOYEE;
 
-        TechnicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                A_PASSWORD, role, availablePermissions);
+        TechnicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+                A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, A_PASSWORD, role, availablePermissions);

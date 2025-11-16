@@ -18,7 +18,7 @@ public class StudentCreationNode extends StandardAccountCreationNode {
 
     @Override
     public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-                                         Email email, Password password, Role role) {
+            Email email, Password password, Role role) {
         if (role == Role.STUDENT) {
             return new Account(name, birthDate, gender, idul, email, password, role, permissions);
         }

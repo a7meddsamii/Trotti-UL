@@ -8,8 +8,8 @@ import ca.ulaval.glo4003.trotti.account.domain.factories.companyAccountCreationC
 import ca.ulaval.glo4003.trotti.account.domain.factories.companyAccountCreationChain.TechnicianCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain.EmployeeCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain.NoStandardAccountCreationNode;
-import ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain.StudentCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain.StandardAccountCreationNode;
+import ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain.StudentCreationNode;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.time.Clock;
 
@@ -24,8 +24,8 @@ public class AccountFactoryLoader extends Bootstrapper {
 
         AccountValidator accountValidator =
                 new AccountValidator(this.resourceLocator.resolve(Clock.class));
-        StandardAccountCreationNode userChain =
-                new EmployeeCreationNode(new StudentCreationNode(new NoStandardAccountCreationNode()));
+        StandardAccountCreationNode userChain = new EmployeeCreationNode(
+                new StudentCreationNode(new NoStandardAccountCreationNode()));
         AdminManagedAccountCreationNode companyChain = new AdminCreationNode(
                 new TechnicianCreationNode(new NoAdminManagedAccountCreationNode()));
         AccountFactory accountFactory =
