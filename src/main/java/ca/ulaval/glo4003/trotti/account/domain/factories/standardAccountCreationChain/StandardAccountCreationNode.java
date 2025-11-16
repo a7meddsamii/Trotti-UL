@@ -12,6 +12,7 @@ public abstract class StandardAccountCreationNode {
         this.next = next;
         return this;
     }
+
     public abstract Account createStandardAccount(String name, LocalDate birthDate, Gender gender,
             Idul idul, Email email, Password password, Role role);
 

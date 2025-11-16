@@ -14,6 +14,7 @@ public abstract class AdminManagedAccountCreationNode {
         this.next = next;
         return this;
     }
+
     public abstract Account createAdminManagedAccount(String name, LocalDate birthDate,
             Gender gender, Idul idul, Email email, Password password, Role role,
             Set<Permission> availablePermissions);

@@ -12,8 +12,7 @@ public class StudentCreationNode extends StandardAccountCreationNode {
             Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
                     TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public StudentCreationNode() {
-    }
+    public StudentCreationNode() {}
 
     @Override
     public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
