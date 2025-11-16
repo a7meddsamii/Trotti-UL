@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-class BirthdayValidationTest {
+class AccountValidatorTest {
 
     private static final Instant START_MOMENT = Instant.parse("2025-09-20T00:00:00Z");
     private static final ZoneOffset UTC = ZoneOffset.UTC;
@@ -24,18 +24,18 @@ class BirthdayValidationTest {
     private static final LocalDate BIRTHDATE_OLDER_THAN_MINIMUM_AGE =
             BIRTHDATE_EXACTLY_MINIMUM_AGE.minusYears(4);
 
-    BirthdayValidation birthdayValidation;
+    AccountValidator accountValidator;
 
     @BeforeEach
     void setup() {
         Clock clock = Clock.fixed(START_MOMENT, UTC);
-        birthdayValidation = new BirthdayValidation(clock);
+        accountValidator = new AccountValidator(clock);
     }
 
     @Test
     void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
         Executable tooYoungException =
-                () -> birthdayValidation.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
+                () -> accountValidator.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 
         Assertions.assertThrows(InvalidParameterException.class, tooYoungException);
     }
@@ -43,7 +43,7 @@ class BirthdayValidationTest {
     @Test
     void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
         Executable exactAgeValidation =
-                () -> birthdayValidation.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
+                () -> accountValidator.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
 
         Assertions.assertDoesNotThrow(exactAgeValidation);
     }
@@ -51,7 +51,7 @@ class BirthdayValidationTest {
     @Test
     void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
         Executable olderAgeValidation =
-                () -> birthdayValidation.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
+                () -> accountValidator.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
 
         Assertions.assertDoesNotThrow(olderAgeValidation);
     }

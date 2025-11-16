@@ -5,11 +5,11 @@ import ca.ulaval.glo4003.trotti.account.domain.exceptions.UnableToCreateAccountE
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import java.time.LocalDate;
 
-public class NoUserAccountCreationNode extends UserAccountCreationNode {
+public class NoStandardAccountCreationNode extends StandardAccountCreationNode {
 
     @Override
-    public Account CreateUserAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role) {
+    public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                         Email email, Password password, Role role) {
         throw new UnableToCreateAccountException("unable to create account");
     }
 

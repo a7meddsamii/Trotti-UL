@@ -10,19 +10,19 @@ import ca.ulaval.glo4003.trotti.account.domain.values.permissions.TripPermission
 import java.time.LocalDate;
 import java.util.Set;
 
-public class TechnicianCreationNode extends CompanyAccountCreationNode {
+public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
 
     private final Set<Permission> permissions = Set.of(TripPermissions.MAKE_TRIP,
             MaintenancePermissions.START_MAINTENANCE, MaintenancePermissions.END_MAINTENANCE,
             MaintenancePermissions.RELOCATE_SCOOTER, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public TechnicianCreationNode(CompanyAccountCreationNode next) {
+    public TechnicianCreationNode(AdminManagedAccountCreationNode next) {
         this.next = next;
     }
 
     @Override
-    public Account CreateCompanyAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> availablePermissions) {
+    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                             Email email, Password password, Role role, Set<Permission> availablePermissions) {
 
         if (role == Role.TECHNICIAN) {
 
@@ -32,7 +32,7 @@ public class TechnicianCreationNode extends CompanyAccountCreationNode {
 
             return new Account(name, birthDate, gender, idul, email, password, role, permissions);
         }
-        return next.CreateCompanyAccount(name, birthDate, gender, idul, email, password, role,
+        return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password, role,
                 availablePermissions);
     }
 }

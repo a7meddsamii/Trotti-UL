@@ -4,12 +4,12 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterExcept
 import java.time.Clock;
 import java.time.LocalDate;
 
-public class BirthdayValidation {
+public class AccountValidator {
 
     private static final int MINIMUM_AGE_YEARS = 16;
     private final Clock clock;
 
-    public BirthdayValidation(Clock clock) {
+    public AccountValidator(Clock clock) {
         this.clock = clock;
     }
 

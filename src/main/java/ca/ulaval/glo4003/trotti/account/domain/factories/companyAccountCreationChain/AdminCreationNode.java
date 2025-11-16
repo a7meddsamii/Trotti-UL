@@ -8,17 +8,17 @@ import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class AdminCreationNode extends CompanyAccountCreationNode {
+public class AdminCreationNode extends AdminManagedAccountCreationNode {
 
     private final Set<Permission> permissions = Set.of(AccountPermissions.values());
 
-    public AdminCreationNode(CompanyAccountCreationNode next) {
+    public AdminCreationNode(AdminManagedAccountCreationNode next) {
         this.next = next;
     }
 
     @Override
-    public Account CreateCompanyAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> availablePermissions) {
+    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                             Email email, Password password, Role role, Set<Permission> availablePermissions) {
 
         if (role == Role.ADMIN) {
 
@@ -28,7 +28,7 @@ public class AdminCreationNode extends CompanyAccountCreationNode {
 
             return new Account(name, birthDate, gender, idul, email, password, role, permissions);
         }
-        return next.CreateCompanyAccount(name, birthDate, gender, idul, email, password, role,
+        return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password, role,
                 availablePermissions);
     }
 }

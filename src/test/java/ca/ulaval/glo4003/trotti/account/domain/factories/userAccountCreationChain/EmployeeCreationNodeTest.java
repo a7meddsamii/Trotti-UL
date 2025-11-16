@@ -18,13 +18,13 @@ class EmployeeCreationNodeTest {
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
     private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
-    private UserAccountCreationNode nextNode;
+    private StandardAccountCreationNode nextNode;
     private Role role;
     private EmployeeCreationNode employeeCreationNode;
 
     @BeforeEach
     void setUp() {
-        nextNode = Mockito.mock(UserAccountCreationNode.class);
+        nextNode = Mockito.mock(StandardAccountCreationNode.class);
         employeeCreationNode = new EmployeeCreationNode(nextNode);
     }
 
@@ -32,7 +32,7 @@ class EmployeeCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         role = Role.EMPLOYEE;
 
-        Account expected = employeeCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER,
+        Account expected = employeeCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
                 AN_IDUL, A_EMAIL, A_PASSWORD, role);
 
         Assertions.assertEquals(A_NAME, expected.getName());
@@ -49,10 +49,10 @@ class EmployeeCreationNodeTest {
     void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        employeeCreationNode.CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+        employeeCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 A_PASSWORD, role);
 
-        Mockito.verify(nextNode).CreateUserAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+        Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 A_PASSWORD, role);
     }
 

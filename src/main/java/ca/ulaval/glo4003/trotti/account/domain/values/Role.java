@@ -15,16 +15,13 @@ public enum Role {
     }
 
     public static Role fromString(String value) {
-        String normalizedValue = value.trim().toLowerCase();
-
-        return switch (normalizedValue) {
-            case "student" -> STUDENT;
-            case "employee" -> EMPLOYEE;
-            case "technician" -> TECHNICIAN;
-            case "admin" -> ADMIN;
-            default -> throw new InvalidParameterException(
-                    "Invalid gender: " + value + ". Accepted values are: " + acceptedValues());
-        };
+        String normalizedValue = value.trim().toUpperCase();
+        try {
+            return Role.valueOf(normalizedValue);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException(
+                    "Invalid role: " + value + ". Accepted values are: " + acceptedValues());
+        }
     }
 
     @Override

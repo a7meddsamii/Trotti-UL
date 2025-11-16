@@ -24,14 +24,14 @@ class AdminCreationNodeTest {
     private static final Role NOT_ADMIN_ROLE = Role.EMPLOYEE;
 
     private Set<Permission> availablePermissions;
-    private CompanyAccountCreationNode nextNode;
+    private AdminManagedAccountCreationNode nextNode;
     private Role role;
     private AdminCreationNode adminCreationNode;
 
     @BeforeEach
     void setUp() {
         availablePermissions = Mockito.mock(Set.class);
-        nextNode = Mockito.mock(CompanyAccountCreationNode.class);
+        nextNode = Mockito.mock(AdminManagedAccountCreationNode.class);
         role = Role.ADMIN;
         adminCreationNode = new AdminCreationNode(nextNode);
     }
@@ -40,7 +40,7 @@ class AdminCreationNodeTest {
     void givenAdminRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = adminCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER,
+        Account expected = adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER,
                 AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Assertions.assertEquals(A_NAME, expected.getName());
@@ -57,10 +57,10 @@ class AdminCreationNodeTest {
     void givenNoAdminRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = NOT_ADMIN_ROLE;
 
-        adminCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+        adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 A_PASSWORD, role, availablePermissions);
 
-        Mockito.verify(nextNode).CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+        Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, A_PASSWORD, role, availablePermissions);
     }
 
@@ -69,7 +69,7 @@ class AdminCreationNodeTest {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
-        Executable executable = () -> adminCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE,
+        Executable executable = () -> adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
                 A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);

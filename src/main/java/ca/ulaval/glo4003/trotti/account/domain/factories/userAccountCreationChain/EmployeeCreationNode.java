@@ -8,21 +8,21 @@ import ca.ulaval.glo4003.trotti.account.domain.values.permissions.TripPermission
 import java.time.LocalDate;
 import java.util.Set;
 
-public class EmployeeCreationNode extends UserAccountCreationNode {
+public class EmployeeCreationNode extends StandardAccountCreationNode {
 
     private final Set<Permission> permissions =
             Set.of(TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public EmployeeCreationNode(UserAccountCreationNode next) {
+    public EmployeeCreationNode(StandardAccountCreationNode next) {
         this.next = next;
     }
 
     @Override
-    public Account CreateUserAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role) {
+    public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                         Email email, Password password, Role role) {
         if (role == Role.EMPLOYEE) {
             return new Account(name, birthDate, gender, idul, email, password, role, permissions);
         }
-        return next.CreateUserAccount(name, birthDate, gender, idul, email, password, role);
+        return next.createStandardAccount(name, birthDate, gender, idul, email, password, role);
     }
 }

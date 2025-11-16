@@ -7,11 +7,11 @@ import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class NoCompanyAccountCreationNode extends CompanyAccountCreationNode {
+public class NoAdminManagedAccountCreationNode extends AdminManagedAccountCreationNode {
 
     @Override
-    public Account CreateCompanyAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> availablePermissions) {
+    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                             Email email, Password password, Role role, Set<Permission> availablePermissions) {
         throw new UnableToCreateAccountException("Unable to create company account");
     }
 }

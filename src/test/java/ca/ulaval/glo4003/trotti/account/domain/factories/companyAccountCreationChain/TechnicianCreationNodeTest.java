@@ -23,23 +23,23 @@ class TechnicianCreationNodeTest {
     private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
     private Set<Permission> availablePermissions;
-    private CompanyAccountCreationNode nextNode;
+    private AdminManagedAccountCreationNode nextNode;
     private Role role;
     private TechnicianCreationNode TechnicianCreationNode;
 
     @BeforeEach
     void setUp() {
         availablePermissions = Mockito.mock(Set.class);
-        nextNode = Mockito.mock(CompanyAccountCreationNode.class);
+        nextNode = Mockito.mock(AdminManagedAccountCreationNode.class);
         role = Role.TECHNICIAN;
         TechnicianCreationNode = new TechnicianCreationNode(nextNode);
     }
 
     @Test
-    void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
+    void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = TechnicianCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE,
+        Account expected = TechnicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
                 A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Assertions.assertEquals(A_NAME, expected.getName());
@@ -53,22 +53,22 @@ class TechnicianCreationNodeTest {
     }
 
     @Test
-    void givenNoTechnicianRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoTechnicianRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = Role.EMPLOYEE;
 
-        TechnicianCreationNode.CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+        TechnicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 A_PASSWORD, role, availablePermissions);
 
-        Mockito.verify(nextNode).CreateCompanyAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+        Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, A_PASSWORD, role, availablePermissions);
     }
 
     @Test
-    void givenNoPermissions_whenCreateCompanyAccount_thenThrowsAuthorizationException() {
+    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsAuthorizationException() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
-        Executable executable = () -> TechnicianCreationNode.CreateCompanyAccount(A_NAME,
+        Executable executable = () -> TechnicianCreationNode.createAdminManagedAccount(A_NAME,
                 A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);
