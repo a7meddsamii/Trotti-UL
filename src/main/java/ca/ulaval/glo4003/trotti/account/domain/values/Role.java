@@ -8,7 +8,6 @@ public enum Role {
 
     STUDENT, EMPLOYEE, TECHNICIAN, ADMIN;
 
-
     public static Role fromString(String value) {
         String normalizedValue = value.trim().toUpperCase();
         try {

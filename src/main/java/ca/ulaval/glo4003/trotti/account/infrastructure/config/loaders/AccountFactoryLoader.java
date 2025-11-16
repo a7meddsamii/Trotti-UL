@@ -40,7 +40,7 @@ public class AccountFactoryLoader extends Bootstrapper {
     }
 
     private AdminManagedAccountCreationNode buildAdminManagedAccountChain() {
-        AdminManagedAccountCreationNode  admin = new AdminCreationNode();
+        AdminManagedAccountCreationNode admin = new AdminCreationNode();
         AdminManagedAccountCreationNode technician = new TechnicianCreationNode();
 
         admin.setNext(technician);
