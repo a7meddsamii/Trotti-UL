@@ -32,10 +32,10 @@ public class AccountFactory {
     }
 
     public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password, Role role, Set<Permission> availablePermissions) {
+            Password password, Role role, Set<Permission> creatorPermissions) {
 
         accountValidator.validateBirthDate(birthDate);
         return companyChain.createAdminManagedAccount(name, birthDate, gender, idul, email,
-                password, role, availablePermissions);
+                password, role, creatorPermissions);
     }
 }
