@@ -21,15 +21,17 @@ public class InMemoryTripRepository implements TripRepository {
 
     @Override
     public void save(Trip trip) {
-        TripRecord record = mapper.toRecord(trip);
-        tripTable.computeIfAbsent(record.travelerIdul(), travelerId -> new ArrayList<>())
-                .add(record);
+        TripRecord tripRecord = mapper.toRecord(trip);
+        tripTable.computeIfAbsent(tripRecord.idul(), idul -> new ArrayList<>())
+                .add(tripRecord);
     }
 
-    public List<Trip> getTravelerTrips(Idul travelerId) {
-        if (tripTable.containsKey(travelerId)) {
-            return tripTable.get(travelerId).stream().map(mapper::toDomain).toList();
+    @Override
+    public List<Trip> findAllByIdul(Idul idul) {
+        if (tripTable.containsKey(idul)) {
+            return tripTable.get(idul).stream().map(mapper::toDomain).toList();
         }
+
         return Collections.emptyList();
     }
 }

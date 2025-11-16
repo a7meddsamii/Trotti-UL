@@ -13,38 +13,38 @@ import java.time.LocalDateTime;
 public class Trip {
 
     private final TripId tripId;
-    private final RidePermitId ridePermitId;
     private final Idul idul;
+    private final RidePermitId ridePermitId;
     private final ScooterId scooterId;
     private final LocalDateTime startTime;
     private final Location startLocation;
     private LocalDateTime endTime;
     private Location endLocation;
 
-    private Trip(RidePermitId ridePermitId,
-                 Idul idul,
+    private Trip(Idul idul,
+                 RidePermitId ridePermitId,
                  ScooterId scooterId,
                  LocalDateTime startTime,
                  Location startLocation) {
         this.tripId = TripId.randomId();
-        this.ridePermitId = ridePermitId;
         this.idul = idul;
+        this.ridePermitId = ridePermitId;
         this.scooterId = scooterId;
         this.startTime = startTime;
         this.startLocation = startLocation;
     }
 
     private Trip(TripId tripId,
-                 RidePermitId ridePermitId,
                  Idul idul,
+                 RidePermitId ridePermitId,
                  ScooterId scooterId,
                  LocalDateTime startTime,
                  Location startLocation,
                  LocalDateTime endTime,
                  Location endLocation) {
         this.tripId = tripId;
-        this.ridePermitId = ridePermitId;
         this.idul = idul;
+        this.ridePermitId = ridePermitId;
         this.scooterId = scooterId;
         this.startTime = startTime;
         this.startLocation = startLocation;
@@ -57,7 +57,7 @@ public class Trip {
                              ScooterId scooterId,
                              LocalDateTime startTime,
                              Location startLocation) {
-        return new Trip(ridePermitId, idul, scooterId, startTime, startLocation);
+        return new Trip(idul, ridePermitId, scooterId, startTime, startLocation);
     }
 
     public static Trip from(TripId tripId,
@@ -68,7 +68,7 @@ public class Trip {
                             Location startLocation,
                             LocalDateTime endTime,
                             Location endLocation) {
-        return new Trip(tripId, ridePermitId, idul, scooterId, startTime, startLocation, endTime, endLocation);
+        return new Trip(tripId,idul, ridePermitId, scooterId, startTime, startLocation, endTime, endLocation);
     }
 
     public void complete(Location endLocation, LocalDateTime endTime) {
@@ -87,12 +87,12 @@ public class Trip {
         return tripId;
     }
 
-    public RidePermitId getRidePermitId() {
-        return ridePermitId;
-    }
-
     public Idul getIdul() {
         return idul;
+    }
+
+    public RidePermitId getRidePermitId() {
+        return ridePermitId;
     }
 
     public ScooterId getScooterId() {

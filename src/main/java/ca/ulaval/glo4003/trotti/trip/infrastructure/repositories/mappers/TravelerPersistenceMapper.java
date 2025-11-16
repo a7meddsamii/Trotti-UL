@@ -10,13 +10,20 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRec
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 public class TravelerPersistenceMapper {
+
+    private final TripPersistenceMapper tripPersistenceMapper;
+
+    public TravelerPersistenceMapper(TripPersistenceMapper tripPersistenceMapper) {
+        this.tripPersistenceMapper = tripPersistenceMapper;
+    }
 
     public TravelerRecord toRecord(Traveler traveler) {
         List<RidePermitRecord> ridePermitRecords =
                 traveler.getWalletPermits().stream().map(this::toRidePermitRecord).toList();
 
-        TripRecord ongoingTrip = traveler.getOngoingTrip().map(this::toTripRecord).orElse(null);
+        TripRecord ongoingTrip = traveler.getOngoingTrip().map(tripPersistenceMapper::toRecord).orElse(null);
 
         return new TravelerRecord(traveler.getIdul(), traveler.getEmail(), ridePermitRecords,
                 ongoingTrip);
@@ -29,7 +36,7 @@ public class TravelerPersistenceMapper {
         RidePermitWallet ridePermitWallet = new RidePermitWallet(ridePermits);
 
         if (Optional.ofNullable(travelerRecord.ongoingTrip()).isPresent()) {
-            Trip trip = toTripDomain(travelerRecord.ongoingTrip());
+            Trip trip = tripPersistenceMapper.toDomain(travelerRecord.ongoingTrip());
             return new Traveler(travelerRecord.idul(), travelerRecord.email(), ridePermitWallet,
                     trip);
         } else {
@@ -43,19 +50,9 @@ public class TravelerPersistenceMapper {
                 ridePermitRecord.session());
     }
 
-    private Trip toTripDomain(TripRecord tripRecord) {
-        return new Trip(tripRecord.startTime(), tripRecord.ridePermitId(),
-                tripRecord.travelerIdul(), tripRecord.scooterId());
-    }
-
     private RidePermitRecord toRidePermitRecord(RidePermit ridePermit) {
         return new RidePermitRecord(ridePermit.getId(), ridePermit.getIdul(),
                 ridePermit.getSession());
-    }
-
-    private TripRecord toTripRecord(Trip trip) {
-        return new TripRecord(trip.getStartTime(), trip.getRidePermitId(), trip.getTravelerIdul(),
-                trip.getScooterId(), trip.getEndTime());
     }
 
 }
