@@ -63,7 +63,7 @@ public class TripApplicationService {
         }
 
         ScooterId scooterId = null;
-//      scooterId = scooterRentalGateway.getScooterIdByRidePermitId(tripDto.location(), tripDto.slotNumber());
+//      scooterId = scooterRentalGateway.retrieveScooter(tripDto.location(), tripDto.slotNumber());
 
         Trip onGoingTrip = Trip.start(tripDto.ridePermitId(),
                 tripDto.idul(),
