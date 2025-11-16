@@ -49,12 +49,12 @@ public class StationMaintenanceApplicationService {
     }
 
     private List<Scooter> loadDockedScooters(Station station) {
-        List<ScooterId> scooterIds = station.getAllScooterIds();
-        return scooterIds.stream().map(scooterRepository::findById).toList();
+        List<ScooterId> ids = station.getAllScooterIds();
+        return scooterRepository.findByIds(ids);
     }
 
     private void save(List<Scooter> scooters, Station station) {
-        scooters.forEach(scooterRepository::save);
+        scooterRepository.saveAll(scooters);
         stationRepository.save(station);
     }
 }

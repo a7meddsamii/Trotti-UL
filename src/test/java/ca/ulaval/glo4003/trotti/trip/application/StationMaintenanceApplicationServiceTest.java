@@ -91,8 +91,7 @@ class StationMaintenanceApplicationServiceTest {
 
         stationMaintenanceApplicationService.startMaintenance(dto);
 
-        Mockito.verify(scooterRepository).save(scooter1);
-        Mockito.verify(scooterRepository).save(scooter2);
+        Mockito.verify(scooterRepository).saveAll(List.of(scooter1, scooter2));
     }
 
     @Test
@@ -138,14 +137,13 @@ class StationMaintenanceApplicationServiceTest {
 
         stationMaintenanceApplicationService.endMaintenance(dto);
 
-        Mockito.verify(scooterRepository).save(scooter1);
-        Mockito.verify(scooterRepository).save(scooter2);
+        Mockito.verify(scooterRepository).saveAll(List.of(scooter1, scooter2));
     }
 
     private void mockStationWithScooters(ScooterId id1, ScooterId id2) {
         Mockito.when(stationRepository.findByLocation(LOCATION)).thenReturn(station);
         Mockito.when(station.getAllScooterIds()).thenReturn(List.of(id1, id2));
-        Mockito.when(scooterRepository.findById(id1)).thenReturn(scooter1);
-        Mockito.when(scooterRepository.findById(id2)).thenReturn(scooter2);
+        Mockito.when(scooterRepository.findByIds(List.of(id1, id2)))
+                .thenReturn(List.of(scooter1, scooter2));
     }
 }
