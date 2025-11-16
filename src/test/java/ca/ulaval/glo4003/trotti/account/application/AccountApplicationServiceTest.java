@@ -47,7 +47,8 @@ class AccountApplicationServiceTest {
         accountApplicationService.createAccount(accountDto);
 
         Mockito.verify(accountFactory).create(accountDto.name(), accountDto.birthDate(),
-                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password());
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password(),
+                accountDto.role());
     }
 
     @Test
@@ -164,7 +165,7 @@ class AccountApplicationServiceTest {
     private AccountDto createValidAccountDto() {
         return new AccountDto(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                AccountFixture.A_PASSWORD);
+                AccountFixture.A_PASSWORD, AccountFixture.A_ROLE);
     }
 
     private void mockRepositoryToReturnNoExistingAccount() {
@@ -178,7 +179,8 @@ class AccountApplicationServiceTest {
         Mockito.when(accountFactory.create(Mockito.eq(AccountFixture.A_NAME),
                 Mockito.eq(AccountFixture.A_BIRTHDATE), Mockito.eq(AccountFixture.A_GENDER),
                 Mockito.eq(AccountFixture.AN_IDUL), Mockito.eq(AccountFixture.AN_EMAIL),
-                Mockito.any(Password.class))).thenReturn(mockAccount);
+                Mockito.any(Password.class), Mockito.eq(AccountFixture.A_ROLE)))
+                .thenReturn(mockAccount);
     }
 
     private void mockExistingAccountWithInvalidPassword() {

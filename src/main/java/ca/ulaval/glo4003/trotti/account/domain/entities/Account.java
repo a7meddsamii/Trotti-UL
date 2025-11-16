@@ -1,11 +1,12 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.*;
+import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Account {
     private final String name;
@@ -14,6 +15,8 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
+    private final Role role;
+    private final Set<Permission> permissions;
 
     public Account(
             String name,
@@ -21,13 +24,17 @@ public class Account {
             Gender gender,
             Idul idul,
             Email email,
-            Password password) {
+            Password password,
+            Role role,
+            Set<Permission> permissions) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.idul = idul;
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.permissions = new HashSet<>(permissions);
     }
 
     public String getName() {
@@ -52,6 +59,14 @@ public class Account {
 
     public Password getPassword() {
         return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public Set<Permission> getPermissions() {
+        return Collections.unmodifiableSet(permissions);
     }
 
     public int getAge() {
