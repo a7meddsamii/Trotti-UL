@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.factories.companyAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthorizationException;
@@ -12,8 +12,8 @@ public class AdminCreationNode extends AdminManagedAccountCreationNode {
 
     private final Set<Permission> permissions = Set.of(AccountPermissions.values());
 
-    public AdminCreationNode(AdminManagedAccountCreationNode next) {
-        this.next = next;
+    public AdminCreationNode() {
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
@@ -13,8 +13,8 @@ public class EmployeeCreationNode extends StandardAccountCreationNode {
     private final Set<Permission> permissions =
             Set.of(TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public EmployeeCreationNode(StandardAccountCreationNode next) {
-        this.next = next;
+    public EmployeeCreationNode() {
+
     }
 
     @Override

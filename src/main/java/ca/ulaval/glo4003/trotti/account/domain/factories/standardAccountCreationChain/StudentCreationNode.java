@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
@@ -12,8 +12,7 @@ public class StudentCreationNode extends StandardAccountCreationNode {
             Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
                     TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public StudentCreationNode(StandardAccountCreationNode next) {
-        this.next = next;
+    public StudentCreationNode() {
     }
 
     @Override

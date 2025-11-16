@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.factories.userAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
@@ -25,7 +25,8 @@ class EmployeeCreationNodeTest {
     @BeforeEach
     void setUp() {
         nextNode = Mockito.mock(StandardAccountCreationNode.class);
-        employeeCreationNode = new EmployeeCreationNode(nextNode);
+        employeeCreationNode = new EmployeeCreationNode();
+        employeeCreationNode.setNext(nextNode);
     }
 
     @Test

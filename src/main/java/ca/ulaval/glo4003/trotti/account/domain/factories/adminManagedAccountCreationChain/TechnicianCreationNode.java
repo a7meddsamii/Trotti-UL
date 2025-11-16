@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.domain.factories.companyAccountCreationChain;
+package ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain;
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthorizationException;
@@ -16,8 +16,8 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
             MaintenancePermissions.START_MAINTENANCE, MaintenancePermissions.END_MAINTENANCE,
             MaintenancePermissions.RELOCATE_SCOOTER, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public TechnicianCreationNode(AdminManagedAccountCreationNode next) {
-        this.next = next;
+    public TechnicianCreationNode() {
+
     }
 
     @Override
