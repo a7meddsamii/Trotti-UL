@@ -4,10 +4,8 @@ import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountValidator;
 import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain.AdminCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain.AdminManagedAccountCreationNode;
-import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain.NoAdminManagedAccountCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain.TechnicianCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.EmployeeCreationNode;
-import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.NoStandardAccountCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StandardAccountCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StudentCreationNode;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
@@ -35,10 +33,8 @@ public class AccountFactoryLoader extends Bootstrapper {
     private StandardAccountCreationNode buildStandardAccountChain() {
         var employee = new EmployeeCreationNode();
         var student = new StudentCreationNode();
-        var terminator = new NoStandardAccountCreationNode();
 
         employee.setNext(student);
-        student.setNext(terminator);
 
         return employee;
     }
@@ -46,10 +42,8 @@ public class AccountFactoryLoader extends Bootstrapper {
     private AdminManagedAccountCreationNode buildAdminManagedAccountChain() {
         var admin = new AdminCreationNode();
         var technician = new TechnicianCreationNode();
-        var terminator = new NoAdminManagedAccountCreationNode();
 
         admin.setNext(technician);
-        technician.setNext(terminator);
 
         return admin;
     }

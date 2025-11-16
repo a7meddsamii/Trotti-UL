@@ -12,24 +12,21 @@ public class AdminCreationNode extends AdminManagedAccountCreationNode {
 
     private final Set<Permission> permissions = Set.of(AccountPermissions.values());
 
-    public AdminCreationNode() {
 
+    @Override
+    protected Role responsibilityRole() {
+        return Role.ADMIN;
     }
 
     @Override
-    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
-            Set<Permission> availablePermissions) {
+    protected Account createAccount(String name, LocalDate birthDate, Gender gender,
+                                    Idul idul, Email email, Password password, Role role,
+                                    Set<Permission> creatorPermissions) {
 
-        if (role == Role.ADMIN) {
-
-            if (!availablePermissions.contains(AccountPermissions.CREATE_ADMIN)) {
-                throw new AuthorizationException("Not permitted");
-            }
-
-            return new Account(name, birthDate, gender, idul, email, password, role, permissions);
+        if (!creatorPermissions.contains(AccountPermissions.CREATE_ADMIN)) {
+            throw new AuthorizationException("Not permitted");
         }
-        return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password, role,
-                availablePermissions);
+
+        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
 }

@@ -16,24 +16,20 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
             MaintenancePermissions.START_MAINTENANCE, MaintenancePermissions.END_MAINTENANCE,
             MaintenancePermissions.RELOCATE_SCOOTER, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public TechnicianCreationNode() {
-
+    @Override
+    protected Role responsibilityRole() {
+        return Role.TECHNICIAN;
     }
 
     @Override
-    public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
-            Set<Permission> availablePermissions) {
+    protected Account createAccount(String name, LocalDate birthDate, Gender gender,
+                                    Idul idul, Email email, Password password, Role role,
+                                    Set<Permission> creatorPermissions) {
 
-        if (role == Role.TECHNICIAN) {
-
-            if (!availablePermissions.contains(AccountPermissions.CREATE_TECHNICIAN)) {
-                throw new AuthorizationException("Not permitted");
-            }
-
-            return new Account(name, birthDate, gender, idul, email, password, role, permissions);
+        if (!creatorPermissions.contains(AccountPermissions.CREATE_TECHNICIAN)) {
+            throw new AuthorizationException("Not permitted");
         }
-        return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password, role,
-                availablePermissions);
+
+        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
 }

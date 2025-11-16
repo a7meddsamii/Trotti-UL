@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Account {
@@ -32,7 +34,7 @@ public class Account {
         this.email = email;
         this.password = password;
         this.role = role;
-        this.permissions = Set.copyOf(permissions);
+        this.permissions = new HashSet<>(permissions);
     }
 
     public String getName() {
@@ -64,7 +66,7 @@ public class Account {
     }
 
     public Set<Permission> getPermissions() {
-        return permissions;
+        return Collections.unmodifiableSet(permissions);
     }
 
     public int getAge() {

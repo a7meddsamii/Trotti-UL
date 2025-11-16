@@ -12,15 +12,16 @@ public class StudentCreationNode extends StandardAccountCreationNode {
             Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
                     TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-    public StudentCreationNode() {}
 
     @Override
-    public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role) {
-        if (role == Role.STUDENT) {
-            return new Account(name, birthDate, gender, idul, email, password, role, permissions);
-        }
-        return next.createStandardAccount(name, birthDate, gender, idul, email, password, role);
+    protected Role responsibilityRole() {
+        return Role.STUDENT;
+    }
+
+    @Override
+    protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+                                    Email email, Password password, Role role) {
+        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
 
 }
