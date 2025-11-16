@@ -12,7 +12,6 @@ public class StudentCreationNode extends StandardAccountCreationNode {
             Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
                     TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
 
-
     @Override
     protected Role responsibilityRole() {
         return Role.STUDENT;
@@ -20,7 +19,7 @@ public class StudentCreationNode extends StandardAccountCreationNode {
 
     @Override
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-                                    Email email, Password password, Role role) {
+            Email email, Password password, Role role) {
         return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
 

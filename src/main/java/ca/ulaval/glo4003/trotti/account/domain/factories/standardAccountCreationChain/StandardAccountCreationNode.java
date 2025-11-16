@@ -14,8 +14,8 @@ public abstract class StandardAccountCreationNode {
         return this;
     }
 
-    public Account createStandardAccount(String name, LocalDate birthDate, Gender gender,
-                                         Idul idul, Email email, Password password, Role role) {
+    public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password, Role role) {
         if (responsibilityRole().equals(role)) {
             return createAccount(name, birthDate, gender, idul, email, password, role);
         } else if (next != null) {
@@ -24,8 +24,9 @@ public abstract class StandardAccountCreationNode {
             throw new UnableToCreateAccountException("unable to create account");
         }
     }
+
     protected abstract Account createAccount(String name, LocalDate birthDate, Gender gender,
-                                             Idul idul, Email email, Password password, Role role);
+            Idul idul, Email email, Password password, Role role);
 
     protected abstract Role responsibilityRole();
 }

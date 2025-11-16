@@ -22,9 +22,8 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
     }
 
     @Override
-    protected Account createAccount(String name, LocalDate birthDate, Gender gender,
-                                    Idul idul, Email email, Password password, Role role,
-                                    Set<Permission> creatorPermissions) {
+    protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
+            Email email, Password password, Role role, Set<Permission> creatorPermissions) {
 
         if (!creatorPermissions.contains(AccountPermissions.CREATE_TECHNICIAN)) {
             throw new AuthorizationException("Not permitted");
