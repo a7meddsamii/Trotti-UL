@@ -6,13 +6,8 @@ import java.util.stream.Collectors;
 
 public enum Role {
 
-    STUDENT("student"), EMPLOYEE("employee"), TECHNICIAN("technician"), ADMIN("admin");
+    STUDENT, EMPLOYEE, TECHNICIAN, ADMIN;
 
-    private final String role;
-
-    Role(String role) {
-        this.role = role;
-    }
 
     public static Role fromString(String value) {
         String normalizedValue = value.trim().toUpperCase();
@@ -24,13 +19,8 @@ public enum Role {
         }
     }
 
-    @Override
-    public String toString() {
-        return role;
-    }
-
     private static String acceptedValues() {
-        return Arrays.stream(Role.values()).map(Role::toString).collect(Collectors.joining(", "));
+        return Arrays.stream(Role.values()).map(Role::name).collect(Collectors.joining(", "));
     }
 
 }

@@ -31,8 +31,8 @@ public class AccountFactoryLoader extends Bootstrapper {
     }
 
     private StandardAccountCreationNode buildStandardAccountChain() {
-        var employee = new EmployeeCreationNode();
-        var student = new StudentCreationNode();
+        StandardAccountCreationNode employee = new EmployeeCreationNode();
+        StandardAccountCreationNode student = new StudentCreationNode();
 
         employee.setNext(student);
 
@@ -40,8 +40,8 @@ public class AccountFactoryLoader extends Bootstrapper {
     }
 
     private AdminManagedAccountCreationNode buildAdminManagedAccountChain() {
-        var admin = new AdminCreationNode();
-        var technician = new TechnicianCreationNode();
+        AdminManagedAccountCreationNode  admin = new AdminCreationNode();
+        AdminManagedAccountCreationNode technician = new TechnicianCreationNode();
 
         admin.setNext(technician);
 
