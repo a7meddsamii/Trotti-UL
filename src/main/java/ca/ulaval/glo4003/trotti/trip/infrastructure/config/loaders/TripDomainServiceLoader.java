@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
-import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
+import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;

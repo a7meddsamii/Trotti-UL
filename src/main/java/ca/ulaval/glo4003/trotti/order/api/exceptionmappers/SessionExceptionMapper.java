@@ -12,6 +12,6 @@ public class SessionExceptionMapper implements ExceptionMapper<SessionException>
     @Override
     public Response toResponse(SessionException exception) {
         return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
-													  exception.getMessage());
+                exception.getMessage());
     }
 }

@@ -3,10 +3,10 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.services;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -28,8 +28,7 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
             Duration expirationDuration,
             Clock clock,
             SecretKey secretKey,
-            EmployeeRegistryProvider employeeRegistryProvider
-	) {
+            EmployeeRegistryProvider employeeRegistryProvider) {
         this.expirationDuration = expirationDuration;
         this.clock = clock;
         this.secretKey = secretKey;

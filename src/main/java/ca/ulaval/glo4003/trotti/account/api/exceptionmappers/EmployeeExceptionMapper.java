@@ -12,7 +12,7 @@ public class EmployeeExceptionMapper implements ExceptionMapper<EmployeeExceptio
     @Override
     public Response toResponse(EmployeeException exception) {
         return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
-                                                      exception.getMessage());
+                exception.getMessage());
     }
 
 }

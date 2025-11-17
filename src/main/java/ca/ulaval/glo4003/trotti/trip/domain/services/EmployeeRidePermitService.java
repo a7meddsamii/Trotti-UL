@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
@@ -18,8 +18,7 @@ public class EmployeeRidePermitService {
 
     public EmployeeRidePermitService(
             EmployeeRegistryProvider employeeRegistryProvider,
-            SchoolSessionProvider schoolSessionProvider
-	) {
+            SchoolSessionProvider schoolSessionProvider) {
         this.employeeRegistryProvider = employeeRegistryProvider;
         this.schoolSessionProvider = schoolSessionProvider;
     }

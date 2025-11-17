@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.services;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -41,8 +41,7 @@ class JwtAuthenticationServiceAdapterTest {
         employeeRegistryProvider = Mockito.mock(EmployeeRegistryProvider.class);
         clock = Mockito.spy(Clock.fixed(START_MOMENT, UTC));
         jwtAuthenticatorAdapter = new JwtAuthenticationServiceAdapter(AN_EXPIRATION_DURATION, clock,
-																	  SECRET_KEY, employeeRegistryProvider
-		);
+                SECRET_KEY, employeeRegistryProvider);
     }
 
     @Test

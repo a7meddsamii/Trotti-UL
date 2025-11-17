@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionMapper;
-import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
@@ -9,6 +7,8 @@ import ca.ulaval.glo4003.trotti.order.application.PassMapper;
 import ca.ulaval.glo4003.trotti.order.application.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.BuyerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.order.infrastructure.mappers.PassPersistenceMapper;
+import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionMapper;
+import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionProvider;
 
 public class OrderMapperLoader extends Bootstrapper {
 
@@ -17,7 +17,7 @@ public class OrderMapperLoader extends Bootstrapper {
         loadPersistenceMappers();
         loadApplicationMappers();
         loadApiMappers();
-		loadSessionMappers();
+        loadSessionMappers();
     }
 
     private void loadPersistenceMappers() {
@@ -35,8 +35,8 @@ public class OrderMapperLoader extends Bootstrapper {
         this.resourceLocator.register(OrderApiMapper.class, new OrderApiMapper());
         this.resourceLocator.register(PassApiMapper.class, new PassApiMapper(sessionProvider));
     }
-	
-	private void loadSessionMappers() {
-		this.resourceLocator.register(SessionMapper.class, new SessionMapper());
-	}
+
+    private void loadSessionMappers() {
+        this.resourceLocator.register(SessionMapper.class, new SessionMapper());
+    }
 }
