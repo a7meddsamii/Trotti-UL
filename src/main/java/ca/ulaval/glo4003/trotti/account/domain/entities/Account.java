@@ -4,7 +4,9 @@ import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Account {
     private final String name;
@@ -13,7 +15,8 @@ public class Account {
     private final Idul idul;
     private final Gender gender;
     private final Email email;
-    private Role role;
+    private final Role role;
+    private final Set<Permission> permissions;
 
     public Account(
             String name,
@@ -22,7 +25,8 @@ public class Account {
             Idul idul,
             Email email,
             Password password,
-            Role role) {
+            Role role,
+            Set<Permission> permissions) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
@@ -30,6 +34,7 @@ public class Account {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.permissions = new HashSet<>(permissions);
     }
 
     public String getName() {
@@ -60,6 +65,10 @@ public class Account {
         return role;
     }
 
+    public Set<Permission> getPermissions() {
+        return Collections.unmodifiableSet(permissions);
+    }
+
     public int getAge() {
         LocalDate today = LocalDate.now();
         return Period.between(this.birthDate, today).getYears();
@@ -67,13 +76,5 @@ public class Account {
 
     public boolean verifyPassword(String rawPassword) {
         return this.password.matches(rawPassword);
-    }
-
-    public void assignRole(Role newRole) {
-        this.role = Objects.requireNonNull(newRole, "Role can't be null");
-    }
-
-    public boolean hasPermission(Permission permission) {
-        return role.getPermissions().contains(permission);
     }
 }

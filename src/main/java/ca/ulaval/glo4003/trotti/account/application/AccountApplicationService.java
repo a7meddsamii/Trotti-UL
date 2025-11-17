@@ -30,7 +30,7 @@ public class AccountApplicationService {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account account = accountFactory.createUser(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
-                registration.password());
+                registration.password(), registration.role());
         accountRepository.save(account);
 
         return account.getIdul();

@@ -1,28 +1,25 @@
 package ca.ulaval.glo4003.trotti.account.domain.values;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.*;
-import java.util.Set;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public enum Role {
 
-    USER(Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
-            TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE)), EMPLOYEE(
-                    Set.of(TripPermissions.MAKE_TRIP,
-                            MaintenancePermissions.REQUEST_MAINTENANCE)), TECHNICIAN(
-                                    Set.of(TripPermissions.MAKE_TRIP,
-                                            MaintenancePermissions.START_MAINTENANCE,
-                                            MaintenancePermissions.END_MAINTENANCE,
-                                            MaintenancePermissions.RELOCATE_SCOOTER,
-                                            MaintenancePermissions.REQUEST_MAINTENANCE));
+    STUDENT, EMPLOYEE, TECHNICIAN, ADMIN;
 
-    private final Set<Permission> permissions;
-
-    Role(Set<Permission> permissions) {
-        this.permissions = Set.copyOf(permissions);
+    public static Role fromString(String value) {
+        String normalizedValue = value.trim().toUpperCase();
+        try {
+            return Role.valueOf(normalizedValue);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException(
+                    "Invalid role: " + value + ". Accepted values are: " + acceptedValues());
+        }
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    private static String acceptedValues() {
+        return Arrays.stream(Role.values()).map(Role::name).collect(Collectors.joining(", "));
     }
 
 }
