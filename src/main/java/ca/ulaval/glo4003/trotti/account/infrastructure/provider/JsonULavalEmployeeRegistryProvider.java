@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.EmployeeException;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import java.io.BufferedReader;
@@ -24,12 +25,12 @@ public class JsonULavalEmployeeRegistryProvider implements EmployeeRegistryProvi
     }
 
     private Set<Idul> readFromClasspath() {
-        try (BufferedReader br = Files.newBufferedReader(resourcePath, StandardCharsets.UTF_8)) {
+        try (BufferedReader bufferedReader = Files.newBufferedReader(resourcePath, StandardCharsets.UTF_8)) {
 
-            return br.lines().map(String::trim).filter(s -> !s.isBlank()).map(Idul::from)
+            return bufferedReader.lines().map(String::trim).filter(rawIdul -> !rawIdul.isBlank()).map(Idul::from)
                     .collect(Collectors.toSet());
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to fetch employees IDULs");
+            throw new EmployeeException("Failed to fetch employees IDULs");
         }
     }
 }
