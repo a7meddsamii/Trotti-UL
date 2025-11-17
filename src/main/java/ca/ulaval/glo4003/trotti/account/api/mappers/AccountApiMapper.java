@@ -3,10 +3,7 @@ package ca.ulaval.glo4003.trotti.account.api.mappers;
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
+import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -28,8 +25,9 @@ public class AccountApiMapper {
         Email email = Email.from(request.email());
         Password password = Password.fromPlain(request.password(), hasher);
         LocalDate birthDate = parseDate(request.birthDate());
+        Role role = Role.fromString(request.role());
 
-        return new AccountDto(request.name(), birthDate, gender, idul, email, password);
+        return new AccountDto(request.name(), birthDate, gender, idul, email, password, role);
     }
 
     private LocalDate parseDate(String birthDateString) {

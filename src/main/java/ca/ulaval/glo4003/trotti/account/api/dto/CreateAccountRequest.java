@@ -27,5 +27,11 @@ public record CreateAccountRequest(
 
         @NotBlank(message = "Password is required")
         @Schema(description = "Mot de passe de l'utilisateur", example = "Cec1EstUnM0tDePasseF0rt!", format = "password", requiredMode = Schema.RequiredMode.REQUIRED)
-        String password
+        String password,
+
+        @NotBlank(message = "Role is required")
+        @Schema(description = "Role de l'utilisateur", example = "STUDENT", requiredMode = Schema.RequiredMode.REQUIRED)
+        String role
+
+
 ) {}

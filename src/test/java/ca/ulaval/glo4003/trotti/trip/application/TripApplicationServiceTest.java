@@ -144,8 +144,7 @@ class TripApplicationServiceTest {
 
         tripApplicationService.endTrip(endTripDto);
 
-        Mockito.verify(station).returnScooter(Mockito.eq(SLOT_NUMBER), Mockito.eq(scooter),
-                Mockito.eq(EXPECTED_TIME));
+        Mockito.verify(station).returnScooter(Mockito.eq(SLOT_NUMBER), Mockito.eq(SCOOTER_ID));
     }
 
     @Test
