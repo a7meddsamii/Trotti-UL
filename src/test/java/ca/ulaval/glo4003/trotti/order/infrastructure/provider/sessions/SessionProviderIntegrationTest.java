@@ -56,7 +56,7 @@ class SessionProviderIntegrationTest {
 	}
 	
 	@Test
-	void givenMalformedSessionsJson_whenGettingSession_thenThrowsSessionException() throws IOException {
+	void givenMalformedSessionsJson_whenGettingSession_thenThrowsException() throws IOException {
 		Files.writeString(temporaryFile, JsonSessionTestCaseData.MISSING_SEMESTER_CODE_JSON);
 		
 		Executable getSession = () -> sessionProvider.getSession(A_DATE);
