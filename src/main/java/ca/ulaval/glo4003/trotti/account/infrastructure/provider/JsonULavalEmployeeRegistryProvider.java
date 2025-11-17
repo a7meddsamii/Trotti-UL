@@ -1,7 +1,7 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways;
+package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,11 +10,11 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JsonULavalEmployeeRegistryGateway implements EmployeeRegistryGateway {
+public class JsonULavalEmployeeRegistryProvider implements EmployeeRegistryProvider {
 
     private final Path resourcePath;
 
-    public JsonULavalEmployeeRegistryGateway(Path resourcePath) {
+    public JsonULavalEmployeeRegistryProvider(Path resourcePath) {
         this.resourcePath = resourcePath;
     }
 

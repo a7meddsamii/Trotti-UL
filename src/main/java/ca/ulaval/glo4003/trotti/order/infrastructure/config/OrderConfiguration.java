@@ -21,6 +21,7 @@ public class OrderConfiguration extends Configuration {
 
     @Override
     protected void load() {
+		new OrderForeignServiceLoader().load();
         new OrderFactoryLoader().load();
         new OrderMapperLoader().load();
         new OrderRepositoryLoader().load();

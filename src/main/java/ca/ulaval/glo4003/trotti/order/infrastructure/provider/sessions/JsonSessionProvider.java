@@ -1,7 +1,7 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions;
+package ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions;
 
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.SessionException;
-import ca.ulaval.glo4003.trotti.commons.domain.gateways.SchoolSessionGateway;
+import ca.ulaval.glo4003.trotti.order.domain.exceptions.SessionException;
+import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,12 +17,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JsonSessionGateway implements SchoolSessionGateway {
+public class JsonSessionProvider implements SchoolSessionProvider {
     private final Path resourcePath;
     private final SessionMapper sessionMapper;
     private final ObjectMapper jsonMapper;
 
-    public JsonSessionGateway(
+    public JsonSessionProvider(
             Path resourcePath,
             SessionMapper sessionMapper,
             ObjectMapper jsonProvider) {

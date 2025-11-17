@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -34,14 +34,15 @@ class JwtAuthenticationServiceAdapterTest {
 
     private JwtAuthenticationServiceAdapter jwtAuthenticatorAdapter;
     private Clock clock;
-    private EmployeeRegistryGateway employeeRegistryGateway;
+    private EmployeeRegistryProvider employeeRegistryProvider;
 
     @BeforeEach
     void setup() {
-        employeeRegistryGateway = Mockito.mock(EmployeeRegistryGateway.class);
+        employeeRegistryProvider = Mockito.mock(EmployeeRegistryProvider.class);
         clock = Mockito.spy(Clock.fixed(START_MOMENT, UTC));
         jwtAuthenticatorAdapter = new JwtAuthenticationServiceAdapter(AN_EXPIRATION_DURATION, clock,
-                SECRET_KEY, employeeRegistryGateway);
+																	  SECRET_KEY, employeeRegistryProvider
+		);
     }
 
     @Test
@@ -92,7 +93,7 @@ class JwtAuthenticationServiceAdapterTest {
 
     @Test
     void givenEmployeeIdul_whenConfirmStudent_thenExceptionIsThrown() {
-        Mockito.when(employeeRegistryGateway.exist(AN_IDUL)).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exist(AN_IDUL)).thenReturn(true);
 
         Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
 

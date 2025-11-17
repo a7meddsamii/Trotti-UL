@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions;
+package ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions;
 
 import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;

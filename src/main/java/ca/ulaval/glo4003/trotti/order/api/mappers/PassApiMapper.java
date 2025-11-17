@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.order.api.mappers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions.SessionProvider;
+import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionProvider;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.gateways.sessions;
+package ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

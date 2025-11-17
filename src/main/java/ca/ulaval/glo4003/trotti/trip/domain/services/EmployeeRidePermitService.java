@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.gateways.EmployeeRegistryGateway;
-import ca.ulaval.glo4003.trotti.commons.domain.gateways.SchoolSessionGateway;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
@@ -13,19 +13,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class EmployeeRidePermitService {
-    private final EmployeeRegistryGateway employeeRegistryGateway;
-    private final SchoolSessionGateway schoolSessionGateway;
+    private final EmployeeRegistryProvider employeeRegistryProvider;
+    private final SchoolSessionProvider schoolSessionProvider;
 
     public EmployeeRidePermitService(
-            EmployeeRegistryGateway employeeRegistryGateway,
-            SchoolSessionGateway schoolSessionGateway) {
-        this.employeeRegistryGateway = employeeRegistryGateway;
-        this.schoolSessionGateway = schoolSessionGateway;
+            EmployeeRegistryProvider employeeRegistryProvider,
+            SchoolSessionProvider schoolSessionProvider
+	) {
+        this.employeeRegistryProvider = employeeRegistryProvider;
+        this.schoolSessionProvider = schoolSessionProvider;
     }
 
     public List<RidePermit> giveFreePermitToEmployee(Traveler traveler) {
         LocalDate currentDate = LocalDate.now();
-        Optional<Session> session = schoolSessionGateway.getSession(currentDate);
+        Optional<Session> session = schoolSessionProvider.getSession(currentDate);
 
         if (!traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();
@@ -38,6 +39,6 @@ public class EmployeeRidePermitService {
     }
 
     public boolean isEmployee(Idul idul) {
-        return employeeRegistryGateway.exist(idul);
+        return employeeRegistryProvider.exist(idul);
     }
 }
