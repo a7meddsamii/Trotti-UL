@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * @deprecated this will be deleted soon
+ * switch to the new provider {@link ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.JsonSessionProvider}
+ */
 public final class SessionProvider {
 
     private static List<Session> sessions;
