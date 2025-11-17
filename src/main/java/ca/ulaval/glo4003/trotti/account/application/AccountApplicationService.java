@@ -35,7 +35,7 @@ public class AccountApplicationService implements AccountService {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
-                registration.password());
+                registration.password(), registration.role());
         accountRepository.save(account);
 
         return account.getIdul();
