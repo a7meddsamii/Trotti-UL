@@ -16,8 +16,8 @@ public class Transfer {
     private final Idul technicianId;
     private final Map<ScooterId, Boolean> scooters;
 
-    public Transfer(TransferId transferId, Location sourceStation, Idul technicianId) {
-        this.transferId = transferId;
+    public Transfer(Location sourceStation, Idul technicianId) {
+        this.transferId = TransferId.randomId();
         this.sourceStation = sourceStation;
         this.technicianId = technicianId;
         this.scooters = new HashMap<>();
