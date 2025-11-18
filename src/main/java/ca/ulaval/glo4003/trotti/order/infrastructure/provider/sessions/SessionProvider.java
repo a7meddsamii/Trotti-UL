@@ -19,6 +19,7 @@ import java.util.List;
 public final class SessionProvider {
 
     private static List<Session> sessions;
+    private static SessionProvider instance;
 
     private SessionProvider(Path path, SessionMapper sessionMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
