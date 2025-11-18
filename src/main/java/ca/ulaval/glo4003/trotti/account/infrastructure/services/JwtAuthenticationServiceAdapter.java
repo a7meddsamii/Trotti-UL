@@ -65,7 +65,7 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
 
     @Override
     public void confirmStudent(Idul idul) {
-        if (employeeRegistryProvider.exist(idul)) {
+        if (employeeRegistryProvider.exists(idul)) {
             throw new AuthenticationException(
                     "Employees are not allowed to complete this operation");
         }

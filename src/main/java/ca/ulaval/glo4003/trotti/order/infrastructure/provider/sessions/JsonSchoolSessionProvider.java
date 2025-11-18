@@ -17,12 +17,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JsonSessionProvider implements SchoolSessionProvider {
+public class JsonSchoolSessionProvider implements SchoolSessionProvider {
     private final Path resourcePath;
     private final SessionMapper sessionMapper;
     private final ObjectMapper jsonMapper;
 
-    public JsonSessionProvider(
+    public JsonSchoolSessionProvider(
             Path resourcePath,
             SessionMapper sessionMapper,
             ObjectMapper jsonProvider) {

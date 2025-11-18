@@ -11,16 +11,16 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JsonULavalEmployeeRegistryProvider implements EmployeeRegistryProvider {
+public class JsonEmployeeRegistryProvider implements EmployeeRegistryProvider {
 
     private final Path resourcePath;
 
-    public JsonULavalEmployeeRegistryProvider(Path resourcePath) {
+    public JsonEmployeeRegistryProvider(Path resourcePath) {
         this.resourcePath = resourcePath;
     }
 
     @Override
-    public boolean exist(Idul idul) {
+    public boolean exists(Idul idul) {
         return readFromClasspath().contains(idul);
     }
 

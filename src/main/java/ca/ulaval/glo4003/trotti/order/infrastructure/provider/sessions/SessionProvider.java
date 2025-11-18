@@ -14,12 +14,11 @@ import java.util.List;
 
 /**
  * @deprecated this will be deleted soon switch to the new provider
- *             {@link ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.JsonSessionProvider}
+ *             {@link JsonSchoolSessionProvider}
  */
 public final class SessionProvider {
 
     private static List<Session> sessions;
-    private static SessionProvider instance;
 
     private SessionProvider(Path path, SessionMapper sessionMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
@@ -53,10 +52,6 @@ public final class SessionProvider {
         } catch (Exception e) {
             throw new RuntimeException("Failed to load sessions file at startup", e);
         }
-    }
-
-    public static void initialize(Path path, SessionMapper sessionMapper) {
-        instance = new SessionProvider(path, sessionMapper);
     }
 
     public static SessionProvider getInstance() {

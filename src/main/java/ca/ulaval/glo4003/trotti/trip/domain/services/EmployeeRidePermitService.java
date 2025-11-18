@@ -37,7 +37,8 @@ public class EmployeeRidePermitService {
         return traveler.updateWallet(List.of(employeeRidePermit));
     }
 
+    @Deprecated
     public boolean isEmployee(Idul idul) {
-        return employeeRegistryProvider.exist(idul);
+        return employeeRegistryProvider.exists(idul);
     }
 }

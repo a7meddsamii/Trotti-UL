@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-class EmployeeRegistryProviderTest {
+class JsonEmployeeRegistryProviderTest {
     private static final String EMPLOYEES_IDUL_JSON = """
             	MALAU1
             	JUGIR9
@@ -30,23 +31,23 @@ class EmployeeRegistryProviderTest {
     @BeforeEach
     void setup() {
         temporaryFile = testingResourcePath.resolve("employeeRegistry.json");
-        employeeRegistryProvider = new JsonULavalEmployeeRegistryProvider(temporaryFile);
+        employeeRegistryProvider = new JsonEmployeeRegistryProvider(temporaryFile);
     }
 
     @Test
-    void givenEmployeeIdul_whenCheckingExistence_thenReturnsTrue() throws Exception {
+    void givenEmployeeIdul_whenCheckingExistence_thenReturnsTrue() throws IOException {
         Files.writeString(temporaryFile, EMPLOYEES_IDUL_JSON);
 
-        boolean exists = employeeRegistryProvider.exist(EMPLOYEE_IDUL);
+        boolean exists = employeeRegistryProvider.exists(EMPLOYEE_IDUL);
 
         Assertions.assertTrue(exists);
     }
 
     @Test
-    void givenNonEmployeeIdul_whenCheckingExistence_thenReturnsFalse() throws Exception {
+    void givenNonEmployeeIdul_whenCheckingExistence_thenReturnsFalse() throws IOException {
         Files.writeString(temporaryFile, EMPLOYEES_IDUL_JSON);
 
-        boolean exists = employeeRegistryProvider.exist(NON_EMPLOYEE_IDUL);
+        boolean exists = employeeRegistryProvider.exists(NON_EMPLOYEE_IDUL);
 
         Assertions.assertFalse(exists);
     }

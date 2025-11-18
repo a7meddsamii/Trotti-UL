@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.account.infrastructure.provider.JsonULavalEmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.account.infrastructure.provider.JsonEmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
@@ -33,7 +33,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
     @Override
     public void load() {
         loadPasswordHasherService();
-        loadEmployeeIdulProvider();
+        loadEmployeeRegistryProvider();
         loadAuthenticationService();
     }
 
@@ -43,9 +43,9 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         this.resourceLocator.register(PasswordHasher.class, hasher);
     }
 
-    private void loadEmployeeIdulProvider() {
+    private void loadEmployeeRegistryProvider() {
         EmployeeRegistryProvider employeeRegistryProvider =
-                new JsonULavalEmployeeRegistryProvider(EMPLOYEE_IDUL_CSV_PATH);
+                new JsonEmployeeRegistryProvider(EMPLOYEE_IDUL_CSV_PATH);
 
         this.resourceLocator.register(EmployeeRegistryProvider.class, employeeRegistryProvider);
     }

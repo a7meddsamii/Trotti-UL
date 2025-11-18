@@ -32,7 +32,7 @@ class SessionProviderIntegrationTest {
         temporaryFile = testingResourcePath.resolve("sessionsTest.json");
         ObjectMapper mapper = CustomJsonProvider.getMapper();
         SessionMapper sessionMapper = new SessionMapper();
-        sessionProvider = new JsonSessionProvider(temporaryFile, sessionMapper, mapper);
+        sessionProvider = new JsonSchoolSessionProvider(temporaryFile, sessionMapper, mapper);
     }
 
     @Test

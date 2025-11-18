@@ -31,7 +31,7 @@ class EmployeeRiderPermitServiceTest {
 
     @Test
     void givenEmployeeIdulAndCurrentDateInSession_whenGiveFreePermitToEmployee_thenAddPermitToEmployee() {
-        Mockito.when(employeeRegistryProvider.exist(traveler.getIdul())).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exists(traveler.getIdul())).thenReturn(true);
         Mockito.when(schoolSessionProvider.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
 
@@ -42,7 +42,7 @@ class EmployeeRiderPermitServiceTest {
 
     @Test
     void givenEmployeeThatAlreadyHasActivePermit_whenGiveFreePermitToEmployee_thenDoNotAddPermitToEmployee() {
-        Mockito.when(employeeRegistryProvider.exist(traveler.getIdul())).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exists(traveler.getIdul())).thenReturn(true);
         Mockito.when(traveler.hasEmptyWallet()).thenReturn(false);
         Mockito.when(schoolSessionProvider.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.of(A_SESSION));
@@ -54,7 +54,7 @@ class EmployeeRiderPermitServiceTest {
 
     @Test
     void givenEmployeeIdulAndCurrentDateOutsideOfAnySession_whenGiveFreePermitToEmployee_thenDoNotAddPermitToEmployee() {
-        Mockito.when(employeeRegistryProvider.exist(traveler.getIdul())).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exists(traveler.getIdul())).thenReturn(true);
         Mockito.when(schoolSessionProvider.getSession(Mockito.any(LocalDate.class)))
                 .thenReturn(java.util.Optional.empty());
 

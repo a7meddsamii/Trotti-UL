@@ -92,7 +92,7 @@ class JwtAuthenticationServiceAdapterTest {
 
     @Test
     void givenEmployeeIdul_whenConfirmStudent_thenExceptionIsThrown() {
-        Mockito.when(employeeRegistryProvider.exist(AN_IDUL)).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exists(AN_IDUL)).thenReturn(true);
 
         Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
 
