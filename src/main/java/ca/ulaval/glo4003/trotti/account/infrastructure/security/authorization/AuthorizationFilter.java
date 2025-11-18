@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
+import static ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener.LOGGER;
+
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
@@ -31,6 +33,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) {
         AnnotatedElement methodCalled = resourceInfo.getResourceMethod();
         AnnotatedElement resourceClass = resourceInfo.getResourceClass();
+		
+		LOGGER.warn("#### checking user permissions #####");
 
         if (isAnnotated(methodCalled, PermitAll.class)
                 || isAnnotated(resourceClass, PermitAll.class)) {
@@ -40,6 +44,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (isAnnotated(methodCalled, DenyAll.class) || isAnnotated(resourceClass, DenyAll.class)) {
             throw new ForbiddenException("Access denied");
         }
+		
+		LOGGER.warn("#### validating user permissions #####");
 
         SecurityContext securityContext = requestContext.getSecurityContext();
         UserPrincipal user = extractPrincipal(securityContext);

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.SecurityContextFactory;
-import ca.ulaval.glo4003.trotti.account.infrastructure.security.identity.AuthenticatedUserFactory;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
@@ -22,10 +21,6 @@ public class JerseyBinder extends AbstractBinder {
 
         bind(locator.resolve(SecurityContextFactory.class)).to(SecurityContextFactory.class);
         bind(locator.resolve(SessionTokenProvider.class)).to(SessionTokenProvider.class);
-		bindFactory(AuthenticatedUserFactory.class)
-				.to(Idul.class)
-				.proxy(true)
-				.proxyForSameScope(false);
 
         bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);

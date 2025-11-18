@@ -24,10 +24,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) {
-        String token = containerRequestContext.getHeaderString("Authorization"); // TODO recheck
-                                                                                 // this Bearer or
-                                                                                 // Authorization
-
+        String token = containerRequestContext.getHeaderString("Authorization");
+		
         if (token == null || token.isBlank()) {
             return;
         }
