@@ -83,37 +83,37 @@ class BatteryTest {
     }
 
     @Test
-    void givenChargingState_whenPause_thenChangesToIdle() {
+    void givenChargingBattery_whenPauseCharging_thenChangesToIdleState() {
         battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
 
-        battery.pause(CURRENT_TIME);
+        battery.pauseCharging(CURRENT_TIME);
 
         Assertions.assertEquals(BatteryState.IDLE, battery.getCurrentBatteryState());
     }
 
     @Test
-    void givenNotChargingState_whenPause_thenDoesNotChangeState() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.IDLE);
+    void givenNonChargingBattery_whenPauseCharging_thenStateUnchanged() {
+        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
 
-        battery.pause(CURRENT_TIME);
+        battery.pauseCharging(CURRENT_TIME);
 
-        Assertions.assertEquals(BatteryState.IDLE, battery.getCurrentBatteryState());
+        Assertions.assertEquals(BatteryState.DISCHARGING, battery.getCurrentBatteryState());
     }
 
     @Test
-    void givenIdleState_whenResume_thenChangesToCharging() {
+    void givenIdleBattery_whenResumeCharging_thenChangesToChargingState() {
         battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.IDLE);
 
-        battery.resume(CURRENT_TIME);
+        battery.resumeCharging(CURRENT_TIME);
 
         Assertions.assertEquals(BatteryState.CHARGING, battery.getCurrentBatteryState());
     }
 
     @Test
-    void givenNotIdleState_whenResume_thenDoesNotChangeState() {
+    void givenNonIdleBattery_whenResumeCharging_thenStateUnchanged() {
         battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
 
-        battery.resume(CURRENT_TIME);
+        battery.resumeCharging(CURRENT_TIME);
 
         Assertions.assertEquals(BatteryState.DISCHARGING, battery.getCurrentBatteryState());
     }

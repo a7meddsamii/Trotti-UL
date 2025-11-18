@@ -54,10 +54,13 @@ public class Scooter {
     }
 
     public void pauseCharging(LocalDateTime pausedTime) {
-        battery.pause(pausedTime);
+
+        this.battery.pauseCharging(pausedTime);
     }
 
     public void resumeCharging(LocalDateTime resumedTime) {
-        battery.resume(resumedTime);
+
+        this.battery.resumeCharging(resumedTime);
     }
+
 }

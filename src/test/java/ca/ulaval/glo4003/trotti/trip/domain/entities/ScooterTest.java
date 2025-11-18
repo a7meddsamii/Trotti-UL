@@ -78,16 +78,16 @@ public class ScooterTest {
     }
 
     @Test
-    void givenPauseCharging_whenPauseCharging_thenBatteryPauseIsCalled() {
+    void givenTime_whenPauseCharging_thenCallsBatteryPauseCharging() {
         scooter.pauseCharging(CURRENT_TIME);
 
-        Mockito.verify(battery).pause(CURRENT_TIME);
+        Mockito.verify(battery).pauseCharging(CURRENT_TIME);
     }
 
     @Test
-    void givenResumeCharging_whenResumeCharging_thenBatteryResumeIsCalled() {
+    void givenTime_whenResumeCharging_thenCallsBatteryResumeCharging() {
         scooter.resumeCharging(FUTURE_TIME);
 
-        Mockito.verify(battery).resume(FUTURE_TIME);
+        Mockito.verify(battery).resumeCharging(FUTURE_TIME);
     }
 }

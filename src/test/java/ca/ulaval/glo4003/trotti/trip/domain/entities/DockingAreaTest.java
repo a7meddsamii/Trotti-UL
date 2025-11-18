@@ -11,31 +11,30 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mockito;
 
 class DockingAreaTest {
 
-    private static final int ONE_SLOT = 1;
-
+    private static final int CAPACITY = 3;
     private static final SlotNumber VALID_SLOT = new SlotNumber(1);
     private static final SlotNumber INVALID_SLOT = new SlotNumber(99);
     private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
-    private ScooterSlot A_SCOOTER_SLOT;
     private DockingArea dockingArea;
 
     @BeforeEach
     void setup() {
-        A_SCOOTER_SLOT = Mockito.mock(ScooterSlot.class);
-        Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
-        scooterSlots.put(VALID_SLOT, A_SCOOTER_SLOT);
-        dockingArea = new DockingArea(scooterSlots);
+        Map<SlotNumber, Optional<ScooterId>> slots = new HashMap<>();
+        for (int i = 1; i <= CAPACITY; i++) {
+            slots.put(new SlotNumber(i), Optional.empty());
+        }
+        dockingArea = new DockingArea(slots);
     }
 
     @Test
-    void givenValidSlot_whenDock_thenDelegatesToScooterSlot() {
+    void givenValidSlot_whenDock_thenDocksScooter() {
         dockingArea.dock(VALID_SLOT, A_SCOOTER_ID);
 
-        Mockito.verify(A_SCOOTER_SLOT).dock(A_SCOOTER_ID);
+        Assertions.assertTrue(dockingArea.getScooterSlots().get(VALID_SLOT).isPresent());
+        Assertions.assertEquals(A_SCOOTER_ID, dockingArea.getScooterSlots().get(VALID_SLOT).get());
     }
 
     @Test
@@ -43,17 +42,16 @@ class DockingAreaTest {
         Executable dock = () -> dockingArea.dock(INVALID_SLOT, A_SCOOTER_ID);
 
         Assertions.assertThrows(DockingException.class, dock);
-        Mockito.verifyNoInteractions(A_SCOOTER_SLOT);
     }
 
     @Test
-    void givenValidSlot_whenUndock_thenDelegatesToScooterSlotAndReturnsScooterId() {
-        Mockito.when(A_SCOOTER_SLOT.undock()).thenReturn(A_SCOOTER_ID);
+    void givenValidSlot_whenUndock_thenUndocksAndReturnsScooterId() {
+        dockingArea.dock(VALID_SLOT, A_SCOOTER_ID);
 
         ScooterId result = dockingArea.undock(VALID_SLOT);
 
         Assertions.assertEquals(A_SCOOTER_ID, result);
-        Mockito.verify(A_SCOOTER_SLOT).undock();
+        Assertions.assertTrue(dockingArea.getScooterSlots().get(VALID_SLOT).isEmpty());
     }
 
     @Test
@@ -61,35 +59,48 @@ class DockingAreaTest {
         Executable undock = () -> dockingArea.undock(INVALID_SLOT);
 
         Assertions.assertThrows(DockingException.class, undock);
-        Mockito.verifyNoInteractions(A_SCOOTER_SLOT);
     }
 
     @Test
     void givenOccupiedSlot_whenFindOccupiedSlots_thenReturnsThatSlot() {
-        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
+        dockingArea.dock(VALID_SLOT, A_SCOOTER_ID);
 
         List<SlotNumber> occupiedSlots = dockingArea.findOccupiedSlots();
 
-        Assertions.assertEquals(ONE_SLOT, occupiedSlots.size());
+        Assertions.assertEquals(1, occupiedSlots.size());
         Assertions.assertTrue(occupiedSlots.contains(VALID_SLOT));
     }
 
     @Test
     void givenAvailableSlot_whenFindAvailableSlots_thenReturnsThatSlot() {
-        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.empty());
-
         List<SlotNumber> availableSlots = dockingArea.findAvailableSlots();
 
-        Assertions.assertEquals(ONE_SLOT, availableSlots.size());
+        Assertions.assertEquals(CAPACITY, availableSlots.size());
         Assertions.assertTrue(availableSlots.contains(VALID_SLOT));
     }
 
     @Test
     void givenScooterSlots_whenGetAllScooterIds_thenReturnsAllScooterIds() {
-        Mockito.when(A_SCOOTER_SLOT.getDockedScooter()).thenReturn(Optional.of(A_SCOOTER_ID));
+        dockingArea.dock(VALID_SLOT, A_SCOOTER_ID);
 
         List<ScooterId> result = dockingArea.getAllScooterIds();
 
         Assertions.assertEquals(List.of(A_SCOOTER_ID), result);
+    }
+
+    @Test
+    void givenOccupiedSlot_whenDock_thenThrowsDockingException() {
+        dockingArea.dock(VALID_SLOT, A_SCOOTER_ID);
+
+        Executable dock = () -> dockingArea.dock(VALID_SLOT, ScooterId.randomId());
+
+        Assertions.assertThrows(DockingException.class, dock);
+    }
+
+    @Test
+    void givenEmptySlot_whenUndock_thenThrowsDockingException() {
+        Executable undock = () -> dockingArea.undock(VALID_SLOT);
+
+        Assertions.assertThrows(DockingException.class, undock);
     }
 }

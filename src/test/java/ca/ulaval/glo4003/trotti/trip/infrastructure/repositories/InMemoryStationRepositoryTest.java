@@ -52,13 +52,11 @@ class InMemoryStationRepositoryTest {
     }
 
     private static void assertEqual(DockingArea expected, DockingArea actual) {
-        expected.getScooterSlots().forEach((slotNumber, slot) -> {
-            Assertions.assertEquals(
-                    actual.getScooterSlots().get(slotNumber).getDockedScooter().orElse(null),
-                    slot.getDockedScooter().orElse(null));
+        expected.getScooterSlots().forEach((slotNumber, expectedScooterId) -> {
+            Assertions.assertEquals(expectedScooterId.orElse(null),
+                    actual.getScooterSlots().get(slotNumber).orElse(null));
         });
 
         Assertions.assertEquals(expected.getScooterSlots().size(), actual.getScooterSlots().size());
-
     }
 }

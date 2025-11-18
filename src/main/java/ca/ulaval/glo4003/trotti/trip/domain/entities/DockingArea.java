@@ -8,20 +8,28 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DockingArea {
-    private final Map<SlotNumber, ScooterSlot> scooterSlots;
+    private final Map<SlotNumber, Optional<ScooterId>> scooterSlots;
 
-    public DockingArea(Map<SlotNumber, ScooterSlot> scooterSlots) {
+    public DockingArea(Map<SlotNumber, Optional<ScooterId>> scooterSlots) {
         this.scooterSlots = scooterSlots;
     }
 
     public void dock(SlotNumber slotNumber, ScooterId scooterId) {
         validateSlotNumber(slotNumber);
-        scooterSlots.get(slotNumber).dock(scooterId);
+        if (scooterSlots.get(slotNumber).isPresent()) {
+            throw new DockingException("Slot " + slotNumber + " is occupied.");
+        }
+        scooterSlots.put(slotNumber, Optional.of(scooterId));
     }
 
     public ScooterId undock(SlotNumber slotNumber) {
         validateSlotNumber(slotNumber);
-        return scooterSlots.get(slotNumber).undock();
+        Optional<ScooterId> scooterId = scooterSlots.get(slotNumber);
+        if (scooterId.isEmpty()) {
+            throw new DockingException("Slot " + slotNumber + " does not hold a scooter.");
+        }
+        scooterSlots.put(slotNumber, Optional.empty());
+        return scooterId.get();
     }
 
     public int getCapacity() {
@@ -34,25 +42,22 @@ public class DockingArea {
         }
     }
 
-    public Map<SlotNumber, ScooterSlot> getScooterSlots() {
+    public Map<SlotNumber, Optional<ScooterId>> getScooterSlots() {
         return Map.copyOf(scooterSlots);
     }
 
     public List<SlotNumber> findOccupiedSlots() {
-        return scooterSlots.entrySet().stream()
-                .filter(entry -> entry.getValue().getDockedScooter().isPresent())
+        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isPresent())
                 .map(Map.Entry::getKey).toList();
     }
 
     public List<SlotNumber> findAvailableSlots() {
-        return scooterSlots.entrySet().stream()
-                .filter(entry -> entry.getValue().getDockedScooter().isEmpty())
+        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isEmpty())
                 .map(Map.Entry::getKey).toList();
     }
 
     public List<ScooterId> getAllScooterIds() {
-        return scooterSlots.values().stream().map(ScooterSlot::getDockedScooter)
-                .flatMap(Optional::stream).toList();
+        return scooterSlots.values().stream().flatMap(Optional::stream).toList();
     }
 
 }
