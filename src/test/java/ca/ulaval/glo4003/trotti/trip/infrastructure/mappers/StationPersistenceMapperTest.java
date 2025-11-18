@@ -53,7 +53,7 @@ class StationPersistenceMapperTest {
     private static void asserAllScootersAreInTheCorrectSlotAsPersisted(Station station,
             Map<SlotNumber, ScooterId> slots) {
         slots.forEach((slotNumber, scooterId) -> {
-            Assertions.assertEquals(Optional.ofNullable(scooterId), 
+            Assertions.assertEquals(Optional.ofNullable(scooterId),
                     station.getDockingArea().getScooterSlots().get(slotNumber));
         });
     }

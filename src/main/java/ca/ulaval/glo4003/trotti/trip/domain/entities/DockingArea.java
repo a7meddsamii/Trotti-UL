@@ -47,20 +47,17 @@ public class DockingArea {
     }
 
     public List<SlotNumber> findOccupiedSlots() {
-        return scooterSlots.entrySet().stream()
-                .filter(entry -> entry.getValue().isPresent())
+        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isPresent())
                 .map(Map.Entry::getKey).toList();
     }
 
     public List<SlotNumber> findAvailableSlots() {
-        return scooterSlots.entrySet().stream()
-                .filter(entry -> entry.getValue().isEmpty())
+        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isEmpty())
                 .map(Map.Entry::getKey).toList();
     }
 
     public List<ScooterId> getAllScooterIds() {
-        return scooterSlots.values().stream()
-                .flatMap(Optional::stream).toList();
+        return scooterSlots.values().stream().flatMap(Optional::stream).toList();
     }
 
 }
