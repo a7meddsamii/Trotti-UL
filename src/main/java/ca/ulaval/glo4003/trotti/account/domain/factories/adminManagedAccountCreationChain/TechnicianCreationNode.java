@@ -23,7 +23,7 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
             Email email, Password password, Role role, Set<Permission> creatorPermissions) {
 
-        if (!creatorPermissions.contains(AccountPermissions.CREATE_TECHNICIAN)) {
+        if (!creatorPermissions.contains(Permission.CREATE_EMPLOYEE)) {
             throw new AuthorizationException("Not permitted");
         }
 

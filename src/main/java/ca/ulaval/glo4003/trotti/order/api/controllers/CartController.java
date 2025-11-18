@@ -54,12 +54,8 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response clearCart(String tokenRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        cartApplicationService.clearCart(idul);
+    public Response clearCart() {
+        cartApplicationService.clearCart(userId);
 
         return Response.noContent().build();
     }

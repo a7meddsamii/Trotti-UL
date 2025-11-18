@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.domain.services;
+package ca.ulaval.glo4003.trotti.account.domain.services;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticatedIdentity;
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;

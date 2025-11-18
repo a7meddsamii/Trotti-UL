@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.authentication.domain.values;
+package ca.ulaval.glo4003.trotti.account.domain.values;
 
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import java.util.Objects;

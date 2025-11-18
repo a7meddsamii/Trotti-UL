@@ -18,11 +18,8 @@ public class UnlockCodeController implements UnlockCodeResource {
     }
 
     @Override
-    public Response requestUnlockCode(String tokenRequest, String ridePermitId) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-
-        unlockCodeApplicationService.generateUnlockCode(idul, RidePermitId.from(ridePermitId));
+    public Response requestUnlockCode(String ridePermitId) {
+        unlockCodeApplicationService.generateUnlockCode(userId, RidePermitId.from(ridePermitId));
 
         return Response.ok().entity(
                 new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))

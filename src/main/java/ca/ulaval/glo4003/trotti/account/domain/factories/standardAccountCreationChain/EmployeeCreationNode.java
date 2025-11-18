@@ -10,7 +10,7 @@ import java.util.Set;
 public class EmployeeCreationNode extends StandardAccountCreationNode {
 
     private final Set<Permission> permissions =
-            Set.of(TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
+            Set.of(Permission.MAKE_TRIP, Permission.REQUEST_MAINTENANCE);
 
     @Override
     protected Role responsibilityRole() {

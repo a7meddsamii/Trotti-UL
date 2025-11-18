@@ -18,26 +18,12 @@ class UnlockCodeControllerTest {
     @BeforeEach
     void setup() {
         unlockCodeApplicationService = Mockito.mock(UnlockCodeApplicationService.class);
-        AuthenticationService authenticationService = Mockito.mock(AuthenticationService.class);
-
-        unlockCodeController =
-                new UnlockCodeController(authenticationService, unlockCodeApplicationService);
-    }
-
-    @Test
-    void whenRequestUnlockCode_thenServiceGeneratesUnlockCode() {
-        unlockCodeController.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
-
-        Mockito.verify(unlockCodeApplicationService).generateUnlockCode(Mockito.any(),
-                Mockito.any());
+        unlockCodeController = new UnlockCodeController(unlockCodeApplicationService);
     }
 
     @Test
     void whenRequestUnlockCode_thenReturnsResponseAndHttpCode200() {
-        Mockito.doNothing().when(unlockCodeApplicationService).generateUnlockCode(Mockito.any(),
-                Mockito.any());
-
-        Response response = unlockCodeController.requestUnlockCode(AUTH_HEADER, RIDE_PERMIT_ID);
+        Response response = unlockCodeController.requestUnlockCode(RIDE_PERMIT_ID);
 
         Assertions.assertEquals(200, response.getStatus());
     }
