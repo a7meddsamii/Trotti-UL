@@ -78,38 +78,16 @@ public class ScooterTest {
     }
 
     @Test
-    void givenTime_whenPauseCharging_thenBatteryChangesToIdleState() {
-        Mockito.when(battery.getCurrentBatteryState()).thenReturn(BatteryState.CHARGING);
-
+    void givenTime_whenPauseCharging_thenCallsBatteryPauseCharging() {
         scooter.pauseCharging(CURRENT_TIME);
 
-        Mockito.verify(battery).changeBatteryState(BatteryState.IDLE, CURRENT_TIME);
+        Mockito.verify(battery).pauseCharging(CURRENT_TIME);
     }
 
     @Test
-    void givenBatteryNotCharging_whenPauseCharging_thenDoesNothing() {
-        Mockito.when(battery.getCurrentBatteryState()).thenReturn(BatteryState.DISCHARGING);
-
-        scooter.pauseCharging(CURRENT_TIME);
-
-        Mockito.verify(battery, Mockito.never()).changeBatteryState(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    void givenIdleBattery_whenResumeCharging_thenShouldCallChangeBatteryState() {
-        Mockito.when(battery.getCurrentBatteryState()).thenReturn(BatteryState.IDLE);
-
+    void givenTime_whenResumeCharging_thenCallsBatteryResumeCharging() {
         scooter.resumeCharging(FUTURE_TIME);
 
-        Mockito.verify(battery).changeBatteryState(BatteryState.CHARGING, FUTURE_TIME);
-    }
-
-    @Test
-    void givenBatteryNotIdle_whenResumeCharging_thenShouldNotCallChangeBatteryState() {
-        Mockito.when(battery.getCurrentBatteryState()).thenReturn(BatteryState.DISCHARGING);
-
-        scooter.resumeCharging(FUTURE_TIME);
-
-        Mockito.verify(battery, Mockito.never()).changeBatteryState(Mockito.any(), Mockito.any());
+        Mockito.verify(battery).resumeCharging(FUTURE_TIME);
     }
 }
