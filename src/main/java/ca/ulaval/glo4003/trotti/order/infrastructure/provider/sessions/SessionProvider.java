@@ -19,7 +19,6 @@ import java.util.List;
 public final class SessionProvider {
 
     private static List<Session> sessions;
-    private static SessionProvider instance;
 
     private SessionProvider(Path path, SessionMapper sessionMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
@@ -55,13 +54,6 @@ public final class SessionProvider {
         }
     }
 
-    public static SessionProvider getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException(
-                    "SessionProvider not initialized. Call initialize() first.");
-        }
-        return instance;
-    }
 
     public List<Session> getSessions() {
         return sessions;
