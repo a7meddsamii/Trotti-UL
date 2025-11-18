@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.order.application.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PaymentInfoDto;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 public class OrderController implements OrderResource {

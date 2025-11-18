@@ -19,7 +19,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/unlock-code")
-@RolesAllowed({"STUDENT", "EMPLOYEE","TECHNICIAN"})
+@RolesAllowed({"STUDENT", "EMPLOYEE", "TECHNICIAN"})
 @RequiresPermissions({Permission.MAKE_TRIP})
 @Tag(name = "Unlock Code",
         description = "Endpoint de demande d'un code pour déverrouiller une trottinette")

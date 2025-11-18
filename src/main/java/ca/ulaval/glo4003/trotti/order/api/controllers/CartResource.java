@@ -69,7 +69,8 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response addToCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @Valid PassListRequest passListRequest);
+    Response addToCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @Valid PassListRequest passListRequest);
 
     @DELETE
     @Path("/{passId}")

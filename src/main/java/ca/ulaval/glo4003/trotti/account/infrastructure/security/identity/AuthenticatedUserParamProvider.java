@@ -5,11 +5,10 @@ import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.U
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.SecurityContext;
+import java.util.function.Function;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.glassfish.jersey.server.model.Parameter;
 import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
-
-import java.util.function.Function;
 
 @Singleton
 public class AuthenticatedUserParamProvider implements ValueParamProvider {

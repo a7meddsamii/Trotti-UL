@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 class UnlockCodeControllerTest {
 
     private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
-	private static final Idul TRAVELER_ID = Idul.from("travelerId");
+    private static final Idul TRAVELER_ID = Idul.from("travelerId");
 
     private UnlockCodeApplicationService unlockCodeApplicationService;
     private UnlockCodeResource unlockCodeController;

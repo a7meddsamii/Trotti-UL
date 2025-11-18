@@ -25,7 +25,7 @@ public interface AuthenticationResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-	@PermitAll
+    @PermitAll
     @Operation(summary = "Se connecter / Login",
             description = "Authentifie l'utilisateur avec email et password.",
             requestBody = @RequestBody(description = "Login request (email et password)",

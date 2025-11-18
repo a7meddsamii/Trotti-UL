@@ -12,14 +12,14 @@ public class AccountApplicationLoader extends Bootstrapper {
     public void load() {
         loadAccountApplicationService();
     }
-	
+
     private void loadAccountApplicationService() {
         AccountRepository accountRepository = this.resourceLocator.resolve(AccountRepository.class);
         SessionTokenProvider sessionTokenProvider =
                 this.resourceLocator.resolve(SessionTokenProvider.class);
         AccountFactory accountFactory = this.resourceLocator.resolve(AccountFactory.class);
-        AccountService accountApplicationService = new AccountApplicationService(
-                accountRepository, accountFactory, sessionTokenProvider);
+        AccountService accountApplicationService = new AccountApplicationService(accountRepository,
+                accountFactory, sessionTokenProvider);
 
         this.resourceLocator.register(AccountService.class, accountApplicationService);
     }

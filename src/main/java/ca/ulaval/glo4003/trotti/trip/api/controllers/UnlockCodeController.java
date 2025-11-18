@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 public class UnlockCodeController implements UnlockCodeResource {

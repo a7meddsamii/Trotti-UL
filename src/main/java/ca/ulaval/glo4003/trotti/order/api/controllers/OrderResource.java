@@ -53,5 +53,6 @@ public interface OrderResource {
                     @ApiResponse(responseCode = "402",
                             description = "Paiement requis: non enregistré", content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class))),})
-    Response confirm(@Parameter(hidden = true) @AuthenticatedUser Idul userId, PaymentInfoRequest paymentInfoRequest);
+    Response confirm(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            PaymentInfoRequest paymentInfoRequest);
 }

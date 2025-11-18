@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.SecurityContextFactory;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.order.api.controllers.CartResource;

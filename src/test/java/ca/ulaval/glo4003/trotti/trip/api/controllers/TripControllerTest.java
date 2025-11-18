@@ -46,7 +46,7 @@ class TripControllerTest {
 
     @Test
     void givenStartTripRequest_whenStartTrip_thenReturnsOkResponse() {
-        Response response = resource.startTrip(TRAVELER_IDUL,startTripRequest());
+        Response response = resource.startTrip(TRAVELER_IDUL, startTripRequest());
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }

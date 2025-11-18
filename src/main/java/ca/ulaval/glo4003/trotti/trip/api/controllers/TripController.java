@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 public class TripController implements TripResource {
