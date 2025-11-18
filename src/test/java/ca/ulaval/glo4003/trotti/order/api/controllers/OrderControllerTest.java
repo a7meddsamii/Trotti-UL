@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.order.api.mappers.OrderApiMapper;
@@ -10,11 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class OrderControllerTest {
-
-    private static final String AUTH_HEADER = "Bearer test.jwt.token";
-
     private OrderApplicationService orderApplicationService;
     private OrderApiMapper orderApiMapper;
+	private Idul AN_IDUL = Idul.from("A1234567");
 
     private OrderResource resource;
 
@@ -34,7 +33,7 @@ class OrderControllerTest {
                 .thenThrow(new InvalidParameterException("Invalid payment info"));
 
         Assertions.assertThrows(InvalidParameterException.class,
-                () -> resource.confirm(invalidRequest));
+                () -> resource.confirm(AN_IDUL, invalidRequest));
 
         Mockito.verify(orderApplicationService, Mockito.never()).placeOrderFor(Mockito.any(),
                 Mockito.any());

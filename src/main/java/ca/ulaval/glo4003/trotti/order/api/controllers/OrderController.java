@@ -13,8 +13,6 @@ public class OrderController implements OrderResource {
 
     private final OrderApplicationService orderApplicationService;
     private final OrderApiMapper orderApiMapper;
-    @Inject
-    private Idul userId;
 
     public OrderController(
             OrderApplicationService orderApplicationService,
@@ -24,7 +22,7 @@ public class OrderController implements OrderResource {
     }
 
     @Override
-    public Response confirm(PaymentInfoRequest paymentInfoRequest) {
+    public Response confirm(Idul userId, PaymentInfoRequest paymentInfoRequest) {
 
         PaymentInfoDto paymentInfoDto = orderApiMapper.toDto(paymentInfoRequest);
 

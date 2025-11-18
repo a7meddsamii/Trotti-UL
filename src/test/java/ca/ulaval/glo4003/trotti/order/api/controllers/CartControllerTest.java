@@ -27,13 +27,13 @@ class CartControllerTest {
     private Idul idul;
 
     @BeforeEach
-    void setup() throws NoSuchFieldException, IllegalAccessException {
+    void setup() {
         idul = Mockito.mock(Idul.class);
         cartApplicationService = Mockito.mock(CartApplicationService.class);
         passApiMapper = Mockito.mock(PassApiMapper.class);
 
         resource = new CartController(cartApplicationService, passApiMapper);
-        injectUserId();
+        idul = Mockito.mock(Idul.class);
     }
 
     @Test
@@ -44,7 +44,7 @@ class CartControllerTest {
         Mockito.when(cartApplicationService.getCart(idul)).thenReturn(cartDtos);
         Mockito.when(passApiMapper.toPassListResponse(cartDtos)).thenReturn(expectedResponse);
 
-        Response response = resource.getCart();
+        Response response = resource.getCart(idul);
 
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertEquals(expectedResponse, response.getEntity());
@@ -64,7 +64,7 @@ class CartControllerTest {
         Mockito.when(cartApplicationService.addToCart(idul, toAdd)).thenReturn(updated);
         Mockito.when(passApiMapper.toPassListResponse(updated)).thenReturn(mapped);
 
-        Response response = resource.addToCart(request);
+        Response response = resource.addToCart(idul, request);
 
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertEquals(mapped, response.getEntity());
@@ -76,7 +76,7 @@ class CartControllerTest {
 
     @Test
     void givenPassId_whenRemoveFromCart_thenReturns204() {
-        Response response = resource.removeFromCart(PASS_ID);
+        Response response = resource.removeFromCart(idul, PASS_ID);
 
         Assertions.assertEquals(204, response.getStatus());
         Assertions.assertNull(response.getEntity());
@@ -88,7 +88,7 @@ class CartControllerTest {
 
     @Test
     void whenClearCart_thenReturns204() {
-        Response response = resource.clearCart();
+        Response response = resource.clearCart(idul);
 
         Assertions.assertEquals(204, response.getStatus());
         Assertions.assertNull(response.getEntity());
@@ -103,11 +103,5 @@ class CartControllerTest {
 
     private PassListResponse passListResponse() {
         return Mockito.mock(PassListResponse.class);
-    }
-
-    private void injectUserId() throws NoSuchFieldException, IllegalAccessException {
-        Field userIdField = CartController.class.getDeclaredField("userId");
-        userIdField.setAccessible(true);
-        userIdField.set(resource, idul);
     }
 }

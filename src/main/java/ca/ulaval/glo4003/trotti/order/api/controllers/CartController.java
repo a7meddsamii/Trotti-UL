@@ -16,9 +16,6 @@ public class CartController implements CartResource {
     private final CartApplicationService cartApplicationService;
     private final PassApiMapper passApiMapper;
 
-    @Inject
-    private Idul userId;
-
     public CartController(
             CartApplicationService cartApplicationService,
             PassApiMapper passApiMapper) {
@@ -27,7 +24,7 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response getCart() {
+    public Response getCart(Idul userId) {
         List<PassDto> cart = cartApplicationService.getCart(userId);
 
         PassListResponse passListResponse = passApiMapper.toPassListResponse(cart);
@@ -36,7 +33,7 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response addToCart(PassListRequest passListRequest) {
+    public Response addToCart(Idul userId, PassListRequest passListRequest) {
         List<PassDto> passDtoList = passApiMapper.toPassDtoList(passListRequest);
         List<PassDto> updatedCart = cartApplicationService.addToCart(userId, passDtoList);
 
@@ -46,7 +43,7 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response removeFromCart(String passId) {
+    public Response removeFromCart(Idul userId, String passId) {
         PassId passIdToRemove = PassId.from(passId);
         cartApplicationService.removeFromCart(userId, passIdToRemove);
 
@@ -54,7 +51,7 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response clearCart() {
+    public Response clearCart(Idul userId) {
         cartApplicationService.clearCart(userId);
 
         return Response.noContent().build();

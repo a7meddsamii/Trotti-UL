@@ -2,7 +2,9 @@ package ca.ulaval.glo4003.trotti.order.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.account.infrastructure.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.identity.AuthenticatedUser;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,13 +23,13 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/cart")
+@RolesAllowed("STUDENT")
+@RequiresPermissions({Permission.CART_MODIFICATION})
 @Tag(name = "Cart", description = "Endpoints for managing the shopping cart")
 public interface CartResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-	@RolesAllowed("STUDENT")
-	@RequiresPermissions({Permission.CART_MODIFICATION})
     @Operation(summary = "Get le panier", description = "Retourne le panier courant de l'user",
             parameters = {@Parameter(name = "Authorization",
                     description = "Authorization token - JWT", required = true,
@@ -41,7 +43,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response getCart();
+    Response getCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -67,7 +69,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response addToCart(@Valid PassListRequest passListRequest);
+    Response addToCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @Valid PassListRequest passListRequest);
 
     @DELETE
     @Path("/{passId}")
@@ -85,7 +87,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response removeFromCart(
+    Response removeFromCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Parameter(description = "ID du pass à enlever") @PathParam("passId") String passId);
 
     @DELETE
@@ -100,5 +102,5 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response clearCart();
+    Response clearCart(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
 }

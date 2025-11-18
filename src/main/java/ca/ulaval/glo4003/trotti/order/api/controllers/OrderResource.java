@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.identity.AuthenticatedUser;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PaymentInfoRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,11 +14,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/cart/confirm")
+@RolesAllowed("STUDENT")
+@RequiresPermissions({Permission.ORDER_CONFIRM})
 @Tag(name = "Order", description = "Endpoints pour confirmer un order / checkout")
 public interface OrderResource {
 
@@ -46,6 +53,5 @@ public interface OrderResource {
                     @ApiResponse(responseCode = "402",
                             description = "Paiement requis: non enregistré", content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class))),})
-    Response confirm(@Parameter(in = ParameterIn.HEADER,
-            description = "Authorization token - JWT") PaymentInfoRequest paymentInfoRequest);
+    Response confirm(@Parameter(hidden = true) @AuthenticatedUser Idul userId, PaymentInfoRequest paymentInfoRequest);
 }
