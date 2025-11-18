@@ -6,8 +6,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InsufficientScootersInTra
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +25,9 @@ public class Transfer {
 
     public void unload(Station destination, List<SlotNumber> destinationSlots) {
         if (destinationSlots.size() > scooters.size()) {
-            throw new InsufficientScootersInTransitException("Cannot unload " + destinationSlots.size() + " scooters, as there are only " +
-                    scooters.size() + " scooters in transit");
+            throw new InsufficientScootersInTransitException(
+                    "Cannot unload " + destinationSlots.size() + " scooters, as there are only "
+                            + scooters.size() + " scooters in transit");
         }
 
         List<ScooterId> availableScooters = getScootersInTransit();
@@ -42,10 +41,8 @@ public class Transfer {
     }
 
     private List<ScooterId> getScootersInTransit() {
-        return scooters.entrySet().stream()
-                .filter(entry -> !entry.getValue())
-                .map(Map.Entry::getKey)
-                .toList();
+        return scooters.entrySet().stream().filter(entry -> !entry.getValue())
+                .map(Map.Entry::getKey).toList();
     }
 
     public TransferId getTransferId() {

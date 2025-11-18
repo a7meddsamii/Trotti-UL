@@ -18,9 +18,9 @@ class TransferTest {
     private static final TransferId TRANSFER_ID = TransferId.randomId();
     private static final Location SOURCE_STATION = Location.of("Building A");
     private static final Idul TECHNICIAN_ID = Idul.from("tech123");
-    
+
     private Transfer transfer;
-    
+
     @Mock
     private Station mockStation;
 
