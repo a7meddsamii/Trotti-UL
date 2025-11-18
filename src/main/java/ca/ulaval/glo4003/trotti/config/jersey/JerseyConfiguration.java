@@ -31,11 +31,10 @@ public class JerseyConfiguration extends ResourceConfig {
 
     public JerseyConfiguration() {
         ApplicationContext.getInstance().initiate();
-
-        register(JerseyBinder.class);
-        register(AuthenticationFilter.class);
-        register(AuthorizationFilter.class);
-        register(AuthenticatedUserFactory.class);
+		
+		register(JerseyBinder.class);
+		register(AuthenticationFilter.class);
+		register(AuthorizationFilter.class);
         register(ServerLifeCycleListener.class);
         register(ValidationFeature.class);
         register(JacksonFeature.class);

@@ -3,13 +3,12 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.security.identity;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.UserPrincipal;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.SecurityContext;
 import org.glassfish.hk2.api.Factory;
 
 public class AuthenticatedUserFactory implements Factory<Idul> {
-
-    @Inject
+    @Context
     private SecurityContext securityContext;
 
     @Override

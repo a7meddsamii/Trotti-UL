@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authorization.RequiresPermissions;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -23,6 +26,8 @@ public interface CartResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("STUDENT")
+	@RequiresPermissions({Permission.CART_MODIFICATION})
     @Operation(summary = "Get le panier", description = "Retourne le panier courant de l'user",
             parameters = {@Parameter(name = "Authorization",
                     description = "Authorization token - JWT", required = true,
