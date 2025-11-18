@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 class TripControllerTest {
 
-    private static final String AUTH_HEADER = "bdhhd22uemenehjebnee32j3un33kj3n3n3n";
     private static final String IDUL_VALUE = "Equipe10";
     private static final Idul TRAVELER_IDUL = Idul.from(IDUL_VALUE);
     private static final String UNLOCK_CODE = "23123";
@@ -47,14 +46,14 @@ class TripControllerTest {
 
     @Test
     void givenStartTripRequest_whenStartTrip_thenReturnsOkResponse() {
-        Response response = resource.startTrip(startTripRequest());
+        Response response = resource.startTrip(TRAVELER_IDUL,startTripRequest());
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
     void givenEndTripRequest_whenEndTrip_thenReturnsOkResponse() {
-        Response response = resource.endTrip(endTripRequest());
+        Response response = resource.endTrip(TRAVELER_IDUL, endTripRequest());
 
         Assertions.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }

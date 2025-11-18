@@ -1,16 +1,24 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.identity.AuthenticatedUser;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/trips")
+@RolesAllowed({"STUDENT", "EMPLOYEE","TECHNICIAN"})
+@RequiresPermissions({Permission.MAKE_TRIP})
 @Tag(name = "Trips", description = "Endpoints pour opérations liées aux voyages de voyageur")
 public interface TripResource {
 
@@ -28,7 +36,7 @@ public interface TripResource {
                             description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: RidePermit non trouvé"),})
-    Response startTrip(@Valid StartTripRequest request);
+    Response startTrip(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @Valid StartTripRequest request);
 
     @POST
     @Path("/end")
@@ -44,5 +52,5 @@ public interface TripResource {
                             description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: Aucun trajet en cours")})
-    Response endTrip(@Valid EndTripRequest request);
+    Response endTrip(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @Valid EndTripRequest request);
 }

@@ -10,15 +10,13 @@ import jakarta.ws.rs.core.Response;
 public class UnlockCodeController implements UnlockCodeResource {
 
     private final UnlockCodeApplicationService unlockCodeApplicationService;
-    @Inject
-    private Idul userId;
 
     public UnlockCodeController(UnlockCodeApplicationService unlockCodeApplicationService) {
         this.unlockCodeApplicationService = unlockCodeApplicationService;
     }
 
     @Override
-    public Response requestUnlockCode(String ridePermitId) {
+    public Response requestUnlockCode(Idul userId, String ridePermitId) {
         unlockCodeApplicationService.generateUnlockCode(userId, RidePermitId.from(ridePermitId));
 
         return Response.ok().entity(

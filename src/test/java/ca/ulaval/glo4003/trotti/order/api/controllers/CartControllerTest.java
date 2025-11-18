@@ -8,12 +8,12 @@ import ca.ulaval.glo4003.trotti.order.application.CartApplicationService;
 import ca.ulaval.glo4003.trotti.order.application.dto.PassDto;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import jakarta.ws.rs.core.Response;
-import java.lang.reflect.Field;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.List;
 
 class CartControllerTest {
 

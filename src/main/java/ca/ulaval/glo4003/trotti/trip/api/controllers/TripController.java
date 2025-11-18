@@ -14,8 +14,6 @@ public class TripController implements TripResource {
 
     private final TripApplicationService tripApplicationService;
     private final TripApiMapper tripApiMapper;
-    @Inject
-    private Idul userId;
 
     public TripController(
             TripApplicationService tripApplicationService,
@@ -25,7 +23,7 @@ public class TripController implements TripResource {
     }
 
     @Override
-    public Response startTrip(StartTripRequest request) {
+    public Response startTrip(Idul userId, StartTripRequest request) {
 
         StartTripDto startTripDto = tripApiMapper.toStartTripDto(userId, request);
 
@@ -35,7 +33,7 @@ public class TripController implements TripResource {
     }
 
     @Override
-    public Response endTrip(EndTripRequest request) {
+    public Response endTrip(Idul userId, EndTripRequest request) {
 
         EndTripDto endTripDto = tripApiMapper.toEndTripDto(userId, request);
 
