@@ -28,7 +28,7 @@ public class AccountApplicationService {
 
     public Idul createUserAccount(AccountDto registration) {
         validateAccountDoesNotExist(registration.email(), registration.idul());
-        Account account = accountFactory.createUser(registration.name(), registration.birthDate(),
+        Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
                 registration.password(), registration.role());
         accountRepository.save(account);
