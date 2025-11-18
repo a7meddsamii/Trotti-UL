@@ -2,12 +2,8 @@ package ca.ulaval.glo4003.trotti.config.jersey;
 
 import ca.ulaval.glo4003.trotti.account.api.controllers.AccountResource;
 import ca.ulaval.glo4003.trotti.account.api.controllers.AuthenticationResource;
-import ca.ulaval.glo4003.trotti.authentication.api_temp.TempController;
-import ca.ulaval.glo4003.trotti.authentication.domain.services.SessionTokenGenerator;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.AuthenticationFilter;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authentication.SecurityContextFactory;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.authorization.AuthorizationFilter;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.security.temp.AuthenticatedUserFactory;
+import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.SecurityContextFactory;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.order.api.controllers.CartResource;
@@ -21,19 +17,16 @@ public class JerseyBinder extends AbstractBinder {
     @Override
     protected void configure() {
         ComponentLocator locator = ComponentLocator.getInstance();
-		
-		bind(locator.resolve(SecurityContextFactory.class)).to(SecurityContextFactory.class);
-		bind(locator.resolve(SessionTokenGenerator.class)).to(SessionTokenGenerator.class);
-        
-		bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
+
+        bind(locator.resolve(SecurityContextFactory.class)).to(SecurityContextFactory.class);
+        bind(locator.resolve(SessionTokenProvider.class)).to(SessionTokenProvider.class);
+
+        bind(locator.resolve(AccountResource.class)).to(AccountResource.class);
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);
         bind(locator.resolve(CartResource.class)).to(CartResource.class);
         bind(locator.resolve(HeartbeatResource.class)).to(HeartbeatResource.class);
         bind(locator.resolve(OrderResource.class)).to(OrderResource.class);
         bind(locator.resolve(UnlockCodeResource.class)).to(UnlockCodeResource.class);
         bind(locator.resolve(TripResource.class)).to(TripResource.class);
-		
-		bind(AuthenticatedUserFactory.class).to(AuthenticatedUserFactory.class);
-		bind(locator.resolve(TempController.class)).to(TempController.class);
     }
 }

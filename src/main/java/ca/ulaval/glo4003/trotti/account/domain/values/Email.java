@@ -7,7 +7,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * @deprecated Use the version in {@link ca.ulaval.glo4003.trotti.commons.domain.Email} instead.
- * This one will be delete in a subsequent Pull Request
+ *             This one will be delete in a subsequent Pull Request
  * 
  */
 public class Email {

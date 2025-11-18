@@ -46,8 +46,6 @@ public interface OrderResource {
                     @ApiResponse(responseCode = "402",
                             description = "Paiement requis: non enregistré", content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class))),})
-    Response confirm(
-            @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
-            @HeaderParam("Authorization") String tokenRequest,
-            PaymentInfoRequest paymentInfoRequest);
+    Response confirm(@Parameter(in = ParameterIn.HEADER,
+            description = "Authorization token - JWT") PaymentInfoRequest paymentInfoRequest);
 }

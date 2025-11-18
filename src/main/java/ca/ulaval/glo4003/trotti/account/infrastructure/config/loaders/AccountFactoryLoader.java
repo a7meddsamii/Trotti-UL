@@ -8,6 +8,8 @@ import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCrea
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.EmployeeCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StandardAccountCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StudentCreationNode;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.SecurityContextFactory;
+import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.jwtsecuritycontext.JwtSecurityContextFactoryAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.time.Clock;
 
@@ -16,6 +18,7 @@ public class AccountFactoryLoader extends Bootstrapper {
     @Override
     public void load() {
         this.loadFactory();
+        this.loadSecurityContextFactory();
     }
 
     private void loadFactory() {
@@ -46,5 +49,10 @@ public class AccountFactoryLoader extends Bootstrapper {
         admin.setNext(technician);
 
         return admin;
+    }
+
+    private void loadSecurityContextFactory() {
+        this.resourceLocator.register(SecurityContextFactory.class,
+                new JwtSecurityContextFactoryAdapter());
     }
 }

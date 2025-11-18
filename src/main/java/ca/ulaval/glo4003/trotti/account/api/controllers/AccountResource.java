@@ -23,7 +23,7 @@ public interface AccountResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-	@PermitAll
+    @PermitAll
     @Operation(summary = "Créer un nouveau compte utilisateur",
             description = "Créer un nouveau compte utilisateur avec les infos demandées.",
             requestBody = @RequestBody(description = "Account creation",

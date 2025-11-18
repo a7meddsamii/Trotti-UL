@@ -28,8 +28,7 @@ public interface TripResource {
                             description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: RidePermit non trouvé"),})
-    Response startTrip(@HeaderParam("Authorization") String tokenHeader,
-            @Valid StartTripRequest request);
+    Response startTrip(@Valid StartTripRequest request);
 
     @POST
     @Path("/end")
@@ -45,6 +44,5 @@ public interface TripResource {
                             description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: Aucun trajet en cours")})
-    Response endTrip(@HeaderParam("Authorization") String tokenHeader,
-            @Valid EndTripRequest request);
+    Response endTrip(@Valid EndTripRequest request);
 }

@@ -36,7 +36,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response getCart(@HeaderParam("Authorization") String tokenRequest);
+    Response getCart();
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -62,8 +62,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response addToCart(@HeaderParam("Authorization") String tokenRequest,
-            @Valid PassListRequest passListRequest);
+    Response addToCart(@Valid PassListRequest passListRequest);
 
     @DELETE
     @Path("/{passId}")
@@ -81,7 +80,7 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response removeFromCart(@HeaderParam("Authorization") String tokenRequest,
+    Response removeFromCart(
             @Parameter(description = "ID du pass à enlever") @PathParam("passId") String passId);
 
     @DELETE
@@ -96,5 +95,5 @@ public interface CartResource {
                             description = "Unauthorized: token manquant ou erroné",
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class)))})
-    Response clearCart(@HeaderParam("Authorization") String tokenRequest);
+    Response clearCart();
 }

@@ -42,6 +42,5 @@ public interface UnlockCodeResource {
                                     schema = @Schema(implementation = UnlockCodeResponse.class)))})
     Response requestUnlockCode(
             @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
-            @HeaderParam("Authorization") String tokenRequest,
             @PathParam("ridePermitId") String ridePermitId);
 }

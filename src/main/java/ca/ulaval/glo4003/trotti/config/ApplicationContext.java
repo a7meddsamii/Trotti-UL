@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.config;
 
 import ca.ulaval.glo4003.trotti.account.infrastructure.config.AccountConfiguration;
-import ca.ulaval.glo4003.trotti.authentication.infrastructure.config.AuthenticationConfiguration;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.CommonsConfiguration;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.CommunicationConfiguration;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
@@ -32,6 +31,5 @@ public class ApplicationContext extends Configuration {
         PaymentConfiguration.getInstance().load();
         OrderConfiguration.getInstance().load();
         TripConfiguration.getInstance().load();
-		AuthenticationConfiguration.getInstance().load();
     }
 }

@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import jakarta.ws.rs.core.Response;
@@ -11,7 +10,6 @@ import org.mockito.Mockito;
 
 class UnlockCodeControllerTest {
 
-    private static final String AUTH_HEADER = "Bearer test.jwt.token";
     private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private UnlockCodeApplicationService unlockCodeApplicationService;

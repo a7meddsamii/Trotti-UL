@@ -1,22 +1,19 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 public class UnlockCodeController implements UnlockCodeResource {
 
-    private final AuthenticationService authenticationService;
     private final UnlockCodeApplicationService unlockCodeApplicationService;
+    @Inject
+    private Idul userId;
 
-    public UnlockCodeController(
-            AuthenticationService authenticationService,
-            UnlockCodeApplicationService unlockCodeApplicationService) {
-        this.authenticationService = authenticationService;
+    public UnlockCodeController(UnlockCodeApplicationService unlockCodeApplicationService) {
         this.unlockCodeApplicationService = unlockCodeApplicationService;
     }
 

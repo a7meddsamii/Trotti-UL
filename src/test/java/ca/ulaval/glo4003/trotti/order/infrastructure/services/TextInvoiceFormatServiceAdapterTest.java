@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.infrastructure.services;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.services.InvoiceFormatService;
 import ca.ulaval.glo4003.trotti.order.domain.values.OrderId;
 import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
