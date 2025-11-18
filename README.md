@@ -74,7 +74,7 @@ Edit the `config.env` file and add the required variables, for example:
 ```env
 TOKEN_EXPIRATION_DURATION=PT60M
 SMTP_USER="email@adress.ca"
-SMTP_PASS="hashedPassword"
+SMTP_PASS="password"
 SMTP_HOST="smtp.example.com"
 SMTP_PORT:"587"
 ```
