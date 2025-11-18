@@ -54,7 +54,6 @@ public final class SessionProvider {
         }
     }
 
-
     public List<Session> getSessions() {
         return sessions;
     }
