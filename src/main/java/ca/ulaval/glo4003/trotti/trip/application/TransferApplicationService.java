@@ -25,7 +25,8 @@ public class TransferApplicationService {
 
     public TransferId initiateTransfer(InitiateTransferDto initiateTransferDto) {
         Station station = stationRepository.findByLocation(initiateTransferDto.sourceStation());
-        Transfer transfer = Transfer.start(initiateTransferDto.technicianId(), initiateTransferDto.sourceStation(),
+        Transfer transfer = Transfer.start(initiateTransferDto.technicianId(),
+                initiateTransferDto.sourceStation(),
                 station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots()));
 
         transferRepository.save(transfer);
@@ -36,9 +37,11 @@ public class TransferApplicationService {
         Transfer transfer = transferRepository.findById(unloadScootersDto.transferId());
         Station station = stationRepository.findByLocation(unloadScootersDto.destinationStation());
 
-        List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(), unloadScootersDto.destinationSlots().size());
+        List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(),
+                unloadScootersDto.destinationSlots().size());
         for (int i = 0; i < unloadedScooters.size(); i++) {
-            station.returnScooter(unloadScootersDto.destinationSlots().get(i), unloadedScooters.get(i));
+            station.returnScooter(unloadScootersDto.destinationSlots().get(i),
+                    unloadedScooters.get(i));
         }
         transferRepository.save(transfer);
         stationRepository.save(station);
