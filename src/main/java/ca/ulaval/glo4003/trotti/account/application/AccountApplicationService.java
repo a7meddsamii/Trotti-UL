@@ -40,7 +40,7 @@ public class AccountApplicationService {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Idul creatorIdul = authenticationService.authenticate(creatorToken);
         Account creatorAccount = accountRepository.findByIdul(creatorIdul)
-                .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
+                .orElseThrow();
         Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
                 registration.password(), registration.role(), creatorAccount.getPermissions());
