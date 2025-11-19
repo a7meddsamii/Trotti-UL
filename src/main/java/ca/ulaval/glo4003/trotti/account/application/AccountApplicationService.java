@@ -35,7 +35,20 @@ public class AccountApplicationService {
 
         return account.getIdul();
     }
-
+    public Idul createAdminManagedAccount(AccountDto registration,
+                                          AuthenticationToken creatorToken) {
+        validateAccountDoesNotExist(registration.email(), registration.idul());
+        Idul creatorIdul = authenticationService.authenticate(creatorToken);
+        Account creatorAccount = accountRepository.findByIdul(creatorIdul)
+                .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
+        Account account = accountFactory.create(registration.name(), registration.birthDate(),
+                registration.gender(), registration.idul(), registration.email(),
+                registration.password(), registration.role(), creatorAccount.getPermissions());
+        accountRepository.save(account);
+        
+        return account.getIdul();
+    }
+    
     public AuthenticationToken login(Email email, String rawPassword) {
         Account account = accountRepository.findByEmail(email)
                 .filter(found -> found.verifyPassword(rawPassword))

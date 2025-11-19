@@ -46,7 +46,18 @@ class AccountControllerTest {
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
     }
-
+    @Test
+    void givenValidCreateAdminManagedRequest_whenCreateAdminManagedAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
+        String tokenHeader = "a-valid-token";
+        Response response = accountController.createAdminManagedAccount(tokenHeader, request);
+        
+        Mockito.verify(accountApiMapper).toAccountDto(request);
+        Mockito.verify(accountApplicationService).createAdminManagedAccount(Mockito.eq(mappedDto), Mockito.any());
+        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
+                response.getLocation());
+        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+    }
+    
     private CreateAccountRequest buildValidRequest() {
         return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
