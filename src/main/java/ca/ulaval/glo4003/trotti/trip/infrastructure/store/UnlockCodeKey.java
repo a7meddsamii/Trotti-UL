@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.store;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-
 import java.util.Objects;
 
 public class UnlockCodeKey {
@@ -29,13 +28,14 @@ public class UnlockCodeKey {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         UnlockCodeKey that = (UnlockCodeKey) o;
 
-        return Objects.equals(idul, that.idul) &&
-                Objects.equals(ridePermitId, that.ridePermitId);
+        return Objects.equals(idul, that.idul) && Objects.equals(ridePermitId, that.ridePermitId);
     }
 
     @Override

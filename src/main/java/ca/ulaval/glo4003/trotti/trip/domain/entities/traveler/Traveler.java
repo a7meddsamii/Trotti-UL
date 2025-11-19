@@ -42,14 +42,14 @@ public class Traveler {
         if (!walletHasPermit(ridePermitId)) {
             throw new NotFoundException("Ride permit not found. ");
         }
-//        ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
+        // ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
     }
 
     public Trip stopTraveling(LocalDateTime endDateTime) {
         if (Optional.ofNullable(ongoingTrip).isEmpty()) {
             throw new NotFoundException("Trip does not exist");
         }
-//        Trip completedTrip = ongoingTrip.end(endDateTime);
+        // Trip completedTrip = ongoingTrip.end(endDateTime);
         return null;
     }
 

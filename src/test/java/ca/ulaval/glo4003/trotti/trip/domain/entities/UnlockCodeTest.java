@@ -2,11 +2,10 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import java.time.Clock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.time.Clock;
 
 class UnlockCodeTest {
 
@@ -48,12 +47,14 @@ class UnlockCodeTest {
 
     @Test
     void givenSameCodeValueSameIdulAndRidePermitId_whenMatches_thenReturnsTrue() {
-        Assertions.assertTrue(unlockCode.matches(A_TRAVELER_ID, A_RIDE_PERMIT_ID, unlockCode.getCode()));
+        Assertions.assertTrue(
+                unlockCode.matches(A_TRAVELER_ID, A_RIDE_PERMIT_ID, unlockCode.getCode()));
     }
 
     @Test
     void givenDifferentCodeValue_whenMatches_thenReturnsFalse() {
-        UnlockCode differentUnlockCode = UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
+        UnlockCode differentUnlockCode =
+                UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
 
         Assertions.assertFalse(
                 unlockCode.matches(A_TRAVELER_ID, A_RIDE_PERMIT_ID, differentUnlockCode.getCode()));

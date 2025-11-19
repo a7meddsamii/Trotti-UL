@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-
 import java.time.Clock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +48,8 @@ class GuavaUnlockCodeStoreTest {
     void givenMatchingStoredCode_whenValidate_thenNoExceptionThrown() {
         UnlockCode unlockCode = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        Executable validateAction = () -> store.validate(unlockCode.getTravelerId(), unlockCode.getRidePermitId(), unlockCode.getCode());
+        Executable validateAction = () -> store.validate(unlockCode.getTravelerId(),
+                unlockCode.getRidePermitId(), unlockCode.getCode());
 
         Assertions.assertDoesNotThrow(validateAction);
     }

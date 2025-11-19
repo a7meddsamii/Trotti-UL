@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 
@@ -21,7 +20,8 @@ public class TripApiMapper {
         Location location = Location.of(request.location());
         SlotNumber slotNumber = parseSlotNumber(request.slotNumber());
 
-        return new StartTripDto(idul, ridePermitId, String.valueOf(request.unlockCode()), location, slotNumber);
+        return new StartTripDto(idul, ridePermitId, String.valueOf(request.unlockCode()), location,
+                slotNumber);
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {

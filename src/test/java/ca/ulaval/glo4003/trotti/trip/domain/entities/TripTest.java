@@ -1,16 +1,15 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.Assertions;
 
 class TripTest {
 
@@ -27,23 +26,14 @@ class TripTest {
 
     @BeforeEach
     void setup() {
-        trip = Trip.start(
-                A_RIDE_PERMIT_ID,
-                A_TRAVELER_ID,
-                A_SCOOTER_ID,
-                START_TIME,
-                A_START_LOCATION
-        );
+        trip = Trip.start(A_RIDE_PERMIT_ID, A_TRAVELER_ID, A_SCOOTER_ID, START_TIME,
+                A_START_LOCATION);
     }
+
     @Test
     void whenStart_thenTripIsOngoing() {
-        Trip trip = Trip.start(
-                A_RIDE_PERMIT_ID,
-                A_TRAVELER_ID,
-                A_SCOOTER_ID,
-                START_TIME,
-                A_START_LOCATION
-        );
+        Trip trip = Trip.start(A_RIDE_PERMIT_ID, A_TRAVELER_ID, A_SCOOTER_ID, START_TIME,
+                A_START_LOCATION);
 
         Assertions.assertEquals(TripStatus.ONGOING, trip.getStatus());
     }
@@ -97,4 +87,3 @@ class TripTest {
         Assertions.assertThrows(TripException.class, executable);
     }
 }
-

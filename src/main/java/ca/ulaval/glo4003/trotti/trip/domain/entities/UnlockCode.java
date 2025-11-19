@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-
 import java.security.SecureRandom;
 import java.time.Clock;
 import java.time.Duration;
@@ -22,7 +21,11 @@ public class UnlockCode {
     private final RidePermitId ridePermitId;
     private final LocalDateTime expiresAt;
 
-    private UnlockCode(String code, Idul travelerId, RidePermitId ridePermitId, LocalDateTime expiresAt) {
+    private UnlockCode(
+            String code,
+            Idul travelerId,
+            RidePermitId ridePermitId,
+            LocalDateTime expiresAt) {
         this.code = code;
         this.travelerId = travelerId;
         this.ridePermitId = ridePermitId;
@@ -34,7 +37,8 @@ public class UnlockCode {
 
         int code = MINIMUM_CODE_VALUE + random.nextInt(MAXIMUM_CODE_VALUE - MINIMUM_CODE_VALUE + 1);
 
-        return new UnlockCode(String.valueOf(code), id, ridePermitId, LocalDateTime.now(clock).plus(SIXTY_SECONDS));
+        return new UnlockCode(String.valueOf(code), id, ridePermitId,
+                LocalDateTime.now(clock).plus(SIXTY_SECONDS));
     }
 
     public String getCode() {
@@ -54,7 +58,8 @@ public class UnlockCode {
     }
 
     public boolean matches(Idul idul, RidePermitId ridePermitId, String code) {
-        return this.travelerId.equals(idul) && this.ridePermitId.equals(ridePermitId) && this.code.equals(code);
+        return this.travelerId.equals(idul) && this.ridePermitId.equals(ridePermitId)
+                && this.code.equals(code);
     }
 
     @Override

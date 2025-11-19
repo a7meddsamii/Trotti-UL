@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -19,11 +18,12 @@ public class Trip {
     private Location endLocation;
     private TripStatus tripStatus;
 
-    private Trip(Idul idul,
-                 RidePermitId ridePermitId,
-                 ScooterId scooterId,
-                 LocalDateTime startTime,
-                 Location startLocation) {
+    private Trip(
+            Idul idul,
+            RidePermitId ridePermitId,
+            ScooterId scooterId,
+            LocalDateTime startTime,
+            Location startLocation) {
         this.tripId = TripId.randomId();
         this.idul = idul;
         this.ridePermitId = ridePermitId;
@@ -33,15 +33,16 @@ public class Trip {
         this.tripStatus = TripStatus.ONGOING;
     }
 
-    private Trip(TripId tripId,
-                 Idul idul,
-                 RidePermitId ridePermitId,
-                 ScooterId scooterId,
-                 LocalDateTime startTime,
-                 Location startLocation,
-                 LocalDateTime endTime,
-                 Location endLocation,
-                 TripStatus tripStatus) {
+    private Trip(
+            TripId tripId,
+            Idul idul,
+            RidePermitId ridePermitId,
+            ScooterId scooterId,
+            LocalDateTime startTime,
+            Location startLocation,
+            LocalDateTime endTime,
+            Location endLocation,
+            TripStatus tripStatus) {
         this.tripId = tripId;
         this.idul = idul;
         this.ridePermitId = ridePermitId;
@@ -53,24 +54,16 @@ public class Trip {
         this.tripStatus = tripStatus;
     }
 
-    public static Trip start(RidePermitId ridePermitId,
-                             Idul idul,
-                             ScooterId scooterId,
-                             LocalDateTime startTime,
-                             Location startLocation) {
+    public static Trip start(RidePermitId ridePermitId, Idul idul, ScooterId scooterId,
+            LocalDateTime startTime, Location startLocation) {
         return new Trip(idul, ridePermitId, scooterId, startTime, startLocation);
     }
 
-    public static Trip from(TripId tripId,
-                            RidePermitId ridePermitId,
-                            Idul idul,
-                            ScooterId scooterId,
-                            LocalDateTime startTime,
-                            Location startLocation,
-                            LocalDateTime endTime,
-                            Location endLocation,
-                            TripStatus tripStatus) {
-        return new Trip(tripId,idul, ridePermitId, scooterId, startTime, startLocation, endTime, endLocation, tripStatus);
+    public static Trip from(TripId tripId, RidePermitId ridePermitId, Idul idul,
+            ScooterId scooterId, LocalDateTime startTime, Location startLocation,
+            LocalDateTime endTime, Location endLocation, TripStatus tripStatus) {
+        return new Trip(tripId, idul, ridePermitId, scooterId, startTime, startLocation, endTime,
+                endLocation, tripStatus);
     }
 
     public void complete(Location endLocation, LocalDateTime endTime) {

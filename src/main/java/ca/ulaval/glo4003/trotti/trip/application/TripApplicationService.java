@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
@@ -16,7 +15,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
-
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -29,12 +27,13 @@ public class TripApplicationService {
     private final EventBus eventBus;
     private final Clock clock;
 
-    public TripApplicationService(UnlockCodeStore unlockCodeStore,
-                                  TripRepository tripRepository,
-                                  RidePermitGateway ridePermitGateway,
-                                  ScooterRentalGateway scooterRentalGateway,
-                                  EventBus eventBus,
-                                  Clock clock) {
+    public TripApplicationService(
+            UnlockCodeStore unlockCodeStore,
+            TripRepository tripRepository,
+            RidePermitGateway ridePermitGateway,
+            ScooterRentalGateway scooterRentalGateway,
+            EventBus eventBus,
+            Clock clock) {
         this.unlockCodeStore = unlockCodeStore;
         this.tripRepository = tripRepository;
         this.ridePermitGateway = ridePermitGateway;
@@ -52,10 +51,8 @@ public class TripApplicationService {
 
         UnlockCode unlockCode = unlockCodeStore.generateOrGet(idul, ridePermitId, clock);
 
-        eventBus.publish(new UnlockCodeRequestedEvent(idul,
-                ridePermitId.toString(),
-                unlockCode.toString(),
-                unlockCode.getExpiresAt()));
+        eventBus.publish(new UnlockCodeRequestedEvent(idul, ridePermitId.toString(),
+                unlockCode.toString(), unlockCode.getExpiresAt()));
     }
 
     public void startTrip(StartTripDto tripDto) {
@@ -65,13 +62,11 @@ public class TripApplicationService {
             throw new TripException("Traveler already has an ongoing trip");
         }
 
-        ScooterId scooterId = scooterRentalGateway.retrieveScooter(tripDto.location(), tripDto.slotNumber());
+        ScooterId scooterId =
+                scooterRentalGateway.retrieveScooter(tripDto.location(), tripDto.slotNumber());
 
-        Trip onGoingTrip = Trip.start(tripDto.ridePermitId(),
-                tripDto.idul(),
-                scooterId,
-                LocalDateTime.now(clock),
-                tripDto.location());
+        Trip onGoingTrip = Trip.start(tripDto.ridePermitId(), tripDto.idul(), scooterId,
+                LocalDateTime.now(clock), tripDto.location());
 
         tripRepository.save(onGoingTrip);
         unlockCodeStore.revoke(tripDto.idul(), tripDto.ridePermitId());
@@ -84,16 +79,13 @@ public class TripApplicationService {
 
         Trip trip = tripRepository.findBy(tripDto.idul(), TripStatus.ONGOING).getFirst();
 
-        scooterRentalGateway.returnScooter(tripDto.location(), trip.getScooterId(), tripDto.slotNumber());
+        scooterRentalGateway.returnScooter(tripDto.location(), trip.getScooterId(),
+                tripDto.slotNumber());
         trip.complete(tripDto.location(), LocalDateTime.now(clock));
         tripRepository.save(trip);
 
-        eventBus.publish(new TripCompletedEvent(trip.getIdul(),
-                trip.getRidePermitId().toString(),
-                trip.getScooterId().toString(),
-                trip.getStartTime(),
-                trip.getEndTime(),
-                trip.getStartLocation().toString(),
-                trip.getEndLocation().toString()));
+        eventBus.publish(new TripCompletedEvent(trip.getIdul(), trip.getRidePermitId().toString(),
+                trip.getScooterId().toString(), trip.getStartTime(), trip.getEndTime(),
+                trip.getStartLocation().toString(), trip.getEndLocation().toString()));
     }
 }

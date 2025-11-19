@@ -10,8 +10,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
@@ -19,7 +17,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationServi
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-
 import java.time.Clock;
 import java.util.List;
 
@@ -34,16 +31,15 @@ public class TripApplicationServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationApplicationService() {
         TravelerRepository travelerRepository =
                 this.resourceLocator.resolve(TravelerRepository.class);
-        RidePermitGateway ridePermitGateway =
-                this.resourceLocator.resolve(RidePermitGateway.class);
+        RidePermitGateway ridePermitGateway = this.resourceLocator.resolve(RidePermitGateway.class);
         NotificationService<List<RidePermit>> notificationService =
                 this.resourceLocator.resolve(RidePermitNotificationService.class);
         EmployeeRidePermitService employeeRidePermitService =
                 this.resourceLocator.resolve(EmployeeRidePermitService.class);
 
         RidePermitActivationApplicationService ridePermitActivationService =
-                new RidePermitActivationApplicationService(travelerRepository,
-                        ridePermitGateway, notificationService, employeeRidePermitService);
+                new RidePermitActivationApplicationService(travelerRepository, ridePermitGateway,
+                        notificationService, employeeRidePermitService);
         this.resourceLocator.register(RidePermitActivationApplicationService.class,
                 ridePermitActivationService);
     }
@@ -71,9 +67,8 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         TripRepository tripRepository = this.resourceLocator.resolve(TripRepository.class);
         EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
-        TripApplicationService tripApplicationService =
-                new TripApplicationService(unlockCodeStore, tripRepository, ridePermitGateway,
-                        scooterRentalGateway, eventBus, clock);
+        TripApplicationService tripApplicationService = new TripApplicationService(unlockCodeStore,
+                tripRepository, ridePermitGateway, scooterRentalGateway, eventBus, clock);
         this.resourceLocator.register(TripApplicationService.class, tripApplicationService);
     }
 }

@@ -33,8 +33,7 @@ public class InMemoryTripRepository implements TripRepository {
     @Override
     public void save(Trip trip) {
         TripRecord tripRecord = mapper.toRecord(trip);
-        tripTable.computeIfAbsent(tripRecord.idul(), idul -> new ArrayList<>())
-                .add(tripRecord);
+        tripTable.computeIfAbsent(tripRecord.idul(), idul -> new ArrayList<>()).add(tripRecord);
     }
 
     @Override
@@ -51,8 +50,7 @@ public class InMemoryTripRepository implements TripRepository {
         if (tripTable.containsKey(idul)) {
             return tripTable.get(idul).stream()
                     .filter(tripRecord -> tripRecord.tripStatus().equals(tripStatus))
-                    .map(mapper::toDomain)
-                    .toList();
+                    .map(mapper::toDomain).toList();
         }
 
         return Collections.emptyList();

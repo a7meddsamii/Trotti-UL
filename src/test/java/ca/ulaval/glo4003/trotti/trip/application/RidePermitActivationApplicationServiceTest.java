@@ -37,9 +37,9 @@ class RidePermitActivationApplicationServiceTest {
         ridePermitGateway = Mockito.mock(RidePermitGateway.class);
         ridePermitNotificationService = Mockito.mock(RidePermitNotificationService.class);
         employeeRidePermitService = Mockito.mock(EmployeeRidePermitService.class);
-        ridePermitActivationApplicationService = new RidePermitActivationApplicationService(
-                travelerRepository, ridePermitGateway, ridePermitNotificationService,
-                employeeRidePermitService);
+        ridePermitActivationApplicationService =
+                new RidePermitActivationApplicationService(travelerRepository, ridePermitGateway,
+                        ridePermitNotificationService, employeeRidePermitService);
         existingTravelers = mockTravelers();
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
     }

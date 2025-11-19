@@ -7,9 +7,7 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPer
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class TripPersistenceMapperTest {
 
@@ -59,15 +57,8 @@ class TripPersistenceMapperTest {
 
     @Test
     void givenTripRecord_whenToDomain_thenReturnEquivalentTrip() {
-        TripRecord record = new TripRecord(TRIP_ID,
-                IDUL,
-                RIDE_PERMIT_ID,
-                SCOOTER_ID,
-                START_TIME,
-                START_LOCATION,
-                END_TIME,
-                END_LOCATION,
-                TRIP_STATUS);
+        TripRecord record = new TripRecord(TRIP_ID, IDUL, RIDE_PERMIT_ID, SCOOTER_ID, START_TIME,
+                START_LOCATION, END_TIME, END_LOCATION, TRIP_STATUS);
 
         Trip trip = mapper.toDomain(record);
 
