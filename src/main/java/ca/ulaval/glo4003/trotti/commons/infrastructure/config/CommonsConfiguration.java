@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.DatabaseLoader;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.InitialAdminLoader;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.RegistryLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 
@@ -24,5 +25,6 @@ public class CommonsConfiguration extends Configuration {
     protected void load() {
         new DatabaseLoader().load();
         new RegistryLoader().load();
+        new InitialAdminLoader().load();
     }
 }
