@@ -84,4 +84,7 @@ public class Transfer {
         return technicianId;
     }
 
+    public Map<ScooterId, Boolean> getScootersMovedCopy() {
+        return new HashMap<>(scootersMoved);
+    }
 }
