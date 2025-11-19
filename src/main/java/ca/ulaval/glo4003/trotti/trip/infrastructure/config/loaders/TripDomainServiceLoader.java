@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
+import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
@@ -23,15 +23,17 @@ public class TripDomainServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationDomainServices() {
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         PassRepository passRepository = this.resourceLocator.resolve(PassRepository.class);
-        EmployeeRegistry employeeRegistry = this.resourceLocator.resolve(EmployeeRegistry.class);
-        SessionEnum sessionEnum = this.resourceLocator.resolve(SessionEnum.class);
+        EmployeeRegistryProvider employeeRegistryProvider =
+                this.resourceLocator.resolve(EmployeeRegistryProvider.class);
+        SchoolSessionProvider schoolSessionProvider =
+                this.resourceLocator.resolve(SchoolSessionProvider.class);
 
         this.resourceLocator.register(RidePermitNotificationService.class,
                 new RidePermitNotificationService(emailService));
         this.resourceLocator.register(RidePermitHistoryGateway.class,
                 new RidePermitHistoryGatewayAdapter(passRepository));
         this.resourceLocator.register(EmployeeRidePermitService.class,
-                new EmployeeRidePermitService(employeeRegistry, sessionEnum));
+                new EmployeeRidePermitService(employeeRegistryProvider, schoolSessionProvider));
     }
 
     private void loadUnlockCodeDomainServices() {

@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
@@ -13,17 +13,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class EmployeeRidePermitService {
-    private final EmployeeRegistry employeeRegistry;
-    private final SessionEnum sessionEnum;
+    private final EmployeeRegistryProvider employeeRegistryProvider;
+    private final SchoolSessionProvider schoolSessionProvider;
 
-    public EmployeeRidePermitService(EmployeeRegistry employeeRegistry, SessionEnum sessionEnum) {
-        this.employeeRegistry = employeeRegistry;
-        this.sessionEnum = sessionEnum;
+    public EmployeeRidePermitService(
+            EmployeeRegistryProvider employeeRegistryProvider,
+            SchoolSessionProvider schoolSessionProvider) {
+        this.employeeRegistryProvider = employeeRegistryProvider;
+        this.schoolSessionProvider = schoolSessionProvider;
     }
 
     public List<RidePermit> giveFreePermitToEmployee(Traveler traveler) {
         LocalDate currentDate = LocalDate.now();
-        Optional<Session> session = sessionEnum.getSession(currentDate);
+        Optional<Session> session = schoolSessionProvider.getSession(currentDate);
 
         if (!traveler.hasEmptyWallet() || session.isEmpty()) {
             return Collections.emptyList();
@@ -35,7 +37,8 @@ public class EmployeeRidePermitService {
         return traveler.updateWallet(List.of(employeeRidePermit));
     }
 
+    @Deprecated
     public boolean isEmployee(Idul idul) {
-        return employeeRegistry.isEmployee(idul);
+        return employeeRegistryProvider.exists(idul);
     }
 }
