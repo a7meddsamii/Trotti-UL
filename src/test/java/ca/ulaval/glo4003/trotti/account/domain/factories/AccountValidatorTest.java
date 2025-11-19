@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.account.domain.factories;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
-import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.Clock;
 import java.time.Instant;
@@ -11,9 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mockito;
 
-class AccountFactoryTest {
+class AccountValidatorTest {
 
     private static final Instant START_MOMENT = Instant.parse("2025-09-20T00:00:00Z");
     private static final ZoneOffset UTC = ZoneOffset.UTC;
@@ -27,40 +24,36 @@ class AccountFactoryTest {
     private static final LocalDate BIRTHDATE_OLDER_THAN_MINIMUM_AGE =
             BIRTHDATE_EXACTLY_MINIMUM_AGE.minusYears(4);
 
-    private AccountFactory accountFactory;
-    private Password password;
+    AccountValidator accountValidator;
 
     @BeforeEach
     void setup() {
-        password = Mockito.mock(Password.class);
         Clock clock = Clock.fixed(START_MOMENT, UTC);
-        accountFactory = new AccountFactory(clock);
+        accountValidator = new AccountValidator(clock);
     }
 
     @Test
     void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
-                BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL, password);
+        Executable tooYoungException =
+                () -> accountValidator.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 
-        Assertions.assertThrows(InvalidParameterException.class, createAccount);
+        Assertions.assertThrows(InvalidParameterException.class, tooYoungException);
     }
 
     @Test
     void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
-                BIRTHDATE_EXACTLY_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL, password);
+        Executable exactAgeValidation =
+                () -> accountValidator.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
 
-        Assertions.assertDoesNotThrow(createAccount);
+        Assertions.assertDoesNotThrow(exactAgeValidation);
     }
 
     @Test
     void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
-        Executable createAccount = () -> accountFactory.create(AccountFixture.A_NAME,
-                BIRTHDATE_OLDER_THAN_MINIMUM_AGE, AccountFixture.A_GENDER, AccountFixture.AN_IDUL,
-                AccountFixture.AN_EMAIL, password);
+        Executable olderAgeValidation =
+                () -> accountValidator.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
 
-        Assertions.assertDoesNotThrow(createAccount);
+        Assertions.assertDoesNotThrow(olderAgeValidation);
     }
+
 }

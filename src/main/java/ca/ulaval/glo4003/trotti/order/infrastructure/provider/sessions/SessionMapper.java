@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions;
+package ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions;
 
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;

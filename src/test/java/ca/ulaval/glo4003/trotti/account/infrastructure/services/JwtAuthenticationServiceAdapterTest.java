@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.services;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.time.Clock;
@@ -34,14 +34,14 @@ class JwtAuthenticationServiceAdapterTest {
 
     private JwtAuthenticationServiceAdapter jwtAuthenticatorAdapter;
     private Clock clock;
-    private EmployeeRegistry employeeRegistry;
+    private EmployeeRegistryProvider employeeRegistryProvider;
 
     @BeforeEach
     void setup() {
-        employeeRegistry = Mockito.mock(EmployeeRegistry.class);
+        employeeRegistryProvider = Mockito.mock(EmployeeRegistryProvider.class);
         clock = Mockito.spy(Clock.fixed(START_MOMENT, UTC));
         jwtAuthenticatorAdapter = new JwtAuthenticationServiceAdapter(AN_EXPIRATION_DURATION, clock,
-                SECRET_KEY, employeeRegistry);
+                SECRET_KEY, employeeRegistryProvider);
     }
 
     @Test
@@ -92,19 +92,11 @@ class JwtAuthenticationServiceAdapterTest {
 
     @Test
     void givenEmployeeIdul_whenConfirmStudent_thenExceptionIsThrown() {
-        Mockito.when(employeeRegistry.isEmployee(AN_IDUL)).thenReturn(true);
+        Mockito.when(employeeRegistryProvider.exists(AN_IDUL)).thenReturn(true);
 
         Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
 
         Assertions.assertThrows(AuthenticationException.class, confirmStudentAction);
     }
 
-    @Test
-    void givenStudentIdul_whenConfirmStudent_thenNoExceptionThrown() {
-        Mockito.when(employeeRegistry.isEmployee(AN_IDUL)).thenReturn(false);
-
-        Executable confirmStudentAction = () -> jwtAuthenticatorAdapter.confirmStudent(AN_IDUL);
-
-        Assertions.assertDoesNotThrow(confirmStudentAction);
-    }
 }

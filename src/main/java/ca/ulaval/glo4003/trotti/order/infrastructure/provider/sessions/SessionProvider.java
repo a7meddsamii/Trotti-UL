@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.infrastructure.config.providers.sessions;
+package ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions;
 
 import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
@@ -12,10 +12,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * @deprecated this will be deleted soon switch to the new provider
+ *             {@link JsonSchoolSessionProvider}
+ */
 public final class SessionProvider {
 
     private static List<Session> sessions;
-    private static SessionProvider instance;
 
     private SessionProvider(Path path, SessionMapper sessionMapper) {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
@@ -49,18 +52,6 @@ public final class SessionProvider {
         } catch (Exception e) {
             throw new RuntimeException("Failed to load sessions file at startup", e);
         }
-    }
-
-    public static void initialize(Path path, SessionMapper sessionMapper) {
-        instance = new SessionProvider(path, sessionMapper);
-    }
-
-    public static SessionProvider getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException(
-                    "SessionProvider not initialized. Call initialize() first.");
-        }
-        return instance;
     }
 
     public List<Session> getSessions() {

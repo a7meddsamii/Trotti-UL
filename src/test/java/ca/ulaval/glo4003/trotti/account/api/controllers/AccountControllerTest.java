@@ -35,43 +35,22 @@ class AccountControllerTest {
     }
 
     @Test
-    void givenValidCreateAccountRequest_whenCreateAccount_thenReturns201Created() {
-        AccountDto dto = Mockito.mock(AccountDto.class);
-        Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(dto);
+    void givenValidCreateAccountRequest_whenCreateAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
+        Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(mappedDto);
 
         Response response = accountController.createAccount(request);
-
-        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-
-    }
-
-    @Test
-    void givenValidCreateAccountRequest_whenCreateAccount_thenSetsLocationHeaderWithRequestIdul() {
-        Response response = accountController.createAccount(request);
-
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
-                response.getLocation());
-    }
-
-    @Test
-    void givenValidRequest_whenCreateAccount_thenServiceIsCalled() {
-
-        accountController.createAccount(request);
 
         Mockito.verify(accountApplicationService).createAccount(mappedDto);
-    }
+        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
+                response.getLocation());
+        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
-    @Test
-    void givenValidCreateAccountRequest_whenCreateAccount_thenMapperIsCalledWithRequest() {
-
-        accountController.createAccount(request);
-
-        Mockito.verify(accountApiMapper).toAccountDto(request);
     }
 
     private CreateAccountRequest buildValidRequest() {
         return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD,
+                AccountFixture.A_ROLE_STRING);
     }
 }

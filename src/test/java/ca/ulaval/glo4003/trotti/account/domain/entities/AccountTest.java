@@ -62,6 +62,6 @@ class AccountTest {
     private Account createAccountWithMockPassword() {
         return new Account(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                mockPassword);
+                mockPassword, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
     }
 }
