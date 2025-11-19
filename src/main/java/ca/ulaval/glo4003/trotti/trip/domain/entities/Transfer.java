@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InsufficientScootersInTransitException;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TechnicianNotInChargeException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
@@ -18,7 +17,8 @@ public class Transfer {
     private final Idul technicianId;
     private final Map<ScooterId, Boolean> scootersMoved;
 
-    public static Transfer start(Idul technicianId, Location sourceStation, Set<ScooterId> scooters) {
+    public static Transfer start(Idul technicianId, Location sourceStation,
+            Set<ScooterId> scooters) {
         TransferId transferId = TransferId.randomId();
         Map<ScooterId, Boolean> scootersMoved = new HashMap<>();
         scooters.forEach(scooterId -> scootersMoved.put(scooterId, false));
@@ -26,12 +26,16 @@ public class Transfer {
         return new Transfer(transferId, sourceStation, technicianId, scootersMoved);
     }
 
-    public static Transfer rehydrate(TransferId transferId, Location sourceStation, Idul technicianId,
-                                    Map<ScooterId, Boolean> scootersMoved) {
+    public static Transfer rehydrate(TransferId transferId, Location sourceStation,
+            Idul technicianId, Map<ScooterId, Boolean> scootersMoved) {
         return new Transfer(transferId, sourceStation, technicianId, scootersMoved);
     }
 
-    private Transfer(TransferId transferId, Location sourceStation, Idul technicianId, Map<ScooterId, Boolean> scootersMoved) {
+    private Transfer(
+            TransferId transferId,
+            Location sourceStation,
+            Idul technicianId,
+            Map<ScooterId, Boolean> scootersMoved) {
         this.transferId = transferId;
         this.sourceStation = sourceStation;
         this.technicianId = technicianId;
@@ -40,20 +44,21 @@ public class Transfer {
 
     public List<ScooterId> unload(Idul technicianId, int numberOfScooters) {
         validateUnload(technicianId, numberOfScooters);
-        
+
         List<ScooterId> scootersInTransit = getScootersInTransit();
         List<ScooterId> scootersToUnload = scootersInTransit.subList(0, numberOfScooters);
         scootersToUnload.forEach(scooterId -> scootersMoved.put(scooterId, true));
-        
+
         return scootersToUnload;
     }
-    
+
     private void validateUnload(Idul technicianId, int numberOfScooters) {
         if (!this.technicianId.equals(technicianId)) {
-            throw new TechnicianNotInChargeException("Technician with idul " + technicianId + " is not in charge of this transfer");
+            throw new TechnicianNotInChargeException(
+                    "Technician with idul " + technicianId + " is not in charge of this transfer");
 
         }
-        
+
         List<ScooterId> scootersInTransit = getScootersInTransit();
         if (numberOfScooters > scootersInTransit.size()) {
             throw new InsufficientScootersInTransitException(
@@ -61,7 +66,7 @@ public class Transfer {
                             + scootersInTransit.size() + " scooters left in transit");
         }
     }
-    
+
     private List<ScooterId> getScootersInTransit() {
         return scootersMoved.entrySet().stream().filter(entry -> !entry.getValue())
                 .map(Map.Entry::getKey).toList();

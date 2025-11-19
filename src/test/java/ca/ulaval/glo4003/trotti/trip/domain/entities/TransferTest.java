@@ -6,11 +6,11 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TechnicianNotInChargeExce
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.util.List;
-import org.junit.jupiter.api.function.Executable;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class TransferTest {
 
@@ -35,15 +35,15 @@ class TransferTest {
 
         Executable unloadWithWrongTechId = () -> transfer.unload(wrongTechnicianId, 1);
 
-        Assertions.assertThrows(TechnicianNotInChargeException.class,
-                unloadWithWrongTechId);
+        Assertions.assertThrows(TechnicianNotInChargeException.class, unloadWithWrongTechId);
     }
 
     @Test
     void givenTransferWithTwoScooters_whenTryToUnloadThree_thenThrowsException() {
         int moreScootersThanTransferred = 3;
 
-        Executable unloadWithMoreScootersThanTransferred = () -> transfer.unload(TECHNICIAN_ID, moreScootersThanTransferred);
+        Executable unloadWithMoreScootersThanTransferred =
+                () -> transfer.unload(TECHNICIAN_ID, moreScootersThanTransferred);
 
         Assertions.assertThrows(InsufficientScootersInTransitException.class,
                 unloadWithMoreScootersThanTransferred);
@@ -52,7 +52,7 @@ class TransferTest {
     @Test
     void givenTransferWithScooters_whenUnload_thenReturnsUnloadedScooters() {
         List<ScooterId> unloadedScooters = transfer.unload(TECHNICIAN_ID, 2);
-        
+
         Assertions.assertEquals(2, unloadedScooters.size());
         Assertions.assertTrue(unloadedScooters.contains(scooterId1));
         Assertions.assertTrue(unloadedScooters.contains(scooterId2));
