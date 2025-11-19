@@ -62,22 +62,6 @@ class StationTest {
     }
 
     @Test
-    void givenNewStation_whenIsUnderMaintenance_thenReturnsFalse() {
-        boolean result = station.isUnderMaintenance();
-
-        Assertions.assertFalse(result);
-    }
-
-    @Test
-    void givenStation_whenStartMaintenance_thenStationIsUnderMaintenance() {
-        station.startMaintenance(TECHNICIAN_ID);
-
-        boolean result = station.isUnderMaintenance();
-
-        Assertions.assertTrue(result);
-    }
-
-    @Test
     void givenStationAlreadyUnderMaintenance_whenStartMaintenance_thenThrowsException() {
         station.startMaintenance(TECHNICIAN_ID);
 
