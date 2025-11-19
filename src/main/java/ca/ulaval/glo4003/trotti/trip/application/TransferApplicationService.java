@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
@@ -22,24 +23,22 @@ public class TransferApplicationService {
         this.stationRepository = stationRepository;
     }
 
-    public TransferId initiateTransfer(Location sourceStation, Idul technicianId,
-            List<SlotNumber> sourceSlots) {
-        Station station = stationRepository.findByLocation(sourceStation);
-        Transfer transfer = Transfer.start(technicianId, sourceStation,
-                station.retrieveScootersForTransfer(sourceSlots));
+    public TransferId initiateTransfer(InitiateTransferDto initiateTransferDto) {
+        Station station = stationRepository.findByLocation(initiateTransferDto.sourceStation());
+        Transfer transfer = Transfer.start(initiateTransferDto.technicianId(), initiateTransferDto.sourceStation(),
+                station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots()));
 
         transferRepository.save(transfer);
         return transfer.getTransferId();
     }
 
-    public void unloadScooters(TransferId transferId, Idul technicianId,
-            Location destinationStation, List<SlotNumber> destinationSlots) {
-        Transfer transfer = transferRepository.findById(transferId);
-        Station station = stationRepository.findByLocation(destinationStation);
+    public void unloadScooters(UnloadScootersDto unloadScootersDto) {
+        Transfer transfer = transferRepository.findById(unloadScootersDto.transferId());
+        Station station = stationRepository.findByLocation(unloadScootersDto.destinationStation());
 
-        List<ScooterId> unloadedScooters = transfer.unload(technicianId, destinationSlots.size());
+        List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(), unloadScootersDto.destinationSlots().size());
         for (int i = 0; i < unloadedScooters.size(); i++) {
-            station.returnScooter(destinationSlots.get(i), unloadedScooters.get(i));
+            station.returnScooter(unloadScootersDto.destinationSlots().get(i), unloadedScooters.get(i));
         }
         transferRepository.save(transfer);
         stationRepository.save(station);

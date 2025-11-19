@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
@@ -50,8 +52,8 @@ class TransferApplicationServiceTest {
         Mockito.when(stationRepository.findByLocation(SOURCE_LOCATION)).thenReturn(sourceStation);
         Mockito.when(sourceStation.retrieveScootersForTransfer(sourceSlots)).thenReturn(scooters);
 
-        TransferId transferId = transferApplicationService.initiateTransfer(SOURCE_LOCATION,
-                TECHNICIAN_ID, sourceSlots);
+        InitiateTransferDto dto = new InitiateTransferDto(SOURCE_LOCATION, TECHNICIAN_ID, sourceSlots);
+        TransferId transferId = transferApplicationService.initiateTransfer(dto);
 
         Mockito.verify(transferRepository).save(Mockito.any(Transfer.class));
         assertThat(transferId).isNotNull();
@@ -61,13 +63,13 @@ class TransferApplicationServiceTest {
     void givenValidParameters_whenUnloadScooters_thenTransferIsLoaded() {
         TransferId transferId = TransferId.randomId();
         List<SlotNumber> destinationSlots = List.of(new SlotNumber(1));
+        UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID, DESTINATION_LOCATION, destinationSlots);
         Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of());
 
-        transferApplicationService.unloadScooters(transferId, TECHNICIAN_ID, DESTINATION_LOCATION,
-                destinationSlots);
+        transferApplicationService.unloadScooters(dto);
 
         Mockito.verify(transferRepository).findById(transferId);
     }
@@ -76,14 +78,14 @@ class TransferApplicationServiceTest {
     void givenValidParameters_whenUnloadScooters_thenScootersAreReturnedToStation() {
         TransferId transferId = TransferId.randomId();
         List<SlotNumber> destinationSlots = List.of(new SlotNumber(1));
+        UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID, DESTINATION_LOCATION, destinationSlots);
         ScooterId scooterId = ScooterId.randomId();
         Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of(scooterId));
 
-        transferApplicationService.unloadScooters(transferId, TECHNICIAN_ID, DESTINATION_LOCATION,
-                destinationSlots);
+        transferApplicationService.unloadScooters(dto);
 
         Mockito.verify(destinationStation).returnScooter(new SlotNumber(1), scooterId);
     }
@@ -92,13 +94,13 @@ class TransferApplicationServiceTest {
     void givenValidParameters_whenUnloadScooters_thenTransferAndStationAreSaved() {
         TransferId transferId = TransferId.randomId();
         List<SlotNumber> destinationSlots = List.of(new SlotNumber(1));
+        UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID, DESTINATION_LOCATION, destinationSlots);
         Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of());
 
-        transferApplicationService.unloadScooters(transferId, TECHNICIAN_ID, DESTINATION_LOCATION,
-                destinationSlots);
+        transferApplicationService.unloadScooters(dto);
 
         Mockito.verify(transferRepository).save(transfer);
         Mockito.verify(stationRepository).save(destinationStation);
