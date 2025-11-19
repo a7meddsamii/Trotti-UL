@@ -76,4 +76,18 @@ public class ScooterTest {
 
         Assertions.assertThrows(InvalidBatteryValue.class, undock);
     }
+
+    @Test
+    void givenTime_whenPauseCharging_thenCallsBatteryPauseCharging() {
+        scooter.pauseCharging(CURRENT_TIME);
+
+        Mockito.verify(battery).pauseCharging(CURRENT_TIME);
+    }
+
+    @Test
+    void givenTime_whenResumeCharging_thenCallsBatteryResumeCharging() {
+        scooter.resumeCharging(FUTURE_TIME);
+
+        Mockito.verify(battery).resumeCharging(FUTURE_TIME);
+    }
 }
