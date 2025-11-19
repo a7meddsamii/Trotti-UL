@@ -3,10 +3,10 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.services;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.ExpiredTokenException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.MalformedTokenException;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.EmployeeRegistry;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,17 +22,17 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
     private final Duration expirationDuration;
     private final Clock clock;
     private final SecretKey secretKey;
-    private final EmployeeRegistry employeeRegistry;
+    private final EmployeeRegistryProvider employeeRegistryProvider;
 
     public JwtAuthenticationServiceAdapter(
             Duration expirationDuration,
             Clock clock,
             SecretKey secretKey,
-            EmployeeRegistry employeeRegistry) {
+            EmployeeRegistryProvider employeeRegistryProvider) {
         this.expirationDuration = expirationDuration;
         this.clock = clock;
         this.secretKey = secretKey;
-        this.employeeRegistry = employeeRegistry;
+        this.employeeRegistryProvider = employeeRegistryProvider;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class JwtAuthenticationServiceAdapter implements AuthenticationService {
 
     @Override
     public void confirmStudent(Idul idul) {
-        if (employeeRegistry.isEmployee(idul)) {
+        if (employeeRegistryProvider.exists(idul)) {
             throw new AuthenticationException(
                     "Employees are not allowed to complete this operation");
         }
