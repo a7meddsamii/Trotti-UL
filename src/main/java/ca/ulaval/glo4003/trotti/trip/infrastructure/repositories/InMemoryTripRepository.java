@@ -47,15 +47,14 @@ public class InMemoryTripRepository implements TripRepository {
     }
 
     @Override
-    public Trip findBy(Idul idul, TripStatus tripStatus) {
+    public List<Trip> findBy(Idul idul, TripStatus tripStatus) {
         if (tripTable.containsKey(idul)) {
             return tripTable.get(idul).stream()
                     .filter(tripRecord -> tripRecord.tripStatus().equals(tripStatus))
-                    .findFirst()
                     .map(mapper::toDomain)
-                    .orElse(null);
+                    .toList();
         }
 
-        return null;
+        return Collections.emptyList();
     }
 }

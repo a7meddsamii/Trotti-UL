@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 public record StartTripDto(
         Idul idul,
         RidePermitId ridePermitId,
-        UnlockCode unlockCode,
+        String unlockCode,
         Location location,
         SlotNumber slotNumber
 ) {}

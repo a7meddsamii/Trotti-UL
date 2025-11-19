@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.UnlockCodeException;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import java.util.Optional;
 
+@Deprecated
 public class UnlockCodeService {
 
     private final UnlockCodeStore unlockCodeStore;
@@ -15,25 +16,10 @@ public class UnlockCodeService {
     }
 
     public UnlockCode requestUnlockCode(Idul travelerId) {
-        Optional<UnlockCode> existingUnlockCode = unlockCodeStore.getByTravelerId(travelerId);
-        if (existingUnlockCode.isPresent()) {
-            return existingUnlockCode.get();
-        }
-
-        UnlockCode unlockCode = UnlockCode.generateFromTravelerId(travelerId);
-        unlockCodeStore.store(unlockCode);
-
-        return unlockCode;
+        return null;
     }
 
     public void revoke(UnlockCode unlockCode) {
-        Optional<UnlockCode> storedCode =
-                unlockCodeStore.getByTravelerId(unlockCode.getTravelerId());
-
-        if (storedCode.isEmpty() || !storedCode.get().equals(unlockCode)) {
-            throw new UnlockCodeException("Invalid or expired unlock code");
-        }
-
-        unlockCodeStore.revoke(unlockCode.getTravelerId());
+        return;
     }
 }

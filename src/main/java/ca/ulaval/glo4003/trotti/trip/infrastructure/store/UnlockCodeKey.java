@@ -1,6 +1,7 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.trip.infrastructure.store;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 
 import java.util.Objects;
 

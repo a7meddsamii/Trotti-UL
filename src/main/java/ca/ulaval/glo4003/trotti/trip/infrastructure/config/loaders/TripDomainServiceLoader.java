@@ -5,13 +5,13 @@ import ca.ulaval.glo4003.trotti.commons.domain.SessionEnum;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.gateway.RidePermitHistoryGatewayAdapter;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.gateway.RidePermitGatewayAdapter;
 
 public class TripDomainServiceLoader extends Bootstrapper {
     @Override
@@ -28,8 +28,8 @@ public class TripDomainServiceLoader extends Bootstrapper {
 
         this.resourceLocator.register(RidePermitNotificationService.class,
                 new RidePermitNotificationService(emailService));
-        this.resourceLocator.register(RidePermitHistoryGateway.class,
-                new RidePermitHistoryGatewayAdapter(passRepository));
+        this.resourceLocator.register(RidePermitGateway.class,
+                new RidePermitGatewayAdapter(passRepository));
         this.resourceLocator.register(EmployeeRidePermitService.class,
                 new EmployeeRidePermitService(employeeRegistry, sessionEnum));
     }

@@ -14,5 +14,5 @@ public interface TripRepository {
 
     List<Trip> findAllByIdul(Idul idul);
 
-    Trip findBy(Idul idul, TripStatus tripStatus);
+    List<Trip> findBy(Idul idul, TripStatus tripStatus);
 }

@@ -18,11 +18,10 @@ public class TripApiMapper {
             throw new InvalidParameterException("StartTripRequest cannot be null");
         }
         RidePermitId ridePermitId = RidePermitId.from(request.ridePermitId());
-        UnlockCode unlockCode = UnlockCode.of(idul, request.unlockCode());
         Location location = Location.of(request.location());
         SlotNumber slotNumber = parseSlotNumber(request.slotNumber());
 
-        return new StartTripDto(idul, ridePermitId, unlockCode, location, slotNumber);
+        return new StartTripDto(idul, ridePermitId, String.valueOf(request.unlockCode()), location, slotNumber);
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {

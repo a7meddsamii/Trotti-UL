@@ -77,12 +77,18 @@ public class Trip {
         if (endTime.isBefore(this.startTime))
             throw new TripException("Trip end time cannot be before start time.");
 
+        if (this.tripStatus == TripStatus.COMPLETED)
+            throw new TripException("Trip is already completed.");
+
         this.endLocation = endLocation;
         this.endTime = endTime;
         this.tripStatus = TripStatus.COMPLETED;
     }
 
     public Duration calculateDuration() {
+        if (tripStatus == TripStatus.ONGOING)
+            throw new TripException("Cannot calculate duration of an unfinished trip.");
+
         return Duration.between(startTime, endTime);
     }
 
