@@ -40,18 +40,19 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenAccountDto_whenCreateUserAccount_thenAccountFactoryIsCalled() {
+    void givenAccountDto_whenCreateAccount_thenAccountFactoryIsCalled() {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
         accountApplicationService.createUserAccount(accountDto);
 
-        Mockito.verify(accountFactory).createUser(accountDto.name(), accountDto.birthDate(),
-                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password());
+        Mockito.verify(accountFactory).create(accountDto.name(), accountDto.birthDate(),
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password(),
+                accountDto.role());
     }
 
     @Test
-    void givenValidAccountDto_whenCreateUserAccount_thenAccountIsSavedInRepository() {
+    void givenValidAccountDto_whenCreateAccount_thenAccountIsSavedInRepository() {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
@@ -61,7 +62,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenValidAccountDto_whenCreateUserAccount_thenReturnIdul() {
+    void givenValidAccountDto_whenCreateAccount_thenReturnIdul() {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
@@ -72,7 +73,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenExistingEmail_whenCreateUserAccount_thenThrowAlreadyExistsException() {
+    void givenExistingEmail_whenCreateAccount_thenThrowAlreadyExistsException() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
 
@@ -83,7 +84,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenExistingIdul_whenCreateUserAccount_thenThrowAlreadyExistsException() {
+    void givenExistingIdul_whenCreateAccount_thenThrowAlreadyExistsException() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.empty());
         Mockito.when(accountRepository.findByIdul(AccountFixture.AN_IDUL))
@@ -164,7 +165,7 @@ class AccountApplicationServiceTest {
     private AccountDto createValidAccountDto() {
         return new AccountDto(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
-                AccountFixture.A_PASSWORD);
+                AccountFixture.A_PASSWORD, AccountFixture.A_ROLE);
     }
 
     private void mockRepositoryToReturnNoExistingAccount() {
@@ -175,10 +176,11 @@ class AccountApplicationServiceTest {
     }
 
     private void mockFactoryToReturnValidAccount() {
-        Mockito.when(accountFactory.createUser(Mockito.eq(AccountFixture.A_NAME),
+        Mockito.when(accountFactory.create(Mockito.eq(AccountFixture.A_NAME),
                 Mockito.eq(AccountFixture.A_BIRTHDATE), Mockito.eq(AccountFixture.A_GENDER),
                 Mockito.eq(AccountFixture.AN_IDUL), Mockito.eq(AccountFixture.AN_EMAIL),
-                Mockito.any(Password.class))).thenReturn(mockAccount);
+                Mockito.any(Password.class), Mockito.eq(AccountFixture.A_ROLE)))
+                .thenReturn(mockAccount);
     }
 
     private void mockExistingAccountWithInvalidPassword() {

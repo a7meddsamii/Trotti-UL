@@ -71,10 +71,6 @@ public class Station {
         this.technicianId = null;
     }
 
-    public boolean isUnderMaintenance() {
-        return underMaintenance;
-    }
-
     public List<SlotNumber> getOccupiedSlots() {
         return dockingArea.findOccupiedSlots();
     }
