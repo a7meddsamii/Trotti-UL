@@ -15,23 +15,28 @@ public class TransferApplicationService {
     private final TransferRepository transferRepository;
     private final StationRepository stationRepository;
 
-    public TransferApplicationService(TransferRepository transferRepository, StationRepository stationRepository) {
+    public TransferApplicationService(
+            TransferRepository transferRepository,
+            StationRepository stationRepository) {
         this.transferRepository = transferRepository;
         this.stationRepository = stationRepository;
     }
 
-    public TransferId initiateTransfer(Location sourceStation, Idul technicianId, List<SlotNumber> sourceSlots) {
+    public TransferId initiateTransfer(Location sourceStation, Idul technicianId,
+            List<SlotNumber> sourceSlots) {
         Station station = stationRepository.findByLocation(sourceStation);
-        Transfer transfer = Transfer.start(technicianId, sourceStation, station.retrieveScootersForTransfer(sourceSlots));
-        
+        Transfer transfer = Transfer.start(technicianId, sourceStation,
+                station.retrieveScootersForTransfer(sourceSlots));
+
         transferRepository.save(transfer);
         return transfer.getTransferId();
     }
 
-    public void unloadScooters(TransferId transferId, Idul technicianId, Location destinationStation, List<SlotNumber> destinationSlots) {
+    public void unloadScooters(TransferId transferId, Idul technicianId,
+            Location destinationStation, List<SlotNumber> destinationSlots) {
         Transfer transfer = transferRepository.findById(transferId);
         Station station = stationRepository.findByLocation(destinationStation);
-        
+
         List<ScooterId> unloadedScooters = transfer.unload(technicianId, destinationSlots.size());
         for (int i = 0; i < unloadedScooters.size(); i++) {
             station.returnScooter(destinationSlots.get(i), unloadedScooters.get(i));
