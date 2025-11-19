@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import java.time.LocalDate;
 import java.util.List;
 
+@Deprecated
 public class RidePermitWallet {
 
     private List<RidePermit> activeRidePermits;
