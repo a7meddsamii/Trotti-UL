@@ -11,9 +11,9 @@ public class MaximumDailyTravelTime {
     private static final long MINUTES_IN_A_DAY = Duration.ofDays(1).toMinutes();
     private static final long BASE_DURATION_IN_MINUTES = Duration.ofMinutes(30).toMinutes();
     private static final long MINIMUM_TRAVEL_TIME_IN_MINUTES = Duration.ofMinutes(10).toMinutes();
-    private static final Money BASE_PRICE = Money.of(new BigDecimal(45), Currency.CAD);
+    private static final Money BASE_PRICE = Money.of(45, Currency.CAD);
     private static final Money PRICE_PER_ADDITIONAL_TEN_MINUTES =
-            Money.of(new BigDecimal(2), Currency.CAD);
+            Money.of(2, Currency.CAD);
 
     private final Duration duration;
 
