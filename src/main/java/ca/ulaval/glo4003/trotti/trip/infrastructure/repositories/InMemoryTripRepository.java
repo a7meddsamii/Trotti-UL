@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
 import java.util.ArrayList;
@@ -20,16 +21,38 @@ public class InMemoryTripRepository implements TripRepository {
     }
 
     @Override
-    public void save(Trip trip) {
-        TripRecord record = mapper.toRecord(trip);
-        tripTable.computeIfAbsent(record.travelerIdul(), travelerId -> new ArrayList<>())
-                .add(record);
+    public boolean exists(Idul idul, TripStatus status) {
+        if (tripTable.containsKey(idul)) {
+            return tripTable.get(idul).stream()
+                    .anyMatch(tripRecord -> tripRecord.tripStatus().equals(status));
+        }
+
+        return false;
     }
 
-    public List<Trip> getTravelerTrips(Idul travelerId) {
-        if (tripTable.containsKey(travelerId)) {
-            return tripTable.get(travelerId).stream().map(mapper::toDomain).toList();
+    @Override
+    public void save(Trip trip) {
+        TripRecord tripRecord = mapper.toRecord(trip);
+        tripTable.computeIfAbsent(tripRecord.idul(), idul -> new ArrayList<>()).add(tripRecord);
+    }
+
+    @Override
+    public List<Trip> findAllByIdul(Idul idul) {
+        if (tripTable.containsKey(idul)) {
+            return tripTable.get(idul).stream().map(mapper::toDomain).toList();
         }
+
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Trip> findBy(Idul idul, TripStatus tripStatus) {
+        if (tripTable.containsKey(idul)) {
+            return tripTable.get(idul).stream()
+                    .filter(tripRecord -> tripRecord.tripStatus().equals(tripStatus))
+                    .map(mapper::toDomain).toList();
+        }
+
         return Collections.emptyList();
     }
 }

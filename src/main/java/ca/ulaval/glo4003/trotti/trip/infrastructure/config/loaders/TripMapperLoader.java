@@ -15,9 +15,10 @@ public class TripMapperLoader extends Bootstrapper {
     }
 
     private void loadPersistenceMappers() {
+        TripPersistenceMapper tripPersistenceMapper = new TripPersistenceMapper();
+        this.resourceLocator.register(TripPersistenceMapper.class, tripPersistenceMapper);
         this.resourceLocator.register(TravelerPersistenceMapper.class,
-                new TravelerPersistenceMapper());
-        this.resourceLocator.register(TripPersistenceMapper.class, new TripPersistenceMapper());
+                new TravelerPersistenceMapper(tripPersistenceMapper));
         this.resourceLocator.register(ScooterPersistenceMapper.class,
                 new ScooterPersistenceMapper());
         this.resourceLocator.register(StationPersistenceMapper.class,
