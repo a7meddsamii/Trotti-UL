@@ -6,7 +6,10 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
+import ca.ulaval.glo4003.trotti.trip.domain.events.TripCompletedEvent;
+import ca.ulaval.glo4003.trotti.trip.domain.events.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
@@ -50,7 +53,7 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenOwnerOfRidePermit_whenGenerateUnlockCode_thenGeneratesAndPublishes() {
+    void givenOwnerOfRidePermit_whenGenerateUnlockCode_thenGeneratesAndPublishesAnEvent() {
         UnlockCode mockCode = Mockito.mock(UnlockCode.class);
         Mockito.when(ridePermitGateway.isOwnerOfRidePermit(IDUL, RIDE_PERMIT_ID)).thenReturn(true);
         Mockito.when(unlockCodeStore.generateOrGet(IDUL, RIDE_PERMIT_ID, clock))
@@ -62,7 +65,14 @@ class TripApplicationServiceTest {
         service.generateUnlockCode(IDUL, RIDE_PERMIT_ID);
 
         Mockito.verify(unlockCodeStore).generateOrGet(IDUL, RIDE_PERMIT_ID, clock);
-        Mockito.verify(eventBus).publish(Mockito.any());
+        Mockito.verify(eventBus).publish(Mockito.argThat(event ->
+                event instanceof UnlockCodeRequestedEvent e &&
+                        e.getIdul().equals(IDUL) &&
+                        e.getRidePermitId().equals(RIDE_PERMIT_ID.toString()) &&
+                        e.getUnlockCode().equals(UNLOCK_CODE) &&
+                        e.getExpirationTime().equals(expiresAt)
+
+        ));
     }
 
     @Test
@@ -127,4 +137,40 @@ class TripApplicationServiceTest {
 
         Assertions.assertThrows(TripException.class, serviceCall);
     }
+
+    @Test
+    void givenEndTripDto_whenEndTrip_thenPublishesEvent() {
+        EndTripDto endDto = Mockito.mock(EndTripDto.class);
+        Location endLocation = Mockito.mock(Location.class);
+        ScooterId scooterId = ScooterId.randomId();
+        LocalDateTime startTime = LocalDateTime.now(clock).minusMinutes(10);
+        LocalDateTime endTime = LocalDateTime.now(clock);
+        Trip trip = Mockito.mock(Trip.class);
+        Mockito.when(trip.getIdul()).thenReturn(IDUL);
+        Mockito.when(trip.getRidePermitId()).thenReturn(RIDE_PERMIT_ID);
+        Mockito.when(trip.getScooterId()).thenReturn(scooterId);
+        Mockito.when(trip.getStartTime()).thenReturn(startTime);
+        Mockito.when(trip.getEndTime()).thenReturn(endTime);
+        Mockito.when(trip.getStartLocation()).thenReturn(endLocation);
+        Mockito.when(trip.getEndLocation()).thenReturn(endLocation);
+        Mockito.when(endDto.idul()).thenReturn(IDUL);
+        Mockito.when(endDto.location()).thenReturn(endLocation);
+        Mockito.when(endDto.slotNumber()).thenReturn(SLOT_NUMBER);
+        Mockito.when(tripRepository.exists(IDUL, TripStatus.ONGOING)).thenReturn(true);
+        Mockito.when(tripRepository.findBy(IDUL, TripStatus.ONGOING))
+                .thenReturn(java.util.List.of(trip));
+
+        service.endTrip(endDto);
+
+        Mockito.verify(eventBus).publish(Mockito.argThat(event ->
+                event instanceof TripCompletedEvent e &&
+                        e.getIdul().equals(IDUL) &&
+                        e.getRidePermitId().equals(RIDE_PERMIT_ID.toString()) &&
+                        e.getStartTime().equals(startTime) &&
+                        e.getEndTime().equals(endTime) &&
+                        e.getStartLocation().equals(endLocation.toString()) &&
+                        e.getEndLocation().equals(endLocation.toString())
+        ));
+    }
+
 }
