@@ -65,14 +65,14 @@ class TripApplicationServiceTest {
         service.generateUnlockCode(IDUL, RIDE_PERMIT_ID);
 
         Mockito.verify(unlockCodeStore).generateOrGet(IDUL, RIDE_PERMIT_ID, clock);
-        Mockito.verify(eventBus).publish(Mockito.argThat(event ->
-                event instanceof UnlockCodeRequestedEvent e &&
-                        e.getIdul().equals(IDUL) &&
-                        e.getRidePermitId().equals(RIDE_PERMIT_ID.toString()) &&
-                        e.getUnlockCode().equals(UNLOCK_CODE) &&
-                        e.getExpirationTime().equals(expiresAt)
+        Mockito.verify(eventBus)
+                .publish(Mockito.argThat(event -> event instanceof UnlockCodeRequestedEvent e
+                        && e.getIdul().equals(IDUL)
+                        && e.getRidePermitId().equals(RIDE_PERMIT_ID.toString())
+                        && e.getUnlockCode().equals(UNLOCK_CODE)
+                        && e.getExpirationTime().equals(expiresAt)
 
-        ));
+                ));
     }
 
     @Test
@@ -162,15 +162,13 @@ class TripApplicationServiceTest {
 
         service.endTrip(endDto);
 
-        Mockito.verify(eventBus).publish(Mockito.argThat(event ->
-                event instanceof TripCompletedEvent e &&
-                        e.getIdul().equals(IDUL) &&
-                        e.getRidePermitId().equals(RIDE_PERMIT_ID.toString()) &&
-                        e.getStartTime().equals(startTime) &&
-                        e.getEndTime().equals(endTime) &&
-                        e.getStartLocation().equals(endLocation.toString()) &&
-                        e.getEndLocation().equals(endLocation.toString())
-        ));
+        Mockito.verify(eventBus)
+                .publish(Mockito.argThat(event -> event instanceof TripCompletedEvent e
+                        && e.getIdul().equals(IDUL)
+                        && e.getRidePermitId().equals(RIDE_PERMIT_ID.toString())
+                        && e.getStartTime().equals(startTime) && e.getEndTime().equals(endTime)
+                        && e.getStartLocation().equals(endLocation.toString())
+                        && e.getEndLocation().equals(endLocation.toString())));
     }
 
 }
