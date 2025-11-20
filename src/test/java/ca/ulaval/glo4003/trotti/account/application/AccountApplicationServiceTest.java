@@ -42,7 +42,7 @@ class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createAccount(accountDto);
+        accountApplicationService.createUserAccount(accountDto);
 
         Mockito.verify(accountFactory).create(accountDto.name(), accountDto.birthDate(),
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password(),
@@ -54,7 +54,7 @@ class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createAccount(accountDto);
+        accountApplicationService.createUserAccount(accountDto);
 
         Mockito.verify(accountRepository).save(mockAccount);
     }
@@ -65,7 +65,7 @@ class AccountApplicationServiceTest {
         mockFactoryToReturnValidAccount();
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
 
-        Idul idul = accountApplicationService.createAccount(accountDto);
+        Idul idul = accountApplicationService.createUserAccount(accountDto);
 
         Assertions.assertEquals(accountDto.idul(), idul);
     }
@@ -76,7 +76,7 @@ class AccountApplicationServiceTest {
                 .thenReturn(Optional.of(mockAccount));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createAccount(accountDto);
+                () -> accountApplicationService.createUserAccount(accountDto);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
@@ -89,7 +89,7 @@ class AccountApplicationServiceTest {
                 .thenReturn((Optional.of(mockAccount)));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createAccount(accountDto);
+                () -> accountApplicationService.createUserAccount(accountDto);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }

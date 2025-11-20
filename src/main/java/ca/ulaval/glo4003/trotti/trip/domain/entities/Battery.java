@@ -53,4 +53,16 @@ public class Battery {
     public LocalDateTime getLastBatteryUpdate() {
         return lastBatteryUpdate;
     }
+
+    public void pauseCharging(LocalDateTime pausedTime) {
+        if (currentBatteryState == BatteryState.CHARGING) {
+            changeBatteryState(BatteryState.IDLE, pausedTime);
+        }
+    }
+
+    public void resumeCharging(LocalDateTime resumedTime) {
+        if (currentBatteryState == BatteryState.IDLE) {
+            changeBatteryState(BatteryState.CHARGING, resumedTime);
+        }
+    }
 }

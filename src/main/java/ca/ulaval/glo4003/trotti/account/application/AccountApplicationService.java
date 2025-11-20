@@ -26,7 +26,7 @@ public class AccountApplicationService implements AccountService {
         this.sessionTokenProvider = sessionTokenProvider;
     }
 
-    public Idul createAccount(AccountDto registration) {
+    public Idul createUserAccount(AccountDto registration) {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),

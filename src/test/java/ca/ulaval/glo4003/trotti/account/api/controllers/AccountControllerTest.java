@@ -40,7 +40,7 @@ class AccountControllerTest {
 
         Response response = accountController.createAccount(request);
 
-        Mockito.verify(accountApplicationService).createAccount(mappedDto);
+        Mockito.verify(accountApplicationService).createUserAccount(mappedDto);
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
