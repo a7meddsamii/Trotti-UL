@@ -81,4 +81,40 @@ class BatteryTest {
 
         Assertions.assertFalse(battery.hasEnoughCharge());
     }
+
+    @Test
+    void givenChargingBattery_whenPauseCharging_thenChangesToIdleState() {
+        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
+
+        battery.pauseCharging(CURRENT_TIME);
+
+        Assertions.assertEquals(BatteryState.IDLE, battery.getCurrentBatteryState());
+    }
+
+    @Test
+    void givenNonChargingBattery_whenPauseCharging_thenStateUnchanged() {
+        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
+
+        battery.pauseCharging(CURRENT_TIME);
+
+        Assertions.assertEquals(BatteryState.DISCHARGING, battery.getCurrentBatteryState());
+    }
+
+    @Test
+    void givenIdleBattery_whenResumeCharging_thenChangesToChargingState() {
+        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.IDLE);
+
+        battery.resumeCharging(CURRENT_TIME);
+
+        Assertions.assertEquals(BatteryState.CHARGING, battery.getCurrentBatteryState());
+    }
+
+    @Test
+    void givenNonIdleBattery_whenResumeCharging_thenStateUnchanged() {
+        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
+
+        battery.resumeCharging(CURRENT_TIME);
+
+        Assertions.assertEquals(BatteryState.DISCHARGING, battery.getCurrentBatteryState());
+    }
 }

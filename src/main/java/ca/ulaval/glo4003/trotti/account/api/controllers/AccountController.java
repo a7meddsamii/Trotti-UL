@@ -25,7 +25,7 @@ public class AccountController implements AccountResource {
     public Response createAccount(CreateAccountRequest request) {
         AccountDto accountDto = accountApiMapper.toAccountDto(request);
 
-        accountApplicationService.createAccount(accountDto);
+        accountApplicationService.createUserAccount(accountDto);
 
         URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
         return Response.created(location).build();

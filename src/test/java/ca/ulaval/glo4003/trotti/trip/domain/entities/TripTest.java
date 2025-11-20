@@ -2,54 +2,88 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mockito;
 
 class TripTest {
-    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
-    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final Idul AN_IDUL = Idul.from("abcd123");
-    private static final LocalDateTime START_TIME = LocalDateTime.now();
-    private static final LocalDateTime END_TIME = START_TIME.plusMinutes(1);
+
+    private static final LocalDateTime START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
+    private static final long DURATION_MINUTES = 15L;
+    private static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
+    private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
+    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
+    private static final Location A_START_LOCATION = Mockito.mock(Location.class);
+    private static final LocalDateTime END_TIME = START_TIME.plusMinutes(DURATION_MINUTES);
+    private static final Location A_END_LOCATION = Mockito.mock(Location.class);
 
     private Trip trip;
 
     @BeforeEach
-    public void setup() {
-        trip = new Trip(START_TIME, RIDE_PERMIT_ID, AN_IDUL, SCOOTER_ID);
+    void setup() {
+        trip = Trip.start(A_RIDE_PERMIT_ID, A_TRAVELER_ID, A_SCOOTER_ID, START_TIME,
+                A_START_LOCATION);
     }
 
     @Test
-    void givenTripWithNoEndTime_whenEnd_thenReturnNewTripWithEndTime() {
-        Trip trip = new Trip(START_TIME, RIDE_PERMIT_ID, AN_IDUL, SCOOTER_ID);
+    void whenStart_thenTripIsOngoing() {
+        Trip trip = Trip.start(A_RIDE_PERMIT_ID, A_TRAVELER_ID, A_SCOOTER_ID, START_TIME,
+                A_START_LOCATION);
 
-        Trip result = trip.end(END_TIME);
-
-        Assertions.assertEquals(END_TIME, result.getEndTime());
-        Assertions.assertNull(trip.getEndTime());
+        Assertions.assertEquals(TripStatus.ONGOING, trip.getStatus());
     }
 
     @Test
-    void givenTripThatEnded_whenEnd_thenThrowsTripException() {
-        Trip endedTrip = trip.end(END_TIME);
+    void givenOngoingTrip_whenComplete_thenTripIsCompleted() {
+        trip.complete(A_END_LOCATION, END_TIME);
 
-        Executable endingTrip = () -> endedTrip.end(END_TIME);
-
-        Assertions.assertThrows(TripException.class, endingTrip);
+        Assertions.assertEquals(TripStatus.COMPLETED, trip.getStatus());
     }
 
     @Test
-    void givenEndTimeBeforeStartTime_whenEnd_thenThrowsTripException() {
-        LocalDateTime timeBeforeStart = START_TIME.minusMinutes(1);
+    void givenOngoingTrip_whenComplete_thenTripEndLocationAndEndTimeAreSet() {
+        trip.complete(A_END_LOCATION, END_TIME);
 
-        Executable endingTrip = () -> trip.end(timeBeforeStart);
-
-        Assertions.assertThrows(TripException.class, endingTrip);
+        Assertions.assertEquals(A_END_LOCATION, trip.getEndLocation());
+        Assertions.assertEquals(END_TIME, trip.getEndTime());
     }
 
+    @Test
+    void givenCompletedTrip_whenComplete_thenThrowTripException() {
+        trip.complete(A_END_LOCATION, END_TIME);
+
+        Executable executable = () -> trip.complete(A_END_LOCATION, END_TIME);
+
+        Assertions.assertThrows(TripException.class, executable);
+    }
+
+    @Test
+    void givenOngoingTrip_whenCalculateDuration_thenThrowTripException() {
+        Executable executable = () -> trip.calculateDuration();
+
+        Assertions.assertThrows(TripException.class, executable);
+    }
+
+    @Test
+    void givenCompletedTrip_whenCalculateDuration_thenReturnCorrectDuration() {
+        trip.complete(A_END_LOCATION, END_TIME);
+
+        Duration duration = trip.calculateDuration();
+
+        Assertions.assertEquals(Duration.between(START_TIME, END_TIME), duration);
+    }
+
+    @Test
+    void givenOnGoingTripAndInvalidEndTime_whenComplete_thenThrowTripException() {
+        LocalDateTime invalidEndTime = START_TIME.minusMinutes(5);
+
+        Executable executable = () -> trip.complete(A_END_LOCATION, invalidEndTime);
+
+        Assertions.assertThrows(TripException.class, executable);
+    }
 }

@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
@@ -25,7 +25,7 @@ class RidePermitActivationApplicationServiceTest {
     private static final int A_NUMBER_OF_TRAVELERS = 5;
 
     private TravelerRepository travelerRepository;
-    private RidePermitHistoryGateway ridePermitHistoryGateway;
+    private RidePermitGateway ridePermitGateway;
     private RidePermitActivationApplicationService ridePermitActivationApplicationService;
     private NotificationService<List<RidePermit>> ridePermitNotificationService;
     private List<Traveler> existingTravelers;
@@ -34,12 +34,12 @@ class RidePermitActivationApplicationServiceTest {
     @BeforeEach
     void setup() {
         travelerRepository = Mockito.mock(TravelerRepository.class);
-        ridePermitHistoryGateway = Mockito.mock(RidePermitHistoryGateway.class);
+        ridePermitGateway = Mockito.mock(RidePermitGateway.class);
         ridePermitNotificationService = Mockito.mock(RidePermitNotificationService.class);
         employeeRidePermitService = Mockito.mock(EmployeeRidePermitService.class);
-        ridePermitActivationApplicationService = new RidePermitActivationApplicationService(
-                travelerRepository, ridePermitHistoryGateway, ridePermitNotificationService,
-                employeeRidePermitService);
+        ridePermitActivationApplicationService =
+                new RidePermitActivationApplicationService(travelerRepository, ridePermitGateway,
+                        ridePermitNotificationService, employeeRidePermitService);
         existingTravelers = mockTravelers();
         Mockito.when(travelerRepository.findAll()).thenReturn(existingTravelers);
     }
@@ -48,8 +48,8 @@ class RidePermitActivationApplicationServiceTest {
     void givenTravelers_whenUpdateActivatedRidePermitsTravelersPermits_thenShouldFetchEach() {
         ridePermitActivationApplicationService.updateActivatedRidePermits();
 
-        Mockito.verify(ridePermitHistoryGateway, Mockito.times(existingTravelers.size()))
-                .getFullHistory(Mockito.any(Idul.class));
+        Mockito.verify(ridePermitGateway, Mockito.times(existingTravelers.size()))
+                .findAllByIdul(Mockito.any(Idul.class));
     }
 
     @Test
@@ -113,7 +113,7 @@ class RidePermitActivationApplicationServiceTest {
 
             Mockito.lenient().when(traveler.getIdul()).thenReturn(idul);
             Mockito.lenient().when(traveler.getEmail()).thenReturn(Mockito.mock(Email.class));
-            Mockito.lenient().when(ridePermitHistoryGateway.getFullHistory(idul))
+            Mockito.lenient().when(ridePermitGateway.findAllByIdul(idul))
                     .thenReturn(mockRidePermits(numberOfRidePermits));
             travelers.add(traveler);
         }
