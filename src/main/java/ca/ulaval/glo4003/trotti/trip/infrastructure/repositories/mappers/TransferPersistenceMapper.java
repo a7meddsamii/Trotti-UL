@@ -17,7 +17,7 @@ public class TransferPersistenceMapper {
     public Transfer toDomain(TransferRecord record) {
         return Transfer.rehydrate(
                 TransferId.from(record.transferId().toString()),
-                Location.of(record.location().toString()),
+                Location.of(record.location().getBuilding(), record.location().getSpotName()),
                 Idul.from(record.technicianId().toString()),
                 new HashMap<>(record.scootersMoved())
         );
