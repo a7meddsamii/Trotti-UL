@@ -42,7 +42,8 @@ public class TransferApplicationService {
         List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(),
                 unloadScootersDto.destinationSlots().size());
         for (int i = 0; i < unloadedScooters.size(); i++) {
-            station.returnScooter(unloadScootersDto.destinationSlots().get(i), unloadedScooters.get(i));
+            station.returnScooter(unloadScootersDto.destinationSlots().get(i),
+                    unloadedScooters.get(i));
         }
         transferRepository.save(transfer);
         stationRepository.save(station);
