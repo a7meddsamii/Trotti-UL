@@ -56,8 +56,7 @@ class TripApplicationServiceTest {
     void givenOwnerOfRidePermit_whenGenerateUnlockCode_thenGeneratesAndPublishesAnEvent() {
         UnlockCode mockCode = Mockito.mock(UnlockCode.class);
         Mockito.when(ridePermitGateway.isOwnerOfRidePermit(IDUL, RIDE_PERMIT_ID)).thenReturn(true);
-        Mockito.when(unlockCodeStore.get(IDUL, RIDE_PERMIT_ID, clock))
-                .thenReturn(mockCode);
+        Mockito.when(unlockCodeStore.get(IDUL, RIDE_PERMIT_ID, clock)).thenReturn(mockCode);
         Mockito.when(mockCode.toString()).thenReturn(UNLOCK_CODE);
         LocalDateTime expiresAt = LocalDateTime.now(clock).plusMinutes(5);
         Mockito.when(mockCode.getExpiresAt()).thenReturn(expiresAt);
