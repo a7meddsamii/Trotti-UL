@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermissions;
 import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
