@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
@@ -13,12 +11,10 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 class TripControllerTest {
 
-    private static final String AUTH_HEADER = "bdhhd22uemenehjebnee32j3un33kj3n3n3n";
     private static final String IDUL_VALUE = "Equipe10";
     private static final Idul TRAVELER_IDUL = Idul.from(IDUL_VALUE);
     private static final String UNLOCK_CODE = "23123";
@@ -27,7 +23,6 @@ class TripControllerTest {
     private static final String RIDE_PERMIT_ID = "rideId";
 
     private TripApplicationService tripApplicationService;
-    private AuthenticationService authenticationService;
     private TripApiMapper tripApiMapper;
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
@@ -37,16 +32,12 @@ class TripControllerTest {
     @BeforeEach
     void setUp() {
         tripApplicationService = Mockito.mock(TripApplicationService.class);
-        authenticationService = Mockito.mock(AuthenticationService.class);
         tripApiMapper = Mockito.mock(TripApiMapper.class);
         startTripDto = Mockito.mock(StartTripDto.class);
         endTripDto = Mockito.mock(EndTripDto.class);
 
-        resource = new TripController(tripApplicationService, authenticationService, tripApiMapper);
+        resource = new TripController(tripApplicationService, tripApiMapper);
 
-        Mockito.when(
-                authenticationService.authenticate(ArgumentMatchers.any(AuthenticationToken.class)))
-                .thenReturn(TRAVELER_IDUL);
         Mockito.when(tripApiMapper.toStartTripDto(TRAVELER_IDUL, startTripRequest()))
                 .thenReturn(startTripDto);
         Mockito.when(tripApiMapper.toEndTripDto(TRAVELER_IDUL, endTripRequest()))
@@ -54,50 +45,15 @@ class TripControllerTest {
     }
 
     @Test
-    void givenValidTokenAndStartTripRequest_whenStartTrip_thenReturnsOkResponse() {
-        Response response = resource.startTrip(AUTH_HEADER, startTripRequest());
+    void givenStartTripRequest_whenStartTrip_thenReturnsOkResponse() {
+        Response response = resource.startTrip(TRAVELER_IDUL, startTripRequest());
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    void givenValidTokenAndStartTripRequest_whenStartTrip_thenMapsRequestToDto() {
-        resource.startTrip(AUTH_HEADER, startTripRequest());
-
-        Mockito.verify(tripApiMapper).toStartTripDto(TRAVELER_IDUL, startTripRequest());
-    }
-
-    @Test
-    void givenValidTokenAndStartTripRequest_whenStartTrip_thenCallsApplicationService() {
-        resource.startTrip(AUTH_HEADER, startTripRequest());
-
-        Mockito.verify(tripApplicationService).startTrip(startTripDto);
-    }
-
-    @Test
-    void givenValidTokenAndStartTripRequest_whenStartTrip_thenAuthenticatesUser() {
-        resource.startTrip(AUTH_HEADER, startTripRequest());
-
-        Mockito.verify(authenticationService).authenticate(ArgumentMatchers.any());
-    }
-
-    @Test
-    void givenValidTokenAndEndTripTripRequest_whenEndTrip_thenAuthenticatesUser() {
-        resource.endTrip(AUTH_HEADER, endTripRequest());
-
-        Mockito.verify(authenticationService).authenticate(ArgumentMatchers.any());
-    }
-
-    @Test
-    void givenValidTokenAndEndTripRequest_whenEndTrip_thenMapsRequestToDto() {
-        resource.endTrip(AUTH_HEADER, endTripRequest());
-
-        Mockito.verify(tripApiMapper).toEndTripDto(TRAVELER_IDUL, endTripRequest());
-    }
-
-    @Test
-    void givenValidTokenAndEndTripRequest_whenEndTrip_thenReturnsOkResponse() {
-        Response response = resource.endTrip(AUTH_HEADER, endTripRequest());
+    void givenEndTripRequest_whenEndTrip_thenReturnsOkResponse() {
+        Response response = resource.endTrip(TRAVELER_IDUL, endTripRequest());
 
         Assertions.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }

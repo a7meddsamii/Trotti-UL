@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatController;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
@@ -25,12 +24,10 @@ public class TripResourceLoader extends Bootstrapper {
     }
 
     private void loadUnlockCodeResource() {
-        AuthenticationService authenticationService =
-                this.resourceLocator.resolve(AuthenticationService.class);
         UnlockCodeApplicationService unlockCodeApplicationService =
                 this.resourceLocator.resolve(UnlockCodeApplicationService.class);
         UnlockCodeResource unlockCodeController =
-                new UnlockCodeController(authenticationService, unlockCodeApplicationService);
+                new UnlockCodeController(unlockCodeApplicationService);
         this.resourceLocator.register(UnlockCodeResource.class, unlockCodeController);
     }
 
@@ -38,11 +35,8 @@ public class TripResourceLoader extends Bootstrapper {
         TripApiMapper tripApiMapper = resourceLocator.resolve(TripApiMapper.class);
         TripApplicationService tripApplicationService =
                 resourceLocator.resolve(TripApplicationService.class);
-        AuthenticationService authenticationService =
-                resourceLocator.resolve(AuthenticationService.class);
 
-        TripResource tripController =
-                new TripController(tripApplicationService, authenticationService, tripApiMapper);
+        TripResource tripController = new TripController(tripApplicationService, tripApiMapper);
         resourceLocator.register(TripResource.class, tripController);
     }
 }

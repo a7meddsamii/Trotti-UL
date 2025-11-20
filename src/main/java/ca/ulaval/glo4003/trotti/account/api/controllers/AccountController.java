@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.application.AccountService;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
@@ -11,11 +11,11 @@ public class AccountController implements AccountResource {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
 
-    private final AccountApplicationService accountApplicationService;
+    private final AccountService accountApplicationService;
     private final AccountApiMapper accountApiMapper;
 
     public AccountController(
-            AccountApplicationService accountApplicationService,
+            AccountService accountApplicationService,
             AccountApiMapper accountApiMapper) {
         this.accountApplicationService = accountApplicationService;
         this.accountApiMapper = accountApiMapper;
