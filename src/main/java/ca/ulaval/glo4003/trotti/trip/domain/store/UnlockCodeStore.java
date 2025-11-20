@@ -7,7 +7,7 @@ import java.time.Clock;
 
 public interface UnlockCodeStore {
 
-    UnlockCode generateOrGet(Idul idul, RidePermitId ridePermitId, Clock clock);
+    UnlockCode get(Idul idul, RidePermitId ridePermitId, Clock clock);
 
     void revoke(Idul idul, RidePermitId ridePermitId);
 

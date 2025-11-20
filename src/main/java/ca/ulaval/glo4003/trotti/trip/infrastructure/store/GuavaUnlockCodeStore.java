@@ -24,7 +24,7 @@ public class GuavaUnlockCodeStore implements UnlockCodeStore {
     }
 
     @Override
-    public UnlockCode generateOrGet(Idul idul, RidePermitId ridePermitId, Clock clock) {
+    public UnlockCode get(Idul idul, RidePermitId ridePermitId, Clock clock) {
         UnlockCode existingCode = codeCache.getIfPresent(UnlockCodeKey.from(idul, ridePermitId));
         if (existingCode != null) {
             return existingCode;

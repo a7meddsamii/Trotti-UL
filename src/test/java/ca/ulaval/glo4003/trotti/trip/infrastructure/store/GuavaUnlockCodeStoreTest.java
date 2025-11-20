@@ -27,26 +27,26 @@ class GuavaUnlockCodeStoreTest {
     }
 
     @Test
-    void givenNoExistingCode_whenGenerateOrGet_thenGenerates() {
-        UnlockCode generated = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+    void givenNoExistingCode_whenGet_thenGenerates() {
+        UnlockCode generated = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
         Assertions.assertNotNull(generated);
-        UnlockCode fetchedAgain = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+        UnlockCode fetchedAgain = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
         Assertions.assertEquals(generated, fetchedAgain);
     }
 
     @Test
-    void givenExistingCodeInCache_whenGenerateOrGet_thenReturnCurrentCode() {
-        UnlockCode generatedUnlockCode = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+    void givenExistingCodeInCache_whenGet_thenReturnCurrentCode() {
+        UnlockCode generatedUnlockCode = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        UnlockCode result = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+        UnlockCode result = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
         Assertions.assertEquals(generatedUnlockCode.getCode(), result.getCode());
     }
 
     @Test
     void givenMatchingStoredCode_whenValidate_thenNoExceptionThrown() {
-        UnlockCode unlockCode = store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+        UnlockCode unlockCode = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
         Executable validateAction = () -> store.validate(unlockCode.getTravelerId(),
                 unlockCode.getRidePermitId(), unlockCode.getCode());
@@ -63,7 +63,7 @@ class GuavaUnlockCodeStoreTest {
 
     @Test
     void givenNonMatchingStoredCode_whenValidate_thenThrowsNotFoundException() {
-        store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+        store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
         Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, "wrongCode");
 
@@ -72,7 +72,7 @@ class GuavaUnlockCodeStoreTest {
 
     @Test
     void givenExistingCode_whenRevoke_thenSubsequentValidateThrowsNotFoundException() {
-        store.generateOrGet(IDUL, RIDE_PERMIT_ID, fixedClock);
+        store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
         store.revoke(IDUL, RIDE_PERMIT_ID);
 
         Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);

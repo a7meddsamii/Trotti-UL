@@ -49,7 +49,7 @@ public class TripApplicationService {
             throw new NotFoundException("Ride permit not found for this traveler");
         }
 
-        UnlockCode unlockCode = unlockCodeStore.generateOrGet(idul, ridePermitId, clock);
+        UnlockCode unlockCode = unlockCodeStore.get(idul, ridePermitId, clock);
 
         eventBus.publish(new UnlockCodeRequestedEvent(idul, ridePermitId.toString(),
                 unlockCode.toString(), unlockCode.getExpiresAt()));
