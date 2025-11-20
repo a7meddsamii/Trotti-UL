@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.jwtsecuritycontext;
+package ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext;
 
 import jakarta.ws.rs.core.SecurityContext;
 

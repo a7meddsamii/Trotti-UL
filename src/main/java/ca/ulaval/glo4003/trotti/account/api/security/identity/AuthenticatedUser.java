@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.infrastructure.security.identity;
+package ca.ulaval.glo4003.trotti.account.api.security.identity;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.infrastructure.security.authorization;
+package ca.ulaval.glo4003.trotti.account.api.security.authorization;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

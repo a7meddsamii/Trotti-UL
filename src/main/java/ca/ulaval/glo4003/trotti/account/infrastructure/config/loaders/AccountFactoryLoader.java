@@ -8,8 +8,8 @@ import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCrea
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.EmployeeCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StandardAccountCreationNode;
 import ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreationChain.StudentCreationNode;
-import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.SecurityContextFactory;
-import ca.ulaval.glo4003.trotti.account.infrastructure.security.authentication.jwtsecuritycontext.JwtSecurityContextFactoryAdapter;
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.SecurityContextFactory;
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSecurityContextFactoryAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.time.Clock;
 
