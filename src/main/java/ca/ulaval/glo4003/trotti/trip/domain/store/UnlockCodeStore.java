@@ -2,14 +2,14 @@ package ca.ulaval.glo4003.trotti.trip.domain.store;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
-import java.util.Optional;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import java.time.Clock;
 
 public interface UnlockCodeStore {
 
-    void store(UnlockCode unlockCode);
+    UnlockCode get(Idul idul, RidePermitId ridePermitId, Clock clock);
 
-    void revoke(Idul travelerId);
+    void revoke(Idul idul, RidePermitId ridePermitId);
 
-    Optional<UnlockCode> getByTravelerId(Idul travelerId);
-
+    void validate(Idul idul, RidePermitId ridePermitId, String unlockCode);
 }

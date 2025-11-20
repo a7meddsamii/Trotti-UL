@@ -11,34 +11,34 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class RidePermitHistoryGatewayAdapterTest {
+class RidePermitGatewayAdapterTest {
     private static final Idul AN_IDUL = Idul.from("abcd");
     private PassRepository passRepository;
     private PassId passId;
     private Pass pass;
 
-    private RidePermitHistoryGatewayAdapter ridePermitHistoryGateway;
+    private RidePermitGatewayAdapter ridePermitHistoryGateway;
 
     @BeforeEach
     void setup() {
         passId = PassId.randomId();
         pass = Mockito.mock(Pass.class);
         passRepository = Mockito.mock(PassRepository.class);
-        ridePermitHistoryGateway = new RidePermitHistoryGatewayAdapter(passRepository);
+        ridePermitHistoryGateway = new RidePermitGatewayAdapter(passRepository);
         Mockito.when(pass.getId()).thenReturn(passId);
         Mockito.when(passRepository.findAllByIdul(AN_IDUL)).thenReturn(List.of(pass));
     }
 
     @Test
-    void givenIdul_whenGetFullHistory_thenFetchesPassesFromRepository() {
-        ridePermitHistoryGateway.getFullHistory(AN_IDUL);
+    void givenIdul_whenFindAllByIdul_thenFetchesPassesFromRepository() {
+        ridePermitHistoryGateway.findAllByIdul(AN_IDUL);
 
         Mockito.verify(passRepository).findAllByIdul(AN_IDUL);
     }
 
     @Test
-    void givenIdul_whenGetFullHistory_thenReturnsPassesAsRidePermits() {
-        List<RidePermit> answer = ridePermitHistoryGateway.getFullHistory(AN_IDUL);
+    void givenIdul_whenFindAllByIdul_thenReturnsPassesAsRidePermits() {
+        List<RidePermit> answer = ridePermitHistoryGateway.findAllByIdul(AN_IDUL);
 
         Assertions.assertEquals(List.of(pass).size(), answer.size());
     }

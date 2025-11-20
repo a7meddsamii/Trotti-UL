@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.application;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
-import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
+import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
 import java.util.List;
@@ -11,17 +11,17 @@ import java.util.List;
 public class RidePermitActivationApplicationService {
 
     private final TravelerRepository travelerRepository;
-    private final RidePermitHistoryGateway ridePermitHistoryGateway;
+    private final RidePermitGateway ridePermitGateway;
     private final NotificationService<List<RidePermit>> ridePermitNotificationService;
     private final EmployeeRidePermitService employeeRidePermitService;
 
     public RidePermitActivationApplicationService(
             TravelerRepository travelerRepository,
-            RidePermitHistoryGateway ridePermitHistoryGateway,
+            RidePermitGateway ridePermitGateway,
             NotificationService<List<RidePermit>> ridePermitNotificationService,
             EmployeeRidePermitService employeeRidePermitService) {
         this.travelerRepository = travelerRepository;
-        this.ridePermitHistoryGateway = ridePermitHistoryGateway;
+        this.ridePermitGateway = ridePermitGateway;
         this.ridePermitNotificationService = ridePermitNotificationService;
         this.employeeRidePermitService = employeeRidePermitService;
     }
@@ -33,7 +33,7 @@ public class RidePermitActivationApplicationService {
 
     private void processTraveler(Traveler traveler) {
         List<RidePermit> boughtRidePermitsHistory =
-                ridePermitHistoryGateway.getFullHistory(traveler.getIdul());
+                ridePermitGateway.findAllByIdul(traveler.getIdul());
         List<RidePermit> newlyActivatedRidePermits;
 
         if (employeeRidePermitService.isEmployee(traveler.getIdul())) {

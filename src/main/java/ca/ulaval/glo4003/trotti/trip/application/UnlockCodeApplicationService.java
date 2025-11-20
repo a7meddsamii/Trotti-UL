@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 
+@Deprecated
 public class UnlockCodeApplicationService {
 
     private final UnlockCodeService unlockCodeService;

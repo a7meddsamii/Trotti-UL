@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.Travele
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;
 import java.util.List;
 
+@Deprecated
 public class InMemoryTravelerRepository implements TravelerRepository {
     private final UserInMemoryDatabase databaseDriver;
     private final TravelerPersistenceMapper travelerMapper;
