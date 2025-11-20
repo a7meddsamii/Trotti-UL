@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
@@ -10,6 +12,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
@@ -25,6 +28,26 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         loadRidePermitActivationApplicationService();
         loadUnlockCodeApplicationService();
         loadTripApplicationService();
+        loadStationMaintenanceApplicationService();
+        loadTransferApplicationService();
+    }
+
+    private void loadTransferApplicationService() {
+        TransferRepository transferRepository = this.resourceLocator.resolve(TransferRepository.class);
+        StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+
+        TransferApplicationService transferApplicationService = new TransferApplicationService(transferRepository, stationRepository);
+        this.resourceLocator.register(TransferApplicationService.class, transferApplicationService);
+    }
+
+    private void loadStationMaintenanceApplicationService() {
+        StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+        ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
+        Clock clock = this.resourceLocator.resolve(Clock.class);
+
+        StationMaintenanceApplicationService stationMaintenanceApplicationService = new StationMaintenanceApplicationService(
+                stationRepository, scooterRepository, clock);
+        this.resourceLocator.register(StationMaintenanceApplicationService.class, stationMaintenanceApplicationService);
     }
 
     private void loadRidePermitActivationApplicationService() {
