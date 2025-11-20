@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
@@ -34,14 +35,14 @@ public class TransferApplicationService {
     }
 
     public void unloadScooters(UnloadScootersDto unloadScootersDto) {
-        Transfer transfer = transferRepository.findById(unloadScootersDto.transferId());
+        Transfer transfer = transferRepository.findById(unloadScootersDto.transferId())
+                .orElseThrow(() -> new NotFoundException("Transfer not found"));
         Station station = stationRepository.findByLocation(unloadScootersDto.destinationStation());
 
         List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(),
                 unloadScootersDto.destinationSlots().size());
         for (int i = 0; i < unloadedScooters.size(); i++) {
-            station.returnScooter(unloadScootersDto.destinationSlots().get(i),
-                    unloadedScooters.get(i));
+            station.returnScooter(unloadScootersDto.destinationSlots().get(i), unloadedScooters.get(i));
         }
         transferRepository.save(transfer);
         stationRepository.save(station);

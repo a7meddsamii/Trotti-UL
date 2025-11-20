@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TransferRecord;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,16 +36,17 @@ class InMemoryTransferRepositoryTest {
     void givenTransfer_whenSave_thenItIsStoredInRepository() {
         repository.save(transfer);
 
-        Transfer result = repository.findById(A_TRANSFER_ID);
+        Optional<Transfer> result = repository.findById(A_TRANSFER_ID);
 
         Mockito.verify(mapper).toRecord(transfer);
-        Assertions.assertEquals(transfer, result);
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals(transfer, result.get());
     }
 
     @Test
-    void givenNoTransferSaved_whenFindById_thenReturnNull() {
-        Transfer result = repository.findById(A_TRANSFER_ID);
+    void givenNoTransferSaved_whenFindById_thenReturnEmpty() {
+        Optional<Transfer> result = repository.findById(A_TRANSFER_ID);
 
-        Assertions.assertNull(result);
+        Assertions.assertTrue(result.isEmpty());
     }
 }

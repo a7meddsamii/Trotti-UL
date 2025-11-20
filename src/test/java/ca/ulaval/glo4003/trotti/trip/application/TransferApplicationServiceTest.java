@@ -14,6 +14,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,7 +67,7 @@ class TransferApplicationServiceTest {
         List<SlotNumber> destinationSlots = List.of(new SlotNumber(1));
         UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID,
                 DESTINATION_LOCATION, destinationSlots);
-        Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
+        Mockito.when(transferRepository.findById(transferId)).thenReturn(Optional.of(transfer));
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of());
@@ -83,7 +84,7 @@ class TransferApplicationServiceTest {
         UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID,
                 DESTINATION_LOCATION, destinationSlots);
         ScooterId scooterId = ScooterId.randomId();
-        Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
+        Mockito.when(transferRepository.findById(transferId)).thenReturn(Optional.of(transfer));
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of(scooterId));
@@ -99,7 +100,7 @@ class TransferApplicationServiceTest {
         List<SlotNumber> destinationSlots = List.of(new SlotNumber(1));
         UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID,
                 DESTINATION_LOCATION, destinationSlots);
-        Mockito.when(transferRepository.findById(transferId)).thenReturn(transfer);
+        Mockito.when(transferRepository.findById(transferId)).thenReturn(Optional.of(transfer));
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of());

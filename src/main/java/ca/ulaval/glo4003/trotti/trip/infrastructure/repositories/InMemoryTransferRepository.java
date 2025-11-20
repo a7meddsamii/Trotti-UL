@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.Transfe
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TransferRecord;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryTransferRepository implements TransferRepository {
 
@@ -24,8 +25,8 @@ public class InMemoryTransferRepository implements TransferRepository {
     }
 
     @Override
-    public Transfer findById(TransferId transferId) {
-        TransferRecord record = transfers.get(transferId);
-        return record == null ? null : mapper.toDomain(record);
+    public Optional<Transfer> findById(TransferId transferId) {
+        Optional<TransferRecord> record = Optional.ofNullable(transfers.get(transferId));
+        return record.map(mapper::toDomain);
     }
 }
