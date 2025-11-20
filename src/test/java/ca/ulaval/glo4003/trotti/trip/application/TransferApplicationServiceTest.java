@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
@@ -16,6 +14,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -58,7 +57,7 @@ class TransferApplicationServiceTest {
         TransferId transferId = transferApplicationService.initiateTransfer(dto);
 
         Mockito.verify(transferRepository).save(Mockito.any(Transfer.class));
-        assertThat(transferId).isNotNull();
+        Assertions.assertThat(transferId).isNotNull();
     }
 
     @Test
