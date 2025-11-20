@@ -25,6 +25,6 @@ public class CommonsConfiguration extends Configuration {
     protected void load() {
         new EventBusLoader().load();
         new DatabaseLoader().load();
-		new InitialAdminLoader().load();
-	}
+        new InitialAdminLoader().load();
+    }
 }

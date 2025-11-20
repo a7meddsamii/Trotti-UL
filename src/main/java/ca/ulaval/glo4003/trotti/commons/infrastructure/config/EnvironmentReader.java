@@ -50,6 +50,7 @@ public class EnvironmentReader {
             variables.put(key, value);
         }
     }
+
     public String get(String key) {
         String systemValue = System.getenv(key);
         if (systemValue != null) {
