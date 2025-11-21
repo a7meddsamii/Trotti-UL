@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderItem;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.util.ArrayList;

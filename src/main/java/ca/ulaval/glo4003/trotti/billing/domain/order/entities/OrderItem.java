@@ -1,7 +1,10 @@
-package ca.ulaval.glo4003.trotti.billing.domain.order.values;
+package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.BillingFrequency;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTime;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
-import java.util.Objects;
 
 public class OrderItem {
     private final ItemId itemId;
