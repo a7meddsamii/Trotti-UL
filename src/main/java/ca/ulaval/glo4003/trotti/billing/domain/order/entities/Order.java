@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
+import ca.ulaval.glo4003.trotti.billing.domain.order.exceptions.InvalidOrderException;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
@@ -10,20 +11,20 @@ import java.util.List;
 
 public class Order {
     private final OrderId orderId;
-	private final Idul idul;
-	private final List<OrderItem> items;
-	private final OrderStatus status;
+    private final Idul idul;
+    private final List<OrderItem> items;
+    private OrderStatus status;
 
-    public Order(Idul buyerId) {
-        this.orderId = OrderId.randomId();
-		this.idul = buyerId;
+    public Order(OrderId orderId, Idul buyerId) {
+        this.orderId = orderId;
+        this.idul = buyerId;
         this.items = new ArrayList<>();
         this.status = OrderStatus.PENDING;
     }
 
     public Order(OrderId orderId, Idul buyerId, List<OrderItem> items, OrderStatus status) {
         this.orderId = orderId;
-		this.idul = buyerId;
+        this.idul = buyerId;
         this.items = new ArrayList<>(items);
         this.status = status;
     }
@@ -47,6 +48,14 @@ public class Order {
 
         return this.items.add(item);
     }
+
+    public void confirm(boolean paid) {
+		if (this.items.isEmpty()) {
+			throw new InvalidOrderException("Cannot confirm an order with no items.");
+		}
+		
+		this.status = paid ? OrderStatus.COMPLETED : OrderStatus.FAILED;
+	}
 
     public boolean remove(ItemId itemid) {
         return items.removeIf(item -> item.getItemId().equals(itemid));

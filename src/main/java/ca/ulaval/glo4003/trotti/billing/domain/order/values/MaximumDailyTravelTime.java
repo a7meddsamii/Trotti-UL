@@ -37,6 +37,10 @@ public class MaximumDailyTravelTime {
         return BASE_PRICE.plus(PRICE_PER_ADDITIONAL_TEN_MINUTES.multiply(tenMinuteBlocks));
     }
 
+    public Duration getValue() {
+        return duration;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
