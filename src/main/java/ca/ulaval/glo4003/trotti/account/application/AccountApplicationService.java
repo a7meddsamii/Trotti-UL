@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 
-public class AccountApplicationService implements AccountService {
+public class AccountApplicationService {
 
     private final AccountRepository accountRepository;
     private final AccountFactory accountFactory;
@@ -26,11 +26,23 @@ public class AccountApplicationService implements AccountService {
         this.sessionTokenProvider = sessionTokenProvider;
     }
 
-    public Idul createUserAccount(AccountDto registration) {
+    public Idul createAccount(AccountDto registration) {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account account = accountFactory.create(registration.name(), registration.birthDate(),
                 registration.gender(), registration.idul(), registration.email(),
                 registration.password(), registration.role());
+        accountRepository.save(account);
+
+        return account.getIdul();
+    }
+
+    public Idul createAdminManagedAccount(AccountDto registration, Idul creatorIdul) {
+        validateAccountDoesNotExist(registration.email(), registration.idul());
+        Account creatorAccount = accountRepository.findByIdul(creatorIdul)
+                .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
+        Account account = accountFactory.create(registration.name(), registration.birthDate(),
+                registration.gender(), registration.idul(), registration.email(),
+                registration.password(), registration.role(), creatorAccount.getPermissions());
         accountRepository.save(account);
 
         return account.getIdul();

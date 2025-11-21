@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.account.application.AccountService;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
@@ -18,9 +17,9 @@ public class AccountApplicationLoader extends Bootstrapper {
         SessionTokenProvider sessionTokenProvider =
                 this.resourceLocator.resolve(SessionTokenProvider.class);
         AccountFactory accountFactory = this.resourceLocator.resolve(AccountFactory.class);
-        AccountService accountApplicationService = new AccountApplicationService(accountRepository,
-                accountFactory, sessionTokenProvider);
+        AccountApplicationService accountApplicationService = new AccountApplicationService(
+                accountRepository, accountFactory, sessionTokenProvider);
 
-        this.resourceLocator.register(AccountService.class, accountApplicationService);
+        this.resourceLocator.register(AccountApplicationService.class, accountApplicationService);
     }
 }
