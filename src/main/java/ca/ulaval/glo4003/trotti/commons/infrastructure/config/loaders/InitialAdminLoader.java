@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -38,7 +37,8 @@ public class InitialAdminLoader extends Bootstrapper {
             Gender gender = Gender.fromString(System.getenv(INITIAL_ADMIN_GENDER));
             Idul idul = Idul.from(System.getenv(INITIAL_ADMIN_IDUL));
             Email email = Email.from(System.getenv(INITIAL_ADMIN_EMAIL));
-            Password password = Password.fromPlain(System.getenv(INITIAL_ADMIN_PASSWORD), passwordHasher);
+            Password password =
+                    Password.fromPlain(System.getenv(INITIAL_ADMIN_PASSWORD), passwordHasher);
 
             Set<Permission> initialAdminPermissions = Set.of(Permission.CREATE_EMPLOYEE,
                     Permission.DELETE_EMPLOYEE, Permission.CREATE_ADMIN, Permission.DELETE_ADMIN);
