@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.account.application;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
@@ -24,7 +25,7 @@ class AccountApplicationServiceTest {
     private AccountDto accountDto;
     private Account mockAccount;
 
-    private AccountService accountApplicationService;
+    private AccountApplicationService accountApplicationService;
 
     @BeforeEach
     void setup() {
@@ -32,7 +33,6 @@ class AccountApplicationServiceTest {
         mockAccount = Mockito.mock(Account.class);
         accountRepository = Mockito.mock(AccountRepository.class);
         accountFactory = Mockito.mock(AccountFactory.class);
-        sessionTokenProvider = Mockito.mock(SessionTokenProvider.class);
         accountApplicationService = new AccountApplicationService(accountRepository, accountFactory,
                 sessionTokenProvider);
     }
@@ -42,7 +42,7 @@ class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createUserAccount(accountDto);
+        accountApplicationService.createAccount(accountDto);
 
         Mockito.verify(accountFactory).create(accountDto.name(), accountDto.birthDate(),
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.password(),
@@ -54,7 +54,7 @@ class AccountApplicationServiceTest {
         mockRepositoryToReturnNoExistingAccount();
         mockFactoryToReturnValidAccount();
 
-        accountApplicationService.createUserAccount(accountDto);
+        accountApplicationService.createAccount(accountDto);
 
         Mockito.verify(accountRepository).save(mockAccount);
     }
@@ -65,7 +65,7 @@ class AccountApplicationServiceTest {
         mockFactoryToReturnValidAccount();
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
 
-        Idul idul = accountApplicationService.createUserAccount(accountDto);
+        Idul idul = accountApplicationService.createAccount(accountDto);
 
         Assertions.assertEquals(accountDto.idul(), idul);
     }
@@ -76,7 +76,7 @@ class AccountApplicationServiceTest {
                 .thenReturn(Optional.of(mockAccount));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createUserAccount(accountDto);
+                () -> accountApplicationService.createAccount(accountDto);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
@@ -89,9 +89,43 @@ class AccountApplicationServiceTest {
                 .thenReturn((Optional.of(mockAccount)));
 
         Executable accountCreationAttempt =
-                () -> accountApplicationService.createUserAccount(accountDto);
+                () -> accountApplicationService.createAccount(accountDto);
 
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenNonExistentEmail_whenLogin_thenThrowAuthenticationException() {
+        Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
+                .thenReturn(Optional.empty());
+
+        Executable loginAttempt = () -> accountApplicationService.login(AccountFixture.AN_EMAIL,
+                AccountFixture.A_RAW_PASSWORD);
+
+        Assertions.assertThrows(AuthenticationException.class, loginAttempt);
+    }
+
+    @Test
+    void givenExistingEmail_whenCreateAdminManagedAccount_thenThrowAlreadyExistsException() {
+        Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
+                .thenReturn(Optional.of(mockAccount));
+
+        Executable accountCreationAttempt = () -> accountApplicationService
+                .createAdminManagedAccount(accountDto, AccountFixture.AN_IDUL);
+
+        Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
+    }
+
+    @Test
+    void givenNonExistentCreatorAccount_whenCreateAdminManagedAccount_thenThrowAuthenticationException() {
+        mockRepositoryToReturnNoExistingAccount();
+        Mockito.when(accountRepository.findByIdul(AccountFixture.AN_IDUL))
+                .thenReturn(Optional.empty());
+
+        Executable accountCreationAttempt = () -> accountApplicationService
+                .createAdminManagedAccount(accountDto, AccountFixture.AN_IDUL);
+
+        Assertions.assertThrows(AuthenticationException.class, accountCreationAttempt);
     }
 
     private AccountDto createValidAccountDto() {

@@ -2,16 +2,16 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.LoginRequest;
 import ca.ulaval.glo4003.trotti.account.api.dto.LoginResponse;
-import ca.ulaval.glo4003.trotti.account.application.AccountService;
+import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import jakarta.ws.rs.core.Response;
 
 public class AuthenticationController implements AuthenticationResource {
-    private final AccountService accountApplicationService;
+    private final AccountApplicationService accountApplicationService;
 
-    public AuthenticationController(AccountService accountApplicationService) {
+    public AuthenticationController(AccountApplicationService accountApplicationService) {
         this.accountApplicationService = accountApplicationService;
     }
 
