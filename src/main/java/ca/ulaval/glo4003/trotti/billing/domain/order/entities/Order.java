@@ -36,12 +36,12 @@ public class Order {
         return orderId;
     }
 
-    public boolean add(OrderItem... items) {
-        if (alreadyContains(items)) {
+    public boolean add(OrderItem item) {
+        if (alreadyContains(item)) {
             return false;
         }
 
-        return this.items.addAll(List.of(items));
+        return this.items.add(item);
     }
 
     public boolean remove(ItemId itemid) {
@@ -61,14 +61,7 @@ public class Order {
         return total;
     }
 
-    private boolean alreadyContains(OrderItem... item) {
-        for (OrderItem orderItem : item) {
-            if (items.stream()
-                    .anyMatch(existingItem -> existingItem.isItem(orderItem.getItemId()))) {
-                return true;
-            }
-        }
-
-        return false;
+    private boolean alreadyContains(OrderItem item) {
+        return items.stream().anyMatch(inCartItem -> inCartItem.isItem(item.getItemId()));
     }
 }

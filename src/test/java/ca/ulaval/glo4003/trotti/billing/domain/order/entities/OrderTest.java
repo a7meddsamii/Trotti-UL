@@ -20,6 +20,7 @@ class OrderTest {
     private OrderItem secondItem;
     private OrderItem duplicateOfFirst;
     private ItemId firstItemId;
+	private Order order;
 
     @BeforeEach
     void setUp() {
@@ -31,21 +32,19 @@ class OrderTest {
         duplicateOfFirst = new OrderItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
                 BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
+		order = new Order();
     }
 
     @Test
     void givenItemsNotAlreadyInOrder_whenAdding_thenItemsAreAddedAndTrueReturned() {
-        Order order = new Order();
-
-        boolean added = order.add(firstItem, secondItem);
+        boolean added = order.add(firstItem);
 
         assertTrue(added);
-        assertEquals(List.of(firstItem, secondItem), order.getItems());
+        assertEquals(List.of(firstItem), order.getItems());
     }
 
     @Test
     void givenItemAlreadyInOrder_whenAddingDuplicate_thenFalseReturnedAndNoDuplicateAdded() {
-        Order order = new Order();
         order.add(firstItem);
 
         boolean added = order.add(duplicateOfFirst);
@@ -56,16 +55,17 @@ class OrderTest {
 
     @Test
     void givenExistingItem_whenRemoving_thenItemRemovedAndTrueReturned() {
-        Order order = new Order();
-        order.add(firstItem, secondItem);
+        order.add(firstItem);
+		order.add(secondItem);
+		
         boolean removed = order.remove(firstItemId);
+		
         assertTrue(removed);
         assertEquals(List.of(secondItem), order.getItems());
     }
 
     @Test
     void givenNonExistingItemId_whenRemoving_thenFalseReturnedAndItemsUnchanged() {
-        Order order = new Order();
         order.add(firstItem);
         ItemId unknownId = ItemId.randomId();
 
@@ -77,8 +77,8 @@ class OrderTest {
 
     @Test
     void givenOrderWithItems_whenClearing_thenItemsEmptied() {
-        Order order = new Order();
-        order.add(firstItem, secondItem);
+		order.add(firstItem);
+		order.add(secondItem);
 
         order.clear();
 
@@ -87,8 +87,8 @@ class OrderTest {
 
     @Test
     void givenOrderWithItems_whenGettingTotalCost_thenReturnsSumOfItemCosts() {
-        Order order = new Order();
-        order.add(firstItem, secondItem);
+		order.add(firstItem);
+		order.add(secondItem);
         Money expected = firstItem.getCost().plus(secondItem.getCost());
 
         Money total = order.getTotalCost();
@@ -98,7 +98,6 @@ class OrderTest {
 
     @Test
     void givenEmptyOrder_whenGettingTotalCost_thenReturnsZeroMoney() {
-        Order order = new Order();
 
         Money total = order.getTotalCost();
 
