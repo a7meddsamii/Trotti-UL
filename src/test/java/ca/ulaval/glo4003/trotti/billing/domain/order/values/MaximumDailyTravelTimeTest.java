@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.order.domain.values;
+package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
@@ -85,19 +85,12 @@ class MaximumDailyTravelTimeTest {
     }
 
     @Test
-    void givenValidTime_whenToString_thenReturntringValue() {
-        MaximumDailyTravelTime time = MaximumDailyTravelTime.from(VALID_TIME);
-
-        Assertions.assertEquals(VALID_TIME.toMinutes() + " minutes", time.toString());
-    }
-
-    @Test
     void givenDurationEqualToMinimum_whenCalculateAmount_thenReturnBasePrice() {
         MaximumDailyTravelTime time = MaximumDailyTravelTime.from(Duration.ofMinutes(30));
 
         Money actual = time.calculateAmount();
 
-        Money expected = Money.of(new BigDecimal(45), Currency.CAD);
+        Money expected = Money.of(45, Currency.CAD);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -107,7 +100,7 @@ class MaximumDailyTravelTimeTest {
 
         Money actual = time.calculateAmount();
 
-        Money expected = Money.of(new BigDecimal(45), Currency.CAD);
+        Money expected = Money.of(45, Currency.CAD);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -117,7 +110,7 @@ class MaximumDailyTravelTimeTest {
 
         Money actual = time.calculateAmount();
 
-        Money expected = Money.of(new BigDecimal(47), Currency.CAD);
+        Money expected = Money.of(47, Currency.CAD);
         Assertions.assertEquals(expected, actual);
     }
 }

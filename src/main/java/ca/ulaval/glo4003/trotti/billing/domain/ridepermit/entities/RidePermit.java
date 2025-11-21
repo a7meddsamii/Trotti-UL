@@ -66,13 +66,6 @@ public class RidePermit {
 	}
 	
 	private DailyBillingUsage getDailyBillingUsage(LocalDate date) {
-		 return dailyBillingUsages.computeIfAbsent(date, this::startDailyBillingUsage);
-	}
-	
-	private DailyBillingUsage startDailyBillingUsage(LocalDate date) {
-		DailyBillingUsage newDailyUsage = new DailyBillingUsage(maximumTravelingTimePerDay, date, Duration.ZERO, Money.zeroCad(), false);
-		dailyBillingUsages.put(date, newDailyUsage);
-		
-		return newDailyUsage;
+		return dailyBillingUsages.computeIfAbsent(date, givenDate -> new DailyBillingUsage(maximumTravelingTimePerDay, givenDate, Duration.ZERO, Money.zeroCad(), false));
 	}
 }

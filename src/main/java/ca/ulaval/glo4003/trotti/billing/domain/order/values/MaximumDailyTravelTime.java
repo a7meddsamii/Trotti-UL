@@ -36,8 +36,7 @@ public class MaximumDailyTravelTime {
         long additionalMinutes = minutes - BASE_DURATION_IN_MINUTES;
         long tenMinuteBlocks = additionalMinutes / 10;
 
-        return BASE_PRICE.plus(
-                PRICE_PER_ADDITIONAL_TEN_MINUTES.multiply(BigDecimal.valueOf(tenMinuteBlocks)));
+        return BASE_PRICE.plus(PRICE_PER_ADDITIONAL_TEN_MINUTES.multiply(tenMinuteBlocks));
     }
 
     @Override

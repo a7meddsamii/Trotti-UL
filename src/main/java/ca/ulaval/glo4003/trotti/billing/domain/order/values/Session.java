@@ -1,16 +1,15 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 
-import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Session {
-    private final ca.ulaval.glo4003.trotti.order.domain.values.Semester semester;
+    private final Semester semester;
     private final LocalDate startDate;
     private final LocalDate endDate;
 
     public Session(
-            ca.ulaval.glo4003.trotti.order.domain.values.Semester semester,
+            Semester semester,
             LocalDate startDate,
             LocalDate endDate) {
         this.semester = semester;

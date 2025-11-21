@@ -1,22 +1,26 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private final List<OrderItem> items;
+	private final OrderId orderId;
+	private final List<OrderItem> items;
 	private final OrderStatus status;
 
     public Order() {
+		this.orderId = OrderId.randomId();
         this.items = new ArrayList<>();
 		this.status = OrderStatus.PENDING;
     }
 
-    public Order(List<OrderItem> items, OrderStatus status) {
-        this.items = new ArrayList<>(items);
+    public Order(OrderId orderId, List<OrderItem> items, OrderStatus status) {
+		this.orderId = orderId;
+		this.items = new ArrayList<>(items);
 		this.status = status;
     }
 
@@ -26,6 +30,10 @@ public class Order {
 	
 	public OrderStatus getStatus() {
 		return status;
+	}
+	
+	public OrderId getOrderId() {
+		return orderId;
 	}
 	
 	public boolean add(OrderItem... items) {
