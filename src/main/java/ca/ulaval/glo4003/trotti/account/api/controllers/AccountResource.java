@@ -1,7 +1,11 @@
 package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
+import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -12,6 +16,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -43,6 +48,8 @@ public interface AccountResource {
     @Path("/company")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("ADMIN")
+	@RequiresPermissions({Permission.CREATE_ADMIN, Permission.CREATE_EMPLOYEE})
     @Operation(summary = "Créer un compte administrateur ou technicien (géré par l'entreprise)",
             description = "Permet à un compte admin déjà authentifié de créer un compte ADMIN ou TECHNICIAN. "
                     + "Le rôle est déterminé par le champ 'role' du request body. "
@@ -65,7 +72,6 @@ public interface AccountResource {
                             description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")
             })
     Response createAdminManagedAccount(
-            @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
-            @HeaderParam("Authorization") String tokenHeader,
+			@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid CreateAccountRequest request);
 }

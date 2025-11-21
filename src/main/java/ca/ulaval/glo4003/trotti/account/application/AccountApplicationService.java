@@ -35,10 +35,8 @@ public class AccountApplicationService {
 
         return account.getIdul();
     }
-    public Idul createAdminManagedAccount(AccountDto registration,
-                                          AuthenticationToken creatorToken) {
+    public Idul createAdminManagedAccount(AccountDto registration, Idul creatorIdul) {
         validateAccountDoesNotExist(registration.email(), registration.idul());
-        Idul creatorIdul = authenticationService.authenticate(creatorToken);
         Account creatorAccount = accountRepository.findByIdul(creatorIdul)
                 .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
         Account account = accountFactory.create(registration.name(), registration.birthDate(),

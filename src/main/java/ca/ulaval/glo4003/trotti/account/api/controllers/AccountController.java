@@ -2,9 +2,10 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.account.application.AccountService;
+import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
+
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
@@ -12,11 +13,11 @@ public class AccountController implements AccountResource {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
 
-    private final AccountService accountApplicationService;
+    private final AccountApplicationService accountApplicationService;
     private final AccountApiMapper accountApiMapper;
 
     public AccountController(
-            AccountService accountApplicationService,
+			AccountApplicationService accountApplicationService,
             AccountApiMapper accountApiMapper) {
         this.accountApplicationService = accountApplicationService;
         this.accountApiMapper = accountApiMapper;
@@ -26,18 +27,17 @@ public class AccountController implements AccountResource {
     public Response createAccount(CreateAccountRequest request) {
         AccountDto accountDto = accountApiMapper.toAccountDto(request);
 
-        accountApplicationService.createUserAccount(accountDto);
+        accountApplicationService.createAccount(accountDto);
 
         URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
         return Response.created(location).build();
     }
     
     @Override
-    public Response createAdminManagedAccount(String tokenHeader, CreateAccountRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
+    public Response createAdminManagedAccount(Idul userId, CreateAccountRequest request) {
         AccountDto accountDto = accountApiMapper.toAccountDto(request);
         
-        accountApplicationService.createAdminManagedAccount(accountDto, token);
+        accountApplicationService.createAdminManagedAccount(accountDto, userId);
         
         URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
         return Response.created(location).build();
