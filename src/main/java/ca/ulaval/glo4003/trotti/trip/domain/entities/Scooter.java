@@ -52,4 +52,15 @@ public class Scooter {
     public Battery getBattery() {
         return battery;
     }
+
+    public void pauseCharging(LocalDateTime pausedTime) {
+
+        this.battery.pauseCharging(pausedTime);
+    }
+
+    public void resumeCharging(LocalDateTime resumedTime) {
+
+        this.battery.resumeCharging(resumedTime);
+    }
+
 }

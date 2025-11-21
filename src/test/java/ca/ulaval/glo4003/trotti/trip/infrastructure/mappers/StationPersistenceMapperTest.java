@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.trip.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.StationRecord;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,8 +52,9 @@ class StationPersistenceMapperTest {
 
     private static void asserAllScootersAreInTheCorrectSlotAsPersisted(Station station,
             Map<SlotNumber, ScooterId> slots) {
-        station.getDockingArea().getScooterSlots().forEach((slotNumber, slot) -> {
-            Assertions.assertEquals(slots.get(slotNumber), slot.getDockedScooter().orElse(null));
+        slots.forEach((slotNumber, scooterId) -> {
+            Assertions.assertEquals(Optional.ofNullable(scooterId),
+                    station.getDockingArea().getScooterSlots().get(slotNumber));
         });
     }
 }

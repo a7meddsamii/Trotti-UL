@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
-import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.application.AccountService;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import jakarta.ws.rs.core.Response;
@@ -16,7 +16,7 @@ class AccountControllerTest {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
 
-    private AccountApplicationService accountApplicationService;
+    private AccountService accountApplicationService;
     private AccountApiMapper accountApiMapper;
     private AccountDto mappedDto;
     private CreateAccountRequest request;
@@ -25,7 +25,7 @@ class AccountControllerTest {
 
     @BeforeEach
     void setUp() {
-        accountApplicationService = Mockito.mock(AccountApplicationService.class);
+        accountApplicationService = Mockito.mock(AccountService.class);
         accountApiMapper = Mockito.mock(AccountApiMapper.class);
         mappedDto = Mockito.mock(AccountDto.class);
         request = buildValidRequest();
@@ -40,7 +40,7 @@ class AccountControllerTest {
 
         Response response = accountController.createAccount(request);
 
-        Mockito.verify(accountApplicationService).createAccount(mappedDto);
+        Mockito.verify(accountApplicationService).createUserAccount(mappedDto);
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());

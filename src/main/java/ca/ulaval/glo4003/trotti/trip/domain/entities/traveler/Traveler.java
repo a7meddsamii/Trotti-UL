@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities.traveler;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 public class Traveler {
 
     private final Idul idul;
@@ -41,16 +42,15 @@ public class Traveler {
         if (!walletHasPermit(ridePermitId)) {
             throw new NotFoundException("Ride permit not found. ");
         }
-        ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
+        // ongoingTrip = new Trip(startTime, ridePermitId, idul, scooterId);
     }
 
     public Trip stopTraveling(LocalDateTime endDateTime) {
         if (Optional.ofNullable(ongoingTrip).isEmpty()) {
             throw new NotFoundException("Trip does not exist");
         }
-        Trip completedTrip = ongoingTrip.end(endDateTime);
-        ongoingTrip = null;
-        return completedTrip;
+        // Trip completedTrip = ongoingTrip.end(endDateTime);
+        return null;
     }
 
     public List<RidePermit> updateWallet(List<RidePermit> ridePermitsHistory) {

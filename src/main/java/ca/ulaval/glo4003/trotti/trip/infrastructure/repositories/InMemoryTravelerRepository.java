@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryDatabase;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.Travele
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;
 import java.util.List;
 
+@Deprecated
 public class InMemoryTravelerRepository implements TravelerRepository {
     private final UserInMemoryDatabase databaseDriver;
     private final TravelerPersistenceMapper travelerMapper;

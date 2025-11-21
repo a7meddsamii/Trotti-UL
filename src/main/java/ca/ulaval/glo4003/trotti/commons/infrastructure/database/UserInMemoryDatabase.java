@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.database;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TravelerRecord;
 import java.util.Collections;

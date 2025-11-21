@@ -3,17 +3,15 @@ package ca.ulaval.glo4003.trotti.account.application;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
-import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 
 import java.util.HashSet;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,8 +24,8 @@ import org.mockito.Mockito;
 class AccountApplicationServiceTest {
 
     private AccountRepository accountRepository;
-    private AuthenticationService authenticationService;
     private AccountFactory accountFactory;
+    private SessionTokenProvider sessionTokenProvider;
     private AccountDto accountDto;
     private Account mockAccount;
 
@@ -299,19 +297,5 @@ class AccountApplicationServiceTest {
                 Mockito.eq(AccountFixture.AN_IDUL), Mockito.eq(AccountFixture.AN_EMAIL),
                 Mockito.any(Password.class), Mockito.eq(AccountFixture.A_ROLE)))
                 .thenReturn(mockAccount);
-    }
-
-    private void mockExistingAccountWithInvalidPassword() {
-        Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
-                .thenReturn(Optional.of(mockAccount));
-        Mockito.doThrow(new AuthenticationException("Invalid email or password")).when(mockAccount)
-                .verifyPassword(AccountFixture.A_RAW_PASSWORD);
-    }
-
-    private void mockExistingAccountWithValidPassword() {
-        Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
-                .thenReturn(Optional.of(mockAccount));
-        Mockito.when(mockAccount.verifyPassword(AccountFixture.A_RAW_PASSWORD)).thenReturn(true);
-        Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
     }
 }
