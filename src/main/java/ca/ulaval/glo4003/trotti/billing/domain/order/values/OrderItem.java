@@ -20,23 +20,6 @@ public class OrderItem {
         this.billingFrequency = billingFrequency;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        OrderItem orderItem = (OrderItem) o;
-        return itemId.equals(orderItem.itemId)
-                && maximumTravelingTime.equals(orderItem.maximumTravelingTime)
-                && session.equals(orderItem.session)
-                && billingFrequency == orderItem.billingFrequency;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemId, maximumTravelingTime, session, billingFrequency);
-    }
-
     public ItemId getItemId() {
         return itemId;
     }
