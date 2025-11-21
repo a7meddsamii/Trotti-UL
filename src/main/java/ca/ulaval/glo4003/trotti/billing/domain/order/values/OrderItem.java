@@ -9,12 +9,7 @@ public class OrderItem {
     private final Session session;
     private final BillingFrequency billingFrequency;
 
-    public OrderItem of(ItemId itemId, MaximumDailyTravelTime maximumTravelingTime, Session session,
-            BillingFrequency billingFrequency) {
-        return new OrderItem(itemId, maximumTravelingTime, session, billingFrequency);
-    }
-
-    private OrderItem(
+    public OrderItem(
             ItemId itemId,
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
