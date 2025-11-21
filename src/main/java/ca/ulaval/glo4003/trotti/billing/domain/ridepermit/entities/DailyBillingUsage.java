@@ -11,14 +11,14 @@ public class DailyBillingUsage {
 	private final Duration maximumTravelingTimePerDay;
 	private final LocalDate date;
 	private Duration travelingTime;
-	private Money charges;
+	private Money balance;
 	private boolean maximumTravelingTimeExceeded;
 	
-	public DailyBillingUsage(Duration maximumTravelingTimePerDay, LocalDate date, Duration travelingTime, Money charges, boolean maximumTravelingTimeExceeded) {
+	public DailyBillingUsage(Duration maximumTravelingTimePerDay, LocalDate date, Duration travelingTime, Money balance, boolean maximumTravelingTimeExceeded) {
 		this.maximumTravelingTimePerDay = maximumTravelingTimePerDay;
 		this.date = date;
 		this.travelingTime = travelingTime;
-		this.charges = charges;
+		this.balance = balance;
 		this.maximumTravelingTimeExceeded = maximumTravelingTimeExceeded;
 	}
 	
@@ -26,13 +26,13 @@ public class DailyBillingUsage {
 		this.travelingTime = this.travelingTime.plus(travelingTime);
 		
 		if (!maximumTravelingTimeExceeded && this.travelingTime.compareTo(maximumTravelingTimePerDay) > 0) {
-			this.charges = this.charges.plus(DAILY_LIMIT_EXCEEDING_FEE);
+			this.balance = this.balance.plus(DAILY_LIMIT_EXCEEDING_FEE);
 			this.maximumTravelingTimeExceeded = true;
 		}
 	}
 	
 	public boolean isEmpty() {
-		return travelingTime.isZero() && charges.isZero();
+		return travelingTime.isZero() && balance.isZero();
 	}
 	
 	public Duration getMaximumTravelingTimePerDay() {
@@ -51,7 +51,7 @@ public class DailyBillingUsage {
 		return travelingTime;
 	}
 	
-	public Money getCharges() {
-		return charges;
+	public Money getBalance() {
+		return balance;
 	}
 }
