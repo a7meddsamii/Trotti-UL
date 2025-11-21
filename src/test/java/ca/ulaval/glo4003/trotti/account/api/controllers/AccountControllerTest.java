@@ -16,12 +16,13 @@ import org.mockito.Mockito;
 class AccountControllerTest {
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
+    private static final Idul CREATED_ACCOUNT_IDUL = Idul.from("created-account-idul");
+    private static final Idul ADMIN_MANAGED_ACCOUNT_IDUL = Idul.from("admin-managed-account-idul");
 
     private AccountApplicationService accountApplicationService;
     private AccountApiMapper accountApiMapper;
     private AccountDto mappedDto;
     private CreateAccountRequest request;
-    private Idul idul;
 
     private AccountResource accountController;
 
@@ -31,10 +32,13 @@ class AccountControllerTest {
         accountApiMapper = Mockito.mock(AccountApiMapper.class);
         mappedDto = Mockito.mock(AccountDto.class);
         request = buildValidRequest();
-        idul = Mockito.mock(Idul.class);
         Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(mappedDto);
 
         accountController = new AccountController(accountApplicationService, accountApiMapper);
+        Mockito.when(accountApplicationService.createAccount(mappedDto))
+                .thenReturn(CREATED_ACCOUNT_IDUL);
+        Mockito.when(accountApplicationService.createAdminManagedAccount(mappedDto,
+                ADMIN_MANAGED_ACCOUNT_IDUL)).thenReturn(CREATED_ACCOUNT_IDUL);
     }
 
     @Test
@@ -44,21 +48,20 @@ class AccountControllerTest {
         Response response = accountController.createAccount(request);
 
         Mockito.verify(accountApplicationService).createAccount(mappedDto);
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
+        Assertions.assertEquals(
+                URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-        idul = Mockito.mock(Idul.class);
     }
 
     @Test
     void givenValidCreateAdminManagedRequest_whenCreateAdminManagedAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
-        String tokenHeader = "a-valid-token";
-        Response response = accountController.createAdminManagedAccount(idul, request);
+        Response response =
+                accountController.createAdminManagedAccount(ADMIN_MANAGED_ACCOUNT_IDUL, request);
 
         Mockito.verify(accountApiMapper).toAccountDto(request);
-        Mockito.verify(accountApplicationService).createAdminManagedAccount(Mockito.eq(mappedDto),
-                Mockito.any());
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
+        Assertions.assertEquals(
+                URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
