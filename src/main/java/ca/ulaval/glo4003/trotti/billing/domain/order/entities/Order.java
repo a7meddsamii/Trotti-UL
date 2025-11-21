@@ -55,9 +55,9 @@ public class Order {
 
     private boolean alreadyContains(OrderItem... item) {
         for (OrderItem orderItem : item) {
-            if (items.contains(orderItem)) {
-                return true;
-            }
+            if (items.stream().anyMatch(existingItem -> existingItem.isItem(orderItem.getItemId()))) {
+				return true;
+			}
         }
 		
 		return false;
