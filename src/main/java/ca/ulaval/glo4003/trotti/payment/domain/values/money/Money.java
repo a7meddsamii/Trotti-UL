@@ -22,7 +22,7 @@ public class Money {
         return new Money(BigDecimal.ZERO, Currency.CAD);
     }
 
-	@Deprecated
+    @Deprecated
     public static Money of(BigDecimal amount, Currency currency) {
         if (currency == null || amount == null) {
             throw new InvalidParameterException("Amount or currency cannot be null");
@@ -30,11 +30,11 @@ public class Money {
 
         return new Money(amount, currency);
     }
-	
-	public static Money of(double amount, Currency currency) {
-		BigDecimal bigDecimalAmount = BigDecimal.valueOf(amount);
-		return new Money(bigDecimalAmount, currency);
-	}
+
+    public static Money of(double amount, Currency currency) {
+        BigDecimal bigDecimalAmount = BigDecimal.valueOf(amount);
+        return new Money(bigDecimalAmount, currency);
+    }
 
     public Money plus(Money that) {
         validateSameCurrency(that);
@@ -47,16 +47,16 @@ public class Money {
 
         return Money.of(amount.subtract(that.amount), currency);
     }
-	
-	@Deprecated
+
+    @Deprecated
     public Money multiply(BigDecimal multiplier) {
         return Money.of(amount.multiply(multiplier), currency);
     }
-	
-	public Money multiply(double multiplier) {
-		BigDecimal multiplierBigDecimal = BigDecimal.valueOf(multiplier);
-		return Money.of(amount.multiply(multiplierBigDecimal), currency);
-	}
+
+    public Money multiply(double multiplier) {
+        BigDecimal multiplierBigDecimal = BigDecimal.valueOf(multiplier);
+        return Money.of(amount.multiply(multiplierBigDecimal), currency);
+    }
 
     public boolean isMoreThanOrEqual(Money that) {
         validateSameCurrency(that);
@@ -69,10 +69,10 @@ public class Money {
 
         return this.amount.compareTo(that.amount) < 0;
     }
-	
-	public boolean isZero() {
-		return this.amount.compareTo(BigDecimal.ZERO) == 0;
-	}
+
+    public boolean isZero() {
+        return this.amount.compareTo(BigDecimal.ZERO) == 0;
+    }
 
     public boolean isPositiveOrZero() {
         return this.amount.compareTo(BigDecimal.ZERO) >= 0;

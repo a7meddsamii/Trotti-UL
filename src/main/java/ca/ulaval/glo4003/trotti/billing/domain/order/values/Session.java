@@ -8,10 +8,7 @@ public class Session {
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    public Session(
-            Semester semester,
-            LocalDate startDate,
-            LocalDate endDate) {
+    public Session(Semester semester, LocalDate startDate, LocalDate endDate) {
         this.semester = semester;
         this.startDate = startDate;
         this.endDate = endDate;

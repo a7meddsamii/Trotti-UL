@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
-import java.math.BigDecimal;
 import java.time.Duration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

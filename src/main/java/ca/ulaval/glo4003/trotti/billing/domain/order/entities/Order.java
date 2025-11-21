@@ -8,39 +8,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-	private final OrderId orderId;
-	private final List<OrderItem> items;
-	private final OrderStatus status;
+    private final OrderId orderId;
+    private final List<OrderItem> items;
+    private final OrderStatus status;
 
     public Order() {
-		this.orderId = OrderId.randomId();
+        this.orderId = OrderId.randomId();
         this.items = new ArrayList<>();
-		this.status = OrderStatus.PENDING;
+        this.status = OrderStatus.PENDING;
     }
 
     public Order(OrderId orderId, List<OrderItem> items, OrderStatus status) {
-		this.orderId = orderId;
-		this.items = new ArrayList<>(items);
-		this.status = status;
+        this.orderId = orderId;
+        this.items = new ArrayList<>(items);
+        this.status = status;
     }
 
     public List<OrderItem> getItems() {
         return List.copyOf(items);
     }
-	
-	public OrderStatus getStatus() {
-		return status;
-	}
-	
-	public OrderId getOrderId() {
-		return orderId;
-	}
-	
-	public boolean add(OrderItem... items) {
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public OrderId getOrderId() {
+        return orderId;
+    }
+
+    public boolean add(OrderItem... items) {
         if (alreadyContains(items)) {
             return false;
         }
-		
+
         return this.items.addAll(List.of(items));
     }
 
@@ -63,11 +63,12 @@ public class Order {
 
     private boolean alreadyContains(OrderItem... item) {
         for (OrderItem orderItem : item) {
-            if (items.stream().anyMatch(existingItem -> existingItem.isItem(orderItem.getItemId()))) {
-				return true;
-			}
+            if (items.stream()
+                    .anyMatch(existingItem -> existingItem.isItem(orderItem.getItemId()))) {
+                return true;
+            }
         }
-		
-		return false;
+
+        return false;
     }
 }

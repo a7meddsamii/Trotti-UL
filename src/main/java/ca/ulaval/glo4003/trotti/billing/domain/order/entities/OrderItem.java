@@ -22,10 +22,10 @@ public class OrderItem {
         this.session = session;
         this.billingFrequency = billingFrequency;
     }
-	
-	public boolean isItem(ItemId itemId) {
-		return this.itemId.equals(itemId);
-	}
+
+    public boolean isItem(ItemId itemId) {
+        return this.itemId.equals(itemId);
+    }
 
     public ItemId getItemId() {
         return itemId;

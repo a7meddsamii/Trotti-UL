@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -12,8 +11,7 @@ public class MaximumDailyTravelTime {
     private static final long BASE_DURATION_IN_MINUTES = Duration.ofMinutes(30).toMinutes();
     private static final long MINIMUM_TRAVEL_TIME_IN_MINUTES = Duration.ofMinutes(10).toMinutes();
     private static final Money BASE_PRICE = Money.of(45, Currency.CAD);
-    private static final Money PRICE_PER_ADDITIONAL_TEN_MINUTES =
-            Money.of(2, Currency.CAD);
+    private static final Money PRICE_PER_ADDITIONAL_TEN_MINUTES = Money.of(2, Currency.CAD);
 
     private final Duration duration;
 
