@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
@@ -17,7 +16,7 @@ public class AccountController implements AccountResource {
     private final AccountApiMapper accountApiMapper;
 
     public AccountController(
-			AccountApplicationService accountApplicationService,
+            AccountApplicationService accountApplicationService,
             AccountApiMapper accountApiMapper) {
         this.accountApplicationService = accountApplicationService;
         this.accountApiMapper = accountApiMapper;
@@ -27,19 +26,19 @@ public class AccountController implements AccountResource {
     public Response createAccount(CreateAccountRequest request) {
         AccountDto accountDto = accountApiMapper.toAccountDto(request);
 
-        accountApplicationService.createAccount(accountDto);
+        Idul idul = accountApplicationService.createAccount(accountDto);
 
-        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
+        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + idul);
         return Response.created(location).build();
     }
-    
+
     @Override
     public Response createAdminManagedAccount(Idul userId, CreateAccountRequest request) {
         AccountDto accountDto = accountApiMapper.toAccountDto(request);
-        
-        accountApplicationService.createAdminManagedAccount(accountDto, userId);
-        
-        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul());
+		
+		Idul idul = accountApplicationService.createAdminManagedAccount(accountDto, userId);
+
+        URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + idul);
         return Response.created(location).build();
     }
 }

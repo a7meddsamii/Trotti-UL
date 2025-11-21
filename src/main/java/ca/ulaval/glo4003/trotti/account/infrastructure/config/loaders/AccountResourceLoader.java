@@ -18,7 +18,7 @@ public class AccountResourceLoader extends Bootstrapper {
 
     private void loadAccountResource() {
         AccountApiMapper accountApiMapper = this.resourceLocator.resolve(AccountApiMapper.class);
-		AccountApplicationService accountApplicationService =
+        AccountApplicationService accountApplicationService =
                 this.resourceLocator.resolve(AccountApplicationService.class);
 
         this.resourceLocator.register(AccountResource.class,
@@ -26,7 +26,7 @@ public class AccountResourceLoader extends Bootstrapper {
     }
 
     private void loadAuthenticationResource() {
-		AccountApplicationService accountApplicationService =
+        AccountApplicationService accountApplicationService =
                 this.resourceLocator.resolve(AccountApplicationService.class);
         AuthenticationResource authenticationController =
                 new AuthenticationController(accountApplicationService);

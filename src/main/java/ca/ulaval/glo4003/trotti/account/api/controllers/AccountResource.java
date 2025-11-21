@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -43,13 +42,13 @@ public interface AccountResource {
                     @ApiResponse(responseCode = "409",
                             description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
     Response createAccount(@Valid CreateAccountRequest request);
-    
+
     @POST
     @Path("/company")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-	@RolesAllowed("ADMIN")
-	@RequiresPermissions({Permission.CREATE_ADMIN, Permission.CREATE_EMPLOYEE})
+    @RolesAllowed("ADMIN")
+    @RequiresPermissions({Permission.CREATE_ADMIN, Permission.CREATE_EMPLOYEE})
     @Operation(summary = "Créer un compte administrateur ou technicien (géré par l'entreprise)",
             description = "Permet à un compte admin déjà authentifié de créer un compte ADMIN ou TECHNICIAN. "
                     + "Le rôle est déterminé par le champ 'role' du request body. "
@@ -69,9 +68,7 @@ public interface AccountResource {
                             content = @Content(
                                     schema = @Schema(implementation = ApiErrorResponse.class))),
                     @ApiResponse(responseCode = "409",
-                            description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")
-            })
-    Response createAdminManagedAccount(
-			@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+                            description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
+    Response createAdminManagedAccount(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid CreateAccountRequest request);
 }

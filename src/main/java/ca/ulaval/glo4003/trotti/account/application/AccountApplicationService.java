@@ -35,6 +35,7 @@ public class AccountApplicationService {
 
         return account.getIdul();
     }
+
     public Idul createAdminManagedAccount(AccountDto registration, Idul creatorIdul) {
         validateAccountDoesNotExist(registration.email(), registration.idul());
         Account creatorAccount = accountRepository.findByIdul(creatorIdul)
@@ -43,10 +44,10 @@ public class AccountApplicationService {
                 registration.gender(), registration.idul(), registration.email(),
                 registration.password(), registration.role(), creatorAccount.getPermissions());
         accountRepository.save(account);
-        
+
         return account.getIdul();
     }
-	
+
     public SessionToken login(Email email, String rawPassword) {
         Account account = accountRepository.findByEmail(email)
                 .filter(found -> found.verifyPassword(rawPassword))

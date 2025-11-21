@@ -21,7 +21,7 @@ class AccountControllerTest {
     private AccountApiMapper accountApiMapper;
     private AccountDto mappedDto;
     private CreateAccountRequest request;
-	private Idul idul;
+    private Idul idul;
 
     private AccountResource accountController;
 
@@ -31,9 +31,8 @@ class AccountControllerTest {
         accountApiMapper = Mockito.mock(AccountApiMapper.class);
         mappedDto = Mockito.mock(AccountDto.class);
         request = buildValidRequest();
-		idul = Mockito.mock(Idul.class);
+        idul = Mockito.mock(Idul.class);
         Mockito.when(accountApiMapper.toAccountDto(request)).thenReturn(mappedDto);
-		
 
         accountController = new AccountController(accountApplicationService, accountApiMapper);
     }
@@ -48,20 +47,22 @@ class AccountControllerTest {
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-		idul = Mockito.mock(Idul.class);
+        idul = Mockito.mock(Idul.class);
     }
+
     @Test
     void givenValidCreateAdminManagedRequest_whenCreateAdminManagedAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
         String tokenHeader = "a-valid-token";
         Response response = accountController.createAdminManagedAccount(idul, request);
-        
+
         Mockito.verify(accountApiMapper).toAccountDto(request);
-        Mockito.verify(accountApplicationService).createAdminManagedAccount(Mockito.eq(mappedDto), Mockito.any());
+        Mockito.verify(accountApplicationService).createAdminManagedAccount(Mockito.eq(mappedDto),
+                Mockito.any());
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + request.idul()),
                 response.getLocation());
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
-    
+
     private CreateAccountRequest buildValidRequest() {
         return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
                 AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,

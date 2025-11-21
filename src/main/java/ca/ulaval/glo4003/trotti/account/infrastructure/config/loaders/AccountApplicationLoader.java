@@ -17,8 +17,8 @@ public class AccountApplicationLoader extends Bootstrapper {
         SessionTokenProvider sessionTokenProvider =
                 this.resourceLocator.resolve(SessionTokenProvider.class);
         AccountFactory accountFactory = this.resourceLocator.resolve(AccountFactory.class);
-		AccountApplicationService accountApplicationService = new AccountApplicationService(accountRepository,
-                accountFactory, sessionTokenProvider);
+        AccountApplicationService accountApplicationService = new AccountApplicationService(
+                accountRepository, accountFactory, sessionTokenProvider);
 
         this.resourceLocator.register(AccountApplicationService.class, accountApplicationService);
     }
