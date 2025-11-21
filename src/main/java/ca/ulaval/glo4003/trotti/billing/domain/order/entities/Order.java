@@ -3,23 +3,27 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
     private final OrderId orderId;
-    private final List<OrderItem> items;
-    private final OrderStatus status;
+	private final Idul idul;
+	private final List<OrderItem> items;
+	private final OrderStatus status;
 
-    public Order() {
+    public Order(Idul buyerId) {
         this.orderId = OrderId.randomId();
+		this.idul = buyerId;
         this.items = new ArrayList<>();
         this.status = OrderStatus.PENDING;
     }
 
-    public Order(OrderId orderId, List<OrderItem> items, OrderStatus status) {
+    public Order(OrderId orderId, Idul buyerId, List<OrderItem> items, OrderStatus status) {
         this.orderId = orderId;
+		this.idul = buyerId;
         this.items = new ArrayList<>(items);
         this.status = status;
     }

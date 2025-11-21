@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.*;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.time.Duration;
 import java.util.List;
@@ -16,6 +17,7 @@ class OrderTest {
             MaximumDailyTravelTime.from(Duration.ofHours(2));
     private static final MaximumDailyTravelTime SECOND_MAXIMUM_TRAVEL_TIME =
             MaximumDailyTravelTime.from(Duration.ofHours(5));
+	private static final Idul AN_IDUL = Idul.from("a1234567");
     private OrderItem firstItem;
     private OrderItem secondItem;
     private OrderItem duplicateOfFirst;
@@ -32,7 +34,7 @@ class OrderTest {
         duplicateOfFirst = new OrderItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
                 BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
-        order = new Order();
+        order = new Order(AN_IDUL);
     }
 
     @Test
