@@ -1,14 +1,11 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSessionTokenProviderAdapter;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
-import ca.ulaval.glo4003.trotti.account.infrastructure.provider.JsonEmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
-import ca.ulaval.glo4003.trotti.account.infrastructure.services.JwtAuthenticationServiceAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import io.jsonwebtoken.Jwts;
-import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
@@ -20,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class AccountForeignServiceLoader extends Bootstrapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountForeignServiceLoader.class);
+
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
@@ -28,13 +26,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
     private static final int HASHER_ITERATIONS = 3;
     private static final int HASHER_NUMBER_OF_THREADS = 1;
 
-    private static final Path EMPLOYEE_IDUL_CSV_PATH = Path.of("/app/data/Employe.e.s.csv");
-
     @Override
     public void load() {
         loadPasswordHasherService();
-        loadEmployeeRegistryProvider();
-        loadAuthenticationService();
+        this.loadSessionTokenProvider();
     }
 
     private void loadPasswordHasherService() {
@@ -43,27 +38,16 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         this.resourceLocator.register(PasswordHasher.class, hasher);
     }
 
-    private void loadEmployeeRegistryProvider() {
-        EmployeeRegistryProvider employeeRegistryProvider =
-                new JsonEmployeeRegistryProvider(EMPLOYEE_IDUL_CSV_PATH);
-
-        this.resourceLocator.register(EmployeeRegistryProvider.class, employeeRegistryProvider);
-    }
-
-    private void loadAuthenticationService() {
+    private void loadSessionTokenProvider() {
         try {
-            EmployeeRegistryProvider employeeRegistryProvider =
-                    this.resourceLocator.resolve(EmployeeRegistryProvider.class);
-
             String durationValue = StringUtils.defaultIfBlank(System.getenv(EXPIRATION_DURATION),
                     DEFAULT_TOKEN_EXPIRATION.toString());
-
             Duration expirationDuration = Duration.parse(durationValue);
-            Clock authenticatorClock = this.resourceLocator.resolve(Clock.class);
-            AuthenticationService authenticationService = new JwtAuthenticationServiceAdapter(
-                    expirationDuration, authenticatorClock, SECRET_KEY, employeeRegistryProvider);
+            Clock clock = this.resourceLocator.resolve(Clock.class);
+            SessionTokenProvider sessionTokenProvider =
+                    new JwtSessionTokenProviderAdapter(expirationDuration, clock, SECRET_KEY);
 
-            this.resourceLocator.register(AuthenticationService.class, authenticationService);
+            this.resourceLocator.register(SessionTokenProvider.class, sessionTokenProvider);
             LOGGER.info("Token expiration duration set to {}", DurationFormatUtils
                     .formatDuration(expirationDuration.toMillis(), "H'h' m'm' s's'"));
         } catch (DateTimeParseException | NullPointerException exception) {

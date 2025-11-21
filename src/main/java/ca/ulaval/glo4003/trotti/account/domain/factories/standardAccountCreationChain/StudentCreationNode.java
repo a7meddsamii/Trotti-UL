@@ -2,15 +2,15 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreatio
 
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.*;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.Set;
 
 public class StudentCreationNode extends StandardAccountCreationNode {
 
-    private final Set<Permission> permissions =
-            Set.of(CartPermissions.CART_MODIFICATION, OrderPermissions.ORDER_CONFIRM,
-                    TripPermissions.MAKE_TRIP, MaintenancePermissions.REQUEST_MAINTENANCE);
+    private final Set<Permission> permissions = Set.of(Permission.CART_MODIFICATION,
+            Permission.ORDER_CONFIRM, Permission.MAKE_TRIP, Permission.REQUEST_MAINTENANCE);
 
     @Override
     protected Role responsibilityRole() {
@@ -22,5 +22,4 @@ public class StudentCreationNode extends StandardAccountCreationNode {
             Email email, Password password, Role role) {
         return new Account(name, birthDate, gender, idul, email, password, role, permissions);
     }
-
 }

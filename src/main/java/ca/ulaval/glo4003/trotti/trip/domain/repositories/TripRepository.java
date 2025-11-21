@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.repositories;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import java.util.List;
