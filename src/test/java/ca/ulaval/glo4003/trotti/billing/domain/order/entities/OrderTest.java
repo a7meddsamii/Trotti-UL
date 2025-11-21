@@ -20,7 +20,7 @@ class OrderTest {
     private OrderItem secondItem;
     private OrderItem duplicateOfFirst;
     private ItemId firstItemId;
-	private Order order;
+    private Order order;
 
     @BeforeEach
     void setUp() {
@@ -32,7 +32,7 @@ class OrderTest {
         duplicateOfFirst = new OrderItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
                 BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
-		order = new Order();
+        order = new Order();
     }
 
     @Test
@@ -56,10 +56,10 @@ class OrderTest {
     @Test
     void givenExistingItem_whenRemoving_thenItemRemovedAndTrueReturned() {
         order.add(firstItem);
-		order.add(secondItem);
-		
+        order.add(secondItem);
+
         boolean removed = order.remove(firstItemId);
-		
+
         assertTrue(removed);
         assertEquals(List.of(secondItem), order.getItems());
     }
@@ -77,8 +77,8 @@ class OrderTest {
 
     @Test
     void givenOrderWithItems_whenClearing_thenItemsEmptied() {
-		order.add(firstItem);
-		order.add(secondItem);
+        order.add(firstItem);
+        order.add(secondItem);
 
         order.clear();
 
@@ -87,8 +87,8 @@ class OrderTest {
 
     @Test
     void givenOrderWithItems_whenGettingTotalCost_thenReturnsSumOfItemCosts() {
-		order.add(firstItem);
-		order.add(secondItem);
+        order.add(firstItem);
+        order.add(secondItem);
         Money expected = firstItem.getCost().plus(secondItem.getCost());
 
         Money total = order.getTotalCost();
