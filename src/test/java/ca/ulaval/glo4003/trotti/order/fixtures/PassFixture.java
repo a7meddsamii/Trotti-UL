@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.order.fixtures;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.values.*;
+import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
+import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;

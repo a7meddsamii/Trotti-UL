@@ -6,6 +6,10 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.RegexValidator;
 
+/**
+ * @deprecated the validation and the hashing will be moved away from here and handled by the
+ *             authentication provider instead.
+ */
 public class Password {
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{10,}$";
     private static final RegexValidator REGEX_VALIDATOR = new RegexValidator(PASSWORD_PATTERN);

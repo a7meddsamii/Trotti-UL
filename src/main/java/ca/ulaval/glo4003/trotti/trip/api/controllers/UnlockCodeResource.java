@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,11 +13,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/unlock-code")
+@RolesAllowed({"STUDENT", "EMPLOYEE", "TECHNICIAN"})
+@RequiresPermissions({Permission.MAKE_TRIP})
 @Tag(name = "Unlock Code",
         description = "Endpoint de demande d'un code pour déverrouiller une trottinette")
 public interface UnlockCodeResource {
@@ -40,8 +47,6 @@ public interface UnlockCodeResource {
                             description = "Ride permit non trouvé/non active pour cette session",
                             content = @Content(
                                     schema = @Schema(implementation = UnlockCodeResponse.class)))})
-    Response requestUnlockCode(
-            @Parameter(in = ParameterIn.HEADER, description = "Authorization token - JWT")
-            @HeaderParam("Authorization") String tokenRequest,
+    Response requestUnlockCode(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @PathParam("ridePermitId") String ridePermitId);
 }
