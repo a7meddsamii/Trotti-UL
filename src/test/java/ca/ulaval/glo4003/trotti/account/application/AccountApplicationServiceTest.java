@@ -39,12 +39,8 @@ class AccountApplicationServiceTest {
         authenticationProvider = Mockito.mock(PasswordAuthenticationProvider.class);
         sessionTokenProvider = Mockito.mock(SessionTokenProvider.class);
 
-        accountApplicationService = new AccountApplicationService(
-            accountRepository,
-            accountFactory,
-            sessionTokenProvider,
-            authenticationProvider
-        );
+        accountApplicationService = new AccountApplicationService(accountRepository, accountFactory,
+                sessionTokenProvider, authenticationProvider);
     }
 
     @Test
@@ -143,12 +139,11 @@ class AccountApplicationServiceTest {
     @Test
     void givenInvalidPassword_whenLogin_thenThrowAuthenticationException() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
-            .thenReturn(Optional.of(mockAccount));
-        Mockito.when(authenticationProvider.verify(Mockito.any()))
-            .thenReturn(false);
+                .thenReturn(Optional.of(mockAccount));
+        Mockito.when(authenticationProvider.verify(Mockito.any())).thenReturn(false);
 
-        Executable loginAttempt =
-            () -> accountApplicationService.login(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
+        Executable loginAttempt = () -> accountApplicationService.login(AccountFixture.AN_EMAIL,
+                AccountFixture.A_RAW_PASSWORD);
 
         Assertions.assertThrows(AuthenticationException.class, loginAttempt);
     }
@@ -156,9 +151,8 @@ class AccountApplicationServiceTest {
     @Test
     void givenValidCredentials_whenLogin_thenGenerateTokenIsCalled() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
-            .thenReturn(Optional.of(mockAccount));
-        Mockito.when(authenticationProvider.verify(Mockito.any()))
-            .thenReturn(true);
+                .thenReturn(Optional.of(mockAccount));
+        Mockito.when(authenticationProvider.verify(Mockito.any())).thenReturn(true);
 
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
         Mockito.when(mockAccount.getRole()).thenReturn(AccountFixture.A_ROLE);
@@ -166,8 +160,8 @@ class AccountApplicationServiceTest {
 
         accountApplicationService.login(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
 
-        Mockito.verify(sessionTokenProvider)
-            .generateToken(AccountFixture.AN_IDUL, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
+        Mockito.verify(sessionTokenProvider).generateToken(AccountFixture.AN_IDUL,
+                AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
     }
 
     private RegistrationDto createValidPasswordRegistrationDto() {
@@ -184,31 +178,19 @@ class AccountApplicationServiceTest {
     }
 
     private void mockFactoryToReturnValidAccount(AccountDto dto) {
-        Mockito.when(accountFactory.create(
-            Mockito.eq(dto.name()),
-            Mockito.eq(dto.birthDate()),
-            Mockito.eq(dto.gender()),
-            Mockito.eq(dto.idul()),
-            Mockito.eq(dto.email()),
-            Mockito.eq(dto.role())
-        )).thenReturn(mockAccount);
+        Mockito.when(accountFactory.create(Mockito.eq(dto.name()), Mockito.eq(dto.birthDate()),
+                Mockito.eq(dto.gender()), Mockito.eq(dto.idul()), Mockito.eq(dto.email()),
+                Mockito.eq(dto.role()))).thenReturn(mockAccount);
     }
 
     private void mockAuthenticationProviderToReturnAccountDto() {
-        AccountDto dto = new AccountDto(
-            AccountFixture.A_NAME,
-            AccountFixture.A_BIRTHDATE,
-            AccountFixture.A_GENDER,
-            AccountFixture.AN_IDUL,
-            AccountFixture.AN_EMAIL,
-            AccountFixture.A_ROLE
-        );
+        AccountDto dto = new AccountDto(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+                AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
+                AccountFixture.A_ROLE);
 
-        Mockito.when(authenticationProvider.register(registrationDto))
-            .thenReturn(dto);
+        Mockito.when(authenticationProvider.register(registrationDto)).thenReturn(dto);
 
         mockFactoryToReturnValidAccount(dto);
     }
-
 
 }

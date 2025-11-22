@@ -49,7 +49,8 @@ class StudentCreationNodeTest {
     void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role);
+        studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                role);
 
         Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role);
