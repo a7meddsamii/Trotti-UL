@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.DatabaseLoader;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.EventBusLoader;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.InitialAdminLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class CommonsConfiguration extends Configuration {
@@ -21,6 +23,8 @@ public class CommonsConfiguration extends Configuration {
 
     @Override
     protected void load() {
+        new EventBusLoader().load();
         new DatabaseLoader().load();
+        new InitialAdminLoader().load();
     }
 }

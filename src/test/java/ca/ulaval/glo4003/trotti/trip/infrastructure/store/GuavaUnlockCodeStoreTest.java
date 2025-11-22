@@ -1,56 +1,82 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.store;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-import java.util.Optional;
+import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import java.time.Clock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.function.Executable;
 
 class GuavaUnlockCodeStoreTest {
 
-    private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static final String CODE = "1234";
-
-    private UnlockCode unlockCode;
+    private static final Idul IDUL = Idul.from("ABCD");
+    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
+    private static final String A_CODE = "1234";
 
     private UnlockCodeStore store;
+    private Clock fixedClock;
 
     @BeforeEach
     void setup() {
         store = new GuavaUnlockCodeStore();
-        unlockCode = Mockito.mock(UnlockCode.class);
+        fixedClock = Clock.systemDefaultZone();
     }
 
     @Test
-    void whenStore_thenCodeIsRetrieved() {
-        Mockito.when(unlockCode.getTravelerId()).thenReturn(A_TRAVELER_ID);
-        Mockito.when(unlockCode.getCode()).thenReturn(CODE);
+    void givenNoExistingCode_whenGet_thenGenerates() {
+        UnlockCode generated = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        store.store(unlockCode);
-
-        Optional<UnlockCode> retrievedCode = store.getByTravelerId(A_TRAVELER_ID);
-        Assertions.assertTrue(retrievedCode.isPresent());
-        Assertions.assertEquals(CODE, retrievedCode.get().getCode());
+        Assertions.assertNotNull(generated);
+        UnlockCode fetchedAgain = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
+        Assertions.assertEquals(generated, fetchedAgain);
     }
 
     @Test
-    void whenRevoke_thenCodeIsNotRetrievable() {
-        Mockito.when(unlockCode.getTravelerId()).thenReturn(A_TRAVELER_ID);
-        store.store(unlockCode);
+    void givenExistingCodeInCache_whenGet_thenReturnCurrentCode() {
+        UnlockCode generatedUnlockCode = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        store.revoke(A_TRAVELER_ID);
+        UnlockCode result = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        Optional<UnlockCode> retrievedCode = store.getByTravelerId(A_TRAVELER_ID);
-        Assertions.assertTrue(retrievedCode.isEmpty());
+        Assertions.assertEquals(generatedUnlockCode.getCode(), result.getCode());
     }
 
     @Test
-    void givenNoCodeStored_whenGetByTravelerId_thenReturnsEmptyOptional() {
-        Optional<UnlockCode> retrievedCode = store.getByTravelerId(A_TRAVELER_ID);
+    void givenMatchingStoredCode_whenValidate_thenNoExceptionThrown() {
+        UnlockCode unlockCode = store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
-        Assertions.assertTrue(retrievedCode.isEmpty());
+        Executable validateAction = () -> store.validate(unlockCode.getTravelerId(),
+                unlockCode.getRidePermitId(), unlockCode.getCode());
+
+        Assertions.assertDoesNotThrow(validateAction);
+    }
+
+    @Test
+    void givenNoStoredCode_whenValidate_thenThrowsNotFoundException() {
+        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);
+
+        Assertions.assertThrows(NotFoundException.class, validateAction);
+    }
+
+    @Test
+    void givenNonMatchingStoredCode_whenValidate_thenThrowsNotFoundException() {
+        store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
+
+        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, "wrongCode");
+
+        Assertions.assertThrows(NotFoundException.class, validateAction);
+    }
+
+    @Test
+    void givenExistingCode_whenRevoke_thenSubsequentValidateThrowsNotFoundException() {
+        store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
+        store.revoke(IDUL, RIDE_PERMIT_ID);
+
+        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);
+
+        Assertions.assertThrows(NotFoundException.class, validateAction);
     }
 }

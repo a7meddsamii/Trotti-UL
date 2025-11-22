@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;

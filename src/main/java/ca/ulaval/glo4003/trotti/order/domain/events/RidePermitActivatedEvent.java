@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.domain.events;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 
 public class RidePermitActivatedEvent extends Event {

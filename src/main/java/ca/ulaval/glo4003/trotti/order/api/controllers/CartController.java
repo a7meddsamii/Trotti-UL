@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.order.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.api.dto.requests.PassListRequest;
 import ca.ulaval.glo4003.trotti.order.api.dto.responses.PassListResponse;
 import ca.ulaval.glo4003.trotti.order.api.mappers.PassApiMapper;
@@ -15,25 +13,18 @@ import java.util.List;
 public class CartController implements CartResource {
 
     private final CartApplicationService cartApplicationService;
-    private final AuthenticationService authenticationService;
     private final PassApiMapper passApiMapper;
 
     public CartController(
             CartApplicationService cartApplicationService,
-            AuthenticationService authenticationService,
             PassApiMapper passApiMapper) {
         this.cartApplicationService = cartApplicationService;
-        this.authenticationService = authenticationService;
         this.passApiMapper = passApiMapper;
     }
 
     @Override
-    public Response getCart(String tokenRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        List<PassDto> cart = cartApplicationService.getCart(idul);
+    public Response getCart(Idul userId) {
+        List<PassDto> cart = cartApplicationService.getCart(userId);
 
         PassListResponse passListResponse = passApiMapper.toPassListResponse(cart);
 
@@ -41,13 +32,9 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response addToCart(String tokenRequest, PassListRequest passListRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
+    public Response addToCart(Idul userId, PassListRequest passListRequest) {
         List<PassDto> passDtoList = passApiMapper.toPassDtoList(passListRequest);
-        List<PassDto> updatedCart = cartApplicationService.addToCart(idul, passDtoList);
+        List<PassDto> updatedCart = cartApplicationService.addToCart(userId, passDtoList);
 
         PassListResponse passListResponse = passApiMapper.toPassListResponse(updatedCart);
 
@@ -55,24 +42,16 @@ public class CartController implements CartResource {
     }
 
     @Override
-    public Response removeFromCart(String tokenRequest, String passId) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
+    public Response removeFromCart(Idul userId, String passId) {
         PassId passIdToRemove = PassId.from(passId);
-        cartApplicationService.removeFromCart(idul, passIdToRemove);
+        cartApplicationService.removeFromCart(userId, passIdToRemove);
 
         return Response.noContent().build();
     }
 
     @Override
-    public Response clearCart(String tokenRequest) {
-        AuthenticationToken token = AuthenticationToken.from(tokenRequest);
-        Idul idul = authenticationService.authenticate(token);
-        authenticationService.confirmStudent(idul);
-
-        cartApplicationService.clearCart(idul);
+    public Response clearCart(Idul userId) {
+        cartApplicationService.clearCart(userId);
 
         return Response.noContent().build();
     }
