@@ -18,7 +18,7 @@ public class RidePermitApplicationService {
 	private final PaymentGateway paymentGateway;
 	private final RidePermitAssembler ridePermitAssembler;
 	private final EventBus eventBus;
-	
+
 	public RidePermitApplicationService(RidePermitFactory ridePermitFactory, RidePermitRepository ridePermitRepository, PaymentGateway paymentGateway, RidePermitAssembler ridePermitAssembler, EventBus eventBus) {
 		this.ridePermitFactory = ridePermitFactory;
 		this.ridePermitRepository = ridePermitRepository;
@@ -26,23 +26,22 @@ public class RidePermitApplicationService {
 		this.ridePermitAssembler = ridePermitAssembler;
 		this.eventBus = eventBus;
 	}
-	
+
 	public List<RidePermitDto> getRidePermits(Idul riderId) {
 		List<RidePermit> ridePermits = ridePermitRepository.findAllByIdul(riderId);
 		return ridePermitAssembler.assemble(ridePermits);
 	}
-	
-	public void createRidePermits(Idul riderId, List<CreateRidePermitDto>  createRidePermis) {
-		List<RidePermit> ridePermits = createRidePermis.stream().map(dto -> ridePermitFactory.create(
+
+	public void createRidePermits(Idul riderId, List<CreateRidePermitDto>  createRidePermits) {
+		List<RidePermit> ridePermits = createRidePermits.stream().map(dto -> ridePermitFactory.create(
 						riderId,
 						dto.session(),
 						dto.maxDailyTravelTime(),
 						dto.billingFrequency()))
 				.toList();
 		ridePermitRepository.saveAll(ridePermits);
-		
 	}
-	
+
 	public void addTravelTime(Idul riderId, AddTravelTimeDto addTravelTimeDto) {
 		RidePermit ridePermit = ridePermitRepository.findById(addTravelTimeDto.ridePermitId());
 		ridePermit.addDailyTravelTime(riderId, addTravelTimeDto.startDateTime(), addTravelTimeDto.travelTime());
