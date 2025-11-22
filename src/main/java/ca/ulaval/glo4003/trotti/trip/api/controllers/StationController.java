@@ -52,9 +52,9 @@ public class StationController implements StationResource {
         Idul idul = authenticationService.authenticate(token);
         UnloadScootersDto dto = stationApiMapper.toUnloadScootersDto(idul, transferId, request);
 
-        transferApplicationService.unloadScooters(dto);
+        int scootersInTransit = transferApplicationService.unloadScooters(dto);
 
-        return Response.ok().build();
+        return Response.ok().entity(stationApiMapper.toUnloadScootersResponse(scootersInTransit)).build();
     }
 
     @Override

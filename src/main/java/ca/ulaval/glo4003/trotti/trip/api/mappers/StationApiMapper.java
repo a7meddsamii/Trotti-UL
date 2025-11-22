@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
+import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnloadScootersResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
@@ -48,5 +49,9 @@ public class StationApiMapper {
 
     public TransferResponse toTransferResponse(TransferId transferId) {
         return new TransferResponse(transferId.toString());
+    }
+
+    public UnloadScootersResponse toUnloadScootersResponse(int scootersInTransit) {
+        return new UnloadScootersResponse(scootersInTransit);
     }
 }

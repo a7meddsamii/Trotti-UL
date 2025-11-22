@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
+import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnloadScootersResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
@@ -92,5 +93,14 @@ class StationApiMapperTest {
         TransferResponse result = mapper.toTransferResponse(transferId);
 
         assertEquals(TRANSFER_ID, result.transferId());
+    }
+
+    @Test
+    void givenScootersInTransitCount_whenToUnloadScootersResponse_thenMapsCorrectly() {
+        int scootersInTransit = 5;
+
+        UnloadScootersResponse result = mapper.toUnloadScootersResponse(scootersInTransit);
+
+        assertEquals(5, result.scootersInTransit());
     }
 }

@@ -25,7 +25,8 @@ public interface StationResource {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Transfert initié avec succès"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes")
+                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409", description = "Conflict: station pas en maintenance")
             })
     Response initiateTransfer(@HeaderParam("Authorization") String tokenHeader,
                              @Valid InitiateTransferRequest request);
@@ -55,7 +56,8 @@ public interface StationResource {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Maintenance démarrée avec succès"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes")
+                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409", description = "Conflict: station déjà en maintenance")
             })
     Response startMaintenance(@HeaderParam("Authorization") String tokenHeader,
                              @Valid StartMaintenanceRequest request);
@@ -69,7 +71,8 @@ public interface StationResource {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Maintenance terminée avec succès"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes")
+                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409", description = "Conflict: station pas en maintenance")
             })
     Response endMaintenance(@HeaderParam("Authorization") String tokenHeader,
                            @Valid EndMaintenanceRequest request);
