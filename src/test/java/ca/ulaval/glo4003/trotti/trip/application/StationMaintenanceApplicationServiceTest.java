@@ -1,15 +1,20 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.trip.domain.events.MaintenanceRequestedEvent;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import java.time.*;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +28,12 @@ class StationMaintenanceApplicationServiceTest {
 
     private static final Idul TECHNICIAN_ID = Idul.from("technician123");
     private static final Location LOCATION = Mockito.mock(Location.class);
+    private static final String LOCATION_STRING = "Station A";
+    private static final String MESSAGE = "Docking station not working";
 
     private StationRepository stationRepository;
     private ScooterRepository scooterRepository;
+    private EventBus eventBus;
 
     private Station station;
     private Scooter scooter1;
@@ -37,6 +45,7 @@ class StationMaintenanceApplicationServiceTest {
     void setup() {
         stationRepository = Mockito.mock(StationRepository.class);
         scooterRepository = Mockito.mock(ScooterRepository.class);
+        eventBus = Mockito.mock(EventBus.class);
 
         Clock clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
 
@@ -45,7 +54,7 @@ class StationMaintenanceApplicationServiceTest {
         scooter2 = Mockito.mock(Scooter.class);
 
         stationMaintenanceApplicationService = new StationMaintenanceApplicationService(
-                stationRepository, scooterRepository, clock);
+                stationRepository, scooterRepository, eventBus, clock);
     }
 
     @Test
@@ -138,6 +147,26 @@ class StationMaintenanceApplicationServiceTest {
         stationMaintenanceApplicationService.endMaintenance(dto);
 
         Mockito.verify(scooterRepository).saveAll(List.of(scooter1, scooter2));
+    }
+
+    @Test
+    void givenValidStationAndMessage_whenRequestMaintenance_thenPublishEvent() {
+        Mockito.when(stationRepository.findByLocation(Mockito.any())).thenReturn(station);
+        Mockito.when(station.isUnderMaintenance()).thenReturn(false);
+
+        stationMaintenanceApplicationService.requestMaintenanceService(TECHNICIAN_ID,
+                LOCATION_STRING, MESSAGE);
+
+        Mockito.verify(eventBus).publish(Mockito.any(MaintenanceRequestedEvent.class));
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenRequestMaintenance_thenDoesNotPublish() {
+        Mockito.when(stationRepository.findByLocation(Mockito.any())).thenReturn(station);
+        Mockito.when(station.isUnderMaintenance()).thenReturn(true);
+
+        Mockito.verify(eventBus, Mockito.never())
+                .publish(Mockito.any(MaintenanceRequestedEvent.class));
     }
 
     private void mockStationWithScooters(ScooterId id1, ScooterId id2) {

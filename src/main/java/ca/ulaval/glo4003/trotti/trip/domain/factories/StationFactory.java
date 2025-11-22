@@ -13,7 +13,7 @@ public class StationFactory {
 
     public Station create(Location location, int capacity) {
         Map<SlotNumber, Optional<ScooterId>> slots = new HashMap<>();
-        for (int i = 1; i <= capacity; i++) {
+        for (int i = 0; i < capacity; i++) {
             slots.put(new SlotNumber(i), Optional.empty());
         }
         return new Station(location, new DockingArea(slots));

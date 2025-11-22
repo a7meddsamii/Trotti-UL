@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.fixtures;
 
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
@@ -10,9 +11,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class StationFixture {
-    public static final Location A_LOCATION = Location.of("vachon", "stationX");
     private final Map<SlotNumber, Optional<ScooterId>> scooterSlots = new HashMap<>();
-    private Location location = A_LOCATION;
+    private Location location = Location.of("vachon", "stationX");
+    private boolean isUnderMaintenance = false;
+    private Idul technicianId = Idul.from("tech123");
 
     public StationFixture withEmptySlot(SlotNumber slotNumber) {
         scooterSlots.put(slotNumber, Optional.empty());

@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import ca.ulaval.glo4003.trotti.trip.api.controllers.StationResource;
 
 public class JerseyBinder extends AbstractBinder {
 
@@ -22,5 +23,6 @@ public class JerseyBinder extends AbstractBinder {
         bind(locator.resolve(AuthenticationResource.class)).to(AuthenticationResource.class);
         bind(locator.resolve(HeartbeatResource.class)).to(HeartbeatResource.class);
         bind(locator.resolve(TripResource.class)).to(TripResource.class);
+        bind(locator.resolve(StationResource.class)).to(StationResource.class);
     }
 }

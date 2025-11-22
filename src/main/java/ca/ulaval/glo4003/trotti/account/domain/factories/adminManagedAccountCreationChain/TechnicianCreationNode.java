@@ -12,7 +12,7 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
 
     private final Set<Permission> permissions =
             Set.of(Permission.MAKE_TRIP, Permission.START_MAINTENANCE, Permission.END_MAINTENANCE,
-                    Permission.RELOCATE_SCOOTER, Permission.REQUEST_MAINTENANCE);
+                    Permission.RELOCATE_SCOOTERS, Permission.REQUEST_MAINTENANCE);
 
     @Override
     protected Role responsibilityRole() {
@@ -21,12 +21,12 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
 
     @Override
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> creatorPermissions) {
+            Email email, Role role, Set<Permission> creatorPermissions) {
 
         if (!creatorPermissions.contains(Permission.CREATE_EMPLOYEE)) {
             throw new AuthorizationException("Not permitted");
         }
 
-        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions);
     }
 }

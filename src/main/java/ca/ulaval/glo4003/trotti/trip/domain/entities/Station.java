@@ -25,19 +25,24 @@ public class Station {
         this.technicianId = null;
     }
 
+    public Station(
+            Location location,
+            DockingArea dockingArea,
+            boolean underMaintenance,
+            Idul technicianId) {
+        this.location = location;
+        this.dockingArea = dockingArea;
+        this.underMaintenance = underMaintenance;
+        this.technicianId = technicianId;
+    }
+
     public ScooterId getScooter(SlotNumber slotNumber) {
-        if (underMaintenance) {
-            throw new StationMaintenanceException(
-                    "Cannot get scooter from station under maintenance");
-        }
+        validateNotUnderMaintenance();
         return this.dockingArea.undock(slotNumber);
     }
 
     public void returnScooter(SlotNumber slotNumber, ScooterId scooterId) {
-        if (underMaintenance) {
-            throw new StationMaintenanceException(
-                    "Cannot return scooter to station under maintenance");
-        }
+        validateNotUnderMaintenance();
         this.dockingArea.dock(slotNumber, scooterId);
     }
 
@@ -62,13 +67,7 @@ public class Station {
     }
 
     public void endMaintenance(Idul technicianId) {
-        if (!this.underMaintenance) {
-            throw new StationMaintenanceException("Station is not under maintenance");
-        }
-        if (!this.technicianId.equals(technicianId)) {
-            throw new StationMaintenanceException(
-                    "Only the technician who started the maintenance can end it");
-        }
+        validateTechnicianInCharge(technicianId);
         this.underMaintenance = false;
         this.technicianId = null;
     }
@@ -87,5 +86,40 @@ public class Station {
 
     public List<ScooterId> getAllScooterIds() {
         return dockingArea.getAllScooterIds();
+    }
+
+    public boolean isUnderMaintenance() {
+        return underMaintenance;
+    }
+
+    public Idul getTechnicianId() {
+        return technicianId;
+    }
+
+    public void validateTechnicianInCharge(Idul technicianId) {
+        validateUnderMaintenance();
+        if (!this.technicianId.equals(technicianId)) {
+            throw new StationMaintenanceException(
+                    "Only the technician in charge of station maintenance can perform this operation");
+        }
+    }
+
+    public void validateNotUnderMaintenance() {
+        if (underMaintenance) {
+            throw new StationMaintenanceException(
+                    "Cannot perform operation on station under maintenance");
+        }
+    }
+
+    private void validateUnderMaintenance() {
+        if (!underMaintenance) {
+            throw new StationMaintenanceException("Station is not under maintenance");
+        }
+    }
+
+    public void returnScooters(List<SlotNumber> slots, List<ScooterId> scooterIds) {
+        for (int i = 0; i < scooterIds.size(); i++) {
+            returnScooter(slots.get(i), scooterIds.get(i));
+        }
     }
 }
