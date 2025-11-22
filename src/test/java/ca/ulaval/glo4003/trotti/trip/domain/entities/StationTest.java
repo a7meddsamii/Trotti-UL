@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceExcepti
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,9 +111,9 @@ class StationTest {
         Mockito.when(dockingArea.undock(SLOT_NUMBER)).thenReturn(A_SCOOTER_ID);
         Mockito.when(dockingArea.undock(SLOT_NUMBER_2)).thenReturn(ANOTHER_SCOOTER_ID);
 
-        List<ScooterId> result = station.retrieveScootersForTransfer(slots);
+        Set<ScooterId> result = station.retrieveScootersForTransfer(slots);
 
-        Assertions.assertEquals(List.of(A_SCOOTER_ID, ANOTHER_SCOOTER_ID), result);
+        Assertions.assertEquals(Set.of(A_SCOOTER_ID, ANOTHER_SCOOTER_ID), result);
     }
 
     @Test
