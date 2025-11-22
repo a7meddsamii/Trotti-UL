@@ -1,5 +1,6 @@
-package ca.ulaval.glo4003.trotti.config.events.handlers;
+package ca.ulaval.glo4003.trotti.trip.api.handlers;
 
+import ca.ulaval.glo4003.trotti.config.events.handlers.EventHandler;
 import ca.ulaval.glo4003.trotti.trip.domain.events.MaintenanceRequestedEvent;
 import ca.ulaval.glo4003.trotti.trip.domain.services.MaintenanceRequestNotificationService;
 

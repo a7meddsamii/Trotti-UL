@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.config.events.InMemoryEventBus;
-import ca.ulaval.glo4003.trotti.config.events.handlers.MaintenanceRequestedEventHandler;
+import ca.ulaval.glo4003.trotti.trip.api.handlers.MaintenanceRequestedEventHandler;
 import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.events.MaintenanceRequestedEvent;
