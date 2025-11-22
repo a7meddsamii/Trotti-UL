@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.application.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
@@ -11,7 +10,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 

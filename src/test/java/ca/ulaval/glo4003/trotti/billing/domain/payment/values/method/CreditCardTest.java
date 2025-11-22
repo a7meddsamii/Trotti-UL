@@ -1,15 +1,14 @@
 package ca.ulaval.glo4003.trotti.billing.domain.payment.values.method;
 
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.MissingPaymentMethodException;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
-import java.time.YearMonth;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
+
+import java.time.YearMonth;
 
 class CreditCardTest {
 
