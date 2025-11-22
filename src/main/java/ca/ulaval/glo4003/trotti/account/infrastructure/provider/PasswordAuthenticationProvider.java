@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.account.application.AuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
+import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
@@ -22,9 +23,13 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Boolean verify(LoginDto loginInfo) {
+    public Email verify(LoginDto loginInfo) {
         String hashedPassword = usersCredentials.get(loginInfo.email());
-        return this.passwordHasher.matches(loginInfo.password(), hashedPassword);
+        if(!this.passwordHasher.matches(loginInfo.password(), hashedPassword)){
+            throw new AuthenticationException("Invalid email or password");
+        }
+
+        return loginInfo.email();
     }
 
     @Override

@@ -55,11 +55,11 @@ public class AccountApplicationService {
         return account.getIdul();
     }
 
-    public SessionToken login(Email email, String rawPassword) {
-        validateCredentials(email, rawPassword);
+    public SessionToken login(LoginDto loginDto) {
+        Email email = authenticationProvider.verify(loginDto);
 
         Account account = accountRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
+                .orElseThrow(() -> new AuthenticationException("Invalid credentials"));
 
         return sessionTokenProvider.generateToken(account.getIdul(), account.getRole(),
                 account.getPermissions());
@@ -72,10 +72,4 @@ public class AccountApplicationService {
         }
     }
 
-    private void validateCredentials(Email email, String rawPassword) {
-        LoginDto passwordLoginDto = new LoginDto(email, rawPassword);
-        if (!authenticationProvider.verify(passwordLoginDto)) {
-            throw new AuthenticationException("Invalid email or password");
-        }
-    }
 }

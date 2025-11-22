@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 import ca.ulaval.glo4003.trotti.account.api.dto.LoginRequest;
 import ca.ulaval.glo4003.trotti.account.api.dto.LoginResponse;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
+import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
@@ -25,8 +26,9 @@ class AuthenticationControllerTest {
         accountApplicationService = Mockito.mock(AccountApplicationService.class);
         request = new LoginRequest(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
         expectedToken = SessionToken.from("jwt-token");
+        LoginDto loginDto = new LoginDto(Email.from(request.email()), request.password());
         Mockito.when(
-                accountApplicationService.login(Email.from(request.email()), request.password()))
+                accountApplicationService.login(loginDto))
                 .thenReturn(expectedToken);
 
         authenticationController = new AuthenticationController(accountApplicationService);
@@ -44,7 +46,8 @@ class AuthenticationControllerTest {
     void givenValidLoginRequest_whenLogin_thenServiceIsCalledWithEmailAndPassword() {
         authenticationController.login(request);
 
-        Mockito.verify(accountApplicationService).login(Email.from(request.email()),
-                request.password());
+
+        LoginDto loginDto = new LoginDto(Email.from(request.email()),  request.password());
+        Mockito.verify(accountApplicationService).login(loginDto);
     }
 }
