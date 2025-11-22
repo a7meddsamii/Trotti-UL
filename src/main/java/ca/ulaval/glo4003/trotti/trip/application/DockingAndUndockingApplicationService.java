@@ -30,12 +30,9 @@ public class DockingAndUndockingApplicationService {
 
     public ScooterId undock(UndockScooterDto undockScooterDto) {
         Station station = stationRepository.findByLocation(undockScooterDto.location());
-
         ScooterId scooterId = station.getScooter(undockScooterDto.slotNumber());
         Scooter scooter = scooterRepository.findById(scooterId);
-
         scooter.undock(LocalDateTime.now(clock));
-
         stationRepository.save(station);
         scooterRepository.save(scooter);
 
@@ -45,10 +42,8 @@ public class DockingAndUndockingApplicationService {
     public void dock(DockScooterDto dockScooterDto) {
         Station station = stationRepository.findByLocation(dockScooterDto.location());
         Scooter scooter = scooterRepository.findById(dockScooterDto.scooterId());
-
         station.returnScooter(dockScooterDto.slotNumber(), dockScooterDto.scooterId());
         scooter.dockAt(dockScooterDto.location(), LocalDateTime.now(clock));
-
         stationRepository.save(station);
         scooterRepository.save(scooter);
     }
