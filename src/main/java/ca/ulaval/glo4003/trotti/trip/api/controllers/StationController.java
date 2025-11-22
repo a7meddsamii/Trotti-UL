@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
@@ -21,25 +18,22 @@ public class StationController implements StationResource {
 
     private final TransferApplicationService transferApplicationService;
     private final StationMaintenanceApplicationService stationMaintenanceApplicationService;
-    private final AuthenticationService authenticationService;
     private final StationApiMapper stationApiMapper;
 
     public StationController(
             TransferApplicationService transferApplicationService,
             StationMaintenanceApplicationService stationMaintenanceApplicationService,
-            AuthenticationService authenticationService,
             StationApiMapper stationApiMapper) {
         this.transferApplicationService = transferApplicationService;
         this.stationMaintenanceApplicationService = stationMaintenanceApplicationService;
-        this.authenticationService = authenticationService;
         this.stationApiMapper = stationApiMapper;
     }
 
     @Override
     public Response initiateTransfer(String tokenHeader, InitiateTransferRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        InitiateTransferDto dto = stationApiMapper.toInitiateTransferDto(idul, request);
+//        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
+//        Idul idul = authenticationService.authenticate(token);
+        InitiateTransferDto dto = stationApiMapper.toInitiateTransferDto(null, request);
 
         TransferId transferId = transferApplicationService.initiateTransfer(dto);
 
@@ -49,9 +43,9 @@ public class StationController implements StationResource {
     @Override
     public Response unloadScooters(String tokenHeader, String transferId,
             UnloadScootersRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        UnloadScootersDto dto = stationApiMapper.toUnloadScootersDto(idul, transferId, request);
+//        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
+//        Idul idul = authenticationService.authenticate(token);
+        UnloadScootersDto dto = stationApiMapper.toUnloadScootersDto(null, transferId, request);
 
         int scootersInTransit = transferApplicationService.unloadScooters(dto);
 
@@ -61,9 +55,9 @@ public class StationController implements StationResource {
 
     @Override
     public Response startMaintenance(String tokenHeader, StartMaintenanceRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        StartMaintenanceDto dto = stationApiMapper.toStartMaintenanceDto(idul, request);
+//        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
+//        Idul idul = authenticationService.authenticate(token);
+        StartMaintenanceDto dto = stationApiMapper.toStartMaintenanceDto(null, request);
 
         stationMaintenanceApplicationService.startMaintenance(dto);
 
@@ -72,9 +66,9 @@ public class StationController implements StationResource {
 
     @Override
     public Response endMaintenance(String tokenHeader, EndMaintenanceRequest request) {
-        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
-        Idul idul = authenticationService.authenticate(token);
-        EndMaintenanceDto dto = stationApiMapper.toEndMaintenanceDto(idul, request);
+//        AuthenticationToken token = AuthenticationToken.from(tokenHeader);
+//        Idul idul = authenticationService.authenticate(token);
+        EndMaintenanceDto dto = stationApiMapper.toEndMaintenanceDto(null, request);
 
         stationMaintenanceApplicationService.endMaintenance(dto);
 

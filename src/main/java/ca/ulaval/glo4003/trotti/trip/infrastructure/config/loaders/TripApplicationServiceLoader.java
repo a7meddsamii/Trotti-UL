@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitHistoryGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
@@ -61,12 +60,11 @@ public class TripApplicationServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationApplicationService() {
         TravelerRepository travelerRepository =
                 this.resourceLocator.resolve(TravelerRepository.class);
-        RidePermitHistoryGateway ridePermitHistoryGateway =
-                this.resourceLocator.resolve(RidePermitHistoryGateway.class);
         NotificationService<List<RidePermit>> notificationService =
                 this.resourceLocator.resolve(RidePermitNotificationService.class);
         EmployeeRidePermitService employeeRidePermitService =
                 this.resourceLocator.resolve(EmployeeRidePermitService.class);
+		RidePermitGateway ridePermitGateway = this.resourceLocator.resolve(RidePermitGateway.class);
 
         RidePermitActivationApplicationService ridePermitActivationService =
                 new RidePermitActivationApplicationService(travelerRepository, ridePermitGateway,

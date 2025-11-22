@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
-import ca.ulaval.glo4003.trotti.account.domain.services.AuthenticationService;
-import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticationToken;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
@@ -34,7 +32,6 @@ class StationControllerTest {
 
     private TransferApplicationService transferApplicationService;
     private StationMaintenanceApplicationService stationMaintenanceApplicationService;
-    private AuthenticationService authenticationService;
     private StationApiMapper stationApiMapper;
     private StationController controller;
 
@@ -43,14 +40,10 @@ class StationControllerTest {
         transferApplicationService = Mockito.mock(TransferApplicationService.class);
         stationMaintenanceApplicationService =
                 Mockito.mock(StationMaintenanceApplicationService.class);
-        authenticationService = Mockito.mock(AuthenticationService.class);
         stationApiMapper = Mockito.mock(StationApiMapper.class);
 
         controller = new StationController(transferApplicationService,
-                stationMaintenanceApplicationService, authenticationService, stationApiMapper);
-
-        Mockito.when(authenticationService.authenticate(Mockito.any(AuthenticationToken.class)))
-                .thenReturn(TECHNICIAN_IDUL);
+                stationMaintenanceApplicationService, stationApiMapper);
     }
 
     @Test
@@ -70,16 +63,7 @@ class StationControllerTest {
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
         Assertions.assertEquals(response, result.getEntity());
     }
-
-    @Test
-    void givenValidTokenAndRequest_whenInitiateTransfer_thenAuthenticatesUser() {
-        InitiateTransferRequest request = new InitiateTransferRequest(STATION_ID, SLOTS);
-
-        controller.initiateTransfer(AUTH_HEADER, request);
-
-        Mockito.verify(authenticationService).authenticate(Mockito.any(AuthenticationToken.class));
-    }
-
+	
     @Test
     void givenValidTokenAndRequest_whenInitiateTransfer_thenMapsRequestToDto() {
         InitiateTransferRequest request = new InitiateTransferRequest(STATION_ID, SLOTS);
@@ -112,16 +96,7 @@ class StationControllerTest {
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
-
-    @Test
-    void givenValidTokenAndRequest_whenUnloadScooters_thenAuthenticatesUser() {
-        UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
-
-        controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
-
-        Mockito.verify(authenticationService).authenticate(Mockito.any(AuthenticationToken.class));
-    }
-
+	
     @Test
     void givenValidTokenAndRequest_whenUnloadScooters_thenMapsRequestToDto() {
         UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
@@ -154,16 +129,7 @@ class StationControllerTest {
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
-
-    @Test
-    void givenValidTokenAndRequest_whenStartMaintenance_thenAuthenticatesUser() {
-        StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
-
-        controller.startMaintenance(AUTH_HEADER, request);
-
-        Mockito.verify(authenticationService).authenticate(Mockito.any(AuthenticationToken.class));
-    }
-
+	
     @Test
     void givenValidTokenAndRequest_whenStartMaintenance_thenMapsToDto() {
         StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
@@ -197,14 +163,6 @@ class StationControllerTest {
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
 
-    @Test
-    void givenValidTokenAndRequest_whenEndMaintenance_thenAuthenticatesUser() {
-        EndMaintenanceRequest request = new EndMaintenanceRequest(STATION_ID);
-
-        controller.endMaintenance(AUTH_HEADER, request);
-
-        Mockito.verify(authenticationService).authenticate(Mockito.any(AuthenticationToken.class));
-    }
 
     @Test
     void givenValidTokenAndRequest_whenEndMaintenance_thenMapsToDto() {

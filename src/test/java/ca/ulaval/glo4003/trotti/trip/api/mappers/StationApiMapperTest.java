@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
