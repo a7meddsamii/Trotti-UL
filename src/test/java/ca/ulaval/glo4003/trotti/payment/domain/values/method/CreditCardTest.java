@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.payment.domain.values.method;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.InvalidPaymentMethodException;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.MissingPaymentMethodException;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.YearMonth;
@@ -26,7 +26,7 @@ class CreditCardTest {
         Executable creatingInvalidCreditCard = () -> CreditCard.from(validSecured,
 																	 INVALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
-        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
+        Assertions.assertThrows(MissingPaymentMethodException.class, creatingInvalidCreditCard);
     }
 
     @Test
@@ -34,7 +34,7 @@ class CreditCardTest {
         Executable creatingInvalidCreditCard =
                 () -> CreditCard.from(null, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
 
-        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
+        Assertions.assertThrows(MissingPaymentMethodException.class, creatingInvalidCreditCard);
     }
 
     @Test
@@ -43,7 +43,7 @@ class CreditCardTest {
         Executable creatingInvalidCreditCard =
                 () -> CreditCard.from(validSecured, null, YearMonth.now().plusYears(1));
 
-        Assertions.assertThrows(InvalidPaymentMethodException.class, creatingInvalidCreditCard);
+        Assertions.assertThrows(MissingPaymentMethodException.class, creatingInvalidCreditCard);
     }
 
     @Test

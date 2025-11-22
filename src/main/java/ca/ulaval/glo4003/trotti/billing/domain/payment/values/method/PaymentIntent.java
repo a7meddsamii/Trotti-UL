@@ -23,6 +23,10 @@ public class PaymentIntent {
 		return new PaymentIntent(buyerId, orderId, amount, method, useSavedInfo);
 	}
 	
+	public boolean isForPaymentMethodType(PaymentMethodType type) {
+		return !method.isEmpty() && method.isType(type);
+	}
+	
 	public Idul getBuyerId() {
 		return buyerId;
 	}

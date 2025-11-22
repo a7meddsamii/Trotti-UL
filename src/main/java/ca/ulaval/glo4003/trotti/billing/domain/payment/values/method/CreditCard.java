@@ -1,11 +1,8 @@
 package ca.ulaval.glo4003.trotti.billing.domain.payment.values.method;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.InvalidPaymentMethodException;
 
 import java.time.YearMonth;
-import org.apache.commons.lang3.StringUtils;
 
 public class CreditCard implements PaymentMethod {
 
@@ -25,8 +22,13 @@ public class CreditCard implements PaymentMethod {
     }
 	
 	@Override
-	public PaymentMethodType getType() {
-		return PaymentMethodType.CREDIT_CARD;
+	public boolean isEmpty() {
+		return isType(PaymentMethodType.EMPTY);
+	}
+	
+	@Override
+	public boolean isType(PaymentMethodType type) {
+		return type == PaymentMethodType.CREDIT_CARD;
 	}
 	
     public String getCardNumber() {
