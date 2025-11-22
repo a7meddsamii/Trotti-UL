@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.order.domain.values;
+package ca.ulaval.glo4003.trotti.trip.domain.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.util.Objects;
