@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.commons.domain.events.payment;
+package ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;

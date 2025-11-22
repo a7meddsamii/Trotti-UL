@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 class MoneyTest {
 
-    private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    private static final double ONE_HUNDRED = 100.0;
     private static final String EXPECTED_STRING_REPRESENTATION = "100.00 CAD";
 
     private Money money;
@@ -24,12 +24,12 @@ class MoneyTest {
     void whenZeroCad_thenReturnMoneyInstance() {
         Money zeroCad = Money.zeroCad();
 
-        Assertions.assertEquals(Money.of(BigDecimal.ZERO, Currency.CAD), zeroCad);
+        Assertions.assertEquals(Money.of(0.0, Currency.CAD), zeroCad);
     }
 
     @Test
     void whenInstantiateWithNullAmount_thenThrowException() {
-        Executable executable = () -> Money.of(null, Currency.CAD);
+        Executable executable = () -> Money.of(ONE_HUNDRED, Currency.CAD);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
@@ -65,7 +65,7 @@ class MoneyTest {
 
         Money result = money.plus(other);
 
-        Assertions.assertEquals(Money.of(BigDecimal.valueOf(200), Currency.CAD), result);
+        Assertions.assertEquals(Money.of(200.00, Currency.CAD), result);
     }
 
     @Test
@@ -80,18 +80,18 @@ class MoneyTest {
 
     @Test
     void whenMinus_thenReturnDifference() {
-        Money fiftyCad = Money.of(BigDecimal.valueOf(50), Currency.CAD);
+        Money fiftyCad = Money.of(50.00, Currency.CAD);
 
         Money result = money.minus(fiftyCad);
 
-        Assertions.assertEquals(Money.of(BigDecimal.valueOf(50), Currency.CAD), result);
+        Assertions.assertEquals(Money.of(50.00, Currency.CAD), result);
     }
 
     @Test
     void whenMultiply_thenReturnProduct() {
-        Money result = money.multiply(BigDecimal.TWO);
+        Money result = money.multiply(2.00);
 
-        Assertions.assertEquals(Money.of(BigDecimal.valueOf(200), Currency.CAD), result);
+        Assertions.assertEquals(Money.of(200.00, Currency.CAD), result);
     }
 
     @Test
@@ -110,7 +110,7 @@ class MoneyTest {
 
     @Test
     void givenDifferentAmountOfMoneySameCurrency_whenEquals_thenReturnFalse() {
-        Money anotherMoney = Money.of(BigDecimal.TEN, Currency.CAD);
+        Money anotherMoney = Money.of(10.00, Currency.CAD);
 
         Assertions.assertNotEquals(money, anotherMoney);
     }
@@ -124,21 +124,21 @@ class MoneyTest {
 
     @Test
     void givenDifferentAmountOfMoneyDifferentCurrency_whenEquals_thenReturnFalse() {
-        Money anotherMoney = Money.of(BigDecimal.TEN, Currency.OTHER);
+        Money anotherMoney = Money.of(10.0, Currency.OTHER);
 
         Assertions.assertNotEquals(money, anotherMoney);
     }
 
     @Test
     void givenAnotherMoneyWithLowerAmount_whenIsGreaterOrEqualThan_thenReturnTrue() {
-        Money anotherMoney = Money.of(BigDecimal.TEN, Currency.CAD);
+        Money anotherMoney = Money.of(10.0, Currency.CAD);
 
         Assertions.assertTrue(money.isMoreThanOrEqual(anotherMoney));
     }
 
     @Test
     void givenAnotherMoneyWithHigherAmount_whenIsGreaterOrEqualThan_thenReturnFalse() {
-        Money anotherMoney = Money.of(BigDecimal.valueOf(200), Currency.CAD);
+        Money anotherMoney = Money.of(200.0, Currency.CAD);
 
         Assertions.assertFalse(money.isMoreThanOrEqual(anotherMoney));
     }
@@ -152,8 +152,15 @@ class MoneyTest {
 
     @Test
     void givenAnotherMoneyWithLowerAmount_whenIsLessOrEqualThan_thenReturnFalse() {
-        Money anotherMoney = Money.of(BigDecimal.TEN, Currency.CAD);
+        Money anotherMoney = Money.of(10.0, Currency.CAD);
 
         Assertions.assertFalse(money.isLessThan(anotherMoney));
     }
+	
+	@Test
+	void givenSameMoney_whenHashCode_thenHashCodesAreEquals() {
+		Money anotherMoney = Money.of(ONE_HUNDRED, Currency.CAD);
+		
+		Assertions.assertNotEquals(money.hashCode(), anotherMoney.hashCode());
+	}
 }

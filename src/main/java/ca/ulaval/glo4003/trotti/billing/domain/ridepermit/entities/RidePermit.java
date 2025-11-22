@@ -68,31 +68,50 @@ public class RidePermit {
         return copyOfDailyUsages;
     }
 	
-	public boolean activate(Session session) {
+	public boolean activate(Session currentSchoolSession) {
+		boolean eligibleForActivation = this.permitState == RidePermitState.INACTIVE && this.session.equals(currentSchoolSession);
+		if (!eligibleForActivation) {
+			return false;
+		}
 		
-		return this.session.equals(session);
+		this.permitState = RidePermitState.ACTIVE;
+		return true;
+	}
+	
+	public boolean deactivate(Session currentSchoolSession) {
+		boolean eligibleForDeactivation = this.permitState == RidePermitState.ACTIVE && this.session.equals(currentSchoolSession);
+		if (!eligibleForDeactivation) {
+			return false;
+		}
+		
+		this.permitState = RidePermitState.EXPIRED;
+		return true;
 	}
 	
 	public boolean isActiveForRides(Idul riderId, LocalDate date){
 		return this.riderId.equals(riderId) && this.session.contains(date);
 	}
-
+	
     public Duration getMaximumTravelingTimePerDay() {
         return maximumTravelingTimePerDay;
     }
-
+	
     public RidePermitId getId() {
         return id;
     }
-
+	
     public Idul getRiderId() {
         return riderId;
     }
-
+	
     public Session getSession() {
         return session;
     }
-
+	
+	public RidePermitState getPermitState() {
+		return permitState;
+	}
+	
     private DailyBillingUsage getDailyBillingUsage(LocalDate date) {
         return dailyBillingUsages.computeIfAbsent(date,
                 givenDate -> new DailyBillingUsage(maximumTravelingTimePerDay, givenDate,

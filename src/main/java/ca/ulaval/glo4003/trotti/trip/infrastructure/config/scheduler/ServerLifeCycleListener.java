@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 public class ServerLifeCycleListener implements ApplicationEventListener {
     public static final Logger LOGGER =
             org.slf4j.LoggerFactory.getLogger(ServerLifeCycleListener.class);
-    public static final String EVERYDAY_AT_MIDNIGHT_AND_NOON = "0/5 * * * * ?";
+    public static final String FIVE_SECONDS_ACTIVATION_CHECK_DELAY = "0/5 * * * * ?";
 
     private final SchedulerManager schedulerManager;
 
@@ -45,7 +45,7 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
 
         try {
             JobDetail jobDetail = buildJobDetail(RidePermitActivationJob.class, name, group);
-            Trigger trigger = buildTrigger(EVERYDAY_AT_MIDNIGHT_AND_NOON, name, group, jobKey);
+            Trigger trigger = buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
             scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {
             LOGGER.error("Failed to schedule ride permit activation service", e);
