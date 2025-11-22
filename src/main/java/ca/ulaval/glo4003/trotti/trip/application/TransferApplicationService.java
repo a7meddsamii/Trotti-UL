@@ -26,6 +26,8 @@ public class TransferApplicationService {
 
     public TransferId initiateTransfer(InitiateTransferDto initiateTransferDto) {
         Station station = stationRepository.findByLocation(initiateTransferDto.sourceStation());
+        station.validateTechnicianInCharge(initiateTransferDto.technicianId());
+        
         Transfer transfer = Transfer.start(initiateTransferDto.technicianId(),
                 initiateTransferDto.sourceStation(),
                 station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots()));
@@ -34,19 +36,19 @@ public class TransferApplicationService {
         return transfer.getTransferId();
     }
 
-    public void unloadScooters(UnloadScootersDto unloadScootersDto) {
+    public int unloadScooters(UnloadScootersDto unloadScootersDto) {
         Transfer transfer = transferRepository.findById(unloadScootersDto.transferId())
                 .orElseThrow(() -> new NotFoundException("Transfer not found"));
         Station station = stationRepository.findByLocation(unloadScootersDto.destinationStation());
 
         List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(),
                 unloadScootersDto.destinationSlots().size());
-        for (int i = 0; i < unloadedScooters.size(); i++) {
-            station.returnScooter(unloadScootersDto.destinationSlots().get(i),
-                    unloadedScooters.get(i));
-        }
+        station.returnScooters(unloadScootersDto.destinationSlots(), unloadedScooters);
+
         transferRepository.save(transfer);
         stationRepository.save(station);
+        
+        return transfer.getScootersInTransitCount();
     }
 
     public List<SlotNumber> findAvailableSlotsInStation(Location destinationStation) {
