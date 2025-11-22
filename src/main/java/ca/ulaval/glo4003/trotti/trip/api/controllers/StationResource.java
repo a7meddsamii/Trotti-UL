@@ -1,18 +1,26 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermissions;
+import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/stations")
+@RolesAllowed({"TECHNICIAN"})
+@RequiresPermissions({Permission.START_MAINTENANCE, Permission.END_MAINTENANCE, Permission.RELOCATE_SCOOTERS})
 @Tag(name = "Stations", description = "Endpoints pour les opérations de station")
 public interface StationResource {
 
@@ -31,7 +39,7 @@ public interface StationResource {
                             description = "Forbidden: permissions insuffisantes"),
                     @ApiResponse(responseCode = "409",
                             description = "Conflict: station pas en maintenance")})
-    Response initiateTransfer(@HeaderParam("Authorization") String tokenHeader,
+    Response initiateTransfer(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid InitiateTransferRequest request);
 
     @POST
@@ -49,7 +57,7 @@ public interface StationResource {
                             description = "Forbidden: permissions insuffisantes"),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: Transfert non trouvé")})
-    Response unloadScooters(@HeaderParam("Authorization") String tokenHeader,
+    Response unloadScooters(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @PathParam("transferId") String transferId, @Valid UnloadScootersRequest request);
 
     @POST
@@ -67,7 +75,7 @@ public interface StationResource {
                             description = "Forbidden: permissions insuffisantes"),
                     @ApiResponse(responseCode = "409",
                             description = "Conflict: station déjà en maintenance")})
-    Response startMaintenance(@HeaderParam("Authorization") String tokenHeader,
+    Response startMaintenance(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid StartMaintenanceRequest request);
 
     @POST
@@ -85,6 +93,6 @@ public interface StationResource {
                             description = "Forbidden: permissions insuffisantes"),
                     @ApiResponse(responseCode = "409",
                             description = "Conflict: station pas en maintenance")})
-    Response endMaintenance(@HeaderParam("Authorization") String tokenHeader,
+    Response endMaintenance(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid EndMaintenanceRequest request);
 }

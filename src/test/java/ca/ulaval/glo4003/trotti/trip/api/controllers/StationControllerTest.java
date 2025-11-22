@@ -23,11 +23,9 @@ import org.mockito.Mockito;
 
 class StationControllerTest {
 
-    private static final String AUTH_HEADER = "Bearer token123";
     private static final String STATION_ID = "VACHON";
     private static final String TRANSFER_ID = "transfer123";
-    private static final String IDUL_VALUE = "tech01";
-    private static final Idul TECHNICIAN_IDUL = Idul.from(IDUL_VALUE);
+    private static final Idul TECHNICIAN_IDUL = Idul.from("tech123");
     private static final List<Integer> SLOTS = List.of(1, 2, 3);
 
     private TransferApplicationService transferApplicationService;
@@ -58,7 +56,7 @@ class StationControllerTest {
         Mockito.when(transferApplicationService.initiateTransfer(dto)).thenReturn(transferId);
         Mockito.when(stationApiMapper.toTransferResponse(transferId)).thenReturn(response);
 
-        Response result = controller.initiateTransfer(AUTH_HEADER, request);
+        Response result = controller.initiateTransfer(TECHNICIAN_IDUL, request);
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
         Assertions.assertEquals(response, result.getEntity());
@@ -68,7 +66,7 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenInitiateTransfer_thenMapsRequestToDto() {
         InitiateTransferRequest request = new InitiateTransferRequest(STATION_ID, SLOTS);
 
-        controller.initiateTransfer(AUTH_HEADER, request);
+        controller.initiateTransfer(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationApiMapper).toInitiateTransferDto(TECHNICIAN_IDUL, request);
     }
@@ -80,7 +78,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toInitiateTransferDto(TECHNICIAN_IDUL, request))
                 .thenReturn(dto);
 
-        controller.initiateTransfer(AUTH_HEADER, request);
+        controller.initiateTransfer(TECHNICIAN_IDUL, request);
 
         Mockito.verify(transferApplicationService).initiateTransfer(dto);
     }
@@ -92,7 +90,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request))
                 .thenReturn(dto);
 
-        Response result = controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
+        Response result = controller.unloadScooters(TECHNICIAN_IDUL, TRANSFER_ID, request);
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
@@ -101,7 +99,7 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenUnloadScooters_thenMapsRequestToDto() {
         UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
 
-        controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
+        controller.unloadScooters(TECHNICIAN_IDUL, TRANSFER_ID, request);
 
         Mockito.verify(stationApiMapper).toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request);
     }
@@ -113,7 +111,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request))
                 .thenReturn(dto);
 
-        controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
+        controller.unloadScooters(TECHNICIAN_IDUL, TRANSFER_ID, request);
 
         Mockito.verify(transferApplicationService).unloadScooters(dto);
     }
@@ -125,7 +123,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request))
                 .thenReturn(dto);
 
-        Response result = controller.startMaintenance(AUTH_HEADER, request);
+        Response result = controller.startMaintenance(TECHNICIAN_IDUL, request);
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
@@ -134,7 +132,7 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenStartMaintenance_thenMapsToDto() {
         StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
 
-        controller.startMaintenance(AUTH_HEADER, request);
+        controller.startMaintenance(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationApiMapper).toStartMaintenanceDto(TECHNICIAN_IDUL, request);
     }
@@ -146,7 +144,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request))
                 .thenReturn(dto);
 
-        controller.startMaintenance(AUTH_HEADER, request);
+        controller.startMaintenance(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationMaintenanceApplicationService).startMaintenance(dto);
     }
@@ -158,7 +156,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request))
                 .thenReturn(dto);
 
-        Response result = controller.endMaintenance(AUTH_HEADER, request);
+        Response result = controller.endMaintenance(TECHNICIAN_IDUL, request);
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
@@ -168,7 +166,7 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenEndMaintenance_thenMapsToDto() {
         EndMaintenanceRequest request = new EndMaintenanceRequest(STATION_ID);
 
-        controller.endMaintenance(AUTH_HEADER, request);
+        controller.endMaintenance(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationApiMapper).toEndMaintenanceDto(TECHNICIAN_IDUL, request);
     }
@@ -180,7 +178,7 @@ class StationControllerTest {
         Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request))
                 .thenReturn(dto);
 
-        controller.endMaintenance(AUTH_HEADER, request);
+        controller.endMaintenance(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationMaintenanceApplicationService).endMaintenance(dto);
     }
