@@ -18,9 +18,9 @@ public class OrderForeignServiceLoader extends Bootstrapper {
 
     private void loadSessionProvider() {
         ObjectMapper objectMapper = CustomJsonProvider.getMapper();
-        SessionMapper sessionMapper = this.resourceLocator.resolve(SessionMapper.class);
+//        SessionMapper sessionMapper = this.resourceLocator.resolve(SessionMapper.class);
         SchoolSessionProvider schoolSessionProvider =
-                new JsonSchoolSessionProvider(SEMESTER_DATA_FILE_PATH, sessionMapper, objectMapper);
+                new JsonSchoolSessionProvider(SEMESTER_DATA_FILE_PATH, null, objectMapper);
 
         this.resourceLocator.register(SchoolSessionProvider.class, schoolSessionProvider);
     }

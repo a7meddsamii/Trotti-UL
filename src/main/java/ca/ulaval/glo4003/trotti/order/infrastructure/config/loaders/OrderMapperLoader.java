@@ -31,9 +31,9 @@ public class OrderMapperLoader extends Bootstrapper {
     }
 
     private void loadApiMappers() {
-        SessionProvider sessionProvider = this.resourceLocator.resolve(SessionProvider.class);
+//        SessionProvider sessionProvider = this.resourceLocator.resolve(SessionProvider.class);
         this.resourceLocator.register(OrderApiMapper.class, new OrderApiMapper());
-        this.resourceLocator.register(PassApiMapper.class, new PassApiMapper(sessionProvider));
+        this.resourceLocator.register(PassApiMapper.class, new PassApiMapper(null));
     }
 
     private void loadSessionMappers() {
