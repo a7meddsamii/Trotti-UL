@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
@@ -25,8 +24,8 @@ public class TripDomainServiceLoader extends Bootstrapper {
     private void loadRidePermitActivationDomainServices() {
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         PassRepository passRepository = this.resourceLocator.resolve(PassRepository.class);
-//        EmployeeRegistryProvider employeeRegistryProvider =
-//                this.resourceLocator.resolve(EmployeeRegistryProvider.class);
+        // EmployeeRegistryProvider employeeRegistryProvider =
+        // this.resourceLocator.resolve(EmployeeRegistryProvider.class);
         SchoolSessionProvider schoolSessionProvider =
                 this.resourceLocator.resolve(SchoolSessionProvider.class);
 

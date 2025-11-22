@@ -26,8 +26,7 @@ public class InitialAdminLoader extends Bootstrapper {
     }
 
     private void createInitialAdmin() {
-        AccountRepository accountRepository =
-                this.resourceLocator.resolve(AccountRepository.class);
+        AccountRepository accountRepository = this.resourceLocator.resolve(AccountRepository.class);
         AccountFactory accountFactory = this.resourceLocator.resolve(AccountFactory.class);
         PasswordHasher passwordHasher = this.resourceLocator.resolve(PasswordHasher.class);
 
@@ -42,8 +41,8 @@ public class InitialAdminLoader extends Bootstrapper {
         Set<Permission> initialAdminPermissions = Set.of(Permission.CREATE_EMPLOYEE,
                 Permission.DELETE_EMPLOYEE, Permission.CREATE_ADMIN, Permission.DELETE_ADMIN);
 
-        Account admin = accountFactory.create(name, birthDate, gender, idul, email,
-                password, Role.ADMIN, initialAdminPermissions);
+        Account admin = accountFactory.create(name, birthDate, gender, idul, email, password,
+                Role.ADMIN, initialAdminPermissions);
 
         accountRepository.save(admin);
     }

@@ -61,7 +61,7 @@ class StationControllerTest {
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
         Assertions.assertEquals(response, result.getEntity());
     }
-	
+
     @Test
     void givenValidTokenAndRequest_whenInitiateTransfer_thenMapsRequestToDto() {
         InitiateTransferRequest request = new InitiateTransferRequest(STATION_ID, SLOTS);
@@ -94,7 +94,7 @@ class StationControllerTest {
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
-	
+
     @Test
     void givenValidTokenAndRequest_whenUnloadScooters_thenMapsRequestToDto() {
         UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
@@ -127,7 +127,7 @@ class StationControllerTest {
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
-	
+
     @Test
     void givenValidTokenAndRequest_whenStartMaintenance_thenMapsToDto() {
         StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
@@ -160,7 +160,6 @@ class StationControllerTest {
 
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
     }
-
 
     @Test
     void givenValidTokenAndRequest_whenEndMaintenance_thenMapsToDto() {

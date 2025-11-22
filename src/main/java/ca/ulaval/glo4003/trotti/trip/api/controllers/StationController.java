@@ -41,8 +41,7 @@ public class StationController implements StationResource {
     }
 
     @Override
-    public Response unloadScooters(Idul userId, String transferId,
-            UnloadScootersRequest request) {
+    public Response unloadScooters(Idul userId, String transferId, UnloadScootersRequest request) {
 
         UnloadScootersDto dto = stationApiMapper.toUnloadScootersDto(userId, transferId, request);
 

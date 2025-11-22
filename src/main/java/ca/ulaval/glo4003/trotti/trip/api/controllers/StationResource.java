@@ -20,7 +20,8 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/stations")
 @RolesAllowed({"TECHNICIAN"})
-@RequiresPermissions({Permission.START_MAINTENANCE, Permission.END_MAINTENANCE, Permission.RELOCATE_SCOOTERS})
+@RequiresPermissions({Permission.START_MAINTENANCE, Permission.END_MAINTENANCE,
+        Permission.RELOCATE_SCOOTERS})
 @Tag(name = "Stations", description = "Endpoints pour les opérations de station")
 public interface StationResource {
 
