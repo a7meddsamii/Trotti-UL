@@ -137,4 +137,38 @@ class StationTest {
         Assertions.assertEquals(expected, result);
         Mockito.verify(dockingArea).findOccupiedSlots();
     }
+
+    @Test
+    void givenStationUnderMaintenanceWithCorrectTechnician_whenValidateTechnicianInCharge_thenDoesNotThrow() {
+        station.startMaintenance(TECHNICIAN_ID);
+
+        Assertions.assertDoesNotThrow(() -> station.validateTechnicianInCharge(TECHNICIAN_ID));
+    }
+
+    @Test
+    void givenStationNotUnderMaintenance_whenValidateTechnicianInCharge_thenThrowsException() {
+        Executable action = () -> station.validateTechnicianInCharge(TECHNICIAN_ID);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationUnderMaintenanceWithDifferentTechnician_whenValidateTechnicianInCharge_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID);
+
+        Executable action = () -> station.validateTechnicianInCharge(OTHER_TECHNICIAN_ID);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenSlotsAndScooterIds_whenReturnScooters_thenCallsReturnScooterForEach() {
+        List<SlotNumber> slots = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
+        List<ScooterId> scooterIds = List.of(A_SCOOTER_ID, ANOTHER_SCOOTER_ID);
+
+        station.returnScooters(slots, scooterIds);
+
+        Mockito.verify(dockingArea).dock(SLOT_NUMBER, A_SCOOTER_ID);
+        Mockito.verify(dockingArea).dock(SLOT_NUMBER_2, ANOTHER_SCOOTER_ID);
+    }
 }
