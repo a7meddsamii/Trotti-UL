@@ -104,7 +104,7 @@ public class Station {
         }
     }
 
-    private void validateNotUnderMaintenance() {
+    public void validateNotUnderMaintenance() {
         if (underMaintenance) {
             throw new StationMaintenanceException(
                     "Cannot perform operation on station under maintenance");
