@@ -26,7 +26,6 @@ public class TripConfiguration extends Configuration {
         new TripMapperLoader().load();
         new TripRepositoryLoader().load();
         new TripFactoryLoader().load();
-        new TripDomainServiceLoader().load();
         new TripApplicationServiceLoader().load();
         new TripResourceLoader().load();
         new TripStationsLoader().load();

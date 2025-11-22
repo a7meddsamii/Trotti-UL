@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 
 public class TripApiMapper {
 

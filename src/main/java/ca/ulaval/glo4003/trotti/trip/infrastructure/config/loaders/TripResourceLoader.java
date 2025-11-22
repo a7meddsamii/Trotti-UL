@@ -5,30 +5,18 @@ import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatController;
 import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
-import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeController;
-import ca.ulaval.glo4003.trotti.trip.api.controllers.UnlockCodeResource;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
-import ca.ulaval.glo4003.trotti.trip.application.UnlockCodeApplicationService;
 
 public class TripResourceLoader extends Bootstrapper {
     @Override
     public void load() {
-        loadUnlockCodeResource();
         loadTripResource();
         loadHeartbeatResource();
     }
 
     private void loadHeartbeatResource() {
         this.resourceLocator.register(HeartbeatResource.class, new HeartbeatController());
-    }
-
-    private void loadUnlockCodeResource() {
-        UnlockCodeApplicationService unlockCodeApplicationService =
-                this.resourceLocator.resolve(UnlockCodeApplicationService.class);
-        UnlockCodeResource unlockCodeController =
-                new UnlockCodeController(unlockCodeApplicationService);
-        this.resourceLocator.register(UnlockCodeResource.class, unlockCodeController);
     }
 
     private void loadTripResource() {

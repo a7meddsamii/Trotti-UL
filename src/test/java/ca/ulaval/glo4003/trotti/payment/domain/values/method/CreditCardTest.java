@@ -45,19 +45,6 @@ class CreditCardTest {
 
         Assertions.assertThrows(MissingPaymentMethodException.class, creatingInvalidCreditCard);
     }
-
-    @Test
-    void givenValidCreditCard_whenPay_thenDoesNotThrowException() {
-        SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);
-        CreditCard creditCard =
-                CreditCard.from(validSecured, VALID_CARD_HOLDER, YearMonth.now().plusYears(1));
-        Money money = Mockito.mock(Money.class);
-
-        Executable payWithValidCreditCard = () -> creditCard.pay(money);
-
-        Assertions.assertDoesNotThrow(payWithValidCreditCard);
-    }
-
     @Test
     void givenCreditCard_whenGetCardNumber_thenReturnsLastFourDigits() {
         SecuredString validSecured = securedStringFromRaw(VALID_CARD_NUMBER);

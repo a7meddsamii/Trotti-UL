@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.domain.store;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import java.time.Clock;
 
 public interface UnlockCodeStore {
