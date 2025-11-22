@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.fixtures;
 
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
