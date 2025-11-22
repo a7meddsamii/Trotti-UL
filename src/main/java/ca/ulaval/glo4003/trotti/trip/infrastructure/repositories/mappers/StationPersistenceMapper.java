@@ -13,7 +13,7 @@ public class StationPersistenceMapper {
 
     public Station toDomain(StationRecord stationRecord) {
         DockingArea dockingArea = toDomainDockingArea(stationRecord.slots());
-        return new Station(stationRecord.location(), dockingArea);
+        return new Station(stationRecord.location(), dockingArea, stationRecord.underMaintenance(), stationRecord.technicianId());
     }
 
     public StationRecord toRecord(Station station) {
@@ -21,7 +21,7 @@ public class StationPersistenceMapper {
         station.getDockingArea().getScooterSlots().forEach((slotNumber, optionalScooterId) -> {
             slots.put(slotNumber, optionalScooterId.orElse(null));
         });
-        return new StationRecord(station.getLocation(), slots);
+        return new StationRecord(station.getLocation(), slots, station.isUnderMaintenance(), station.getTechnicianId());
     }
 
     private DockingArea toDomainDockingArea(Map<SlotNumber, ScooterId> scooterSlotsRecord) {

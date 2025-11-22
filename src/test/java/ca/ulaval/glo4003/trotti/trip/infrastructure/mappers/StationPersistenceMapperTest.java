@@ -40,18 +40,17 @@ class StationPersistenceMapperTest {
 
     @Test
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
-        Map<SlotNumber, ScooterId> slots =
-                Map.of(SLOT_NUMBER, SCOOTER_ID, ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID);
-        StationRecord record = new StationRecord(StationFixture.A_LOCATION, slots);
+        Map<SlotNumber, ScooterId> slots = Map.of(SLOT_NUMBER, SCOOTER_ID, ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID);
+        StationRecord record = new StationRecord(stationFixture.build().getLocation(), slots, false, null);
 
-        Station station = stationMapper.toDomain(record);
+        Station mappedStation = stationMapper.toDomain(record);
 
-        Assertions.assertEquals(record.location(), station.getLocation());
-        asserAllScootersAreInTheCorrectSlotAsPersisted(station, slots);
+        Assertions.assertEquals(record.location(), mappedStation.getLocation());
+        assertAllScootersAreInTheCorrectSlotAsPersisted(mappedStation, slots);
     }
 
-    private static void asserAllScootersAreInTheCorrectSlotAsPersisted(Station station,
-            Map<SlotNumber, ScooterId> slots) {
+    private static void assertAllScootersAreInTheCorrectSlotAsPersisted(Station station,
+                                                                        Map<SlotNumber, ScooterId> slots) {
         slots.forEach((slotNumber, scooterId) -> {
             Assertions.assertEquals(Optional.ofNullable(scooterId),
                     station.getDockingArea().getScooterSlots().get(slotNumber));
