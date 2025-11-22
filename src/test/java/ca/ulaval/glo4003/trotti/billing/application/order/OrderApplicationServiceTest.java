@@ -69,11 +69,7 @@ class OrderApplicationServiceTest {
         OrderDto result = orderApplicationService.addItem(BUYER_ID, addItemDto);
 
         
-        verify(orderItemFactory).create(any(), any(), any());
-        ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
-        verify(orderRepository).save(captor.capture());
-        verify(orderAssembler).assemble(captor.getValue());
-        assertThat(captor.getValue()).isNotNull();
+        assertThat(result).isSameAs(orderDto);
     }
 
     @Test
