@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
@@ -10,7 +9,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.time.Clock;
@@ -75,17 +73,5 @@ public class TransferApplicationService {
         stationRepository.save(station);
 
         return transfer.getScootersInTransitCount();
-    }
-
-    public List<SlotNumber> findAvailableSlotsInStation(Location destinationStation) {
-        Station station = stationRepository.findByLocation(destinationStation);
-
-        return station.getAvailableSlots();
-    }
-
-    public List<SlotNumber> findOccupiedSlotsInStation(Location destinationStation) {
-        Station station = stationRepository.findByLocation(destinationStation);
-
-        return station.getOccupiedSlots();
     }
 }

@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.trotti.trip.application.dto;
 
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 
-public record EndTripDto(
-        Idul idul,
+public record DockScooterDto(
         Location location,
-        SlotNumber slotNumber
+        SlotNumber slotNumber,
+        ScooterId scooterId
 ) {}

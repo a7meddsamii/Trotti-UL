@@ -17,7 +17,6 @@ class StudentCreationNodeTest {
     private static final Gender A_GENDER = AccountFixture.A_GENDER;
     private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
-    private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
     private StandardAccountCreationNode nextNode;
     private Role role;
@@ -35,14 +34,13 @@ class StudentCreationNodeTest {
         role = Role.STUDENT;
 
         Account expected = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
-                AN_IDUL, A_EMAIL, A_PASSWORD, role);
+                AN_IDUL, A_EMAIL, role);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
         Assertions.assertEquals(A_GENDER, expected.getGender());
         Assertions.assertEquals(AN_IDUL, expected.getIdul());
         Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(A_PASSWORD, expected.getPassword());
         Assertions.assertEquals(role, expected.getRole());
         Assertions.assertNotNull(expected.getPermissions());
     }
@@ -52,10 +50,10 @@ class StudentCreationNodeTest {
         role = Role.TECHNICIAN;
 
         studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                A_PASSWORD, role);
+                role);
 
         Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, A_PASSWORD, role);
+                A_EMAIL, role);
     }
 
 }

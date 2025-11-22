@@ -85,6 +85,5 @@ class InMemoryAccountRepositoryIntegrationTest {
         Assertions.assertEquals(account.getBirthDate(), retrievedAccount.getBirthDate());
         Assertions.assertEquals(account.getGender(), retrievedAccount.getGender());
         Assertions.assertEquals(account.getName(), retrievedAccount.getName());
-        Assertions.assertEquals(account.getPassword(), retrievedAccount.getPassword());
     }
 }

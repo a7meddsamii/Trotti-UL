@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
@@ -24,9 +24,9 @@ public class AccountController implements AccountResource {
 
     @Override
     public Response createAccount(CreateAccountRequest request) {
-        AccountDto accountDto = accountApiMapper.toAccountDto(request);
+        RegistrationDto registrationDto = accountApiMapper.toPasswordRegistrationDto(request);
 
-        Idul idul = accountApplicationService.createAccount(accountDto);
+        Idul idul = accountApplicationService.createAccount(registrationDto);
 
         URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + idul);
         return Response.created(location).build();
@@ -34,9 +34,9 @@ public class AccountController implements AccountResource {
 
     @Override
     public Response createAdminManagedAccount(Idul userId, CreateAccountRequest request) {
-        AccountDto accountDto = accountApiMapper.toAccountDto(request);
+        RegistrationDto registrationDto = accountApiMapper.toPasswordRegistrationDto(request);
 
-        Idul idul = accountApplicationService.createAdminManagedAccount(accountDto, userId);
+        Idul idul = accountApplicationService.createAdminManagedAccount(registrationDto, userId);
 
         URI location = URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + idul);
         return Response.created(location).build();

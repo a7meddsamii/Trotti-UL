@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
@@ -12,6 +11,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -127,28 +127,6 @@ class TransferApplicationServiceTest {
 
         Mockito.verify(transferRepository).save(transfer);
         Mockito.verify(stationRepository).save(destinationStation);
-    }
-
-    @Test
-    void givenValidLocation_whenFindAvailableSlots_thenStationMethodIsCalled() {
-        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
-                .thenReturn(destinationStation);
-
-        transferApplicationService.findAvailableSlotsInStation(DESTINATION_LOCATION);
-
-        Mockito.verify(stationRepository).findByLocation(DESTINATION_LOCATION);
-        Mockito.verify(destinationStation).getAvailableSlots();
-    }
-
-    @Test
-    void givenValidLocation_whenFindOccupiedSlots_thenStationMethodIsCalled() {
-        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
-                .thenReturn(destinationStation);
-
-        transferApplicationService.findOccupiedSlotsInStation(DESTINATION_LOCATION);
-
-        Mockito.verify(stationRepository).findByLocation(DESTINATION_LOCATION);
-        Mockito.verify(destinationStation).getOccupiedSlots();
     }
 
     @Test

@@ -16,18 +16,18 @@ public abstract class StandardAccountCreationNode {
     }
 
     public Account createStandardAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role) {
+            Email email, Role role) {
         if (responsibilityRole().equals(role)) {
-            return createAccount(name, birthDate, gender, idul, email, password, role);
+            return createAccount(name, birthDate, gender, idul, email, role);
         } else if (next != null) {
-            return next.createStandardAccount(name, birthDate, gender, idul, email, password, role);
+            return next.createStandardAccount(name, birthDate, gender, idul, email, role);
         } else {
             throw new UnableToCreateAccountException("unable to create account");
         }
     }
 
     protected abstract Account createAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role);
+            Idul idul, Email email, Role role);
 
     protected abstract Role responsibilityRole();
 }
