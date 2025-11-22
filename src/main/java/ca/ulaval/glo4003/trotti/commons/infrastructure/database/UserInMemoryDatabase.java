@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.database;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.account.domain.values.Role;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.infrastructure.repositories.records.BuyerRecord;
@@ -51,6 +52,11 @@ public class UserInMemoryDatabase {
     public Optional<AccountRecord> selectFromAccountTable(Email email) {
         return accountTable.values().stream().filter(account -> account.email().equals(email))
                 .findFirst();
+    }
+
+    public List<AccountRecord> selectFromAccountTableByRole(Role role) {
+        return accountTable.values().stream().filter(account -> account.role().equals(role))
+                .toList();
     }
 
     public BuyerRecord selectFromBuyerTable(Idul idul) {
