@@ -40,10 +40,10 @@ public class RidePermit {
     }
 
     public void addDailyTravelTime(LocalDateTime startDateTime, Duration travelTime) {
-		if (travelTime.isNegative()) {
-		 throw new InvalidRidePermitOperation("Travel time cannot be negative");
-		}
-		
+        if (travelTime.isNegative()) {
+            throw new InvalidRidePermitOperation("Travel time cannot be negative");
+        }
+
         LocalDate date = startDateTime.toLocalDate();
         DailyBillingUsage dailyUsage = getDailyBillingUsage(date);
         dailyUsage.addTravelTime(travelTime);

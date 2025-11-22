@@ -10,20 +10,20 @@ import java.util.List;
 
 public class Order {
     private final OrderId orderId;
-	private final Idul idul;
-	private final List<RidePermitItem> items;
-	private final OrderStatus status;
+    private final Idul idul;
+    private final List<RidePermitItem> items;
+    private final OrderStatus status;
 
     public Order(Idul buyerId) {
         this.orderId = OrderId.randomId();
-		this.idul = buyerId;
+        this.idul = buyerId;
         this.items = new ArrayList<>();
         this.status = OrderStatus.PENDING;
     }
 
     public Order(OrderId orderId, Idul buyerId, List<RidePermitItem> items, OrderStatus status) {
         this.orderId = orderId;
-		this.idul = buyerId;
+        this.idul = buyerId;
         this.items = new ArrayList<>(items);
         this.status = status;
     }

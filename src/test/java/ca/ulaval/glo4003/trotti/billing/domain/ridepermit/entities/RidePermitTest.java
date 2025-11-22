@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,15 +85,16 @@ class RidePermitTest {
 
         Mockito.verify(ridePermit).addDailyTravelTime(A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
     }
-	
-	@Test
-	void givenNegativeDuration_whenAddDailyTravelTime_thenThrowsException() {
-		Duration negativeDuration = Duration.ofMinutes(-1);
-		
-		Executable addDailyTravelTime = () -> ridePermit.addDailyTravelTime(A_DATE_TIME, negativeDuration);
-		
-		Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
-	}
+
+    @Test
+    void givenNegativeDuration_whenAddDailyTravelTime_thenThrowsException() {
+        Duration negativeDuration = Duration.ofMinutes(-1);
+
+        Executable addDailyTravelTime =
+                () -> ridePermit.addDailyTravelTime(A_DATE_TIME, negativeDuration);
+
+        Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
+    }
 
     private DailyBillingUsage nonEmptyUsage(Duration limit, LocalDate date, Duration traveled) {
         return new DailyBillingUsage(limit, date, traveled, ZERO_CAD, false);
