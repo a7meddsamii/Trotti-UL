@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.order.domain.values;
+package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
