@@ -18,21 +18,19 @@ public abstract class AdminManagedAccountCreationNode {
     }
 
     public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
+            Idul idul, Email email, Role role,
             Set<Permission> creatorPermissions) {
         if (responsibilityRole().equals(role)) {
-            return createAccount(name, birthDate, gender, idul, email, password, role,
-                    creatorPermissions);
+            return createAccount(name, birthDate, gender, idul, email, role, creatorPermissions);
         } else if (next != null) {
-            return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password,
-                    role, creatorPermissions);
+            return next.createAdminManagedAccount(name, birthDate, gender, idul, email, role, creatorPermissions);
         } else {
             throw new UnableToCreateAccountException("unable to create account");
         }
     }
 
     protected abstract Account createAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
+            Idul idul, Email email, Role role,
             Set<Permission> creatorPermissions);
 
     protected abstract Role responsibilityRole();

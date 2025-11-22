@@ -18,12 +18,12 @@ public class AdminCreationNode extends AdminManagedAccountCreationNode {
 
     @Override
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> creatorPermissions) {
+            Email email, Role role, Set<Permission> creatorPermissions) {
 
         if (!creatorPermissions.contains(Permission.CREATE_ADMIN)) {
             throw new AuthorizationException("Not permitted");
         }
 
-        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions);
     }
 }

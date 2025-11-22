@@ -24,19 +24,15 @@ public class AccountFactory {
         this.companyChain = companyChain;
     }
 
-    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password, Role role) {
+    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email, Role role) {
 
         accountValidator.validateBirthDate(birthDate);
-        return userChain.createStandardAccount(name, birthDate, gender, idul, email, password,
-                role);
+        return userChain.createStandardAccount(name, birthDate, gender, idul, email, role);
     }
 
-    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email,
-            Password password, Role role, Set<Permission> creatorPermissions) {
+    public Account create(String name, LocalDate birthDate, Gender gender, Idul idul, Email email, Role role, Set<Permission> creatorPermissions) {
 
         accountValidator.validateBirthDate(birthDate);
-        return companyChain.createAdminManagedAccount(name, birthDate, gender, idul, email,
-                password, role, creatorPermissions);
+        return companyChain.createAdminManagedAccount(name, birthDate, gender, idul, email, role, creatorPermissions);
     }
 }

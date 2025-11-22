@@ -27,7 +27,6 @@ class AccountPersistenceMapperTest {
         Assertions.assertEquals(account.getBirthDate(), persistenceEntity.birthDate());
         Assertions.assertEquals(account.getGender(), persistenceEntity.gender());
         Assertions.assertEquals(account.getEmail(), persistenceEntity.email());
-        Assertions.assertEquals(account.getPassword(), persistenceEntity.password());
         Assertions.assertEquals(account.getRole(), persistenceEntity.role());
         Assertions.assertEquals(account.getPermissions(), persistenceEntity.permissions());
     }
@@ -36,7 +35,7 @@ class AccountPersistenceMapperTest {
     void givenPersistenceEntity_whenToDomain_thenReturnAccount() {
         AccountRecord persistenceEntity = new AccountRecord(AccountFixture.AN_IDUL,
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
-                AccountFixture.AN_EMAIL, AccountFixture.A_PASSWORD, AccountFixture.A_ROLE,
+                AccountFixture.AN_EMAIL,AccountFixture.A_ROLE,
                 AccountFixture.A_SET_OF_PERMISSION);
 
         Account account = accountMapper.toEntity(persistenceEntity);
@@ -46,7 +45,6 @@ class AccountPersistenceMapperTest {
         Assertions.assertEquals(persistenceEntity.birthDate(), account.getBirthDate());
         Assertions.assertEquals(persistenceEntity.gender(), account.getGender());
         Assertions.assertEquals(persistenceEntity.email(), account.getEmail());
-        Assertions.assertEquals(persistenceEntity.password(), account.getPassword());
         Assertions.assertEquals(persistenceEntity.role(), account.getRole());
         Assertions.assertEquals(persistenceEntity.permissions(), account.getPermissions());
     }

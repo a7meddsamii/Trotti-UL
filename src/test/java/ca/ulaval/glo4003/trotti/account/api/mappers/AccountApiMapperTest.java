@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.api.mappers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
@@ -23,7 +23,7 @@ class AccountApiMapperTest {
     @BeforeEach
     void setup() {
         passwordHasher = Mockito.mock(PasswordHasher.class);
-        accountApiMapper = new AccountApiMapper(passwordHasher);
+        accountApiMapper = new AccountApiMapper();
     }
 
     @Test
@@ -32,14 +32,13 @@ class AccountApiMapperTest {
         Mockito.when(passwordHasher.hash(AccountFixture.A_RAW_PASSWORD))
                 .thenReturn(HASHED_PASSWORD);
 
-        AccountDto dto = accountApiMapper.toAccountDto(request);
+        PasswordRegistrationDto dto = accountApiMapper.toPasswordRegistrationDto(request);
 
         Assertions.assertEquals(request.name(), dto.name());
         Assertions.assertEquals(LocalDate.parse(request.birthDate()), dto.birthDate());
         Assertions.assertEquals(request.gender(), dto.gender().name());
         Assertions.assertEquals(request.idul(), dto.idul().toString());
         Assertions.assertEquals(request.email(), dto.email().toString());
-        Assertions.assertEquals(HASHED_PASSWORD, dto.password().toString());
 
     }
 
@@ -50,7 +49,7 @@ class AccountApiMapperTest {
                 AccountFixture.AN_IDUL_STRING, AccountFixture.AN_EMAIL_STRING,
                 AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
 
-        Executable toAccountDtoExecutable = () -> accountApiMapper.toAccountDto(request);
+        Executable toAccountDtoExecutable = () -> accountApiMapper.toPasswordRegistrationDto(request);
 
         Assertions.assertThrows(InvalidParameterException.class, toAccountDtoExecutable);
     }
@@ -62,7 +61,7 @@ class AccountApiMapperTest {
                 AccountFixture.AN_IDUL_STRING, AccountFixture.AN_EMAIL_STRING,
                 AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
 
-        Executable executable = () -> accountApiMapper.toAccountDto(request);
+        Executable executable = () -> accountApiMapper.toPasswordRegistrationDto(request);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }

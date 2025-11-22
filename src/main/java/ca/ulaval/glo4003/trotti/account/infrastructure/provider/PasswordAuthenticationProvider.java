@@ -3,18 +3,17 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 import ca.ulaval.glo4003.trotti.account.application.AuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.application.RegistrationProvider;
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordLoginInfo;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationInfo;
+import ca.ulaval.glo4003.trotti.account.application.dto.PasswordLoginDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.validator.routines.RegexValidator;
 
-public class PasswordAuthenticationProvider implements RegistrationProvider<AccountDto, PasswordRegistrationInfo>, AuthenticationProvider<Boolean, PasswordLoginInfo> {
+public class PasswordAuthenticationProvider implements RegistrationProvider<AccountDto, PasswordRegistrationDto>, AuthenticationProvider<Boolean, PasswordLoginDto> {
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{10,}$";
     private static final RegexValidator REGEX_VALIDATOR = new RegexValidator(PASSWORD_PATTERN);
     private final Map<Email, String> usersCredentials = new HashMap<>();
@@ -25,7 +24,7 @@ public class PasswordAuthenticationProvider implements RegistrationProvider<Acco
     }
 
     @Override
-    public Boolean verify(PasswordLoginInfo loginInfo) {
+    public Boolean verify(PasswordLoginDto loginInfo) {
         String hashedPassword = usersCredentials.get(loginInfo.email());
         if (hashedPassword == null){
             return false;
@@ -34,12 +33,11 @@ public class PasswordAuthenticationProvider implements RegistrationProvider<Acco
     }
 
     @Override
-    public AccountDto register(PasswordRegistrationInfo registrationInfo) {
+    public AccountDto register(PasswordRegistrationDto registrationInfo) {
         validatePassword(registrationInfo.password());
         String hashedPassword = passwordHasher.hash(registrationInfo.password());
         usersCredentials.put(registrationInfo.email(), hashedPassword);
-        //TODO: remove password from AccountDTO
-        return new AccountDto(registrationInfo.name(), registrationInfo.birthDate(), registrationInfo.gender(), registrationInfo.idul(), registrationInfo.email(),  Password.fromPlain(registrationInfo.password(), passwordHasher), registrationInfo.role());
+        return new AccountDto(registrationInfo.name(), registrationInfo.birthDate(), registrationInfo.gender(), registrationInfo.idul(), registrationInfo.email(), registrationInfo.role());
     }
 
     private void validatePassword(String plainPassword){

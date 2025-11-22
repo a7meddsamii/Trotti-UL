@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSessionTokenProviderAdapter;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
+import ca.ulaval.glo4003.trotti.account.infrastructure.provider.PasswordAuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import io.jsonwebtoken.Jwts;
@@ -28,8 +29,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
 
     @Override
     public void load() {
-        loadPasswordHasherService();
+        this.loadPasswordHasherService();
         this.loadSessionTokenProvider();
+        this.loadAuthentificationProvider();
+
     }
 
     private void loadPasswordHasherService() {
@@ -55,5 +58,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
                     exception);
             throw exception;
         }
+    }
+
+    private void loadAuthentificationProvider(){
+        PasswordAuthenticationProvider authentificationProvider = new PasswordAuthenticationProvider(this.resourceLocator.resolve(PasswordHasher.class));
+        this.resourceLocator.register(PasswordAuthenticationProvider.class, authentificationProvider);
     }
 }
