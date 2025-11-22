@@ -19,7 +19,7 @@ public class EmployeeCreationNode extends StandardAccountCreationNode {
 
     @Override
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role) {
-        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
+            Email email, Role role) {
+        return new Account(name, birthDate, gender, idul, email, role, permissions);
     }
 }

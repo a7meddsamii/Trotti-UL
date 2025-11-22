@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.application;
 
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
@@ -16,42 +18,48 @@ public class AccountApplicationService {
     private final AccountRepository accountRepository;
     private final AccountFactory accountFactory;
     private final SessionTokenProvider sessionTokenProvider;
+    private final AuthenticationProvider authenticationProvider;
 
     public AccountApplicationService(
             AccountRepository accountRepository,
             AccountFactory accountFactory,
-            SessionTokenProvider sessionTokenProvider) {
+            SessionTokenProvider sessionTokenProvider,
+            AuthenticationProvider authenticationProvider) {
         this.accountRepository = accountRepository;
         this.accountFactory = accountFactory;
         this.sessionTokenProvider = sessionTokenProvider;
+        this.authenticationProvider = authenticationProvider;
     }
 
-    public Idul createAccount(AccountDto registration) {
-        validateAccountDoesNotExist(registration.email(), registration.idul());
-        Account account = accountFactory.create(registration.name(), registration.birthDate(),
-                registration.gender(), registration.idul(), registration.email(),
-                registration.password(), registration.role());
+    public Idul createAccount(RegistrationDto registrationDto) {
+        AccountDto accountDto = authenticationProvider.register(registrationDto);
+        validateAccountDoesNotExist(accountDto.email(), accountDto.idul());
+        Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role());
         accountRepository.save(account);
 
         return account.getIdul();
     }
 
-    public Idul createAdminManagedAccount(AccountDto registration, Idul creatorIdul) {
-        validateAccountDoesNotExist(registration.email(), registration.idul());
+    public Idul createAdminManagedAccount(RegistrationDto registrationDto, Idul creatorIdul) {
+        AccountDto accountDto = authenticationProvider.register(registrationDto);
+        validateAccountDoesNotExist(accountDto.email(), accountDto.idul());
+
         Account creatorAccount = accountRepository.findByIdul(creatorIdul)
                 .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
-        Account account = accountFactory.create(registration.name(), registration.birthDate(),
-                registration.gender(), registration.idul(), registration.email(),
-                registration.password(), registration.role(), creatorAccount.getPermissions());
+        Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role(),
+                creatorAccount.getPermissions());
         accountRepository.save(account);
 
         return account.getIdul();
     }
 
-    public SessionToken login(Email email, String rawPassword) {
+    public SessionToken login(LoginDto loginDto) {
+        Email email = authenticationProvider.verify(loginDto);
+
         Account account = accountRepository.findByEmail(email)
-                .filter(found -> found.verifyPassword(rawPassword))
-                .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
+                .orElseThrow(() -> new AuthenticationException("Invalid credentials"));
 
         return sessionTokenProvider.generateToken(account.getIdul(), account.getRole(),
                 account.getPermissions());
@@ -63,4 +71,5 @@ public class AccountApplicationService {
             throw new AlreadyExistsException("Email or Idul already in use");
         }
     }
+
 }
