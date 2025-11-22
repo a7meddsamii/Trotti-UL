@@ -39,9 +39,11 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         TransferRepository transferRepository =
                 this.resourceLocator.resolve(TransferRepository.class);
         StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
+        ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
+        Clock clock = this.resourceLocator.resolve(Clock.class);
 
         TransferApplicationService transferApplicationService =
-                new TransferApplicationService(transferRepository, stationRepository);
+                new TransferApplicationService(transferRepository, stationRepository, scooterRepository, clock);
         this.resourceLocator.register(TransferApplicationService.class, transferApplicationService);
     }
 
