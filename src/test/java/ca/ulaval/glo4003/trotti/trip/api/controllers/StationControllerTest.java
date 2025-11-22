@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.MaintenanceRequestRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
@@ -180,5 +181,16 @@ class StationControllerTest {
         controller.endMaintenance(TECHNICIAN_IDUL, request);
 
         Mockito.verify(stationMaintenanceApplicationService).endMaintenance(dto);
+    }
+
+    @Test
+    void givenValidTokenAndRequest_whenRequestMaintenance_thenCallsApplicationService() {
+        MaintenanceRequestRequest request =
+                new MaintenanceRequestRequest(STATION_ID, "Maintenance message");
+
+        controller.requestMaintenanceService(TECHNICIAN_IDUL, request);
+
+        Mockito.verify(stationMaintenanceApplicationService)
+                .requestMaintenanceService(TECHNICIAN_IDUL, request.location(), request.message());
     }
 }

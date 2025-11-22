@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.MaintenanceRequestRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
@@ -69,5 +70,12 @@ public class StationController implements StationResource {
         stationMaintenanceApplicationService.endMaintenance(dto);
 
         return Response.ok().build();
+    }
+
+    @Override
+    public Response requestMaintenanceService(Idul userId, MaintenanceRequestRequest request) {
+        stationMaintenanceApplicationService.requestMaintenanceService(userId, request.location(),
+                request.message());
+        return Response.noContent().build();
     }
 }
