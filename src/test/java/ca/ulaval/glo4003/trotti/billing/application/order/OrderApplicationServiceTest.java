@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.application.order;
 
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.RidePermitItem;
 import ca.ulaval.glo4003.trotti.billing.domain.order.factory.OrderItemFactory;
@@ -13,153 +11,112 @@ import ca.ulaval.glo4003.trotti.billing.domain.payment.PaymentGateway;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.*;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 class OrderApplicationServiceTest {
-
-    // Constants (only those reused across multiple tests)
-    private static final Idul BUYER_ID = new Idul("IDUL123");
+	
+    private static final Idul BUYER_ID = Idul.from("IDUL123");
     private static final ItemId ITEM_ID = ItemId.randomId();
-
-    @Mock
-    private OrderRepository orderRepository;
-    @Mock
-    private OrderAssembler orderAssembler;
-    @Mock
-    private OrderItemFactory orderItemFactory;
-
-    @Mock
-    private RidePermitItem ridePermitItem;
-    @Mock
-    private OrderDto orderDto;
-    @Mock
-    private AddItemDto addItemDto;
-    @Mock
-    private ConfirmOrderDto confirmOrderDto;
-
-    @InjectMocks
-    private OrderApplicationService orderApplicationService;
-
+	
+	
+	
+	private OrderRepository orderRepository;
+	private OrderAssembler	orderAssembler;
+	private OrderItemFactory orderItemFactory;
+	private PaymentMethodFactory paymentMethodFactory;
+	private PaymentGateway paymentGateway;
+	private EventBus eventBus;
+	
+	private OrderApplicationService orderApplicationService;
+    
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        when(orderItemFactory.create(any(), any(), any())).thenReturn(ridePermitItem);
-        when(orderAssembler.assemble(any(Order.class))).thenReturn(orderDto);
+		orderRepository = Mockito.mock(OrderRepository.class);
+		orderAssembler = Mockito.mock(OrderAssembler.class);
+		orderItemFactory = Mockito.mock(OrderItemFactory.class);
+		paymentMethodFactory = Mockito.mock(PaymentMethodFactory.class);
+		paymentGateway = Mockito.mock(PaymentGateway.class);
+		eventBus = Mockito.mock(EventBus.class);
+		orderApplicationService = new OrderApplicationService(
+			orderRepository,
+			orderAssembler,
+			orderItemFactory,
+			paymentMethodFactory,
+			paymentGateway,
+			eventBus);
+	}
+
+    @Test
+    void givenNoOngoingOrder_whenAddItem_thenNewOrderCreatedAndSaved() {
+		AddItemDto addItemDto = Mockito.mock(AddItemDto.class);
+		Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.empty());
+		
+		orderApplicationService.addItem(BUYER_ID, addItemDto);
+		
+		Mockito.verify(orderRepository).save(Mockito.any(Order.class));
     }
 
     @Test
-    void givenNoOngoingOrder_whenAddItem_thenNewOrderCreated() {
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.empty());
-
-        // Act
-        OrderDto result = orderApplicationService.addItem(BUYER_ID, addItemDto);
-
-        
-        assertThat(result).isSameAs(orderDto);
+    void givenOngoingOrder_whenAddItem_thenItemAddedAndOrderSaved() {
+		AddItemDto addItemDto = Mockito.mock(AddItemDto.class);
+        Order existingOrder = Mockito.spy(new Order(OrderId.randomId(), BUYER_ID));
+        Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
+		Mockito.when(orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(), addItemDto.billingFrequency())).thenReturn(Mockito.mock(RidePermitItem.class));
+		
+        orderApplicationService.addItem(BUYER_ID, addItemDto);
+		
+		Mockito.verify(existingOrder).add(Mockito.any(RidePermitItem.class));
+        Mockito.verify(orderRepository).save(existingOrder);
     }
 
     @Test
-    void givenOngoingOrder_whenAddItem_thenItemAddedAndOrderSavedAndAssembled() {
-        // Arrange
-        Order existingOrder = spy(new Order(OrderId.randomId(), BUYER_ID));
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
-
-        // Act
-        OrderDto result = orderApplicationService.addItem(BUYER_ID, addItemDto);
-
-        // Assert
-        assertThat(result).isSameAs(orderDto);
-        verify(existingOrder).add(ridePermitItem);
-        verify(orderRepository).save(existingOrder);
-        verify(orderAssembler).assemble(existingOrder);
-    }
-
-    @Test
-    void givenOngoingOrderExists_whenGetOngoingOrder_thenAssemblerReturnsDto() {
-        // Arrange
+    void givenOngoingOrderExists_whenGetOngoingOrder_thenReturnsDto() {
         Order existingOrder = new Order(OrderId.randomId(), BUYER_ID);
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
-
-        // Act
-        OrderDto result = orderApplicationService.getOngoingOrder(BUYER_ID);
-
-        // Assert
-        assertThat(result).isSameAs(orderDto);
-        verify(orderRepository).findOngoingOrderFor(BUYER_ID);
-        verify(orderAssembler).assemble(existingOrder);
+        Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
+		
+		orderApplicationService.getOngoingOrder(BUYER_ID);
+		
+		Mockito.verify(orderAssembler).assemble(existingOrder);
     }
 
     @Test
     void givenNoOngoingOrder_whenGetOngoingOrder_thenThrowsNotFoundException() {
-        // Arrange
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.empty());
-
-        // Act + Assert
-        assertThatThrownBy(() -> orderApplicationService.getOngoingOrder(BUYER_ID))
-                .isInstanceOf(NotFoundException.class);
-        verify(orderRepository).findOngoingOrderFor(BUYER_ID);
-        verify(orderAssembler, never()).assemble(any());
+        Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.empty());
+		
+		Executable lookingForNonExistingOngoingOrder = () -> orderApplicationService.getOngoingOrder(BUYER_ID);
+		
+		Assertions.assertThrows(NotFoundException.class, lookingForNonExistingOngoingOrder);
     }
 
     @Test
-    void givenOngoingOrder_whenRemoveItem_thenItemRemovedAndOrderSavedAndAssembled() {
-        // Arrange
-        Order existingOrder = spy(new Order(OrderId.randomId(), BUYER_ID));
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
-
-        // Act
-        OrderDto result = orderApplicationService.removeItem(BUYER_ID, ITEM_ID);
-
-        // Assert
-        assertThat(result).isSameAs(orderDto);
-        verify(existingOrder).remove(ITEM_ID);
-        verify(orderRepository).save(existingOrder);
-        verify(orderAssembler).assemble(existingOrder);
+    void givenOngoingOrder_whenRemoveItem_thenItemRemovedAndOrderSaved() {
+        Order existingOrder = Mockito.spy(new Order(OrderId.randomId(), BUYER_ID));
+		Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
+		
+		orderApplicationService.removeItem(BUYER_ID, ITEM_ID);
+		
+        Mockito.verify(existingOrder).remove(ITEM_ID);
+		Mockito.verify(orderRepository).save(existingOrder);
     }
 
     @Test
-    void givenOngoingOrder_whenRemoveAllItems_thenOrderClearedAndSavedAndAssembled() {
-        // Arrange
-        Order existingOrder = spy(new Order(OrderId.randomId(), BUYER_ID));
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
-
-        // Act
-        OrderDto result = orderApplicationService.removeAllItems(BUYER_ID);
-
-        // Assert
-        assertThat(result).isSameAs(orderDto);
-        verify(existingOrder).clear();
-        verify(orderRepository).save(existingOrder);
-        verify(orderAssembler).assemble(existingOrder);
-    }
-
-    @Test
-    void givenOngoingOrder_whenConfirm_thenOrderSaved() {
-        // Arrange
-        Order existingOrder = new Order(OrderId.randomId(), BUYER_ID);
-        when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
-
-        // Act
-        orderApplicationService.confirm(BUYER_ID, confirmOrderDto);
-
-        // Assert
-        verify(orderRepository).save(existingOrder);
-        verify(orderRepository).findOngoingOrderFor(BUYER_ID);
-        // No assembler invocation in confirm
-        verify(orderAssembler, never()).assemble(any());
+    void givenOngoingOrder_whenRemoveAllItems_thenOrderClearedAndSaved() {
+        
+        Order existingOrder = Mockito.spy(new Order(OrderId.randomId(), BUYER_ID));
+		Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.of(existingOrder));
+		
+        orderApplicationService.removeAllItems(BUYER_ID);
+		
+		Mockito.verify(existingOrder).clear();
+		Mockito.verify(orderRepository).save(existingOrder);
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface RidePermitRepository {
     void save(RidePermit order);
+	
+	void saveAll(List<RidePermit> ridePermits);
 
     RidePermit findById(RidePermitId orderId);
 

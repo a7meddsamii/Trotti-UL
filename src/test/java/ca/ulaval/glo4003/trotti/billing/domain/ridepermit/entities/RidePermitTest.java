@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.exceptions.InvalidRidePermitOperation;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitState;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.Duration;
@@ -28,7 +29,7 @@ class RidePermitTest {
     private static final Duration DIFFERENT_TRAVEL_DURATION = Duration.ofMinutes(50);
     private static final Duration ZERO_DURATION = Duration.ZERO;
     private static final LocalDateTime A_DATE_TIME = LocalDateTime.of(2025, 1, 1, 12, 0);
-
+	private static final RidePermitState A_STATE = RidePermitState.ACTIVE;
     private static final Money ZERO_CAD = Money.zeroCad();
 
     private static final LocalDate TODAY = LocalDate.now();
@@ -52,7 +53,7 @@ class RidePermitTest {
         Map<LocalDate, DailyBillingUsage> initial = new HashMap<>();
         initial.put(TODAY, emptyUsage(DAILY_LIMIT, TODAY));
         initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, A_TRAVEL_DURATION));
-        ridePermit = new RidePermit(ridePermitId, IDUL, session, DAILY_LIMIT, initial);
+        ridePermit = new RidePermit(ridePermitId, IDUL, session, DAILY_LIMIT, initial, A_STATE);
 
         Map<LocalDate, DailyBillingUsage> usages = ridePermit.getDailyBillingUsages();
 
@@ -63,7 +64,7 @@ class RidePermitTest {
 
     @Test
     void givenDateWithoutUsage_whenAddDailyTravelTime_thenUsageCreatedAndVisible() {
-        ridePermit.addDailyTravelTime(A_DATE_TIME, A_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, A_TRAVEL_DURATION);
 
         Map<LocalDate, DailyBillingUsage> usages = ridePermit.getDailyBillingUsages();
 
@@ -72,18 +73,18 @@ class RidePermitTest {
 
     @Test
     void givenZeroDurationAdded_whenAddDailyTravelTime_thenUsageRemainsFilteredOut() {
-        ridePermit.addDailyTravelTime(A_DATE_TIME, ZERO_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, ZERO_DURATION);
         assertTrue(ridePermit.getDailyBillingUsages().isEmpty());
     }
 
     @Test
     void givenDate_whenAddDailyTravelTime_thenCorrectDailyBillingUsageIsUpdated() {
-        ridePermit.addDailyTravelTime(A_DATE_TIME, A_TRAVEL_DURATION);
-        ridePermit.addDailyTravelTime(A_DATE_TIME.plusDays(2), A_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, A_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME.plusDays(2), A_TRAVEL_DURATION);
 
-        ridePermit.addDailyTravelTime(A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
 
-        Mockito.verify(ridePermit).addDailyTravelTime(A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
+        Mockito.verify(ridePermit).addDailyTravelTime(IDUL, A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
     }
 
     @Test
@@ -91,7 +92,7 @@ class RidePermitTest {
         Duration negativeDuration = Duration.ofMinutes(-1);
 
         Executable addDailyTravelTime =
-                () -> ridePermit.addDailyTravelTime(A_DATE_TIME, negativeDuration);
+                () -> ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, negativeDuration);
 
         Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }
