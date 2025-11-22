@@ -9,7 +9,8 @@ import java.util.Set;
 
 public class AdminCreationNode extends AdminManagedAccountCreationNode {
 
-    private final Set<Permission> permissions = Set.of(Permission.values());
+    private final Set<Permission> permissions = Set.of(Permission.DELETE_EMPLOYEE,
+            Permission.CREATE_EMPLOYEE, Permission.CREATE_ADMIN, Permission.DELETE_ADMIN);
 
     @Override
     protected Role responsibilityRole() {

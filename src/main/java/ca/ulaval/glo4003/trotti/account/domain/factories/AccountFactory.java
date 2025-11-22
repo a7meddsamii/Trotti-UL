@@ -39,10 +39,4 @@ public class AccountFactory {
                 creatorPermissions);
     }
 
-    public Account createInitialAdmin(String name, LocalDate birthDate, Gender gender, Idul idul,
-            Email email, Password password, Role role, Set<Permission> permissions) {
-        accountValidator.validateBirthDate(birthDate);
-
-        return new Account(name, birthDate, gender, idul, email, password, role, permissions);
-    }
 }
