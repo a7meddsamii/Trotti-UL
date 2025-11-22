@@ -87,4 +87,8 @@ public class Transfer {
     public Map<ScooterId, Boolean> getScootersMovedCopy() {
         return new HashMap<>(scootersMoved);
     }
+
+    public int getScootersInTransitCount() {
+        return getScootersInTransit().size();
+    }
 }
