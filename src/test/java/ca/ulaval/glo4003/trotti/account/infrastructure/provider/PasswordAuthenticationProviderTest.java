@@ -82,7 +82,7 @@ class PasswordAuthenticationProviderTest {
 
         Executable executable = () -> provider.verify(dto);
 
-        Assertions.assertThrows(AuthenticationException.class, executable );
+        Assertions.assertThrows(AuthenticationException.class, executable);
     }
 
     @Test
@@ -107,7 +107,7 @@ class PasswordAuthenticationProviderTest {
         provider.register(registration);
         LoginDto dto = new LoginDto(EMAIL, NON_MATCHING_PASSWORD);
 
-       Executable executable = () -> provider.verify(dto);
+        Executable executable = () -> provider.verify(dto);
 
         Assertions.assertThrows(AuthenticationException.class, executable);
     }

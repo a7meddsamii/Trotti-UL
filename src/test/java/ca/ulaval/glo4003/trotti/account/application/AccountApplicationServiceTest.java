@@ -137,12 +137,12 @@ class AccountApplicationServiceTest {
         Assertions.assertThrows(AuthenticationException.class, accountCreationAttempt);
     }
 
-
     @Test
     void givenValidCredentials_whenLogin_thenGenerateTokenIsCalled() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
-        Mockito.when(authenticationProvider.verify(Mockito.any())).thenReturn(AccountFixture.AN_EMAIL);
+        Mockito.when(authenticationProvider.verify(Mockito.any()))
+                .thenReturn(AccountFixture.AN_EMAIL);
 
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
         Mockito.when(mockAccount.getRole()).thenReturn(AccountFixture.A_ROLE);
@@ -182,10 +182,6 @@ class AccountApplicationServiceTest {
         Mockito.when(authenticationProvider.register(registrationDto)).thenReturn(dto);
 
         mockFactoryToReturnValidAccount(dto);
-    }
-
-    private LoginDto createLoginDto(){
-        return new LoginDto(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
     }
 
 }

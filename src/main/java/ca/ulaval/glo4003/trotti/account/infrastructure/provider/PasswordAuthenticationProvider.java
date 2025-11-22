@@ -25,7 +25,7 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Email verify(LoginDto loginInfo) {
         String hashedPassword = usersCredentials.get(loginInfo.email());
-        if(!this.passwordHasher.matches(loginInfo.password(), hashedPassword)){
+        if (!this.passwordHasher.matches(loginInfo.password(), hashedPassword)) {
             throw new AuthenticationException("Invalid email or password");
         }
 

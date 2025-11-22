@@ -27,9 +27,7 @@ class AuthenticationControllerTest {
         request = new LoginRequest(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
         expectedToken = SessionToken.from("jwt-token");
         LoginDto loginDto = new LoginDto(Email.from(request.email()), request.password());
-        Mockito.when(
-                accountApplicationService.login(loginDto))
-                .thenReturn(expectedToken);
+        Mockito.when(accountApplicationService.login(loginDto)).thenReturn(expectedToken);
 
         authenticationController = new AuthenticationController(accountApplicationService);
     }
@@ -46,8 +44,7 @@ class AuthenticationControllerTest {
     void givenValidLoginRequest_whenLogin_thenServiceIsCalledWithEmailAndPassword() {
         authenticationController.login(request);
 
-
-        LoginDto loginDto = new LoginDto(Email.from(request.email()),  request.password());
+        LoginDto loginDto = new LoginDto(Email.from(request.email()), request.password());
         Mockito.verify(accountApplicationService).login(loginDto);
     }
 }
