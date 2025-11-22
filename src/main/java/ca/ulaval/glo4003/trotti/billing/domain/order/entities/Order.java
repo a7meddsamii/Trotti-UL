@@ -11,8 +11,8 @@ import java.util.List;
 public class Order {
     private final OrderId orderId;
     private final Idul idul;
-    private final List<OrderItem> items;
-    private OrderStatus status;
+    private final List<RidePermitItem> items;
+    private final OrderStatus status;
 
     public Order(OrderId orderId, Idul buyerId) {
         this.orderId = orderId;
@@ -21,14 +21,14 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
-    public Order(OrderId orderId, Idul buyerId, List<OrderItem> items, OrderStatus status) {
+    public Order(OrderId orderId, Idul buyerId, List<RidePermitItem> items, OrderStatus status) {
         this.orderId = orderId;
         this.idul = buyerId;
         this.items = new ArrayList<>(items);
         this.status = status;
     }
 
-    public List<OrderItem> getItems() {
+    public List<RidePermitItem> getItems() {
         return List.copyOf(items);
     }
 
@@ -40,7 +40,7 @@ public class Order {
         return orderId;
     }
 
-    public boolean add(OrderItem item) {
+    public boolean add(RidePermitItem item) {
         if (alreadyContains(item)) {
             return false;
         }
@@ -58,14 +58,14 @@ public class Order {
 
     public Money getTotalCost() {
         Money total = Money.zeroCad();
-        for (OrderItem pass : items) {
+        for (RidePermitItem pass : items) {
             total = total.plus(pass.getCost());
         }
 
         return total;
     }
 
-    private boolean alreadyContains(OrderItem item) {
+    private boolean alreadyContains(RidePermitItem item) {
         return items.stream().anyMatch(inCartItem -> inCartItem.isItem(item.getItemId()));
     }
 }

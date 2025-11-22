@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.InvalidRidePermitOperation;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
@@ -11,9 +12,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -81,6 +84,16 @@ class RidePermitTest {
         ridePermit.addDailyTravelTime(A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
 
         Mockito.verify(ridePermit).addDailyTravelTime(A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
+    }
+
+    @Test
+    void givenNegativeDuration_whenAddDailyTravelTime_thenThrowsException() {
+        Duration negativeDuration = Duration.ofMinutes(-1);
+
+        Executable addDailyTravelTime =
+                () -> ridePermit.addDailyTravelTime(A_DATE_TIME, negativeDuration);
+
+        Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }
 
     private DailyBillingUsage nonEmptyUsage(Duration limit, LocalDate date, Duration traveled) {

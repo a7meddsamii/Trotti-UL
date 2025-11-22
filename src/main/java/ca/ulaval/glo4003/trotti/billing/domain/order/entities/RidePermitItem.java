@@ -6,13 +6,13 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTi
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 
-public class OrderItem {
+public class RidePermitItem {
     private final ItemId itemId;
     private final MaximumDailyTravelTime maximumTravelingTime;
     private final Session session;
     private final BillingFrequency billingFrequency;
 
-    public OrderItem(
+    public RidePermitItem(
             ItemId itemId,
             MaximumDailyTravelTime maximumTravelingTime,
             Session session,
