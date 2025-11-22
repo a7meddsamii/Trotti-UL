@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.api.mappers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
-import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
@@ -14,7 +12,7 @@ public class AccountApiMapper {
 
     public AccountApiMapper() {}
 
-    public PasswordRegistrationDto toPasswordRegistrationDto(CreateAccountRequest request) {
+    public RegistrationDto toPasswordRegistrationDto(CreateAccountRequest request) {
         if (request == null) {
             throw new InvalidParameterException("Provide the information to create an account");
         }
@@ -26,7 +24,7 @@ public class AccountApiMapper {
         LocalDate birthDate = parseDate(request.birthDate());
         Role role = Role.fromString(request.role());
 
-        return new PasswordRegistrationDto(request.name(), birthDate, gender, idul, email, password, role);
+        return new RegistrationDto(request.name(), birthDate, gender, idul, email, password, role);
     }
 
     private LocalDate parseDate(String birthDateString) {

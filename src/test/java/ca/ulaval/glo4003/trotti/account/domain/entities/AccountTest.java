@@ -1,13 +1,11 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Password;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import java.time.LocalDate;
 import java.time.Month;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class AccountTest {
 
@@ -27,8 +25,6 @@ class AccountTest {
 
         Assertions.assertEquals(EXPECTED_AGE, account.getAge());
     }
-
-
 
     private Account createAccountPassword() {
         return new Account(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,

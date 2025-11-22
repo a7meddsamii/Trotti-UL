@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.account.api.controllers;
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.api.mappers.AccountApiMapper;
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
@@ -21,7 +21,7 @@ class AccountControllerTest {
 
     private AccountApplicationService accountApplicationService;
     private AccountApiMapper accountApiMapper;
-    private PasswordRegistrationDto mappedDto;
+    private RegistrationDto mappedDto;
     private CreateAccountRequest request;
 
     private AccountResource accountController;
@@ -30,7 +30,7 @@ class AccountControllerTest {
     void setUp() {
         accountApplicationService = Mockito.mock(AccountApplicationService.class);
         accountApiMapper = Mockito.mock(AccountApiMapper.class);
-        mappedDto = Mockito.mock(PasswordRegistrationDto.class);
+        mappedDto = Mockito.mock(RegistrationDto.class);
         request = buildValidRequest();
         Mockito.when(accountApiMapper.toPasswordRegistrationDto(request)).thenReturn(mappedDto);
 

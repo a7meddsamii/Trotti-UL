@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordLoginDto;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
@@ -45,19 +45,19 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenValidPassword_whenRegister_thenVerifyReturnsTrue() {
-        PasswordRegistrationDto registration = createValidRegistrationDto();
+        RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(A_VALID_PASSWORD, A_HASHED_PASSWORD)).thenReturn(true);
 
         provider.register(registration);
 
-        PasswordLoginDto loginDto = new PasswordLoginDto(EMAIL, A_VALID_PASSWORD);
+        LoginDto loginDto = new LoginDto(EMAIL, A_VALID_PASSWORD);
         Assertions.assertTrue(provider.verify(loginDto));
     }
 
     @Test
     void givenValidPassword_whenRegister_thenReturnsAccountDto() {
-        PasswordRegistrationDto registration = createValidRegistrationDto();
+        RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
 
         AccountDto dto = provider.register(registration);
@@ -72,8 +72,8 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenInvalidPassword_whenRegister_thenThrowsException() {
-        PasswordRegistrationDto registration =
-            new PasswordRegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, AN_INVALID_PASSWORD, A_ROLE);
+        RegistrationDto registration =
+            new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, AN_INVALID_PASSWORD, A_ROLE);
 
         Executable executable = () -> provider.register(registration);
 
@@ -82,7 +82,7 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenNonExistentEmail_whenVerify_thenReturnsFalse() {
-        PasswordLoginDto dto = new PasswordLoginDto(EMAIL, A_VALID_PASSWORD);
+        LoginDto dto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
         boolean result = provider.verify(dto);
 
@@ -91,11 +91,11 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenExistingEmailWithMatchingPassword_whenVerify_thenReturnsTrue() {
-        PasswordRegistrationDto registration = createValidRegistrationDto();
+        RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(A_VALID_PASSWORD, A_HASHED_PASSWORD)).thenReturn(true);
         provider.register(registration);
-        PasswordLoginDto login = new PasswordLoginDto(EMAIL, A_VALID_PASSWORD);
+        LoginDto login = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
         boolean result = provider.verify(login);
 
@@ -104,19 +104,19 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenExistingEmailWithWrongPassword_whenVerify_thenReturnsFalse() {
-        PasswordRegistrationDto registration = createValidRegistrationDto();
+        RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD)).thenReturn(false);
         provider.register(registration);
-        PasswordLoginDto dto = new PasswordLoginDto(EMAIL, NON_MATCHING_PASSWORD);
+        LoginDto dto = new LoginDto(EMAIL, NON_MATCHING_PASSWORD);
 
         boolean result = provider.verify(dto);
 
         Assertions.assertFalse(result);
     }
 
-    private PasswordRegistrationDto createValidRegistrationDto() {
-        return new PasswordRegistrationDto(
+    private RegistrationDto createValidRegistrationDto() {
+        return new RegistrationDto(
             A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, A_VALID_PASSWORD, A_ROLE
         );
     }

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.api.mappers;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
@@ -32,7 +32,7 @@ class AccountApiMapperTest {
         Mockito.when(passwordHasher.hash(AccountFixture.A_RAW_PASSWORD))
                 .thenReturn(HASHED_PASSWORD);
 
-        PasswordRegistrationDto dto = accountApiMapper.toPasswordRegistrationDto(request);
+        RegistrationDto dto = accountApiMapper.toPasswordRegistrationDto(request);
 
         Assertions.assertEquals(request.name(), dto.name());
         Assertions.assertEquals(LocalDate.parse(request.birthDate()), dto.birthDate());

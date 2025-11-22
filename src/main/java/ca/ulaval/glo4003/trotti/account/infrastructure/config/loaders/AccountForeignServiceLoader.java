@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSessionTokenProviderAdapter;
+import ca.ulaval.glo4003.trotti.account.application.AuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.provider.PasswordAuthenticationProvider;
@@ -61,7 +62,8 @@ public class AccountForeignServiceLoader extends Bootstrapper {
     }
 
     private void loadAuthentificationProvider(){
-        PasswordAuthenticationProvider authentificationProvider = new PasswordAuthenticationProvider(this.resourceLocator.resolve(PasswordHasher.class));
-        this.resourceLocator.register(PasswordAuthenticationProvider.class, authentificationProvider);
+        PasswordHasher passwordHasher = this.resourceLocator.resolve(PasswordHasher.class);
+        AuthenticationProvider authentificationProvider = new PasswordAuthenticationProvider(passwordHasher);
+        this.resourceLocator.register(AuthenticationProvider.class, authentificationProvider);
     }
 }

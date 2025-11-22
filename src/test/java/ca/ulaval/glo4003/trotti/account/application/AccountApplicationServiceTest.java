@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.application;
 
 import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
-import ca.ulaval.glo4003.trotti.account.application.dto.PasswordRegistrationDto;
+import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AlreadyExistsException;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
@@ -23,8 +23,7 @@ class AccountApplicationServiceTest {
     private AccountRepository accountRepository;
     private AccountFactory accountFactory;
     private SessionTokenProvider sessionTokenProvider;
-    private PasswordRegistrationDto registrationDto;
-    private AccountDto accountDto;
+    private RegistrationDto registrationDto;
     private Account mockAccount;
     private PasswordAuthenticationProvider authenticationProvider;
 
@@ -51,7 +50,7 @@ class AccountApplicationServiceTest {
     @Test
     void givenValidPasswordRegistrationDto_whenCreateAccount_thenAccountIsSavedInRepository() {
         mockRepositoryToReturnNoExistingAccount();
-        mockPasswordAuthenticationProviderToReturnAccountDto();
+        mockAuthenticationProviderToReturnAccountDto();
 
         accountApplicationService.createAccount(registrationDto);
 
@@ -61,7 +60,7 @@ class AccountApplicationServiceTest {
     @Test
     void givenValidPasswordRegistrationDto_whenCreateAccount_thenReturnIdul() {
         mockRepositoryToReturnNoExistingAccount();
-        mockPasswordAuthenticationProviderToReturnAccountDto();
+        mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(mockAccount.getIdul()).thenReturn(AccountFixture.AN_IDUL);
 
         Idul idul = accountApplicationService.createAccount(registrationDto);
@@ -71,6 +70,7 @@ class AccountApplicationServiceTest {
 
     @Test
     void givenExistingEmail_whenCreateAccount_thenThrowAlreadyExistsException() {
+        mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
 
@@ -82,6 +82,7 @@ class AccountApplicationServiceTest {
 
     @Test
     void givenExistingIdul_whenCreateAccount_thenThrowAlreadyExistsException() {
+        mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.empty());
         Mockito.when(accountRepository.findByIdul(AccountFixture.AN_IDUL))
@@ -96,7 +97,7 @@ class AccountApplicationServiceTest {
     @Test
     void givenValidPasswordRegistrationDto_whenCreateAccount_thenRegisterIsCalled() {
         mockRepositoryToReturnNoExistingAccount();
-        mockPasswordAuthenticationProviderToReturnAccountDto();
+        mockAuthenticationProviderToReturnAccountDto();
 
         accountApplicationService.createAccount(registrationDto);
 
@@ -116,6 +117,7 @@ class AccountApplicationServiceTest {
 
     @Test
     void givenExistingEmail_whenCreateAdminManagedAccount_thenThrowAlreadyExistsException() {
+        mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(mockAccount));
 
@@ -127,6 +129,7 @@ class AccountApplicationServiceTest {
 
     @Test
     void givenNonExistentCreatorAccount_whenCreateAdminManagedAccount_thenThrowAuthenticationException() {
+        mockAuthenticationProviderToReturnAccountDto();
         mockRepositoryToReturnNoExistingAccount();
         Mockito.when(accountRepository.findByIdul(AccountFixture.AN_IDUL))
                 .thenReturn(Optional.empty());
@@ -167,8 +170,8 @@ class AccountApplicationServiceTest {
             .generateToken(AccountFixture.AN_IDUL, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
     }
 
-    private PasswordRegistrationDto createValidPasswordRegistrationDto() {
-        return new PasswordRegistrationDto(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
+    private RegistrationDto createValidPasswordRegistrationDto() {
+        return new RegistrationDto(AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE,
                 AccountFixture.A_GENDER, AccountFixture.AN_IDUL, AccountFixture.AN_EMAIL,
                 AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE);
     }
@@ -191,7 +194,7 @@ class AccountApplicationServiceTest {
         )).thenReturn(mockAccount);
     }
 
-    private void mockPasswordAuthenticationProviderToReturnAccountDto() {
+    private void mockAuthenticationProviderToReturnAccountDto() {
         AccountDto dto = new AccountDto(
             AccountFixture.A_NAME,
             AccountFixture.A_BIRTHDATE,
