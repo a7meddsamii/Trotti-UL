@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.application;
 
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.DockScooterDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UndockScooterDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
@@ -9,6 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
