@@ -1,18 +1,12 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
-import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.config.events.InMemoryEventBus;
-import ca.ulaval.glo4003.trotti.trip.api.handlers.MaintenanceRequestedEventHandler;
 import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.order.domain.repositories.PassRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.events.MaintenanceRequestedEvent;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.services.EmployeeRidePermitService;
-import ca.ulaval.glo4003.trotti.trip.domain.services.MaintenanceRequestNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.RidePermitNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeNotificationService;
 import ca.ulaval.glo4003.trotti.trip.domain.services.UnlockCodeService;
@@ -25,7 +19,6 @@ public class TripDomainServiceLoader extends Bootstrapper {
     public void load() {
         loadRidePermitActivationDomainServices();
         loadUnlockCodeDomainServices();
-        loadMaintenanceRequestDomainServices();
     }
 
     private void loadRidePermitActivationDomainServices() {
@@ -55,20 +48,5 @@ public class TripDomainServiceLoader extends Bootstrapper {
         this.resourceLocator.register(UnlockCodeService.class, unlockCodeService);
         this.resourceLocator.register(UnlockCodeNotificationService.class,
                 unlockCodeNotificationService);
-    }
-
-    private void loadMaintenanceRequestDomainServices() {
-        AccountRepository accountRepository = this.resourceLocator.resolve(AccountRepository.class);
-        EmailService emailService = this.resourceLocator.resolve(EmailService.class);
-        EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
-
-        MaintenanceRequestNotificationService maintenanceRequestNotificationService =
-                new MaintenanceRequestNotificationService(accountRepository, emailService);
-        this.resourceLocator.register(MaintenanceRequestNotificationService.class,
-                maintenanceRequestNotificationService);
-
-        MaintenanceRequestedEventHandler handler =
-                new MaintenanceRequestedEventHandler(maintenanceRequestNotificationService);
-        ((InMemoryEventBus) eventBus).subscribe(MaintenanceRequestedEvent.class, handler);
     }
 }
