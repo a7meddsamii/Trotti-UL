@@ -9,30 +9,31 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.repository.OrderRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.PaymentGateway;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.PaymentMethod;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.PaymentIntent;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.order.domain.events.OrderPlacedEvent;
 
 public class OrderApplicationService {
-    private final PaymentGateway paymentGateway;
     private final OrderRepository orderRepository;
     private final OrderAssembler orderAssembler;
     private final OrderItemFactory orderItemFactory;
+	private final PaymentMethodFactory paymentMethodFactory;
+	private final PaymentGateway paymentGateway;
     private final EventBus eventBus;
 
     public OrderApplicationService(
-            PaymentGateway paymentGateway,
             OrderRepository orderRepository,
             OrderAssembler orderAssembler,
             OrderItemFactory orderItemFactory,
+			PaymentMethodFactory paymentMethodFactory,
+			PaymentGateway paymentGateway,
             EventBus eventBus) {
-        this.paymentGateway = paymentGateway;
         this.orderRepository = orderRepository;
         this.orderAssembler = orderAssembler;
         this.orderItemFactory = orderItemFactory;
+		this.paymentMethodFactory = paymentMethodFactory;
+		this.paymentGateway = paymentGateway;
         this.eventBus = eventBus;
     }
 
@@ -48,13 +49,6 @@ public class OrderApplicationService {
 
     public OrderDto getOngoingOrder(Idul buyerId) {
         Order order = findOngoingOrder(buyerId);
-        return orderAssembler.assemble(order);
-    }
-
-    public OrderDto getOrder(Idul buyerId, OrderId orderId) {
-        Order order = orderRepository.findOrderFor(buyerId, orderId)
-                .orElseThrow(() -> new NotFoundException("No ongoing order for buyer " + buyerId));
-
         return orderAssembler.assemble(order);
     }
 
@@ -77,14 +71,11 @@ public class OrderApplicationService {
 	//TODO
     public void confirm(Idul buyerId, ConfirmOrderDto confirmOrderDto) {
         Order order = findOngoingOrder(buyerId);
-        boolean success = paymentGateway.pay(
-                PaymentIntent.of(buyerId, order.getOrderId(), order.getTotalCost(), null));
+		
         orderRepository.save(order);
-
-        OrderPlacedEvent orderPlacedEvent = orderAssembler.assembleOrderPlacedEvent(order, success);
-        eventBus.publish(orderPlacedEvent);
+        
     }
-
+	
     private Order findOngoingOrder(Idul buyerId) {
         return orderRepository.findOngoingOrderFor(buyerId)
                 .orElseThrow(() -> new NotFoundException("No ongoing order for buyer " + buyerId));

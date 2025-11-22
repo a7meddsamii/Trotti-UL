@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.payment.domain.services;
 
-import ca.ulaval.glo4003.trotti.payment.domain.exceptions.InvalidPaymentRequestException;
-import ca.ulaval.glo4003.trotti.payment.domain.exceptions.PaymentDeclinedException;
-import ca.ulaval.glo4003.trotti.payment.domain.exceptions.PaymentException;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.InvalidPaymentRequestException;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.PaymentDeclinedException;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.PaymentException;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.TransactionStatus;
 

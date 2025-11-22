@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.payment.domain.values.money;
 
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Currency;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;

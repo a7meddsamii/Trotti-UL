@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Currency;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Currency;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.Duration;
 import java.util.Objects;
 

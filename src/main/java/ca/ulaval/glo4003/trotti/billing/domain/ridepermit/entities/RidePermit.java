@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

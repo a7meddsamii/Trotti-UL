@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.billing.domain.payment;
 
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.PaymentIntent;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.PaymentReceipt;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentIntent;
 
 public interface PaymentGateway {
-    boolean pay(PaymentIntent paymentIntent);
+	PaymentReceipt pay(PaymentIntent paymentIntent);
 }

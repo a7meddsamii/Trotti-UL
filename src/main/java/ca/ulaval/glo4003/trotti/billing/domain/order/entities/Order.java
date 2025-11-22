@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
-import ca.ulaval.glo4003.trotti.billing.domain.order.exceptions.InvalidOrderException;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,14 +47,6 @@ public class Order {
 
         return this.items.add(item);
     }
-
-    public void confirm(boolean paid) {
-		if (this.items.isEmpty()) {
-			throw new InvalidOrderException("Cannot confirm an order with no items.");
-		}
-		
-		this.status = paid ? OrderStatus.COMPLETED : OrderStatus.FAILED;
-	}
 
     public boolean remove(ItemId itemid) {
         return items.removeIf(item -> item.getItemId().equals(itemid));

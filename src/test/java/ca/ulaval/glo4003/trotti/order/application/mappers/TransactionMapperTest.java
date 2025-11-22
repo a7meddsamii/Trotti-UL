@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.order.application.mappers;
 
 import ca.ulaval.glo4003.trotti.order.application.TransactionMapper;
 import ca.ulaval.glo4003.trotti.order.application.dto.TransactionDto;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.TransactionStatus;
 import org.junit.jupiter.api.Assertions;

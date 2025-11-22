@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.payment.domain.values.transaction;
 
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.LocalDateTime;
 
 public class Transaction {

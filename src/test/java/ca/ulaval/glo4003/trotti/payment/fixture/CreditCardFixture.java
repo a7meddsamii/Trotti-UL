@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.payment.fixture;
 
-import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.SecuredString;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
 import java.time.YearMonth;
 import org.mockito.Mockito;
 

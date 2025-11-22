@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import ca.ulaval.glo4003.trotti.order.domain.values.Semester;
 import ca.ulaval.glo4003.trotti.order.domain.values.Session;
 import ca.ulaval.glo4003.trotti.order.infrastructure.provider.sessions.SessionProvider;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;

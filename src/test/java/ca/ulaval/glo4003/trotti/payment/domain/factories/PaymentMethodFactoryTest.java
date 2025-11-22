@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.payment.domain.factories;
 
+import ca.ulaval.glo4003.trotti.billing.domain.payment.factories.PaymentMethodFactory;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import ca.ulaval.glo4003.trotti.payment.domain.security.DataCodec;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
 import java.time.YearMonth;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;

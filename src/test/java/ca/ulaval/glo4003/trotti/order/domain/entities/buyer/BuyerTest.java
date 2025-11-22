@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.entities.pass.Pass;
 import ca.ulaval.glo4003.trotti.order.domain.values.PassId;
 import ca.ulaval.glo4003.trotti.order.fixtures.BuyerFixture;
-import ca.ulaval.glo4003.trotti.payment.domain.values.method.CreditCard;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
