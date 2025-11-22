@@ -9,6 +9,6 @@ import java.util.Map;
 public record TransferRecord(
         TransferId transferId,
         Location location,
-        Idul  technicianId,
+        Idul technicianId,
         Map<ScooterId, Boolean> scootersMoved
 ) {}
