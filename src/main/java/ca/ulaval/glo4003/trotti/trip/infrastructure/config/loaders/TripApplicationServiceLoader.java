@@ -50,8 +50,7 @@ public class TripApplicationServiceLoader extends Bootstrapper {
     private void loadStationMaintenanceApplicationService() {
         StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
         ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
-        EventBus eventBus = this.resourceLocator
-                .resolve(EventBus.class);
+        EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
 
         StationMaintenanceApplicationService stationMaintenanceApplicationService =
