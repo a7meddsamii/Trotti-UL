@@ -27,7 +27,7 @@ public class TransferApplicationService {
     public TransferId initiateTransfer(InitiateTransferDto initiateTransferDto) {
         Station station = stationRepository.findByLocation(initiateTransferDto.sourceStation());
         station.validateTechnicianInCharge(initiateTransferDto.technicianId());
-        
+
         Transfer transfer = Transfer.start(initiateTransferDto.technicianId(),
                 initiateTransferDto.sourceStation(),
                 station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots()));
@@ -47,7 +47,7 @@ public class TransferApplicationService {
 
         transferRepository.save(transfer);
         stationRepository.save(station);
-        
+
         return transfer.getScootersInTransitCount();
     }
 

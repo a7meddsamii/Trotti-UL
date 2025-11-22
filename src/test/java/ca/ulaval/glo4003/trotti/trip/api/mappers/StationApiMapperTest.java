@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
 import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
@@ -14,12 +16,9 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StationApiMapperTest {
 
@@ -39,7 +38,8 @@ class StationApiMapperTest {
 
     @Test
     void givenInitiateTransferRequest_whenToInitiateTransferDto_thenMapsCorrectly() {
-        InitiateTransferRequest request = new InitiateTransferRequest(STATION_LOCATION, SLOT_NUMBERS);
+        InitiateTransferRequest request =
+                new InitiateTransferRequest(STATION_LOCATION, SLOT_NUMBERS);
 
         InitiateTransferDto result = mapper.toInitiateTransferDto(idul, request);
 

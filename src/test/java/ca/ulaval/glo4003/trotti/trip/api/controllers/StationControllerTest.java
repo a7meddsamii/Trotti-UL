@@ -17,13 +17,11 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 import org.mockito.Mockito;
-
 
 class StationControllerTest {
 
@@ -43,16 +41,13 @@ class StationControllerTest {
     @BeforeEach
     void setUp() {
         transferApplicationService = Mockito.mock(TransferApplicationService.class);
-        stationMaintenanceApplicationService = Mockito.mock(StationMaintenanceApplicationService.class);
+        stationMaintenanceApplicationService =
+                Mockito.mock(StationMaintenanceApplicationService.class);
         authenticationService = Mockito.mock(AuthenticationService.class);
         stationApiMapper = Mockito.mock(StationApiMapper.class);
 
-        controller = new StationController(
-                transferApplicationService,
-                stationMaintenanceApplicationService,
-                authenticationService,
-                stationApiMapper
-        );
+        controller = new StationController(transferApplicationService,
+                stationMaintenanceApplicationService, authenticationService, stationApiMapper);
 
         Mockito.when(authenticationService.authenticate(Mockito.any(AuthenticationToken.class)))
                 .thenReturn(TECHNICIAN_IDUL);
@@ -65,7 +60,8 @@ class StationControllerTest {
         TransferId transferId = Mockito.mock(TransferId.class);
         TransferResponse response = Mockito.mock(TransferResponse.class);
 
-        Mockito.when(stationApiMapper.toInitiateTransferDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toInitiateTransferDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
         Mockito.when(transferApplicationService.initiateTransfer(dto)).thenReturn(transferId);
         Mockito.when(stationApiMapper.toTransferResponse(transferId)).thenReturn(response);
 
@@ -97,7 +93,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenInitiateTransfer_thenCallsApplicationService() {
         InitiateTransferRequest request = new InitiateTransferRequest(STATION_ID, SLOTS);
         InitiateTransferDto dto = Mockito.mock(InitiateTransferDto.class);
-        Mockito.when(stationApiMapper.toInitiateTransferDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toInitiateTransferDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
 
         controller.initiateTransfer(AUTH_HEADER, request);
 
@@ -108,7 +105,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenUnloadScooters_thenReturnsOkResponse() {
         UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
         UnloadScootersDto dto = Mockito.mock(UnloadScootersDto.class);
-        Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request))
+                .thenReturn(dto);
 
         Response result = controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
 
@@ -137,7 +135,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenUnloadScooters_thenCallsApplicationService() {
         UnloadScootersRequest request = new UnloadScootersRequest(STATION_ID, SLOTS);
         UnloadScootersDto dto = Mockito.mock(UnloadScootersDto.class);
-        Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toUnloadScootersDto(TECHNICIAN_IDUL, TRANSFER_ID, request))
+                .thenReturn(dto);
 
         controller.unloadScooters(AUTH_HEADER, TRANSFER_ID, request);
 
@@ -148,7 +147,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenStartMaintenance_thenReturnsOkResponse() {
         StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
         StartMaintenanceDto dto = Mockito.mock(StartMaintenanceDto.class);
-        Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
 
         Response result = controller.startMaintenance(AUTH_HEADER, request);
 
@@ -177,7 +177,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenStartMaintenance_thenCallsApplicationService() {
         StartMaintenanceRequest request = new StartMaintenanceRequest(STATION_ID);
         StartMaintenanceDto dto = Mockito.mock(StartMaintenanceDto.class);
-        Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toStartMaintenanceDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
 
         controller.startMaintenance(AUTH_HEADER, request);
 
@@ -188,7 +189,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenEndMaintenance_thenReturnsOkResponse() {
         EndMaintenanceRequest request = new EndMaintenanceRequest(STATION_ID);
         EndMaintenanceDto dto = Mockito.mock(EndMaintenanceDto.class);
-        Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
 
         Response result = controller.endMaintenance(AUTH_HEADER, request);
 
@@ -217,7 +219,8 @@ class StationControllerTest {
     void givenValidTokenAndRequest_whenEndMaintenance_thenCallsApplicationService() {
         EndMaintenanceRequest request = new EndMaintenanceRequest(STATION_ID);
         EndMaintenanceDto dto = Mockito.mock(EndMaintenanceDto.class);
-        Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
+        Mockito.when(stationApiMapper.toEndMaintenanceDto(TECHNICIAN_IDUL, request))
+                .thenReturn(dto);
 
         controller.endMaintenance(AUTH_HEADER, request);
 

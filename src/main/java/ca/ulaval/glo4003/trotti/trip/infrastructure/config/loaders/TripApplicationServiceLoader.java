@@ -33,10 +33,12 @@ public class TripApplicationServiceLoader extends Bootstrapper {
     }
 
     private void loadTransferApplicationService() {
-        TransferRepository transferRepository = this.resourceLocator.resolve(TransferRepository.class);
+        TransferRepository transferRepository =
+                this.resourceLocator.resolve(TransferRepository.class);
         StationRepository stationRepository = this.resourceLocator.resolve(StationRepository.class);
 
-        TransferApplicationService transferApplicationService = new TransferApplicationService(transferRepository, stationRepository);
+        TransferApplicationService transferApplicationService =
+                new TransferApplicationService(transferRepository, stationRepository);
         this.resourceLocator.register(TransferApplicationService.class, transferApplicationService);
     }
 
@@ -45,9 +47,11 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         ScooterRepository scooterRepository = this.resourceLocator.resolve(ScooterRepository.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
 
-        StationMaintenanceApplicationService stationMaintenanceApplicationService = new StationMaintenanceApplicationService(
-                stationRepository, scooterRepository, clock);
-        this.resourceLocator.register(StationMaintenanceApplicationService.class, stationMaintenanceApplicationService);
+        StationMaintenanceApplicationService stationMaintenanceApplicationService =
+                new StationMaintenanceApplicationService(stationRepository, scooterRepository,
+                        clock);
+        this.resourceLocator.register(StationMaintenanceApplicationService.class,
+                stationMaintenanceApplicationService);
     }
 
     private void loadRidePermitActivationApplicationService() {

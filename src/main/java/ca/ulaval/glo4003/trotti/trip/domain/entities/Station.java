@@ -25,7 +25,11 @@ public class Station {
         this.technicianId = null;
     }
 
-    public Station(Location location, DockingArea dockingArea, boolean underMaintenance, Idul technicianId) {
+    public Station(
+            Location location,
+            DockingArea dockingArea,
+            boolean underMaintenance,
+            Idul technicianId) {
         this.location = location;
         this.dockingArea = dockingArea;
         this.underMaintenance = underMaintenance;

@@ -7,7 +7,8 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class StationMaintenanceExceptionMapper implements ExceptionMapper<StationMaintenanceException> {
+public class StationMaintenanceExceptionMapper
+        implements ExceptionMapper<StationMaintenanceException> {
 
     @Override
     public Response toResponse(StationMaintenanceException exception) {

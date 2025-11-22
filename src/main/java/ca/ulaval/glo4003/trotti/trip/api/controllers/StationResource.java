@@ -23,13 +23,16 @@ public interface StationResource {
     @Operation(summary = "Initier un transfert",
             description = "Permet à un technicien d'initier un transfert de scooters",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Transfert initié avec succès"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
-                    @ApiResponse(responseCode = "409", description = "Conflict: station pas en maintenance")
-            })
+                    @ApiResponse(responseCode = "200",
+                            description = "Transfert initié avec succès"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "403",
+                            description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409",
+                            description = "Conflict: station pas en maintenance")})
     Response initiateTransfer(@HeaderParam("Authorization") String tokenHeader,
-                             @Valid InitiateTransferRequest request);
+            @Valid InitiateTransferRequest request);
 
     @POST
     @Path("/transfers/{transferId}/unload")
@@ -38,14 +41,16 @@ public interface StationResource {
     @Operation(summary = "Décharger des scooters",
             description = "Permet à un technicien de décharger des scooters d'un transfert",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Scooters déchargés avec succès"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
-                    @ApiResponse(responseCode = "404", description = "Not found: Transfert non trouvé")
-            })
+                    @ApiResponse(responseCode = "200",
+                            description = "Scooters déchargés avec succès"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "403",
+                            description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not found: Transfert non trouvé")})
     Response unloadScooters(@HeaderParam("Authorization") String tokenHeader,
-                           @PathParam("transferId") String transferId,
-                           @Valid UnloadScootersRequest request);
+            @PathParam("transferId") String transferId, @Valid UnloadScootersRequest request);
 
     @POST
     @Path("/maintenance/start")
@@ -54,13 +59,16 @@ public interface StationResource {
     @Operation(summary = "Démarrer la maintenance",
             description = "Permet à un technicien de démarrer la maintenance d'une station",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Maintenance démarrée avec succès"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
-                    @ApiResponse(responseCode = "409", description = "Conflict: station déjà en maintenance")
-            })
+                    @ApiResponse(responseCode = "200",
+                            description = "Maintenance démarrée avec succès"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "403",
+                            description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409",
+                            description = "Conflict: station déjà en maintenance")})
     Response startMaintenance(@HeaderParam("Authorization") String tokenHeader,
-                             @Valid StartMaintenanceRequest request);
+            @Valid StartMaintenanceRequest request);
 
     @POST
     @Path("/maintenance/end")
@@ -69,11 +77,14 @@ public interface StationResource {
     @Operation(summary = "Terminer la maintenance",
             description = "Permet à un technicien de terminer la maintenance d'une station",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Maintenance terminée avec succès"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized: token manquant ou erroné"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden: permissions insuffisantes"),
-                    @ApiResponse(responseCode = "409", description = "Conflict: station pas en maintenance")
-            })
+                    @ApiResponse(responseCode = "200",
+                            description = "Maintenance terminée avec succès"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
+                    @ApiResponse(responseCode = "403",
+                            description = "Forbidden: permissions insuffisantes"),
+                    @ApiResponse(responseCode = "409",
+                            description = "Conflict: station pas en maintenance")})
     Response endMaintenance(@HeaderParam("Authorization") String tokenHeader,
-                           @Valid EndMaintenanceRequest request);
+            @Valid EndMaintenanceRequest request);
 }

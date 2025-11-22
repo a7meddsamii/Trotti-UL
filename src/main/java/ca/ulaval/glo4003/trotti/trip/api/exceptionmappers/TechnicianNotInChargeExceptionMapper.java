@@ -7,7 +7,8 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class TechnicianNotInChargeExceptionMapper implements ExceptionMapper<TechnicianNotInChargeException> {
+public class TechnicianNotInChargeExceptionMapper
+        implements ExceptionMapper<TechnicianNotInChargeException> {
 
     @Override
     public Response toResponse(TechnicianNotInChargeException exception) {

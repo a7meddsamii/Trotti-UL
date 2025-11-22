@@ -20,20 +20,18 @@ public class StationApiMapper {
 
     public InitiateTransferDto toInitiateTransferDto(Idul idul, InitiateTransferRequest request) {
         Location sourceStation = Location.of(request.sourceStation());
-        List<SlotNumber> sourceSlots = request.sourceSlots().stream()
-                .map(SlotNumber::new)
-                .toList();
-        
+        List<SlotNumber> sourceSlots = request.sourceSlots().stream().map(SlotNumber::new).toList();
+
         return new InitiateTransferDto(sourceStation, idul, sourceSlots);
     }
 
-    public UnloadScootersDto toUnloadScootersDto(Idul idul, String transferId, UnloadScootersRequest request) {
+    public UnloadScootersDto toUnloadScootersDto(Idul idul, String transferId,
+            UnloadScootersRequest request) {
         TransferId id = TransferId.from(transferId);
         Location destinationStation = Location.of(request.destinationStation());
-        List<SlotNumber> destinationSlots = request.destinationSlots().stream()
-                .map(SlotNumber::new)
-                .toList();
-        
+        List<SlotNumber> destinationSlots =
+                request.destinationSlots().stream().map(SlotNumber::new).toList();
+
         return new UnloadScootersDto(id, idul, destinationStation, destinationSlots);
     }
 

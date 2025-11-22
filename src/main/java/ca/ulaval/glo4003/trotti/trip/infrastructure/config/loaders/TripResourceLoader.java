@@ -27,11 +27,15 @@ public class TripResourceLoader extends Bootstrapper {
     }
 
     private void loadStationResource() {
-        AuthenticationService authenticationService = this.resourceLocator.resolve(AuthenticationService.class);
-        TransferApplicationService transferApplicationService = this.resourceLocator.resolve(TransferApplicationService.class);
-        StationMaintenanceApplicationService stationMaintenanceApplicationService = this.resourceLocator.resolve(StationMaintenanceApplicationService.class);
+        AuthenticationService authenticationService =
+                this.resourceLocator.resolve(AuthenticationService.class);
+        TransferApplicationService transferApplicationService =
+                this.resourceLocator.resolve(TransferApplicationService.class);
+        StationMaintenanceApplicationService stationMaintenanceApplicationService =
+                this.resourceLocator.resolve(StationMaintenanceApplicationService.class);
         StationApiMapper stationApiMapper = this.resourceLocator.resolve(StationApiMapper.class);
-        StationController stationController = new StationController(transferApplicationService, stationMaintenanceApplicationService, authenticationService, stationApiMapper);
+        StationController stationController = new StationController(transferApplicationService,
+                stationMaintenanceApplicationService, authenticationService, stationApiMapper);
 
         this.resourceLocator.register(StationResource.class, stationController);
     }
