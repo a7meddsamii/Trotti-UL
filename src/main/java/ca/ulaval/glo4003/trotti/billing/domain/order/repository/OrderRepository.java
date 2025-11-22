@@ -8,12 +8,8 @@ import java.util.Optional;
 
 public interface OrderRepository {
     void save(Order order);
-
-    Optional<Order> findById(OrderId orderId);
-
+	
     boolean exists(Idul buyerId, OrderStatus status);
 
     Optional<Order> findOngoingOrderFor(Idul buyerId);
-
-    Optional<Order> findOrderFor(Idul buyerId, OrderId orderId);
 }

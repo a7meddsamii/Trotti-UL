@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
+import ca.ulaval.glo4003.trotti.billing.domain.order.entities.RidePermitItem;
 import ca.ulaval.glo4003.trotti.billing.domain.order.factory.OrderItemFactory;
 import ca.ulaval.glo4003.trotti.billing.domain.order.repository.OrderRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
@@ -38,10 +39,9 @@ public class OrderApplicationService {
     }
 
     public OrderDto addItem(Idul buyerId, AddItemDto addItemDto) {
-        Order order =
-                orderRepository.findOngoingOrderFor(buyerId).orElseGet(() -> new Order(OrderId.randomId(), buyerId));
-        order.add(orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(),
-                addItemDto.billingFrequency()));
+        Order order = orderRepository.findOngoingOrderFor(buyerId).orElseGet(() -> new Order(OrderId.randomId(), buyerId));
+		RidePermitItem item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(), addItemDto.billingFrequency());
+        order.add(item);
         orderRepository.save(order);
 
         return orderAssembler.assemble(order);
@@ -71,7 +71,6 @@ public class OrderApplicationService {
 	//TODO
     public void confirm(Idul buyerId, ConfirmOrderDto confirmOrderDto) {
         Order order = findOngoingOrder(buyerId);
-		
         orderRepository.save(order);
         
     }

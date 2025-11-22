@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
-import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.InvalidRidePermitOperation;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.exceptions.InvalidRidePermitOperation;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.trip.application;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;

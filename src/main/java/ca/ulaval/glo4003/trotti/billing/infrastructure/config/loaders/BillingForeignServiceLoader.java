@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.payment.infrastructure.config.loaders;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
-public class PaymentForeignServiceLoader extends Bootstrapper {
+public class BillingForeignServiceLoader extends Bootstrapper {
 
     @Override
     public void load() {

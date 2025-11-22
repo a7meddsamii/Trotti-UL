@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.domain.services;
 
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
+import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.order.domain.provider.SchoolSessionProvider;
-import ca.ulaval.glo4003.trotti.order.domain.values.Session;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.traveler.Traveler;
 import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;

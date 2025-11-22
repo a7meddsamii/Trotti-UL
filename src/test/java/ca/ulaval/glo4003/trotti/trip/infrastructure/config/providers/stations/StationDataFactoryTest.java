@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.factories.ScooterFactory;
