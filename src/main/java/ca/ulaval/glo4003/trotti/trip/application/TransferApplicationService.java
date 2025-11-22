@@ -38,8 +38,9 @@ public class TransferApplicationService {
         Station station = stationRepository.findByLocation(initiateTransferDto.sourceStation());
         station.validateTechnicianInCharge(initiateTransferDto.technicianId());
 
-        Set<ScooterId> retrievedScooters = station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots());
-        
+        Set<ScooterId> retrievedScooters =
+                station.retrieveScootersForTransfer(initiateTransferDto.sourceSlots());
+
         retrievedScooters.forEach(scooterId -> {
             Scooter scooter = scooterRepository.findById(scooterId);
             scooter.undock(clock.instant().atZone(clock.getZone()).toLocalDateTime());
@@ -62,10 +63,10 @@ public class TransferApplicationService {
         List<ScooterId> unloadedScooters = transfer.unload(unloadScootersDto.technicianId(),
                 unloadScootersDto.destinationSlots().size());
         station.returnScooters(unloadScootersDto.destinationSlots(), unloadedScooters);
-        
+
         unloadedScooters.forEach(scooterId -> {
             Scooter scooter = scooterRepository.findById(scooterId);
-            scooter.dockAt(unloadScootersDto.destinationStation(), 
+            scooter.dockAt(unloadScootersDto.destinationStation(),
                     clock.instant().atZone(clock.getZone()).toLocalDateTime());
             scooterRepository.save(scooter);
         });

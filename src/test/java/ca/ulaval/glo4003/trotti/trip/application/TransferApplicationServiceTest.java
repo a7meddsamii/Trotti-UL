@@ -49,8 +49,8 @@ class TransferApplicationServiceTest {
         transfer = Mockito.mock(Transfer.class);
         clock = Clock.systemDefaultZone();
 
-        transferApplicationService = new TransferApplicationService(
-                transferRepository, stationRepository, scooterRepository, clock);
+        transferApplicationService = new TransferApplicationService(transferRepository,
+                stationRepository, scooterRepository, clock);
     }
 
     @Test
@@ -59,7 +59,7 @@ class TransferApplicationServiceTest {
         ScooterId scooterId = ScooterId.randomId();
         Set<ScooterId> scooters = Set.of(scooterId);
         Scooter scooter = Mockito.mock(Scooter.class);
-        
+
         Mockito.when(stationRepository.findByLocation(SOURCE_LOCATION)).thenReturn(sourceStation);
         Mockito.when(sourceStation.retrieveScootersForTransfer(sourceSlots)).thenReturn(scooters);
         Mockito.when(scooterRepository.findById(scooterId)).thenReturn(scooter);
@@ -98,7 +98,7 @@ class TransferApplicationServiceTest {
                 DESTINATION_LOCATION, destinationSlots);
         ScooterId scooterId = ScooterId.randomId();
         Scooter scooter = Mockito.mock(Scooter.class);
-        
+
         Mockito.when(transferRepository.findById(transferId)).thenReturn(Optional.of(transfer));
         Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
                 .thenReturn(destinationStation);
@@ -161,7 +161,8 @@ class TransferApplicationServiceTest {
         Mockito.when(sourceStation.retrieveScootersForTransfer(sourceSlots)).thenReturn(scooters);
         Mockito.when(scooterRepository.findById(scooterId)).thenReturn(scooter);
 
-        InitiateTransferDto dto = new InitiateTransferDto(SOURCE_LOCATION, TECHNICIAN_ID, sourceSlots);
+        InitiateTransferDto dto =
+                new InitiateTransferDto(SOURCE_LOCATION, TECHNICIAN_ID, sourceSlots);
         transferApplicationService.initiateTransfer(dto);
 
         Mockito.verify(scooter).undock(Mockito.any(LocalDateTime.class));
@@ -175,14 +176,17 @@ class TransferApplicationServiceTest {
         ScooterId scooterId = ScooterId.randomId();
         Scooter scooter = Mockito.mock(Scooter.class);
         Mockito.when(transferRepository.findById(transferId)).thenReturn(Optional.of(transfer));
-        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION)).thenReturn(destinationStation);
+        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
+                .thenReturn(destinationStation);
         Mockito.when(transfer.unload(TECHNICIAN_ID, 1)).thenReturn(List.of(scooterId));
         Mockito.when(scooterRepository.findById(scooterId)).thenReturn(scooter);
 
-        UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID, DESTINATION_LOCATION, destinationSlots);
+        UnloadScootersDto dto = new UnloadScootersDto(transferId, TECHNICIAN_ID,
+                DESTINATION_LOCATION, destinationSlots);
         transferApplicationService.unloadScooters(dto);
 
-        Mockito.verify(scooter).dockAt(Mockito.eq(DESTINATION_LOCATION), Mockito.any(LocalDateTime.class));
+        Mockito.verify(scooter).dockAt(Mockito.eq(DESTINATION_LOCATION),
+                Mockito.any(LocalDateTime.class));
         Mockito.verify(scooterRepository).save(scooter);
     }
 }
