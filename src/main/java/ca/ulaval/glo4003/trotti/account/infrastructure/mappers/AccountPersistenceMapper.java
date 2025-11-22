@@ -13,7 +13,7 @@ public class AccountPersistenceMapper {
 
     public Account toEntity(AccountRecord accountFound) {
         return new Account(accountFound.name(), accountFound.birthDate(), accountFound.gender(),
-                accountFound.idul(), accountFound.email(),
-                accountFound.role(), accountFound.permissions());
+                accountFound.idul(), accountFound.email(), accountFound.role(),
+                accountFound.permissions());
     }
 }

@@ -21,9 +21,10 @@ public class AccountApplicationService {
     private final AuthenticationProvider authenticationProvider;
 
     public AccountApplicationService(
-        AccountRepository accountRepository,
-        AccountFactory accountFactory,
-        SessionTokenProvider sessionTokenProvider, AuthenticationProvider authenticationProvider) {
+            AccountRepository accountRepository,
+            AccountFactory accountFactory,
+            SessionTokenProvider sessionTokenProvider,
+            AuthenticationProvider authenticationProvider) {
         this.accountRepository = accountRepository;
         this.accountFactory = accountFactory;
         this.sessionTokenProvider = sessionTokenProvider;
@@ -34,8 +35,7 @@ public class AccountApplicationService {
         AccountDto accountDto = authenticationProvider.register(registrationDto);
         validateAccountDoesNotExist(accountDto.email(), accountDto.idul());
         Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
-            accountDto.gender(), accountDto.idul(), accountDto.email(),
-            accountDto.role());
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role());
         accountRepository.save(account);
 
         return account.getIdul();
@@ -48,8 +48,8 @@ public class AccountApplicationService {
         Account creatorAccount = accountRepository.findByIdul(creatorIdul)
                 .orElseThrow(() -> new AuthenticationException("Invalid creator account"));
         Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
-            accountDto.gender(), accountDto.idul(), accountDto.email(),
-            accountDto.role(), creatorAccount.getPermissions());
+                accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role(),
+                creatorAccount.getPermissions());
         accountRepository.save(account);
 
         return account.getIdul();
@@ -59,7 +59,7 @@ public class AccountApplicationService {
         validateCredentials(email, rawPassword);
 
         Account account = accountRepository.findByEmail(email)
-            .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
+                .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
 
         return sessionTokenProvider.generateToken(account.getIdul(), account.getRole(),
                 account.getPermissions());
@@ -71,8 +71,8 @@ public class AccountApplicationService {
             throw new AlreadyExistsException("Email or Idul already in use");
         }
     }
-    
-    private void validateCredentials(Email email, String rawPassword){
+
+    private void validateCredentials(Email email, String rawPassword) {
         LoginDto passwordLoginDto = new LoginDto(email, rawPassword);
         if (!authenticationProvider.verify(passwordLoginDto)) {
             throw new AuthenticationException("Invalid email or password");

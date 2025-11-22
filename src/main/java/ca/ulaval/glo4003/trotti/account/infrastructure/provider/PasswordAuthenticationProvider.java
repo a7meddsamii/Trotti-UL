@@ -9,7 +9,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.validator.routines.RegexValidator;
 
 public class PasswordAuthenticationProvider implements AuthenticationProvider {
@@ -25,7 +24,7 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Boolean verify(LoginDto loginInfo) {
         String hashedPassword = usersCredentials.get(loginInfo.email());
-        return this.passwordHasher.matches(loginInfo.password(),hashedPassword);
+        return this.passwordHasher.matches(loginInfo.password(), hashedPassword);
     }
 
     @Override
@@ -33,13 +32,15 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider {
         validatePassword(registrationInfo.password());
         String hashedPassword = passwordHasher.hash(registrationInfo.password());
         usersCredentials.put(registrationInfo.email(), hashedPassword);
-        return new AccountDto(registrationInfo.name(), registrationInfo.birthDate(), registrationInfo.gender(), registrationInfo.idul(), registrationInfo.email(), registrationInfo.role());
+        return new AccountDto(registrationInfo.name(), registrationInfo.birthDate(),
+                registrationInfo.gender(), registrationInfo.idul(), registrationInfo.email(),
+                registrationInfo.role());
     }
 
-    private void validatePassword(String plainPassword){
+    private void validatePassword(String plainPassword) {
         if (!REGEX_VALIDATOR.isValid(plainPassword)) {
             throw new InvalidParameterException(
-                "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
+                    "Invalid password: it must contain at least 10 characters, one uppercase letter, one digit, and one special character.");
         }
     }
 }

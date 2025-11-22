@@ -61,9 +61,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         }
     }
 
-    private void loadAuthentificationProvider(){
+    private void loadAuthentificationProvider() {
         PasswordHasher passwordHasher = this.resourceLocator.resolve(PasswordHasher.class);
-        AuthenticationProvider authentificationProvider = new PasswordAuthenticationProvider(passwordHasher);
+        AuthenticationProvider authentificationProvider =
+                new PasswordAuthenticationProvider(passwordHasher);
         this.resourceLocator.register(AuthenticationProvider.class, authentificationProvider);
     }
 }

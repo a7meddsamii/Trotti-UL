@@ -49,7 +49,8 @@ class AccountApiMapperTest {
                 AccountFixture.AN_IDUL_STRING, AccountFixture.AN_EMAIL_STRING,
                 AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
 
-        Executable toAccountDtoExecutable = () -> accountApiMapper.toPasswordRegistrationDto(request);
+        Executable toAccountDtoExecutable =
+                () -> accountApiMapper.toPasswordRegistrationDto(request);
 
         Assertions.assertThrows(InvalidParameterException.class, toAccountDtoExecutable);
     }

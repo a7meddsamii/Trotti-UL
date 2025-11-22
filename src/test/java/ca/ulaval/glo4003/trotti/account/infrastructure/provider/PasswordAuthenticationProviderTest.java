@@ -9,15 +9,12 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Gender;
 import ca.ulaval.glo4003.trotti.account.domain.values.Role;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-
 import java.time.LocalDate;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-
 
 class PasswordAuthenticationProviderTest {
     private static final Email EMAIL = Email.from("user@ulaval.ca");
@@ -31,7 +28,6 @@ class PasswordAuthenticationProviderTest {
     private static final String A_HASHED_PASSWORD = "hashed";
     private static final Gender A_GENDER = Gender.MALE;
 
-
     private PasswordHasher passwordHasher;
     private PasswordAuthenticationProvider provider;
 
@@ -40,8 +36,6 @@ class PasswordAuthenticationProviderTest {
         passwordHasher = Mockito.mock(PasswordHasher.class);
         provider = new PasswordAuthenticationProvider(passwordHasher);
     }
-
-
 
     @Test
     void givenValidPassword_whenRegister_thenVerifyReturnsTrue() {
@@ -72,8 +66,8 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenInvalidPassword_whenRegister_thenThrowsException() {
-        RegistrationDto registration =
-            new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, AN_INVALID_PASSWORD, A_ROLE);
+        RegistrationDto registration = new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
+                EMAIL, AN_INVALID_PASSWORD, A_ROLE);
 
         Executable executable = () -> provider.register(registration);
 
@@ -106,7 +100,8 @@ class PasswordAuthenticationProviderTest {
     void givenExistingEmailWithWrongPassword_whenVerify_thenReturnsFalse() {
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
-        Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD)).thenReturn(false);
+        Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD))
+                .thenReturn(false);
         provider.register(registration);
         LoginDto dto = new LoginDto(EMAIL, NON_MATCHING_PASSWORD);
 
@@ -116,9 +111,8 @@ class PasswordAuthenticationProviderTest {
     }
 
     private RegistrationDto createValidRegistrationDto() {
-        return new RegistrationDto(
-            A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, A_VALID_PASSWORD, A_ROLE
-        );
+        return new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, EMAIL, A_VALID_PASSWORD,
+                A_ROLE);
     }
 
 }

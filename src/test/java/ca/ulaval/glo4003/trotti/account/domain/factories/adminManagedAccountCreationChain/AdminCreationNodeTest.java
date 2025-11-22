@@ -57,7 +57,8 @@ class AdminCreationNodeTest {
     void givenNoAdminRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = NOT_ADMIN_ROLE;
 
-        adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
+        adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+                role, availablePermissions);
 
         Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role, availablePermissions);
