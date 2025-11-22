@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.payment.infrastructure.security;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.CodecException;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security.AesDataCodecAdapter;

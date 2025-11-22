@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.payment.domain.values.method;
+package ca.ulaval.glo4003.trotti.billing.domain.payment.values.method;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;

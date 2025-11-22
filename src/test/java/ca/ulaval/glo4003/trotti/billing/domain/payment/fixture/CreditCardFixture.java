@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.payment.fixture;
+package ca.ulaval.glo4003.trotti.billing.domain.payment.fixture;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;

@@ -1,13 +1,12 @@
-package ca.ulaval.glo4003.trotti.payment.domain.values.money;
+package ca.ulaval.glo4003.trotti.billing.domain.payment.values.money;
 
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Currency;
-import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import java.math.BigDecimal;
 
 class MoneyTest {
 
