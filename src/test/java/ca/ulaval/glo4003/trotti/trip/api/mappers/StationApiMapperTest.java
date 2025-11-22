@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.trip.api.mappers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
@@ -15,6 +14,7 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
