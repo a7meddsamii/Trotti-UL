@@ -4,14 +4,17 @@ import ca.ulaval.glo4003.trotti.commons.infrastructure.database.UserInMemoryData
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTransferRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTravelerRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TravelerPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 
@@ -22,6 +25,7 @@ public class TripRepositoryLoader extends Bootstrapper {
         loadTripRepository();
         loadStationRepository();
         loadScooterRepository();
+        loadTransferRepository();
     }
 
     private void loadTravelerRepository() {
@@ -57,5 +61,12 @@ public class TripRepositoryLoader extends Bootstrapper {
                 this.resourceLocator.resolve(ScooterPersistenceMapper.class);
         ScooterRepository scooterRepository = new InMemoryScooterRepository(scooterMapper);
         this.resourceLocator.register(ScooterRepository.class, scooterRepository);
+    }
+
+    private void loadTransferRepository() {
+        TransferPersistenceMapper transferMapper =
+                this.resourceLocator.resolve(TransferPersistenceMapper.class);
+        TransferRepository transferRepository = new InMemoryTransferRepository(transferMapper);
+        this.resourceLocator.register(TransferRepository.class, transferRepository);
     }
 }

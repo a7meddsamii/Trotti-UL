@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders.*;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.InitialAdminLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class AccountConfiguration extends Configuration {
@@ -22,5 +23,6 @@ public class AccountConfiguration extends Configuration {
         new AccountFactoryLoader().load();
         new AccountApplicationLoader().load();
         new AccountResourceLoader().load();
+        new InitialAdminLoader().load();
     }
 }
