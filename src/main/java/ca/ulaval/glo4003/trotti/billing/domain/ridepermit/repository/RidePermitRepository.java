@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository;
 
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
@@ -16,4 +17,6 @@ public interface RidePermitRepository {
     List<RidePermit> findAllByIdul(Idul idul);
 
     List<RidePermit> findAllByDate(LocalDate date);
+	
+	List<RidePermit> findAllBySession(Session session);
 }

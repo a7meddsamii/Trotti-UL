@@ -22,15 +22,6 @@ public class Money {
         return new Money(BigDecimal.ZERO, Currency.CAD);
     }
 
-    @Deprecated
-    public static Money of(BigDecimal amount, Currency currency) {
-        if (currency == null || amount == null) {
-            throw new InvalidParameterException("Amount or currency cannot be null");
-        }
-
-        return new Money(amount, currency);
-    }
-
     public static Money of(double amount, Currency currency) {
         BigDecimal bigDecimalAmount = BigDecimal.valueOf(amount);
         return new Money(bigDecimalAmount, currency);
@@ -39,23 +30,18 @@ public class Money {
     public Money plus(Money that) {
         validateSameCurrency(that);
 
-        return Money.of(amount.add(that.amount), currency);
+        return new Money(amount.add(that.amount), currency);
     }
 
     public Money minus(Money that) {
         validateSameCurrency(that);
 
-        return Money.of(amount.subtract(that.amount), currency);
-    }
-
-    @Deprecated
-    public Money multiply(BigDecimal multiplier) {
-        return Money.of(amount.multiply(multiplier), currency);
+        return new Money(amount.subtract(that.amount), currency);
     }
 
     public Money multiply(double multiplier) {
         BigDecimal multiplierBigDecimal = BigDecimal.valueOf(multiplier);
-        return Money.of(amount.multiply(multiplierBigDecimal), currency);
+        return new Money(amount.multiply(multiplierBigDecimal), currency);
     }
 
     public boolean isMoreThanOrEqual(Money that) {

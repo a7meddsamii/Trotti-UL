@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface SchoolSessionProvider {
     Optional<Session> getSession(LocalDate date);
+	Optional<Session> getPreviousSession(LocalDate date);
 }

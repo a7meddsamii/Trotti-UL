@@ -26,7 +26,6 @@ class RidePermitApplicationServiceTest {
     private RidePermitRepository ridePermitRepository;
     private PaymentGateway paymentGateway;
     private RidePermitAssembler ridePermitAssembler;
-    private EventBus eventBus;
 
     private RidePermitApplicationService ridePermitApplicationService;
 
@@ -36,9 +35,8 @@ class RidePermitApplicationServiceTest {
         ridePermitRepository = Mockito.mock(RidePermitRepository.class);
         paymentGateway = Mockito.mock(PaymentGateway.class);
         ridePermitAssembler = Mockito.mock(RidePermitAssembler.class);
-        eventBus = Mockito.mock(EventBus.class);
         this.ridePermitApplicationService = new RidePermitApplicationService(
-                ridePermitFactory, ridePermitRepository, paymentGateway, ridePermitAssembler, eventBus
+                ridePermitFactory, ridePermitRepository, paymentGateway, ridePermitAssembler
         );
     }
 

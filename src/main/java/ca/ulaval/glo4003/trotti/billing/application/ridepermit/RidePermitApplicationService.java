@@ -17,14 +17,12 @@ public class RidePermitApplicationService {
 	private final RidePermitRepository ridePermitRepository;
 	private final PaymentGateway paymentGateway;
 	private final RidePermitAssembler ridePermitAssembler;
-	private final EventBus eventBus;
 
-	public RidePermitApplicationService(RidePermitFactory ridePermitFactory, RidePermitRepository ridePermitRepository, PaymentGateway paymentGateway, RidePermitAssembler ridePermitAssembler, EventBus eventBus) {
+	public RidePermitApplicationService(RidePermitFactory ridePermitFactory, RidePermitRepository ridePermitRepository, PaymentGateway paymentGateway, RidePermitAssembler ridePermitAssembler) {
 		this.ridePermitFactory = ridePermitFactory;
 		this.ridePermitRepository = ridePermitRepository;
 		this.paymentGateway = paymentGateway;
 		this.ridePermitAssembler = ridePermitAssembler;
-		this.eventBus = eventBus;
 	}
 
 	public List<RidePermitDto> getRidePermits(Idul riderId) {

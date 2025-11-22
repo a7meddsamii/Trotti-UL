@@ -86,6 +86,16 @@ class RidePermitTest {
 
         Mockito.verify(ridePermit).addDailyTravelTime(IDUL, A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
     }
+	
+	@Test
+	void givenInvalidIdul_whenAddDailyTravelTime_thenThrowsException() {
+		Idul invalidIdul = Idul.from("abcde");
+		
+		Executable addDailyTravelTime =
+				() -> ridePermit.addDailyTravelTime(invalidIdul, A_DATE_TIME, A_TRAVEL_DURATION);
+		
+		Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
+	}
 
     @Test
     void givenNegativeDuration_whenAddDailyTravelTime_thenThrowsException() {
@@ -96,6 +106,91 @@ class RidePermitTest {
 
         Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }
+	
+	@Test
+	void givenRidePermitEligibleForActivation_whenActivate_thenRidePermitBecomesActiveAndReturnsTrue() {
+		RidePermitState eligibleState = RidePermitState.INACTIVE;
+		createRidePermitFromRidePermitState(eligibleState, session);
+		
+		boolean response = ridePermit.activate(session);
+		
+		RidePermitState expectedState = RidePermitState.ACTIVE;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertTrue(response);
+	}
+	
+	@Test
+	void givenRidePermitIneligibleForActivation_whenActivate_thenRidePermitStaysInactiveAndReturnsFalse() {
+		RidePermitState ineligibleState = RidePermitState.ACTIVE;
+		createRidePermitFromRidePermitState(ineligibleState, session);
+		
+		boolean response = ridePermit.activate(session);
+		
+		RidePermitState expectedState = RidePermitState.ACTIVE;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertFalse(response);
+	}
+	
+	@Test
+	void givenRidePermitIneligibleForActivationFromDifferentSessions_whenActivate_thenRidePermitStaysInactiveAndReturnsFalse() {
+		RidePermitState ineligibleState = RidePermitState.INACTIVE;
+		createRidePermitFromRidePermitState(ineligibleState, session);
+		Session differentSession = Mockito.mock(Session.class);
+		
+		boolean response = ridePermit.activate(differentSession);
+		
+		RidePermitState expectedState = RidePermitState.INACTIVE;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertFalse(response);
+	}
+	
+	@Test
+	void givenRidePermitEligibleForDeactivation_whenDeactivate_thenRidePermitBecomesExpiredAndReturnsTrue() {
+		RidePermitState eligibleState = RidePermitState.ACTIVE;
+		createRidePermitFromRidePermitState(eligibleState, session);
+		
+		boolean response = ridePermit.deactivate(session);
+		
+		RidePermitState expectedState = RidePermitState.EXPIRED;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertTrue(response);
+	}
+	
+	@Test
+	void givenRidePermitIneligibleForDeactivation_whenDeactivate_thenRidePermitStaysActiveAndReturnsFalse() {
+		RidePermitState ineligibleState = RidePermitState.INACTIVE;
+		createRidePermitFromRidePermitState(ineligibleState, session);
+		
+		boolean response = ridePermit.deactivate(session);
+		
+		RidePermitState expectedState = RidePermitState.INACTIVE;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertFalse(response);
+	}
+	
+	@Test
+	void givenRidePermitIneligibleForDeactivationFromDifferentSessions_whenDeactivate_thenRidePermitStaysActiveAndReturnsFalse() {
+		RidePermitState ineligibleState = RidePermitState.ACTIVE;
+		createRidePermitFromRidePermitState(ineligibleState, session);
+		Session differentSession = Mockito.mock(Session.class);
+		
+		boolean response = ridePermit.deactivate(differentSession);
+		
+		RidePermitState expectedState = RidePermitState.ACTIVE;
+		Assertions.assertEquals(expectedState, ridePermit.getPermitState());
+		Assertions.assertFalse(response);
+	}
+	
+	private void createRidePermitFromRidePermitState(RidePermitState ridePermitState) {
+		createRidePermitFromRidePermitState(ridePermitState, session);
+	}
+	
+	private void createRidePermitFromRidePermitState(RidePermitState ridePermitState, Session permitSession) {
+		Map<LocalDate, DailyBillingUsage> initial = new HashMap<>();
+		initial.put(TODAY, emptyUsage(DAILY_LIMIT, TODAY));
+		initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, A_TRAVEL_DURATION));
+		ridePermit = new RidePermit(ridePermitId, IDUL, permitSession, DAILY_LIMIT, initial, ridePermitState);
+	}
 
     private DailyBillingUsage nonEmptyUsage(Duration limit, LocalDate date, Duration traveled) {
         return new DailyBillingUsage(limit, date, traveled, ZERO_CAD, false);
