@@ -105,9 +105,11 @@ public interface StationResource {
 
     @POST
     @Path("/maintenance/request")
+    @RolesAllowed({"TECHNICIAN", "EMPLOYEE", "STUDENT"})
+    @RequiresPermissions({Permission.REQUEST_MAINTENANCE})
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Demander un service de maintenance",
-            description = "Permet à un usager ou responsable de projet de demander un service de maintenance",
+            description = "Permet à un usager du système de demander une maintenance sur une station",
             responses = {
                     @ApiResponse(responseCode = "204",
                             description = "Demande de service envoyée avec succès"),
