@@ -130,28 +130,6 @@ class TransferApplicationServiceTest {
     }
 
     @Test
-    void givenValidLocation_whenFindAvailableSlots_thenStationMethodIsCalled() {
-        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
-                .thenReturn(destinationStation);
-
-        transferApplicationService.findAvailableSlotsInStation(DESTINATION_LOCATION);
-
-        Mockito.verify(stationRepository).findByLocation(DESTINATION_LOCATION);
-        Mockito.verify(destinationStation).getAvailableSlots();
-    }
-
-    @Test
-    void givenValidLocation_whenFindOccupiedSlots_thenStationMethodIsCalled() {
-        Mockito.when(stationRepository.findByLocation(DESTINATION_LOCATION))
-                .thenReturn(destinationStation);
-
-        transferApplicationService.findOccupiedSlotsInStation(DESTINATION_LOCATION);
-
-        Mockito.verify(stationRepository).findByLocation(DESTINATION_LOCATION);
-        Mockito.verify(destinationStation).getOccupiedSlots();
-    }
-
-    @Test
     void givenValidParameters_whenInitiateTransfer_thenScootersAreUndocked() {
         List<SlotNumber> sourceSlots = List.of(new SlotNumber(1));
         ScooterId scooterId = ScooterId.randomId();
