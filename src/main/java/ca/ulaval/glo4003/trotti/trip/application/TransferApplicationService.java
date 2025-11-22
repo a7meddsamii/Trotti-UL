@@ -76,16 +76,4 @@ public class TransferApplicationService {
 
         return transfer.getScootersInTransitCount();
     }
-
-    public List<SlotNumber> findAvailableSlotsInStation(Location destinationStation) {
-        Station station = stationRepository.findByLocation(destinationStation);
-
-        return station.getAvailableSlots();
-    }
-
-    public List<SlotNumber> findOccupiedSlotsInStation(Location destinationStation) {
-        Station station = stationRepository.findByLocation(destinationStation);
-
-        return station.getOccupiedSlots();
-    }
 }
