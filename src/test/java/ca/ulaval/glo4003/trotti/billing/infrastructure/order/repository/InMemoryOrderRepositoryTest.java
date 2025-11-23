@@ -12,13 +12,13 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryOrderRepositoryTest {
-    private InMemoryOrderRepository orderRepository;
-    
     private Order pendingOrder;
     private Order paidOrder;
     private OrderId pendingOrderId;
     private OrderId paidOrderId;
     private Idul buyerId;
+    
+    private InMemoryOrderRepository orderRepository;
     
     @BeforeEach
     void setup() {
@@ -26,18 +26,14 @@ class InMemoryOrderRepositoryTest {
         
         pendingOrder = Mockito.mock(Order.class);
         paidOrder = Mockito.mock(Order.class);
-        
         pendingOrderId = Mockito.mock(OrderId.class);
         paidOrderId = Mockito.mock(OrderId.class);
-        
         buyerId = Mockito.mock(Idul.class);
         
         Mockito.when(pendingOrder.getOrderId()).thenReturn(pendingOrderId);
         Mockito.when(paidOrder.getOrderId()).thenReturn(paidOrderId);
-        
         Mockito.when(pendingOrder.getBuyerId()).thenReturn(buyerId);
         Mockito.when(paidOrder.getBuyerId()).thenReturn(buyerId);
-        
         Mockito.when(pendingOrder.getStatus()).thenReturn(OrderStatus.PENDING);
         Mockito.when(paidOrder.getStatus()).thenReturn(OrderStatus.COMPLETED);
     }

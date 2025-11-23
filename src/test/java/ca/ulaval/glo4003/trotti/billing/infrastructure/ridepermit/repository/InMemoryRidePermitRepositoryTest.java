@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryRidePermitRepositoryTest {
-    private InMemoryRidePermitRepository ridePermitRepository;
     
     private RidePermit permit1;
     private RidePermit permit2;
@@ -28,28 +27,25 @@ class InMemoryRidePermitRepositoryTest {
     private Session session1;
     private Session session2;
     
+    private InMemoryRidePermitRepository ridePermitRepository;
+    
     @BeforeEach
     void setup() {
         ridePermitRepository = new InMemoryRidePermitRepository();
         
         permit1 = Mockito.mock(RidePermit.class);
         permit2 = Mockito.mock(RidePermit.class);
-        
         permitId1 = Mockito.mock(RidePermitId.class);
         permitId2 = Mockito.mock(RidePermitId.class);
-        
         riderId1 = Mockito.mock(Idul.class);
         riderId2 = Mockito.mock(Idul.class);
-        
         session1 = Mockito.mock(Session.class);
         session2 = Mockito.mock(Session.class);
         
         Mockito.when(permit1.getId()).thenReturn(permitId1);
         Mockito.when(permit2.getId()).thenReturn(permitId2);
-        
         Mockito.when(permit1.getRiderId()).thenReturn(riderId1);
         Mockito.when(permit2.getRiderId()).thenReturn(riderId2);
-        
         Mockito.when(permit1.getSession()).thenReturn(session1);
         Mockito.when(permit2.getSession()).thenReturn(session2);
     }
@@ -93,15 +89,12 @@ class InMemoryRidePermitRepositoryTest {
     @Test
     void givenPermitsWithDailyUsage_whenFindAllByDate_thenReturnsOnlyPermitsHavingThatDate() {
         LocalDate date = LocalDate.of(2025, 1, 10);
-        
         Map<LocalDate, DailyBillingUsage> usages1 = new HashMap<>();
         usages1.put(date, Mockito.mock(DailyBillingUsage.class));
-        
         Mockito.when(permit1.getDailyBillingUsages()).thenReturn(usages1);
         Mockito.when(permit2.getDailyBillingUsages()).thenReturn(Map.of());
         
         ridePermitRepository.saveAll(List.of(permit1, permit2));
-        
         List<RidePermit> result = ridePermitRepository.findAllByDate(date);
         
         assertEquals(1, result.size());
