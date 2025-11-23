@@ -68,21 +68,4 @@ class InMemoryOrderRepositoryTest {
         assertEquals(pendingOrder, result.get());
     }
     
-    @Test
-    void givenOrderWithBuyerAndStatus_whenExists_thenReturnsTrue() {
-        orderRepository.save(pendingOrder);
-        
-        boolean exists = orderRepository.exists(buyerId, OrderStatus.PENDING);
-        
-        assertTrue(exists);
-    }
-    
-    @Test
-    void givenNoOrderWithBuyerAndStatus_whenExists_thenReturnsFalse() {
-        orderRepository.save(paidOrder);
-        
-        boolean exists = orderRepository.exists(buyerId, OrderStatus.PENDING);
-        
-        assertFalse(exists);
-    }
 }

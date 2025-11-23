@@ -19,15 +19,6 @@ public class InMemoryOrderRepository implements OrderRepository {
     }
     
     @Override
-    public boolean exists(Idul buyerId, OrderStatus status) {
-        return database.values().stream()
-                .anyMatch(order ->
-                        order.getBuyerId().equals(buyerId)
-                                && order.getStatus() == status
-                );
-    }
-    
-    @Override
     public Optional<Order> findOngoingOrderFor(Idul buyerId) {
         return database.values().stream()
                 .filter(order -> order.getBuyerId().equals(buyerId))
