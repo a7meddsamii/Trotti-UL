@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders.order;
 
 import ca.ulaval.glo4003.trotti.billing.api.order.mapper.OrderApiMapper;
+import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.order.session.SessionMapper;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
@@ -26,7 +27,8 @@ public class OrderMapperLoader extends Bootstrapper {
 	}
 	
 	private void loadOrderApiMapper() {
-		OrderApiMapper orderApiMapper = new OrderApiMapper();
+		SchoolSessionProvider schoolSessionProvider = this.resourceLocator.resolve(SchoolSessionProvider.class);
+		OrderApiMapper orderApiMapper = new OrderApiMapper(schoolSessionProvider);
 		this.resourceLocator.register(OrderApiMapper.class, orderApiMapper);
 	}
 }
