@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.standardAccountCreatio
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,6 @@ class EmployeeCreationNodeTest {
     private static final Gender A_GENDER = AccountFixture.A_GENDER;
     private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
-    private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
     private StandardAccountCreationNode nextNode;
     private Role role;
@@ -34,14 +34,13 @@ class EmployeeCreationNodeTest {
         role = Role.EMPLOYEE;
 
         Account expected = employeeCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
-                AN_IDUL, A_EMAIL, A_PASSWORD, role);
+                AN_IDUL, A_EMAIL, role);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
         Assertions.assertEquals(A_GENDER, expected.getGender());
         Assertions.assertEquals(AN_IDUL, expected.getIdul());
         Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(A_PASSWORD, expected.getPassword());
         Assertions.assertEquals(role, expected.getRole());
         Assertions.assertNotNull(expected.getPermissions());
     }
@@ -51,10 +50,10 @@ class EmployeeCreationNodeTest {
         role = Role.TECHNICIAN;
 
         employeeCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                A_PASSWORD, role);
+                role);
 
         Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, A_PASSWORD, role);
+                A_EMAIL, role);
     }
 
 }

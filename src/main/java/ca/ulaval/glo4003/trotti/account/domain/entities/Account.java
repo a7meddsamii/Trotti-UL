@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.trotti.account.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collections;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 public class Account {
     private final String name;
-    private final Password password;
     private final LocalDate birthDate;
     private final Idul idul;
     private final Gender gender;
@@ -24,7 +24,6 @@ public class Account {
             Gender gender,
             Idul idul,
             Email email,
-            Password password,
             Role role,
             Set<Permission> permissions) {
         this.name = name;
@@ -32,7 +31,6 @@ public class Account {
         this.birthDate = birthDate;
         this.idul = idul;
         this.email = email;
-        this.password = password;
         this.role = role;
         this.permissions = new HashSet<>(permissions);
     }
@@ -57,10 +55,6 @@ public class Account {
         return email;
     }
 
-    public Password getPassword() {
-        return password;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -74,7 +68,4 @@ public class Account {
         return Period.between(this.birthDate, today).getYears();
     }
 
-    public boolean verifyPassword(String rawPassword) {
-        return this.password.matches(rawPassword);
-    }
 }

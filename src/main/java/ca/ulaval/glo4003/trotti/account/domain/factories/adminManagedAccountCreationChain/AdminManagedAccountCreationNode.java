@@ -3,7 +3,8 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCre
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.UnableToCreateAccountException;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -17,22 +18,19 @@ public abstract class AdminManagedAccountCreationNode {
     }
 
     public Account createAdminManagedAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
-            Set<Permission> creatorPermissions) {
+            Idul idul, Email email, Role role, Set<Permission> creatorPermissions) {
         if (responsibilityRole().equals(role)) {
-            return createAccount(name, birthDate, gender, idul, email, password, role,
-                    creatorPermissions);
+            return createAccount(name, birthDate, gender, idul, email, role, creatorPermissions);
         } else if (next != null) {
-            return next.createAdminManagedAccount(name, birthDate, gender, idul, email, password,
-                    role, creatorPermissions);
+            return next.createAdminManagedAccount(name, birthDate, gender, idul, email, role,
+                    creatorPermissions);
         } else {
             throw new UnableToCreateAccountException("unable to create account");
         }
     }
 
     protected abstract Account createAccount(String name, LocalDate birthDate, Gender gender,
-            Idul idul, Email email, Password password, Role role,
-            Set<Permission> creatorPermissions);
+            Idul idul, Email email, Role role, Set<Permission> creatorPermissions);
 
     protected abstract Role responsibilityRole();
 }

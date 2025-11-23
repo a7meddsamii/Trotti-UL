@@ -14,7 +14,7 @@ public class AccountMapperLoader extends Bootstrapper {
 
     private void loadAccountMapper() {
         PasswordHasher hasher = this.resourceLocator.resolve(PasswordHasher.class);
-        this.resourceLocator.register(AccountApiMapper.class, new AccountApiMapper(hasher));
+        this.resourceLocator.register(AccountApiMapper.class, new AccountApiMapper());
         this.resourceLocator.register(AccountPersistenceMapper.class,
                 new AccountPersistenceMapper());
     }
