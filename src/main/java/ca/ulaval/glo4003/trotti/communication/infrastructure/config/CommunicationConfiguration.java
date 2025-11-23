@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.loaders.CommunicationForeignServiceLoader;
+import ca.ulaval.glo4003.trotti.communication.infrastructure.config.loaders.HandlerLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class CommunicationConfiguration extends Configuration {
@@ -22,5 +23,6 @@ public class CommunicationConfiguration extends Configuration {
     @Override
     protected void load() {
         new CommunicationForeignServiceLoader().load();
+        new HandlerLoader().load();
     }
 }

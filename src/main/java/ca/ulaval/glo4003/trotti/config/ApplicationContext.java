@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.config;
 import ca.ulaval.glo4003.trotti.account.infrastructure.config.AccountConfiguration;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.config.BillingConfiguration;
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.CommonsConfiguration;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.EventSubscriptionConfiguration;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.CommunicationConfiguration;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.heartbeat.infrastructure.config.HeartbeatConfiguration;
@@ -31,5 +32,8 @@ public class ApplicationContext extends Configuration {
         HeartbeatConfiguration.getInstance().load();
         BillingConfiguration.getInstance().load();
         TripConfiguration.getInstance().load();
+
+        EventSubscriptionConfiguration.getInstance().load();
+
     }
 }

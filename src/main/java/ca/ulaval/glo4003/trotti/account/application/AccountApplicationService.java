@@ -12,6 +12,8 @@ import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 
 public class AccountApplicationService {
 
@@ -19,16 +21,19 @@ public class AccountApplicationService {
     private final AccountFactory accountFactory;
     private final SessionTokenProvider sessionTokenProvider;
     private final AuthenticationProvider authenticationProvider;
+    private final EventBus eventBus;
 
     public AccountApplicationService(
             AccountRepository accountRepository,
             AccountFactory accountFactory,
             SessionTokenProvider sessionTokenProvider,
-            AuthenticationProvider authenticationProvider) {
+            AuthenticationProvider authenticationProvider,
+            EventBus eventBus) {
         this.accountRepository = accountRepository;
         this.accountFactory = accountFactory;
         this.sessionTokenProvider = sessionTokenProvider;
         this.authenticationProvider = authenticationProvider;
+        this.eventBus = eventBus;
     }
 
     public Idul createAccount(RegistrationDto registrationDto) {
@@ -37,6 +42,11 @@ public class AccountApplicationService {
         Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role());
         accountRepository.save(account);
+
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(),
+                account.getName(),
+                account.getEmail().toString(),
+                account.getRole().toString()));
 
         return account.getIdul();
     }
@@ -51,6 +61,11 @@ public class AccountApplicationService {
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role(),
                 creatorAccount.getPermissions());
         accountRepository.save(account);
+
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(),
+                account.getName(),
+                account.getEmail().toString(),
+                account.getRole().toString()));
 
         return account.getIdul();
     }

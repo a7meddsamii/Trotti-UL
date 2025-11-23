@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.trip.domain.events.UnlockCodeRequestedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 
 public class UnlockCodeRequestedHandler {
 
