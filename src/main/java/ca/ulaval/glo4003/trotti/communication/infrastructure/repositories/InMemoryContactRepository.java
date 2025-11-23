@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.communication.infrastructure.repositories;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.repositories.ContactRepository;
 import java.util.Map;
