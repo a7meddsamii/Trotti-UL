@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.account.infrastructure.provider.PasswordAuthenti
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import io.jsonwebtoken.Jwts;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Clock;
@@ -75,7 +74,8 @@ public class AccountForeignServiceLoader extends Bootstrapper {
     }
 
     private void loadEmployeeRegistryProvider() {
-        EmployeeRegistryProvider employeeRegistryProvider = new JsonEmployeeRegistryProvider(EMPLOYEE_PATH);
+        EmployeeRegistryProvider employeeRegistryProvider =
+                new JsonEmployeeRegistryProvider(EMPLOYEE_PATH);
         this.resourceLocator.register(EmployeeRegistryProvider.class, employeeRegistryProvider);
     }
 

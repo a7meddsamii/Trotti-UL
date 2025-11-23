@@ -35,7 +35,8 @@ public class AccountFactoryLoader extends Bootstrapper {
     }
 
     private StandardAccountCreationNode buildStandardAccountChain() {
-        StandardAccountCreationNode employee = new EmployeeCreationNode(this.resourceLocator.resolve(EmployeeRegistryProvider.class));
+        StandardAccountCreationNode employee = new EmployeeCreationNode(
+                this.resourceLocator.resolve(EmployeeRegistryProvider.class));
         StandardAccountCreationNode student = new StudentCreationNode();
 
         employee.setNext(student);

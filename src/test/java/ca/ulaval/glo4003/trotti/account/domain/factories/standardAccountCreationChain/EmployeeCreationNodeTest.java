@@ -67,10 +67,11 @@ class EmployeeCreationNodeTest {
         role = Role.EMPLOYEE;
         Mockito.when(employeeRegistryProvider.exists(Mockito.any(Idul.class))).thenReturn(false);
 
-        Executable CreatingAccountWithEmployeeNotInRegistry = () -> employeeCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
-                AN_IDUL, A_EMAIL, role);
+        Executable CreatingAccountWithEmployeeNotInRegistry = () -> employeeCreationNode
+                .createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role);
 
-        Assertions.assertThrows(AuthorizationException.class, CreatingAccountWithEmployeeNotInRegistry);
+        Assertions.assertThrows(AuthorizationException.class,
+                CreatingAccountWithEmployeeNotInRegistry);
     }
 
 }

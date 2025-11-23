@@ -29,9 +29,9 @@ public class EmployeeCreationNode extends StandardAccountCreationNode {
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
             Email email, Role role) {
 
-            if ( ! employeeRegistryProvider.exists(idul) ) {
-                throw new AuthorizationException("Employee not found.");
-            }
+        if (!employeeRegistryProvider.exists(idul)) {
+            throw new AuthorizationException("Employee not found.");
+        }
 
         return new Account(name, birthDate, gender, idul, email, role, permissions);
     }
