@@ -6,24 +6,23 @@ import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.config.events.handlers.EventHandler;
 import ca.ulaval.glo4003.trotti.trip.domain.events.UnlockCodeRequestedEvent;
 
-public class UnlockCodeRequestedHandler extends EmailSendHandler implements EventHandler<UnlockCodeRequestedEvent> {
+public class UnlockCodeRequestedHandler implements EventHandler<UnlockCodeRequestedEvent> {
+
+    private final EmailService emailService;
 
     public UnlockCodeRequestedHandler(EmailService emailService) {
-        super(emailService);
+        this.emailService = emailService;
     }
 
     @Override
     public void handle(UnlockCodeRequestedEvent event) {
         Contact contact = Contact.findByIdul(event.getIdul());
 
-        EmailMessage emailMessage = EmailMessage.builder()
-                .withSubject("Unlock Code for your trip")
-                .withBody("Hello " + contact.getName() + "\n" +
-                        "Here is your code to unlock your scooter : \n" +
-                        event.getUnlockCode() + "\n" +
-                        "Have a nice ride!\n")
-                .withRecipient(contact.getEmail())
-                .build();
+        EmailMessage emailMessage = EmailMessage.builder().withSubject("Unlock Code for your trip")
+                .withBody("Hello " + contact.getName() + ", \n"
+                        + "Here is your code to unlock your scooter : \n" + event.getUnlockCode()
+                        + "\n" + "Have a safe ride!\n")
+                .withRecipient(contact.getEmail()).build();
 
         emailService.send(emailMessage);
     }

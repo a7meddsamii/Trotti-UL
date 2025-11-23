@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationServic
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 
+@Deprecated
 public class UnlockCodeNotificationService implements NotificationService<UnlockCode> {
 
     private final EmailService emailService;

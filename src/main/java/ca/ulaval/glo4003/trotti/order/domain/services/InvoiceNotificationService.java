@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationServic
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.payment.domain.entities.invoice.Invoice;
 
+@Deprecated
 public class InvoiceNotificationService implements NotificationService<Invoice> {
     private final EmailService emailService;
     private final InvoiceFormatService<String> invoiceFormatService;

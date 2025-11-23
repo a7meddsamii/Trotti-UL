@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.NotificationServic
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.payment.domain.values.transaction.Transaction;
 
+@Deprecated
 public class TransactionNotificationService implements NotificationService<Transaction> {
     private final EmailService emailService;
 

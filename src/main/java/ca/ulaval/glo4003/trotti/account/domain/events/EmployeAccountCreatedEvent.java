@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.trotti.account.domain.events;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 
-public class EmployeAccountCreatedEvent extends Event {
+public class EmployeAccountCreatedEvent extends AccountCreatedEvent {
 
-    public EmployeAccountCreatedEvent(Idul idul) {
-        super(idul, "account.created.employee");
+    public EmployeAccountCreatedEvent(Idul idul, String name, String email) {
+        super(name, email, idul);
     }
 }

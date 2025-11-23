@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.RidePermit;
 import java.util.List;
 
+@Deprecated
 public class RidePermitNotificationService implements NotificationService<List<RidePermit>> {
     private final EmailService emailService;
 
