@@ -35,7 +35,8 @@ class AccountPersistenceMapperTest {
     void givenPersistenceEntity_whenToDomain_thenReturnAccount() {
         AccountRecord persistenceEntity = new AccountRecord(AccountFixture.AN_IDUL,
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
-                AccountFixture.AN_EMAIL, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION);
+                AccountFixture.AN_EMAIL, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION,
+															AccountFixture.A_SET_OF_ADVANTAGES);
 
         Account account = accountMapper.toEntity(persistenceEntity);
 

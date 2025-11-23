@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.billing.application.order;
 
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
+import ca.ulaval.glo4003.trotti.billing.application.order.dto.FreeRidePermitItemGrantDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.RidePermitItem;
@@ -56,8 +57,18 @@ public class OrderApplicationService {
 
         return orderAssembler.assemble(order);
     }
-
-    public OrderDto getOngoingOrder(Idul buyerId) {
+	
+	public void grantFreeRidePermitItem(FreeRidePermitItemGrantDto freeRidePermitItemGrantDto){
+//		Order order = orderRepository.findOngoingOrderFor(freeRidePermitItemGrantDto.buyerId())
+//		.orElseGet(() -> new Order(OrderId.randomId(), freeRidePermitItemGrantDto.buyerId()));
+//		
+//		order.add(item);
+//		order.confirm();
+//		orderRepository.save(order);
+	}
+	
+	
+	public OrderDto getOngoingOrder(Idul buyerId) {
         Order order = findOngoingOrder(buyerId);
         return orderAssembler.assemble(order);
     }

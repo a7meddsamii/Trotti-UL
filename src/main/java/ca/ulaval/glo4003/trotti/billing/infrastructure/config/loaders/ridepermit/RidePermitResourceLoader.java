@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders.ridepermi
 
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.controller.RidePermitController;
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.controller.RidePermitResource;
-import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitMapper;
+import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitApiMapper;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitApplicationService;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
@@ -15,8 +15,8 @@ public class RidePermitResourceLoader extends Bootstrapper {
 	
 	private void loadRidePermitResource() {
         RidePermitApplicationService ridePermitApplicationService = this.resourceLocator.resolve(RidePermitApplicationService.class);
-        RidePermitMapper ridePermitMapper = this.resourceLocator.resolve(RidePermitMapper.class);
-        RidePermitResource ridePermitResource = new RidePermitController(ridePermitApplicationService, ridePermitMapper);
+        RidePermitApiMapper ridePermitApiMapper = this.resourceLocator.resolve(RidePermitApiMapper.class);
+        RidePermitResource ridePermitResource = new RidePermitController(ridePermitApplicationService, ridePermitApiMapper);
         this.resourceLocator.register(RidePermitResource.class, ridePermitResource);
 	}
 }

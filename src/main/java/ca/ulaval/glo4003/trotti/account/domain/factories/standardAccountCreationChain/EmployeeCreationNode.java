@@ -13,6 +13,7 @@ public class EmployeeCreationNode extends StandardAccountCreationNode {
 
     private final Set<Permission> permissions =
             Set.of(Permission.MAKE_TRIP, Permission.REQUEST_MAINTENANCE);
+	public final Set<Advantage> advantages = Set.of(Advantage.FREE_RIDE_PERMIT);
 
     private final EmployeeRegistryProvider employeeRegistryProvider;
 
@@ -33,6 +34,6 @@ public class EmployeeCreationNode extends StandardAccountCreationNode {
             throw new AuthorizationException("Employee not found.");
         }
 
-        return new Account(name, birthDate, gender, idul, email, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions, advantages);
     }
 }

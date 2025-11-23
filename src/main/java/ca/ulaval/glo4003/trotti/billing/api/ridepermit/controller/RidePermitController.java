@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.billing.api.ridepermit.controller;
 
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.dto.response.RidePermitResponse;
-import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitMapper;
+import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitApiMapper;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitApplicationService;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.dto.RidePermitDto;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
@@ -12,21 +12,21 @@ import java.util.List;
 
 public class RidePermitController implements RidePermitResource {
 	private final RidePermitApplicationService ridePermitApplicationService;
-	private final RidePermitMapper ridePermitMapper;
+	private final RidePermitApiMapper ridePermitApiMapper;
 	
 	public RidePermitController(
 			RidePermitApplicationService ridePermitApplicationService,
-			RidePermitMapper ridePermitMapper
+			RidePermitApiMapper ridePermitApiMapper
 	) {
 		this.ridePermitApplicationService = ridePermitApplicationService;
-		this.ridePermitMapper = ridePermitMapper;
+		this.ridePermitApiMapper = ridePermitApiMapper;
 	}
 	
 	@Override
 	public Response getRidePermits(Idul userId) {
 		List<RidePermitDto> ridePermitDtoList = ridePermitApplicationService.getRidePermits(userId);
 		
-		List<RidePermitResponse> ridePermitResponseList = ridePermitMapper.toRidePermitResponseList(ridePermitDtoList);
+		List<RidePermitResponse> ridePermitResponseList = ridePermitApiMapper.toRidePermitResponseList(ridePermitDtoList);
 		
 		return Response.ok(ridePermitResponseList).build();
 	}
@@ -35,7 +35,7 @@ public class RidePermitController implements RidePermitResource {
 	public Response getRidePermit(Idul userId, String ridePermitId) {
 		RidePermitDto ridePermitDto = ridePermitApplicationService.getRidePermit(userId, RidePermitId.from(ridePermitId));
 		
-		RidePermitResponse ridePermitResponse = ridePermitMapper.toRidePermitResponse(ridePermitDto);
+		RidePermitResponse ridePermitResponse = ridePermitApiMapper.toRidePermitResponse(ridePermitDto);
 		
 		return Response.ok(ridePermitResponse).build();
 	}

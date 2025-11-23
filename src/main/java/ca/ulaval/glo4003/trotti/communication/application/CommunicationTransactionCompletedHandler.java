@@ -6,12 +6,12 @@ import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 
-public class TransactionCompletedHandler {
+public class CommunicationTransactionCompletedHandler {
 
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public TransactionCompletedHandler(
+    public CommunicationTransactionCompletedHandler(
             EmailService emailService,
             EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;

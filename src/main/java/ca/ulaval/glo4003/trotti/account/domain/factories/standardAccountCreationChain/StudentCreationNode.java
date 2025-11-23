@@ -20,6 +20,6 @@ public class StudentCreationNode extends StandardAccountCreationNode {
     @Override
     protected Account createAccount(String name, LocalDate birthDate, Gender gender, Idul idul,
             Email email, Role role) {
-        return new Account(name, birthDate, gender, idul, email, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions, Set.of());
     }
 }

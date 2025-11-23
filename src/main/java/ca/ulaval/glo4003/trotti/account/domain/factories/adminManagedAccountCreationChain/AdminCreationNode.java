@@ -25,6 +25,6 @@ public class AdminCreationNode extends AdminManagedAccountCreationNode {
             throw new AuthorizationException("Not permitted");
         }
 
-        return new Account(name, birthDate, gender, idul, email, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions, Set.of());
     }
 }

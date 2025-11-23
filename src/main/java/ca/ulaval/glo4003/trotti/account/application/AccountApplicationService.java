@@ -9,11 +9,15 @@ import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationExceptio
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
+import ca.ulaval.glo4003.trotti.account.domain.values.Advantage;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequestEvent;
+
+import java.util.List;
 
 public class AccountApplicationService {
 
@@ -69,6 +73,15 @@ public class AccountApplicationService {
 
         return account.getIdul();
     }
+	
+	public void applyAdvantages(Advantage advantage){
+		List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
+		
+		if (!accountFound.isEmpty()) {
+			List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
+			eventBus.publish(new ApplyAdvantageRequestEvent(advantage, accountIds));
+		}
+	}
 
     public SessionToken login(LoginDto loginDto) {
         Email email = authenticationProvider.verify(loginDto);
