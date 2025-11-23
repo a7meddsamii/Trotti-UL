@@ -8,12 +8,12 @@ import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import java.util.List;
 
-public class MaintenanceRequestedHandler {
+public class CommunicationMaintenanceRequestedHandler {
 
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public MaintenanceRequestedHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
+    public CommunicationMaintenanceRequestedHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;
         this.emailMessageFactory = emailMessageFactory;
     }

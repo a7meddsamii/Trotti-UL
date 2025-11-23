@@ -17,15 +17,18 @@ public class Account {
     private final Email email;
     private final Role role;
     private final Set<Permission> permissions;
+	private final Set<Advantage> advantages;
 
     public Account(
-            String name,
-            LocalDate birthDate,
-            Gender gender,
-            Idul idul,
-            Email email,
-            Role role,
-            Set<Permission> permissions) {
+			String name,
+			LocalDate birthDate,
+			Gender gender,
+			Idul idul,
+			Email email,
+			Role role,
+			Set<Permission> permissions,
+			Set<Advantage> advantages
+	) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
@@ -33,7 +36,8 @@ public class Account {
         this.email = email;
         this.role = role;
         this.permissions = new HashSet<>(permissions);
-    }
+		this.advantages = new HashSet<>(advantages);
+	}
 
     public String getName() {
         return name;
@@ -62,6 +66,10 @@ public class Account {
     public Set<Permission> getPermissions() {
         return Collections.unmodifiableSet(permissions);
     }
+	
+	public Set<Advantage> getAdvantages() {
+		return Collections.unmodifiableSet(advantages);
+	}
 
     public int getAge() {
         LocalDate today = LocalDate.now();

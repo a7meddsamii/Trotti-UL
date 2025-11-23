@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEven
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 
-public class AccountCreatedHandler {
+public class CommunicationAccountCreatedHandler {
 
     public void handle(AccountCreatedEvent event) {
         Contact contact =

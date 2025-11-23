@@ -33,7 +33,7 @@ public class OrderAssembler {
 
     }
 	
-	private RidePermitItemDto assemble(RidePermitItem ridePermitItem) {
+	public RidePermitItemDto assemble(RidePermitItem ridePermitItem) {
 		return new RidePermitItemDto(
 				ridePermitItem.getItemId(),
 				ridePermitItem.getMaximumTravelingTime(),

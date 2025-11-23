@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.handler.RidePermitEventHandler;
-import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitMapper;
+import ca.ulaval.glo4003.trotti.billing.api.ridepermit.mapper.RidePermitApiMapper;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitApplicationService;
 import ca.ulaval.glo4003.trotti.communication.application.*;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
@@ -14,16 +14,16 @@ public class HandlerLoader extends Bootstrapper {
     public void load() {
         EmailMessageFactory emailMessageFactory = new EmailMessageFactory();
         EmailService emailService = this.resourceLocator.resolve(EmailService.class);
-        RidePermitMapper ridePermitMapper = this.resourceLocator.resolve(RidePermitMapper.class);
+        RidePermitApiMapper ridePermitApiMapper = this.resourceLocator.resolve(RidePermitApiMapper.class);
         RidePermitApplicationService ridePermitApplicationService = this.resourceLocator.resolve(RidePermitApplicationService.class);
 
-        this.resourceLocator.register(AccountCreatedHandler.class, new AccountCreatedHandler());
-        this.resourceLocator.register(MaintenanceRequestedHandler.class, new MaintenanceRequestedHandler(emailService, emailMessageFactory));
+        this.resourceLocator.register(CommunicationAccountCreatedHandler.class, new CommunicationAccountCreatedHandler());
+        this.resourceLocator.register(CommunicationMaintenanceRequestedHandler.class, new CommunicationMaintenanceRequestedHandler(emailService, emailMessageFactory));
         this.resourceLocator.register(EmailMessageFactory.class, new EmailMessageFactory());
-        this.resourceLocator.register(OrderPlacedHandler.class, new OrderPlacedHandler(emailService, emailMessageFactory));
+        this.resourceLocator.register(CommunicationOrderPlacedHandler.class, new CommunicationOrderPlacedHandler(emailService, emailMessageFactory));
         this.resourceLocator.register(RidePermitActivationHandler.class, new RidePermitActivationHandler(emailService, emailMessageFactory));
-        this.resourceLocator.register(RidePermitEventHandler.class, new RidePermitEventHandler(ridePermitMapper, ridePermitApplicationService));
-        this.resourceLocator.register(TransactionCompletedHandler.class, new TransactionCompletedHandler(emailService, emailMessageFactory));
-        this.resourceLocator.register(UnlockCodeRequestedHandler.class, new UnlockCodeRequestedHandler(emailService, emailMessageFactory));
+        this.resourceLocator.register(RidePermitEventHandler.class, new RidePermitEventHandler(ridePermitApiMapper, ridePermitApplicationService));
+        this.resourceLocator.register(CommunicationTransactionCompletedHandler.class, new CommunicationTransactionCompletedHandler(emailService, emailMessageFactory));
+        this.resourceLocator.register(CommunicationUnlockCodeRequestedHandler.class, new CommunicationUnlockCodeRequestedHandler(emailService, emailMessageFactory));
     }
 }
