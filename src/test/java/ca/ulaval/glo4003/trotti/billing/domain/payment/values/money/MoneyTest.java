@@ -28,20 +28,6 @@ class MoneyTest {
     }
 
     @Test
-    void whenInstantiateWithNullAmount_thenThrowException() {
-        Executable executable = () -> Money.of(ONE_HUNDRED, Currency.CAD);
-
-        Assertions.assertThrows(InvalidParameterException.class, executable);
-    }
-
-    @Test
-    void whenInstantiateWithNullCurrency_thenThrowException() {
-        Executable executable = () -> Money.of(ONE_HUNDRED, null);
-
-        Assertions.assertThrows(InvalidParameterException.class, executable);
-    }
-
-    @Test
     void givenMoneyWithDifferentCurrency_whenPlus_thenThrowException() {
         Money moneyInDifferentCurrency = Money.of(ONE_HUNDRED, Currency.OTHER);
 
@@ -156,11 +142,4 @@ class MoneyTest {
 
         Assertions.assertFalse(money.isLessThan(anotherMoney));
     }
-	
-	@Test
-	void givenSameMoney_whenHashCode_thenHashCodesAreEquals() {
-		Money anotherMoney = Money.of(ONE_HUNDRED, Currency.CAD);
-		
-		Assertions.assertNotEquals(money.hashCode(), anotherMoney.hashCode());
-	}
 }

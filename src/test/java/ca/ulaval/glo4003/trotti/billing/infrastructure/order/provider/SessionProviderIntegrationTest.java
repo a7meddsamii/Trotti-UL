@@ -53,11 +53,11 @@ class SessionProviderIntegrationTest {
 			throws IOException {
 		Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
 		LocalDate localDate = LocalDate.of(2026, 1, 10);
+		String expectedSemester = "A25";
 		
 		Optional<Session> session = sessionProvider.getPreviousSession(localDate);
 		
 		Assertions.assertTrue(session.isPresent());
-		String expectedSemester = "A25";
 		Assertions.assertEquals(expectedSemester, session.get().toString());
 	}
 	

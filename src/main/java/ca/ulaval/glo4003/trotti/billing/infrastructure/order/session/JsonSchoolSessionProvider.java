@@ -36,11 +36,14 @@ public class JsonSchoolSessionProvider implements SchoolSessionProvider {
 		Set<Session> sessions =
 				readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());
 		
-		for (int i = 0; i < sessions.size(); i++) {
-			Session currentSession = sessions.stream().skip(i).findFirst().get();
+		List<Session> sortedSessions = sessions.stream()
+				.sorted(Comparator.comparing(Session::getStartDate)).toList();
+		
+		for (int i = 0; i < sortedSessions.size(); i++) {
+			Session currentSession = sortedSessions.get(i);
 			
-			if (currentSession.contains(date) && i - 1 > 0) {
-				return sessions.stream().skip(i - 1).findFirst();
+			if (currentSession.contains(date) && i - 1 >= 0) {
+				return Optional.ofNullable(sortedSessions.get(i-1));
 			}
 		}
 		

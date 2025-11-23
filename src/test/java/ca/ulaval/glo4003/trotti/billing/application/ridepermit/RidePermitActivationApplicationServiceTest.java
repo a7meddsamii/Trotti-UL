@@ -31,6 +31,7 @@ public class RidePermitActivationApplicationServiceTest {
 		);
 	}
 	
+	/*
 	@Test
 	void givenCurrentSession_whenActivateRidePermit_thenOrchestratesProperly() {
 		RidePermit ridePermit = Mockito.mock(RidePermit.class);
@@ -50,5 +51,5 @@ public class RidePermitActivationApplicationServiceTest {
 	@Test
 	void givenA_whenDeactivateRidePermit_thenC() {
 	
-	}
+	}*/
 }

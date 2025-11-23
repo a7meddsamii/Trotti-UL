@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.service;
 import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
-import javassist.NotFoundException;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -118,10 +118,4 @@ class RidePermitActivationFilterTest {
 		
 		Assertions.assertThrows(NotFoundException.class, executable);
 	}
-	
-	
-	
-
-	
-
 }
