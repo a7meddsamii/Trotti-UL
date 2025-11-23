@@ -35,7 +35,7 @@ public class CreditCardPaymentGateway implements PaymentGateway {
         CreditCard creditCard = (CreditCard) paymentIntent.getMethod();
         creditCards.putIfAbsent(paymentIntent.getBuyerId(), creditCard);
 
-        boolean isTransactionSuccess = !YearMonth.now(Clock.systemDefaultZone()).isAfter(creditCard.getExpiryDate());
+        boolean isTransactionSuccess = !YearMonth.now(clock).isAfter(creditCard.getExpiryDate());
 
         String description = getDescription(isTransactionSuccess, creditCard.getCardNumber());
 

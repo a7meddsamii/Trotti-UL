@@ -19,6 +19,9 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
+import java.time.YearMonth;
+
 @ExtendWith(MockitoExtension.class)
 class CreditCardPaymentGatewayTest {
 
@@ -31,11 +34,13 @@ class CreditCardPaymentGatewayTest {
     @Mock
     private OrderId orderId;
 
+    private Clock clock = Clock.systemDefaultZone();
+
     private CreditCardPaymentGateway creditCardPaymentGateway;
 
     @BeforeEach
     void setup() {
-        creditCardPaymentGateway = new CreditCardPaymentGateway();
+        creditCardPaymentGateway = new CreditCardPaymentGateway(clock);
     }
 
     @Test
@@ -43,6 +48,7 @@ class CreditCardPaymentGatewayTest {
         Idul buyerId = Idul.from("BUYER_001");
         when(creditCard.isEmpty()).thenReturn(false);
         when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
         PaymentIntent paymentIntent = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
 
         PaymentReceipt result = creditCardPaymentGateway.pay(paymentIntent);
@@ -66,6 +72,7 @@ class CreditCardPaymentGatewayTest {
         Idul buyerId = Idul.from("BUYER_003");
         when(creditCard.isEmpty()).thenReturn(false);
         when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
         PaymentIntent firstPayment = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
         creditCardPaymentGateway.pay(firstPayment);
 
