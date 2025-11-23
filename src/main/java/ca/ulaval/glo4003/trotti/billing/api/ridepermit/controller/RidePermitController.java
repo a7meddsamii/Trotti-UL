@@ -26,7 +26,7 @@ public class RidePermitController implements RidePermitResource {
 	public Response getRidePermits(Idul userId) {
 		List<RidePermitDto> ridePermitDtoList = ridePermitApplicationService.getRidePermits(userId);
 		
-		List<RidePermitResponse> ridePermitResponseList = null;
+		List<RidePermitResponse> ridePermitResponseList = ridePermitMapper.toRidePermitResponseList(ridePermitDtoList);
 		
 		return Response.ok(ridePermitResponseList).build();
 	}
@@ -35,7 +35,7 @@ public class RidePermitController implements RidePermitResource {
 	public Response getRidePermit(Idul userId, String ridePermitId) {
 		RidePermitDto ridePermitDto = ridePermitApplicationService.getRidePermit(userId, RidePermitId.from(ridePermitId));
 		
-		RidePermitResponse ridePermitResponse = null;
+		RidePermitResponse ridePermitResponse = ridePermitMapper.toRidePermitResponse(ridePermitDto);
 		
 		return Response.ok(ridePermitResponse).build();
 	}
