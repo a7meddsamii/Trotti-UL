@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
@@ -24,7 +25,9 @@ public class InMemoryStationRepository implements StationRepository {
 
     @Override
     public Station findByLocation(Location location) {
-        return stationMapper.toDomain(stations.get(location));
+        StationRecord stationRecord = stations.get(location);
+        if (stationRecord == null) throw new NotFoundException("Station not found at " + location);
+        return stationMapper.toDomain(stationRecord);
     }
 
 }
