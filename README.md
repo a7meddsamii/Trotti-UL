@@ -42,7 +42,7 @@ The **Scooter Pass** module enables students to purchase passes for using electr
 - Complete payment by credit card
 - Handle failed transactions and store payment info for future trips
 - Receive a transaction invoice
-- Pass is valid for a single academic session (from session start to the next session)
+- Pass is valid for a  single academic session (from session start to the next session)
 
 
 ## Installation

@@ -3,8 +3,8 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.*;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.time.Duration;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,24 +17,25 @@ class OrderTest {
             MaximumDailyTravelTime.from(Duration.ofHours(2));
     private static final MaximumDailyTravelTime SECOND_MAXIMUM_TRAVEL_TIME =
             MaximumDailyTravelTime.from(Duration.ofHours(5));
-	private static final Idul AN_IDUL = Idul.from("a1234567");
-    private OrderItem firstItem;
-    private OrderItem secondItem;
-    private OrderItem duplicateOfFirst;
+    private static final Idul AN_IDUL = Idul.from("a1234567");
+    private static final OrderId ORDER_ID = OrderId.randomId();
+    private RidePermitItem firstItem;
+    private RidePermitItem secondItem;
+    private RidePermitItem duplicateOfFirst;
     private ItemId firstItemId;
     private Order order;
 
     @BeforeEach
     void setUp() {
         Session session = Mockito.mock(Session.class);
-        firstItem = new OrderItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
+        firstItem = new RidePermitItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
                 BillingFrequency.MONTHLY);
-        secondItem = new OrderItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME, session,
+        secondItem = new RidePermitItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME, session,
                 BillingFrequency.PER_TRIP);
-        duplicateOfFirst = new OrderItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
-                BillingFrequency.MONTHLY);
+        duplicateOfFirst = new RidePermitItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME,
+                session, BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
-        order = new Order(AN_IDUL);
+        order = new Order(ORDER_ID, AN_IDUL);
     }
 
     @Test

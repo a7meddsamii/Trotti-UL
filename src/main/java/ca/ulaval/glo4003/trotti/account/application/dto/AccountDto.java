@@ -10,6 +10,5 @@ public record AccountDto(
     Gender gender,
     Idul idul,
     Email email,
-    Password password,
     Role role
 ) {}
