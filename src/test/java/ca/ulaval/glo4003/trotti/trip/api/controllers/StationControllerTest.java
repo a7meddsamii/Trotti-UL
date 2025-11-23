@@ -8,12 +8,15 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
+import ca.ulaval.glo4003.trotti.trip.application.DockingAndUndockingApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
@@ -33,6 +36,7 @@ class StationControllerTest {
     private StationMaintenanceApplicationService stationMaintenanceApplicationService;
     private StationApiMapper stationApiMapper;
     private StationController controller;
+    private DockingAndUndockingApplicationService dockingAndUndockingApplicationService;
 
     @BeforeEach
     void setUp() {
@@ -40,9 +44,10 @@ class StationControllerTest {
         stationMaintenanceApplicationService =
                 Mockito.mock(StationMaintenanceApplicationService.class);
         stationApiMapper = Mockito.mock(StationApiMapper.class);
+        dockingAndUndockingApplicationService = Mockito.mock(DockingAndUndockingApplicationService.class);
 
         controller = new StationController(transferApplicationService,
-                stationMaintenanceApplicationService, stationApiMapper);
+                stationMaintenanceApplicationService, stationApiMapper, dockingAndUndockingApplicationService);
     }
 
     @Test
@@ -192,5 +197,47 @@ class StationControllerTest {
 
         Mockito.verify(stationMaintenanceApplicationService)
                 .requestMaintenanceService(TECHNICIAN_IDUL, request.location(), request.message());
+    }
+
+    @Test
+    void givenValidLocation_whenGetAvailableSlots_thenReturnsOkResponseWithSlots() {
+        List<SlotNumber> slotNumbers =
+                List.of(new SlotNumber(1), new SlotNumber(3), new SlotNumber(5));
+        Mockito.when(dockingAndUndockingApplicationService
+                .findAvailableSlotsInStation(Mockito.any(Location.class))).thenReturn(slotNumbers);
+
+        Response result = controller.getAvailableSlots(STATION_ID);
+
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
+        Assertions.assertEquals(List.of(1, 3, 5), result.getEntity());
+    }
+
+    @Test
+    void givenValidLocation_whenGetAvailableSlots_thenCallsApplicationService() {
+        controller.getAvailableSlots(STATION_ID);
+
+        Mockito.verify(dockingAndUndockingApplicationService)
+                .findAvailableSlotsInStation(Location.of(STATION_ID));
+    }
+
+    @Test
+    void givenValidLocation_whenGetOccupiedSlots_thenReturnsOkResponseWithSlots() {
+        List<SlotNumber> slotNumbers =
+                List.of(new SlotNumber(2), new SlotNumber(4), new SlotNumber(6));
+        Mockito.when(dockingAndUndockingApplicationService
+                .findOccupiedSlotsInStation(Mockito.any(Location.class))).thenReturn(slotNumbers);
+
+        Response result = controller.getOccupiedSlots(STATION_ID);
+
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
+        Assertions.assertEquals(List.of(2, 4, 6), result.getEntity());
+    }
+
+    @Test
+    void givenValidLocation_whenGetOccupiedSlots_thenCallsApplicationService() {
+        controller.getOccupiedSlots(STATION_ID);
+
+        Mockito.verify(dockingAndUndockingApplicationService)
+                .findOccupiedSlotsInStation(Location.of(STATION_ID));
     }
 }

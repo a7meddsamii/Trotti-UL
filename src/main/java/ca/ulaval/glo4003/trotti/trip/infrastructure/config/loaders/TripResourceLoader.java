@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.trotti.trip.api.controllers.TripController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
+import ca.ulaval.glo4003.trotti.trip.application.DockingAndUndockingApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
@@ -27,8 +28,10 @@ public class TripResourceLoader extends Bootstrapper {
         StationMaintenanceApplicationService stationMaintenanceApplicationService =
                 this.resourceLocator.resolve(StationMaintenanceApplicationService.class);
         StationApiMapper stationApiMapper = this.resourceLocator.resolve(StationApiMapper.class);
+        DockingAndUndockingApplicationService dockingAndUndockingApplicationService =
+                this.resourceLocator.resolve(DockingAndUndockingApplicationService.class);
         StationController stationController = new StationController(transferApplicationService,
-                stationMaintenanceApplicationService, stationApiMapper);
+                stationMaintenanceApplicationService, stationApiMapper, dockingAndUndockingApplicationService);
 
         this.resourceLocator.register(StationResource.class, stationController);
     }
