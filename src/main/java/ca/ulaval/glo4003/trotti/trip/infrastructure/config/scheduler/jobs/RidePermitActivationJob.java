@@ -21,8 +21,9 @@ public class RidePermitActivationJob implements Job {
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
         } catch (Exception e) {
-            LOGGER.error("RidePermitActivationJob failed", e);
-            throw new JobExecutionException(e, false);
+			// TODO uncomment later
+//            LOGGER.error("RidePermitActivationJob failed", e);
+//            throw new JobExecutionException(e, false);
         }
     }
 }

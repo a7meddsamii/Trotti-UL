@@ -15,12 +15,12 @@ import java.util.Set;
 
 public class InitialAdminLoader extends Bootstrapper {
 
-    private static final String INITIAL_ADMIN_NAME = "ADMIN_NAME";
-    private static final String INITIAL_ADMIN_EMAIL = "ADMIN_EMAIL";
-    private static final String INITIAL_ADMIN_IDUL = "ADMIN_IDUL";
-    private static final String INITIAL_ADMIN_BIRTHDATE = "ADMIN_BIRTHDATE";
-    private static final String INITIAL_ADMIN_GENDER = "ADMIN_GENDER";
-    private static final String INITIAL_ADMIN_PASSWORD = "ADMIN_PASSWORD";
+    private static final String INITIAL_ADMIN_NAME = "INITIAL_ADMIN_NAME";
+    private static final String INITIAL_ADMIN_EMAIL = "INITIAL_ADMIN_EMAIL";
+    private static final String INITIAL_ADMIN_IDUL = "INITIAL_ADMIN_IDUL";
+    private static final String INITIAL_ADMIN_BIRTHDATE = "INITIAL_ADMIN_BIRTHDATE";
+    private static final String INITIAL_ADMIN_GENDER = "INITIAL_ADMIN_GENDER";
+    private static final String INITIAL_ADMIN_PASSWORD = "INITIAL_ADMIN_PASSWORD";
 
     @Override
     public void load() {
