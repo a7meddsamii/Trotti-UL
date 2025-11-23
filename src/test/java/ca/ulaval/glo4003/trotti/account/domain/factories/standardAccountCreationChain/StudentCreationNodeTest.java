@@ -30,7 +30,7 @@ class StudentCreationNodeTest {
     }
 
     @Test
-    void givenTechnicianRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
+    void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
         role = Role.STUDENT;
 
         Account expected = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
@@ -46,7 +46,7 @@ class StudentCreationNodeTest {
     }
 
     @Test
-    void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoStudentRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
         studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,

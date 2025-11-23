@@ -11,8 +11,13 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.PaymentGateway;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.factories.PaymentMethodFactory;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.PaymentReceipt;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentIntent;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMethod;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 
 public class OrderApplicationService {
@@ -71,8 +76,33 @@ public class OrderApplicationService {
     }
 
     public void confirm(Idul buyerId, ConfirmOrderDto confirmOrderDto) {
-        // TODO coming in next pr
         Order order = findOngoingOrder(buyerId);
+
+        PaymentMethod paymentMethod = paymentGateway.getPaymentMethod(buyerId)
+                .orElseGet(() -> paymentMethodFactory.createCreditCard(
+                        confirmOrderDto.creditCardNumber(),
+                        confirmOrderDto.cardHolderName(),
+                        confirmOrderDto.expiryDate()
+                ));
+
+        PaymentIntent intent = PaymentIntent.of(
+                buyerId,
+                order.getOrderId(),
+                order.getTotalCost(),
+                paymentMethod,
+                true
+        );
+
+        PaymentReceipt receipt = paymentGateway.pay(intent);
+        eventBus.publish(new TransactionCompletedEvent(buyerId,
+                receipt.getTransactionId().toString(),
+                receipt.isSuccess(),
+                receipt.getDescription()));
+
+        if (receipt.isSuccess()) {
+            eventBus.publish(new OrderPlacedEvent(buyerId, order.getOrderId().toString()));
+        }
+
         orderRepository.save(order);
     }
 

@@ -39,6 +39,10 @@ public class Order {
     public OrderId getOrderId() {
         return orderId;
     }
+    
+    public Idul getBuyerId() {
+        return idul;
+    }
 
     public boolean add(RidePermitItem item) {
         if (alreadyContains(item)) {
