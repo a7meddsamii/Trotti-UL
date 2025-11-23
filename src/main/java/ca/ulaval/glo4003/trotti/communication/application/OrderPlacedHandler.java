@@ -1,13 +1,12 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.config.events.handlers.EventHandler;
-import ca.ulaval.glo4003.trotti.order.domain.events.OrderPlacedEvent;
 
-public class OrderPlacedHandler implements EventHandler<OrderPlacedEvent> {
+public class OrderPlacedHandler {
 
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
@@ -17,7 +16,6 @@ public class OrderPlacedHandler implements EventHandler<OrderPlacedEvent> {
         this.emailMessageFactory = emailMessageFactory;
     }
 
-    @Override
     public void handle(OrderPlacedEvent event) {
         Contact contact = Contact.findByIdul(event.getIdul());
 

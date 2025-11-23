@@ -1,13 +1,12 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.config.events.handlers.EventHandler;
-import ca.ulaval.glo4003.trotti.payment.domain.events.TransactionCompletedEvent;
 
-public class TransactionCompletedHandler implements EventHandler<TransactionCompletedEvent> {
+public class TransactionCompletedHandler {
 
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
@@ -19,7 +18,6 @@ public class TransactionCompletedHandler implements EventHandler<TransactionComp
         this.emailMessageFactory = emailMessageFactory;
     }
 
-    @Override
     public void handle(TransactionCompletedEvent event) {
         Contact contact = Contact.findByIdul(event.getIdul());
 

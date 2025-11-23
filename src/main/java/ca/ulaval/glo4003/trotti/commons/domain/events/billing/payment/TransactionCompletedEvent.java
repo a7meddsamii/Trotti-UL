@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.payment.domain.events;
+package ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
@@ -12,11 +12,11 @@ public class TransactionCompletedEvent extends Event {
     public TransactionCompletedEvent(
             Idul idul,
             String transactionId,
-            String transactionStatus,
+            boolean isSuccessful,
             String transactionDescription) {
-        super(idul, "transaction." + transactionStatus.toLowerCase());
+        super(idul, "transaction." + (isSuccessful? "success" : "failed"));
         this.transactionId = transactionId;
-        this.transactionStatus = transactionStatus;
+        this.transactionStatus = (isSuccessful? "success" : "failed");
         this.transactionDescription = transactionDescription;
     }
 

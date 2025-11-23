@@ -19,7 +19,7 @@ public class RidePermitAssembler {
         List<RidePermitSnapshot> ridePermitSnapshots = new ArrayList<>();
 
         for (RidePermit ridePermit : ridePermits) {
-            RidePermitSnapshot snapshot = new RidePermitSnapshot(ridePermit.getRiderId().toString(),
+            RidePermitSnapshot snapshot = new RidePermitSnapshot(ridePermit.getRiderId(),
                     ridePermit.getId().toString(), ridePermit.getSession().getSemester().toString(),
                     ridePermit.getSession().getStartDate(), ridePermit.getSession().getEndDate());
             ridePermitSnapshots.add(snapshot);
