@@ -20,7 +20,7 @@ public class OrderPlacedHandler {
         Contact contact = Contact.findByIdul(event.getIdul());
 
         EmailMessage emailMessage = emailMessageFactory.createOrderConfirmationMessage(
-                contact.getEmail(), event.getOrderId(), event.getRidePermitIds());
+                contact.getEmail(), event.getOrderId());
 
         emailService.send(emailMessage);
     }

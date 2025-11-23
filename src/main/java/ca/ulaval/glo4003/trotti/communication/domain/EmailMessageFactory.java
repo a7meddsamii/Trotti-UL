@@ -9,12 +9,10 @@ public class EmailMessageFactory {
 
     private static final String END_TEXT = "\n\nBest regards," + "\nTrottiUL - Team 10";
 
-    public EmailMessage createOrderConfirmationMessage(Email recipientEmail, String orderId,
-            List<String> ridePermitsIds) {
+    public EmailMessage createOrderConfirmationMessage(Email recipientEmail, String orderId) {
         String subject = "Your Order #" + orderId;
         String body = "Dear Customer," + "\n\n"
-                + "Thank you for your order! Your order is confirmed " + orderId
-                + " with the following ride permits IDs: " + String.join(", ", ridePermitsIds)
+                + "Thank you for your order!"
                 + END_TEXT;
 
         return EmailMessage.builder().withRecipient(recipientEmail).withSubject(subject)
