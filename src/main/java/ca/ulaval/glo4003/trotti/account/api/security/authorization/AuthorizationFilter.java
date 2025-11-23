@@ -34,8 +34,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         AnnotatedElement methodCalled = resourceInfo.getResourceMethod();
         AnnotatedElement resourceClass = resourceInfo.getResourceClass();
 
-        LOGGER.warn("#### checking user permissions #####");
-
         if (isAnnotated(methodCalled, PermitAll.class)
                 || isAnnotated(resourceClass, PermitAll.class)) {
             return;
@@ -44,8 +42,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (isAnnotated(methodCalled, DenyAll.class) || isAnnotated(resourceClass, DenyAll.class)) {
             throw new ForbiddenException("Access denied");
         }
-
-        LOGGER.warn("#### validating user permissions #####");
 
         SecurityContext securityContext = requestContext.getSecurityContext();
         UserPrincipal user = extractPrincipal(securityContext);

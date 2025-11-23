@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 
+//TODO Fix docking undocking logic
 public class ScooterRentalGatewayAdapter implements ScooterRentalGateway {
 	private final StationOperationEntry stationOperationEntry;
 	

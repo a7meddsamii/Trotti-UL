@@ -1,9 +1,11 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.repository;
+import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import org.slf4j.Logger;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -11,12 +13,16 @@ import java.util.*;
 public class InMemoryRidePermitRepository implements RidePermitRepository {
     private final Map<RidePermitId, RidePermit> database = new HashMap<>();
     
-    @Override public void save(RidePermit ridePermit) {
+    @Override
+    public void save(RidePermit ridePermit) {
         database.put(ridePermit.getId(), ridePermit);
     }
     
-    @Override public void saveAll(List<RidePermit> ridePermits) {
+    @Override
+    public void saveAll(List<RidePermit> ridePermits) {
         ridePermits.forEach(this::save);
+        Logger logger = org.slf4j.LoggerFactory.getLogger(InMemoryRidePermitRepository.class);
+        logger.info("Database size is {}", database.size());
     }
     
     @Override public Optional<RidePermit> findById(RidePermitId ridePermitId) {
@@ -37,7 +43,7 @@ public class InMemoryRidePermitRepository implements RidePermitRepository {
     
     @Override public List<RidePermit> findAllByDate(LocalDate date) {
         return database.values().stream() .filter(permit ->
-                permit.getDailyBillingUsages().containsKey(date)) .toList();
+                permit.getSession().contains(date)) .toList();
     }
     
     @Override public List<RidePermit> findAllBySession(Session session) {

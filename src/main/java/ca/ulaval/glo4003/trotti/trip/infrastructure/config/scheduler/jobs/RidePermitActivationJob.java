@@ -9,7 +9,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Deprecated
 @DisallowConcurrentExecution
 public class RidePermitActivationJob implements Job {
     private static final Logger LOGGER = LoggerFactory.getLogger(RidePermitActivationJob.class);
@@ -20,9 +19,10 @@ public class RidePermitActivationJob implements Job {
             RidePermitActivationApplicationService service = ComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
+//            LOGGER.info("RidePermitActivationJob executed");
         } catch (Exception e) {
 			// TODO uncomment later
-//            LOGGER.error("RidePermitActivationJob failed", e);
+//            LOGGER.error("RidePermitActivationJob failed");
 //            throw new JobExecutionException(e, false);
         }
     }

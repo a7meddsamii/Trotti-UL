@@ -17,8 +17,11 @@ import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMeth
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.RidePermitItemSnapshot;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
+
+import java.util.List;
 
 public class OrderApplicationService {
     private final OrderRepository orderRepository;
@@ -100,7 +103,9 @@ public class OrderApplicationService {
                 receipt.getDescription()));
 
         if (receipt.isSuccess()) {
-            eventBus.publish(new OrderPlacedEvent(buyerId, order.getOrderId().toString()));
+            order.confirm();
+            List<RidePermitItemSnapshot> purchasedRidePermits = orderAssembler.assembleRidePermitItemSnapshots(order);
+            eventBus.publish(new OrderPlacedEvent(buyerId, order.getOrderId().toString(), purchasedRidePermits));
         }
 
         orderRepository.save(order);

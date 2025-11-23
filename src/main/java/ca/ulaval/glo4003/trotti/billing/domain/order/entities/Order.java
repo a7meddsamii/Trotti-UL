@@ -12,7 +12,7 @@ public class Order {
     private final OrderId orderId;
     private final Idul idul;
     private final List<RidePermitItem> items;
-    private final OrderStatus status;
+    private OrderStatus status;
 
     public Order(OrderId orderId, Idul buyerId) {
         this.orderId = orderId;
@@ -67,6 +67,10 @@ public class Order {
         }
 
         return total;
+    }
+
+    public void confirm() {
+        this.status = OrderStatus.COMPLETED;
     }
 
     private boolean alreadyContains(RidePermitItem item) {

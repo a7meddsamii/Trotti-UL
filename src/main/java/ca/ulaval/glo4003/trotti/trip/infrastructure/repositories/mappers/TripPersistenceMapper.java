@@ -24,7 +24,7 @@ public class TripPersistenceMapper {
                 Location.of(record.startLocation().getBuilding(),
                         record.startLocation().getSpotName()),
                 record.endTime(),
-                Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName()),
+                record.endLocation() == null ? null : Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName()),
                 record.tripStatus());
     }
 }

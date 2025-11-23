@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
 
+//TODO add endpoints for getAvailable and occupied slots
 public class StationController implements StationResource {
 
     private final TransferApplicationService transferApplicationService;

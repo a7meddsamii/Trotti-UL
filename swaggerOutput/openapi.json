@@ -1,0 +1,1189 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Projet Trotti-UL - REST API",
+    "description": "Service de l’Université Laval de location de trottinettes électriques pour une locomotion optimale",
+    "contact": {
+      "name": "TrottiUL - Equipe 10",
+      "email": "trotti.ul.10@gmail.com"
+    },
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Serveur de développement"
+    }
+  ],
+  "security": [
+    {
+      "auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Endpoint pour les opérations liées aux comptes utilisateurs"
+    },
+    {
+      "name": "Authentication",
+      "description": "Endpoint pour l'authentification des utilisateurs"
+    },
+    {
+      "name": "Order",
+      "description": "Endpoints for managing the user's order"
+    },
+    {
+      "name": "Heartbeat",
+      "description": "Endpoint pour checker si le serveur fonctionne"
+    },
+    {
+      "name": "Stations",
+      "description": "Endpoints pour les opérations de station"
+    },
+    {
+      "name": "Trips",
+      "description": "Endpoints pour opérations liées aux voyages de voyageur"
+    }
+  ],
+  "paths": {
+    "/accounts": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Créer un nouveau compte utilisateur",
+        "description": "Créer un nouveau compte utilisateur avec les infos demandées.",
+        "operationId": "createAccount",
+        "requestBody": {
+          "description": "Account creation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Compte créé avec succès",
+            "headers": {
+              "Location": {
+                "description": "URI du compte créé",
+                "style": "simple",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé"
+          }
+        }
+      }
+    },
+    "/accounts/company": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Créer un compte administrateur ou technicien (géré par l'entreprise)",
+        "description": "Permet à un compte admin déjà authentifié de créer un compte ADMIN ou TECHNICIAN. Le rôle est déterminé par le champ 'role' du request body. Les permissions sont validées à partir des permissions du créateur.",
+        "operationId": "createAdminManagedAccount",
+        "requestBody": {
+          "description": "Informations du compte à créer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Compte créé avec succès",
+            "headers": {
+              "Location": {
+                "description": "URI du compte créé",
+                "style": "simple",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Se connecter / Login",
+        "description": "Authentifie l'utilisateur avec email et password.",
+        "operationId": "login",
+        "requestBody": {
+          "description": "Login request (email et password)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Authentifié avec succès (returns JWT token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJI..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalide",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Crédentiels invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Retourne la commande",
+        "description": "Retourne la commande courante de l'utilisateur",
+        "operationId": "getOngoingOrder",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Commande retournée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Ajoute un item à la commande",
+        "description": "Ajoute un item à la commande",
+        "operationId": "addItem",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "L'item à ajouter",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Commande mise à jour",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalide",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Vide la commande",
+        "description": "Vide la commande au complet.",
+        "operationId": "removeAllItems",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Commande vidée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ]
+      }
+    },
+    "/order/confirm": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "operationId": "confirm",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentInfoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ]
+      }
+    },
+    "/order/{itemId}": {
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Supprime un item à la commande",
+        "description": "Supprime l'item identifié par itemId de la commande — on l'enlève, c'est simple.",
+        "operationId": "removeItem",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "ID de l'item à enlever",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item enlevé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ]
+      }
+    },
+    "/ride-permit/{ridePermitId}": {
+      "get": {
+        "operationId": "getRidePermit",
+        "parameters": [
+          {
+            "name": "ridePermitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/ride-permit": {
+      "get": {
+        "operationId": "getRidePermits",
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/heartbeat": {
+      "get": {
+        "tags": [
+          "Heartbeat"
+        ],
+        "summary": "Service Heartbeat",
+        "description": "Checker si le serveur est en marche",
+        "operationId": "heartbeat",
+        "responses": {
+          "200": {
+            "description": "Service is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HeartbeatResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stations/maintenance/end": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Terminer la maintenance",
+        "description": "Permet à un technicien de terminer la maintenance d'une station",
+        "operationId": "endMaintenance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndMaintenanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance terminée avec succès"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "403": {
+            "description": "Forbidden: permissions insuffisantes"
+          },
+          "409": {
+            "description": "Conflict: station pas en maintenance"
+          }
+        }
+      }
+    },
+    "/stations/transfers/initiate": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Initier un transfert",
+        "description": "Permet à un technicien d'initier un transfert de scooters",
+        "operationId": "initiateTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateTransferRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transfert initié avec succès"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "403": {
+            "description": "Forbidden: permissions insuffisantes"
+          },
+          "409": {
+            "description": "Conflict: station pas en maintenance"
+          }
+        }
+      }
+    },
+    "/stations/maintenance/request": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Demander un service de maintenance",
+        "description": "Permet à un usager du système de demander une maintenance sur une station",
+        "operationId": "requestMaintenanceService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceRequestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Demande de service envoyée avec succès"
+          },
+          "400": {
+            "description": "Requête invalide"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          }
+        }
+      }
+    },
+    "/stations/maintenance/start": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Démarrer la maintenance",
+        "description": "Permet à un technicien de démarrer la maintenance d'une station",
+        "operationId": "startMaintenance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartMaintenanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance démarrée avec succès"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "403": {
+            "description": "Forbidden: permissions insuffisantes"
+          },
+          "409": {
+            "description": "Conflict: station déjà en maintenance"
+          }
+        }
+      }
+    },
+    "/stations/transfers/{transferId}/unload": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Décharger des scooters",
+        "description": "Permet à un technicien de décharger des scooters d'un transfert",
+        "operationId": "unloadScooters",
+        "parameters": [
+          {
+            "name": "transferId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnloadScootersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scooters déchargés avec succès"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "403": {
+            "description": "Forbidden: permissions insuffisantes"
+          },
+          "404": {
+            "description": "Not found: Transfert non trouvé"
+          }
+        }
+      }
+    },
+    "/trips/end": {
+      "post": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Finir un voyage",
+        "description": "Permet à un utilisateur de finir son voyage en courant.",
+        "operationId": "endTrip",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndTripRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voyage fini avec succès"
+          },
+          "400": {
+            "description": "Bad Request: Requête invalide"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "404": {
+            "description": "Not found: Aucun trajet en cours"
+          }
+        }
+      }
+    },
+    "/trips/{ridePermitId}/unlock-code": {
+      "post": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Demande un unlock code",
+        "description": "Génère un code pour déverrouiller la trottinette associée à ridePermitId.",
+        "operationId": "requestUnlockCode",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          },
+          {
+            "name": "ridePermitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Code de déverrouillage généré avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnlockCodeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ride permit non trouvé/non active pour cette session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnlockCodeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trips/start": {
+      "post": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Démarrer un voyage",
+        "description": "Permet à un utilisateur de démarrer un nouveau voyage.",
+        "operationId": "startTrip",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartTripRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voyage démarré avec succès"
+          },
+          "400": {
+            "description": "Bad Request: Requête invalide"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "404": {
+            "description": "Not found: RidePermit non trouvé"
+          }
+        }
+      }
+    },
+    "/application.wadl/{path}": {
+      "get": {
+        "operationId": "getExternalGrammar",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/application.wadl": {
+      "get": {
+        "operationId": "getWadl",
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/vnd.sun.wadl+xml": {},
+              "application/xml": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateAccountRequest": {
+        "required": [
+          "birthDate",
+          "email",
+          "gender",
+          "idul",
+          "name",
+          "password",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nom complet de l'utilisateur",
+            "example": "Jean Dupont"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Date de naissance au format ISO (YYYY-MM-DD)",
+            "format": "date",
+            "example": "1990-01-01"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Genre de l'utilisateur",
+            "example": "MALE"
+          },
+          "idul": {
+            "type": "string",
+            "description": "Identifiant Ulaval (IDUL)",
+            "example": "user123"
+          },
+          "email": {
+            "type": "string",
+            "description": "Adresse courriel de l'utilisateur",
+            "format": "email",
+            "example": "utilisateur@ulaval.ca"
+          },
+          "password": {
+            "type": "string",
+            "description": "Mot de passe de l'utilisateur",
+            "format": "password",
+            "example": "Cec1EstUnM0tDePasseF0rt!"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role de l'utilisateur",
+            "example": "STUDENT"
+          }
+        },
+        "description": "Un request body pour créer un nouveau compte"
+      },
+      "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Courriel Ulaval de l'utilisateur",
+            "example": "utilisateur@ulaval.ca"
+          },
+          "password": {
+            "type": "string",
+            "description": "Mot de passe de l'utilisateur",
+            "example": "Cec1EstUnM0tDePasseF0rt!"
+          }
+        },
+        "description": "Un request body pour s'authentifier"
+      },
+      "ItemListResponse": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Identifiant unique de la commande.",
+            "example": "order_987654321"
+          },
+          "total": {
+            "type": "string",
+            "description": "Montant total de la commande.",
+            "example": "39.97"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status de la commande.",
+            "example": "PENDING"
+          },
+          "items": {
+            "type": "array",
+            "description": "Liste des items présents dans le panier.",
+            "items": {
+              "$ref": "#/components/schemas/ItemResponse"
+            }
+          }
+        },
+        "description": "    Réponse retournée après l'ajout ou la consultation des passes dans le panier (cart).\n    Contient la liste des passes sélectionnés ainsi que le total à payer.\n"
+      },
+      "ItemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifiant unique de l'item.",
+            "example": "pass_123456789"
+          },
+          "maximumDailyTravelTime": {
+            "type": "string",
+            "description": "Durée maximale quotidienne de l'item (en minutes).",
+            "example": "30"
+          },
+          "session": {
+            "type": "string",
+            "description": "Session associée à l'item.",
+            "example": "H26"
+          },
+          "billingFrequency": {
+            "type": "string",
+            "description": "Fréquence de facturation de l'item",
+            "example": "MONTHLY"
+          },
+          "price": {
+            "type": "string",
+            "description": "Prix de l'item individuel.",
+            "example": "12.99"
+          }
+        },
+        "description": "    Détails d'un item dans le panier : identifiant, durée maximale, session,\n    fréquence de facturation et prix individuel.\n"
+      },
+      "ItemRequest": {
+        "required": [
+          "billingFrequency",
+          "maximumDailyTravelTime",
+          "session"
+        ],
+        "type": "object",
+        "properties": {
+          "maximumDailyTravelTime": {
+            "minimum": 10,
+            "type": "integer",
+            "description": "Durée maximale quotidienne en minutes (ex: 30).",
+            "format": "int32",
+            "example": 30
+          },
+          "session": {
+            "type": "string",
+            "description": "Session de l'item (ex: 'MORNING', 'EVENING').",
+            "example": "MORNING"
+          },
+          "billingFrequency": {
+            "type": "string",
+            "description": "Fréquence de facturation du pass (ex: 'MONTHLY', 'WEEKLY').",
+            "example": "MONTHLY"
+          }
+        },
+        "description": "    Détails de l'item : durée maximale de déplacement quotidien (en minutes),\n    session du pass et fréquence de facturation.\n"
+      },
+      "PaymentInfoRequest": {
+        "required": [
+          "cvv"
+        ],
+        "type": "object",
+        "properties": {
+          "cardNumber": {
+            "maxLength": 19,
+            "minLength": 13,
+            "type": "string",
+            "description": "Numéro de la carte (card number), sans espaces — optionnel si une carte est déjà enregistrée.",
+            "example": "4111111111111111"
+          },
+          "cardHolderName": {
+            "type": "string",
+            "description": "Nom du titulaire de la carte (card holder name) — optionnel si une carte est déjà enregistrée.",
+            "example": "Jean Tremblay"
+          },
+          "expirationDate": {
+            "type": "string",
+            "description": "Date d'expiration au format YYYY-MM (expiration date) — optionnel si une carte est déjà enregistrée.",
+            "example": "2026-12"
+          },
+          "cvv": {
+            "maxLength": 4,
+            "minLength": 3,
+            "type": "string",
+            "description": "Code de sécurité CVV (3 ou 4 chiffres) — toujours requis.",
+            "example": "123"
+          }
+        },
+        "description": "    Informations de paiement pour le checkout.\n    Si l'utilisateur possède déjà une méthode de paiement enregistrée,\n    seuls les champs `cvv` sont requis.\n    Sinon, tous les champs doivent être fournis.\n"
+      },
+      "HeartbeatResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Le status du serveur",
+            "example": "UP"
+          }
+        },
+        "description": "Response indicating the status of the server"
+      },
+      "EndMaintenanceRequest": {
+        "required": [
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "InitiateTransferRequest": {
+        "required": [
+          "sourceSlots",
+          "sourceStation"
+        ],
+        "type": "object",
+        "properties": {
+          "sourceStation": {
+            "type": "string"
+          },
+          "sourceSlots": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "MaintenanceRequestRequest": {
+        "required": [
+          "location",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "StartMaintenanceRequest": {
+        "required": [
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "UnloadScootersRequest": {
+        "required": [
+          "destinationSlots",
+          "destinationStation"
+        ],
+        "type": "object",
+        "properties": {
+          "destinationStation": {
+            "type": "string"
+          },
+          "destinationSlots": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "EndTripRequest": {
+        "required": [
+          "location",
+          "slotNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "slotNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "UnlockCodeResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "StartTripRequest": {
+        "required": [
+          "location",
+          "ridePermitId",
+          "slotNumber",
+          "unlockCode"
+        ],
+        "type": "object",
+        "properties": {
+          "ridePermitId": {
+            "type": "string"
+          },
+          "unlockCode": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "slotNumber": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "auth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

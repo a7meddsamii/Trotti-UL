@@ -28,9 +28,9 @@ public class ApplicationContext extends Configuration {
 
         CommonsConfiguration.getInstance().load();
         AccountConfiguration.getInstance().load();
-        CommunicationConfiguration.getInstance().load();
         HeartbeatConfiguration.getInstance().load();
         BillingConfiguration.getInstance().load();
+        CommunicationConfiguration.getInstance().load();
         TripConfiguration.getInstance().load();
 
         EventSubscriptionConfiguration.getInstance().load();

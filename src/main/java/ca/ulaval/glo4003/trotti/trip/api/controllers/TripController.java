@@ -35,7 +35,6 @@ public class TripController implements TripResource {
 
     @Override
     public Response endTrip(Idul userId, EndTripRequest request) {
-
         EndTripDto endTripDto = tripApiMapper.toEndTripDto(userId, request);
 
         tripApplicationService.endTrip(endTripDto);

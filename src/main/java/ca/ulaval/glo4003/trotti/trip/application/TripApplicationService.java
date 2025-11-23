@@ -53,7 +53,7 @@ public class TripApplicationService {
         UnlockCode unlockCode = unlockCodeStore.get(idul, ridePermitId, clock);
 
         eventBus.publish(new UnlockCodeRequestedEvent(idul, ridePermitId.toString(),
-                unlockCode.toString(), unlockCode.getExpiresAt()));
+                unlockCode.getCode(), unlockCode.getExpiresAt()));
     }
 
     public void startTrip(StartTripDto tripDto) {

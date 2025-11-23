@@ -11,7 +11,7 @@ public class AccountCreatedHandler {
         Contact contact =
                 new Contact(event.getIdul(),
                         event.getName(),
-                        Email.from(event.getName()),
+                        Email.from(event.getEmail()),
                         ContactRole.valueOf(event.getRole().toUpperCase()));
         contact.save();
     }

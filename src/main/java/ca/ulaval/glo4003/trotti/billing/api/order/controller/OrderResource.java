@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermi
 import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.ItemRequest;
+import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.response.ItemListResponse;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
@@ -54,6 +55,13 @@ public interface OrderResource {
 									schema = @Schema(implementation = ApiErrorResponse.class)))})
 	Response addItem(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
 					 @Valid ItemRequest request);
+
+    @POST
+    @Path("/confirm")
+    @SecurityRequirement(name = "auth")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response confirm(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+                     @Valid PaymentInfoRequest paymentInfoRequest);
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

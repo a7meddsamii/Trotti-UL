@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 
+import ca.ulaval.glo4003.trotti.billing.api.ridepermit.handler.RidePermitEventHandler;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
@@ -22,6 +23,7 @@ public class EventSubscriptionLoader extends Bootstrapper {
         TransactionCompletedHandler transactionCompletedHandler = this.resourceLocator.resolve(TransactionCompletedHandler.class);
         UnlockCodeRequestedHandler unlockCodeRequestedHandler = this.resourceLocator.resolve(UnlockCodeRequestedHandler.class);
         RidePermitActivationHandler ridePermitActivationHandler = this.resourceLocator.resolve(RidePermitActivationHandler.class);
+        RidePermitEventHandler ridePermitEventHandler = this.resourceLocator.resolve(RidePermitEventHandler.class);
 
         eventBus.subscribe(AccountCreatedEvent.class, accountCreatedHandler::handle);
         eventBus.subscribe(MaintenanceRequestedEvent.class, maintenanceRequestedHandler::handle);
@@ -29,6 +31,7 @@ public class EventSubscriptionLoader extends Bootstrapper {
         eventBus.subscribe(TransactionCompletedEvent.class, transactionCompletedHandler::handle);
         eventBus.subscribe(UnlockCodeRequestedEvent.class, unlockCodeRequestedHandler::handle);
         eventBus.subscribe(RidePermitActivatedEvent.class, ridePermitActivationHandler::handle);
+        eventBus.subscribe(OrderPlacedEvent.class, ridePermitEventHandler::onOrderPlaced);
     }
 
 }

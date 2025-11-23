@@ -1,17 +1,22 @@
 package ca.ulaval.glo4003.trotti.billing.api.order.mapper;
 
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.ItemRequest;
+import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.response.ItemListResponse;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
+import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.RidePermitItemDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMethodType;
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 
 import java.time.Duration;
+import java.time.YearMonth;
 import java.util.List;
 
 public class OrderApiMapper {
@@ -57,4 +62,18 @@ public class OrderApiMapper {
 				billingFrequency
 		);
 	}
+
+    public ConfirmOrderDto toConfirmOrderDto(PaymentInfoRequest paymentInfoRequest) {
+        //TODO
+        if (paymentInfoRequest == null) {
+            throw new InvalidParameterException("Payment information is required to confirm the order");
+        }
+
+        return new ConfirmOrderDto(
+                PaymentMethodType.CREDIT_CARD,
+                paymentInfoRequest.cardNumber(),
+                paymentInfoRequest.cardHolderName(),
+                YearMonth.parse(paymentInfoRequest.expirationDate()) //TODO validation
+        );
+    }
 }

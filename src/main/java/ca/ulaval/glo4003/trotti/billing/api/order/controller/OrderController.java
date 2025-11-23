@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.billing.api.order.controller;
 
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.ItemRequest;
+import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.response.ItemListResponse;
 import ca.ulaval.glo4003.trotti.billing.api.order.mapper.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.billing.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
+import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
@@ -32,8 +34,17 @@ public class OrderController implements OrderResource {
 		
 		return Response.ok(itemListResponse).build();
 	}
-	
-	@Override
+
+    @Override
+    public Response confirm(Idul userId, PaymentInfoRequest paymentInfoRequest) {
+        ConfirmOrderDto confirmOrderDto = orderApiMapper.toConfirmOrderDto(paymentInfoRequest);
+
+        orderApplicationService.confirm(userId, confirmOrderDto);
+
+        return Response.noContent().build();
+    }
+
+    @Override
 	public Response getOngoingOrder(Idul userId) {
 		OrderDto orderDto = orderApplicationService.getOngoingOrder(userId);
 		

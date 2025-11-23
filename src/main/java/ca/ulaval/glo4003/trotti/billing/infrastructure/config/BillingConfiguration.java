@@ -32,13 +32,12 @@ public class BillingConfiguration extends Configuration {
 
         new OrderFactoryLoader().load();
         new OrderMapperLoader().load();
-        new OrderProviderLoader().load();
         new OrderRepositoryLoader().load();
         new OrderAssemblerLoader().load();
         new OrderApplicationServiceLoader().load();
         new OrderResourceLoader().load();
 
-        new RidePermitAssemblerLoader().load();
+        new RidePermitMapperLoader().load();
         new RidePermitFactoryLoader().load();
         new RidePermitServiceLoader().load();
         new RidePermitRepositoryLoader().load();
