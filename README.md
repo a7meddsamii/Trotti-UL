@@ -77,6 +77,13 @@ SMTP_USER="email@adress.ca"
 SMTP_PASS="password"
 SMTP_HOST="smtp.example.com"
 SMTP_PORT:"587"
+
+INITIAL_ADMIN_NAME=Admin Initial
+INITIAL_ADMIN_EMAIL=admin@ulaval.ca
+INITIAL_ADMIN_IDUL=admin00
+INITIAL_ADMIN_BIRTHDATE=1990-01-01
+INITIAL_ADMIN_GENDER=female
+INITIAL_ADMIN_PASSWORD=ChangeMe123!@#
 ```
 Replace the values with information relevant to your setup.
 
