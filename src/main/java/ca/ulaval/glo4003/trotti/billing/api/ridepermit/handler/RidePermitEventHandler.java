@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitApplica
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.dto.AddTravelTimeDto;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.dto.CreateRidePermitDto;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
 

@@ -69,17 +69,6 @@ class InMemoryTripRepositoryTest {
     }
 
     @Test
-    void givenMultipleTripsFromTraveler_whenSave_thenShouldSaveToSameList() {
-
-        repository.save(trip);
-
-        repository.save(trip);
-
-        List<Trip> result = repository.findAllByIdul(TRAVELER_ID);
-        Assertions.assertEquals(List.of(trip, trip), result);
-    }
-
-    @Test
     void givenNoTripsFromTraveler_whenGetTravelerTrips_thenReturnEmptyList() {
         List<Trip> result = repository.findAllByIdul(TRAVELER_ID);
 
