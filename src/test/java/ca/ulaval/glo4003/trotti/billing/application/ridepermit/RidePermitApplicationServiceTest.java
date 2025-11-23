@@ -81,7 +81,7 @@ class RidePermitApplicationServiceTest {
         Mockito.when(addTravelTimeDto.startDateTime()).thenReturn(LocalDateTime.now());
         Mockito.when(addTravelTimeDto.travelTime()).thenReturn(Duration.ofMinutes(10));
         RidePermit ridePermit = Mockito.mock(RidePermit.class);
-        Mockito.when(ridePermitRepository.findById(Mockito.any())).thenReturn(ridePermit);
+        Mockito.when(ridePermitRepository.findById(Mockito.any())).thenReturn(Optional.of(ridePermit));
 
         ridePermitApplicationService.addTravelTime(A_RIDER_IDUL, addTravelTimeDto);
 

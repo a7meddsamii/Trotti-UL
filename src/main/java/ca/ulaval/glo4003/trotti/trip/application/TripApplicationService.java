@@ -80,8 +80,8 @@ public class TripApplicationService {
 
         Trip trip = tripRepository.findBy(tripDto.idul(), TripStatus.ONGOING).getFirst();
 
-        scooterRentalGateway.returnScooter(tripDto.location(), trip.getScooterId(),
-                tripDto.slotNumber());
+        scooterRentalGateway.returnScooter(tripDto.location(), tripDto.slotNumber(),
+                trip.getScooterId());
         trip.complete(tripDto.location(), LocalDateTime.now(clock));
         tripRepository.save(trip);
 

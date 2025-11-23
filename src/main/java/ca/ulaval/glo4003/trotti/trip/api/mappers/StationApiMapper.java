@@ -1,16 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.InitiateTransferRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.*;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnloadScootersResponse;
-import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.*;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
@@ -52,4 +46,12 @@ public class StationApiMapper {
     public UnloadScootersResponse toUnloadScootersResponse(int scootersInTransit) {
         return new UnloadScootersResponse(scootersInTransit);
     }
+	
+	public UndockScooterDto toUndockScooterDto(RetrieveScooterRequest retrieveScooterRequest) {
+		return new UndockScooterDto(retrieveScooterRequest.location(), retrieveScooterRequest.slotNumber());
+	}
+	
+	public DockScooterDto toDockScooterDto(ReturnScooterRequest retrieveScooterRequest) {
+		return new DockScooterDto(retrieveScooterRequest.location(), retrieveScooterRequest.slotNumber(), retrieveScooterRequest.scooterId());
+	}
 }

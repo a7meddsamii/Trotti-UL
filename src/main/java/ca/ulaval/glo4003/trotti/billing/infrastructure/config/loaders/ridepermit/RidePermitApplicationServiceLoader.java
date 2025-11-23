@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders.ridepermit;
 
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitActivationApplicationService;
 import ca.ulaval.glo4003.trotti.billing.application.ridepermit.RidePermitApplicationService;
@@ -21,7 +21,7 @@ public class RidePermitApplicationServiceLoader extends Bootstrapper {
 	}
 	
 	private void loadRidePermitActivationApplicationService() {
-		RidePermitAssembler ridePermitAssembler = new RidePermitAssembler();
+		RidePermitAssembler ridePermitAssembler = this.resourceLocator.resolve(RidePermitAssembler.class);
 		RidePermitRepository ridePermitRepository = this.resourceLocator.resolve(RidePermitRepository.class);
 		RidePermitActivationFilter ridePermitActivationFilter = this.resourceLocator.resolve(RidePermitActivationFilter.class);
 		EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
@@ -35,7 +35,7 @@ public class RidePermitApplicationServiceLoader extends Bootstrapper {
 		RidePermitFactory ridePermitFactory = this.resourceLocator.resolve(RidePermitFactory.class);
 		RidePermitRepository ridePermitRepository = this.resourceLocator.resolve(RidePermitRepository.class);
 		PaymentGateway paymentGateway = this.resourceLocator.resolve(PaymentGateway.class);
-		RidePermitAssembler ridePermitAssembler = new RidePermitAssembler();
+		RidePermitAssembler ridePermitAssembler = this.resourceLocator.resolve(RidePermitAssembler.class);
 		Clock clock = this.resourceLocator.resolve(Clock.class);
 		RidePermitApplicationService ridePermitApplicationService = new RidePermitApplicationService(
 				ridePermitFactory, ridePermitRepository, paymentGateway, ridePermitAssembler, clock);
