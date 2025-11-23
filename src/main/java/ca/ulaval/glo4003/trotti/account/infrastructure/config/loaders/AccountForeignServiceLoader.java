@@ -2,12 +2,17 @@ package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSessionTokenProviderAdapter;
 import ca.ulaval.glo4003.trotti.account.application.AuthenticationProvider;
+import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.domain.services.PasswordHasher;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
+import ca.ulaval.glo4003.trotti.account.infrastructure.provider.JsonEmployeeRegistryProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.provider.PasswordAuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.infrastructure.services.Argon2PasswordHasherAdapter;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import io.jsonwebtoken.Jwts;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
@@ -23,6 +28,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
     private static final String EXPIRATION_DURATION = "TOKEN_EXPIRATION_DURATION";
     private static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofMinutes(60);
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
+    private static final Path EMPLOYEE_PATH = Paths.get("/app/data/Employe.e.s.csv");
 
     private static final int HASHER_MEMORY_COST = 65536;
     private static final int HASHER_ITERATIONS = 3;
@@ -33,7 +39,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         this.loadPasswordHasherService();
         this.loadSessionTokenProvider();
         this.loadAuthentificationProvider();
-
+        this.loadEmployeeRegistryProvider();
     }
 
     private void loadPasswordHasherService() {
@@ -67,4 +73,10 @@ public class AccountForeignServiceLoader extends Bootstrapper {
                 new PasswordAuthenticationProvider(passwordHasher);
         this.resourceLocator.register(AuthenticationProvider.class, authentificationProvider);
     }
+
+    private void loadEmployeeRegistryProvider() {
+        EmployeeRegistryProvider employeeRegistryProvider = new JsonEmployeeRegistryProvider(EMPLOYEE_PATH);
+        this.resourceLocator.register(EmployeeRegistryProvider.class, employeeRegistryProvider);
+    }
+
 }
