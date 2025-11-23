@@ -67,12 +67,11 @@ public class OrderApplicationService {
 
         return orderAssembler.assemble(order);
     }
-
-	//TODO
+	
     public void confirm(Idul buyerId, ConfirmOrderDto confirmOrderDto) {
+		// TODO coming in next pr
         Order order = findOngoingOrder(buyerId);
         orderRepository.save(order);
-        
     }
 	
     private Order findOngoingOrder(Idul buyerId) {
