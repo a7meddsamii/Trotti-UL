@@ -6,13 +6,14 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface RidePermitRepository {
     void save(RidePermit order);
 
     void saveAll(List<RidePermit> ridePermits);
 
-    RidePermit findById(RidePermitId orderId);
+    Optional<RidePermit> findById(RidePermitId orderId);
 
     List<RidePermit> findAllByIdul(Idul idul);
 

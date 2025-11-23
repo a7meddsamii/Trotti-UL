@@ -94,7 +94,7 @@ public class RidePermit {
     }
 
     public boolean isActiveForRides(Idul riderId, LocalDate date) {
-        return this.riderId.equals(riderId) && this.session.contains(date);
+        return this.riderId.equals(riderId) && this.session.contains(date) && this.permitState == RidePermitState.ACTIVE;
     }
 
     public Duration getMaximumTravelingTimePerDay() {
