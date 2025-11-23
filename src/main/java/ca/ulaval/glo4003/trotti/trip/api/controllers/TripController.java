@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
@@ -39,5 +41,15 @@ public class TripController implements TripResource {
         tripApplicationService.endTrip(endTripDto);
 
         return Response.ok().build();
+    }
+
+    @Override
+    public Response requestUnlockCode(Idul userId, String ridePermitIdValue) {
+        RidePermitId ridePermitId = RidePermitId.from(ridePermitIdValue);
+        tripApplicationService.generateUnlockCode(userId, ridePermitId);
+
+        return Response.ok().entity(
+                new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
+                .build();
     }
 }

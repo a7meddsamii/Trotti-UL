@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
@@ -7,7 +8,6 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

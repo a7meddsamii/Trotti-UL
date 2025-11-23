@@ -3,8 +3,8 @@ package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
+import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.payment.domain.values.money.Money;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class Order {
     private final List<RidePermitItem> items;
     private final OrderStatus status;
 
-    public Order(Idul buyerId) {
-        this.orderId = OrderId.randomId();
+    public Order(OrderId orderId, Idul buyerId) {
+        this.orderId = orderId;
         this.idul = buyerId;
         this.items = new ArrayList<>();
         this.status = OrderStatus.PENDING;

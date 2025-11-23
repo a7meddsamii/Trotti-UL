@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.config.events;
 
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
-import ca.ulaval.glo4003.trotti.config.events.handlers.EventHandler;
+import ca.ulaval.glo4003.trotti.commons.domain.events.EventHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
