@@ -83,7 +83,8 @@ public interface OrderResource {
 					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
 			responses = {
 					@ApiResponse(responseCode = "204", description = "Item enlevé",
-							content = @Content),
+							content = @Content(
+									schema = @Schema(implementation = ItemListResponse.class))),
 					@ApiResponse(responseCode = "401",
 							description = "Unauthorized: token manquant ou erroné",
 							content = @Content(
@@ -98,7 +99,10 @@ public interface OrderResource {
 					description = "Authorization token - JWT", required = true,
 					in = ParameterIn.HEADER,
 					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {@ApiResponse(responseCode = "204", description = "Commande vidée"),
+			responses = {
+					@ApiResponse(responseCode = "204", description = "Commande vidée",
+							content = @Content(
+									schema = @Schema(implementation = ItemListResponse.class))),
 					@ApiResponse(responseCode = "401",
 							description = "Unauthorized: token manquant ou erroné",
 							content = @Content(

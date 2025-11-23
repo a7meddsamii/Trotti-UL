@@ -19,11 +19,18 @@ public class InMemoryRidePermitRepository implements RidePermitRepository {
         ridePermits.forEach(this::save);
     }
     
-    @Override public Optional<RidePermit> findById(RidePermitId id) {
-        return Optional.ofNullable(database.get(id));
+    @Override public Optional<RidePermit> findById(RidePermitId ridePermitId) {
+        return Optional.ofNullable(database.get(ridePermitId));
     }
-    
-    @Override public List<RidePermit> findAllByIdul(Idul idul) {
+	
+	@Override
+	public Optional<RidePermit> findByRiderIdAndRidePermitId(Idul riderId, RidePermitId ridePermitId) {
+		return database.values().stream()
+				.filter(permit -> permit.getId().equals(ridePermitId) && permit.getRiderId().equals(riderId))
+				.findFirst();
+	}
+	
+	@Override public List<RidePermit> findAllByIdul(Idul idul) {
         return database.values().stream().filter(permit ->
                 permit.getRiderId().equals(idul)) .toList();
     }

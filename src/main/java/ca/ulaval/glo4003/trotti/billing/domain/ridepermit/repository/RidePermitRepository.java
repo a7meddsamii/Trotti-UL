@@ -13,7 +13,9 @@ public interface RidePermitRepository {
 
     void saveAll(List<RidePermit> ridePermits);
 
-    Optional<RidePermit> findById(RidePermitId orderId);
+    Optional<RidePermit> findById(RidePermitId ridePermitId);
+	
+	Optional<RidePermit> findByRiderIdAndRidePermitId(Idul riderId, RidePermitId ridePermitId);
 
     List<RidePermit> findAllByIdul(Idul idul);
 

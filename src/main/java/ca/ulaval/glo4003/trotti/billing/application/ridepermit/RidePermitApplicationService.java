@@ -40,6 +40,12 @@ public class RidePermitApplicationService {
         List<RidePermit> ridePermits = ridePermitRepository.findAllByIdul(riderId);
         return ridePermitAssembler.assemble(ridePermits);
     }
+	
+	public RidePermitDto getRidePermit(Idul riderId, RidePermitId ridePermitId) {
+		RidePermit ridePermit = ridePermitRepository.findByRiderIdAndRidePermitId(riderId, ridePermitId)
+				.orElseThrow(()-> new NotFoundException("Ride permit " + ridePermitId + " not found"));
+		return ridePermitAssembler.assemble(ridePermit);
+	}
 
     public void createRidePermits(Idul riderId, List<CreateRidePermitDto> createRidePermits) {
         List<RidePermit> ridePermits =

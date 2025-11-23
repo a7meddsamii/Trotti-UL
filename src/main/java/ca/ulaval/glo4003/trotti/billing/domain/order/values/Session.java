@@ -45,10 +45,14 @@ public class Session {
     public int hashCode() {
         return Objects.hash(semester, startDate, endDate);
     }
+	
+	public String getSemesterCode() {
+		return semester.getCode().toString()
+				+ String.format("%02d", getStartDate().getYear() % 100);
+	}
 
     @Override
     public String toString() {
-        return semester.getCode().toString()
-                + String.format("%02d", getStartDate().getYear() % 100);
+        return getSemesterCode();
     }
 }
