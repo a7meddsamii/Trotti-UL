@@ -11,9 +11,8 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTransfe
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
-
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 
 public class TripRepositoryLoader extends Bootstrapper {
     @Override

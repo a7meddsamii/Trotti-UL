@@ -45,7 +45,8 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
 
         try {
             JobDetail jobDetail = buildJobDetail(RidePermitActivationJob.class, name, group);
-            Trigger trigger = buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
+            Trigger trigger =
+                    buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
             scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {
             LOGGER.error("Failed to schedule ride permit activation service", e);

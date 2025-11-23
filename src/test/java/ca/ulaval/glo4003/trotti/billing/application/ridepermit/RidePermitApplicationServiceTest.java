@@ -9,15 +9,13 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.factory.RidePermitFact
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 
 class RidePermitApplicationServiceTest {
     private static final Idul A_RIDER_IDUL = Mockito.mock(Idul.class);
@@ -35,9 +33,8 @@ class RidePermitApplicationServiceTest {
         ridePermitRepository = Mockito.mock(RidePermitRepository.class);
         paymentGateway = Mockito.mock(PaymentGateway.class);
         ridePermitAssembler = Mockito.mock(RidePermitAssembler.class);
-        this.ridePermitApplicationService = new RidePermitApplicationService(
-                ridePermitFactory, ridePermitRepository, paymentGateway, ridePermitAssembler
-        );
+        this.ridePermitApplicationService = new RidePermitApplicationService(ridePermitFactory,
+                ridePermitRepository, paymentGateway, ridePermitAssembler);
     }
 
     @Test
@@ -61,11 +58,13 @@ class RidePermitApplicationServiceTest {
         CreateRidePermitDto createRidePermitDto = Mockito.mock(CreateRidePermitDto.class);
         List<CreateRidePermitDto> createRidePermitDtoList = List.of(createRidePermitDto);
         RidePermit ridePermit = Mockito.mock(RidePermit.class);
-        Mockito.when(ridePermitFactory.create(Mockito.eq(A_RIDER_IDUL), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(ridePermit);
+        Mockito.when(ridePermitFactory.create(Mockito.eq(A_RIDER_IDUL), Mockito.any(),
+                Mockito.any(), Mockito.any())).thenReturn(ridePermit);
 
         ridePermitApplicationService.createRidePermits(A_RIDER_IDUL, createRidePermitDtoList);
 
-        Mockito.verify(ridePermitFactory, Mockito.times(1)).create(Mockito.eq(A_RIDER_IDUL), Mockito.any(), Mockito.any(), Mockito.any());
+        Mockito.verify(ridePermitFactory, Mockito.times(1)).create(Mockito.eq(A_RIDER_IDUL),
+                Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(ridePermitRepository, Mockito.times(1)).saveAll(Mockito.anyList());
     }
 
@@ -82,7 +81,8 @@ class RidePermitApplicationServiceTest {
         ridePermitApplicationService.addTravelTime(A_RIDER_IDUL, addTravelTimeDto);
 
         Mockito.verify(ridePermitRepository, Mockito.times(1)).findById(Mockito.any());
-        Mockito.verify(ridePermit, Mockito.times(1)).addDailyTravelTime(Mockito.eq(A_RIDER_IDUL), Mockito.any(), Mockito.any());
+        Mockito.verify(ridePermit, Mockito.times(1)).addDailyTravelTime(Mockito.eq(A_RIDER_IDUL),
+                Mockito.any(), Mockito.any());
         Mockito.verify(ridePermitRepository, Mockito.times(1)).save(ridePermit);
     }
 }

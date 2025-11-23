@@ -7,11 +7,11 @@ import ca.ulaval.glo4003.trotti.trip.api.controllers.StationController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.StationResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
+import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
-import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
 
 public class TripResourceLoader extends Bootstrapper {
     @Override

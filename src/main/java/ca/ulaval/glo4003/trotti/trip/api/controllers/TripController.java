@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import jakarta.ws.rs.core.Response;
 
-
 public class TripController implements TripResource {
 
     private final TripApplicationService tripApplicationService;
@@ -43,12 +42,14 @@ public class TripController implements TripResource {
 
         return Response.ok().build();
     }
-	
-	@Override
-	public Response requestUnlockCode(Idul userId, String ridePermitIdValue) {
-		RidePermitId ridePermitId = RidePermitId.from(ridePermitIdValue);
-		tripApplicationService.generateUnlockCode(userId, ridePermitId);
-		
-		return Response.ok().entity(new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail.")).build();
-	}
+
+    @Override
+    public Response requestUnlockCode(Idul userId, String ridePermitIdValue) {
+        RidePermitId ridePermitId = RidePermitId.from(ridePermitIdValue);
+        tripApplicationService.generateUnlockCode(userId, ridePermitId);
+
+        return Response.ok().entity(
+                new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
+                .build();
+    }
 }

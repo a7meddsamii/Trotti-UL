@@ -30,34 +30,34 @@ public class JsonSchoolSessionProvider implements SchoolSessionProvider {
         this.sessionMapper = sessionMapper;
         this.jsonMapper = jsonProvider;
     }
-	
-	@Override
-	public Optional<Session> getPreviousSession(LocalDate date) {
-		Set<Session> sessions =
-				readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());
-		
-		List<Session> sortedSessions = sessions.stream()
-				.sorted(Comparator.comparing(Session::getStartDate)).toList();
-		
-		for (int i = 0; i < sortedSessions.size(); i++) {
-			Session currentSession = sortedSessions.get(i);
-			
-			if (currentSession.contains(date) && i - 1 >= 0) {
-				return Optional.ofNullable(sortedSessions.get(i-1));
-			}
-		}
-		
-		return Optional.empty();
-	}
-	
+
+    @Override
+    public Optional<Session> getPreviousSession(LocalDate date) {
+        Set<Session> sessions =
+                readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());
+
+        List<Session> sortedSessions =
+                sessions.stream().sorted(Comparator.comparing(Session::getStartDate)).toList();
+
+        for (int i = 0; i < sortedSessions.size(); i++) {
+            Session currentSession = sortedSessions.get(i);
+
+            if (currentSession.contains(date) && i - 1 >= 0) {
+                return Optional.ofNullable(sortedSessions.get(i - 1));
+            }
+        }
+
+        return Optional.empty();
+    }
+
     @Override
     public Optional<Session> getSession(LocalDate date) {
         Set<Session> sessions =
                 readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());
         return sessions.stream().filter(session -> session.contains(date)).findFirst();
     }
-	
-	private Set<SessionRecord> readSessions() {
+
+    private Set<SessionRecord> readSessions() {
         try (InputStream input = Files.newInputStream(this.resourcePath)) {
             Set<SessionRecord> sessionRecords =
                     this.jsonMapper.readValue(input, new TypeReference<>() {});

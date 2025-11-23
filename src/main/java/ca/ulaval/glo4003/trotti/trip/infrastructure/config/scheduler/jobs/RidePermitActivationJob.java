@@ -17,9 +17,9 @@ public class RidePermitActivationJob implements Job {
     @Override
     public void execute(JobExecutionContext ctx) throws JobExecutionException {
         try {
-			RidePermitActivationApplicationService service = ComponentLocator.getInstance()
-					.resolve(RidePermitActivationApplicationService.class);
-			service.activateRidePermit();
+            RidePermitActivationApplicationService service = ComponentLocator.getInstance()
+                    .resolve(RidePermitActivationApplicationService.class);
+            service.activateRidePermit();
         } catch (Exception e) {
             LOGGER.error("RidePermitActivationJob failed", e);
             throw new JobExecutionException(e, false);

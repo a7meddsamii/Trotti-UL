@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.config;
 
-import ca.ulaval.glo4003.trotti.config.Configuration;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders.BillingForeignServiceLoader;
+import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class BillingConfiguration extends Configuration {
 

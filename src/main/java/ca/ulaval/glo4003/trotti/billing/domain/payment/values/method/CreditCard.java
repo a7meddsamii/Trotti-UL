@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.domain.payment.values.method;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.SecuredString;
-
 import java.time.YearMonth;
 
 public class CreditCard implements PaymentMethod {
@@ -20,29 +19,29 @@ public class CreditCard implements PaymentMethod {
             YearMonth expiryDate) {
         return new CreditCard(cardNumber, cardHolderName, expiryDate);
     }
-	
-	@Override
-	public boolean isEmpty() {
-		return isType(PaymentMethodType.EMPTY);
-	}
-	
-	@Override
-	public boolean isType(PaymentMethodType type) {
-		return type == PaymentMethodType.CREDIT_CARD;
-	}
-	
+
+    @Override
+    public boolean isEmpty() {
+        return isType(PaymentMethodType.EMPTY);
+    }
+
+    @Override
+    public boolean isType(PaymentMethodType type) {
+        return type == PaymentMethodType.CREDIT_CARD;
+    }
+
     public String getCardNumber() {
         return cardNumber.getMasked();
     }
-	
+
     public SecuredString getSecuredString() {
         return cardNumber;
     }
-	
+
     public String getCardHolderName() {
         return cardHolderName;
     }
-	
+
     public YearMonth getExpiryDate() {
         return expiryDate;
     }

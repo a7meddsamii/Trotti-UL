@@ -8,8 +8,7 @@ public class SessionMapper {
     public Session toDomain(SessionRecord sessionRecord) {
         String firstCharacter = sessionRecord.semesterCode().substring(0, 1);
 
-        return new Session(
-				Semester.fromString(firstCharacter), sessionRecord.startDate(),
-				sessionRecord.endDate());
+        return new Session(Semester.fromString(firstCharacter), sessionRecord.startDate(),
+                sessionRecord.endDate());
     }
 }

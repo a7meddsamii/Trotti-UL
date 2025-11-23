@@ -13,22 +13,22 @@ public class TripForeignServiceLoader extends Bootstrapper {
     @Override
     public void load() {
         loadGuavaCachingStore();
-		loadScooterRentalGateway();
-		loadRidePermitGateway();
+        loadScooterRentalGateway();
+        loadRidePermitGateway();
     }
 
     private void loadGuavaCachingStore() {
         UnlockCodeStore unlockCodeStore = new GuavaUnlockCodeStore();
         this.resourceLocator.register(UnlockCodeStore.class, unlockCodeStore);
     }
-	
-	private void loadScooterRentalGateway() {
-		ScooterRentalGateway scooterRentalGateway = new ScooterRentalGatewayAdapter();
-		this.resourceLocator.register(ScooterRentalGateway.class, scooterRentalGateway);
-	}
-	
-	private void loadRidePermitGateway() {
-		RidePermitGateway ridePermitGateway = new RidePermitGatewayAdapter();
-		this.resourceLocator.register(RidePermitGateway.class, ridePermitGateway);
-	}
+
+    private void loadScooterRentalGateway() {
+        ScooterRentalGateway scooterRentalGateway = new ScooterRentalGatewayAdapter();
+        this.resourceLocator.register(ScooterRentalGateway.class, scooterRentalGateway);
+    }
+
+    private void loadRidePermitGateway() {
+        RidePermitGateway ridePermitGateway = new RidePermitGatewayAdapter();
+        this.resourceLocator.register(RidePermitGateway.class, ridePermitGateway);
+    }
 }

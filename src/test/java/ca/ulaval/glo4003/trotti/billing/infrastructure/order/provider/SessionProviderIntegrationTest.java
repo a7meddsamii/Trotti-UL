@@ -47,30 +47,28 @@ class SessionProviderIntegrationTest {
         Assertions.assertTrue(session.isPresent());
         Assertions.assertTrue(session.get().contains(DATE_INSIDE_SESSION));
     }
-	
-	@Test
-	void givenDate_whenGettingPreviousSession_thenReturnsExpectedSession()
-			throws IOException {
-		Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
-		LocalDate localDate = LocalDate.of(2026, 1, 10);
-		String expectedSemester = "A25";
-		
-		Optional<Session> session = sessionProvider.getPreviousSession(localDate);
-		
-		Assertions.assertTrue(session.isPresent());
-		Assertions.assertEquals(expectedSemester, session.get().toString());
-	}
-	
-	@Test
-	void givenDate_whenGettingPreviousSession_thenReturnsEmpty()
-			throws IOException {
-		Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
-		LocalDate localDate = LocalDate.of(2025, 9, 8);
-		
-		Optional<Session> session = sessionProvider.getPreviousSession(localDate);
-		
-		Assertions.assertTrue(session.isEmpty());
-	}
+
+    @Test
+    void givenDate_whenGettingPreviousSession_thenReturnsExpectedSession() throws IOException {
+        Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
+        LocalDate localDate = LocalDate.of(2026, 1, 10);
+        String expectedSemester = "A25";
+
+        Optional<Session> session = sessionProvider.getPreviousSession(localDate);
+
+        Assertions.assertTrue(session.isPresent());
+        Assertions.assertEquals(expectedSemester, session.get().toString());
+    }
+
+    @Test
+    void givenDate_whenGettingPreviousSession_thenReturnsEmpty() throws IOException {
+        Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
+        LocalDate localDate = LocalDate.of(2025, 9, 8);
+
+        Optional<Session> session = sessionProvider.getPreviousSession(localDate);
+
+        Assertions.assertTrue(session.isEmpty());
+    }
 
     @Test
     void givenDateOutsideAvailableSessions_whenGettingSession_thenReturnsEmpty()

@@ -60,30 +60,29 @@ public interface TripResource {
                             description = "Not found: Aucun trajet en cours")})
     Response endTrip(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @Valid EndTripRequest request);
-	
-	
-	@POST
-	@Path("/{ridePermitId}/unlock-code")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(summary = "Demande un unlock code",
-			description = "Génère un code pour déverrouiller la trottinette associée à ridePermitId.",
-			parameters = {@Parameter(name = "Authorization",
-					description = "Authorization token - JWT", required = true,
-					in = ParameterIn.HEADER,
-					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {
-					@ApiResponse(responseCode = "200",
-							description = "Code de déverrouillage généré avec succès",
-							content = @Content(
-									schema = @Schema(implementation = UnlockCodeResponse.class))),
-					@ApiResponse(responseCode = "401",
-							description = "Unauthorized: token manquant ou erroné",
-							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class))),
-					@ApiResponse(responseCode = "404",
-							description = "Ride permit non trouvé/non active pour cette session",
-							content = @Content(
-									schema = @Schema(implementation = UnlockCodeResponse.class)))})
-	Response requestUnlockCode(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
-							   @PathParam("ridePermitId") String ridePermitId);
+
+    @POST
+    @Path("/{ridePermitId}/unlock-code")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Demande un unlock code",
+            description = "Génère un code pour déverrouiller la trottinette associée à ridePermitId.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Code de déverrouillage généré avec succès",
+                            content = @Content(
+                                    schema = @Schema(implementation = UnlockCodeResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Ride permit non trouvé/non active pour cette session",
+                            content = @Content(
+                                    schema = @Schema(implementation = UnlockCodeResponse.class)))})
+    Response requestUnlockCode(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @PathParam("ridePermitId") String ridePermitId);
 }

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAccountRepository;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AccountRepositoryLoader extends Bootstrapper {

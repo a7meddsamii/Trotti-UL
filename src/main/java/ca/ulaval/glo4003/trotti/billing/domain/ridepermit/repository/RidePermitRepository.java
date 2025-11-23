@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface RidePermitRepository {
     void save(RidePermit order);
-	
-	void saveAll(List<RidePermit> ridePermits);
+
+    void saveAll(List<RidePermit> ridePermits);
 
     RidePermit findById(RidePermitId orderId);
 
     List<RidePermit> findAllByIdul(Idul idul);
 
     List<RidePermit> findAllByDate(LocalDate date);
-	
-	List<RidePermit> findAllBySession(Session session);
+
+    List<RidePermit> findAllBySession(Session session);
 }

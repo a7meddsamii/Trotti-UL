@@ -19,28 +19,30 @@ public class OrderApplicationService {
     private final OrderRepository orderRepository;
     private final OrderAssembler orderAssembler;
     private final OrderItemFactory orderItemFactory;
-	private final PaymentMethodFactory paymentMethodFactory;
-	private final PaymentGateway paymentGateway;
+    private final PaymentMethodFactory paymentMethodFactory;
+    private final PaymentGateway paymentGateway;
     private final EventBus eventBus;
 
     public OrderApplicationService(
             OrderRepository orderRepository,
             OrderAssembler orderAssembler,
             OrderItemFactory orderItemFactory,
-			PaymentMethodFactory paymentMethodFactory,
-			PaymentGateway paymentGateway,
+            PaymentMethodFactory paymentMethodFactory,
+            PaymentGateway paymentGateway,
             EventBus eventBus) {
         this.orderRepository = orderRepository;
         this.orderAssembler = orderAssembler;
         this.orderItemFactory = orderItemFactory;
-		this.paymentMethodFactory = paymentMethodFactory;
-		this.paymentGateway = paymentGateway;
+        this.paymentMethodFactory = paymentMethodFactory;
+        this.paymentGateway = paymentGateway;
         this.eventBus = eventBus;
     }
 
     public OrderDto addItem(Idul buyerId, AddItemDto addItemDto) {
-        Order order = orderRepository.findOngoingOrderFor(buyerId).orElseGet(() -> new Order(OrderId.randomId(), buyerId));
-		RidePermitItem item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(), addItemDto.billingFrequency());
+        Order order = orderRepository.findOngoingOrderFor(buyerId)
+                .orElseGet(() -> new Order(OrderId.randomId(), buyerId));
+        RidePermitItem item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(),
+                addItemDto.session(), addItemDto.billingFrequency());
         order.add(item);
         orderRepository.save(order);
 
@@ -67,13 +69,13 @@ public class OrderApplicationService {
 
         return orderAssembler.assemble(order);
     }
-	
+
     public void confirm(Idul buyerId, ConfirmOrderDto confirmOrderDto) {
-		// TODO coming in next pr
+        // TODO coming in next pr
         Order order = findOngoingOrder(buyerId);
         orderRepository.save(order);
     }
-	
+
     private Order findOngoingOrder(Idul buyerId) {
         return orderRepository.findOngoingOrderFor(buyerId)
                 .orElseThrow(() -> new NotFoundException("No ongoing order for buyer " + buyerId));

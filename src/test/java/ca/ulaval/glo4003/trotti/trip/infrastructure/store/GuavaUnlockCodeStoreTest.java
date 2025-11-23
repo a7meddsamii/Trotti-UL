@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.store;
 
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import java.time.Clock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

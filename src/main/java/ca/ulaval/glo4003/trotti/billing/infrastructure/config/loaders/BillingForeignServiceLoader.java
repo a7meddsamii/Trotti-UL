@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security.AesDataCodecAdapter;
+import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;

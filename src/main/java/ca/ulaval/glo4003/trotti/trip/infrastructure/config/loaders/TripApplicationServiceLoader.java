@@ -12,7 +12,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-
 import java.time.Clock;
 
 public class TripApplicationServiceLoader extends Bootstrapper {
@@ -47,7 +46,6 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         this.resourceLocator.register(StationMaintenanceApplicationService.class,
                 stationMaintenanceApplicationService);
     }
-
 
     private void loadTripApplicationService() {
         RidePermitGateway ridePermitGateway = this.resourceLocator.resolve(RidePermitGateway.class);
