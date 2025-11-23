@@ -3,8 +3,9 @@ package ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCre
 import ca.ulaval.glo4003.trotti.account.domain.entities.Account;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthorizationException;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
-import ca.ulaval.glo4003.trotti.account.domain.values.permissions.Permission;
+import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,6 @@ class TechnicianCreationNodeTest {
     private static final Gender A_GENDER = AccountFixture.A_GENDER;
     private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
     private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
-    private static final Password A_PASSWORD = AccountFixture.A_PASSWORD;
 
     private Set<Permission> availablePermissions;
     private AdminManagedAccountCreationNode nextNode;
@@ -41,14 +41,13 @@ class TechnicianCreationNodeTest {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
         Account expected = technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
-                A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
+                A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
 
         Assertions.assertEquals(A_NAME, expected.getName());
         Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
         Assertions.assertEquals(A_GENDER, expected.getGender());
         Assertions.assertEquals(AN_IDUL, expected.getIdul());
         Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(A_PASSWORD, expected.getPassword());
         Assertions.assertEquals(role, expected.getRole());
         Assertions.assertNotNull(expected.getPermissions());
     }
@@ -58,10 +57,10 @@ class TechnicianCreationNodeTest {
         role = Role.EMPLOYEE;
 
         technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, A_PASSWORD, role, availablePermissions);
+                A_EMAIL, role, availablePermissions);
 
         Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, A_PASSWORD, role, availablePermissions);
+                A_EMAIL, role, availablePermissions);
     }
 
     @Test
@@ -70,7 +69,7 @@ class TechnicianCreationNodeTest {
                 .thenReturn(false);
 
         Executable executable = () -> technicianCreationNode.createAdminManagedAccount(A_NAME,
-                A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, A_PASSWORD, role, availablePermissions);
+                A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);
     }

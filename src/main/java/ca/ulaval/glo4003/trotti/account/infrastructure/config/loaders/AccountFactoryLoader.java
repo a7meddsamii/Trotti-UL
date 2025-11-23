@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.SecurityContextFactory;
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSecurityContextFactoryAdapter;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountValidator;
 import ca.ulaval.glo4003.trotti.account.domain.factories.adminManagedAccountCreationChain.AdminCreationNode;
@@ -16,6 +18,7 @@ public class AccountFactoryLoader extends Bootstrapper {
     @Override
     public void load() {
         this.loadFactory();
+        this.loadSecurityContextFactory();
     }
 
     private void loadFactory() {
@@ -46,5 +49,10 @@ public class AccountFactoryLoader extends Bootstrapper {
         admin.setNext(technician);
 
         return admin;
+    }
+
+    private void loadSecurityContextFactory() {
+        this.resourceLocator.register(SecurityContextFactory.class,
+                new JwtSecurityContextFactoryAdapter());
     }
 }

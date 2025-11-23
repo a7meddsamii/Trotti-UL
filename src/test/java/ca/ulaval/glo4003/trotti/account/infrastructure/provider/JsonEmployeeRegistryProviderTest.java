@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

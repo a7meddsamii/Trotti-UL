@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.mappers;
 
-import ca.ulaval.glo4003.trotti.order.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.fixtures.StationFixture;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.StationRecord;
@@ -42,15 +42,16 @@ class StationPersistenceMapperTest {
     void givenStationRecord_whenToDomain_thenReturnCorrespondingStation() {
         Map<SlotNumber, ScooterId> slots =
                 Map.of(SLOT_NUMBER, SCOOTER_ID, ANOTHER_SLOT_NUMBER, ANOTHER_SCOOTER_ID);
-        StationRecord record = new StationRecord(StationFixture.A_LOCATION, slots);
+        StationRecord record =
+                new StationRecord(stationFixture.build().getLocation(), slots, false, null);
 
-        Station station = stationMapper.toDomain(record);
+        Station mappedStation = stationMapper.toDomain(record);
 
-        Assertions.assertEquals(record.location(), station.getLocation());
-        asserAllScootersAreInTheCorrectSlotAsPersisted(station, slots);
+        Assertions.assertEquals(record.location(), mappedStation.getLocation());
+        assertAllScootersAreInTheCorrectSlotAsPersisted(mappedStation, slots);
     }
 
-    private static void asserAllScootersAreInTheCorrectSlotAsPersisted(Station station,
+    private static void assertAllScootersAreInTheCorrectSlotAsPersisted(Station station,
             Map<SlotNumber, ScooterId> slots) {
         slots.forEach((slotNumber, scooterId) -> {
             Assertions.assertEquals(Optional.ofNullable(scooterId),

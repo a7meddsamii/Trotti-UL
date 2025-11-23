@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InsufficientScootersInTransitException;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TechnicianNotInChargeException;
 import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
@@ -84,4 +84,11 @@ public class Transfer {
         return technicianId;
     }
 
+    public Map<ScooterId, Boolean> getScootersMovedCopy() {
+        return new HashMap<>(scootersMoved);
+    }
+
+    public int getScootersInTransitCount() {
+        return getScootersInTransit().size();
+    }
 }
