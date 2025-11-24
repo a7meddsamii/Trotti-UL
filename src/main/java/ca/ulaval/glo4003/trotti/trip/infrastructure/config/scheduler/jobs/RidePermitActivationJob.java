@@ -19,11 +19,12 @@ public class RidePermitActivationJob implements Job {
             RidePermitActivationApplicationService service = ComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
-//            LOGGER.info("RidePermitActivationJob executed");
+            service.deactivateRidePermit();
+            // LOGGER.info("RidePermitActivationJob executed");
         } catch (Exception e) {
-			// TODO uncomment later
-//            LOGGER.error("RidePermitActivationJob failed");
-//            throw new JobExecutionException(e, false);
+            // TODO uncomment later
+            // LOGGER.error("RidePermitActivationJob failed");
+            // throw new JobExecutionException(e, false);
         }
     }
 }
