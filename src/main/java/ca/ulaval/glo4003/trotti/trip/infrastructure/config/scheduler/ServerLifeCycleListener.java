@@ -46,7 +46,7 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
 		JobKey jobKey = new JobKey(name, group);
 		
 		try {
-			JobDetail jobDetail = buildJobDetail(RidePermitActivationJob.class, name, group);
+			JobDetail jobDetail = buildJobDetail(AccountAdvantageRenewalJob.class, name, group);
 			Trigger trigger =
 					buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
 			scheduleJob(jobDetail, trigger);

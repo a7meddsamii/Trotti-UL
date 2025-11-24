@@ -18,8 +18,6 @@ public class HandlerLoader extends Bootstrapper {
 
     @Override
     public void load() {
-    
-		
 		EmailMessageFactory emailMessageFactory = this.resourceLocator.resolve(EmailMessageFactory.class);
 				EmailService emailService = this.resourceLocator.resolve(EmailService.class);
         OrderApiMapper orderApiMapper = this.resourceLocator.resolve(OrderApiMapper.class);

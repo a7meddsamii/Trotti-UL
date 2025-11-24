@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+
 import java.time.LocalDate;
 import java.util.*;
 
