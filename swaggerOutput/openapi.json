@@ -243,6 +243,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not found: Pas de commande courante pour cet utilisateur"
           }
         }
       },
@@ -448,8 +451,30 @@
     },
     "/ride-permit/{ridePermitId}": {
       "get": {
+        "summary": "Get a specific ride permit by ID for the authenticated user",
+        "description": "Returns the ride permit details for the specified ride permit ID associated with the authenticated user.",
         "operationId": "getRidePermit",
         "parameters": [
+          {
+            "name": "ridePermitId",
+            "in": "path",
+            "description": "ID of the ride permit to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "RP123456"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          },
           {
             "name": "ridePermitId",
             "in": "path",
@@ -460,10 +485,34 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "default response",
+          "200": {
+            "description": "Successful retrieval of the ride permit",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RidePermitResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ride permit not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
             }
           }
         }
@@ -471,12 +520,40 @@
     },
     "/ride-permit": {
       "get": {
+        "summary": "Get all ride permits for the authenticated user",
+        "description": "Returns a list of ride permits associated with the authenticated user.",
         "operationId": "getRidePermits",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization token - JWT",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": "default response",
+          "200": {
+            "description": "Successful retrieval of ride permits",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RidePermitResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
             }
           }
         }
@@ -533,6 +610,68 @@
           },
           "409": {
             "description": "Conflict: station pas en maintenance"
+          }
+        }
+      }
+    },
+    "/stations/{location}/slots/available": {
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Obtenir les emplacements disponibles d'une station",
+        "description": "Retourne la liste des emplacements disponibles d'une station",
+        "operationId": "getAvailableSlots",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des emplacements disponibles"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "404": {
+            "description": "Station non trouvée"
+          }
+        }
+      }
+    },
+    "/stations/{location}/slots/occupied": {
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Obtenir les emplacements occupés d'une station",
+        "description": "Retourne la liste des emplacements occupés d'une station",
+        "operationId": "getOccupiedSlots",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des emplacements occupés"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
+          },
+          "404": {
+            "description": "Station non trouvée"
           }
         }
       }
@@ -705,6 +844,24 @@
           },
           "404": {
             "description": "Not found: Aucun trajet en cours"
+          }
+        }
+      }
+    },
+    "/trips/history": {
+      "get": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Obtenir l'historique des voyages",
+        "description": "Permet à un utilisateur d'obtenir l'historique de ses voyages.",
+        "operationId": "getTripHistory",
+        "responses": {
+          "200": {
+            "description": "Historique des voyages récupéré avec succès"
+          },
+          "401": {
+            "description": "Unauthorized: token manquant ou erroné"
           }
         }
       }
@@ -1044,6 +1201,29 @@
           }
         },
         "description": "    Informations de paiement pour le checkout.\n    Si l'utilisateur possède déjà une méthode de paiement enregistrée,\n    seuls les champs `cvv` sont requis.\n    Sinon, tous les champs doivent être fournis.\n"
+      },
+      "RidePermitResponse": {
+        "type": "object",
+        "properties": {
+          "ridePermitId": {
+            "type": "string"
+          },
+          "riderId": {
+            "type": "string"
+          },
+          "session": {
+            "type": "string"
+          },
+          "maximumTravelingTimePerDay": {
+            "type": "string"
+          },
+          "permitState": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "string"
+          }
+        }
       },
       "HeartbeatResponse": {
         "type": "object",
