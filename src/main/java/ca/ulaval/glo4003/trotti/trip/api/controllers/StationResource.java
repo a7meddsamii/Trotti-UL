@@ -121,23 +121,29 @@ public interface StationResource {
 
     @GET
     @Path("/{location}/slots/available")
+    @RolesAllowed({"TECHNICIAN", "EMPLOYEE", "STUDENT"})
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Obtenir les emplacements disponibles d'une station",
             description = "Retourne la liste des emplacements disponibles d'une station",
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Liste des emplacements disponibles"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404", description = "Station non trouvée")})
     Response getAvailableSlots(@PathParam("location") String location);
 
     @GET
     @Path("/{location}/slots/occupied")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"TECHNICIAN", "EMPLOYEE", "STUDENT"})
     @Operation(summary = "Obtenir les emplacements occupés d'une station",
             description = "Retourne la liste des emplacements occupés d'une station",
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Liste des emplacements occupés"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné"),
                     @ApiResponse(responseCode = "404", description = "Station non trouvée")})
     Response getOccupiedSlots(@PathParam("location") String location);
 }
