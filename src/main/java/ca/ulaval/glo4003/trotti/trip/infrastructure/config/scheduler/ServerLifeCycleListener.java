@@ -25,7 +25,7 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
         switch (applicationEvent.getType()) {
             case INITIALIZATION_FINISHED:
                 scheduleRidePermitActivationJob();
-				scheduleAccountAdvantageRenewalJob();
+                scheduleAccountAdvantageRenewalJob();
                 break;
             case DESTROY_FINISHED:
                 this.schedulerManager.shutdown();
@@ -39,21 +39,21 @@ public class ServerLifeCycleListener implements ApplicationEventListener {
     public RequestEventListener onRequest(RequestEvent requestEvent) {
         return null;
     }
-	
-	private void scheduleAccountAdvantageRenewalJob() {
-		String name = AccountAdvantageRenewalJob.class.getSimpleName();
-		String group = "accountAdvantageRenewalJobs";
-		JobKey jobKey = new JobKey(name, group);
-		
-		try {
-			JobDetail jobDetail = buildJobDetail(AccountAdvantageRenewalJob.class, name, group);
-			Trigger trigger =
-					buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
-			scheduleJob(jobDetail, trigger);
-		} catch (SchedulerException e) {
-			LOGGER.error("Failed to schedule account advantage renewal service", e);
-		}
-	}
+
+    private void scheduleAccountAdvantageRenewalJob() {
+        String name = AccountAdvantageRenewalJob.class.getSimpleName();
+        String group = "accountAdvantageRenewalJobs";
+        JobKey jobKey = new JobKey(name, group);
+
+        try {
+            JobDetail jobDetail = buildJobDetail(AccountAdvantageRenewalJob.class, name, group);
+            Trigger trigger =
+                    buildTrigger(FIVE_SECONDS_ACTIVATION_CHECK_DELAY, name, group, jobKey);
+            scheduleJob(jobDetail, trigger);
+        } catch (SchedulerException e) {
+            LOGGER.error("Failed to schedule account advantage renewal service", e);
+        }
+    }
 
     private void scheduleRidePermitActivationJob() {
         String name = RidePermitActivationJob.class.getSimpleName();

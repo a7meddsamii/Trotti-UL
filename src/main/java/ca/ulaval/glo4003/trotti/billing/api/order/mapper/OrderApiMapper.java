@@ -63,12 +63,12 @@ public class OrderApiMapper {
         try {
             yearMonth = YearMonth.parse(paymentInfoRequest.expirationDate());
         } catch (Exception e) {
-            throw new InvalidParameterException("Expiration date format is invalid. Expected format is YYYY-MM");
+            throw new InvalidParameterException(
+                    "Expiration date format is invalid. Expected format is YYYY-MM");
         }
 
         return new ConfirmOrderDto(PaymentMethodType.CREDIT_CARD, paymentInfoRequest.cardNumber(),
-                paymentInfoRequest.cardHolderName(),yearMonth
-        );
+                paymentInfoRequest.cardHolderName(), yearMonth);
     }
 
     public FreeRidePermitItemGrantDto toFreeRidePermitItemGrantDto(Idul buyerId) {

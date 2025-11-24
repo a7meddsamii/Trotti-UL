@@ -22,7 +22,7 @@ public class EventSubscriptionConfiguration extends Configuration {
 
     @Override
     protected void load() {
-		new HandlerLoader().load();
-		new EventSubscriptionLoader().load();
+        new HandlerLoader().load();
+        new EventSubscriptionLoader().load();
     }
 }

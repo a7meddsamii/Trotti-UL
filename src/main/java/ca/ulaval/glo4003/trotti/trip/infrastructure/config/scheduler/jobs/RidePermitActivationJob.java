@@ -5,9 +5,6 @@ import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @DisallowConcurrentExecution
 public class RidePermitActivationJob implements Job {
@@ -17,7 +14,8 @@ public class RidePermitActivationJob implements Job {
             RidePermitActivationApplicationService service = ComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
-			service.deactivateRidePermit();
-        } catch (Exception ignored) {}
+            service.deactivateRidePermit();
+        } catch (Exception ignored) {
+        }
     }
 }

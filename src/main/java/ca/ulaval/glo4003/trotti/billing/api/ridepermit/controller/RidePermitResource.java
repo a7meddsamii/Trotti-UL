@@ -33,14 +33,14 @@ public interface RidePermitResource {
                     description = "Authorization token - JWT", required = true,
                     in = ParameterIn.HEADER,
                     schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-    responses = {
-            @ApiResponse(responseCode = "200", description = "Successful retrieval of ride permits",
-                    content = @Content(
-                            schema = @Schema(implementation = RidePermitResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized access",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiErrorResponse.class)))
-    })
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Successful retrieval of ride permits",
+                            content = @Content(
+                                    schema = @Schema(implementation = RidePermitResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized access",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
     Response getRidePermits(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
 
     @GET
@@ -48,16 +48,16 @@ public interface RidePermitResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get a specific ride permit by ID for the authenticated user",
             description = "Returns the ride permit details for the specified ride permit ID associated with the authenticated user.",
-            parameters = {
-                    @Parameter(name = "ridePermitId", description = "ID of the ride permit to retrieve", required = true,
-                            in = ParameterIn.PATH, schema = @Schema(type = "string", example = "RP123456")),
-                    @Parameter(name = "Authorization",
-                            description = "Authorization token - JWT", required = true,
-                            in = ParameterIn.HEADER,
-                            schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))
-            },
+            parameters = {@Parameter(name = "ridePermitId",
+                    description = "ID of the ride permit to retrieve", required = true,
+                    in = ParameterIn.PATH, schema = @Schema(type = "string", example = "RP123456")),
+                    @Parameter(name = "Authorization", description = "Authorization token - JWT",
+                            required = true, in = ParameterIn.HEADER,
+                            schema = @Schema(type = "string",
+                                    example = "eyJhbGciOiJIUzI1NiJ9..."))},
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Successful retrieval of the ride permit",
+                    @ApiResponse(responseCode = "200",
+                            description = "Successful retrieval of the ride permit",
                             content = @Content(
                                     schema = @Schema(implementation = RidePermitResponse.class))),
                     @ApiResponse(responseCode = "401", description = "Unauthorized access",
@@ -65,8 +65,7 @@ public interface RidePermitResource {
                                     schema = @Schema(implementation = ApiErrorResponse.class))),
                     @ApiResponse(responseCode = "404", description = "Ride permit not found",
                             content = @Content(
-                                    schema = @Schema(implementation = ApiErrorResponse.class)))
-            })
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
     Response getRidePermit(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
             @PathParam("ridePermitId") String ridePermitId);
 

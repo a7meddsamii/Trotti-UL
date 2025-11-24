@@ -37,7 +37,8 @@ public class EventSubscriptionLoader extends Bootstrapper {
         RidePermitEventHandler ridePermitEventHandler =
                 this.resourceLocator.resolve(RidePermitEventHandler.class);
         OrderEventHandler orderEventHandler = this.resourceLocator.resolve(OrderEventHandler.class);
-		AccountEventHandler accountEventHandler = this.resourceLocator.resolve(AccountEventHandler.class);
+        AccountEventHandler accountEventHandler =
+                this.resourceLocator.resolve(AccountEventHandler.class);
 
         eventBus.subscribe(AccountCreatedEvent.class, communicationAccountCreatedHandler::handle);
         eventBus.subscribe(MaintenanceRequestedEvent.class,
@@ -55,6 +56,7 @@ public class EventSubscriptionLoader extends Bootstrapper {
         eventBus.subscribe(AccountCreatedEvent.class, orderEventHandler::onAccountCreated);
         eventBus.subscribe(ApplyAdvantageRequestEvent.class,
                 orderEventHandler::onApplyAdvantageRequestEvent);
-		eventBus.subscribe(AccountAdvantageRenewalEvent.class, accountEventHandler::onAccountAdvantageRenewal);
+        eventBus.subscribe(AccountAdvantageRenewalEvent.class,
+                accountEventHandler::onAccountAdvantageRenewal);
     }
 }

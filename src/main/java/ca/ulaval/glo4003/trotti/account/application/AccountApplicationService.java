@@ -70,15 +70,15 @@ public class AccountApplicationService {
 
         return account.getIdul();
     }
-	
-	public void renewAdvantage(Advantage advantage){
-		List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
-		
-		if (!accountFound.isEmpty()) {
-			List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
-			eventBus.publish(new ApplyAdvantageRequestEvent(advantage.name(), accountIds));
-		}
-	}
+
+    public void renewAdvantage(Advantage advantage) {
+        List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
+
+        if (!accountFound.isEmpty()) {
+            List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
+            eventBus.publish(new ApplyAdvantageRequestEvent(advantage.name(), accountIds));
+        }
+    }
 
     public SessionToken login(LoginDto loginDto) {
         Email email = authenticationProvider.verify(loginDto);

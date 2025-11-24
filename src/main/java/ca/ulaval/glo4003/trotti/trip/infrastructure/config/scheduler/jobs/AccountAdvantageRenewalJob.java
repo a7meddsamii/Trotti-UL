@@ -6,23 +6,21 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountAdvantageRenewalEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
+import java.time.Clock;
+import java.time.LocalDate;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Clock;
-import java.time.LocalDate;
-
 @DisallowConcurrentExecution
 public class AccountAdvantageRenewalJob implements Job {
 
-    public static final Logger LOGGER =
-            LoggerFactory.getLogger(AccountAdvantageRenewalJob.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AccountAdvantageRenewalJob.class);
 
     private static volatile Session currentSession;
-    
+
     private static boolean isInitialized = false;
 
     @Override
