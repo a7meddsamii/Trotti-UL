@@ -5,14 +5,14 @@ import ca.ulaval.glo4003.trotti.billing.infrastructure.order.repository.InMemory
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class OrderRepositoryLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		loadOrderRepository();
-	}
-	
-	private void loadOrderRepository() {
-		 OrderRepository orderRepository = new InMemoryOrderRepository();
-		 this.resourceLocator.register(OrderRepository.class, orderRepository);
-	}
+
+    @Override
+    public void load() {
+        loadOrderRepository();
+    }
+
+    private void loadOrderRepository() {
+        OrderRepository orderRepository = new InMemoryOrderRepository();
+        this.resourceLocator.register(OrderRepository.class, orderRepository);
+    }
 }

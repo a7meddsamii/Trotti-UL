@@ -7,14 +7,14 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTi
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 
 public class OrderItemFactory {
-	
+
     public RidePermitItem create(MaximumDailyTravelTime maximumTravelingTime, Session session,
             BillingFrequency billingFrequency) {
         return new RidePermitItem(ItemId.randomId(), maximumTravelingTime, session,
                 billingFrequency);
     }
-	
-	public RidePermitItem create(Session session) {
-		return create(MaximumDailyTravelTime.baseTravelTime(), session, BillingFrequency.MONTHLY);
-	}
+
+    public RidePermitItem create(Session session) {
+        return create(MaximumDailyTravelTime.baseTravelTime(), session, BillingFrequency.MONTHLY);
+    }
 }

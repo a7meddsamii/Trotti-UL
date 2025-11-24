@@ -24,7 +24,7 @@ public class RidePermitActivationFilter {
     }
 
     public List<RidePermit> getDeactivatedRidePermits(List<RidePermit> ridePermits) {
-        Session currentSchoolSession = getCurrentSession();
+        Session currentSchoolSession = getPreviousSession();
         return ridePermits.stream()
                 .filter(ridePermit -> ridePermit.deactivate(currentSchoolSession)).toList();
     }

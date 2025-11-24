@@ -21,9 +21,8 @@ public class InMemoryTripRepository implements TripRepository {
 
     @Override
     public boolean exists(Idul idul, TripStatus status) {
-        return tripTable.values().stream()
-                    .anyMatch(tripRecord -> tripRecord.idul().equals(idul) &&
-                            tripRecord.tripStatus().equals(status));
+        return tripTable.values().stream().anyMatch(tripRecord -> tripRecord.idul().equals(idul)
+                && tripRecord.tripStatus().equals(status));
 
     }
 
@@ -35,18 +34,15 @@ public class InMemoryTripRepository implements TripRepository {
 
     @Override
     public List<Trip> findAllByIdul(Idul idul) {
-        return tripTable.values().stream()
-                .filter(tripRecord -> tripRecord.idul().equals(idul))
-                .map(mapper::toDomain)
-                .toList();
+        return tripTable.values().stream().filter(tripRecord -> tripRecord.idul().equals(idul))
+                .map(mapper::toDomain).toList();
     }
 
     @Override
     public List<Trip> findBy(Idul idul, TripStatus tripStatus) {
         return tripTable.values().stream()
-                .filter(tripRecord -> tripRecord.idul().equals(idul) &&
-                        tripRecord.tripStatus().equals(tripStatus))
-                .map(mapper::toDomain)
-                .toList();
+                .filter(tripRecord -> tripRecord.idul().equals(idul)
+                        && tripRecord.tripStatus().equals(tripStatus))
+                .map(mapper::toDomain).toList();
     }
 }

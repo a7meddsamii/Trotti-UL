@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitR
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,32 +19,32 @@ public class RidePermitApplicationService {
     private final RidePermitRepository ridePermitRepository;
     private final PaymentGateway paymentGateway;
     private final RidePermitAssembler ridePermitAssembler;
-	private final Clock clock;
+    private final Clock clock;
 
     public RidePermitApplicationService(
-			RidePermitFactory ridePermitFactory,
-			RidePermitRepository ridePermitRepository,
-			PaymentGateway paymentGateway,
-			RidePermitAssembler ridePermitAssembler,
-			Clock clock
-	) {
+            RidePermitFactory ridePermitFactory,
+            RidePermitRepository ridePermitRepository,
+            PaymentGateway paymentGateway,
+            RidePermitAssembler ridePermitAssembler,
+            Clock clock) {
         this.ridePermitFactory = ridePermitFactory;
         this.ridePermitRepository = ridePermitRepository;
         this.paymentGateway = paymentGateway;
         this.ridePermitAssembler = ridePermitAssembler;
-		this.clock = clock;
-	}
+        this.clock = clock;
+    }
 
     public List<RidePermitDto> getRidePermits(Idul riderId) {
         List<RidePermit> ridePermits = ridePermitRepository.findAllByIdul(riderId);
         return ridePermitAssembler.assemble(ridePermits);
     }
-	
-	public RidePermitDto getRidePermit(Idul riderId, RidePermitId ridePermitId) {
-		RidePermit ridePermit = ridePermitRepository.findByRiderIdAndRidePermitId(riderId, ridePermitId)
-				.orElseThrow(()-> new NotFoundException("Ride permit " + ridePermitId + " not found"));
-		return ridePermitAssembler.assemble(ridePermit);
-	}
+
+    public RidePermitDto getRidePermit(Idul riderId, RidePermitId ridePermitId) {
+        RidePermit ridePermit = ridePermitRepository
+                .findByRiderIdAndRidePermitId(riderId, ridePermitId).orElseThrow(
+                        () -> new NotFoundException("Ride permit " + ridePermitId + " not found"));
+        return ridePermitAssembler.assemble(ridePermit);
+    }
 
     public void createRidePermits(Idul riderId, List<CreateRidePermitDto> createRidePermits) {
         List<RidePermit> ridePermits =
@@ -56,15 +55,16 @@ public class RidePermitApplicationService {
 
     public void addTravelTime(Idul riderId, AddTravelTimeDto addTravelTimeDto) {
         RidePermit ridePermit = ridePermitRepository.findById(addTravelTimeDto.ridePermitId())
-				.orElseThrow(()-> new NotFoundException("Ride permit " + addTravelTimeDto.ridePermitId() + " not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        "Ride permit " + addTravelTimeDto.ridePermitId() + " not found"));
         ridePermit.addDailyTravelTime(riderId, addTravelTimeDto.startDateTime(),
                 addTravelTimeDto.travelTime());
         ridePermitRepository.save(ridePermit);
     }
-	
-	public boolean isRidePermitActive(Idul riderId, RidePermitId ridePermitId) {
-		RidePermit ridePermit = ridePermitRepository.findById(ridePermitId)
-				.orElseThrow(()-> new NotFoundException("Ride permit " + ridePermitId + " not found"));
-		return ridePermit.isActiveForRides(riderId, LocalDate.now(clock));
-	}
+
+    public boolean isRidePermitActive(Idul riderId, RidePermitId ridePermitId) {
+        RidePermit ridePermit = ridePermitRepository.findById(ridePermitId).orElseThrow(
+                () -> new NotFoundException("Ride permit " + ridePermitId + " not found"));
+        return ridePermit.isActiveForRides(riderId, LocalDate.now(clock));
+    }
 }

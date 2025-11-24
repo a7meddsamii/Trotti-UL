@@ -7,8 +7,6 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.service.RidePermitActi
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitActivatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitSnapshot;
-import org.slf4j.Logger;
-
 import java.time.LocalDate;
 import java.util.List;
 

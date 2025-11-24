@@ -8,11 +8,8 @@ import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 public class CommunicationAccountCreatedHandler {
 
     public void handle(AccountCreatedEvent event) {
-        Contact contact =
-                new Contact(event.getIdul(),
-                        event.getName(),
-                        Email.from(event.getEmail()),
-                        ContactRole.valueOf(event.getRole().toUpperCase()));
+        Contact contact = new Contact(event.getIdul(), event.getName(),
+                Email.from(event.getEmail()), ContactRole.valueOf(event.getRole().toUpperCase()));
         contact.save();
     }
 }

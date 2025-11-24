@@ -9,21 +9,24 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.UndockScooterDto;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 
 public class StationOperationEntry {
-	private final DockingAndUndockingApplicationService dockingAndUndockingApplicationService;
-	private final StationApiMapper stationApiMapper;
-	
-	public StationOperationEntry(DockingAndUndockingApplicationService dockingAndUndockingApplicationService, StationApiMapper stationApiMapper) {
-		this.dockingAndUndockingApplicationService = dockingAndUndockingApplicationService;
-		this.stationApiMapper = stationApiMapper;
-	}
-	
-	public ScooterId retrieveScooter(RetrieveScooterRequest retrieveScooterRequest) {
-		UndockScooterDto undockScooterDto = stationApiMapper.toUndockScooterDto(retrieveScooterRequest);
-		return dockingAndUndockingApplicationService.undock(undockScooterDto);
-	}
-	
-	public void returnScooter(ReturnScooterRequest returnScooterRequest) {
-		DockScooterDto dockScooterDto = stationApiMapper.toDockScooterDto(returnScooterRequest);
-		dockingAndUndockingApplicationService.dock(dockScooterDto);
-	}
+    private final DockingAndUndockingApplicationService dockingAndUndockingApplicationService;
+    private final StationApiMapper stationApiMapper;
+
+    public StationOperationEntry(
+            DockingAndUndockingApplicationService dockingAndUndockingApplicationService,
+            StationApiMapper stationApiMapper) {
+        this.dockingAndUndockingApplicationService = dockingAndUndockingApplicationService;
+        this.stationApiMapper = stationApiMapper;
+    }
+
+    public ScooterId retrieveScooter(RetrieveScooterRequest retrieveScooterRequest) {
+        UndockScooterDto undockScooterDto =
+                stationApiMapper.toUndockScooterDto(retrieveScooterRequest);
+        return dockingAndUndockingApplicationService.undock(undockScooterDto);
+    }
+
+    public void returnScooter(ReturnScooterRequest returnScooterRequest) {
+        DockScooterDto dockScooterDto = stationApiMapper.toDockScooterDto(returnScooterRequest);
+        dockingAndUndockingApplicationService.dock(dockScooterDto);
+    }
 }

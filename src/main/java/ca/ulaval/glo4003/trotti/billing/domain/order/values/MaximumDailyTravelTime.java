@@ -23,10 +23,10 @@ public class MaximumDailyTravelTime {
     public static MaximumDailyTravelTime from(Duration value) {
         return new MaximumDailyTravelTime(value);
     }
-	
-	public static MaximumDailyTravelTime baseTravelTime() {
-		return new MaximumDailyTravelTime(Duration.ofMinutes(BASE_DURATION_IN_MINUTES));
-	}
+
+    public static MaximumDailyTravelTime baseTravelTime() {
+        return new MaximumDailyTravelTime(Duration.ofMinutes(BASE_DURATION_IN_MINUTES));
+    }
 
     public Money calculateAmount() {
         long minutes = duration.toMinutes();

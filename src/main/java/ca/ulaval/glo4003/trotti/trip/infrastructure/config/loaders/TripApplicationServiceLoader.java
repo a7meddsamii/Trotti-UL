@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
@@ -58,8 +57,9 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
         TripMapper tripMapper = this.resourceLocator.resolve(TripMapper.class);
-        TripApplicationService tripApplicationService = new TripApplicationService(unlockCodeStore,
-                tripRepository, ridePermitGateway, scooterRentalGateway, eventBus, clock, tripMapper);
+        TripApplicationService tripApplicationService =
+                new TripApplicationService(unlockCodeStore, tripRepository, ridePermitGateway,
+                        scooterRentalGateway, eventBus, clock, tripMapper);
         this.resourceLocator.register(TripApplicationService.class, tripApplicationService);
     }
 }

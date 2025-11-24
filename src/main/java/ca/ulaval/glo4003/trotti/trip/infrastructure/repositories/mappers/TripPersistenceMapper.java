@@ -21,10 +21,12 @@ public class TripPersistenceMapper {
                 RidePermitId.from(record.ridePermitId().toString()),
                 Idul.from(record.idul().toString()), ScooterId.from(record.scooterId().toString()),
                 record.startTime(),
-                Location.of(record.startLocation().getBuilding(),
-                        record.startLocation().getSpotName()),
+                Location.of(
+                        record.startLocation().getBuilding(), record.startLocation().getSpotName()),
                 record.endTime(),
-                record.endLocation() == null ? null : Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName()),
+                record.endLocation() == null ? null
+                        : Location.of(record.endLocation().getBuilding(),
+                                record.endLocation().getSpotName()),
                 record.tripStatus());
     }
 }

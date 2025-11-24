@@ -92,19 +92,20 @@ public class RidePermit {
         this.permitState = RidePermitState.EXPIRED;
         return true;
     }
-	
-	public Money getBalance() {
-		Money totalBalance = Money.zeroCad();
-		
-		for (DailyBillingUsage dailyUsage : dailyBillingUsages.values()) {
-			totalBalance = totalBalance.plus(dailyUsage.getBalance());
-		}
-		
-		return totalBalance;
-	}
+
+    public Money getBalance() {
+        Money totalBalance = Money.zeroCad();
+
+        for (DailyBillingUsage dailyUsage : dailyBillingUsages.values()) {
+            totalBalance = totalBalance.plus(dailyUsage.getBalance());
+        }
+
+        return totalBalance;
+    }
 
     public boolean isActiveForRides(Idul riderId, LocalDate date) {
-        return this.riderId.equals(riderId) && this.session.contains(date) && this.permitState == RidePermitState.ACTIVE;
+        return this.riderId.equals(riderId) && this.session.contains(date)
+                && this.permitState == RidePermitState.ACTIVE;
     }
 
     public Duration getMaximumTravelingTimePerDay() {

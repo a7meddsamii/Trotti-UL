@@ -44,10 +44,12 @@ class StationControllerTest {
         stationMaintenanceApplicationService =
                 Mockito.mock(StationMaintenanceApplicationService.class);
         stationApiMapper = Mockito.mock(StationApiMapper.class);
-        dockingAndUndockingApplicationService = Mockito.mock(DockingAndUndockingApplicationService.class);
+        dockingAndUndockingApplicationService =
+                Mockito.mock(DockingAndUndockingApplicationService.class);
 
         controller = new StationController(transferApplicationService,
-                stationMaintenanceApplicationService, stationApiMapper, dockingAndUndockingApplicationService);
+                stationMaintenanceApplicationService, stationApiMapper,
+                dockingAndUndockingApplicationService);
     }
 
     @Test

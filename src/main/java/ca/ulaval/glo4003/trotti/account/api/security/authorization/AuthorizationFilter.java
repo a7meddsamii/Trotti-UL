@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.trotti.account.api.security.authorization;
 
-import static ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener.LOGGER;
-
 import ca.ulaval.glo4003.trotti.account.api.security.authentication.UserPrincipal;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;

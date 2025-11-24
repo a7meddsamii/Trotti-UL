@@ -92,7 +92,8 @@ public interface TripResource {
     @Operation(summary = "Obtenir l'historique des voyages",
             description = "Permet à un utilisateur d'obtenir l'historique de ses voyages.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Historique des voyages récupéré avec succès"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Historique des voyages récupéré avec succès"),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized: token manquant ou erroné"),})
     Response getTripHistory(@Parameter(hidden = true) @AuthenticatedUser Idul userId);

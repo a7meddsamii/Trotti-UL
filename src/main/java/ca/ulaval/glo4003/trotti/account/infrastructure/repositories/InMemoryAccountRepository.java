@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.infrastructure.mappers.AccountPersistenceMapper;
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,9 +40,10 @@ public class InMemoryAccountRepository implements AccountRepository {
         return Optional.ofNullable(accountTable.get(idul)).map(this.accountMapper::toEntity);
     }
 
-	@Override
-	public List<Account> findAllByAdvantage(Advantage advantage){
-		return accountTable.values().stream().filter(accountRecord -> accountRecord.advantages().contains(advantage))
-				.map(this.accountMapper::toEntity).toList();
-	}
+    @Override
+    public List<Account> findAllByAdvantage(Advantage advantage) {
+        return accountTable.values().stream()
+                .filter(accountRecord -> accountRecord.advantages().contains(advantage))
+                .map(this.accountMapper::toEntity).toList();
+    }
 }

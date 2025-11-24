@@ -11,7 +11,9 @@ public class CommunicationOrderPlacedHandler {
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public CommunicationOrderPlacedHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
+    public CommunicationOrderPlacedHandler(
+            EmailService emailService,
+            EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;
         this.emailMessageFactory = emailMessageFactory;
     }
@@ -19,8 +21,8 @@ public class CommunicationOrderPlacedHandler {
     public void handle(OrderPlacedEvent event) {
         Contact contact = Contact.findByIdul(event.getIdul());
 
-        EmailMessage emailMessage = emailMessageFactory.createOrderConfirmationMessage(
-                contact.getEmail(), event.getOrderId());
+        EmailMessage emailMessage = emailMessageFactory
+                .createOrderConfirmationMessage(contact.getEmail(), event.getOrderId());
 
         emailService.send(emailMessage);
     }

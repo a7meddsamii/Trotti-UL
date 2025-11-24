@@ -18,10 +18,8 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class StationController implements StationResource {
 
@@ -33,7 +31,8 @@ public class StationController implements StationResource {
     public StationController(
             TransferApplicationService transferApplicationService,
             StationMaintenanceApplicationService stationMaintenanceApplicationService,
-            StationApiMapper stationApiMapper, DockingAndUndockingApplicationService dockingAndUndockingApplicationService) {
+            StationApiMapper stationApiMapper,
+            DockingAndUndockingApplicationService dockingAndUndockingApplicationService) {
         this.transferApplicationService = transferApplicationService;
         this.stationMaintenanceApplicationService = stationMaintenanceApplicationService;
         this.stationApiMapper = stationApiMapper;

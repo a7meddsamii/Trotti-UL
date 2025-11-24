@@ -17,14 +17,15 @@ import jakarta.ws.rs.core.Response;
 @RolesAllowed({"TECHNICIAN", "EMPLOYEE", "STUDENT"})
 @RequiresPermissions({Permission.MAKE_TRIP})
 public interface RidePermitResource {
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	Response getRidePermits(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
-	
-	@GET
-	@Path("/{ridePermitId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	Response getRidePermit(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @PathParam("ridePermitId") String ridePermitId);
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    Response getRidePermits(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
+
+    @GET
+    @Path("/{ridePermitId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response getRidePermit(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @PathParam("ridePermitId") String ridePermitId);
 
 }

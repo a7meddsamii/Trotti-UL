@@ -4,14 +4,14 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.factory.RidePermitFact
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class RidePermitFactoryLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		loadRidePermitFactory();
-	}
-	
-	private void loadRidePermitFactory() {
-		RidePermitFactory ridePermitFactory = new RidePermitFactory();
-		this.resourceLocator.register(RidePermitFactory.class, ridePermitFactory);
-	}
+
+    @Override
+    public void load() {
+        loadRidePermitFactory();
+    }
+
+    private void loadRidePermitFactory() {
+        RidePermitFactory ridePermitFactory = new RidePermitFactory();
+        this.resourceLocator.register(RidePermitFactory.class, ridePermitFactory);
+    }
 }

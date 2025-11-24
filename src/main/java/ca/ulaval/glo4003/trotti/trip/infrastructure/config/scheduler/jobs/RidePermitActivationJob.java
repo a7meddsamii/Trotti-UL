@@ -17,6 +17,7 @@ public class RidePermitActivationJob implements Job {
             RidePermitActivationApplicationService service = ComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
+			service.deactivateRidePermit();
         } catch (Exception ignored) {}
     }
 }

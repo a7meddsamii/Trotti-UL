@@ -21,7 +21,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedE
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.RidePermitItemSnapshot;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-
 import java.util.List;
 
 public class OrderApplicationService {
@@ -57,19 +56,21 @@ public class OrderApplicationService {
 
         return orderAssembler.assemble(order);
     }
-	
-	public void grantFreeRidePermitItem(FreeRidePermitItemGrantDto freeRidePermitItemGrantDto){
-		Order order = new Order(OrderId.randomId(), freeRidePermitItemGrantDto.riderId());
-		RidePermitItem item = orderItemFactory.create(freeRidePermitItemGrantDto.session());
-		order.add(item);
-		order.confirm();
-		orderRepository.save(order);
-		
-		List<RidePermitItemSnapshot> purchasedRidePermits = orderAssembler.assembleRidePermitItemSnapshots(order);
-		eventBus.publish(new OrderPlacedEvent(order.getBuyerId(), order.getOrderId().toString(), purchasedRidePermits));
-	}
-	
-	public OrderDto getOngoingOrder(Idul buyerId) {
+
+    public void grantFreeRidePermitItem(FreeRidePermitItemGrantDto freeRidePermitItemGrantDto) {
+        Order order = new Order(OrderId.randomId(), freeRidePermitItemGrantDto.riderId());
+        RidePermitItem item = orderItemFactory.create(freeRidePermitItemGrantDto.session());
+        order.add(item);
+        order.confirm();
+        orderRepository.save(order);
+
+        List<RidePermitItemSnapshot> purchasedRidePermits =
+                orderAssembler.assembleRidePermitItemSnapshots(order);
+        eventBus.publish(new OrderPlacedEvent(order.getBuyerId(), order.getOrderId().toString(),
+                purchasedRidePermits));
+    }
+
+    public OrderDto getOngoingOrder(Idul buyerId) {
         Order order = findOngoingOrder(buyerId);
         return orderAssembler.assemble(order);
     }
@@ -95,29 +96,23 @@ public class OrderApplicationService {
 
         PaymentMethod paymentMethod = paymentGateway.getPaymentMethod(buyerId)
                 .orElseGet(() -> paymentMethodFactory.createCreditCard(
-                        confirmOrderDto.creditCardNumber(),
-                        confirmOrderDto.cardHolderName(),
-                        confirmOrderDto.expiryDate()
-                ));
+                        confirmOrderDto.creditCardNumber(), confirmOrderDto.cardHolderName(),
+                        confirmOrderDto.expiryDate()));
 
-        PaymentIntent intent = PaymentIntent.of(
-                buyerId,
-                order.getOrderId(),
-                order.getTotalCost(),
-                paymentMethod,
-                true
-        );
+        PaymentIntent intent = PaymentIntent.of(buyerId, order.getOrderId(), order.getTotalCost(),
+                paymentMethod, true);
 
         PaymentReceipt receipt = paymentGateway.pay(intent);
-        eventBus.publish(new TransactionCompletedEvent(buyerId,
-                receipt.getTransactionId().toString(),
-                receipt.isSuccess(),
-                receipt.getDescription()));
+        eventBus.publish(
+                new TransactionCompletedEvent(buyerId, receipt.getTransactionId().toString(),
+                        receipt.isSuccess(), receipt.getDescription()));
 
         if (receipt.isSuccess()) {
             order.confirm();
-            List<RidePermitItemSnapshot> purchasedRidePermits = orderAssembler.assembleRidePermitItemSnapshots(order);
-            eventBus.publish(new OrderPlacedEvent(buyerId, order.getOrderId().toString(), purchasedRidePermits));
+            List<RidePermitItemSnapshot> purchasedRidePermits =
+                    orderAssembler.assembleRidePermitItemSnapshots(order);
+            eventBus.publish(new OrderPlacedEvent(buyerId, order.getOrderId().toString(),
+                    purchasedRidePermits));
         }
 
         orderRepository.save(order);
