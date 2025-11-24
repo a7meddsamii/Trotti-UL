@@ -32,6 +32,14 @@ public class JsonSchoolSessionProvider implements SchoolSessionProvider {
     }
 
     @Override
+    public Optional<Session> getSession(String sessionCode) {
+        Set<Session> sessions =
+                readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());
+        return sessions.stream().filter(session -> session.getSemesterCode().equals(sessionCode))
+                .findFirst();
+    }
+
+    @Override
     public Optional<Session> getPreviousSession(LocalDate date) {
         Set<Session> sessions =
                 readSessions().stream().map(sessionMapper::toDomain).collect(Collectors.toSet());

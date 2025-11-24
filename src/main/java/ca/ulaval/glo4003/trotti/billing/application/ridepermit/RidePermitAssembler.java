@@ -8,18 +8,20 @@ import java.util.List;
 
 public class RidePermitAssembler {
     public RidePermitDto assemble(RidePermit ridePermit) {
-        return null;
+        return new RidePermitDto(ridePermit.getId(), ridePermit.getRiderId(),
+                ridePermit.getSession(), ridePermit.getMaximumTravelingTimePerDay(),
+                ridePermit.getPermitState(), ridePermit.getBalance());
     }
 
     public List<RidePermitDto> assemble(List<RidePermit> ridePermits) {
-        return null;
+        return ridePermits.stream().map(this::assemble).toList();
     }
 
     public List<RidePermitSnapshot> toRidePermitSnapshots(List<RidePermit> ridePermits) {
         List<RidePermitSnapshot> ridePermitSnapshots = new ArrayList<>();
 
         for (RidePermit ridePermit : ridePermits) {
-            RidePermitSnapshot snapshot = new RidePermitSnapshot(ridePermit.getRiderId().toString(),
+            RidePermitSnapshot snapshot = new RidePermitSnapshot(ridePermit.getRiderId(),
                     ridePermit.getId().toString(), ridePermit.getSession().getSemester().toString(),
                     ridePermit.getSession().getStartDate(), ridePermit.getSession().getEndDate());
             ridePermitSnapshots.add(snapshot);

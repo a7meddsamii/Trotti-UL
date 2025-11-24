@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMeth
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.CreditCardPaymentGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import java.time.Clock;
+import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +33,13 @@ class CreditCardPaymentGatewayTest {
     @Mock
     private OrderId orderId;
 
+    private Clock clock = Clock.systemDefaultZone();
+
     private CreditCardPaymentGateway creditCardPaymentGateway;
 
     @BeforeEach
     void setup() {
-        creditCardPaymentGateway = new CreditCardPaymentGateway();
+        creditCardPaymentGateway = new CreditCardPaymentGateway(clock);
     }
 
     @Test
@@ -43,6 +47,7 @@ class CreditCardPaymentGatewayTest {
         Idul buyerId = Idul.from("BUYER_001");
         when(creditCard.isEmpty()).thenReturn(false);
         when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
         PaymentIntent paymentIntent = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
 
         PaymentReceipt result = creditCardPaymentGateway.pay(paymentIntent);
@@ -66,6 +71,7 @@ class CreditCardPaymentGatewayTest {
         Idul buyerId = Idul.from("BUYER_003");
         when(creditCard.isEmpty()).thenReturn(false);
         when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
         PaymentIntent firstPayment = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
         creditCardPaymentGateway.pay(firstPayment);
 

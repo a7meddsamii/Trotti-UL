@@ -46,9 +46,13 @@ public class Session {
         return Objects.hash(semester, startDate, endDate);
     }
 
-    @Override
-    public String toString() {
+    public String getSemesterCode() {
         return semester.getCode().toString()
                 + String.format("%02d", getStartDate().getYear() % 100);
+    }
+
+    @Override
+    public String toString() {
+        return getSemesterCode();
     }
 }

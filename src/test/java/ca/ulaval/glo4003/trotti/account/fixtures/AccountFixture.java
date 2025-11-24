@@ -27,6 +27,7 @@ public class AccountFixture {
 
     public static final Role A_ROLE = Role.fromString(A_ROLE_STRING);
     public static final Set<Permission> A_SET_OF_PERMISSION = Set.of();
+    public static final Set<Advantage> A_SET_OF_ADVANTAGES = Set.of();
 
     private String name = A_NAME;
     private LocalDate birthDate = A_BIRTHDATE;
@@ -35,6 +36,7 @@ public class AccountFixture {
     private Email email = AN_EMAIL;
     private Role role = A_ROLE;
     private Set<Permission> permissions = A_SET_OF_PERMISSION;
+    private Set<Advantage> advantages = A_SET_OF_ADVANTAGES;
 
     public AccountFixture withBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -47,6 +49,6 @@ public class AccountFixture {
     }
 
     public Account build() {
-        return new Account(name, birthDate, gender, idul, email, role, permissions);
+        return new Account(name, birthDate, gender, idul, email, role, permissions, advantages);
     }
 }

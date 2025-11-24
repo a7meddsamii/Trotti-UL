@@ -8,5 +8,5 @@ public interface ScooterRentalGateway {
 
     ScooterId retrieveScooter(Location location, SlotNumber slotNumber);
 
-    void returnScooter(Location location, ScooterId scooterId, SlotNumber slotNumber);
+    void returnScooter(Location location, SlotNumber slotNumber, ScooterId scooterId);
 }

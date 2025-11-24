@@ -9,7 +9,9 @@ import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 
 public class TripController implements TripResource {
 
@@ -35,7 +37,6 @@ public class TripController implements TripResource {
 
     @Override
     public Response endTrip(Idul userId, EndTripRequest request) {
-
         EndTripDto endTripDto = tripApiMapper.toEndTripDto(userId, request);
 
         tripApplicationService.endTrip(endTripDto);
@@ -52,4 +53,12 @@ public class TripController implements TripResource {
                 new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
                 .build();
     }
+
+    @Override
+    public Response getTripHistory(Idul userId) {
+        List<TripDto> trips = tripApplicationService.getTripHistory(userId);
+
+        return Response.ok().entity(tripApiMapper.toTripHistory(trips)).build();
+    }
+
 }

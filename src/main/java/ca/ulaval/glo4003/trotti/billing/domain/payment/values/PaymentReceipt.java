@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.billing.domain.payment.values;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public final class PaymentReceipt {
@@ -9,21 +10,25 @@ public final class PaymentReceipt {
     private final OrderId orderId;
     private final Money amountPaid;
     private final boolean success;
+    private final String description;
+    private final LocalDateTime timestamp = LocalDateTime.now();
 
     private PaymentReceipt(
             TransactionId transactionId,
             OrderId orderId,
             Money amountPaid,
-            boolean success) {
+            boolean success,
+            String description) {
         this.transactionId = transactionId;
         this.orderId = orderId;
         this.amountPaid = amountPaid;
         this.success = success;
+        this.description = description;
     }
 
     public static PaymentReceipt of(TransactionId transactionId, OrderId orderId, Money amountPaid,
-            boolean success) {
-        return new PaymentReceipt(transactionId, orderId, amountPaid, success);
+            boolean success, String description) {
+        return new PaymentReceipt(transactionId, orderId, amountPaid, success, description);
     }
 
     public boolean isSuccess() {
@@ -36,6 +41,18 @@ public final class PaymentReceipt {
 
     public Money getAmountPaid() {
         return amountPaid;
+    }
+
+    public OrderId getOrderId() {
+        return orderId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public String getDescription() {
+        return timestamp + ":" + description;
     }
 
     @Override

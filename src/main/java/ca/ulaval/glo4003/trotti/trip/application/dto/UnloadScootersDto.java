@@ -6,5 +6,8 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.util.List;
 
-public record UnloadScootersDto(TransferId transferId, Idul technicianId, Location destinationStation, List<SlotNumber> destinationSlots) {
+public record UnloadScootersDto(TransferId transferId,
+                                Idul technicianId,
+                                Location destinationStation,
+                                List<SlotNumber> destinationSlots) {
 }

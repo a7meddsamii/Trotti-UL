@@ -1,9 +1,10 @@
-package ca.ulaval.glo4003.trotti.trip.domain.events;
+package ca.ulaval.glo4003.trotti.commons.domain.events.trip;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 
 public class MaintenanceRequestedEvent extends Event {
+
     private final String location;
     private final String message;
 

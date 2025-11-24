@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.service.RidePermitActivationFilter;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
-import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.ActivatedRidePermitEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitActivatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitSnapshot;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,9 +34,11 @@ public class RidePermitActivationApplicationService {
                 ridePermitActivationFilter.getActivatedRidePermits(foundRidePermits);
         ridePermitRepository.saveAll(activatedRidePermit);
 
-        List<RidePermitSnapshot> ridePermitSnapshots =
-                ridePermitAssembler.toRidePermitSnapshots(activatedRidePermit);
-        eventBus.publish(new ActivatedRidePermitEvent(ridePermitSnapshots));
+        if (!activatedRidePermit.isEmpty()) {
+            List<RidePermitSnapshot> ridePermitSnapshots =
+                    ridePermitAssembler.toRidePermitSnapshots(activatedRidePermit);
+            eventBus.publish(new RidePermitActivatedEvent(ridePermitSnapshots));
+        }
     }
 
     public void deactivateRidePermit() {

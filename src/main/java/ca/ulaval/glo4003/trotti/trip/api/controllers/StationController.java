@@ -7,28 +7,36 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.MaintenanceRequestRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartMaintenanceRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.UnloadScootersRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
+import ca.ulaval.glo4003.trotti.trip.application.DockingAndUndockingApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.StationMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.TransferApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.InitiateTransferDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartMaintenanceDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UnloadScootersDto;
+import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class StationController implements StationResource {
 
     private final TransferApplicationService transferApplicationService;
     private final StationMaintenanceApplicationService stationMaintenanceApplicationService;
     private final StationApiMapper stationApiMapper;
+    private final DockingAndUndockingApplicationService dockingAndUndockingApplicationService;
 
     public StationController(
             TransferApplicationService transferApplicationService,
             StationMaintenanceApplicationService stationMaintenanceApplicationService,
-            StationApiMapper stationApiMapper) {
+            StationApiMapper stationApiMapper,
+            DockingAndUndockingApplicationService dockingAndUndockingApplicationService) {
         this.transferApplicationService = transferApplicationService;
         this.stationMaintenanceApplicationService = stationMaintenanceApplicationService;
         this.stationApiMapper = stationApiMapper;
+        this.dockingAndUndockingApplicationService = dockingAndUndockingApplicationService;
     }
 
     @Override
@@ -78,4 +86,31 @@ public class StationController implements StationResource {
                 request.message());
         return Response.noContent().build();
     }
+
+    @Override
+    public Response getAvailableSlots(String location) {
+        Location stationLocation = Location.of(location);
+
+        List<SlotNumber> slots =
+                dockingAndUndockingApplicationService.findAvailableSlotsInStation(stationLocation);
+
+        List<Integer> slotNumbers =
+                slots.stream().map(SlotNumber::getValue).collect(Collectors.toList());
+
+        return Response.ok().entity(slotNumbers).build();
+    }
+
+    @Override
+    public Response getOccupiedSlots(String location) {
+        Location stationLocation = Location.of(location);
+
+        List<SlotNumber> slots =
+                dockingAndUndockingApplicationService.findOccupiedSlotsInStation(stationLocation);
+
+        List<Integer> slotNumbers =
+                slots.stream().map(SlotNumber::getValue).collect(Collectors.toList());
+
+        return Response.ok().entity(slotNumbers).build();
+    }
+
 }

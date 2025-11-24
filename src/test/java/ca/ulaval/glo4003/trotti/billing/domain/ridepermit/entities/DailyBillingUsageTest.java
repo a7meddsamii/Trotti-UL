@@ -42,7 +42,7 @@ class DailyBillingUsageTest {
     }
 
     @Test
-    void givenTravelTimeCrossesLimit_firstExceedAddsSingleFee() {
+    void givenTravelTimeCrossesLimit_whenAddingTravelTime_thenAddsExceedFeeToBalance() {
         DailyBillingUsage usage = newUsage(ONE_HOUR);
         usage.addTravelTime(FIFTY_MINUTES);
 
@@ -53,7 +53,7 @@ class DailyBillingUsageTest {
     }
 
     @Test
-    void givenLimitExceeded_multipleAddsKeepSingleFee() {
+    void givenLimitAlreadyExceeded_whenAddingTravelTimeAgain_thenSingleExceedFeeAdded() {
         DailyBillingUsage usage = newUsage(TWENTY_MINUTES);
         usage.addTravelTime(THIRTY_MINUTES);
 
@@ -75,7 +75,7 @@ class DailyBillingUsageTest {
     }
 
     @Test
-    void givenMultipleAdds_travelingTimeAccumulates() {
+    void whenAddingMultipleTravelTimes_thenTravelingTimeAccumulates() {
         DailyBillingUsage usage = newUsage(THIRTY_FIVE_MINUTES);
         usage.addTravelTime(TWENTY_MINUTES);
         usage.addTravelTime(THIRTY_MINUTES);
@@ -86,14 +86,14 @@ class DailyBillingUsageTest {
     }
 
     @Test
-    void givenMatchingDate_isOnDateReturnsTrue() {
+    void givenMatchingDate_whenIsOnDate_thenReturnsTrue() {
         DailyBillingUsage usage =
                 new DailyBillingUsage(THIRTY_MINUTES, TODAY, ZERO_DURATION, ZERO_CAD, false);
         assertTrue(usage.isOnDate(TODAY));
     }
 
     @Test
-    void givenDifferentDate_isOnDateReturnsFalse() {
+    void givenDifferentDate_whenIsOnDate_thenReturnsFalse() {
         DailyBillingUsage usage = new DailyBillingUsage(THIRTY_MINUTES, TODAY.minusDays(1),
                 ZERO_DURATION, ZERO_CAD, false);
         assertFalse(usage.isOnDate(TODAY));

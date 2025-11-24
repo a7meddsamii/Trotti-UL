@@ -9,9 +9,14 @@ import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationExceptio
 import ca.ulaval.glo4003.trotti.account.domain.factories.AccountFactory;
 import ca.ulaval.glo4003.trotti.account.domain.repositories.AccountRepository;
 import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
+import ca.ulaval.glo4003.trotti.account.domain.values.Advantage;
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequestEvent;
+import java.util.List;
 
 public class AccountApplicationService {
 
@@ -19,16 +24,19 @@ public class AccountApplicationService {
     private final AccountFactory accountFactory;
     private final SessionTokenProvider sessionTokenProvider;
     private final AuthenticationProvider authenticationProvider;
+    private final EventBus eventBus;
 
     public AccountApplicationService(
             AccountRepository accountRepository,
             AccountFactory accountFactory,
             SessionTokenProvider sessionTokenProvider,
-            AuthenticationProvider authenticationProvider) {
+            AuthenticationProvider authenticationProvider,
+            EventBus eventBus) {
         this.accountRepository = accountRepository;
         this.accountFactory = accountFactory;
         this.sessionTokenProvider = sessionTokenProvider;
         this.authenticationProvider = authenticationProvider;
+        this.eventBus = eventBus;
     }
 
     public Idul createAccount(RegistrationDto registrationDto) {
@@ -37,6 +45,10 @@ public class AccountApplicationService {
         Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role());
         accountRepository.save(account);
+
+        List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(), account.getName(),
+                account.getEmail().toString(), account.getRole().toString(), advantages));
 
         return account.getIdul();
     }
@@ -52,7 +64,20 @@ public class AccountApplicationService {
                 creatorAccount.getPermissions());
         accountRepository.save(account);
 
+        List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(), account.getName(),
+                account.getEmail().toString(), account.getRole().toString(), advantages));
+
         return account.getIdul();
+    }
+
+    public void renewAdvantage(Advantage advantage) {
+        List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
+
+        if (!accountFound.isEmpty()) {
+            List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
+            eventBus.publish(new ApplyAdvantageRequestEvent(advantage.name(), accountIds));
+        }
     }
 
     public SessionToken login(LoginDto loginDto) {

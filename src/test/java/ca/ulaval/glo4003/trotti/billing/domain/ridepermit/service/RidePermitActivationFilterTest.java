@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
@@ -68,8 +69,10 @@ class RidePermitActivationFilterTest {
 
     @Test
     void whenGetDeactivatedRidePermits_thenFilterPermitsBasedOnCurrentSession() {
-        Session session = mock(Session.class);
-        when(schoolSessionProvider.getSession(CURRENT_DATE)).thenReturn(Optional.of(session));
+        Session session =
+                new Session(Semester.WINTER, LocalDate.of(2024, 9, 7), LocalDate.of(2024, 12, 29));
+        when(schoolSessionProvider.getPreviousSession(CURRENT_DATE))
+                .thenReturn(Optional.of(session));
 
         RidePermit deactivablePermit = mock(RidePermit.class);
         RidePermit nonDeactivablePermit = mock(RidePermit.class);
@@ -84,15 +87,14 @@ class RidePermitActivationFilterTest {
     }
 
     @Test
-	void givenNoCurrentSession_whenGettingDeactivatedRidePermits_thenThrowException() {
-		when(schoolSessionProvider.getSession(CURRENT_DATE)).thenReturn(Optional.empty());
-		RidePermit permit = mock(RidePermit.class);
-		List<RidePermit> permits = List.of(permit);
-		
-		Executable executable = () -> filter.getDeactivatedRidePermits((permits));
-		
-		Assertions.assertThrows(NotFoundException.class, executable);
-	}
+    void givenNoCurrentSession_whenGettingDeactivatedRidePermits_thenThrowException() {
+        RidePermit permit = mock(RidePermit.class);
+        List<RidePermit> permits = List.of(permit);
+
+        Executable executable = () -> filter.getDeactivatedRidePermits((permits));
+
+        Assertions.assertThrows(NotFoundException.class, executable);
+    }
 
     @Test
     void whenGetCurrentSessionDate_thenReturnCurrentDate() {

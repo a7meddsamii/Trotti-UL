@@ -9,25 +9,23 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.factory.RidePermitFact
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-
 import java.time.*;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class RidePermitApplicationServiceTest {
-	private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
-	private static final Idul A_RIDER_IDUL = Mockito.mock(Idul.class);
+    private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
+    private static final Idul A_RIDER_IDUL = Mockito.mock(Idul.class);
 
     private RidePermitFactory ridePermitFactory;
     private RidePermitRepository ridePermitRepository;
     private PaymentGateway paymentGateway;
     private RidePermitAssembler ridePermitAssembler;
-	private Clock clock;
+    private Clock clock;
 
     private RidePermitApplicationService ridePermitApplicationService;
 
@@ -37,7 +35,7 @@ class RidePermitApplicationServiceTest {
         ridePermitRepository = Mockito.mock(RidePermitRepository.class);
         paymentGateway = Mockito.mock(PaymentGateway.class);
         ridePermitAssembler = Mockito.mock(RidePermitAssembler.class);
-		clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
+        clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
         this.ridePermitApplicationService = new RidePermitApplicationService(ridePermitFactory,
                 ridePermitRepository, paymentGateway, ridePermitAssembler, clock);
     }
@@ -81,7 +79,8 @@ class RidePermitApplicationServiceTest {
         Mockito.when(addTravelTimeDto.startDateTime()).thenReturn(LocalDateTime.now());
         Mockito.when(addTravelTimeDto.travelTime()).thenReturn(Duration.ofMinutes(10));
         RidePermit ridePermit = Mockito.mock(RidePermit.class);
-        Mockito.when(ridePermitRepository.findById(Mockito.any())).thenReturn(Optional.of(ridePermit));
+        Mockito.when(ridePermitRepository.findById(Mockito.any()))
+                .thenReturn(Optional.of(ridePermit));
 
         ridePermitApplicationService.addTravelTime(A_RIDER_IDUL, addTravelTimeDto);
 

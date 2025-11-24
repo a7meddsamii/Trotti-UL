@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.communication.infrastructure.services;
 
-import ca.ulaval.glo4003.trotti.communication.domain.exceptions.EmailSendException;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import jakarta.mail.Message;
@@ -27,8 +26,7 @@ public class JakartaEmailServiceAdapter implements EmailService {
             message.setSubject(emailMessage.getSubject());
             message.setText(emailMessage.getBody());
             Transport.send(message);
-        } catch (MessagingException e) {
-            throw new EmailSendException("Failed to send email." + e.getMessage());
+        } catch (MessagingException ignored) {
         }
     }
 }

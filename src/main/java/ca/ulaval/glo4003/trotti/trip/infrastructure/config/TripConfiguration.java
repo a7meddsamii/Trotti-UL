@@ -21,10 +21,11 @@ public class TripConfiguration extends Configuration {
 
     @Override
     protected void load() {
-        new TripRegistryLoader().load();
-        new TripForeignServiceLoader().load();
         new TripMapperLoader().load();
         new TripRepositoryLoader().load();
+        new TripGatewayEntryLoader().load();
+        new TripRegistryLoader().load();
+        new TripForeignServiceLoader().load();
         new TripFactoryLoader().load();
         new TripApplicationServiceLoader().load();
         new TripResourceLoader().load();
