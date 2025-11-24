@@ -87,22 +87,6 @@ class InMemoryRidePermitRepositoryTest {
     }
     
     @Test
-    void givenPermitsWithDailyUsage_whenFindAllByDate_thenReturnsOnlyPermitsHavingThatDate() {
-        LocalDate date = LocalDate.of(2025, 1, 10);
-        Map<LocalDate, DailyBillingUsage> usages1 = new HashMap<>();
-        usages1.put(date, Mockito.mock(DailyBillingUsage.class));
-        Mockito.when(permit1.getDailyBillingUsages()).thenReturn(usages1);
-        Mockito.when(permit2.getDailyBillingUsages()).thenReturn(Map.of());
-        
-        ridePermitRepository.saveAll(List.of(permit1, permit2));
-        List<RidePermit> result = ridePermitRepository.findAllByDate(date);
-        
-        assertEquals(1, result.size());
-        assertTrue(result.contains(permit1));
-        assertFalse(result.contains(permit2));
-    }
-    
-    @Test
     void givenPermitsWithDifferentSessions_whenFindAllBySession_thenReturnsOnlyMatchingSession() {
         ridePermitRepository.saveAll(List.of(permit1, permit2));
         

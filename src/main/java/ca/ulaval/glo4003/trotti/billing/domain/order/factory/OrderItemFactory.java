@@ -13,4 +13,8 @@ public class OrderItemFactory {
         return new RidePermitItem(ItemId.randomId(), maximumTravelingTime, session,
                 billingFrequency);
     }
+	
+	public RidePermitItem create(Session session) {
+		return create(MaximumDailyTravelTime.baseTravelTime(), session, BillingFrequency.MONTHLY);
+	}
 }

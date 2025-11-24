@@ -3,28 +3,30 @@ package ca.ulaval.glo4003.trotti.billing.api.order.mapper;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.ItemRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.response.ItemListResponse;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
-import ca.ulaval.glo4003.trotti.billing.application.order.dto.RidePermitItemDto;
+import ca.ulaval.glo4003.trotti.billing.application.order.dto.*;
 import ca.ulaval.glo4003.trotti.billing.domain.order.provider.SchoolSessionProvider;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.BillingFrequency;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMethodType;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 
+import java.time.Clock;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
 public class OrderApiMapper {
 	
 	private final SchoolSessionProvider schoolSessionProvider;
+	private final Clock clock;
 	
-	public OrderApiMapper(SchoolSessionProvider schoolSessionProvider) {
+	public OrderApiMapper(SchoolSessionProvider schoolSessionProvider, Clock clock) {
 		this.schoolSessionProvider = schoolSessionProvider;
+		this.clock = clock;
 	}
 	
 	public ItemListResponse toItemListResponse(OrderDto orderDto) {
@@ -76,4 +78,15 @@ public class OrderApiMapper {
                 YearMonth.parse(paymentInfoRequest.expirationDate()) //TODO validation
         );
     }
+	
+	public FreeRidePermitItemGrantDto toFreeRidePermitItemGrantDto(Idul buyerId) {
+		LocalDate date = LocalDate.now(clock);
+		Session session = schoolSessionProvider.getSession(date)
+				.orElseThrow(() -> new NotFoundException("No Session found for date " + date));
+		return new FreeRidePermitItemGrantDto(buyerId, session);
+	}
+	
+	public List<FreeRidePermitItemGrantDto> toFreeRidePermitItemGrantDtos(List<Idul> buyerIds) {
+		return buyerIds.stream().map(this::toFreeRidePermitItemGrantDto).toList();
+	}
 }

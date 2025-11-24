@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.file.Path;
+import java.time.Clock;
 
 public class OrderMapperLoader extends Bootstrapper {
 
@@ -34,7 +35,8 @@ public class OrderMapperLoader extends Bootstrapper {
 	
 	private void loadOrderApiMapper() {
 		SchoolSessionProvider schoolSessionProvider = this.resourceLocator.resolve(SchoolSessionProvider.class);
-		OrderApiMapper orderApiMapper = new OrderApiMapper(schoolSessionProvider);
+		Clock clock = this.resourceLocator.resolve(Clock.class);
+		OrderApiMapper orderApiMapper = new OrderApiMapper(schoolSessionProvider, clock);
 		this.resourceLocator.register(OrderApiMapper.class, orderApiMapper);
 	}
 

@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.commons.domain.events.account;
 
-import ca.ulaval.glo4003.trotti.account.domain.values.Advantage;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.Event;
 
@@ -9,20 +8,20 @@ import java.util.List;
 
 public class ApplyAdvantageRequestEvent extends Event {
 	
-	private final Advantage advantage;
-	private final List<Idul> applicableIduls;
+	private final String advantage;
+	private final List<Idul> eligibleUserIds;
 	
-	public ApplyAdvantageRequestEvent(Advantage advantage, List<Idul> applicableIduls) {
+	public ApplyAdvantageRequestEvent(String advantage, List<Idul> eligibleUserIds) {
 		super(null, "account.apply.advantage.request");
 		this.advantage = advantage;
-		this.applicableIduls = applicableIduls;
+		this.eligibleUserIds = eligibleUserIds;
 	}
 	
-	public Advantage getAdvantage() {
+	public String getAdvantage() {
 		return advantage;
 	}
 	
-	public List<Idul> getApplicableIduls() {
-		return Collections.unmodifiableList(applicableIduls);
+	public List<Idul> getEligibleUserIds() {
+		return Collections.unmodifiableList(eligibleUserIds);
 	}
 }

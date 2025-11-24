@@ -59,14 +59,15 @@ public class OrderApplicationService {
     }
 	
 	public void grantFreeRidePermitItem(FreeRidePermitItemGrantDto freeRidePermitItemGrantDto){
-//		Order order = orderRepository.findOngoingOrderFor(freeRidePermitItemGrantDto.buyerId())
-//		.orElseGet(() -> new Order(OrderId.randomId(), freeRidePermitItemGrantDto.buyerId()));
-//		
-//		order.add(item);
-//		order.confirm();
-//		orderRepository.save(order);
+		Order order = new Order(OrderId.randomId(), freeRidePermitItemGrantDto.riderId());
+		RidePermitItem item =orderItemFactory.create( freeRidePermitItemGrantDto.session());
+		order.add(item);
+		order.confirm();
+		orderRepository.save(order);
+		
+		List<RidePermitItemSnapshot> purchasedRidePermits = orderAssembler.assembleRidePermitItemSnapshots(order);
+		eventBus.publish(new OrderPlacedEvent(order.getBuyerId(), order.getOrderId().toString(), purchasedRidePermits));
 	}
-	
 	
 	public OrderDto getOngoingOrder(Idul buyerId) {
         Order order = findOngoingOrder(buyerId);
