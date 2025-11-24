@@ -78,7 +78,7 @@ public class AccountApplicationService {
         return account.getIdul();
     }
 	
-	public void applyAdvantages(Advantage advantage){
+	public void renewAdvantage(Advantage advantage){
 		List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
 		
 		if (!accountFound.isEmpty()) {

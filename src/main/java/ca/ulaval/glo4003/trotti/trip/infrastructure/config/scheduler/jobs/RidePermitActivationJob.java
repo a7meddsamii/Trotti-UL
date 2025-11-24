@@ -11,19 +11,12 @@ import org.slf4j.LoggerFactory;
 
 @DisallowConcurrentExecution
 public class RidePermitActivationJob implements Job {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RidePermitActivationJob.class);
-
     @Override
-    public void execute(JobExecutionContext ctx) throws JobExecutionException {
+    public void execute(JobExecutionContext ctx) {
         try {
             RidePermitActivationApplicationService service = ComponentLocator.getInstance()
                     .resolve(RidePermitActivationApplicationService.class);
             service.activateRidePermit();
-//            LOGGER.info("RidePermitActivationJob executed");
-        } catch (Exception e) {
-			// TODO uncomment later
-//            LOGGER.error("RidePermitActivationJob failed");
-//            throw new JobExecutionException(e, false);
-        }
+        } catch (Exception ignored) {}
     }
 }
