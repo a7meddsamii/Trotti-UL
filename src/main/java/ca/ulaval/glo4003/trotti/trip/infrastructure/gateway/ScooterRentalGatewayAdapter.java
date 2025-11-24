@@ -8,23 +8,24 @@ import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
 
-//TODO Fix docking undocking logic
 public class ScooterRentalGatewayAdapter implements ScooterRentalGateway {
-	private final StationOperationEntry stationOperationEntry;
-	
-	public ScooterRentalGatewayAdapter(StationOperationEntry stationOperationEntry) {
-		this.stationOperationEntry = stationOperationEntry;
-	}
-	
-	@Override
+    private final StationOperationEntry stationOperationEntry;
+
+    public ScooterRentalGatewayAdapter(StationOperationEntry stationOperationEntry) {
+        this.stationOperationEntry = stationOperationEntry;
+    }
+
+    @Override
     public ScooterId retrieveScooter(Location location, SlotNumber slotNumber) {
-		RetrieveScooterRequest retrieveScooterRequest = new RetrieveScooterRequest(location, slotNumber);
-		return stationOperationEntry.retrieveScooter(retrieveScooterRequest);
+        RetrieveScooterRequest retrieveScooterRequest =
+                new RetrieveScooterRequest(location, slotNumber);
+        return stationOperationEntry.retrieveScooter(retrieveScooterRequest);
     }
 
     @Override
     public void returnScooter(Location location, SlotNumber slotNumber, ScooterId scooterId) {
-		ReturnScooterRequest returnScooterRequest = new ReturnScooterRequest(location, slotNumber, scooterId);
-		stationOperationEntry.returnScooter(returnScooterRequest);
+        ReturnScooterRequest returnScooterRequest =
+                new ReturnScooterRequest(location, slotNumber, scooterId);
+        stationOperationEntry.returnScooter(returnScooterRequest);
     }
 }

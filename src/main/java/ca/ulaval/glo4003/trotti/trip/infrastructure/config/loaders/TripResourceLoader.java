@@ -31,7 +31,8 @@ public class TripResourceLoader extends Bootstrapper {
         DockingAndUndockingApplicationService dockingAndUndockingApplicationService =
                 this.resourceLocator.resolve(DockingAndUndockingApplicationService.class);
         StationController stationController = new StationController(transferApplicationService,
-                stationMaintenanceApplicationService, stationApiMapper, dockingAndUndockingApplicationService);
+                stationMaintenanceApplicationService, stationApiMapper,
+                dockingAndUndockingApplicationService);
 
         this.resourceLocator.register(StationResource.class, stationController);
     }

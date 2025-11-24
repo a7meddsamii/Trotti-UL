@@ -11,20 +11,20 @@ public class RidePermitActivationHandler {
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public RidePermitActivationHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
+    public RidePermitActivationHandler(
+            EmailService emailService,
+            EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;
         this.emailMessageFactory = emailMessageFactory;
     }
 
     public void handle(RidePermitActivatedEvent event) {
-        event.getRidePermitSnapshot().forEach(
-                s -> {
-                    Contact contact = Contact.findByIdul(s.idul());
-                    EmailMessage emailMessage = emailMessageFactory.createRidePermitActivationMessage(contact.getEmail(),
-                            s);
+        event.getRidePermitSnapshot().forEach(s -> {
+            Contact contact = Contact.findByIdul(s.idul());
+            EmailMessage emailMessage =
+                    emailMessageFactory.createRidePermitActivationMessage(contact.getEmail(), s);
 
-                    emailService.send(emailMessage);
-                }
-        );
+            emailService.send(emailMessage);
+        });
     }
 }

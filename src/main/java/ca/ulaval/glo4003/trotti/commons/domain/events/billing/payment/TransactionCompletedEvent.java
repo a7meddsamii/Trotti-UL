@@ -14,9 +14,9 @@ public class TransactionCompletedEvent extends Event {
             String transactionId,
             boolean isSuccessful,
             String transactionDescription) {
-        super(idul, "transaction." + (isSuccessful? "success" : "failed"));
+        super(idul, "transaction." + (isSuccessful ? "success" : "failed"));
         this.transactionId = transactionId;
-        this.transactionStatus = (isSuccessful? "success" : "failed");
+        this.transactionStatus = (isSuccessful ? "success" : "failed");
         this.transactionDescription = transactionDescription;
     }
 

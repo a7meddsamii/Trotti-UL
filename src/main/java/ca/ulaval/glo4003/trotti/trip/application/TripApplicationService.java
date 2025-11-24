@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.trotti.trip.application;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
@@ -10,8 +12,6 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
 import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
-import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
-import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
@@ -38,7 +38,8 @@ public class TripApplicationService {
             RidePermitGateway ridePermitGateway,
             ScooterRentalGateway scooterRentalGateway,
             EventBus eventBus,
-            Clock clock, TripMapper tripMapper) {
+            Clock clock,
+            TripMapper tripMapper) {
         this.unlockCodeStore = unlockCodeStore;
         this.tripRepository = tripRepository;
         this.ridePermitGateway = ridePermitGateway;

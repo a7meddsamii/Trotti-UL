@@ -28,94 +28,95 @@ import jakarta.ws.rs.core.Response;
 @RequiresPermissions({Permission.CART_MODIFICATION, Permission.ORDER_CONFIRM})
 @Tag(name = "Order", description = "Endpoints for managing the user's order")
 public interface OrderResource {
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@SecurityRequirement(name = "auth")
-	@Operation(summary = "Ajoute un item à la commande",
-			description = "Ajoute un item à la commande",
-			requestBody = @RequestBody(description = "L'item à ajouter",
-					required = true,
-					content = @Content(mediaType = MediaType.APPLICATION_JSON,
-							schema = @Schema(implementation = ItemRequest.class))),
-			parameters = {@Parameter(name = "Authorization",
-					description = "Authorization token - JWT", required = true,
-					in = ParameterIn.HEADER,
-					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {
-					@ApiResponse(responseCode = "200", description = "Commande mise à jour",
-							content = @Content(
-									schema = @Schema(implementation = ItemListResponse.class))),
-					@ApiResponse(responseCode = "400", description = "Request invalide",
-							content = @Content),
-					@ApiResponse(responseCode = "401",
-							description = "Unauthorized: token manquant ou erroné",
-							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class)))})
-	Response addItem(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
-					 @Valid ItemRequest request);
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Ajoute un item à la commande",
+            description = "Ajoute un item à la commande",
+            requestBody = @RequestBody(description = "L'item à ajouter", required = true,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = ItemRequest.class))),
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Commande mise à jour",
+                            content = @Content(
+                                    schema = @Schema(implementation = ItemListResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Request invalide",
+                            content = @Content),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response addItem(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @Valid ItemRequest request);
 
     @POST
     @Path("/confirm")
     @SecurityRequirement(name = "auth")
     @Produces(MediaType.APPLICATION_JSON)
     Response confirm(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
-                     @Valid PaymentInfoRequest paymentInfoRequest);
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(summary = "Retourne la commande", description = "Retourne la commande courante de l'utilisateur",
-			parameters = {@Parameter(name = "Authorization",
-					description = "Authorization token - JWT", required = true,
-					in = ParameterIn.HEADER,
-					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {
-					@ApiResponse(responseCode = "200", description = "Commande retournée avec succès",
-							content = @Content(
-									schema = @Schema(implementation = ItemListResponse.class))),
-					@ApiResponse(responseCode = "401",
-							description = "Unauthorized: token manquant ou erroné",
-							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class))),
+            @Valid PaymentInfoRequest paymentInfoRequest);
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retourne la commande",
+            description = "Retourne la commande courante de l'utilisateur",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Commande retournée avec succès",
+                            content = @Content(
+                                    schema = @Schema(implementation = ItemListResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not found: Pas de commande courante pour cet utilisateur")})
-	Response getOngoingOrder(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
-	
-	@DELETE
-	@Path("/{itemId}")
-	@SecurityRequirement(name = "auth")
-	@Operation(summary = "Supprime un item à la commande",
-			description = "Supprime l'item identifié par itemId de la commande — on l'enlève, c'est simple.",
-			parameters = {@Parameter(name = "Authorization",
-					description = "Authorization token - JWT", required = true,
-					in = ParameterIn.HEADER,
-					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {
-					@ApiResponse(responseCode = "204", description = "Item enlevé",
-							content = @Content(
-									schema = @Schema(implementation = ItemListResponse.class))),
-					@ApiResponse(responseCode = "401",
-							description = "Unauthorized: token manquant ou erroné",
-							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class)))})
-	Response removeItem(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
-							@Parameter(description = "ID de l'item à enlever") @PathParam("itemId") String itemId);
-	
-	@DELETE
-	@SecurityRequirement(name = "auth")
-	@Operation(summary = "Vide la commande", description = "Vide la commande au complet.",
-			parameters = {@Parameter(name = "Authorization",
-					description = "Authorization token - JWT", required = true,
-					in = ParameterIn.HEADER,
-					schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
-			responses = {
-					@ApiResponse(responseCode = "204", description = "Commande vidée",
-							content = @Content(
-									schema = @Schema(implementation = ItemListResponse.class))),
-					@ApiResponse(responseCode = "401",
-							description = "Unauthorized: token manquant ou erroné",
-							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class)))})
-	Response removeAllItems(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
+    Response getOngoingOrder(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
+
+    @DELETE
+    @Path("/{itemId}")
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Supprime un item à la commande",
+            description = "Supprime l'item identifié par itemId de la commande — on l'enlève, c'est simple.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Item enlevé",
+                            content = @Content(
+                                    schema = @Schema(implementation = ItemListResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response removeItem(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @Parameter(description = "ID de l'item à enlever") @PathParam("itemId") String itemId);
+
+    @DELETE
+    @SecurityRequirement(name = "auth")
+    @Operation(summary = "Vide la commande", description = "Vide la commande au complet.",
+            parameters = {@Parameter(name = "Authorization",
+                    description = "Authorization token - JWT", required = true,
+                    in = ParameterIn.HEADER,
+                    schema = @Schema(type = "string", example = "eyJhbGciOiJIUzI1NiJ9..."))},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Commande vidée",
+                            content = @Content(
+                                    schema = @Schema(implementation = ItemListResponse.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized: token manquant ou erroné",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiErrorResponse.class)))})
+    Response removeAllItems(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
 }

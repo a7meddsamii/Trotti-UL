@@ -20,27 +20,38 @@ public class EventSubscriptionLoader extends Bootstrapper {
     public void load() {
         EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
 
-        CommunicationAccountCreatedHandler communicationAccountCreatedHandler = this.resourceLocator.resolve(CommunicationAccountCreatedHandler.class);
-        CommunicationMaintenanceRequestedHandler communicationMaintenanceRequestedHandler = this.resourceLocator.resolve(CommunicationMaintenanceRequestedHandler.class);
-        CommunicationOrderPlacedHandler communicationOrderPlacedHandler = this.resourceLocator.resolve(CommunicationOrderPlacedHandler.class);
-        CommunicationTransactionCompletedHandler communicationTransactionCompletedHandler = this.resourceLocator.resolve(CommunicationTransactionCompletedHandler.class);
-        CommunicationUnlockCodeRequestedHandler communicationUnlockCodeRequestedHandler = this.resourceLocator.resolve(CommunicationUnlockCodeRequestedHandler.class);
-        RidePermitActivationHandler ridePermitActivationHandler = this.resourceLocator.resolve(RidePermitActivationHandler.class);
-        RidePermitEventHandler ridePermitEventHandler = this.resourceLocator.resolve(RidePermitEventHandler.class);
-		OrderEventHandler orderEventHandler = this.resourceLocator.resolve(OrderEventHandler.class);
-		
-		eventBus.subscribe(AccountCreatedEvent.class, communicationAccountCreatedHandler::handle);
-		eventBus.subscribe(MaintenanceRequestedEvent.class, communicationMaintenanceRequestedHandler::handle);
-		eventBus.subscribe(OrderPlacedEvent.class, communicationOrderPlacedHandler::handle);
-		eventBus.subscribe(TransactionCompletedEvent.class, communicationTransactionCompletedHandler::handle);
-		eventBus.subscribe(UnlockCodeRequestedEvent.class, communicationUnlockCodeRequestedHandler::handle);
-		
-		eventBus.subscribe(RidePermitActivatedEvent.class, ridePermitActivationHandler::handle);
-		eventBus.subscribe(OrderPlacedEvent.class, ridePermitEventHandler::onOrderPlaced);
-		eventBus.subscribe(TripCompletedEvent.class, ridePermitEventHandler::onTripCompleted);
-		
-		eventBus.subscribe(AccountCreatedEvent.class, orderEventHandler::onAccountCreated);
-		eventBus.subscribe(ApplyAdvantageRequestEvent.class, orderEventHandler::onApplyAdvantageRequestEvent);
-		
+        CommunicationAccountCreatedHandler communicationAccountCreatedHandler =
+                this.resourceLocator.resolve(CommunicationAccountCreatedHandler.class);
+        CommunicationMaintenanceRequestedHandler communicationMaintenanceRequestedHandler =
+                this.resourceLocator.resolve(CommunicationMaintenanceRequestedHandler.class);
+        CommunicationOrderPlacedHandler communicationOrderPlacedHandler =
+                this.resourceLocator.resolve(CommunicationOrderPlacedHandler.class);
+        CommunicationTransactionCompletedHandler communicationTransactionCompletedHandler =
+                this.resourceLocator.resolve(CommunicationTransactionCompletedHandler.class);
+        CommunicationUnlockCodeRequestedHandler communicationUnlockCodeRequestedHandler =
+                this.resourceLocator.resolve(CommunicationUnlockCodeRequestedHandler.class);
+        RidePermitActivationHandler ridePermitActivationHandler =
+                this.resourceLocator.resolve(RidePermitActivationHandler.class);
+        RidePermitEventHandler ridePermitEventHandler =
+                this.resourceLocator.resolve(RidePermitEventHandler.class);
+        OrderEventHandler orderEventHandler = this.resourceLocator.resolve(OrderEventHandler.class);
+
+        eventBus.subscribe(AccountCreatedEvent.class, communicationAccountCreatedHandler::handle);
+        eventBus.subscribe(MaintenanceRequestedEvent.class,
+                communicationMaintenanceRequestedHandler::handle);
+        eventBus.subscribe(OrderPlacedEvent.class, communicationOrderPlacedHandler::handle);
+        eventBus.subscribe(TransactionCompletedEvent.class,
+                communicationTransactionCompletedHandler::handle);
+        eventBus.subscribe(UnlockCodeRequestedEvent.class,
+                communicationUnlockCodeRequestedHandler::handle);
+
+        eventBus.subscribe(RidePermitActivatedEvent.class, ridePermitActivationHandler::handle);
+        eventBus.subscribe(OrderPlacedEvent.class, ridePermitEventHandler::onOrderPlaced);
+        eventBus.subscribe(TripCompletedEvent.class, ridePermitEventHandler::onTripCompleted);
+
+        eventBus.subscribe(AccountCreatedEvent.class, orderEventHandler::onAccountCreated);
+        eventBus.subscribe(ApplyAdvantageRequestEvent.class,
+                orderEventHandler::onApplyAdvantageRequestEvent);
+
     }
 }

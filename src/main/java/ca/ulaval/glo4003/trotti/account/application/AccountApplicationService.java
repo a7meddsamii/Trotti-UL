@@ -16,7 +16,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequestEvent;
-
 import java.util.List;
 
 public class AccountApplicationService {
@@ -46,13 +45,10 @@ public class AccountApplicationService {
         Account account = accountFactory.create(accountDto.name(), accountDto.birthDate(),
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role());
         accountRepository.save(account);
-		
-		List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
-        eventBus.publish(new AccountCreatedEvent(account.getIdul(),
-                account.getName(),
-                account.getEmail().toString(),
-                account.getRole().toString(),
-				advantages));
+
+        List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(), account.getName(),
+                account.getEmail().toString(), account.getRole().toString(), advantages));
 
         return account.getIdul();
     }
@@ -67,25 +63,22 @@ public class AccountApplicationService {
                 accountDto.gender(), accountDto.idul(), accountDto.email(), accountDto.role(),
                 creatorAccount.getPermissions());
         accountRepository.save(account);
-		
-		List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
-		eventBus.publish(new AccountCreatedEvent(account.getIdul(),
-				 account.getName(),
-				 account.getEmail().toString(),
-				 account.getRole().toString(),
-				 advantages));
+
+        List<String> advantages = account.getAdvantages().stream().map(Advantage::name).toList();
+        eventBus.publish(new AccountCreatedEvent(account.getIdul(), account.getName(),
+                account.getEmail().toString(), account.getRole().toString(), advantages));
 
         return account.getIdul();
     }
-	
-	public void applyAdvantages(Advantage advantage){
-		List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
-		
-		if (!accountFound.isEmpty()) {
-			List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
-			eventBus.publish(new ApplyAdvantageRequestEvent(advantage.name(), accountIds));
-		}
-	}
+
+    public void applyAdvantages(Advantage advantage) {
+        List<Account> accountFound = accountRepository.findAllByAdvantage(advantage);
+
+        if (!accountFound.isEmpty()) {
+            List<Idul> accountIds = accountFound.stream().map(Account::getIdul).toList();
+            eventBus.publish(new ApplyAdvantageRequestEvent(advantage.name(), accountIds));
+        }
+    }
 
     public SessionToken login(LoginDto loginDto) {
         Email email = authenticationProvider.verify(loginDto);

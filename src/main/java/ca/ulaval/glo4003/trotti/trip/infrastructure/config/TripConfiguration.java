@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config;
 
-import ca.ulaval.glo4003.trotti.billing.infrastructure.config.loaders.ridepermit.RidePermitGatewayEntryLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders.*;
 

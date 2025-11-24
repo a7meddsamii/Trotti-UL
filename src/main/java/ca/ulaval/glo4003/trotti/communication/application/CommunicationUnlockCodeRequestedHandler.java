@@ -1,17 +1,19 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
 import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 
 public class CommunicationUnlockCodeRequestedHandler {
 
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public CommunicationUnlockCodeRequestedHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
+    public CommunicationUnlockCodeRequestedHandler(
+            EmailService emailService,
+            EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;
         this.emailMessageFactory = emailMessageFactory;
     }

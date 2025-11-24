@@ -25,13 +25,16 @@ public class TripForeignServiceLoader extends Bootstrapper {
     }
 
     private void loadScooterRentalGateway() {
-		StationOperationEntry stationOperationEntry = this.resourceLocator.resolve(StationOperationEntry.class);
-        ScooterRentalGateway scooterRentalGateway = new ScooterRentalGatewayAdapter(stationOperationEntry);
+        StationOperationEntry stationOperationEntry =
+                this.resourceLocator.resolve(StationOperationEntry.class);
+        ScooterRentalGateway scooterRentalGateway =
+                new ScooterRentalGatewayAdapter(stationOperationEntry);
         this.resourceLocator.register(ScooterRentalGateway.class, scooterRentalGateway);
     }
 
     private void loadRidePermitGateway() {
-		RidePermitGatewayEntry ridePermitGatewayEntry = this.resourceLocator.resolve(RidePermitGatewayEntry.class);
+        RidePermitGatewayEntry ridePermitGatewayEntry =
+                this.resourceLocator.resolve(RidePermitGatewayEntry.class);
         RidePermitGateway ridePermitGateway = new RidePermitGatewayAdapter(ridePermitGatewayEntry);
         this.resourceLocator.register(RidePermitGateway.class, ridePermitGateway);
     }

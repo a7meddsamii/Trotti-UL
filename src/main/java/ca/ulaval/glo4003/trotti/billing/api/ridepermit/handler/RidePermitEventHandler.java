@@ -7,31 +7,31 @@ import ca.ulaval.glo4003.trotti.billing.application.ridepermit.dto.CreateRidePer
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
-
 import java.util.List;
 
 public class RidePermitEventHandler {
 
     private final RidePermitApiMapper ridePermitApiMapper;
     private final RidePermitApplicationService ridePermitApplicationService;
-	
-	public RidePermitEventHandler(
-			RidePermitApiMapper ridePermitApiMapper,
-			RidePermitApplicationService ridePermitApplicationService) {
+
+    public RidePermitEventHandler(
+            RidePermitApiMapper ridePermitApiMapper,
+            RidePermitApplicationService ridePermitApplicationService) {
         this.ridePermitApiMapper = ridePermitApiMapper;
         this.ridePermitApplicationService = ridePermitApplicationService;
-	}
+    }
 
     public void onOrderPlaced(OrderPlacedEvent orderPlacedEvent) {
         List<CreateRidePermitDto> ridePermitToCreate =
-            ridePermitApiMapper.toCreateRidePermitDto(orderPlacedEvent.getRidePermitItems());
+                ridePermitApiMapper.toCreateRidePermitDto(orderPlacedEvent.getRidePermitItems());
 
-    	ridePermitApplicationService.createRidePermits(orderPlacedEvent.getIdul(), ridePermitToCreate);
+        ridePermitApplicationService.createRidePermits(orderPlacedEvent.getIdul(),
+                ridePermitToCreate);
     }
-	
-	public void onTripCompleted(TripCompletedEvent tripCompletedEvent) {
-		AddTravelTimeDto addTravelTimeDto = ridePermitApiMapper.toAddTimeDto(tripCompletedEvent);
-		Idul riderId = tripCompletedEvent.getIdul();
-		ridePermitApplicationService.addTravelTime(riderId, addTravelTimeDto);
-	}
+
+    public void onTripCompleted(TripCompletedEvent tripCompletedEvent) {
+        AddTravelTimeDto addTravelTimeDto = ridePermitApiMapper.toAddTimeDto(tripCompletedEvent);
+        Idul riderId = tripCompletedEvent.getIdul();
+        ridePermitApplicationService.addTravelTime(riderId, addTravelTimeDto);
+    }
 }

@@ -26,7 +26,8 @@ public class InMemoryStationRepository implements StationRepository {
     @Override
     public Station findByLocation(Location location) {
         StationRecord stationRecord = stations.get(location);
-        if (stationRecord == null) throw new NotFoundException("Station not found at " + location);
+        if (stationRecord == null)
+            throw new NotFoundException("Station not found at " + location);
         return stationMapper.toDomain(stationRecord);
     }
 

@@ -13,7 +13,9 @@ public class CommunicationMaintenanceRequestedHandler {
     private final EmailService emailService;
     private final EmailMessageFactory emailMessageFactory;
 
-    public CommunicationMaintenanceRequestedHandler(EmailService emailService, EmailMessageFactory emailMessageFactory) {
+    public CommunicationMaintenanceRequestedHandler(
+            EmailService emailService,
+            EmailMessageFactory emailMessageFactory) {
         this.emailService = emailService;
         this.emailMessageFactory = emailMessageFactory;
     }
@@ -22,8 +24,8 @@ public class CommunicationMaintenanceRequestedHandler {
         List<Contact> technicians = Contact.findAllByRole(ContactRole.TECHNICIAN);
 
         technicians.forEach(technician -> {
-            EmailMessage message = emailMessageFactory.createMaintenanceMessage(technician.getEmail(),
-                    event.getLocation(), event.getMessage());
+            EmailMessage message = emailMessageFactory.createMaintenanceMessage(
+                    technician.getEmail(), event.getLocation(), event.getMessage());
 
             emailService.send(message);
         });

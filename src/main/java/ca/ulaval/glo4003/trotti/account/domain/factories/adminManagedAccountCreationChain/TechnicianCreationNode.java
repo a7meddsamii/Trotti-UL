@@ -13,7 +13,7 @@ public class TechnicianCreationNode extends AdminManagedAccountCreationNode {
     private final Set<Permission> permissions =
             Set.of(Permission.MAKE_TRIP, Permission.START_MAINTENANCE, Permission.END_MAINTENANCE,
                     Permission.RELOCATE_SCOOTERS, Permission.REQUEST_MAINTENANCE);
-	public final Set<Advantage> advantages = Set.of(Advantage.FREE_RIDE_PERMIT);
+    public final Set<Advantage> advantages = Set.of(Advantage.FREE_RIDE_PERMIT);
 
     @Override
     protected Role responsibilityRole() {

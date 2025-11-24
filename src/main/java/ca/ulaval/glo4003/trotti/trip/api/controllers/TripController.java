@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
 
 public class TripController implements TripResource {
@@ -61,6 +60,5 @@ public class TripController implements TripResource {
 
         return Response.ok().entity(tripApiMapper.toTripHistory(trips)).build();
     }
-
 
 }

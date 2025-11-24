@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMeth
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.CreditCardPaymentGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import java.time.Clock;
+import java.time.YearMonth;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,9 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.Clock;
-import java.time.YearMonth;
 
 @ExtendWith(MockitoExtension.class)
 class CreditCardPaymentGatewayTest {

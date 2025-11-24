@@ -46,12 +46,14 @@ public class StationApiMapper {
     public UnloadScootersResponse toUnloadScootersResponse(int scootersInTransit) {
         return new UnloadScootersResponse(scootersInTransit);
     }
-	
-	public UndockScooterDto toUndockScooterDto(RetrieveScooterRequest retrieveScooterRequest) {
-		return new UndockScooterDto(retrieveScooterRequest.location(), retrieveScooterRequest.slotNumber());
-	}
-	
-	public DockScooterDto toDockScooterDto(ReturnScooterRequest retrieveScooterRequest) {
-		return new DockScooterDto(retrieveScooterRequest.location(), retrieveScooterRequest.slotNumber(), retrieveScooterRequest.scooterId());
-	}
+
+    public UndockScooterDto toUndockScooterDto(RetrieveScooterRequest retrieveScooterRequest) {
+        return new UndockScooterDto(retrieveScooterRequest.location(),
+                retrieveScooterRequest.slotNumber());
+    }
+
+    public DockScooterDto toDockScooterDto(ReturnScooterRequest retrieveScooterRequest) {
+        return new DockScooterDto(retrieveScooterRequest.location(),
+                retrieveScooterRequest.slotNumber(), retrieveScooterRequest.scooterId());
+    }
 }

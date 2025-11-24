@@ -7,19 +7,17 @@ import ca.ulaval.glo4003.trotti.billing.application.order.OrderApplicationServic
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class OrderResourceLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		loadOrderResourceLoader();
-	}
-	
-	private void loadOrderResourceLoader() {
-		OrderApplicationService orderApplicationService = this.resourceLocator.resolve(OrderApplicationService.class);
-		OrderApiMapper orderApiMapper = this.resourceLocator.resolve(OrderApiMapper.class);
-		OrderResource orderResource = new OrderController(
-				orderApplicationService,
-				orderApiMapper
-		);
-		this.resourceLocator.register(OrderResource.class, orderResource);
-	}
+
+    @Override
+    public void load() {
+        loadOrderResourceLoader();
+    }
+
+    private void loadOrderResourceLoader() {
+        OrderApplicationService orderApplicationService =
+                this.resourceLocator.resolve(OrderApplicationService.class);
+        OrderApiMapper orderApiMapper = this.resourceLocator.resolve(OrderApiMapper.class);
+        OrderResource orderResource = new OrderController(orderApplicationService, orderApiMapper);
+        this.resourceLocator.register(OrderResource.class, orderResource);
+    }
 }

@@ -55,7 +55,8 @@ public class CreditCardPaymentGateway implements PaymentGateway {
             return String.format("Payment has failed with card ending with %s", cardNumber);
         }
 
-        return String.format("Payment was proceeded successfully with card ending with %s", cardNumber);
+        return String.format("Payment was proceeded successfully with card ending with %s",
+                cardNumber);
 
     }
 }

@@ -8,14 +8,9 @@ import java.util.List;
 
 public class RidePermitAssembler {
     public RidePermitDto assemble(RidePermit ridePermit) {
-        return new RidePermitDto(
-				ridePermit.getId(),
-				ridePermit.getRiderId(),
-				ridePermit.getSession(),
-				ridePermit.getMaximumTravelingTimePerDay(),
-				ridePermit.getPermitState(),
-				ridePermit.getBalance()
-		);
+        return new RidePermitDto(ridePermit.getId(), ridePermit.getRiderId(),
+                ridePermit.getSession(), ridePermit.getMaximumTravelingTimePerDay(),
+                ridePermit.getPermitState(), ridePermit.getBalance());
     }
 
     public List<RidePermitDto> assemble(List<RidePermit> ridePermits) {

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
 import java.time.LocalDate;
 import java.time.Month;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class AccountTest {
@@ -13,7 +12,6 @@ class AccountTest {
     private static final int EXPECTED_AGE = 24;
 
     private Account account;
-
 
     @Test
     void givenBirthDate_whenGetAge_thenReturnCorrectAge() {

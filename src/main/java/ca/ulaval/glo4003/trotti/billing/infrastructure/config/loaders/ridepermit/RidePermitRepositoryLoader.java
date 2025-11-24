@@ -5,14 +5,14 @@ import ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.repository.InM
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 
 public class RidePermitRepositoryLoader extends Bootstrapper {
-	
-	@Override
-	public void load() {
-		loadOrderRepository();
-	}
-	
-	private void loadOrderRepository() {
-		RidePermitRepository ridePermitRepository = new InMemoryRidePermitRepository();
-		this.resourceLocator.register(RidePermitRepository.class, ridePermitRepository);
-	}
+
+    @Override
+    public void load() {
+        loadOrderRepository();
+    }
+
+    private void loadOrderRepository() {
+        RidePermitRepository ridePermitRepository = new InMemoryRidePermitRepository();
+        this.resourceLocator.register(RidePermitRepository.class, ridePermitRepository);
+    }
 }
