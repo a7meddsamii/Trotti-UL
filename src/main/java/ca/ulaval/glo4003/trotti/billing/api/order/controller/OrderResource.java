@@ -77,7 +77,9 @@ public interface OrderResource {
 					@ApiResponse(responseCode = "401",
 							description = "Unauthorized: token manquant ou erroné",
 							content = @Content(
-									schema = @Schema(implementation = ApiErrorResponse.class)))})
+									schema = @Schema(implementation = ApiErrorResponse.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not found: Pas de commande courante pour cet utilisateur")})
 	Response getOngoingOrder(@Parameter(hidden = true) @AuthenticatedUser Idul userId);
 	
 	@DELETE

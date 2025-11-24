@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
+import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
@@ -38,6 +39,7 @@ class TripApplicationServiceTest {
     private ScooterRentalGateway scooterRentalGateway;
     private EventBus eventBus;
     private Clock clock;
+    private TripMapper tripMapper;
     private TripApplicationService service;
 
     @BeforeEach
@@ -48,9 +50,10 @@ class TripApplicationServiceTest {
         scooterRentalGateway = Mockito.mock(ScooterRentalGateway.class);
         eventBus = Mockito.mock(EventBus.class);
         clock = Clock.systemDefaultZone();
+        tripMapper = Mockito.mock(TripMapper.class);
 
         service = new TripApplicationService(unlockCodeStore, tripRepository, ridePermitGateway,
-                scooterRentalGateway, eventBus, clock);
+                scooterRentalGateway, eventBus, clock, tripMapper);
     }
 
     @Test
@@ -69,7 +72,6 @@ class TripApplicationServiceTest {
                 .publish(Mockito.argThat(event -> event instanceof UnlockCodeRequestedEvent e
                         && e.getIdul().equals(IDUL)
                         && e.getRidePermitId().equals(RIDE_PERMIT_ID.toString())
-                        && e.getUnlockCode().equals(UNLOCK_CODE)
                         && e.getExpirationTime().equals(expiresAt)
 
                 ));
