@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 
+import ca.ulaval.glo4003.trotti.account.api.handler.AccountEventHandler;
 import ca.ulaval.glo4003.trotti.billing.api.order.handler.OrderEventHandler;
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.handler.RidePermitEventHandler;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountAdvantageRenewalEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequestEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
@@ -35,6 +37,7 @@ public class EventSubscriptionLoader extends Bootstrapper {
         RidePermitEventHandler ridePermitEventHandler =
                 this.resourceLocator.resolve(RidePermitEventHandler.class);
         OrderEventHandler orderEventHandler = this.resourceLocator.resolve(OrderEventHandler.class);
+		AccountEventHandler accountEventHandler = this.resourceLocator.resolve(AccountEventHandler.class);
 
         eventBus.subscribe(AccountCreatedEvent.class, communicationAccountCreatedHandler::handle);
         eventBus.subscribe(MaintenanceRequestedEvent.class,
@@ -52,6 +55,6 @@ public class EventSubscriptionLoader extends Bootstrapper {
         eventBus.subscribe(AccountCreatedEvent.class, orderEventHandler::onAccountCreated);
         eventBus.subscribe(ApplyAdvantageRequestEvent.class,
                 orderEventHandler::onApplyAdvantageRequestEvent);
-
+		eventBus.subscribe(AccountAdvantageRenewalEvent.class, accountEventHandler::onAccountAdvantageRenewal);
     }
 }

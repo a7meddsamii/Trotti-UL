@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config;
 
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.EventSubscriptionLoader;
+import ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders.HandlerLoader;
 import ca.ulaval.glo4003.trotti.config.Configuration;
 
 public class EventSubscriptionConfiguration extends Configuration {
@@ -21,6 +22,7 @@ public class EventSubscriptionConfiguration extends Configuration {
 
     @Override
     protected void load() {
-        new EventSubscriptionLoader().load();
+		new HandlerLoader().load();
+		new EventSubscriptionLoader().load();
     }
 }
