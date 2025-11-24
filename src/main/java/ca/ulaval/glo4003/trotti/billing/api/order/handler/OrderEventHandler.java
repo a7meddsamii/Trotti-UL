@@ -9,25 +9,27 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequ
 import java.util.List;
 
 public class OrderEventHandler {
-	private static final List<String> ADVANTAGES_RESPONSIBILITIES = List.of("FREE_RIDE_PERMIT");
-	
-	private final OrderApplicationService orderApplicationService;
-	private final OrderApiMapper orderApiMapper;
-	
-	public OrderEventHandler(OrderApplicationService orderApplicationService, OrderApiMapper orderApiMapper) {
-		this.orderApplicationService = orderApplicationService;
-		this.orderApiMapper = orderApiMapper;
-	}
-	
-	public void onAccountCreated(AccountCreatedEvent accountCreatedEvent) {
-		FreeRidePermitItemGrantDto freeRidePermitItemGrantDto = orderApiMapper.toFreeRidePermitItemGrantDto(accountCreatedEvent.getIdul());
-		orderApplicationService.grantFreeRidePermitItem(freeRidePermitItemGrantDto);
-	}
-	
-	public void onApplyAdvantageRequestEvent(ApplyAdvantageRequestEvent applyAdvantageRequestEvent) {
-		if (ADVANTAGES_RESPONSIBILITIES.contains(applyAdvantageRequestEvent.getAdvantage())) {
-			List<FreeRidePermitItemGrantDto> freeRidePermitItemGrantDtos = orderApiMapper.toFreeRidePermitItemGrantDtos(applyAdvantageRequestEvent.getEligibleUserIds());
-			freeRidePermitItemGrantDtos.forEach(orderApplicationService::grantFreeRidePermitItem);
-		}
-	}
+    private static final String FREE_RIDE_PERMIT_ADVANTAGE = "FREE_RIDE_PERMIT";
+    
+    private final OrderApplicationService orderApplicationService;
+    private final OrderApiMapper orderApiMapper;
+    
+    public OrderEventHandler(OrderApplicationService orderApplicationService, OrderApiMapper orderApiMapper) {
+        this.orderApplicationService = orderApplicationService;
+        this.orderApiMapper = orderApiMapper;
+    }
+    
+    public void onAccountCreated(AccountCreatedEvent accountCreatedEvent) {
+        if (accountCreatedEvent.getAdvantages().contains(FREE_RIDE_PERMIT_ADVANTAGE)) {
+            FreeRidePermitItemGrantDto dto = orderApiMapper.toFreeRidePermitItemGrantDto(accountCreatedEvent.getIdul());
+            orderApplicationService.grantFreeRidePermitItem(dto);
+        }
+    }
+    
+    public void onApplyAdvantageRequestEvent(ApplyAdvantageRequestEvent event) {
+        if (FREE_RIDE_PERMIT_ADVANTAGE.equals(event.getAdvantage())) {
+            List<FreeRidePermitItemGrantDto> dtos = orderApiMapper.toFreeRidePermitItemGrantDtos(event.getEligibleUserIds());
+            dtos.forEach(orderApplicationService::grantFreeRidePermitItem);
+        }
+    }
 }

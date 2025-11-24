@@ -25,7 +25,7 @@ public class MaximumDailyTravelTime {
     }
 	
 	public static MaximumDailyTravelTime baseTravelTime() {
-		return new MaximumDailyTravelTime(Duration.ZERO);
+		return new MaximumDailyTravelTime(Duration.ofMinutes(BASE_DURATION_IN_MINUTES));
 	}
 
     public Money calculateAmount() {

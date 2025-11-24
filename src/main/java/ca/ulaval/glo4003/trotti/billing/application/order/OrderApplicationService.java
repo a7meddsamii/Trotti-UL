@@ -60,7 +60,7 @@ public class OrderApplicationService {
 	
 	public void grantFreeRidePermitItem(FreeRidePermitItemGrantDto freeRidePermitItemGrantDto){
 		Order order = new Order(OrderId.randomId(), freeRidePermitItemGrantDto.riderId());
-		RidePermitItem item =orderItemFactory.create( freeRidePermitItemGrantDto.session());
+		RidePermitItem item = orderItemFactory.create(freeRidePermitItemGrantDto.session());
 		order.add(item);
 		order.confirm();
 		orderRepository.save(order);
