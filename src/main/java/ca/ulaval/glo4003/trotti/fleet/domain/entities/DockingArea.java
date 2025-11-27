@@ -1,8 +1,8 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.DockingException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

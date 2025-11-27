@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.domain.gateway;
 
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 
 public interface ScooterRentalGateway {
 

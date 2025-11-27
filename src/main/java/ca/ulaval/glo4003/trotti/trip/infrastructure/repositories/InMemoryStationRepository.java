@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.StationRecord;
 import java.util.HashMap;

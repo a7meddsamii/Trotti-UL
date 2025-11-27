@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.fleet.domain.values;
 
 final class LocationEmpty extends Location {
     private static final LocationEmpty INSTANCE = new LocationEmpty();

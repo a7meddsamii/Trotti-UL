@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.DockingAndUndockingApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.DockScooterDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.UndockScooterDto;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 
 public class StationOperationEntry {
     private final DockingAndUndockingApplicationService dockingAndUndockingApplicationService;

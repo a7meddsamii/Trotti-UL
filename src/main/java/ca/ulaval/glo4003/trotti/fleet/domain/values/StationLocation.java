@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.fleet.domain.values;
 
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidLocationException;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidLocationException;
 
 final class StationLocation extends Location {
     public StationLocation(String building, String spotName) {

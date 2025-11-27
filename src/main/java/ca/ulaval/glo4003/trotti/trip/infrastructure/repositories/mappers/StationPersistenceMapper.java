@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.DockingArea;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Station;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.StationRecord;
 import java.util.HashMap;
 import java.util.Map;

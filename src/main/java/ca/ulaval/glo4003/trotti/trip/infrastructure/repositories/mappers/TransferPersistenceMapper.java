@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TransferRecord;
 import java.util.HashMap;
 

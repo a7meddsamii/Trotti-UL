@@ -1,10 +1,10 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidBatteryValue;
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InvalidLocationException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryState;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidBatteryValue;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidLocationException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryState;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import java.time.LocalDateTime;
 
 public class Scooter {

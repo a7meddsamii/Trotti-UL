@@ -1,10 +1,10 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.StationMaintenanceException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.StationMaintenanceException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

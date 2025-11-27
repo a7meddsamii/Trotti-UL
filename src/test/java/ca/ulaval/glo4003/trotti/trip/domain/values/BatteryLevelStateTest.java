@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.domain.values;
 
-import ca.ulaval.glo4003.trotti.trip.domain.strategy.ChargingStrategy;
-import ca.ulaval.glo4003.trotti.trip.domain.strategy.DischargingStrategy;
-import ca.ulaval.glo4003.trotti.trip.domain.strategy.IdleStrategy;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryState;
+import ca.ulaval.glo4003.trotti.fleet.domain.strategy.ChargingStrategy;
+import ca.ulaval.glo4003.trotti.fleet.domain.strategy.DischargingStrategy;
+import ca.ulaval.glo4003.trotti.fleet.domain.strategy.IdleStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +21,7 @@ class BatteryLevelStateTest {
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
         BatteryLevel result = BatteryState.DISCHARGING.computeLevel(LAST_BATTERY_UPDATE,
-                CURRENT_TIME, A_BATTERY_LEVEL);
+																	CURRENT_TIME, A_BATTERY_LEVEL);
 
         Assertions.assertEquals(expectedResult, result);
     }

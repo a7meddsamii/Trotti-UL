@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.InsufficientScootersInTransitException;
-import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TechnicianNotInChargeException;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InsufficientScootersInTransitException;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.TechnicianNotInChargeException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;

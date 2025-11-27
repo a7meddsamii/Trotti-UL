@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.domain.factories;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.factories.ScooterFactory;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

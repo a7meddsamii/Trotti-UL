@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Battery;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.trip.domain.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Battery;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.fixtures.ScooterFixture;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import java.math.BigDecimal;

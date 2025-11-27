@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.fleet.domain.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Id;
 
