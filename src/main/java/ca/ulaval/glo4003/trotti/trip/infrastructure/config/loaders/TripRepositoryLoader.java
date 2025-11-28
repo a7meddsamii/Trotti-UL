@@ -1,10 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.*;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTransferRepository;
@@ -13,6 +10,8 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.Scooter
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
+
+import java.time.Clock;
 
 public class TripRepositoryLoader extends Bootstrapper {
     @Override
@@ -26,10 +25,13 @@ public class TripRepositoryLoader extends Bootstrapper {
     private void loadTripRepository() {
         TripPersistenceMapper tripMapper =
                 this.resourceLocator.resolve(TripPersistenceMapper.class);
+        Clock clock = this.resourceLocator.resolve(Clock.class);
 
-        TripRepository tripRepository = new InMemoryTripRepository(tripMapper);
+        InMemoryTripRepository inMemoryTripRepository =
+                new InMemoryTripRepository(clock, tripMapper);
 
-        this.resourceLocator.register(TripRepository.class, tripRepository);
+        this.resourceLocator.register(TripRepository.class, inMemoryTripRepository);
+        this.resourceLocator.register(TripQueryRepository.class, inMemoryTripRepository);
     }
 
     private void loadStationRepository() {

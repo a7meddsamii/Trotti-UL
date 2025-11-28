@@ -3,15 +3,16 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 public class TripController implements TripResource {
 
@@ -55,10 +56,12 @@ public class TripController implements TripResource {
     }
 
     @Override
-    public Response getTripHistory(Idul userId) {
-        List<TripDto> trips = tripApplicationService.getTripHistory(userId);
+    public Response getTripHistory(Idul userId, TripQueryRequest request) {
+        TripHistorySearchCriteria searchCriteria = tripApiMapper.toTripHistorySearchCriteria(userId, request);
 
-        return Response.ok().entity(tripApiMapper.toTripHistory(trips)).build();
+        TripHistory trips = tripApplicationService.getTripHistory(searchCriteria);
+
+        return Response.ok().entity(tripApiMapper.toTripHistoryResponse(trips)).build();
     }
 
 }

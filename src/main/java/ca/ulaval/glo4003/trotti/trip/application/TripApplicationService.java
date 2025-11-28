@@ -11,10 +11,12 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
 import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
@@ -26,6 +28,7 @@ public class TripApplicationService {
 
     private final UnlockCodeStore unlockCodeStore;
     private final TripRepository tripRepository;
+    private final TripQueryRepository tripQueryRepository;
     private final RidePermitGateway ridePermitGateway;
     private final ScooterRentalGateway scooterRentalGateway;
     private final EventBus eventBus;
@@ -35,6 +38,7 @@ public class TripApplicationService {
     public TripApplicationService(
             UnlockCodeStore unlockCodeStore,
             TripRepository tripRepository,
+            TripQueryRepository tripQueryRepository,
             RidePermitGateway ridePermitGateway,
             ScooterRentalGateway scooterRentalGateway,
             EventBus eventBus,
@@ -42,6 +46,7 @@ public class TripApplicationService {
             TripMapper tripMapper) {
         this.unlockCodeStore = unlockCodeStore;
         this.tripRepository = tripRepository;
+        this.tripQueryRepository = tripQueryRepository;
         this.ridePermitGateway = ridePermitGateway;
         this.scooterRentalGateway = scooterRentalGateway;
         this.eventBus = eventBus;
@@ -96,9 +101,7 @@ public class TripApplicationService {
                 trip.getStartLocation().toString(), trip.getEndLocation().toString()));
     }
 
-    public List<TripDto> getTripHistory(Idul idul) {
-        List<Trip> trips = tripRepository.findBy(idul, TripStatus.COMPLETED);
-
-        return trips.stream().map(tripMapper::toDto).toList();
+    public TripHistory getTripHistory(TripHistorySearchCriteria tripHistorySearchCriteria) {
+        return tripQueryRepository.findAllBySearchCriteria(tripHistorySearchCriteria);
     }
 }

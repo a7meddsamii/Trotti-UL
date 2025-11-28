@@ -1,22 +1,32 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
+
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryTripRepository implements TripRepository {
+public class InMemoryTripRepository implements TripRepository, TripQueryRepository {
     private Map<TripId, TripRecord> tripTable = new HashMap<>();
+
+    private final Clock clock;
     private final TripPersistenceMapper mapper;
 
-    public InMemoryTripRepository(TripPersistenceMapper mapper) {
+    public InMemoryTripRepository(Clock clock, TripPersistenceMapper mapper) {
         this.mapper = mapper;
+        this.clock = clock;
     }
 
     @Override
@@ -44,5 +54,40 @@ public class InMemoryTripRepository implements TripRepository {
                 .filter(tripRecord -> tripRecord.idul().equals(idul)
                         && tripRecord.tripStatus().equals(tripStatus))
                 .map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public TripHistory findAllBySearchCriteria(TripHistorySearchCriteria criteria) {
+        LocalDate now = LocalDate.now(clock);
+
+        LocalDate defaultStart = now.minusMonths(1).withDayOfMonth(1);
+        LocalDate defaultEnd   = now.minusMonths(1).withDayOfMonth(
+                now.minusMonths(1).lengthOfMonth()
+        );
+
+        LocalDate startDate = criteria.getStartDate() != null
+                ? criteria.getStartDate()
+                : defaultStart;
+
+        LocalDate endDate = criteria.getEndDate() != null
+                ? criteria.getEndDate()
+                : defaultEnd;
+
+        List<CompletedTrip> completedTrips = tripTable.values().stream()
+                .filter(trip -> {
+                    boolean matchesIdul = trip.idul().equals(criteria.getIdul());
+
+                    LocalDate tripStart = trip.startTime().toLocalDate();
+                    LocalDate tripEnd   = trip.endTime().toLocalDate();
+
+                    boolean matchesStartDate = !tripStart.isBefore(startDate);
+                    boolean matchesEndDate   = !tripEnd.isAfter(endDate);
+
+                    return matchesIdul && matchesStartDate && matchesEndDate;
+                })
+                .map(mapper::toCompletedTrip)
+                .toList();
+
+        return new TripHistory(completedTrips);
     }
 }

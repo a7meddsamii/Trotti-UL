@@ -6,6 +6,8 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
+
+import java.time.Clock;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +34,7 @@ class InMemoryTripRepositoryTest {
         Mockito.when(mapper.toDomain(Mockito.any())).thenReturn(trip);
         Mockito.when(trip.getIdul()).thenReturn(TRAVELER_ID);
         Mockito.when(trip.getStatus()).thenReturn(STATUS);
-        repository = new InMemoryTripRepository(mapper);
+        repository = new InMemoryTripRepository(Clock.systemDefaultZone(), mapper);
     }
 
     @Test

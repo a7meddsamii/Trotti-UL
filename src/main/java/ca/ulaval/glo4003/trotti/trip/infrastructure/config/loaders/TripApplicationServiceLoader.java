@@ -8,10 +8,7 @@ import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TransferRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.*;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import java.time.Clock;
 
@@ -54,11 +51,13 @@ public class TripApplicationServiceLoader extends Bootstrapper {
                 this.resourceLocator.resolve(ScooterRentalGateway.class);
         UnlockCodeStore unlockCodeStore = this.resourceLocator.resolve(UnlockCodeStore.class);
         TripRepository tripRepository = this.resourceLocator.resolve(TripRepository.class);
+        TripQueryRepository tripQueryRepository =
+                this.resourceLocator.resolve(TripQueryRepository.class);
         EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
         TripMapper tripMapper = this.resourceLocator.resolve(TripMapper.class);
         TripApplicationService tripApplicationService =
-                new TripApplicationService(unlockCodeStore, tripRepository, ridePermitGateway,
+                new TripApplicationService(unlockCodeStore, tripRepository,tripQueryRepository, ridePermitGateway,
                         scooterRentalGateway, eventBus, clock, tripMapper);
         this.resourceLocator.register(TripApplicationService.class, tripApplicationService);
     }
