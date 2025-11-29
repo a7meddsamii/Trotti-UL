@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-
 import java.util.Optional;
 
 public class ScooterSlot {
@@ -30,8 +29,8 @@ public class ScooterSlot {
         if (!isOccupied()) {
             throw new DockingException("Slot " + slotNumber + " does not hold a scooter.");
         }
-		
-		Scooter unDockedScooter = this.dockedScooter;
+
+        Scooter unDockedScooter = this.dockedScooter;
         this.dockedScooter = null;
         return unDockedScooter;
     }
