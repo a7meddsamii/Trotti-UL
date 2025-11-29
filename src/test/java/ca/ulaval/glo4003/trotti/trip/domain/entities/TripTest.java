@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-class TripTest {
+public class TripTest {
 
-    private static final LocalDateTime START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
-    private static final long DURATION_MINUTES = 15L;
-    private static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
-    private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
-    private static final Location A_START_LOCATION = Mockito.mock(Location.class);
-    private static final LocalDateTime END_TIME = START_TIME.plusMinutes(DURATION_MINUTES);
-    private static final Location A_END_LOCATION = Mockito.mock(Location.class);
+    public static final LocalDateTime START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
+    public static final long DURATION_MINUTES = 15L;
+    public static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
+    public static final Idul A_TRAVELER_ID = Idul.from("travelerId");
+    public static final ScooterId A_SCOOTER_ID = ScooterId.randomId();
+    public static final Location A_START_LOCATION = Mockito.mock(Location.class);
+    public static final LocalDateTime END_TIME = START_TIME.plusMinutes(DURATION_MINUTES);
+    public static final Location A_END_LOCATION = Mockito.mock(Location.class);
 
     private Trip trip;
 

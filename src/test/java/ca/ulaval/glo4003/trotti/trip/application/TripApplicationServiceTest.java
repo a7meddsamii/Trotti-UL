@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class TripApplicationServiceTest {
@@ -176,4 +178,15 @@ class TripApplicationServiceTest {
                         && e.getEndLocation().equals(endLocation.toString())));
     }
 
+    @Test
+    void givenTripHistorySearchCriteria_whenGetTripHistory_thenOrchestratesProperly() {
+        TripHistorySearchCriteria searchCriteria = Mockito.mock(TripHistorySearchCriteria.class);
+        TripHistory expectedTripHistory = Mockito.mock(TripHistory.class);
+        Mockito.when(tripQueryRepository.findAllBySearchCriteria(searchCriteria)).thenReturn(expectedTripHistory);
+
+        TripHistory tripHistory = service.getTripHistory(searchCriteria);
+
+        Mockito.verify(tripQueryRepository, Mockito.times(1)).findAllBySearchCriteria(searchCriteria);
+        Assertions.assertEquals(expectedTripHistory, tripHistory);
+    }
 }
