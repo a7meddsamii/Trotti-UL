@@ -12,8 +12,7 @@ public class StationPersistenceMapper {
 
     public Station toDomain(StationRecord stationRecord) {
         DockingArea dockingArea = toDomainDockingArea(stationRecord.slots());
-        return new Station(stationRecord.location(), dockingArea, stationRecord.underMaintenance(),
-                stationRecord.technicianId());
+        return null;
     }
 
     public StationRecord toRecord(Station station) {
