@@ -18,7 +18,7 @@ public class Scooter {
         this.location = location;
     }
 
-    public void dockAt(Location location, LocalDateTime dockingTime) {
+    public void endUsage(Location location, LocalDateTime dockingTime) {
         if (!this.location.isEmpty()) {
             throw new InvalidLocationException(
                     "scooter seems to be already docked at " + this.location);
@@ -28,7 +28,7 @@ public class Scooter {
         this.battery.changeBatteryState(BatteryState.CHARGING, dockingTime);
     }
 
-    public void undock(LocalDateTime undockingTime) {
+    public void beginUsage(LocalDateTime undockingTime) {
         if (this.location.isEmpty()) {
             throw new InvalidLocationException("scooter seems to already be undocked");
         }
@@ -62,5 +62,4 @@ public class Scooter {
 
         this.battery.resumeCharging(resumedTime);
     }
-
 }

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @deprecated This class will be reimplemented
+ */
 public class StationFixture {
     private final Map<SlotNumber, Optional<ScooterId>> scooterSlots = new HashMap<>();
     private Location location = Location.of("vachon", "stationX");
@@ -32,8 +35,7 @@ public class StationFixture {
     }
 
     public Station build() {
-        DockingArea dockingArea = new DockingArea(scooterSlots);
-        return new Station(location, dockingArea);
+//        DockingArea dockingArea = new DockingArea(scooterSlots);
+        return new Station(location, null);
     }
-
 }

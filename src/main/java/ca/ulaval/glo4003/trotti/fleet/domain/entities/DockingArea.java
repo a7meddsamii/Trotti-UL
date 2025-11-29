@@ -1,35 +1,31 @@
 package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
+
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DockingArea {
-    private final Map<SlotNumber, Optional<ScooterId>> scooterSlots;
+    private final Map<SlotNumber, ScooterSlot> scooterSlots;
 
-    public DockingArea(Map<SlotNumber, Optional<ScooterId>> scooterSlots) {
+    public DockingArea(Map<SlotNumber, ScooterSlot> scooterSlots) {
         this.scooterSlots = scooterSlots;
     }
 
-    public void dock(SlotNumber slotNumber, ScooterId scooterId) {
+    public void dock(SlotNumber slotNumber, Scooter scooter) {
         validateSlotNumber(slotNumber);
-        if (scooterSlots.get(slotNumber).isPresent()) {
-            throw new DockingException("Slot " + slotNumber + " is occupied.");
-        }
-        scooterSlots.put(slotNumber, Optional.of(scooterId));
+        ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
+		scooterSlot.dock(scooter);
     }
 
-    public ScooterId undock(SlotNumber slotNumber) {
+    public Scooter undock(SlotNumber slotNumber) {
         validateSlotNumber(slotNumber);
-        Optional<ScooterId> scooterId = scooterSlots.get(slotNumber);
-        if (scooterId.isEmpty()) {
-            throw new DockingException("Slot " + slotNumber + " does not hold a scooter.");
-        }
-        scooterSlots.put(slotNumber, Optional.empty());
-        return scooterId.get();
+		ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
+        return scooterSlot.undock();
     }
 
     public int getCapacity() {
@@ -42,22 +38,29 @@ public class DockingArea {
         }
     }
 
-    public Map<SlotNumber, Optional<ScooterId>> getScooterSlots() {
-        return Map.copyOf(scooterSlots);
+    public Map<SlotNumber, ScooterSlot> getScooterSlots() {
+        return Collections.unmodifiableMap(scooterSlots);
     }
 
     public List<SlotNumber> findOccupiedSlots() {
-        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isPresent())
+        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isOccupied())
                 .map(Map.Entry::getKey).toList();
     }
 
     public List<SlotNumber> findAvailableSlots() {
-        return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isEmpty())
-                .map(Map.Entry::getKey).toList();
+        return scooterSlots.entrySet().stream().filter(entry -> !entry.getValue().isOccupied())
+				.map(Map.Entry::getKey).toList();
     }
-
-    public List<ScooterId> getAllScooterIds() {
-        return scooterSlots.values().stream().flatMap(Optional::stream).toList();
-    }
-
+	
+	public Map<SlotNumber, Scooter> getScooters() {
+		Map<SlotNumber, Scooter> scooters = new HashMap<>();
+		
+		for (Map.Entry<SlotNumber, ScooterSlot> slotEntry : scooterSlots.entrySet()) {
+			if (slotEntry.getValue().isOccupied()) {
+				scooters.put(slotEntry.getKey(), slotEntry.getValue().getDockedScooter());
+			}
+		}
+		
+		return scooters;
+	}
 }

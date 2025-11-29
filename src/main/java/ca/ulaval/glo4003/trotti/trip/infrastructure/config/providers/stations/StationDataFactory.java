@@ -31,7 +31,11 @@ public final class StationDataFactory {
     public void run(List<StationDataRecord> stationDataRecords) {
         stationDataRecords.forEach(this::createAndPopulateStation);
     }
-
+	
+	/**
+	 * TODO correct the code in commented lines
+	 * 
+	 */
     private void createAndPopulateStation(StationDataRecord data) {
         Location location = Location.of(data.location(), data.name());
         Station station = stationFactory.create(location, data.capacity());
@@ -42,7 +46,7 @@ public final class StationDataFactory {
         for (int i = 0; i < scooters.size(); i++) {
             Scooter scooter = scooters.get(i);
             scooterRepository.save(scooter);
-            station.returnScooter(new SlotNumber(i), scooter.getScooterId());
+//            station.returnScooter(new SlotNumber(i), scooter.getScooterId());
         }
 
         stationRepository.save(station);

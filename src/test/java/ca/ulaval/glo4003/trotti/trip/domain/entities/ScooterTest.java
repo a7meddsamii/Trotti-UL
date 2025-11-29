@@ -30,51 +30,51 @@ public class ScooterTest {
     }
 
     @Test
-    void givenScooterAlreadyDocked_whenDockAt_thenThrowsException() {
-        Executable dockAt = () -> scooter.dockAt(A_LOCATION, CURRENT_TIME);
+    void givenScooterAlreadyDocked_whenEndUsage_thenThrowsException() {
+        Executable dockAt = () -> scooter.endUsage(A_LOCATION, CURRENT_TIME);
 
         Assertions.assertThrows(InvalidLocationException.class, dockAt);
     }
 
     @Test
-    void givenStationLocationAndDockingTime_whenDockAt_thenBatteryStartsCharging() {
+    void givenStationLocationAndDockingTime_whenEndUsage_thenBatteryStartsCharging() {
         scooter = new Scooter(AN_ID, battery, Location.empty());
 
-        scooter.dockAt(A_LOCATION, CURRENT_TIME);
+        scooter.endUsage(A_LOCATION, CURRENT_TIME);
 
         Mockito.verify(battery).changeBatteryState(BatteryState.CHARGING, CURRENT_TIME);
     }
 
     @Test
-    void givenStationLocation_whenDockAt_thenStationLocationIsSetToGivenLocation() {
+    void givenStationLocation_whenEndUsage_thenStationLocationIsSetToGivenLocation() {
         scooter = new Scooter(AN_ID, battery, Location.empty());
 
-        scooter.dockAt(A_LOCATION, CURRENT_TIME);
+        scooter.endUsage(A_LOCATION, CURRENT_TIME);
 
         Assertions.assertEquals(A_LOCATION, scooter.getLocation());
     }
 
     @Test
-    void givenScooterAlreadyUndocked_whenUndock_thenThrowsException() {
+    void givenScooterAlreadyUndocked_whenBeginUsage_thenThrowsException() {
         scooter = new Scooter(AN_ID, battery, Location.empty());
 
-        Executable undock = () -> scooter.undock(CURRENT_TIME);
+        Executable undock = () -> scooter.beginUsage(CURRENT_TIME);
 
         Assertions.assertThrows(InvalidLocationException.class, undock);
     }
 
     @Test
-    void givenStationLocationAndUndockingTime_whenUndock_thenBatteryStartsDischarging() {
-        scooter.undock(FUTURE_TIME);
+    void givenStationLocationAndUndockingTime_whenBeginUsage_thenBatteryStartsDischarging() {
+        scooter.beginUsage(FUTURE_TIME);
 
         Mockito.verify(battery).changeBatteryState(BatteryState.DISCHARGING, FUTURE_TIME);
     }
 
     @Test
-    void givenNotEnoughBatteryCharge_whenUndock_thenThrowsException() {
+    void givenNotEnoughBatteryCharge_whenBeginUsage_thenThrowsException() {
         Mockito.when(battery.hasEnoughCharge()).thenReturn(false);
 
-        Executable undock = () -> scooter.undock(CURRENT_TIME);
+        Executable undock = () -> scooter.beginUsage(CURRENT_TIME);
 
         Assertions.assertThrows(InvalidBatteryValue.class, undock);
     }
