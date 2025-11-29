@@ -1,19 +1,40 @@
 package ca.ulaval.glo4003.trotti.fleet.domain.factories;
 
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.DockingArea;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.ScooterSlot;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidStationOperation;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * @deprecated This class will be reimplemented
- */
 public class StationFactory {
 
     public Station create(Location location, int capacity) {
-//        Map<SlotNumber, Optional<ScooterId>> slots = new HashMap<>();
-//        for (int i = 0; i < capacity; i++) {
-//            slots.put(new SlotNumber(i), Optional.empty());
-//        }
-//        return new Station(location, new DockingArea(slots));
-		return null;
+        validateCapacity(capacity);
+
+        Map<SlotNumber, ScooterSlot> emptySlots = buildEmptySlots(capacity);
+        DockingArea dockingArea = new DockingArea(emptySlots);
+
+        return new Station(location, dockingArea);
+    }
+
+    private void validateCapacity(int capacity) {
+        if (capacity <= 0) {
+            throw new InvalidStationOperation("Station capacity must be greater than zero");
+        }
+    }
+
+    // a discuter avec l'equipe si on veut pas faire ca ailleurs
+    private Map<SlotNumber, ScooterSlot> buildEmptySlots(int capacity) {
+        Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
+
+        for (int i = 0; i < capacity; i++) {
+            SlotNumber slotNumber = new SlotNumber(i);
+            scooterSlots.put(slotNumber, new ScooterSlot(slotNumber));
+        }
+
+        return scooterSlots;
     }
 }

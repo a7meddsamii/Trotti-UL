@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.domain.factories;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
-import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidStationOperation;
+import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ class StationFactoryTest {
 
     private static final Location A_LOCATION = Location.of("PEPS", "Station A");
     private static final int A_CAPACITY = 10;
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
 
     private StationFactory stationFactory;
 
@@ -24,7 +22,7 @@ class StationFactoryTest {
     }
 
     @Test
-    void givenLocationAndCapacity_whenCreate_thenCreatesStationWithCorrectConfiguration() {
+    void givenValidLocationAndCapacity_whenCreate_thenStationHasCorrectLocationAndCapacity() {
         Station station = stationFactory.create(A_LOCATION, A_CAPACITY);
 
         Assertions.assertEquals(A_LOCATION, station.getLocation());
@@ -32,11 +30,11 @@ class StationFactoryTest {
     }
 
     @Test
-    void givenLocationAndCapacity_whenCreate_thenCreatesStationWithEmptyDockingArea() {
-        Station station = stationFactory.create(A_LOCATION, A_CAPACITY);
+    void givenNonPositiveCapacity_whenCreate_thenThrowsInvalidStationOperation() {
+        int invalidCapacity = 0;
 
-//        Executable undockEmptySlot = () -> station.getScooter(SLOT_NUMBER);
-//
-//        Assertions.assertThrows(DockingException.class, undockEmptySlot);
+        Executable action = () -> stationFactory.create(A_LOCATION, invalidCapacity);
+
+        Assertions.assertThrows(InvalidStationOperation.class, action);
     }
 }
