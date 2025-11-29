@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class TripHistorySearchCriteriaTest {
     public static final LocalDate A_START_DATE = LocalDate.of(2025, 1, 1);
     public static final LocalDate AN_END_DATE = LocalDate.of(2025, 1, 2);
@@ -28,8 +26,9 @@ class TripHistorySearchCriteriaTest {
 
     @Test
     void givenNoIdul_whenBuild_shouldThrowException() {
-        assertThrows(InvalidParameterException.class, () ->
-                TripHistorySearchCriteria.builder()
+        Assertions.assertThrows(
+                InvalidParameterException.class,
+                () -> TripHistorySearchCriteria.builder()
                         .withStartDate(A_START_DATE)
                         .withEndDate(AN_END_DATE)
                         .build()
