@@ -8,9 +8,6 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Station {
     private static final double INITIAL_FILL_PERCENTAGE = 0.8;
@@ -33,7 +30,7 @@ public class Station {
         this.maintenanceStatus = underMaintenance;
     }
 
-    public Scooter getScooter(SlotNumber slotNumber, LocalDateTime undockingTime) {
+    public Scooter takeScooter(SlotNumber slotNumber, LocalDateTime undockingTime) {
         if(this.maintenanceStatus.isActive()) {
 			throw new StationMaintenanceException("Station is under maintenance");
 		}
@@ -43,7 +40,7 @@ public class Station {
 		return undockedScooter;
     }
 
-    public void returnScooter(SlotNumber slotNumber, Scooter scooter, LocalDateTime dockTime) {
+    public void parkScooter(SlotNumber slotNumber, Scooter scooter, LocalDateTime dockTime) {
 		if(this.maintenanceStatus.isActive()) {
 			throw new StationMaintenanceException("Station is under maintenance");
 		}
@@ -64,15 +61,16 @@ public class Station {
         return (int) Math.round(dockingArea.getCapacity() * INITIAL_FILL_PERCENTAGE);
     }
 
-    public void startMaintenance(Idul technicianId) {
+    public void startMaintenance(Idul technicianId, LocalDateTime startTimeOfMaintenance) {
 		if(this.maintenanceStatus.isActive()) {
 			throw new StationMaintenanceException("Station is already under maintenance");
 		}
 		
+		dockingArea.turnOffElectricity(startTimeOfMaintenance);
         this.maintenanceStatus = MaintenanceStatus.underMaintenance(technicianId);
     }
 
-    public void endMaintenance(Idul technicianId) {
+    public void endMaintenance(Idul technicianId, LocalDateTime endTimeOfMaintenance) {
 		if(!this.maintenanceStatus.isActive()) {
 			throw new StationMaintenanceException("Station is not under maintenance");
 		}
@@ -81,6 +79,7 @@ public class Station {
 			throw new StationMaintenanceException("Station maintenance can only be ended by the technician who started it");
 		}
 		
+		dockingArea.turnOnElectricity(endTimeOfMaintenance);
 		this.maintenanceStatus = MaintenanceStatus.endMaintenance();
     }
 
@@ -92,11 +91,15 @@ public class Station {
         return dockingArea.findAvailableSlots();
     }
 
-    public Set<Scooter> retrieveScootersForTransfer(List<SlotNumber> slotNumbers) {
-        return slotNumbers.stream().map(this.dockingArea::undock).collect(Collectors.toSet());
+    public List<Scooter> retrieveScootersForTransfer(List<SlotNumber> slotNumbers) {
+        return slotNumbers.stream().map(this.dockingArea::undock).toList();
     }
 
-    public void returnScooters(Map<SlotNumber, Scooter> scooters, LocalDateTime dockTime) {
-        scooters.forEach((slotNumber, scooter) -> returnScooter(slotNumber, scooter, dockTime));
-    }
+    public void parkScooters(List<SlotNumber> slotNumbers, List<Scooter> scooters, LocalDateTime dockTime) {
+        for (int i = 0; i < slotNumbers.size(); i++) {
+			SlotNumber slotNumber = slotNumbers.get(i);
+			Scooter scooter = scooters.get(i);
+			parkScooter(slotNumber, scooter, dockTime);
+		}
+	}
 }

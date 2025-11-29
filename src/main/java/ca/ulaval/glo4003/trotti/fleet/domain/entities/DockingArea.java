@@ -3,11 +3,11 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DockingArea {
     private final Map<SlotNumber, ScooterSlot> scooterSlots;
@@ -27,6 +27,14 @@ public class DockingArea {
 		ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
         return scooterSlot.undock();
     }
+	
+	public void turnOffElectricity(LocalDateTime switchOffTime) {
+		getScooters().forEach((slotNumber, scooter) -> scooter.pauseCharging(switchOffTime));
+	}
+	
+	public void turnOnElectricity(LocalDateTime switchOnTime) {
+		getScooters().forEach((slotNumber, scooter) -> scooter.resumeCharging(switchOnTime));
+	}
 
     public int getCapacity() {
         return scooterSlots.size();
