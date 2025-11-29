@@ -71,6 +71,13 @@ public class ScooterTest {
     }
 
     @Test
+    void givenStationLocation_whenBeginUsage_thenScooterLocationBecomesEmpty() {
+        scooter.beginUsage(CURRENT_TIME);
+
+        Assertions.assertTrue(scooter.getLocation().isEmpty());
+    }
+
+    @Test
     void givenNotEnoughBatteryCharge_whenBeginUsage_thenThrowsException() {
         Mockito.when(battery.hasEnoughCharge()).thenReturn(false);
 

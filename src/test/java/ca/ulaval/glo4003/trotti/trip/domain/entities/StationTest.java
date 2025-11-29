@@ -20,7 +20,7 @@ class StationTest {
     private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
     private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
     private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
-    private static final LocalDateTime A_TIME = LocalDateTime.now();
+    private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
 
     private DockingArea dockingArea;
     private Location A_LOCATION;
@@ -39,51 +39,51 @@ class StationTest {
     void givenAvailableScooter_whenTakeScooter_thenUndocksFromDockingAreaAndBeginsUsage() {
         Mockito.when(dockingArea.undock(SLOT_NUMBER)).thenReturn(scooter);
 
-        Scooter result = station.takeScooter(SLOT_NUMBER, A_TIME);
+        Scooter result = station.takeScooter(SLOT_NUMBER, CURRENT_TIME);
 
         Assertions.assertEquals(scooter, result);
         Mockito.verify(dockingArea).undock(SLOT_NUMBER);
-        Mockito.verify(scooter).beginUsage(A_TIME);
+        Mockito.verify(scooter).beginUsage(CURRENT_TIME);
     }
 
     @Test
     void givenScooterAndSlot_whenParkScooter_thenDocksAndEndsUsage() {
-        station.parkScooter(SLOT_NUMBER, scooter, A_TIME);
+        station.parkScooter(SLOT_NUMBER, scooter, CURRENT_TIME);
 
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
-        Mockito.verify(scooter).endUsage(A_LOCATION, A_TIME);
+        Mockito.verify(scooter).endUsage(A_LOCATION, CURRENT_TIME);
     }
 
     @Test
     void givenStationUnderMaintenance_whenParkScooter_thenThrowsException() {
-        station.startMaintenance(TECHNICIAN_ID, A_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Executable action = () -> station.parkScooter(SLOT_NUMBER, scooter, A_TIME);
+        Executable action = () -> station.parkScooter(SLOT_NUMBER, scooter, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenStationNotUnderMaintenance_whenStartMaintenance_thenTurnsOffElectricityAndSetsTechnician() {
-        station.startMaintenance(TECHNICIAN_ID, A_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Mockito.verify(dockingArea).turnOffElectricity(A_TIME);
+        Mockito.verify(dockingArea).turnOffElectricity(CURRENT_TIME);
     }
 
     @Test
     void givenStationAlreadyUnderMaintenance_whenStartMaintenance_thenThrowsException() {
-        station.startMaintenance(TECHNICIAN_ID, A_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Executable action = () -> station.startMaintenance(TECHNICIAN_ID, A_TIME);
+        Executable action = () -> station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenDifferentTechnician_whenEndMaintenance_thenThrowsException() {
-        station.startMaintenance(TECHNICIAN_ID, A_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Executable action = () -> station.endMaintenance(OTHER_TECHNICIAN_ID, A_TIME);
+        Executable action = () -> station.endMaintenance(OTHER_TECHNICIAN_ID, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
@@ -129,7 +129,7 @@ class StationTest {
         List<SlotNumber> slots = List.of(SLOT_NUMBER, SLOT_NUMBER_2);
         List<Scooter> scooters = List.of(scooter, scooter2);
 
-        station.parkScooters(slots, scooters, A_TIME);
+        station.parkScooters(slots, scooters, CURRENT_TIME);
 
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
         Mockito.verify(dockingArea).dock(SLOT_NUMBER_2, scooter2);

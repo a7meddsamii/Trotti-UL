@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.DockingException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,22 +18,22 @@ public class DockingArea {
     public void dock(SlotNumber slotNumber, Scooter scooter) {
         validateSlotNumber(slotNumber);
         ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
-		scooterSlot.dock(scooter);
+        scooterSlot.dock(scooter);
     }
 
     public Scooter undock(SlotNumber slotNumber) {
         validateSlotNumber(slotNumber);
-		ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
+        ScooterSlot scooterSlot = scooterSlots.get(slotNumber);
         return scooterSlot.undock();
     }
-	
-	public void turnOffElectricity(LocalDateTime switchOffTime) {
-		getScooters().forEach((slotNumber, scooter) -> scooter.pauseCharging(switchOffTime));
-	}
-	
-	public void turnOnElectricity(LocalDateTime switchOnTime) {
-		getScooters().forEach((slotNumber, scooter) -> scooter.resumeCharging(switchOnTime));
-	}
+
+    public void turnOffElectricity(LocalDateTime switchOffTime) {
+        getScooters().forEach((slotNumber, scooter) -> scooter.pauseCharging(switchOffTime));
+    }
+
+    public void turnOnElectricity(LocalDateTime switchOnTime) {
+        getScooters().forEach((slotNumber, scooter) -> scooter.resumeCharging(switchOnTime));
+    }
 
     public int getCapacity() {
         return scooterSlots.size();
@@ -57,18 +56,18 @@ public class DockingArea {
 
     public List<SlotNumber> findAvailableSlots() {
         return scooterSlots.entrySet().stream().filter(entry -> !entry.getValue().isOccupied())
-				.map(Map.Entry::getKey).toList();
+                .map(Map.Entry::getKey).toList();
     }
-	
-	public Map<SlotNumber, Scooter> getScooters() {
-		Map<SlotNumber, Scooter> scooters = new HashMap<>();
-		
-		for (Map.Entry<SlotNumber, ScooterSlot> slotEntry : scooterSlots.entrySet()) {
-			if (slotEntry.getValue().isOccupied()) {
-				scooters.put(slotEntry.getKey(), slotEntry.getValue().getDockedScooter());
-			}
-		}
-		
-		return scooters;
-	}
+
+    public Map<SlotNumber, Scooter> getScooters() {
+        Map<SlotNumber, Scooter> scooters = new HashMap<>();
+
+        for (Map.Entry<SlotNumber, ScooterSlot> slotEntry : scooterSlots.entrySet()) {
+            if (slotEntry.getValue().isOccupied()) {
+                scooters.put(slotEntry.getKey(), slotEntry.getValue().getDockedScooter());
+            }
+        }
+
+        return scooters;
+    }
 }
