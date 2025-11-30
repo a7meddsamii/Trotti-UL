@@ -1,7 +1,5 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Battery;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidBatteryValue;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidLocationException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryState;

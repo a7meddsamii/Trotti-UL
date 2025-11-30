@@ -1,9 +1,6 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.DockingArea;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;

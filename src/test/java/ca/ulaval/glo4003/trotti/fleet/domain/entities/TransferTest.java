@@ -1,8 +1,6 @@
-package ca.ulaval.glo4003.trotti.trip.domain.entities;
+package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;
 import java.util.ArrayList;
 import java.util.List;

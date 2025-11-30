@@ -9,6 +9,9 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * @deprecated This class will be reimplemented
+ */
 public class ScooterFixture {
 
     public static final ScooterId A_SCOOTER_ID = ScooterId.randomId();

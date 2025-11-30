@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.trotti.trip.domain.factories;
+package ca.ulaval.glo4003.trotti.fleet.domain.factories;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;

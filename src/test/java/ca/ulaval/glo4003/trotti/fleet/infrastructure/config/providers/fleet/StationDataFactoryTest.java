@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.fleet;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +16,9 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import java.util.ArrayList;
 import java.util.List;
+
+import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

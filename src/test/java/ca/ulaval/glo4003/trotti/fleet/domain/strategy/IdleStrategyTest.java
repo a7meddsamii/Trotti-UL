@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.trotti.trip.domain.strategy;
+package ca.ulaval.glo4003.trotti.fleet.domain.strategy;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.strategy.IdleStrategy;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,7 +1,5 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.fleet.domain.values;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryState;
 import ca.ulaval.glo4003.trotti.fleet.domain.strategy.ChargingStrategy;
 import ca.ulaval.glo4003.trotti.fleet.domain.strategy.DischargingStrategy;
 import ca.ulaval.glo4003.trotti.fleet.domain.strategy.IdleStrategy;

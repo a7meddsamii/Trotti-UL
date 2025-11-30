@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.trotti.trip.domain.values;
+package ca.ulaval.glo4003.trotti.fleet.domain.values;
 
-import ca.ulaval.glo4003.trotti.fleet.domain.values.BatteryLevel;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidBatteryValue;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

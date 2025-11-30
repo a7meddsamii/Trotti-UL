@@ -1,8 +1,7 @@
-package ca.ulaval.glo4003.trotti.trip.domain.factories;
+package ca.ulaval.glo4003.trotti.fleet.domain.factories;
 
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidStationOperation;
-import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
