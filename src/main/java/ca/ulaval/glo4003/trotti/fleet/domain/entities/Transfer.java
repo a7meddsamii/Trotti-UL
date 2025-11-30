@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Transfer {
@@ -36,9 +37,9 @@ public class Transfer {
             throw new InvalidTransferException(
                     "Invalid number of scooters to unload: " + numberOfScooters);
         }
-
-        if (isCompleted()) {
-            throw new InvalidTransferException("Transfer is already completed");
-        }
     }
+	
+	public List<Scooter> getScootersToMove() {
+		return Collections.unmodifiableList(scootersToMove);
+	}
 }
