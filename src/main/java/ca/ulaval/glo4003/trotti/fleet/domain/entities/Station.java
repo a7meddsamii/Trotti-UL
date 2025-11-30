@@ -79,6 +79,10 @@ public class Station {
         dockingArea.turnOnElectricity(endTimeOfMaintenance);
         this.maintenanceStatus = MaintenanceStatus.endMaintenance();
     }
+	
+	public MaintenanceStatus getMaintenanceStatus() {
+		return maintenanceStatus;
+	}
 
     public List<SlotNumber> getOccupiedSlots() {
         return dockingArea.findOccupiedSlots();
