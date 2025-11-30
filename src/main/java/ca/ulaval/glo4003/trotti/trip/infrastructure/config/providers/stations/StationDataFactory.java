@@ -32,7 +32,7 @@ public final class StationDataFactory {
     }
 
     /**
-     * @deprecated  correct the code in commented lines when application layer is added
+     * @deprecated correct the code in commented lines when application layer is added
      * 
      */
     private void createAndPopulateStation(StationDataRecord data) {
