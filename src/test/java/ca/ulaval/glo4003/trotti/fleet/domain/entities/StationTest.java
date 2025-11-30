@@ -168,4 +168,21 @@ class StationTest {
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
         Mockito.verify(dockingArea).dock(SLOT_NUMBER_2, scooter2);
     }
+
+    @Test
+    void givenStationUnderMaintenance_whenEnsureNotUnderMaintenance_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationNotUnderMaintenance_whenEnsureNotUnderMaintenance_thenDoesNotThrow() {
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertDoesNotThrow(action);
+    }
+
 }

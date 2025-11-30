@@ -104,4 +104,10 @@ public class Station {
             parkScooter(slotNumber, scooter, dockTime);
         }
     }
+
+    public void ensureNotUnderMaintenance() {
+        if (maintenanceStatus.isActive()) {
+            throw new StationMaintenanceException("Station is under maintenance");
+        }
+    }
 }

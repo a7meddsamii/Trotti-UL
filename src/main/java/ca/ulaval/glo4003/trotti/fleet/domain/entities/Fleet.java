@@ -84,4 +84,8 @@ public class Fleet {
             ongoingTransfers.remove(technicianId);
         }
     }
+
+    public void ensureStationNotUnderMaintenance(Location location) {
+        stations.get(location).ensureNotUnderMaintenance();
+    }
 }

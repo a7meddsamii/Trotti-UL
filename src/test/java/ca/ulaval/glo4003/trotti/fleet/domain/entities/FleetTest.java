@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidStationOperation;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
@@ -20,6 +21,7 @@ class FleetTest {
     private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
     public static final int A_NUMBER_OF_SCOOTERS = 1;
+    private static final String STATION_UNDER_MAINTENANCE_ERROR = "Station is under maintenance";
 
     private Station station;
     private Scooter scooter;
@@ -156,6 +158,27 @@ class FleetTest {
         fleet.unloadTransfer(TECHNICIAN, A_LOCATION, slots, A_TIME);
 
         Assertions.assertTrue(transfers.containsKey(TECHNICIAN));
+    }
+
+    @Test
+    void givenStationNotUnderMaintenance_whenEnsureStationNotUnderMaintenance_thenDoesNotThrow() {
+        Mockito.doNothing().when(station).ensureNotUnderMaintenance();
+
+        Executable action = () -> fleet.ensureStationNotUnderMaintenance(A_LOCATION);
+
+        Assertions.assertDoesNotThrow(action);
+        Mockito.verify(station).ensureNotUnderMaintenance();
+    }
+
+    @Test
+    void givenStationUnderMaintenance_whenEnsureStationNotUnderMaintenance_thenThrowsException() {
+        Mockito.doThrow(new StationMaintenanceException(STATION_UNDER_MAINTENANCE_ERROR))
+                .when(station).ensureNotUnderMaintenance();
+
+        Executable action = () -> fleet.ensureStationNotUnderMaintenance(A_LOCATION);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+        Mockito.verify(station).ensureNotUnderMaintenance();
     }
 
     private Map<Idul, Transfer> givenOngoingTransfer() {
