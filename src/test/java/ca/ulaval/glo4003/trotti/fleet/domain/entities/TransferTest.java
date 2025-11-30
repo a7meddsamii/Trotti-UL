@@ -17,13 +17,11 @@ class TransferTest {
 	public static final int AMOUNT_TO_UNLOAD = 1;
 	
 	private Transfer transfer;
-    private Scooter scooter1;
-    private Scooter scooter2;
-
-    @BeforeEach
+	
+	@BeforeEach
     void setup() {
-        scooter1 = Mockito.mock(Scooter.class);
-        scooter2 = Mockito.mock(Scooter.class);
+		Scooter scooter1 = Mockito.mock(Scooter.class);
+		Scooter scooter2 = Mockito.mock(Scooter.class);
 
         transfer = new Transfer(TECHNICIAN_ID, new ArrayList<>(List.of(scooter1, scooter2)));
     }
