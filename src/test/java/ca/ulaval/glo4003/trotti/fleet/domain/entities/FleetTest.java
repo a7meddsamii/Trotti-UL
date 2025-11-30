@@ -15,12 +15,13 @@ import org.mockito.Mockito;
 class FleetTest {
 
     private static final Location A_LOCATION = Location.of("Vachon", "porte1");
-    private static final SlotNumber SLOT_1 = new SlotNumber(1);
+	private static final SlotNumber SLOT_1 = new SlotNumber(1);
     private static final SlotNumber SLOT_2 = new SlotNumber(2);
     private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
-
-    private Station station;
+	public static final int A_NUMBER_OF_SCOOTERS = 1;
+	
+	private Station station;
     private Scooter scooter;
     private ScooterId scooterId;
     private Transfer transfer;
@@ -32,9 +33,7 @@ class FleetTest {
         scooter = Mockito.mock(Scooter.class);
         scooterId = ScooterId.randomId();
         transfer = Mockito.mock(Transfer.class);
-
         Mockito.when(scooter.getScooterId()).thenReturn(scooterId);
-
         fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), new HashMap<>());
     }
 
@@ -102,8 +101,8 @@ class FleetTest {
     void givenTechnicianAlreadyHasTransfer_whenStartTransfer_thenThrowsInvalidTransferException() {
         List<SlotNumber> slots = List.of(SLOT_1);
         Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
-
         fleet.startTransfer(TECHNICIAN, A_LOCATION, slots);
+		
         Executable action = () -> fleet.startTransfer(TECHNICIAN, A_LOCATION, slots);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
@@ -135,7 +134,7 @@ class FleetTest {
     void givenCompletedTransfer_whenUnloadTransfer_thenTransferIsRemoved() {
         List<SlotNumber> slots = List.of(SLOT_1);
         List<Scooter> scooters = List.of(scooter);
-        Mockito.when(transfer.unload(TECHNICIAN, 1)).thenReturn(scooters);
+        Mockito.when(transfer.unload(TECHNICIAN, A_NUMBER_OF_SCOOTERS)).thenReturn(scooters);
         Mockito.when(transfer.isCompleted()).thenReturn(true);
         Map<Idul, Transfer> transfers = givenOngoingTransfer();
         fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), transfers);
