@@ -11,8 +11,8 @@ public class TransferPersistenceMapper {
 
     public TransferRecord toRecord(Transfer transfer) {
         return null;
-	}
-	
+    }
+
     public Transfer toDomain(TransferRecord record) {
         return null;
     }

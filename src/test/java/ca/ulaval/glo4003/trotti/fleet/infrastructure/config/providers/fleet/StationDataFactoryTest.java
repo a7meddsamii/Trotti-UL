@@ -9,16 +9,15 @@ import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-import java.util.ArrayList;
-import java.util.List;
-
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -110,11 +109,11 @@ class StationDataFactoryTest {
             verify(scooterRepository).save(scooter);
         }
     }
-	
-	/**
-	 * TODO correct the code in commented lines
-	 *
-	 */
+
+    /**
+     * @deprecated  correct the code in commented lines when application layer is added
+     *
+     */
     @Test
     void givenStationData_whenRun_thenDocksAllScootersInStation() {
         StationDataRecord record = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
@@ -128,7 +127,7 @@ class StationDataFactoryTest {
         for (int i = 0; i < mockScooters.size(); i++) {
             SlotNumber expectedSlot = new SlotNumber(i);
             ScooterId expectedScooterId = mockScooters.get(i).getScooterId();
-//            verify(mockStation).returnScooter(eq(expectedSlot), eq(expectedScooterId));
+            // verify(mockStation).returnScooter(eq(expectedSlot), eq(expectedScooterId));
         }
     }
 

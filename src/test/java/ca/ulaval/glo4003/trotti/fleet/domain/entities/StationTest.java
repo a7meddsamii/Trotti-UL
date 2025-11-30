@@ -13,15 +13,15 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
-	private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
+    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
     private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
     private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
     private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
-	public static final int EXPECTED_INITIAL_CAPACITY = 8;
-	public static final int CAPACITY = 10;
-	
-	private DockingArea dockingArea;
+    public static final int EXPECTED_INITIAL_CAPACITY = 8;
+    public static final int CAPACITY = 10;
+
+    private DockingArea dockingArea;
     private Location A_LOCATION;
     private Station station;
     private Scooter scooter;
@@ -33,15 +33,15 @@ class StationTest {
         station = new Station(A_LOCATION, dockingArea);
         scooter = Mockito.mock(Scooter.class);
     }
-	
-	@Test
-	void givenStation_whenCalculateInitialScooterCount_thenReturns80PercentOfCapacity() {
-		Mockito.when(dockingArea.getCapacity()).thenReturn(CAPACITY);
-		
-		int initialScooterCount = station.calculateInitialScooterCount();
-		
-		Assertions.assertEquals(EXPECTED_INITIAL_CAPACITY, initialScooterCount);
-	}
+
+    @Test
+    void givenStation_whenCalculateInitialScooterCount_thenReturns80PercentOfCapacity() {
+        Mockito.when(dockingArea.getCapacity()).thenReturn(CAPACITY);
+
+        int initialScooterCount = station.calculateInitialScooterCount();
+
+        Assertions.assertEquals(EXPECTED_INITIAL_CAPACITY, initialScooterCount);
+    }
 
     @Test
     void givenAvailableScooter_whenTakeScooter_thenCompletesUndockingProcess() {
@@ -53,15 +53,15 @@ class StationTest {
         Mockito.verify(dockingArea).undock(SLOT_NUMBER);
         Mockito.verify(scooter).beginUsage(CURRENT_TIME);
     }
-	
-	@Test
-	void givenStationUnderMaintenance_whenTakeScooter_thenThrowsException() {
-		station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
-		
-		Executable action = () -> station.takeScooter(SLOT_NUMBER, CURRENT_TIME);
-		
-		Assertions.assertThrows(StationMaintenanceException.class, action);
-	}
+
+    @Test
+    void givenStationUnderMaintenance_whenTakeScooter_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Executable action = () -> station.takeScooter(SLOT_NUMBER, CURRENT_TIME);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
 
     @Test
     void givenScooterAndSlot_whenParkScooter_thenCompletesDockingProcess() {
@@ -85,7 +85,7 @@ class StationTest {
         station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Mockito.verify(dockingArea).turnOffElectricity(CURRENT_TIME);
-		Assertions.assertTrue(station.getMaintenanceStatus().isActive());
+        Assertions.assertTrue(station.getMaintenanceStatus().isActive());
     }
 
     @Test
@@ -96,13 +96,13 @@ class StationTest {
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
-	
-	@Test
-	void givenStationNotUnderMaintenance_whenEndMaintenance_thenThrowsException() {
-		Executable action = () -> station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
-		
-		Assertions.assertThrows(StationMaintenanceException.class, action);
-	}
+
+    @Test
+    void givenStationNotUnderMaintenance_whenEndMaintenance_thenThrowsException() {
+        Executable action = () -> station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
 
     @Test
     void givenDifferentTechnician_whenEndMaintenance_thenThrowsException() {
@@ -112,16 +112,16 @@ class StationTest {
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
-	
-	@Test
-	void givenStationUnderMaintenance_whenEndMaintenance_thenSwitchMaintenanceStatusToCompleted() {
-		station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
-		
-		station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
-		
-		Mockito.verify(dockingArea).turnOnElectricity(CURRENT_TIME);
-		Assertions.assertFalse(station.getMaintenanceStatus().isActive());
-	}
+
+    @Test
+    void givenStationUnderMaintenance_whenEndMaintenance_thenSwitchMaintenanceStatusToCompleted() {
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Mockito.verify(dockingArea).turnOnElectricity(CURRENT_TIME);
+        Assertions.assertFalse(station.getMaintenanceStatus().isActive());
+    }
 
     @Test
     void givenSlotNumbers_whenRetrieveScootersForTransfer_thenUndocksCorrespondingAmountOfScooters() {

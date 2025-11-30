@@ -9,6 +9,6 @@ public class TripGatewayEntryLoader extends Bootstrapper {
 
     @Override
     public void load() {
-        
+
     }
 }

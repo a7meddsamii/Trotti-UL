@@ -17,16 +17,16 @@ public class MaintenanceStatus {
     }
 
     public static MaintenanceStatus underMaintenance(Idul techId) {
-		if (techId == null) {
-			throw new StationMaintenanceException("Technician ID is required to start maintenance");
-		}
-		
+        if (techId == null) {
+            throw new StationMaintenanceException("Technician ID is required to start maintenance");
+        }
+
         return new MaintenanceStatus(true, techId);
     }
-	
-	public boolean startedBy(Idul techId) {
-		return active && technicianId != null && technicianId.equals(techId);
-	}
+
+    public boolean startedBy(Idul techId) {
+        return active && technicianId != null && technicianId.equals(techId);
+    }
 
     public boolean isActive() {
         return active;

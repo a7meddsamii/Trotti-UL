@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
-
 import java.time.Clock;
 
 public class TripApplicationServiceLoader extends Bootstrapper {
@@ -16,7 +15,6 @@ public class TripApplicationServiceLoader extends Bootstrapper {
     public void load() {
         loadTripApplicationService();
     }
-	
 
     private void loadTripApplicationService() {
         RidePermitGateway ridePermitGateway = this.resourceLocator.resolve(RidePermitGateway.class);

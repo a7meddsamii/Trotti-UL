@@ -4,10 +4,9 @@ import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import java.util.List;
 
 public final class StationDataFactory {
@@ -31,11 +30,11 @@ public final class StationDataFactory {
     public void run(List<StationDataRecord> stationDataRecords) {
         stationDataRecords.forEach(this::createAndPopulateStation);
     }
-	
-	/**
-	 * TODO correct the code in commented lines
-	 * 
-	 */
+
+    /**
+     * @deprecated  correct the code in commented lines when application layer is added
+     * 
+     */
     private void createAndPopulateStation(StationDataRecord data) {
         Location location = Location.of(data.location(), data.name());
         Station station = stationFactory.create(location, data.capacity());
@@ -46,7 +45,7 @@ public final class StationDataFactory {
         for (int i = 0; i < scooters.size(); i++) {
             Scooter scooter = scooters.get(i);
             scooterRepository.save(scooter);
-//            station.returnScooter(new SlotNumber(i), scooter.getScooterId());
+            // station.returnScooter(new SlotNumber(i), scooter.getScooterId());
         }
 
         stationRepository.save(station);

@@ -19,7 +19,7 @@ class BatteryLevelStateTest {
                 CURRENT_TIME, A_BATTERY_LEVEL);
 
         BatteryLevel result = BatteryState.DISCHARGING.computeLevel(LAST_BATTERY_UPDATE,
-																	CURRENT_TIME, A_BATTERY_LEVEL);
+                CURRENT_TIME, A_BATTERY_LEVEL);
 
         Assertions.assertEquals(expectedResult, result);
     }

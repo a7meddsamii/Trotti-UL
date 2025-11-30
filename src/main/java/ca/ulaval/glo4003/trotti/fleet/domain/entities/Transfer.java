@@ -38,8 +38,8 @@ public class Transfer {
                     "Invalid number of scooters to unload: " + numberOfScooters);
         }
     }
-	
-	public List<Scooter> getScootersToMove() {
-		return Collections.unmodifiableList(scootersToMove);
-	}
+
+    public List<Scooter> getScootersToMove() {
+        return Collections.unmodifiableList(scootersToMove);
+    }
 }

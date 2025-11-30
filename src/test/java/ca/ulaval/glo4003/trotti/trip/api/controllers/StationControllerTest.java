@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
-
 import java.util.List;
 
 class StationControllerTest {

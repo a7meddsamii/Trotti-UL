@@ -13,8 +13,7 @@ import ca.ulaval.glo4003.trotti.trip.application.dto.UndockScooterDto;
 public class StationOperationEntry {
     private final StationApiMapper stationApiMapper;
 
-    public StationOperationEntry(
-            StationApiMapper stationApiMapper) {
+    public StationOperationEntry(StationApiMapper stationApiMapper) {
         this.stationApiMapper = stationApiMapper;
     }
 
@@ -26,6 +25,6 @@ public class StationOperationEntry {
 
     public void returnScooter(ReturnScooterRequest returnScooterRequest) {
         DockScooterDto dockScooterDto = stationApiMapper.toDockScooterDto(returnScooterRequest);
-        
+
     }
 }

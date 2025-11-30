@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.fixtures;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.domain.entities.DockingArea;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Station;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
@@ -35,7 +34,7 @@ public class StationFixture {
     }
 
     public Station build() {
-//        DockingArea dockingArea = new DockingArea(scooterSlots);
+        // DockingArea dockingArea = new DockingArea(scooterSlots);
         return new Station(location, null);
     }
 }

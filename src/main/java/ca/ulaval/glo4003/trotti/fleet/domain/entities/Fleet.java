@@ -29,20 +29,20 @@ public class Fleet {
         Station station = stations.get(location);
         Scooter scooter = station.takeScooter(slotNumber, rentStartTime);
         rentedScooters.put(scooter.getScooterId(), scooter);
-		
+
         return scooter.getScooterId();
     }
 
     public void returnScooter(ScooterId scooterId, Location location, SlotNumber slotNumber,
             LocalDateTime returnTime) {
         Scooter scooter = rentedScooters.remove(scooterId);
-		
-		if (scooter == null) {
-			throw new InvalidStationOperation("Current scooter does not seem to have been rented");
-		}
-		
-		Station station = stations.get(location);
-		station.parkScooter(slotNumber, scooter, returnTime);
+
+        if (scooter == null) {
+            throw new InvalidStationOperation("Current scooter does not seem to have been rented");
+        }
+
+        Station station = stations.get(location);
+        station.parkScooter(slotNumber, scooter, returnTime);
     }
 
     public void startMaintenance(Location location, Idul technicianId, LocalDateTime startTime) {
