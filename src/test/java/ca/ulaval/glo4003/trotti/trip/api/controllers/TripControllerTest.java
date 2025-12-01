@@ -58,6 +58,13 @@ class TripControllerTest {
         Assertions.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
+    @Test
+    void whenGetTripHistory_thenReturnsOkResponse() {
+        Response response = resource.getTripHistory(TRAVELER_IDUL, null);
+
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
     private StartTripRequest startTripRequest() {
         return new StartTripRequest(RIDE_PERMIT_ID, UNLOCK_CODE, LOCATION, SLOT_NUMBER);
     }
