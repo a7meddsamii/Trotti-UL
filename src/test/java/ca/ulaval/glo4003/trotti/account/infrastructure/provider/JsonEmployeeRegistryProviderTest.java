@@ -36,19 +36,25 @@ class JsonEmployeeRegistryProviderTest {
 
     @Test
     void givenEmployeeIdul_whenCheckingExistence_thenReturnsTrue() throws IOException {
+        // given
         Files.writeString(temporaryFile, EMPLOYEES_IDUL_JSON);
 
+        // when
         boolean exists = employeeRegistryProvider.exists(EMPLOYEE_IDUL);
 
+        // then
         Assertions.assertTrue(exists);
     }
 
     @Test
     void givenNonEmployeeIdul_whenCheckingExistence_thenReturnsFalse() throws IOException {
+        // given
         Files.writeString(temporaryFile, EMPLOYEES_IDUL_JSON);
 
+        // when
         boolean exists = employeeRegistryProvider.exists(NON_EMPLOYEE_IDUL);
 
+        // then
         Assertions.assertFalse(exists);
     }
 }

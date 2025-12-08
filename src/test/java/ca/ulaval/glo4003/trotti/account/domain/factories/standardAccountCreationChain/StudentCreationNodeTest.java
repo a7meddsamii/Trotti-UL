@@ -23,7 +23,7 @@ class StudentCreationNodeTest {
     private StudentCreationNode studentCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         nextNode = Mockito.mock(StandardAccountCreationNode.class);
         studentCreationNode = new StudentCreationNode();
         studentCreationNode.setNext(nextNode);
@@ -31,27 +31,33 @@ class StudentCreationNodeTest {
 
     @Test
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
+        // given
         role = Role.STUDENT;
 
-        Account expected = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
+        // when
+        Account result = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
                 AN_IDUL, A_EMAIL, role);
 
-        Assertions.assertEquals(A_NAME, expected.getName());
-        Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(A_GENDER, expected.getGender());
-        Assertions.assertEquals(AN_IDUL, expected.getIdul());
-        Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(role, expected.getRole());
-        Assertions.assertNotNull(expected.getPermissions());
+        // then
+        Assertions.assertEquals(A_NAME, result.getName());
+        Assertions.assertEquals(A_BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(A_GENDER, result.getGender());
+        Assertions.assertEquals(AN_IDUL, result.getIdul());
+        Assertions.assertEquals(A_EMAIL, result.getEmail());
+        Assertions.assertEquals(role, result.getRole());
+        Assertions.assertNotNull(result.getPermissions());
     }
 
     @Test
-    void givenNoStudentRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
+        // given
         role = Role.TECHNICIAN;
 
+        // when
         studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 role);
 
+        // then
         Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role);
     }

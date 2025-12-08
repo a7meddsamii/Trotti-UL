@@ -28,7 +28,7 @@ class TechnicianCreationNodeTest {
     private TechnicianCreationNode technicianCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         availablePermissions = Mockito.mock(Set.class);
         nextNode = Mockito.mock(AdminManagedAccountCreationNode.class);
         role = Role.TECHNICIAN;
@@ -37,40 +37,49 @@ class TechnicianCreationNodeTest {
     }
 
     @Test
-    void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
+    void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenTechnicianAccountIsCreated() {
+        // given
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
+        // when
+        Account result = technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
                 A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
 
-        Assertions.assertEquals(A_NAME, expected.getName());
-        Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(A_GENDER, expected.getGender());
-        Assertions.assertEquals(AN_IDUL, expected.getIdul());
-        Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(role, expected.getRole());
-        Assertions.assertNotNull(expected.getPermissions());
+        // then
+        Assertions.assertEquals(A_NAME, result.getName());
+        Assertions.assertEquals(A_BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(A_GENDER, result.getGender());
+        Assertions.assertEquals(AN_IDUL, result.getIdul());
+        Assertions.assertEquals(A_EMAIL, result.getEmail());
+        Assertions.assertEquals(role, result.getRole());
+        Assertions.assertNotNull(result.getPermissions());
     }
 
     @Test
     void givenNoTechnicianRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
+        // given
         role = Role.EMPLOYEE;
 
+        // when
         technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role, availablePermissions);
 
+        // then
         Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role, availablePermissions);
     }
 
     @Test
     void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsAuthorizationException() {
+        // given
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
+        // when
         Executable executable = () -> technicianCreationNode.createAdminManagedAccount(A_NAME,
                 A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
 
+        // then
         Assertions.assertThrows(AuthorizationException.class, executable);
     }
 
