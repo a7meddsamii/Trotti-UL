@@ -27,19 +27,19 @@ public class Transfer {
         return scootersToMove.isEmpty();
     }
 
-    private void validateUnloadOperation(Idul technicianId, int numberOfScooters) {
-        if (!this.technicianId.equals(technicianId)) {
-            throw new InvalidTransferException(
-                    "Technician " + technicianId + " is not assigned to this transfer");
-        }
-
-        if (numberOfScooters <= 0 || numberOfScooters > scootersToMove.size()) {
-            throw new InvalidTransferException(
-                    "Invalid number of scooters to unload: " + numberOfScooters);
-        }
-    }
-
     public List<Scooter> getScootersToMove() {
         return Collections.unmodifiableList(scootersToMove);
     }
+	
+	private void validateUnloadOperation(Idul technicianId, int numberOfScooters) {
+		if (!this.technicianId.equals(technicianId)) {
+			throw new InvalidTransferException(
+					"Technician " + technicianId + " is not assigned to this transfer");
+		}
+		
+		if (numberOfScooters <= 0 || numberOfScooters > scootersToMove.size()) {
+			throw new InvalidTransferException(
+					"Invalid number of scooters to unload: " + numberOfScooters);
+		}
+	}
 }
