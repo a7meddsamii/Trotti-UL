@@ -42,17 +42,17 @@ public class DockingArea {
     public Map<SlotNumber, ScooterSlot> getScooterSlots() {
         return Collections.unmodifiableMap(scooterSlots);
     }
-	
+
     public List<SlotNumber> findOccupiedSlots() {
         return scooterSlots.entrySet().stream().filter(entry -> entry.getValue().isOccupied())
                 .map(Map.Entry::getKey).toList();
     }
-	
+
     public List<SlotNumber> findAvailableSlots() {
         return scooterSlots.entrySet().stream().filter(entry -> !entry.getValue().isOccupied())
                 .map(Map.Entry::getKey).toList();
     }
-	
+
     public Map<SlotNumber, Scooter> getDockedScooters() {
         Map<SlotNumber, Scooter> scooters = new HashMap<>();
 
@@ -64,10 +64,10 @@ public class DockingArea {
 
         return scooters;
     }
-	
-	private void validateSlotNumber(SlotNumber slotNumber) {
-		if (!scooterSlots.containsKey(slotNumber)) {
-			throw new DockingException("Slot " + slotNumber + " does not exist at this station.");
-		}
-	}
+
+    private void validateSlotNumber(SlotNumber slotNumber) {
+        if (!scooterSlots.containsKey(slotNumber)) {
+            throw new DockingException("Slot " + slotNumber + " does not exist at this station.");
+        }
+    }
 }
