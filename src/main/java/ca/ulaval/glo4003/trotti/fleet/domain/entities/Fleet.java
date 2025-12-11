@@ -60,28 +60,28 @@ public class Fleet {
     }
 
     public void depositScooters(Location location, List<SlotNumber> slotNumbers,
-								List<ScooterId> scooterIds, LocalDateTime dockTime) {
+            List<ScooterId> scooterIds, LocalDateTime dockTime) {
         if (slotNumbers.size() != scooterIds.size()) {
             throw new InvalidTransferException("Slot count and scooter count must match");
         }
-		
-		List<Scooter> scootersToDeposit = getDisplacedScooters(scooterIds);
-		Station station = stations.get(location);
+
+        List<Scooter> scootersToDeposit = getDisplacedScooters(scooterIds);
+        Station station = stations.get(location);
         station.parkScooters(slotNumbers, scootersToDeposit, dockTime);
     }
-	
-	private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
-		List<Scooter> scootersToDeposit = new ArrayList<>();
-		
-		for (ScooterId scooterId : scooterIds) {
-			Scooter scooter = displacedScooters.remove(scooterId);
-			if (scooter == null) {
-				throw new InvalidTransferException(
-						"Scooter with ID " + scooterId + " is not displaced");
-			}
-			scootersToDeposit.add(scooter);
-		}
-		
-		return scootersToDeposit;
-	}
+
+    private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
+        List<Scooter> scootersToDeposit = new ArrayList<>();
+
+        for (ScooterId scooterId : scooterIds) {
+            Scooter scooter = displacedScooters.remove(scooterId);
+            if (scooter == null) {
+                throw new InvalidTransferException(
+                        "Scooter with ID " + scooterId + " is not displaced");
+            }
+            scootersToDeposit.add(scooter);
+        }
+
+        return scootersToDeposit;
+    }
 }
