@@ -27,6 +27,10 @@ public class Transfer {
         return scootersToMove.isEmpty();
     }
 
+    public List<Scooter> getScootersToMove() {
+        return Collections.unmodifiableList(scootersToMove);
+    }
+
     private void validateUnloadOperation(Idul technicianId, int numberOfScooters) {
         if (!this.technicianId.equals(technicianId)) {
             throw new InvalidTransferException(
@@ -37,9 +41,5 @@ public class Transfer {
             throw new InvalidTransferException(
                     "Invalid number of scooters to unload: " + numberOfScooters);
         }
-    }
-
-    public List<Scooter> getScootersToMove() {
-        return Collections.unmodifiableList(scootersToMove);
     }
 }

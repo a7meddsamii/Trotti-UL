@@ -71,7 +71,7 @@ public class Station {
             throw new StationMaintenanceException("Station is not under maintenance");
         }
 
-        if (!this.maintenanceStatus.startedBy(technicianId)) {
+        if (!this.maintenanceStatus.isStartedBy(technicianId)) {
             throw new StationMaintenanceException(
                     "Station maintenance can only be ended by the technician who started it");
         }
