@@ -12,38 +12,30 @@ class IdulTest {
 
     @Test
     void givenValidIdul_whenCreate_thenIdulIsCreated() {
-        // when
         Executable idulCreation = () -> Idul.from(VALID_IDUL);
 
-        // then
         Assertions.assertDoesNotThrow(idulCreation);
     }
 
     @Test
     void givenNullIdul_whenCreate_thenThrowsInvalidParameterException() {
-        // when
         Executable idulCreation = () -> Idul.from(null);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test
     void givenEmptyIdul_whenCreate_thenThrowsInvalidParameterException() {
-        // when
         Executable idulCreation = () -> Idul.from(StringUtils.EMPTY);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test
     void givenTwoIdulWithSameValue_whenCompare_thenTheyAreEqual() {
-        // given
         Idul idul1 = Idul.from(VALID_IDUL);
         Idul idul2 = Idul.from(VALID_IDUL);
 
-        // then
         Assertions.assertEquals(idul1, idul2);
         Assertions.assertEquals(idul1.hashCode(), idul2.hashCode());
     }

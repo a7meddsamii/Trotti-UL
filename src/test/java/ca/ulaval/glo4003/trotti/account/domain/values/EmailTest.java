@@ -15,58 +15,46 @@ class EmailTest {
 
     @Test
     void givenTwoSameValidEmails_whenCompare_thenTheyAreEqual() {
-        // given
         Email email1 = Email.from(VALID_ULAVAL_EMAIL);
         Email email2 = Email.from(VALID_ULAVAL_EMAIL);
 
-        // then
         Assertions.assertEquals(email1, email2);
         Assertions.assertEquals(email1.hashCode(), email2.hashCode());
     }
 
     @Test
     void givenTwoDifferentValidEmails_whenCompare_thenTheyAreNotEqual() {
-        // given
         Email email1 = Email.from(VALID_ULAVAL_EMAIL);
         Email email2 = Email.from(ANOTHER_VALID_ULAVAL_EMAIL);
 
-        // then
         Assertions.assertNotEquals(email1, email2);
     }
 
     @Test
     void givenEmailWithWrongDomain_whenCreateEmail_thenThrowsInvalidParameterException() {
-        // when
         Executable emailCreationAttempt = () -> Email.from(INVALID_DOMAIN_EMAIL);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenEmptyEmail_whenCreateEmail_thenThrowsInvalidParameterException() {
-        // when
         Executable emailCreationAttempt = () -> Email.from(StringUtils.EMPTY);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenNullEmail_whenCreateEmail_thenThrowsInvalidParameterException() {
-        // when
         Executable emailCreationAttempt = () -> Email.from(null);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
     void givenEmailWithDoubleAt_whenCreateEmail_thenThrowsInvalidParameterException() {
-        // when
         Executable emailCreationAttempt = () -> Email.from(DOUBLE_AT_EMAIL);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 }

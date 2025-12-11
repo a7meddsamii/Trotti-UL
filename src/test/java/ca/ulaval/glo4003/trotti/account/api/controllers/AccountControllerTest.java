@@ -45,13 +45,10 @@ class AccountControllerTest {
 
     @Test
     void givenValidCreateAccountRequest_whenCreateAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
-        // given
         Mockito.when(accountApiMapper.toPasswordRegistrationDto(request)).thenReturn(mappedDto);
 
-        // when
         Response response = accountController.createAccount(request);
 
-        // then
         Mockito.verify(accountApplicationService).createAccount(mappedDto);
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
@@ -60,11 +57,9 @@ class AccountControllerTest {
 
     @Test
     void givenValidCreateAdminManagedRequest_whenCreateAdminManagedAccount_thenReturns201CreatedWithLocationHeaderWithRequestIdul() {
-        // when
         Response response =
                 accountController.createAdminManagedAccount(ADMIN_MANAGED_ACCOUNT_IDUL, request);
 
-        // then
         Mockito.verify(accountApiMapper).toPasswordRegistrationDto(request);
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),

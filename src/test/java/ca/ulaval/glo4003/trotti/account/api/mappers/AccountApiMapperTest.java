@@ -24,39 +24,31 @@ class AccountApiMapperTest {
     }
 
     @Test
-    void givenInvalidDateFormat_whenToPasswordRegistrationDto_thenThrowsDateTimeParseException() {
-        // given
+    void givenInvalidDateFormat_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
         CreateAccountRequest request = new CreateAccountRequestFixture()
                 .withBirthDate(INVALID_BIRTHDATE)
                 .build();
 
-        // when
         Executable toPasswordRegistrationDto = () -> accountApiMapper.toPasswordRegistrationDto(request);
 
-        // then
-        Assertions.assertThrows(DateTimeParseException.class, toPasswordRegistrationDto);
+        Assertions.assertThrows(InvalidParameterException.class, toPasswordRegistrationDto);
     }
 
     @Test
-    void givenWrongFormattedBirthDate_whenToPasswordRegistrationDto_thenThrowsDateTimeParseException() {
-        // given
+    void givenWrongFormattedBirthDate_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
         CreateAccountRequest request = new CreateAccountRequestFixture()
                 .withBirthDate(WRONG_FORMATTED_BIRTHDATE)
                 .build();
 
-        // when
         Executable toPasswordRegistrationDto = () -> accountApiMapper.toPasswordRegistrationDto(request);
 
-        // then
-        Assertions.assertThrows(DateTimeParseException.class, toPasswordRegistrationDto);
+        Assertions.assertThrows(InvalidParameterException.class, toPasswordRegistrationDto);
     }
 
     @Test
     void givenNullRequest_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
-        // when
         Executable toPasswordRegistrationDto = () -> accountApiMapper.toPasswordRegistrationDto(null);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, toPasswordRegistrationDto);
     }
 }

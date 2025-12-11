@@ -24,21 +24,18 @@ class GenderTest {
 
     @Test
     void givenMaleString_whenFromString_thenReturnMaleEnum() {
-        // when & then
         Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_STRING));
         Assertions.assertEquals(Gender.MALE, Gender.fromString(MALE_SHORTCUT));
     }
 
     @Test
     void givenFemaleString_whenFromString_thenReturnFemaleEnum() {
-        // when & then
         Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_STRING));
         Assertions.assertEquals(Gender.FEMALE, Gender.fromString(FEMALE_SHORTCUT));
     }
 
     @Test
     void givenNonBinaryString_whenFromString_thenReturnNonBinaryEnum() {
-        // when & then
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_STRING));
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_ALT));
         Assertions.assertEquals(Gender.NON_BINARY, Gender.fromString(NON_BINARY_SHORTCUT));
@@ -46,23 +43,19 @@ class GenderTest {
 
     @Test
     void givenUnspecifiedString_whenFromString_thenReturnUnspecifiedEnum() {
-        // when & then
         Assertions.assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_STRING));
         Assertions.assertEquals(Gender.UNSPECIFIED, Gender.fromString(UNSPECIFIED_SHORTCUT));
     }
 
     @Test
     void givenInvalidString_whenFromString_thenThrowsInvalidParameterException() {
-        // when
         Executable executable = () -> Gender.fromString(INVALID_STRING);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
 
     @Test
     void givenEnumConstant_whenToString_thenReturnExpectedLabel() {
-        // when & then
         Assertions.assertEquals(MALE_LABEL, Gender.MALE.toString());
         Assertions.assertEquals(FEMALE_LABEL, Gender.FEMALE.toString());
         Assertions.assertEquals(NON_BINARY_LABEL, Gender.NON_BINARY.toString());
@@ -71,10 +64,8 @@ class GenderTest {
 
     @Test
     void givenInvalidString_whenFromString_thenThrowsInvalidParameterExceptionWithAcceptedValuesInMessage() {
-        // when
         Executable executable = () -> Gender.fromString(INVALID_STRING);
 
-        // then
         InvalidParameterException exception =
                 Assertions.assertThrows(InvalidParameterException.class, executable);
         Assertions.assertTrue(exception.getMessage().contains(Gender.MALE.toString()));

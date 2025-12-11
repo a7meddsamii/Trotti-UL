@@ -38,30 +38,24 @@ class AuthenticationControllerTest {
 
     @Test
     void givenValidLoginRequest_whenLogin_thenReturnsLoginResponseWithToken() {
-        // when
         Response response = authenticationController.login(request);
 
-        // then
         LoginResponse expectedResponse = new LoginResponse(SESSION_TOKEN);
         Assertions.assertEquals(expectedResponse, response.getEntity());
     }
 
     @Test
     void givenValidLoginRequest_whenLogin_thenServiceIsCalledWithEmailAndPassword() {
-        // when
         authenticationController.login(request);
 
-        // then
         LoginDto loginDto = new LoginDto(Email.from(VALID_EMAIL), VALID_PASSWORD);
         Mockito.verify(accountApplicationService).login(loginDto);
     }
 
     @Test
     void givenNullRequest_whenLogin_thenThrowsInvalidParameterException() {
-        // when
         Executable loginAttempt = () -> authenticationController.login(null);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, loginAttempt);
     }
 }

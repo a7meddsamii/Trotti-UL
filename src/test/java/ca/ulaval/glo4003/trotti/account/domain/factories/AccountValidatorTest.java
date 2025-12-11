@@ -34,31 +34,25 @@ class AccountValidatorTest {
 
     @Test
     void givenBirthDateYoungerThanMinimumAge_whenValidateBirthDate_thenThrowsInvalidParameterException() {
-        // when
         Executable tooYoungException =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, tooYoungException);
     }
 
     @Test
     void givenBirthDateExactlyMinimumAge_whenValidateBirthDate_thenDoesNotThrowException() {
-        // when
         Executable exactAgeValidation =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
 
-        // then
         Assertions.assertDoesNotThrow(exactAgeValidation);
     }
 
     @Test
     void givenBirthDateOlderThanMinimumAge_whenValidateBirthDate_thenDoesNotThrowException() {
-        // when
         Executable olderAgeValidation =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
 
-        // then
         Assertions.assertDoesNotThrow(olderAgeValidation);
     }
 

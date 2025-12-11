@@ -13,13 +13,10 @@ class AccountTest {
 
     @Test
     void givenBirthDate_whenGetAge_thenReturnCorrectAge() {
-        // given
         Account account = new AccountFixture().withBirthDate(GIVEN_BIRTHDATE).build();
 
-        // when
         int actualAge = account.getAge();
 
-        // then
         Assertions.assertEquals(EXPECTED_AGE, actualAge);
     }
 }

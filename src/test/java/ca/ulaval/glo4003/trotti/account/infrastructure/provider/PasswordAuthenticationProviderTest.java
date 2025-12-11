@@ -41,64 +41,51 @@ class PasswordAuthenticationProviderTest {
 
     @Test
     void givenValidPassword_whenRegister_thenVerifyReturnsEmail() {
-        // given
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(A_VALID_PASSWORD, A_HASHED_PASSWORD)).thenReturn(true);
         provider.register(registration);
         LoginDto loginDto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
-        // when
         Email result = provider.verify(loginDto);
 
-        // then
         Assertions.assertEquals(EMAIL, result);
     }
 
     @Test
     void givenInvalidPassword_whenRegister_thenThrowsInvalidParameterException() {
-        // given
         RegistrationDto registration = new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 EMAIL, AN_INVALID_PASSWORD, A_ROLE);
 
-        // when
         Executable executable = () -> provider.register(registration);
 
-        // then
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
 
     @Test
     void givenNonExistentEmail_whenVerify_thenThrowsAuthenticationException() {
-        // given
         LoginDto dto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
-        // when
         Executable executable = () -> provider.verify(dto);
 
-        // then
         Assertions.assertThrows(AuthenticationException.class, executable);
     }
 
     @Test
     void givenExistingEmailWithMatchingPassword_whenVerify_thenReturnsEmail() {
-        // given
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(A_VALID_PASSWORD, A_HASHED_PASSWORD)).thenReturn(true);
         provider.register(registration);
         LoginDto login = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
-        // when
         Email result = provider.verify(login);
 
-        // then
         Assertions.assertEquals(EMAIL, result);
     }
 
     @Test
     void givenExistingEmailWithWrongPassword_whenVerify_thenThrowsAuthenticationException() {
-        // given
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD))
@@ -106,10 +93,8 @@ class PasswordAuthenticationProviderTest {
         provider.register(registration);
         LoginDto dto = new LoginDto(EMAIL, NON_MATCHING_PASSWORD);
 
-        // when
         Executable executable = () -> provider.verify(dto);
 
-        // then
         Assertions.assertThrows(AuthenticationException.class, executable);
     }
 

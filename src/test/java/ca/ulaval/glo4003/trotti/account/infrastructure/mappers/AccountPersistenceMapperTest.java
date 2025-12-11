@@ -18,13 +18,10 @@ class AccountPersistenceMapperTest {
 
     @Test
     void givenAccount_whenToDTO_thenReturnPersistenceEntity() {
-        // given
         Account account = new AccountFixture().build();
 
-        // when
         AccountRecord persistenceEntity = accountMapper.toDTO(account);
 
-        // then
         Assertions.assertEquals(account.getIdul(), persistenceEntity.idul());
         Assertions.assertEquals(account.getName(), persistenceEntity.name());
         Assertions.assertEquals(account.getBirthDate(), persistenceEntity.birthDate());
@@ -36,16 +33,13 @@ class AccountPersistenceMapperTest {
 
     @Test
     void givenPersistenceEntity_whenToEntity_thenReturnAccount() {
-        // given
         AccountRecord persistenceEntity = new AccountRecord(AccountFixture.AN_IDUL,
                 AccountFixture.A_NAME, AccountFixture.A_BIRTHDATE, AccountFixture.A_GENDER,
                 AccountFixture.AN_EMAIL, AccountFixture.A_ROLE, AccountFixture.A_SET_OF_PERMISSION,
                 AccountFixture.A_SET_OF_ADVANTAGES);
 
-        // when
         Account account = accountMapper.toEntity(persistenceEntity);
 
-        // then
         Assertions.assertEquals(persistenceEntity.idul(), account.getIdul());
         Assertions.assertEquals(persistenceEntity.name(), account.getName());
         Assertions.assertEquals(persistenceEntity.birthDate(), account.getBirthDate());

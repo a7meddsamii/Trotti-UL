@@ -31,14 +31,11 @@ class StudentCreationNodeTest {
 
     @Test
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
-        // given
         role = Role.STUDENT;
 
-        // when
         Account result = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
                 AN_IDUL, A_EMAIL, role);
 
-        // then
         Assertions.assertEquals(A_NAME, result.getName());
         Assertions.assertEquals(A_BIRTHDATE, result.getBirthDate());
         Assertions.assertEquals(A_GENDER, result.getGender());
@@ -50,14 +47,11 @@ class StudentCreationNodeTest {
 
     @Test
     void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
-        // given
         role = Role.TECHNICIAN;
 
-        // when
         studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
                 role);
 
-        // then
         Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 A_EMAIL, role);
     }
