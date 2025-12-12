@@ -173,4 +173,27 @@ class FleetTest {
 
         return displacedScooters;
     }
+
+    @Test
+    void givenLocation_whenGetAvailableSlots_thenReturnsStationAvailableSlots() {
+        List<SlotNumber> availableSlots = List.of(SLOT_1, SLOT_2);
+        Mockito.when(station.getAvailableSlots()).thenReturn(availableSlots);
+
+        List<SlotNumber> result = fleet.getAvailableSlots(A_LOCATION);
+
+        Assertions.assertEquals(availableSlots, result);
+        Mockito.verify(station).getAvailableSlots();
+    }
+
+    @Test
+    void givenLocation_whenGetOccupiedSlots_thenReturnsStationOccupiedSlots() {
+        List<SlotNumber> occupiedSlots = List.of(SLOT_1);
+        Mockito.when(station.getOccupiedSlots()).thenReturn(occupiedSlots);
+
+        List<SlotNumber> result = fleet.getOccupiedSlots(A_LOCATION);
+
+        Assertions.assertEquals(occupiedSlots, result);
+        Mockito.verify(station).getOccupiedSlots();
+    }
+
 }

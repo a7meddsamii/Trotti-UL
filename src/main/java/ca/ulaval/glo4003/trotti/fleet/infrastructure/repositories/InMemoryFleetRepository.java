@@ -6,21 +6,23 @@ import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.mappers.FleetP
 import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.records.FleetRecord;
 
 public class InMemoryFleetRepository implements FleetRepository {
-	private final FleetPersistenceMapper fleetPersistenceMapper;
-	private FleetRecord fleetRecord;
-	
-	public InMemoryFleetRepository(FleetRecord fleetRecord, FleetPersistenceMapper fleetPersistenceMapper) {
-		this.fleetRecord = fleetRecord;
-		this.fleetPersistenceMapper = fleetPersistenceMapper;
-	}
-	
-	@Override
-	public Fleet getFleet() {
-		return fleetPersistenceMapper.toDomain(fleetRecord);
-	}
-	
-	@Override
-	public void save(Fleet fleet) {
-		fleetRecord = fleetPersistenceMapper.toRecord(fleet);
-	}
+    private final FleetPersistenceMapper fleetPersistenceMapper;
+    private FleetRecord fleetRecord;
+
+    public InMemoryFleetRepository(
+            FleetRecord fleetRecord,
+            FleetPersistenceMapper fleetPersistenceMapper) {
+        this.fleetRecord = fleetRecord;
+        this.fleetPersistenceMapper = fleetPersistenceMapper;
+    }
+
+    @Override
+    public Fleet getFleet() {
+        return fleetPersistenceMapper.toDomain(fleetRecord);
+    }
+
+    @Override
+    public void save(Fleet fleet) {
+        fleetRecord = fleetPersistenceMapper.toRecord(fleet);
+    }
 }

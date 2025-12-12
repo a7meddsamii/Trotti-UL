@@ -70,16 +70,16 @@ public class Fleet {
         Station station = stations.get(location);
         station.parkScooters(slotNumbers, scootersToDeposit, dockTime);
     }
-	
-	public Map<Location, Station> getStations() {
-		return Collections.unmodifiableMap(stations);
-	}
-	
-	public Map<ScooterId, Scooter> getDisplacedScooters() {
-		return Collections.unmodifiableMap(displacedScooters);
-	}
-	
-	private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
+
+    public Map<Location, Station> getStations() {
+        return Collections.unmodifiableMap(stations);
+    }
+
+    public Map<ScooterId, Scooter> getDisplacedScooters() {
+        return Collections.unmodifiableMap(displacedScooters);
+    }
+
+    private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
         List<Scooter> scootersToDeposit = new ArrayList<>();
 
         for (ScooterId scooterId : scooterIds) {
@@ -92,6 +92,16 @@ public class Fleet {
         }
 
         return scootersToDeposit;
+    }
+
+    public List<SlotNumber> getAvailableSlots(Location location) {
+        Station station = stations.get(location);
+        return station.getAvailableSlots();
+    }
+
+    public List<SlotNumber> getOccupiedSlots(Location location) {
+        Station station = stations.get(location);
+        return station.getOccupiedSlots();
     }
 
     public void ensureStationNotUnderMaintenance(Location location) {

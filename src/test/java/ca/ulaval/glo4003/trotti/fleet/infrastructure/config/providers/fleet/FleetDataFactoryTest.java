@@ -14,8 +14,6 @@ import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.FleetDataFactory;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
 import java.time.Clock;
@@ -51,7 +49,8 @@ class FleetDataFactoryTest {
         fleetRepository = Mockito.mock(FleetRepository.class);
         Clock clock = Clock.fixed(FIXED_TIME, Clock.systemDefaultZone().getZone());
 
-        fleetDataFactory = new FleetDataFactory(stationFactory, scooterFactory, fleetRepository, clock);
+        fleetDataFactory =
+                new FleetDataFactory(stationFactory, scooterFactory, fleetRepository, clock);
 
         mockStation = Mockito.mock(Station.class);
         mockScooters = createMockScooters();
@@ -122,12 +121,12 @@ class FleetDataFactoryTest {
         when(mockStation.calculateInitialScooterCount()).thenReturn(EXPECTED_INITIAL_SCOOTER_COUNT);
         when(scooterFactory.create(eq(EXPECTED_INITIAL_SCOOTER_COUNT), any(Location.class)))
                 .thenReturn(mockScooters);
-    
+
         fleetDataFactory.run(List.of(record));
-    
+
         ArgumentCaptor<Fleet> fleetCaptor = ArgumentCaptor.forClass(Fleet.class);
         verify(fleetRepository).save(fleetCaptor.capture());
-    
+
         Fleet savedFleet = fleetCaptor.getValue();
         assertNotNull(savedFleet);
         assertEquals(1, savedFleet.getStations().size());
