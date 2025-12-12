@@ -18,19 +18,19 @@ class StationTest {
     private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
     private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
-    public static final int EXPECTED_INITIAL_CAPACITY = 8;
-    public static final int CAPACITY = 10;
+	private static final int EXPECTED_INITIAL_CAPACITY = 8;
+	private static final int CAPACITY = 10;
 
     private DockingArea dockingArea;
-    private Location A_LOCATION;
+    private Location location;
     private Station station;
     private Scooter scooter;
 
     @BeforeEach
     void setup() {
         dockingArea = Mockito.mock(DockingArea.class);
-        A_LOCATION = Mockito.mock(Location.class);
-        station = new Station(A_LOCATION, dockingArea);
+        location = Mockito.mock(Location.class);
+        station = new Station(location, dockingArea);
         scooter = Mockito.mock(Scooter.class);
     }
 
@@ -68,7 +68,7 @@ class StationTest {
         station.parkScooter(SLOT_NUMBER, scooter, CURRENT_TIME);
 
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
-        Mockito.verify(scooter).endUsage(A_LOCATION, CURRENT_TIME);
+        Mockito.verify(scooter).endUsage(location, CURRENT_TIME);
     }
 
     @Test

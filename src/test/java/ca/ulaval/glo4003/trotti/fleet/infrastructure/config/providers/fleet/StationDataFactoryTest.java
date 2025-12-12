@@ -16,6 +16,8 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
+
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,9 +47,10 @@ class StationDataFactoryTest {
         scooterFactory = Mockito.mock(ScooterFactory.class);
         stationRepository = Mockito.mock(StationRepository.class);
         scooterRepository = Mockito.mock(ScooterRepository.class);
+		Clock clock = Mockito.mock(Clock.class);
 
         stationDataFactory = new StationDataFactory(stationFactory, scooterFactory,
-                stationRepository, scooterRepository);
+                stationRepository, scooterRepository, clock);
 
         mockStation = Mockito.mock(Station.class);
         mockScooters = createMockScooters(EXPECTED_INITIAL_SCOOTER_COUNT);

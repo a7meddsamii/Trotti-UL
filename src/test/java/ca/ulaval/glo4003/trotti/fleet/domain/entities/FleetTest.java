@@ -78,14 +78,14 @@ class FleetTest {
     }
 
     @Test
-    void givenTechnician_whenStartMaintenance_thenStationStartsMaintenance() {
+    void givenValidMaintenanceInfo_whenStartMaintenance_thenStationStartsMaintenance() {
         fleet.startMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
 
         Mockito.verify(station).startMaintenance(TECHNICIAN, A_TIME);
     }
 
     @Test
-    void givenTechnician_whenEndMaintenance_thenStationEndsMaintenance() {
+    void givenValidMaintenanceInfo_whenEndMaintenance_thenStationEndsMaintenance() {
         fleet.endMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
 
         Mockito.verify(station).endMaintenance(TECHNICIAN, A_TIME);
