@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.*;
-
+// TODO switch to DTOs and introduce a mapper
 public class InMemoryRidePermitRepository implements RidePermitRepository {
     private final Map<RidePermitId, RidePermit> database = new HashMap<>();
 

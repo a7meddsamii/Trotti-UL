@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -69,8 +70,16 @@ public class Fleet {
         Station station = stations.get(location);
         station.parkScooters(slotNumbers, scootersToDeposit, dockTime);
     }
-
-    private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
+	
+	public Map<Location, Station> getStations() {
+		return Collections.unmodifiableMap(stations);
+	}
+	
+	public Map<ScooterId, Scooter> getDisplacedScooters() {
+		return Collections.unmodifiableMap(displacedScooters);
+	}
+	
+	private List<Scooter> getDisplacedScooters(List<ScooterId> scooterIds) {
         List<Scooter> scootersToDeposit = new ArrayList<>();
 
         for (ScooterId scooterId : scooterIds) {
