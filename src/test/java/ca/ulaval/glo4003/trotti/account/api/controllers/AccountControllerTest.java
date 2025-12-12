@@ -51,7 +51,8 @@ class AccountControllerTest {
 
         Mockito.verify(accountApplicationService).createAccount(mappedDto);
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
+        Assertions.assertEquals(
+                URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
                 response.getLocation());
     }
 
@@ -62,7 +63,8 @@ class AccountControllerTest {
 
         Mockito.verify(accountApiMapper).toPasswordRegistrationDto(request);
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-        Assertions.assertEquals(URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
+        Assertions.assertEquals(
+                URI.create(ACCOUNTS_ENDPOINT + PATH_SEPARATOR + CREATED_ACCOUNT_IDUL),
                 response.getLocation());
     }
 

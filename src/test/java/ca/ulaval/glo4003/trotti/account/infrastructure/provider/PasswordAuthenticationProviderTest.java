@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
