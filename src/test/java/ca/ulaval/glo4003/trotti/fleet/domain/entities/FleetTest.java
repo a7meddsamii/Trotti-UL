@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidStationOperation;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;
-import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.StationMaintenanceException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
@@ -20,23 +19,26 @@ class FleetTest {
     private static final SlotNumber SLOT_2 = new SlotNumber(2);
     private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
-    public static final int A_NUMBER_OF_SCOOTERS = 1;
-    private static final String STATION_UNDER_MAINTENANCE_ERROR = "Station is under maintenance";
 
     private Station station;
     private Scooter scooter;
+    private Scooter secondScooter;
     private ScooterId scooterId;
-    private Transfer transfer;
+    private ScooterId secondScooterId;
+    private Map<ScooterId, Scooter> fleetDisplacedScootersView;
     private Fleet fleet;
 
     @BeforeEach
     void setup() {
         station = Mockito.mock(Station.class);
         scooter = Mockito.mock(Scooter.class);
+        secondScooter = Mockito.mock(Scooter.class);
         scooterId = ScooterId.randomId();
-        transfer = Mockito.mock(Transfer.class);
+        secondScooterId = ScooterId.randomId();
+        fleetDisplacedScootersView = new HashMap<>();
         Mockito.when(scooter.getScooterId()).thenReturn(scooterId);
-        fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), new HashMap<>());
+        Mockito.when(secondScooter.getScooterId()).thenReturn(secondScooterId);
+        fleet = new Fleet(Map.of(A_LOCATION, station), fleetDisplacedScootersView);
     }
 
     @Test
@@ -76,114 +78,99 @@ class FleetTest {
     }
 
     @Test
-    void givenTechnician_whenStartMaintenance_thenStationStartsMaintenance() {
+    void givenValidMaintenanceInfo_whenStartMaintenance_thenStationStartsMaintenance() {
         fleet.startMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
 
         Mockito.verify(station).startMaintenance(TECHNICIAN, A_TIME);
     }
 
     @Test
-    void givenTechnician_whenEndMaintenance_thenStationEndsMaintenance() {
+    void givenValidMaintenanceInfo_whenEndMaintenance_thenStationEndsMaintenance() {
         fleet.endMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
 
         Mockito.verify(station).endMaintenance(TECHNICIAN, A_TIME);
     }
 
     @Test
-    void givenTechnicianWithoutOngoingTransfer_whenStartTransfer_thenStationRetrievesScooters() {
+    void givenLocationAndSlotNumbers_whenRetrieveScooters_thenReturnsScootersIds() {
         List<SlotNumber> slots = List.of(SLOT_1);
+        List<ScooterId> expectedScooterIds = List.of(scooterId);
         Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
 
-        fleet.startTransfer(TECHNICIAN, A_LOCATION, slots);
+        List<ScooterId> retrievedScooters = fleet.retrieveScooters(A_LOCATION, slots);
 
-        Mockito.verify(station).retrieveScootersForTransfer(slots);
+        Assertions.assertEquals(expectedScooterIds, retrievedScooters);
     }
 
     @Test
-    void givenTechnicianAlreadyHasTransfer_whenStartTransfer_thenThrowsInvalidTransferException() {
+    void givenLocationAndSlotNumbers_whenRetrieveScooters_thenPickedScootersAreDisplaced() {
         List<SlotNumber> slots = List.of(SLOT_1);
         Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
-        fleet.startTransfer(TECHNICIAN, A_LOCATION, slots);
 
-        Executable action = () -> fleet.startTransfer(TECHNICIAN, A_LOCATION, slots);
+        fleet.retrieveScooters(A_LOCATION, slots);
+
+        Assertions.assertTrue(fleetDisplacedScootersView.containsKey(scooterId));
+    }
+
+    @Test
+    void givenMismatchedSlotsAndScooters_whenDepositScooters_thenThrowsInvalidTransferException() {
+        List<SlotNumber> slots = List.of(SLOT_1);
+        List<ScooterId> displacedScooterIds =
+                List.of(scooter.getScooterId(), secondScooter.getScooterId());
+        List<Scooter> scooters = List.of(scooter, secondScooter);
+        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
+
+        Executable action =
+                () -> fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
-    void givenUnknownTechnician_whenUnloadTransfer_thenThrowsInvalidTransferException() {
-        List<SlotNumber> slots = List.of(SLOT_1);
-
-        Executable action = () -> fleet.unloadTransfer(TECHNICIAN, A_LOCATION, slots, A_TIME);
-
-        Assertions.assertThrows(InvalidTransferException.class, action);
-    }
-
-    @Test
-    void givenOngoingTransfer_whenUnloadTransfer_thenStationParksScooters() {
+    void givenOngoingTransfer_whenDepositScooters_thenStationParksScooters() {
         List<SlotNumber> slots = List.of(SLOT_1, SLOT_2);
-        List<Scooter> scooters = List.of(scooter, scooter);
-        Mockito.when(transfer.unload(TECHNICIAN, 2)).thenReturn(scooters);
-        fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), givenOngoingTransfer());
+        List<Scooter> scooters = List.of(scooter, secondScooter);
+        List<ScooterId> displacedScooterIds =
+                List.of(scooter.getScooterId(), secondScooter.getScooterId());
+        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
 
-        fleet.unloadTransfer(TECHNICIAN, A_LOCATION, slots, A_TIME);
+        fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
 
-        Mockito.verify(transfer).unload(TECHNICIAN, 2);
         Mockito.verify(station).parkScooters(slots, scooters, A_TIME);
     }
 
     @Test
-    void givenCompletedTransfer_whenUnloadTransfer_thenTransferIsRemoved() {
+    void givenDisplacedScooters_whenDepositScooters_thenDisplacedScootersAreRemoved() {
+        List<SlotNumber> slots = List.of(SLOT_1, SLOT_2);
+        List<Scooter> scooters = List.of(scooter, secondScooter);
+        List<ScooterId> displacedScooterIds =
+                List.of(scooter.getScooterId(), secondScooter.getScooterId());
+        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
+
+        fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
+
+        Assertions.assertFalse(fleetDisplacedScootersView.containsKey(scooterId));
+        Assertions.assertFalse(fleetDisplacedScootersView.containsKey(secondScooterId));
+    }
+
+    @Test
+    void givenScooterNotCurrentlyDisplaced_whenDepositScooters_thenThrowsInvalidTransferException() {
         List<SlotNumber> slots = List.of(SLOT_1);
-        List<Scooter> scooters = List.of(scooter);
-        Mockito.when(transfer.unload(TECHNICIAN, A_NUMBER_OF_SCOOTERS)).thenReturn(scooters);
-        Mockito.when(transfer.isCompleted()).thenReturn(true);
-        Map<Idul, Transfer> transfers = givenOngoingTransfer();
-        fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), transfers);
+        List<ScooterId> displacedScooterIds = List.of(scooterId);
 
-        fleet.unloadTransfer(TECHNICIAN, A_LOCATION, slots, A_TIME);
+        Executable action =
+                () -> fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
 
-        Assertions.assertFalse(transfers.containsKey(TECHNICIAN));
+        Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
-    @Test
-    void givenUncompletedTransfer_whenUnloadTransfer_thenTransferRemainsInMap() {
-        List<SlotNumber> slots = List.of(SLOT_1);
-        List<Scooter> scooters = List.of(scooter);
-        Mockito.when(transfer.unload(TECHNICIAN, 1)).thenReturn(scooters);
-        Mockito.when(transfer.isCompleted()).thenReturn(false);
-        Map<Idul, Transfer> transfers = givenOngoingTransfer();
-        fleet = new Fleet(Map.of(A_LOCATION, station), new HashMap<>(), transfers);
+    private Map<ScooterId, Scooter> givenDisplacedScooters(List<Scooter> scooters) {
+        Map<ScooterId, Scooter> displacedScooters = new HashMap<>();
 
-        fleet.unloadTransfer(TECHNICIAN, A_LOCATION, slots, A_TIME);
+        for (Scooter scooter : scooters) {
+            displacedScooters.put(scooter.getScooterId(), scooter);
+        }
 
-        Assertions.assertTrue(transfers.containsKey(TECHNICIAN));
-    }
-
-    @Test
-    void givenStationNotUnderMaintenance_whenEnsureStationNotUnderMaintenance_thenDoesNotThrow() {
-        Mockito.doNothing().when(station).ensureNotUnderMaintenance();
-
-        Executable action = () -> fleet.ensureStationNotUnderMaintenance(A_LOCATION);
-
-        Assertions.assertDoesNotThrow(action);
-        Mockito.verify(station).ensureNotUnderMaintenance();
-    }
-
-    @Test
-    void givenStationUnderMaintenance_whenEnsureStationNotUnderMaintenance_thenThrowsException() {
-        Mockito.doThrow(new StationMaintenanceException(STATION_UNDER_MAINTENANCE_ERROR))
-                .when(station).ensureNotUnderMaintenance();
-
-        Executable action = () -> fleet.ensureStationNotUnderMaintenance(A_LOCATION);
-
-        Assertions.assertThrows(StationMaintenanceException.class, action);
-        Mockito.verify(station).ensureNotUnderMaintenance();
-    }
-
-    private Map<Idul, Transfer> givenOngoingTransfer() {
-        Map<Idul, Transfer> transfers = new HashMap<>();
-        transfers.put(TECHNICIAN, transfer);
-        return transfers;
+        return displacedScooters;
     }
 }

@@ -26,7 +26,6 @@ public class StationFactory {
         }
     }
 
-    // a discuter avec l'equipe si on veut pas faire ca ailleurs
     private Map<SlotNumber, ScooterSlot> buildEmptySlots(int capacity) {
         Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.records;
 
 
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
