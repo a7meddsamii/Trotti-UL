@@ -16,7 +16,7 @@ class TransferTest {
 
     private static final Idul TECHNICIAN_ID = Idul.from("tech123");
     private static final Idul WRONG_TECHNICIAN_ID = Idul.from("tech1231231");
-	private static final int AMOUNT_TO_UNLOAD = 1;
+    private static final int AMOUNT_TO_UNLOAD = 1;
 
     private TransferId transferId;
     private ScooterId scooterId1;

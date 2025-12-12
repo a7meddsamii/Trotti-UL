@@ -16,8 +16,9 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataFactory;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
-
 import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,7 @@ class StationDataFactoryTest {
     private static final String A_SPOT_NAME = "Main Entrance";
     private static final int A_CAPACITY = 10;
     private static final int EXPECTED_INITIAL_SCOOTER_COUNT = 8;
+    private static final Instant FIXED_TIME = Instant.parse("2024-01-01T10:00:00Z");
 
     private StationDataFactory stationDataFactory;
     private StationFactory stationFactory;
@@ -47,13 +49,13 @@ class StationDataFactoryTest {
         scooterFactory = Mockito.mock(ScooterFactory.class);
         stationRepository = Mockito.mock(StationRepository.class);
         scooterRepository = Mockito.mock(ScooterRepository.class);
-		Clock clock = Mockito.mock(Clock.class);
+        Clock clock = Clock.fixed(FIXED_TIME, Clock.systemDefaultZone().getZone());
 
         stationDataFactory = new StationDataFactory(stationFactory, scooterFactory,
                 stationRepository, scooterRepository, clock);
 
         mockStation = Mockito.mock(Station.class);
-        mockScooters = createMockScooters(EXPECTED_INITIAL_SCOOTER_COUNT);
+        mockScooters = createMockScooters();
     }
 
     @Test
@@ -113,10 +115,6 @@ class StationDataFactoryTest {
         }
     }
 
-    /**
-     * @deprecated correct the code in commented lines when application layer is added
-     *
-     */
     @Test
     void givenStationData_whenRun_thenDocksAllScootersInStation() {
         StationDataRecord record = new StationDataRecord(A_BUILDING, A_SPOT_NAME, A_CAPACITY);
@@ -129,8 +127,9 @@ class StationDataFactoryTest {
 
         for (int i = 0; i < mockScooters.size(); i++) {
             SlotNumber expectedSlot = new SlotNumber(i);
-            ScooterId expectedScooterId = mockScooters.get(i).getScooterId();
-            // verify(mockStation).returnScooter(eq(expectedSlot), eq(expectedScooterId));
+            Scooter expectedScooter = mockScooters.get(i);
+            verify(mockStation).parkScooter(eq(expectedSlot), eq(expectedScooter),
+                    any(LocalDateTime.class));
         }
     }
 
@@ -147,9 +146,9 @@ class StationDataFactoryTest {
         verify(stationRepository).save(mockStation);
     }
 
-    private List<Scooter> createMockScooters(int numberOfScooters) {
+    private List<Scooter> createMockScooters() {
         List<Scooter> scooters = new ArrayList<>();
-        for (int i = 0; i < numberOfScooters; i++) {
+        for (int i = 0; i < StationDataFactoryTest.EXPECTED_INITIAL_SCOOTER_COUNT; i++) {
             Scooter scooter = Mockito.mock(Scooter.class);
             when(scooter.getScooterId()).thenReturn(ScooterId.randomId());
             scooters.add(scooter);

@@ -18,8 +18,8 @@ class StationTest {
     private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
     private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
-	private static final int EXPECTED_INITIAL_CAPACITY = 8;
-	private static final int CAPACITY = 10;
+    private static final int EXPECTED_INITIAL_CAPACITY = 8;
+    private static final int CAPACITY = 10;
 
     private DockingArea dockingArea;
     private Location location;
