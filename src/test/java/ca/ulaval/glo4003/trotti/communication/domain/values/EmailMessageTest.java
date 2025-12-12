@@ -6,52 +6,52 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mockito;
 
 class EmailMessageTest {
 
-    private static final String A_SUBJECT = "a_subject";
-    private static final String A_BODY = "a_body";
+    private static final String EMAIL_SUBJECT = "Welcome to TrottiUL";
+    private static final String EMAIL_BODY = "Your account has been created successfully.";
+    private static final String EMAIL_ADDRESS = "student@ulaval.ca";
 
-    private Email email;
+    private Email emailRecipient;
 
     @BeforeEach
     void setup() {
-        this.email = Mockito.mock(Email.class);
+        emailRecipient = Email.from(EMAIL_ADDRESS);
     }
 
     @Test
-    void givenOnlyRecipientAndSubject_whenCreatingEmailMessage_thenReturnEmailMessage() {
-        EmailMessage emailMessage =
-                EmailMessage.builder().withRecipient(email).withSubject(A_SUBJECT).build();
+    void givenRecipientAndSubject_whenBuildingEmailMessage_thenCreatesMessageWithNullBody() {
+        EmailMessage emailMessage = EmailMessage.builder().withRecipient(emailRecipient)
+                .withSubject(EMAIL_SUBJECT).build();
 
-        Assertions.assertEquals(email, emailMessage.getRecipient());
-        Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
+        Assertions.assertEquals(emailRecipient, emailMessage.getRecipient());
+        Assertions.assertEquals(EMAIL_SUBJECT, emailMessage.getSubject());
         Assertions.assertNull(emailMessage.getBody());
     }
 
     @Test
-    void givenValidParams_whenCreatingEmailMessage_thenReturnEmailMessage() {
-        EmailMessage emailMessage = EmailMessage.builder().withRecipient(email)
-                .withSubject(A_SUBJECT).withBody(A_BODY).build();
+    void givenAllValidParameters_whenBuildingEmailMessage_thenCreatesCompleteMessage() {
+        EmailMessage emailMessage = EmailMessage.builder().withRecipient(emailRecipient)
+                .withSubject(EMAIL_SUBJECT).withBody(EMAIL_BODY).build();
 
-        Assertions.assertEquals(email, emailMessage.getRecipient());
-        Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
-        Assertions.assertEquals(A_BODY, emailMessage.getBody());
+        Assertions.assertEquals(emailRecipient, emailMessage.getRecipient());
+        Assertions.assertEquals(EMAIL_SUBJECT, emailMessage.getSubject());
+        Assertions.assertEquals(EMAIL_BODY, emailMessage.getBody());
     }
 
     @Test
-    void givenNoRecipient_whenCreatingEmailMessage_thenThrowsException() {
-        Executable emailCreation =
-                () -> EmailMessage.builder().withBody(A_BODY).withSubject(A_SUBJECT).build();
+    void givenMissingRecipient_whenBuildingEmailMessage_thenThrowsInvalidParameterException() {
+        Executable emailCreation = () -> EmailMessage.builder().withSubject(EMAIL_SUBJECT)
+                .withBody(EMAIL_BODY).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
 
     @Test
-    void givenNoSubject_whenCreatingEmailMessage_thenThrowsException() {
-        Executable emailCreation =
-                () -> EmailMessage.builder().withBody(A_BODY).withRecipient(email).build();
+    void givenMissingSubject_whenBuildingEmailMessage_thenThrowsInvalidParameterException() {
+        Executable emailCreation = () -> EmailMessage.builder().withRecipient(emailRecipient)
+                .withBody(EMAIL_BODY).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
