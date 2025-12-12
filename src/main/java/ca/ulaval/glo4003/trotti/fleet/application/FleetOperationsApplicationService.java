@@ -34,7 +34,6 @@ public class FleetOperationsApplicationService {
         Fleet fleet = fleetRepository.getFleet();
         fleet.returnScooter(returnScooterDto.scooterId(), returnScooterDto.location(),
                 returnScooterDto.slotNumber(), now());
-
         fleetRepository.save(fleet);
     }
 

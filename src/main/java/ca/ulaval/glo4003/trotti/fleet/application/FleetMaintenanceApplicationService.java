@@ -39,7 +39,6 @@ public class FleetMaintenanceApplicationService {
         Fleet fleet = fleetRepository.getFleet();
         fleet.startMaintenance(startMaintenanceDto.location(), startMaintenanceDto.technicianId(),
                 now());
-
         fleetRepository.save(fleet);
     }
 
