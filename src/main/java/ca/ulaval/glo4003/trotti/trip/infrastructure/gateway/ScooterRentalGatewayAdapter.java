@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.gateway;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.RetrieveScooterRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.ReturnScooterRequest;
-import ca.ulaval.glo4003.trotti.trip.api.gatewayentry.StationOperationEntry;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.RetrieveScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.ReturnScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.gatewayentry.StationOperationEntry;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 
 public class ScooterRentalGatewayAdapter implements ScooterRentalGateway {

@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.gatewayentry.RidePermitGatewayEntry;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.api.gatewayentry.StationOperationEntry;
+import ca.ulaval.glo4003.trotti.fleet.api.gatewayentry.StationOperationEntry;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
