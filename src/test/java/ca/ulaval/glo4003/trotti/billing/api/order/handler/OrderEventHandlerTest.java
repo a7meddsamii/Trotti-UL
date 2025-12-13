@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class OrderEventHandlerTest {
+class OrderEventHandlerTest {
 
     private static final String FREE_RIDE_PERMIT_ADVANTAGE = "FREE_RIDE_PERMIT";
     private static final String OTHER_ADVANTAGE = "DISCOUNT_50";

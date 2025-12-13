@@ -1,11 +1,11 @@
-package ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.payment;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.CodecException;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
-import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.AesDataCodecAdapter;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

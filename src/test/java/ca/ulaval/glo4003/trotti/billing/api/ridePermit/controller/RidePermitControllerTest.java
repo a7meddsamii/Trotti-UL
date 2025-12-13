@@ -16,10 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class RidePermitControllerTest {
+class RidePermitControllerTest {
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
     private static final String VALID_RIDE_PERMIT_ID_VALUE = UUID.randomUUID().toString();
-    private static final int HTTP_STATUS_OK = 200;
 
     private RidePermitApplicationService ridePermitApplicationService;
     private RidePermitApiMapper ridePermitApiMapper;
@@ -50,7 +49,7 @@ public class RidePermitControllerTest {
 
         Response result = controller.getRidePermits(VALID_USER_IDUL);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
         Assertions.assertEquals(ridePermitResponses, result.getEntity());
         Mockito.verify(ridePermitApplicationService).getRidePermits(VALID_USER_IDUL);
         Mockito.verify(ridePermitApiMapper).toRidePermitResponseList(ridePermitDtos);
@@ -68,7 +67,7 @@ public class RidePermitControllerTest {
 
         Response result = controller.getRidePermit(VALID_USER_IDUL, VALID_RIDE_PERMIT_ID_VALUE);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
         Assertions.assertEquals(ridePermitResponse, result.getEntity());
         Mockito.verify(ridePermitApplicationService).getRidePermit(Mockito.eq(VALID_USER_IDUL),
                 Mockito.any(RidePermitId.class));

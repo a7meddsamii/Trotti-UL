@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-public class RidePermitActivationApplicationServiceTest {
+class RidePermitActivationApplicationServiceTest {
 
     private RidePermitAssembler ridePermitAssembler;
     private RidePermitRepository ridePermitRepository;

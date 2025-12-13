@@ -19,12 +19,10 @@ import org.mockito.Mockito;
 
 import java.util.UUID;
 
-public class OrderControllerTest {
+class OrderControllerTest {
 
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
     private static final String VALID_ITEM_ID_VALUE = UUID.randomUUID().toString();
-    private static final int HTTP_STATUS_OK = 200;
-    private static final int HTTP_STATUS_NO_CONTENT = 204;
 
     private OrderApplicationService orderApplicationService;
     private OrderApiMapper orderApiMapper;
@@ -56,7 +54,7 @@ public class OrderControllerTest {
 
         Response response = controller.addItem(VALID_USER_IDUL, itemRequest);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, response.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(itemListResponse, response.getEntity());
         Mockito.verify(orderApiMapper).toAddItemDto(itemRequest);
         Mockito.verify(orderApplicationService).addItem(VALID_USER_IDUL, addItemDto);
@@ -71,7 +69,7 @@ public class OrderControllerTest {
 
         Response response = controller.confirm(VALID_USER_IDUL, paymentInfoRequest);
 
-        Assertions.assertEquals(HTTP_STATUS_NO_CONTENT, response.getStatus());
+        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
         Mockito.verify(orderApiMapper).toConfirmOrderDto(paymentInfoRequest);
         Mockito.verify(orderApplicationService).confirm(VALID_USER_IDUL, confirmOrderDto);
     }
@@ -85,7 +83,7 @@ public class OrderControllerTest {
 
         Response response = controller.getOngoingOrder(VALID_USER_IDUL);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, response.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(itemListResponse, response.getEntity());
         Mockito.verify(orderApplicationService).getOngoingOrder(VALID_USER_IDUL);
         Mockito.verify(orderApiMapper).toItemListResponse(orderDto);
@@ -101,7 +99,7 @@ public class OrderControllerTest {
 
         Response response = controller.removeItem(VALID_USER_IDUL, VALID_ITEM_ID_VALUE);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, response.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(itemListResponse, response.getEntity());
         Mockito.verify(orderApplicationService).removeItem(Mockito.eq(VALID_USER_IDUL),
                 Mockito.any(ItemId.class));
@@ -117,7 +115,7 @@ public class OrderControllerTest {
 
         Response response = controller.removeAllItems(VALID_USER_IDUL);
 
-        Assertions.assertEquals(HTTP_STATUS_OK, response.getStatus());
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(itemListResponse, response.getEntity());
         Mockito.verify(orderApplicationService).removeAllItems(VALID_USER_IDUL);
         Mockito.verify(orderApiMapper).toItemListResponse(orderDto);

@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class PaymentMethodFactoryTest {
+class PaymentMethodFactoryTest {
 
     private static final String VALID_CARD_NUMBER = "4111111111111111";
     private static final String VALID_CARD_HOLDER = "Equipe Archi";

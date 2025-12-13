@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-public class SecuredStringTest {
+class SecuredStringTest {
 
     private static final String VALID_CARD_NUMBER = "4111111111111111";
     private static final String EXPECTED_MASKED_CARD = "1111";

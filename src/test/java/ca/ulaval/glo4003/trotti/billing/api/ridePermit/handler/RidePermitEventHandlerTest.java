@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class RidePermitEventHandlerTest {
+class RidePermitEventHandlerTest {
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
 
     private RidePermitApiMapper ridePermitApiMapper;
