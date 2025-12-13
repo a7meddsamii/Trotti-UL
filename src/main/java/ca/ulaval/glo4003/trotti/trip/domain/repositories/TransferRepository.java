@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.repositories;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Transfer;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import java.util.Optional;
 
 public interface TransferRepository {

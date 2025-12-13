@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.repositories;
 
-import ca.ulaval.glo4003.trotti.trip.domain.entities.Scooter;
-import ca.ulaval.glo4003.trotti.trip.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import java.util.List;
 
 public interface ScooterRepository {

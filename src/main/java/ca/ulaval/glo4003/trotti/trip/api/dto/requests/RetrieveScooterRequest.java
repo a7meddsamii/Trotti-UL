@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.api.dto.requests;
 
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 
 public record RetrieveScooterRequest(
 		Location location,

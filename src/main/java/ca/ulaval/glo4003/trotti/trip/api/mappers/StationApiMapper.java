@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.*;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TransferResponse;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnloadScootersResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.*;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TransferId;
 import java.util.List;
 
 public class StationApiMapper {
