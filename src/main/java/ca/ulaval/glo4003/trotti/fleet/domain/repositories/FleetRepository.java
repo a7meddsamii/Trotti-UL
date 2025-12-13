@@ -4,5 +4,6 @@ import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
 
 public interface FleetRepository {
     Fleet getFleet();
-	void save(Fleet fleet);
+
+    void save(Fleet fleet);
 }

@@ -49,7 +49,8 @@ class FleetDataFactoryTest {
         fleetRepository = Mockito.mock(FleetRepository.class);
         Clock clock = Clock.fixed(FIXED_TIME, Clock.systemDefaultZone().getZone());
 
-        fleetDataFactory = new FleetDataFactory(stationFactory, scooterFactory, fleetRepository, clock);
+        fleetDataFactory =
+                new FleetDataFactory(stationFactory, scooterFactory, fleetRepository, clock);
 
         mockStation = Mockito.mock(Station.class);
         mockScooters = createMockScooters();
@@ -120,12 +121,12 @@ class FleetDataFactoryTest {
         when(mockStation.calculateInitialScooterCount()).thenReturn(EXPECTED_INITIAL_SCOOTER_COUNT);
         when(scooterFactory.create(eq(EXPECTED_INITIAL_SCOOTER_COUNT), any(Location.class)))
                 .thenReturn(mockScooters);
-    
+
         fleetDataFactory.run(List.of(record));
-    
+
         ArgumentCaptor<Fleet> fleetCaptor = ArgumentCaptor.forClass(Fleet.class);
         verify(fleetRepository).save(fleetCaptor.capture());
-    
+
         Fleet savedFleet = fleetCaptor.getValue();
         assertNotNull(savedFleet);
         assertEquals(1, savedFleet.getStations().size());

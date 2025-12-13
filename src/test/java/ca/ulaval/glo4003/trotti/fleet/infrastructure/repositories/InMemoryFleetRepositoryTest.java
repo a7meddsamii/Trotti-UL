@@ -13,43 +13,43 @@ import org.mockito.Mockito;
 
 class InMemoryFleetRepositoryTest {
 
-	private Fleet fleet;
-	private FleetRecord fleetRecord;
-	private FleetPersistenceMapper fleetPersistenceMapper;
-	
-	private FleetRepository fleetRepository;
-	
-	@BeforeEach
-	public void setup() {
-		fleet = Mockito.mock(Fleet.class);
-		fleetRecord = Mockito.mock(FleetRecord.class);
-		fleetPersistenceMapper = Mockito.mock(FleetPersistenceMapper.class);
-		fleetRepository = new InMemoryFleetRepository(fleetPersistenceMapper);
-	}
-	
-	@Test
-	void givenNoFleet_whenGetFleet_thenExceptionIsThrown(){
-		Executable getFleetAction = () -> fleetRepository.getFleet();
-		Assertions.assertThrows(InvalidFleetException.class, getFleetAction);
-	}
-	
-	@Test
-	void givenFleet_whenGetFleet_thenFleetIsReturned() {
-		Mockito.when(fleetPersistenceMapper.toDomain(fleetRecord)).thenReturn(fleet);
-		Mockito.when(fleetPersistenceMapper.toRecord(fleet)).thenReturn(fleetRecord);
-		fleetRepository.save(fleet);
-		
-		Fleet retrievedFleet = fleetRepository.getFleet();
-		
-		Assertions.assertEquals(fleet, retrievedFleet);
-	}
-	
-	@Test
-	void givenFleet_whenSave_thenFleetIsSaved() {
-		Mockito.when(fleetPersistenceMapper.toRecord(fleet)).thenReturn(fleetRecord);
-		
-		fleetRepository.save(fleet);
-		
-		Mockito.verify(fleetPersistenceMapper).toRecord(fleet);
-	}
+    private Fleet fleet;
+    private FleetRecord fleetRecord;
+    private FleetPersistenceMapper fleetPersistenceMapper;
+
+    private FleetRepository fleetRepository;
+
+    @BeforeEach
+    public void setup() {
+        fleet = Mockito.mock(Fleet.class);
+        fleetRecord = Mockito.mock(FleetRecord.class);
+        fleetPersistenceMapper = Mockito.mock(FleetPersistenceMapper.class);
+        fleetRepository = new InMemoryFleetRepository(fleetPersistenceMapper);
+    }
+
+    @Test
+    void givenNoFleet_whenGetFleet_thenExceptionIsThrown() {
+        Executable getFleetAction = () -> fleetRepository.getFleet();
+        Assertions.assertThrows(InvalidFleetException.class, getFleetAction);
+    }
+
+    @Test
+    void givenFleet_whenGetFleet_thenFleetIsReturned() {
+        Mockito.when(fleetPersistenceMapper.toDomain(fleetRecord)).thenReturn(fleet);
+        Mockito.when(fleetPersistenceMapper.toRecord(fleet)).thenReturn(fleetRecord);
+        fleetRepository.save(fleet);
+
+        Fleet retrievedFleet = fleetRepository.getFleet();
+
+        Assertions.assertEquals(fleet, retrievedFleet);
+    }
+
+    @Test
+    void givenFleet_whenSave_thenFleetIsSaved() {
+        Mockito.when(fleetPersistenceMapper.toRecord(fleet)).thenReturn(fleetRecord);
+
+        fleetRepository.save(fleet);
+
+        Mockito.verify(fleetPersistenceMapper).toRecord(fleet);
+    }
 }

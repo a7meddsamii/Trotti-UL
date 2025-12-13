@@ -32,7 +32,7 @@ public class ApplicationContext extends Configuration {
         HeartbeatConfiguration.getInstance().load();
         BillingConfiguration.getInstance().load();
         CommunicationConfiguration.getInstance().load();
-		FleetConfiguration.getInstance().load();
+        FleetConfiguration.getInstance().load();
         TripConfiguration.getInstance().load();
 
         EventSubscriptionConfiguration.getInstance().load();

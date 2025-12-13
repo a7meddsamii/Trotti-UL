@@ -16,9 +16,9 @@ public class FleetStationsLoader extends Bootstrapper {
     public void load() {
         FleetDataFactory fleetDataFactory =
                 new FleetDataFactory(this.resourceLocator.resolve(StationFactory.class),
-									 this.resourceLocator.resolve(ScooterFactory.class),
-									 this.resourceLocator.resolve(FleetRepository.class),
-									 this.resourceLocator.resolve(Clock.class));
+                        this.resourceLocator.resolve(ScooterFactory.class),
+                        this.resourceLocator.resolve(FleetRepository.class),
+                        this.resourceLocator.resolve(Clock.class));
         List<StationDataRecord> stationData = StationProvider.getInstance().getStationDataRecords();
         fleetDataFactory.run(stationData);
     }

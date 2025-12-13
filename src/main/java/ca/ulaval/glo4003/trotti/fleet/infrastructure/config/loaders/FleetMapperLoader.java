@@ -13,14 +13,14 @@ public class FleetMapperLoader extends Bootstrapper {
     }
 
     private void loadPersistenceMappers() {
-		TransferPersistenceMapper transferPersistenceMapper = new TransferPersistenceMapper();
-		FleetPersistenceMapper fleetPersistenceMapper = new FleetPersistenceMapper();
-		this.resourceLocator.register(TransferPersistenceMapper.class, transferPersistenceMapper);
-		this.resourceLocator.register(FleetPersistenceMapper.class, fleetPersistenceMapper);
+        TransferPersistenceMapper transferPersistenceMapper = new TransferPersistenceMapper();
+        FleetPersistenceMapper fleetPersistenceMapper = new FleetPersistenceMapper();
+        this.resourceLocator.register(TransferPersistenceMapper.class, transferPersistenceMapper);
+        this.resourceLocator.register(FleetPersistenceMapper.class, fleetPersistenceMapper);
     }
 
     private void loadApiMappers() {
-		FleetApiMapper fleetApiMapper = new FleetApiMapper();
-		this.resourceLocator.register(FleetApiMapper.class, fleetApiMapper);
+        FleetApiMapper fleetApiMapper = new FleetApiMapper();
+        this.resourceLocator.register(FleetApiMapper.class, fleetApiMapper);
     }
 }

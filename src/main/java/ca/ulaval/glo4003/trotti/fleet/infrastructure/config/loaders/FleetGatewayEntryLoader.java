@@ -9,13 +9,15 @@ public class FleetGatewayEntryLoader extends Bootstrapper {
 
     @Override
     public void load() {
-		loadStationOperationEntry();
+        loadStationOperationEntry();
     }
-	
-	private void loadStationOperationEntry() {
-		FleetApplicationService fleetApplicationService = this.resourceLocator.resolve(FleetApplicationService.class);
-		FleetApiMapper fleetApiMapper = this.resourceLocator.resolve(FleetApiMapper.class);
-		StationOperationEntry stationOperationEntry = new StationOperationEntry(fleetApiMapper, fleetApplicationService);
-		this.resourceLocator.register(StationOperationEntry.class, stationOperationEntry);
-	}
+
+    private void loadStationOperationEntry() {
+        FleetApplicationService fleetApplicationService =
+                this.resourceLocator.resolve(FleetApplicationService.class);
+        FleetApiMapper fleetApiMapper = this.resourceLocator.resolve(FleetApiMapper.class);
+        StationOperationEntry stationOperationEntry =
+                new StationOperationEntry(fleetApiMapper, fleetApplicationService);
+        this.resourceLocator.register(StationOperationEntry.class, stationOperationEntry);
+    }
 }

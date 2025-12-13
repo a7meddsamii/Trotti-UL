@@ -8,45 +8,44 @@ import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class FleetDataFactory {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(FleetDataFactory.class);
-	private final StationFactory stationFactory;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleetDataFactory.class);
+    private final StationFactory stationFactory;
     private final ScooterFactory scooterFactory;
-	private final FleetRepository fleetRepository;
+    private final FleetRepository fleetRepository;
     private final Clock clock;
 
     public FleetDataFactory(
-			StationFactory stationFactory,
-			ScooterFactory scooterFactory,
-			FleetRepository fleetRepository,
-			Clock clock) {
+            StationFactory stationFactory,
+            ScooterFactory scooterFactory,
+            FleetRepository fleetRepository,
+            Clock clock) {
         this.stationFactory = stationFactory;
         this.scooterFactory = scooterFactory;
-		this.fleetRepository = fleetRepository;
+        this.fleetRepository = fleetRepository;
         this.clock = clock;
     }
 
     public void run(List<StationDataRecord> stationDataRecords) {
-		Map<Location, Station> stations = new HashMap<>();
-		
-		for (StationDataRecord data : stationDataRecords) {
-			LOGGER.info(String.format("Loading Fleet %s", data));
-			Station station = createAndPopulateStation(data);
-			stations.put(station.getLocation(), station);
-		}
-		
-		Fleet fleet = new Fleet(stations, new HashMap<>());
-		fleetRepository.save(fleet);
+        Map<Location, Station> stations = new HashMap<>();
+
+        for (StationDataRecord data : stationDataRecords) {
+            LOGGER.info(String.format("Loading Fleet %s", data));
+            Station station = createAndPopulateStation(data);
+            stations.put(station.getLocation(), station);
+        }
+
+        Fleet fleet = new Fleet(stations, new HashMap<>());
+        fleetRepository.save(fleet);
     }
 
     private Station createAndPopulateStation(StationDataRecord data) {
