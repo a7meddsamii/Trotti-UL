@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.trotti.commons.infrastructure.config.CommonsConfigurati
 import ca.ulaval.glo4003.trotti.commons.infrastructure.config.EventSubscriptionConfiguration;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.config.CommunicationConfiguration;
 import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
+import ca.ulaval.glo4003.trotti.fleet.infrastructure.config.FleetConfiguration;
 import ca.ulaval.glo4003.trotti.heartbeat.infrastructure.config.HeartbeatConfiguration;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.TripConfiguration;
 import java.time.Clock;
@@ -31,6 +32,7 @@ public class ApplicationContext extends Configuration {
         HeartbeatConfiguration.getInstance().load();
         BillingConfiguration.getInstance().load();
         CommunicationConfiguration.getInstance().load();
+		FleetConfiguration.getInstance().load();
         TripConfiguration.getInstance().load();
 
         EventSubscriptionConfiguration.getInstance().load();
