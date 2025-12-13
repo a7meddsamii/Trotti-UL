@@ -1,30 +1,30 @@
 package ca.ulaval.glo4003.trotti.fleet.api.gatewayentry;
 
-import ca.ulaval.glo4003.trotti.fleet.application.TemporaryFleepApplicationService;
+import ca.ulaval.glo4003.trotti.fleet.application.FleetApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.api.dto.RetrieveScooterRequest;
 import ca.ulaval.glo4003.trotti.fleet.api.dto.ReturnScooterRequest;
-import ca.ulaval.glo4003.trotti.trip.api.mappers.StationApiMapper;
+import ca.ulaval.glo4003.trotti.trip.api.mappers.FleetApiMapper;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.DockScooterDto;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.UndockScooterDto;
 
 public class StationOperationEntry {
-    private final StationApiMapper stationApiMapper;
-	private final TemporaryFleepApplicationService temporaryFleepApplicationService;
+    private final FleetApiMapper fleetApiMapper;
+	private final FleetApplicationService temporaryFleetApplicationService;
 
-    public StationOperationEntry(StationApiMapper stationApiMapper, TemporaryFleepApplicationService temporaryFleepApplicationService) {
-        this.stationApiMapper = stationApiMapper;
-		this.temporaryFleepApplicationService = temporaryFleepApplicationService;
+    public StationOperationEntry(FleetApiMapper fleetApiMapper, FleetApplicationService temporaryFleetApplicationService) {
+        this.fleetApiMapper = fleetApiMapper;
+		this.temporaryFleetApplicationService = temporaryFleetApplicationService;
 	}
 
     public ScooterId retrieveScooter(RetrieveScooterRequest retrieveScooterRequest) {
         UndockScooterDto undockScooterDto =
-                stationApiMapper.toUndockScooterDto(retrieveScooterRequest);
-        return temporaryFleepApplicationService.retrieveScooter(undockScooterDto);
+                fleetApiMapper.toUndockScooterDto(retrieveScooterRequest);
+        return temporaryFleetApplicationService.retrieveScooter(undockScooterDto);
     }
 
     public void returnScooter(ReturnScooterRequest returnScooterRequest) {
-        DockScooterDto dockScooterDto = stationApiMapper.toDockScooterDto(returnScooterRequest);
-		temporaryFleepApplicationService.returnScooter(dockScooterDto);
+        DockScooterDto dockScooterDto = fleetApiMapper.toDockScooterDto(returnScooterRequest);
+		temporaryFleetApplicationService.returnScooter(dockScooterDto);
     }
 }

@@ -1,18 +1,16 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.ScooterFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.FleetDataFactory;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationDataRecord;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationProvider;
+import ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations.FleetDataFactory;
+import ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations.StationDataRecord;
+import ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations.StationProvider;
 import java.time.Clock;
 import java.util.List;
 
-public class TripStationsLoader extends Bootstrapper {
+public class FleetStationsLoader extends Bootstrapper {
 
     @Override
     public void load() {

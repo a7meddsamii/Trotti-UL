@@ -9,11 +9,15 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
-public class TemporaryFleepApplicationService {
+/**
+ * @deprecated this is a temporary implementation, to be removed once we have a proper application service layer
+ * the goal is to keep the trip module operational while we refactor the fleet module
+ */
+public class TemporaryFleetApplicationService implements FleetApplicationService {
 	private final FleetRepository fleetRepository;
 	private final Clock clock;
 	
-	public TemporaryFleepApplicationService(FleetRepository fleetRepository, Clock clock) {
+	public TemporaryFleetApplicationService(FleetRepository fleetRepository, Clock clock) {
 		this.fleetRepository = fleetRepository;
 		this.clock = clock;
 	}

@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnloadScootersResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.*;
 import java.util.List;
 
-public class StationApiMapper {
+public class FleetApiMapper {
 
     public InitiateTransferDto toInitiateTransferDto(Idul idul, InitiateTransferRequest request) {
         Location sourceStation = Location.of(request.sourceStation());

@@ -20,19 +20,19 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class StationApiMapperTest {
+class FleetApiMapperTest {
 
     private static final String STATION_LOCATION = "VACHON";
     private static final String TRANSFER_ID = TransferId.randomId().toString();
     private static final String IDUL_VALUE = "tech01";
     private static final List<Integer> SLOT_NUMBERS = List.of(1, 2, 3);
 
-    private StationApiMapper mapper;
+    private FleetApiMapper mapper;
     private Idul idul;
 
     @BeforeEach
     void setUp() {
-        mapper = new StationApiMapper();
+        mapper = new FleetApiMapper();
         idul = Idul.from(IDUL_VALUE);
     }
 

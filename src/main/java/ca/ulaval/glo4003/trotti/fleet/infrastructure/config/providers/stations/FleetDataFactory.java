@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations;
 
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Scooter;
@@ -8,8 +8,7 @@ import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.ScooterRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.StationRepository;
+
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.HashMap;

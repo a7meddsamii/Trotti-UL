@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations;
 
 import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import com.fasterxml.jackson.core.type.TypeReference;
