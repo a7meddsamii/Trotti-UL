@@ -22,10 +22,10 @@ public class FleetConfiguration extends Configuration {
     @Override
     protected void load() {
 		new FleetRegistryLoader().load();
-		new FleetStationsLoader().load();
 		new FleetMapperLoader().load();
 		new FleetRepositoryLoader().load();
 		new FleetFactoryLoader().load();
+		new FleetStationsLoader().load();
 		new FleetApplicationServiceLoader().load();
 		new FleetGatewayEntryLoader().load();
     }

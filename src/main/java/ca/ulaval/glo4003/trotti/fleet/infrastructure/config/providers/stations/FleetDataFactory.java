@@ -8,6 +8,8 @@ import ca.ulaval.glo4003.trotti.fleet.domain.factories.StationFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -16,8 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 public final class FleetDataFactory {
-
-    private final StationFactory stationFactory;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(FleetDataFactory.class);
+	private final StationFactory stationFactory;
     private final ScooterFactory scooterFactory;
 	private final FleetRepository fleetRepository;
     private final Clock clock;
@@ -37,6 +40,7 @@ public final class FleetDataFactory {
 		Map<Location, Station> stations = new HashMap<>();
 		
 		for (StationDataRecord data : stationDataRecords) {
+			LOGGER.info(String.format("Loading Fleet %s", data));
 			Station station = createAndPopulateStation(data);
 			stations.put(station.getLocation(), station);
 		}
@@ -50,7 +54,7 @@ public final class FleetDataFactory {
         Station station = stationFactory.create(location, data.capacity());
 
         int initialScooterCount = station.calculateInitialScooterCount();
-        List<Scooter> scooters = scooterFactory.create(initialScooterCount, location);
+        List<Scooter> scooters = scooterFactory.create(initialScooterCount, Location.empty());
         LocalDateTime dockingTime = LocalDateTime.now(clock);
 
         for (int i = 0; i < scooters.size(); i++) {
