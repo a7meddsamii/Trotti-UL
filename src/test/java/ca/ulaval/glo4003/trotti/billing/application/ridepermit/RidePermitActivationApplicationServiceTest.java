@@ -1,10 +1,20 @@
 package ca.ulaval.glo4003.trotti.billing.application.ridepermit;
 
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.service.RidePermitActivationFilter;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitActivatedEvent;
+import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitSnapshot;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class RidePermitActivationApplicationServiceTest {
 
@@ -25,28 +35,103 @@ public class RidePermitActivationApplicationServiceTest {
                 ridePermitAssembler, ridePermitRepository, ridePermitActivationFilter, eventBus);
     }
 
-    /*
-     * @Test void givenCurrentSession_whenActivateRidePermit_thenOrchestratesProperly() { RidePermit
-     * ridePermit = Mockito.mock(RidePermit.class); List<RidePermit> ridePermitList =
-     * List.of(ridePermit);
-     * Mockito.when(ridePermitRepository.findAllByDate(Mockito.any(LocalDate.class))).thenReturn(
-     * ridePermitList);
-     * Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(ridePermitList)).thenReturn(
-     * ridePermitList);
-     * 
-     * 
-     * ridePermitActivationApplicationService.activateRidePermit();
-     * 
-     * Mockito.verify(ridePermitRepository,
-     * Mockito.times(1)).findAllByDate(Mockito.any(LocalDate.class));
-     * Mockito.verify(ridePermitActivationFilter,
-     * Mockito.times(1)).getActivatedRidePermits(Mockito.anyList());
-     * Mockito.verify(ridePermitRepository, Mockito.times(1)).saveAll(Mockito.anyList());
-     * 
-     * }
-     * 
-     * @Test void givenA_whenDeactivateRidePermit_thenC() {
-     * 
-     * }
-     */
+    @Test
+    void givenRidePermitsToActivate_whenActivateRidePermit_thenPermitsActivatedAndEventPublished() {
+        LocalDate currentDate = LocalDate.of(2026, 1, 15);
+        RidePermit permit1 = Mockito.mock(RidePermit.class);
+        RidePermit permit2 = Mockito.mock(RidePermit.class);
+        List<RidePermit> foundPermits = List.of(permit1, permit2);
+        List<RidePermit> activatedPermits = List.of(permit1, permit2);
+        List<RidePermitSnapshot> snapshots = List.of(
+                Mockito.mock(RidePermitSnapshot.class),
+                Mockito.mock(RidePermitSnapshot.class)
+        );
+
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
+        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
+                .thenReturn(activatedPermits);
+        Mockito.when(ridePermitAssembler.toRidePermitSnapshots(activatedPermits))
+                .thenReturn(snapshots);
+
+        ridePermitActivationApplicationService.activateRidePermit();
+
+        Mockito.verify(ridePermitRepository).saveAll(activatedPermits);
+
+        ArgumentCaptor<RidePermitActivatedEvent> eventCaptor =
+                ArgumentCaptor.forClass(RidePermitActivatedEvent.class);
+        Mockito.verify(eventBus).publish(eventCaptor.capture());
+
+        RidePermitActivatedEvent event = eventCaptor.getValue();
+        Assertions.assertEquals(snapshots, event.getRidePermitSnapshot());
+    }
+
+    @Test
+    void givenNoRidePermitsToActivate_whenActivateRidePermit_thenNoEventPublished() {
+        LocalDate currentDate = LocalDate.of(2026, 1, 15);
+        List<RidePermit> foundPermits = List.of();
+        List<RidePermit> activatedPermits = List.of();
+
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
+        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
+                .thenReturn(activatedPermits);
+
+        ridePermitActivationApplicationService.activateRidePermit();
+
+        Mockito.verify(ridePermitRepository).saveAll(activatedPermits);
+        Mockito.verify(eventBus, Mockito.never()).publish(Mockito.any());
+    }
+
+    @Test
+    void givenRidePermitsFoundButNoneToActivate_whenActivateRidePermit_thenNoEventPublished() {
+        LocalDate currentDate = LocalDate.of(2026, 1, 15);
+        RidePermit permit1 = Mockito.mock(RidePermit.class);
+        List<RidePermit> foundPermits = List.of(permit1);
+        List<RidePermit> activatedPermits = List.of();
+
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
+        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
+                .thenReturn(activatedPermits);
+
+        ridePermitActivationApplicationService.activateRidePermit();
+
+        Mockito.verify(ridePermitRepository).saveAll(activatedPermits);
+        Mockito.verify(eventBus, Mockito.never()).publish(Mockito.any());
+    }
+
+    @Test
+    void givenRidePermitsToDeactivate_whenDeactivateRidePermit_thenPermitsDeactivated() {
+        Session previousSession = Mockito.mock(Session.class);
+        RidePermit permit1 = Mockito.mock(RidePermit.class);
+        RidePermit permit2 = Mockito.mock(RidePermit.class);
+        List<RidePermit> foundPermits = List.of(permit1, permit2);
+        List<RidePermit> deactivatedPermits = List.of(permit1, permit2);
+
+        Mockito.when(ridePermitActivationFilter.getPreviousSession()).thenReturn(previousSession);
+        Mockito.when(ridePermitRepository.findAllBySession(previousSession)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getDeactivatedRidePermits(foundPermits))
+                .thenReturn(deactivatedPermits);
+
+        ridePermitActivationApplicationService.deactivateRidePermit();
+
+        Mockito.verify(ridePermitRepository).saveAll(deactivatedPermits);
+    }
+
+    @Test
+    void givenNoRidePermitsToDeactivate_whenDeactivateRidePermit_thenSavesEmptyList() {
+        Session previousSession = Mockito.mock(Session.class);
+        List<RidePermit> foundPermits = List.of();
+        List<RidePermit> deactivatedPermits = List.of();
+
+        Mockito.when(ridePermitActivationFilter.getPreviousSession()).thenReturn(previousSession);
+        Mockito.when(ridePermitRepository.findAllBySession(previousSession)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getDeactivatedRidePermits(foundPermits))
+                .thenReturn(deactivatedPermits);
+
+        ridePermitActivationApplicationService.deactivateRidePermit();
+
+        Mockito.verify(ridePermitRepository).saveAll(deactivatedPermits);
+    }
 }

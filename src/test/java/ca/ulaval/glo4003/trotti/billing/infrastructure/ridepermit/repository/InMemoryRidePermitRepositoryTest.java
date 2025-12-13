@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
@@ -8,6 +7,8 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -52,23 +53,23 @@ class InMemoryRidePermitRepositoryTest {
 
         Optional<RidePermit> result = ridePermitRepository.findById(permitId1);
 
-        assertTrue(result.isPresent());
-        assertEquals(permit1, result.get());
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals(permit1, result.get());
     }
 
     @Test
     void givenUnknownPermitId_whenFindById_thenReturnsEmpty() {
         Optional<RidePermit> result = ridePermitRepository.findById(permitId1);
 
-        assertTrue(result.isEmpty());
+        Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
     void givenRidePermits_whenSaveAll_thenAllCanBeFoundById() {
         ridePermitRepository.saveAll(List.of(permit1, permit2));
 
-        assertTrue(ridePermitRepository.findById(permitId1).isPresent());
-        assertTrue(ridePermitRepository.findById(permitId2).isPresent());
+        Assertions.assertTrue(ridePermitRepository.findById(permitId1).isPresent());
+        Assertions.assertTrue(ridePermitRepository.findById(permitId2).isPresent());
     }
 
     @Test
@@ -77,9 +78,9 @@ class InMemoryRidePermitRepositoryTest {
 
         List<RidePermit> result = ridePermitRepository.findAllByIdul(riderId1);
 
-        assertEquals(1, result.size());
-        assertTrue(result.contains(permit1));
-        assertFalse(result.contains(permit2));
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertTrue(result.contains(permit1));
+        Assertions.assertFalse(result.contains(permit2));
     }
 
     @Test
@@ -88,8 +89,8 @@ class InMemoryRidePermitRepositoryTest {
 
         List<RidePermit> result = ridePermitRepository.findAllBySession(session1);
 
-        assertEquals(1, result.size());
-        assertTrue(result.contains(permit1));
-        assertFalse(result.contains(permit2));
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertTrue(result.contains(permit1));
+        Assertions.assertFalse(result.contains(permit2));
     }
 }

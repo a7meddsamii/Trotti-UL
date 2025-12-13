@@ -10,7 +10,7 @@ import org.junit.jupiter.api.function.Executable;
 
 class MaximumDailyTravelTimeTest {
     private static final Duration VALID_TIME = Duration.ofMinutes(30);
-    private static final Duration ANOTHER_VALID_TIME = Duration.ofMinutes(60);
+    private static final Duration VALID_EXTENDED_TIME = Duration.ofMinutes(60);
     private static final Duration NEGATIVE_TIME = Duration.ofMinutes(-10);
     private static final Duration LESS_THAN_10_MINUTES = Duration.ofMinutes(25);
     private static final Duration ZERO_TIME = Duration.ofMinutes(0);
@@ -78,7 +78,7 @@ class MaximumDailyTravelTimeTest {
     @Test
     void givenTwoObjectsWithDifferentValues_whenCompare_thenTheyAreNotEqual() {
         MaximumDailyTravelTime time1 = MaximumDailyTravelTime.from(VALID_TIME);
-        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(ANOTHER_VALID_TIME);
+        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(VALID_EXTENDED_TIME);
 
         Assertions.assertNotEquals(time1, time2);
     }
@@ -111,5 +111,22 @@ class MaximumDailyTravelTimeTest {
 
         Money expected = Money.of(47, Currency.CAD);
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void givenTwoInstancesWithSameDuration_whenCompare_thenEqual() {
+        MaximumDailyTravelTime time1 = MaximumDailyTravelTime.from(VALID_TIME);
+        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(VALID_TIME);
+
+        Assertions.assertEquals(time1, time2);
+        Assertions.assertEquals(time1.hashCode(), time2.hashCode());
+    }
+
+    @Test
+    void givenTwoInstancesWithDifferentDurations_whenCompare_thenNotEqual() {
+        MaximumDailyTravelTime time1 = MaximumDailyTravelTime.from(VALID_TIME);
+        MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(VALID_EXTENDED_TIME);
+
+        Assertions.assertNotEquals(time1, time2);
     }
 }
