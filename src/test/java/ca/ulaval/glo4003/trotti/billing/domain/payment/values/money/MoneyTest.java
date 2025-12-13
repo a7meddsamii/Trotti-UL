@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.domain.payment.values.money;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -41,6 +40,7 @@ class MoneyTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, executable);
     }
+
     @Test
     void givenSameCurrency_whenPlus_thenReturnsSum() {
         Money money1 = Money.of(AMOUNT_100, Currency.CAD);
@@ -65,7 +65,6 @@ class MoneyTest {
     void givenDifferentCurrencies_whenMinus_thenThrowsException() {
         Money moneyInDifferentCurrency = Money.of(AMOUNT_100, Currency.OTHER);
         Money moneyCad = Money.of(AMOUNT_100, Currency.CAD);
-
 
         Executable executable = () -> moneyCad.minus(moneyInDifferentCurrency);
 

@@ -22,7 +22,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedE
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.RidePermitItemSnapshot;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -31,7 +30,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.*;
 
 class OrderApplicationServiceTest {
@@ -71,13 +69,12 @@ class OrderApplicationServiceTest {
         OrderDto expectedOrderDto = Mockito.mock(OrderDto.class);
         RidePermitItem item = Mockito.mock(RidePermitItem.class);
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
-        Mockito.when(orderItemFactory.create(
-                Mockito.any(MaximumDailyTravelTime.class),
-                Mockito.any(Session.class),
-                Mockito.any(BillingFrequency.class)
-        )).thenReturn(item);
-        Mockito.when(orderAssembler.assemble(Mockito.any(Order.class))).thenReturn(expectedOrderDto);
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
+        Mockito.when(orderItemFactory.create(Mockito.any(MaximumDailyTravelTime.class),
+                Mockito.any(Session.class), Mockito.any(BillingFrequency.class))).thenReturn(item);
+        Mockito.when(orderAssembler.assemble(Mockito.any(Order.class)))
+                .thenReturn(expectedOrderDto);
 
         OrderDto result = orderApplicationService.addItem(VALID_BUYER_ID, addItemDto);
 
@@ -91,13 +88,12 @@ class OrderApplicationServiceTest {
         OrderDto expectedOrderDto = Mockito.mock(OrderDto.class);
         RidePermitItem item = Mockito.mock(RidePermitItem.class);
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.empty());
-        Mockito.when(orderItemFactory.create(
-                Mockito.any(MaximumDailyTravelTime.class),
-                Mockito.any(Session.class),
-                Mockito.any(BillingFrequency.class)
-        )).thenReturn(item);
-        Mockito.when(orderAssembler.assemble(Mockito.any(Order.class))).thenReturn(expectedOrderDto);
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.empty());
+        Mockito.when(orderItemFactory.create(Mockito.any(MaximumDailyTravelTime.class),
+                Mockito.any(Session.class), Mockito.any(BillingFrequency.class))).thenReturn(item);
+        Mockito.when(orderAssembler.assemble(Mockito.any(Order.class)))
+                .thenReturn(expectedOrderDto);
 
         OrderDto result = orderApplicationService.addItem(VALID_BUYER_ID, addItemDto);
 
@@ -110,7 +106,8 @@ class OrderApplicationServiceTest {
         Order existingOrder = createOrder();
         OrderDto expectedOrderDto = Mockito.mock(OrderDto.class);
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
         Mockito.when(orderAssembler.assemble(existingOrder)).thenReturn(expectedOrderDto);
 
         OrderDto result = orderApplicationService.removeItem(VALID_BUYER_ID, VALID_ITEM_ID);
@@ -120,12 +117,11 @@ class OrderApplicationServiceTest {
 
     @Test
     void givenNoCart_whenRemovingItem_thenThrowsNotFoundException() {
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.empty());
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(
-                NotFoundException.class,
-                () -> orderApplicationService.removeItem(VALID_BUYER_ID, VALID_ITEM_ID)
-        );
+        Exception exception = Assertions.assertThrows(NotFoundException.class,
+                () -> orderApplicationService.removeItem(VALID_BUYER_ID, VALID_ITEM_ID));
 
         Assertions.assertNotNull(exception);
     }
@@ -135,7 +131,8 @@ class OrderApplicationServiceTest {
         Order existingOrder = createOrder();
         OrderDto emptyOrderDto = Mockito.mock(OrderDto.class);
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
         Mockito.when(orderAssembler.assemble(existingOrder)).thenReturn(emptyOrderDto);
 
         OrderDto result = orderApplicationService.removeAllItems(VALID_BUYER_ID);
@@ -145,12 +142,11 @@ class OrderApplicationServiceTest {
 
     @Test
     void givenNoCart_whenClearingCart_thenThrowsNotFoundException() {
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.empty());
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(
-                NotFoundException.class,
-                () -> orderApplicationService.removeAllItems(VALID_BUYER_ID)
-        );
+        Exception exception = Assertions.assertThrows(NotFoundException.class,
+                () -> orderApplicationService.removeAllItems(VALID_BUYER_ID));
 
         Assertions.assertNotNull(exception);
     }
@@ -160,7 +156,8 @@ class OrderApplicationServiceTest {
         Order existingOrder = createOrder();
         OrderDto expectedOrderDto = Mockito.mock(OrderDto.class);
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
         Mockito.when(orderAssembler.assemble(existingOrder)).thenReturn(expectedOrderDto);
 
         OrderDto result = orderApplicationService.getOngoingOrder(VALID_BUYER_ID);
@@ -170,12 +167,11 @@ class OrderApplicationServiceTest {
 
     @Test
     void givenNoCart_whenGettingCart_thenThrowsNotFoundException() {
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.empty());
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(
-                NotFoundException.class,
-                () -> orderApplicationService.getOngoingOrder(VALID_BUYER_ID)
-        );
+        Exception exception = Assertions.assertThrows(NotFoundException.class,
+                () -> orderApplicationService.getOngoingOrder(VALID_BUYER_ID));
 
         Assertions.assertNotNull(exception);
     }
@@ -186,16 +182,21 @@ class OrderApplicationServiceTest {
         ConfirmOrderDto confirmDto = createConfirmOrderDto();
         PaymentMethod existingPaymentMethod = Mockito.mock(PaymentMethod.class);
         PaymentReceipt successReceipt = createSuccessfulPaymentReceipt();
-        List<RidePermitItemSnapshot> snapshots = List.of(Mockito.mock(RidePermitItemSnapshot.class));
+        List<RidePermitItemSnapshot> snapshots =
+                List.of(Mockito.mock(RidePermitItemSnapshot.class));
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
-        Mockito.when(paymentGateway.getPaymentMethod(VALID_BUYER_ID)).thenReturn(Optional.of(existingPaymentMethod));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
+        Mockito.when(paymentGateway.getPaymentMethod(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingPaymentMethod));
         Mockito.when(paymentGateway.pay(Mockito.any())).thenReturn(successReceipt);
-        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any())).thenReturn(snapshots);
+        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any()))
+                .thenReturn(snapshots);
 
         orderApplicationService.confirm(VALID_BUYER_ID, confirmDto);
 
-        ArgumentCaptor<OrderPlacedEvent> orderEventCaptor = ArgumentCaptor.forClass(OrderPlacedEvent.class);
+        ArgumentCaptor<OrderPlacedEvent> orderEventCaptor =
+                ArgumentCaptor.forClass(OrderPlacedEvent.class);
         Mockito.verify(eventBus).publish(orderEventCaptor.capture());
 
         OrderPlacedEvent event = orderEventCaptor.getValue();
@@ -209,27 +210,25 @@ class OrderApplicationServiceTest {
         ConfirmOrderDto confirmDto = createConfirmOrderDto();
         PaymentMethod newPaymentMethod = Mockito.mock(PaymentMethod.class);
         PaymentReceipt successReceipt = createSuccessfulPaymentReceipt();
-        List<RidePermitItemSnapshot> snapshots = List.of(Mockito.mock(RidePermitItemSnapshot.class));
+        List<RidePermitItemSnapshot> snapshots =
+                List.of(Mockito.mock(RidePermitItemSnapshot.class));
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
         Mockito.when(paymentGateway.getPaymentMethod(VALID_BUYER_ID)).thenReturn(Optional.empty());
-        Mockito.when(paymentMethodFactory.createCreditCard(
-                confirmDto.creditCardNumber(),
-                confirmDto.cardHolderName(),
-                confirmDto.expiryDate()
-        )).thenReturn(newPaymentMethod);
+        Mockito.when(paymentMethodFactory.createCreditCard(confirmDto.creditCardNumber(),
+                confirmDto.cardHolderName(), confirmDto.expiryDate())).thenReturn(newPaymentMethod);
         Mockito.when(paymentGateway.pay(Mockito.any())).thenReturn(successReceipt);
-        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any())).thenReturn(snapshots);
+        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any()))
+                .thenReturn(snapshots);
 
         orderApplicationService.confirm(VALID_BUYER_ID, confirmDto);
 
-        Mockito.verify(paymentMethodFactory).createCreditCard(
-                confirmDto.creditCardNumber(),
-                confirmDto.cardHolderName(),
-                confirmDto.expiryDate()
-        );
+        Mockito.verify(paymentMethodFactory).createCreditCard(confirmDto.creditCardNumber(),
+                confirmDto.cardHolderName(), confirmDto.expiryDate());
 
-        ArgumentCaptor<OrderPlacedEvent> orderEventCaptor = ArgumentCaptor.forClass(OrderPlacedEvent.class);
+        ArgumentCaptor<OrderPlacedEvent> orderEventCaptor =
+                ArgumentCaptor.forClass(OrderPlacedEvent.class);
         Mockito.verify(eventBus).publish(orderEventCaptor.capture());
 
         OrderPlacedEvent event = orderEventCaptor.getValue();
@@ -243,13 +242,16 @@ class OrderApplicationServiceTest {
         PaymentMethod paymentMethod = Mockito.mock(PaymentMethod.class);
         PaymentReceipt failureReceipt = createFailedPaymentReceipt();
 
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.of(existingOrder));
-        Mockito.when(paymentGateway.getPaymentMethod(VALID_BUYER_ID)).thenReturn(Optional.of(paymentMethod));
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.of(existingOrder));
+        Mockito.when(paymentGateway.getPaymentMethod(VALID_BUYER_ID))
+                .thenReturn(Optional.of(paymentMethod));
         Mockito.when(paymentGateway.pay(Mockito.any())).thenReturn(failureReceipt);
 
         orderApplicationService.confirm(VALID_BUYER_ID, confirmDto);
 
-        ArgumentCaptor<TransactionCompletedEvent> txEventCaptor = ArgumentCaptor.forClass(TransactionCompletedEvent.class);
+        ArgumentCaptor<TransactionCompletedEvent> txEventCaptor =
+                ArgumentCaptor.forClass(TransactionCompletedEvent.class);
         Mockito.verify(eventBus).publish(txEventCaptor.capture());
         Mockito.verify(eventBus, Mockito.never()).publish(Mockito.any(OrderPlacedEvent.class));
 
@@ -257,18 +259,17 @@ class OrderApplicationServiceTest {
         Assertions.assertEquals("failed", txEvent.getTransactionStatus());
         Assertions.assertTrue(
                 txEvent.getTransactionDescription().contains(PAYMENT_FAILURE_DESCRIPTION),
-                "Description should contain: " + PAYMENT_FAILURE_DESCRIPTION
-        );    }
+                "Description should contain: " + PAYMENT_FAILURE_DESCRIPTION);
+    }
 
     @Test
     void givenNoCart_whenCheckout_thenThrowsNotFoundException() {
         ConfirmOrderDto confirmDto = createConfirmOrderDto();
-        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID)).thenReturn(Optional.empty());
+        Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
+                .thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(
-                NotFoundException.class,
-                () -> orderApplicationService.confirm(VALID_BUYER_ID, confirmDto)
-        );
+        Exception exception = Assertions.assertThrows(NotFoundException.class,
+                () -> orderApplicationService.confirm(VALID_BUYER_ID, confirmDto));
 
         Assertions.assertNotNull(exception);
     }
@@ -276,69 +277,52 @@ class OrderApplicationServiceTest {
     @Test
     void whenGrantingFreeRidePermit_thenAutoConfirmedOrderCreatedAndEventPublished() {
         Session session = createSession();
-        FreeRidePermitItemGrantDto grantDto = new FreeRidePermitItemGrantDto(VALID_BUYER_ID, session);
+        FreeRidePermitItemGrantDto grantDto =
+                new FreeRidePermitItemGrantDto(VALID_BUYER_ID, session);
         RidePermitItem freeItem = Mockito.mock(RidePermitItem.class);
-        List<RidePermitItemSnapshot> snapshots = List.of(Mockito.mock(RidePermitItemSnapshot.class));
+        List<RidePermitItemSnapshot> snapshots =
+                List.of(Mockito.mock(RidePermitItemSnapshot.class));
 
         Mockito.when(orderItemFactory.create(Mockito.any(Session.class))).thenReturn(freeItem);
-        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any())).thenReturn(snapshots);
+        Mockito.when(orderAssembler.assembleRidePermitItemSnapshots(Mockito.any()))
+                .thenReturn(snapshots);
 
         orderApplicationService.grantFreeRidePermitItem(grantDto);
 
-        ArgumentCaptor<OrderPlacedEvent> eventCaptor = ArgumentCaptor.forClass(OrderPlacedEvent.class);
+        ArgumentCaptor<OrderPlacedEvent> eventCaptor =
+                ArgumentCaptor.forClass(OrderPlacedEvent.class);
         Mockito.verify(eventBus).publish(eventCaptor.capture());
 
         OrderPlacedEvent event = eventCaptor.getValue();
-        Assertions.assertEquals(VALID_BUYER_ID , event.getIdul());
+        Assertions.assertEquals(VALID_BUYER_ID, event.getIdul());
         Assertions.assertFalse(event.getRidePermitItems().isEmpty());
     }
 
     private AddItemDto createAddItemDto() {
-        return new AddItemDto(
-                MaximumDailyTravelTime.from(Duration.ofMinutes(30)),
-                createSession(),
-                BillingFrequency.MONTHLY
-        );
+        return new AddItemDto(MaximumDailyTravelTime.from(Duration.ofMinutes(30)), createSession(),
+                BillingFrequency.MONTHLY);
     }
 
     private ConfirmOrderDto createConfirmOrderDto() {
-        return new ConfirmOrderDto(
-                PaymentMethodType.CREDIT_CARD,
-                "4111111111111111",
-                "John Doe",
-                YearMonth.of(2026, 12)
-        );
+        return new ConfirmOrderDto(PaymentMethodType.CREDIT_CARD, "4111111111111111", "John Doe",
+                YearMonth.of(2026, 12));
     }
 
     private Session createSession() {
-        return new Session(
-                Semester.WINTER,
-                LocalDate.of(2026, 1, 1),
-                LocalDate.of(2026, 4, 30)
-        );
+        return new Session(Semester.WINTER, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 30));
     }
 
     private Order createOrder() {
-        return new Order(VALID_ORDER_ID_VALUE, VALID_BUYER_ID );
+        return new Order(VALID_ORDER_ID_VALUE, VALID_BUYER_ID);
     }
 
     private PaymentReceipt createSuccessfulPaymentReceipt() {
-        return PaymentReceipt.of(
-                TransactionId.randomId(),
-                orderId,
-                Money.zeroCad(),
-                true,
-                PAYMENT_SUCCESS_DESCRIPTION
-        );
+        return PaymentReceipt.of(TransactionId.randomId(), orderId, Money.zeroCad(), true,
+                PAYMENT_SUCCESS_DESCRIPTION);
     }
 
     private PaymentReceipt createFailedPaymentReceipt() {
-        return PaymentReceipt.of(
-                TransactionId.randomId(),
-                orderId,
-                Money.zeroCad(),
-                false,
-                PAYMENT_FAILURE_DESCRIPTION
-        );
+        return PaymentReceipt.of(TransactionId.randomId(), orderId, Money.zeroCad(), false,
+                PAYMENT_FAILURE_DESCRIPTION);
     }
 }

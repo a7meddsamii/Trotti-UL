@@ -1,27 +1,23 @@
 package ca.ulaval.glo4003.trotti.billing.api.order.handler;
 
-import ca.ulaval.glo4003.trotti.billing.api.order.handler.OrderEventHandler;
 import ca.ulaval.glo4003.trotti.billing.api.order.mapper.OrderApiMapper;
 import ca.ulaval.glo4003.trotti.billing.application.order.OrderApplicationService;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.FreeRidePermitItemGrantDto;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.AccountCreatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.account.ApplyAdvantageRequestEvent;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.util.List;
 
 public class OrderEventHandlerTest {
 
     private static final String FREE_RIDE_PERMIT_ADVANTAGE = "FREE_RIDE_PERMIT";
     private static final String OTHER_ADVANTAGE = "DISCOUNT_50";
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
-    private static final List<Idul> ELIGIBLE_USER_IDULS = List.of(
-            Idul.from("user1"),
-            Idul.from("user2")
-    );
+    private static final List<Idul> ELIGIBLE_USER_IDULS =
+            List.of(Idul.from("user1"), Idul.from("user2"));
 
     private OrderApplicationService orderApplicationService;
     private OrderApiMapper orderApiMapper;
@@ -41,8 +37,7 @@ public class OrderEventHandlerTest {
         FreeRidePermitItemGrantDto dto = Mockito.mock(FreeRidePermitItemGrantDto.class);
         Mockito.when(event.getAdvantages()).thenReturn(List.of(FREE_RIDE_PERMIT_ADVANTAGE));
         Mockito.when(event.getIdul()).thenReturn(VALID_USER_IDUL);
-        Mockito.when(orderApiMapper.toFreeRidePermitItemGrantDto(VALID_USER_IDUL))
-                .thenReturn(dto);
+        Mockito.when(orderApiMapper.toFreeRidePermitItemGrantDto(VALID_USER_IDUL)).thenReturn(dto);
 
         handler.onAccountCreated(event);
 
@@ -58,7 +53,8 @@ public class OrderEventHandlerTest {
         handler.onAccountCreated(event);
 
         Mockito.verify(orderApiMapper, Mockito.never()).toFreeRidePermitItemGrantDto(Mockito.any());
-        Mockito.verify(orderApplicationService, Mockito.never()).grantFreeRidePermitItem(Mockito.any());
+        Mockito.verify(orderApplicationService, Mockito.never())
+                .grantFreeRidePermitItem(Mockito.any());
     }
 
     @Test
@@ -69,7 +65,8 @@ public class OrderEventHandlerTest {
         handler.onAccountCreated(event);
 
         Mockito.verify(orderApiMapper, Mockito.never()).toFreeRidePermitItemGrantDto(Mockito.any());
-        Mockito.verify(orderApplicationService, Mockito.never()).grantFreeRidePermitItem(Mockito.any());
+        Mockito.verify(orderApplicationService, Mockito.never())
+                .grantFreeRidePermitItem(Mockito.any());
     }
 
     @Test
@@ -98,8 +95,10 @@ public class OrderEventHandlerTest {
 
         handler.onApplyAdvantageRequestEvent(event);
 
-        Mockito.verify(orderApiMapper, Mockito.never()).toFreeRidePermitItemGrantDtos(Mockito.any());
-        Mockito.verify(orderApplicationService, Mockito.never()).grantFreeRidePermitItem(Mockito.any());
+        Mockito.verify(orderApiMapper, Mockito.never())
+                .toFreeRidePermitItemGrantDtos(Mockito.any());
+        Mockito.verify(orderApplicationService, Mockito.never())
+                .grantFreeRidePermitItem(Mockito.any());
     }
 
 }

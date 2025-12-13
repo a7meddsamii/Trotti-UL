@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities;
 
-
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.exceptions.InvalidRidePermitOperation;
@@ -90,8 +89,8 @@ class RidePermitTest {
     void givenInvalidIdul_whenAddDailyTravelTime_thenThrowsException() {
         Idul invalidIdul = Idul.from("abcde");
 
-        Executable addDailyTravelTime =
-                () -> ridePermit.addDailyTravelTime(invalidIdul, VALID_DATE_TIME, TRAVEL_DURATION_30);
+        Executable addDailyTravelTime = () -> ridePermit.addDailyTravelTime(invalidIdul,
+                VALID_DATE_TIME, TRAVEL_DURATION_30);
 
         Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }

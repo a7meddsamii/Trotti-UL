@@ -9,11 +9,10 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.OrderPlacedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.order.RidePermitItemSnapshot;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.util.List;
 
 public class RidePermitEventHandlerTest {
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
@@ -58,12 +57,12 @@ public class RidePermitEventHandlerTest {
         AddTravelTimeDto addTravelTimeDto = Mockito.mock(AddTravelTimeDto.class);
 
         Mockito.when(event.getIdul()).thenReturn(VALID_USER_IDUL);
-        Mockito.when(ridePermitApiMapper.toAddTimeDto(event))
-                .thenReturn(addTravelTimeDto);
+        Mockito.when(ridePermitApiMapper.toAddTimeDto(event)).thenReturn(addTravelTimeDto);
 
         handler.onTripCompleted(event);
 
         Mockito.verify(ridePermitApiMapper).toAddTimeDto(event);
-        Mockito.verify(ridePermitApplicationService).addTravelTime(VALID_USER_IDUL, addTravelTimeDto);
+        Mockito.verify(ridePermitApplicationService).addTravelTime(VALID_USER_IDUL,
+                addTravelTimeDto);
     }
 }

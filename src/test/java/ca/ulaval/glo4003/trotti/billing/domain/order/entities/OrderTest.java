@@ -1,14 +1,12 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
-
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.*;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,12 +29,12 @@ class OrderTest {
     @BeforeEach
     void setUp() {
         Session session = createSession();
-        firstItem = new RidePermitItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME_DURATION, session,
-                BillingFrequency.MONTHLY);
-        secondItem = new RidePermitItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME_DURATION, session,
-                BillingFrequency.PER_TRIP);
-        duplicateOfFirst = new RidePermitItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME_DURATION,
+        firstItem = new RidePermitItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME_DURATION,
                 session, BillingFrequency.MONTHLY);
+        secondItem = new RidePermitItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME_DURATION,
+                session, BillingFrequency.PER_TRIP);
+        duplicateOfFirst = new RidePermitItem(firstItem.getItemId(),
+                FIRST_MAXIMUM_TRAVEL_TIME_DURATION, session, BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
         order = new Order(VALID_ORDER_ID, VALID_IDUL);
     }
@@ -120,10 +118,6 @@ class OrderTest {
     }
 
     private Session createSession() {
-        return new Session(
-                Semester.WINTER,
-                LocalDate.of(2026, 1, 1),
-                LocalDate.of(2026, 4, 30)
-        );
+        return new Session(Semester.WINTER, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 30));
     }
 }

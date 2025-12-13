@@ -18,9 +18,9 @@ class BillingFrequencyTest {
     @Test
     void givenPerTripVariants_whenFromString_thenReturnsPerTripEnum() {
         BillingFrequency fromRegularPerTripString = BillingFrequency.fromString(PER_TRIP_STANDARD);
-        BillingFrequency fromAlternatePerTripString = BillingFrequency.fromString(PER_TRIP_UNDERSCORE);
-        BillingFrequency fromNormalizedPerTripString =
-                BillingFrequency.fromString(PER_TRIP_HYPHEN);
+        BillingFrequency fromAlternatePerTripString =
+                BillingFrequency.fromString(PER_TRIP_UNDERSCORE);
+        BillingFrequency fromNormalizedPerTripString = BillingFrequency.fromString(PER_TRIP_HYPHEN);
 
         Assertions.assertEquals(BillingFrequency.PER_TRIP, fromRegularPerTripString);
         Assertions.assertEquals(BillingFrequency.PER_TRIP, fromAlternatePerTripString);
@@ -33,8 +33,7 @@ class BillingFrequencyTest {
         BillingFrequency fromAlternateMonthlyString = BillingFrequency.fromString(MONTHLY_ALT);
         BillingFrequency fromUnderscoreMonthlyString =
                 BillingFrequency.fromString(MONTHLY_UNDERSCORE);
-        BillingFrequency fromNormalizedMonthlyString =
-                BillingFrequency.fromString(MONTHLY_HYPHEN);
+        BillingFrequency fromNormalizedMonthlyString = BillingFrequency.fromString(MONTHLY_HYPHEN);
 
         Assertions.assertEquals(BillingFrequency.MONTHLY, fromRegularMonthlyString);
         Assertions.assertEquals(BillingFrequency.MONTHLY, fromAlternateMonthlyString);

@@ -8,12 +8,11 @@ import ca.ulaval.glo4003.trotti.billing.application.ridepermit.dto.RidePermitDto
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.util.List;
 
 public class RidePermitControllerTest {
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
@@ -60,10 +59,8 @@ public class RidePermitControllerTest {
         RidePermitDto ridePermitDto = Mockito.mock(RidePermitDto.class);
         RidePermitResponse ridePermitResponse = Mockito.mock(RidePermitResponse.class);
 
-        Mockito.when(ridePermitApplicationService.getRidePermit(
-                Mockito.eq(VALID_USER_IDUL),
-                Mockito.any(RidePermitId.class)
-        )).thenReturn(ridePermitDto);
+        Mockito.when(ridePermitApplicationService.getRidePermit(Mockito.eq(VALID_USER_IDUL),
+                Mockito.any(RidePermitId.class))).thenReturn(ridePermitDto);
         Mockito.when(ridePermitApiMapper.toRidePermitResponse(ridePermitDto))
                 .thenReturn(ridePermitResponse);
 
@@ -71,10 +68,8 @@ public class RidePermitControllerTest {
 
         Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
         Assertions.assertEquals(ridePermitResponse, result.getEntity());
-        Mockito.verify(ridePermitApplicationService).getRidePermit(
-                Mockito.eq(VALID_USER_IDUL),
-                Mockito.any(RidePermitId.class)
-        );
+        Mockito.verify(ridePermitApplicationService).getRidePermit(Mockito.eq(VALID_USER_IDUL),
+                Mockito.any(RidePermitId.class));
         Mockito.verify(ridePermitApiMapper).toRidePermitResponse(ridePermitDto);
     }
 }

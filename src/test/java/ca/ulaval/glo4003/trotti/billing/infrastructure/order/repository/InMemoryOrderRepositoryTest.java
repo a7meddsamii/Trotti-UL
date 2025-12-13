@@ -1,15 +1,9 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.order.repository;
 
-
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.Semester;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-
-import java.time.LocalDate;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +23,6 @@ class InMemoryOrderRepositoryTest {
         pendingOrder = new Order(OrderId.randomId(), BUYER_IDUL);
         completedOrder = new Order(OrderId.randomId(), BUYER_IDUL);
         completedOrder.confirm();
-
 
     }
 

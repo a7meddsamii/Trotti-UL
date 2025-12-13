@@ -40,11 +40,9 @@ public class SecuredStringTest {
 
     @Test
     void givenLessThanFourCharacters_whenFromPlain_thenThrowsException() {
-        Executable executable =
-                () -> SecuredString.fromPlain(SHORT_STRING, codec);
+        Executable executable = () -> SecuredString.fromPlain(SHORT_STRING, codec);
 
         Assertions.assertThrows(StringIndexOutOfBoundsException.class, executable);
     }
-
 
 }

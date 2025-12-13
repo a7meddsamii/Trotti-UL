@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.billing.api.order.controller;
 
-import ca.ulaval.glo4003.trotti.billing.api.order.controller.OrderController;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.ItemRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.request.PaymentInfoRequest;
 import ca.ulaval.glo4003.trotti.billing.api.order.dto.response.ItemListResponse;
@@ -9,8 +8,8 @@ import ca.ulaval.glo4003.trotti.billing.application.order.OrderApplicationServic
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,12 +46,10 @@ public class OrderControllerTest {
         AddItemDto addItemDto = Mockito.mock(AddItemDto.class);
         OrderDto orderDto = Mockito.mock(OrderDto.class);
         ItemListResponse itemListResponse = Mockito.mock(ItemListResponse.class);
-        Mockito.when(orderApiMapper.toAddItemDto(itemRequest))
-                .thenReturn(addItemDto);
+        Mockito.when(orderApiMapper.toAddItemDto(itemRequest)).thenReturn(addItemDto);
         Mockito.when(orderApplicationService.addItem(VALID_USER_IDUL, addItemDto))
                 .thenReturn(orderDto);
-        Mockito.when(orderApiMapper.toItemListResponse(orderDto))
-                .thenReturn(itemListResponse);
+        Mockito.when(orderApiMapper.toItemListResponse(orderDto)).thenReturn(itemListResponse);
 
         Response response = controller.addItem(VALID_USER_IDUL, itemRequest);
 
@@ -80,10 +77,8 @@ public class OrderControllerTest {
     void givenValidUserId_whenGetOngoingOrder_thenReturnsOkResponseWithItemList() {
         OrderDto orderDto = Mockito.mock(OrderDto.class);
         ItemListResponse itemListResponse = Mockito.mock(ItemListResponse.class);
-        Mockito.when(orderApplicationService.getOngoingOrder(VALID_USER_IDUL))
-                .thenReturn(orderDto);
-        Mockito.when(orderApiMapper.toItemListResponse(orderDto))
-                .thenReturn(itemListResponse);
+        Mockito.when(orderApplicationService.getOngoingOrder(VALID_USER_IDUL)).thenReturn(orderDto);
+        Mockito.when(orderApiMapper.toItemListResponse(orderDto)).thenReturn(itemListResponse);
 
         Response response = controller.getOngoingOrder(VALID_USER_IDUL);
 
@@ -97,19 +92,16 @@ public class OrderControllerTest {
     void givenValidItemId_whenRemoveItem_thenReturnsOkResponseWithItemList() {
         OrderDto orderDto = Mockito.mock(OrderDto.class);
         ItemListResponse itemListResponse = Mockito.mock(ItemListResponse.class);
-        Mockito.when(orderApplicationService.removeItem(VALID_USER_IDUL, ItemId.from(VALID_ITEM_ID_VALUE)))
-                .thenReturn(orderDto);
-        Mockito.when(orderApiMapper.toItemListResponse(orderDto))
-                .thenReturn(itemListResponse);
+        Mockito.when(orderApplicationService.removeItem(VALID_USER_IDUL,
+                ItemId.from(VALID_ITEM_ID_VALUE))).thenReturn(orderDto);
+        Mockito.when(orderApiMapper.toItemListResponse(orderDto)).thenReturn(itemListResponse);
 
         Response response = controller.removeItem(VALID_USER_IDUL, VALID_ITEM_ID_VALUE);
 
         Assertions.assertEquals(HTTP_STATUS_OK, response.getStatus());
         Assertions.assertEquals(itemListResponse, response.getEntity());
-        Mockito.verify(orderApplicationService).removeItem(
-                Mockito.eq(VALID_USER_IDUL),
-                Mockito.any(ItemId.class)
-        );
+        Mockito.verify(orderApplicationService).removeItem(Mockito.eq(VALID_USER_IDUL),
+                Mockito.any(ItemId.class));
         Mockito.verify(orderApiMapper).toItemListResponse(orderDto);
     }
 
@@ -117,10 +109,8 @@ public class OrderControllerTest {
     void givenValidUserId_whenRemoveAllItems_thenReturnsOkResponseWithEmptyItemList() {
         OrderDto orderDto = Mockito.mock(OrderDto.class);
         ItemListResponse itemListResponse = Mockito.mock(ItemListResponse.class);
-        Mockito.when(orderApplicationService.removeAllItems(VALID_USER_IDUL))
-                .thenReturn(orderDto);
-        Mockito.when(orderApiMapper.toItemListResponse(orderDto))
-                .thenReturn(itemListResponse);
+        Mockito.when(orderApplicationService.removeAllItems(VALID_USER_IDUL)).thenReturn(orderDto);
+        Mockito.when(orderApiMapper.toItemListResponse(orderDto)).thenReturn(itemListResponse);
 
         Response response = controller.removeAllItems(VALID_USER_IDUL);
 
