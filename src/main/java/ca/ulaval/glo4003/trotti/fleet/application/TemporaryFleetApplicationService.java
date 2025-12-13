@@ -28,7 +28,7 @@ public class TemporaryFleetApplicationService implements FleetApplicationService
         LocalDateTime now = LocalDateTime.now(clock);
         ScooterId scooterId =
                 fleet.rentScooter(undockScooterDto.location(), undockScooterDto.slotNumber(), now);
-		
+
         fleetRepository.save(fleet);
 
         return scooterId;
@@ -39,7 +39,7 @@ public class TemporaryFleetApplicationService implements FleetApplicationService
         LocalDateTime now = LocalDateTime.now(clock);
         fleet.returnScooter(dockScooterDto.scooterId(), dockScooterDto.location(),
                 dockScooterDto.slotNumber(), now);
-		
+
         fleetRepository.save(fleet);
     }
 }
