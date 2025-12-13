@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 /**
  * @deprecated this is a temporary implementation, to be removed once we have a proper application service layer
  * the goal is to keep the trip module operational while we refactor the fleet module
+ * DO NOT expand its responsibilities, make completely new application service then delete this class
  */
 public class TemporaryFleetApplicationService implements FleetApplicationService {
 	private final FleetRepository fleetRepository;
