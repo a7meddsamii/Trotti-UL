@@ -4,16 +4,21 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.repository.RidePermitRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
+import ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.dto.RidePermitPersistenceDto;
+import ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.mapper.RidePermitPersistenceMapper;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryRidePermitRepository implements RidePermitRepository {
-    private final Map<RidePermitId, RidePermit> database = new HashMap<>();
+    private final Map<String, RidePermitPersistenceDto> database = new HashMap<>();
+    private final RidePermitPersistenceMapper mapper = new RidePermitPersistenceMapper();
 
     @Override
     public void save(RidePermit ridePermit) {
-        database.put(ridePermit.getId(), ridePermit);
+        RidePermitPersistenceDto dto = mapper.toDto(ridePermit);
+        database.put(dto.id(), dto);
     }
 
     @Override
@@ -23,31 +28,39 @@ public class InMemoryRidePermitRepository implements RidePermitRepository {
 
     @Override
     public Optional<RidePermit> findById(RidePermitId ridePermitId) {
-        return Optional.ofNullable(database.get(ridePermitId));
+        return Optional.ofNullable(database.get(ridePermitId.toString()))
+                .map(mapper::toDomain);
     }
 
     @Override
     public Optional<RidePermit> findByRiderIdAndRidePermitId(Idul riderId,
             RidePermitId ridePermitId) {
-        return database.values().stream().filter(permit -> permit.getId().equals(ridePermitId)
-                && permit.getRiderId().equals(riderId)).findFirst();
+        return database.values().stream().filter(dto -> dto.id().equals(ridePermitId.toString())
+                        && dto.riderId().equals(riderId.toString()))
+                .findFirst()
+                .map(mapper::toDomain);
     }
 
     @Override
     public List<RidePermit> findAllByIdul(Idul idul) {
-        return database.values().stream().filter(permit -> permit.getRiderId().equals(idul))
-                .toList();
+        return database.values().stream().filter(dto -> dto.riderId().equals(idul.toString()))
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllByDate(LocalDate date) {
-        return database.values().stream().filter(permit -> permit.getSession().contains(date))
-                .toList();
+        return database.values().stream().map(mapper::toDomain)
+                .filter(permit -> permit.getSession().contains(date))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllBySession(Session session) {
-        return database.values().stream().filter(permit -> permit.getSession().equals(session))
-                .toList();
+        return database.values().stream().filter(dto -> dto.semesterCode().equals(String.valueOf(session.getSemester().getCode()))
+                        && dto.sessionStartDate().equals(session.getStartDate())
+                        && dto.sessionEndDate().equals(session.getEndDate()))
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
