@@ -9,6 +9,8 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ import org.mockito.Mockito;
 
 public class RidePermitControllerTest {
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
-    private static final String VALID_RIDE_PERMIT_ID_VALUE = "123e4567-e89b-12d3-a456-426614174000";
+    private static final String VALID_RIDE_PERMIT_ID_VALUE = UUID.randomUUID().toString();
     private static final int HTTP_STATUS_OK = 200;
 
     private RidePermitApplicationService ridePermitApplicationService;

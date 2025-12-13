@@ -13,6 +13,8 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import java.time.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ import org.mockito.Mockito;
 class RidePermitApplicationServiceTest {
     private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
     private static final Idul VALID_RIDER_IDUL = Mockito.mock(Idul.class);
-    private static final String VALID_RIDE_PERMIT_ID_VALUE = "123e4567-e89b-12d3-a456-426614174000";
+    private static final String VALID_RIDE_PERMIT_ID_VALUE = UUID.randomUUID().toString();
 
     private RidePermitFactory ridePermitFactory;
     private RidePermitRepository ridePermitRepository;

@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
+import ca.ulaval.glo4003.trotti.commons.domain.Id;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
@@ -16,10 +17,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.UUID;
+
 public class OrderControllerTest {
 
     private static final Idul VALID_USER_IDUL = Idul.from("user123");
-    private static final String VALID_ITEM_ID_VALUE = "123e4567-e89b-12d3-a456-426614174000";
+    private static final String VALID_ITEM_ID_VALUE = UUID.randomUUID().toString();
     private static final int HTTP_STATUS_OK = 200;
     private static final int HTTP_STATUS_NO_CONTENT = 204;
 
