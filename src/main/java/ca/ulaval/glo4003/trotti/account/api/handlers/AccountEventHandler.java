@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.account.api.handler;
+package ca.ulaval.glo4003.trotti.account.api.handlers;
 
 import ca.ulaval.glo4003.trotti.account.application.AccountApplicationService;
 import ca.ulaval.glo4003.trotti.account.domain.values.Advantage;
