@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.communication.domain;
 
 import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitSnapshot;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,8 @@ class EmailMessageFactoryTest {
 
     @Test
     void givenOrderId_whenCreateOrderConfirmationMessage_thenReturnsEmailWithCorrectContent() {
-        EmailMessage result = emailMessageFactory.createOrderConfirmationMessage(RECIPIENT_EMAIL, ORDER_ID);
+        EmailMessage result =
+                emailMessageFactory.createOrderConfirmationMessage(RECIPIENT_EMAIL, ORDER_ID);
 
         Assertions.assertEquals(RECIPIENT_EMAIL, result.getRecipient());
         Assertions.assertEquals("Your Order #" + ORDER_ID, result.getSubject());
@@ -45,8 +46,8 @@ class EmailMessageFactoryTest {
 
     @Test
     void givenTransactionDetails_whenCreateTransactionCompletedMessage_thenReturnsEmailWithCorrectContent() {
-        EmailMessage result = emailMessageFactory.createTransactionCompletedMessage(
-                RECIPIENT_EMAIL, TRANSACTION_ID, TRANSACTION_STATUS, TRANSACTION_DESCRIPTION);
+        EmailMessage result = emailMessageFactory.createTransactionCompletedMessage(RECIPIENT_EMAIL,
+                TRANSACTION_ID, TRANSACTION_STATUS, TRANSACTION_DESCRIPTION);
 
         Assertions.assertEquals(RECIPIENT_EMAIL, result.getRecipient());
         Assertions.assertEquals("Transaction Completed: " + TRANSACTION_ID, result.getSubject());
@@ -57,7 +58,8 @@ class EmailMessageFactoryTest {
 
     @Test
     void givenNameAndUnlockCode_whenCreateUnlockCodeMessage_thenReturnsEmailWithCorrectContent() {
-        EmailMessage result = emailMessageFactory.createUnlockCodeMessage(RECIPIENT_EMAIL, CUSTOMER_NAME, UNLOCK_CODE);
+        EmailMessage result = emailMessageFactory.createUnlockCodeMessage(RECIPIENT_EMAIL,
+                CUSTOMER_NAME, UNLOCK_CODE);
 
         Assertions.assertEquals(RECIPIENT_EMAIL, result.getRecipient());
         Assertions.assertEquals("Unlock Code for your trip", result.getSubject());
@@ -68,18 +70,22 @@ class EmailMessageFactoryTest {
 
     @Test
     void givenLocationAndMessage_whenCreateMaintenanceMessage_thenReturnsEmailWithCorrectContent() {
-        EmailMessage result = emailMessageFactory.createMaintenanceMessage(RECIPIENT_EMAIL, MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE);
+        EmailMessage result = emailMessageFactory.createMaintenanceMessage(RECIPIENT_EMAIL,
+                MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE);
 
         Assertions.assertEquals(RECIPIENT_EMAIL, result.getRecipient());
-        Assertions.assertEquals("Maintenance requested - " + MAINTENANCE_LOCATION, result.getSubject());
+        Assertions.assertEquals("Maintenance requested - " + MAINTENANCE_LOCATION,
+                result.getSubject());
         Assertions.assertEquals(MAINTENANCE_MESSAGE, result.getBody());
     }
 
     @Test
     void givenRidePermitSnapshot_whenCreateRidePermitActivationMessage_thenReturnsEmailWithCorrectContent() {
-        RidePermitSnapshot snapshot = new RidePermitSnapshot(USER_IDUL, RIDE_PERMIT_ID, SESSION, SESSION_START_DATE, SESSION_EXPIRATION_DATE);
+        RidePermitSnapshot snapshot = new RidePermitSnapshot(USER_IDUL, RIDE_PERMIT_ID, SESSION,
+                SESSION_START_DATE, SESSION_EXPIRATION_DATE);
 
-        EmailMessage result = emailMessageFactory.createRidePermitActivationMessage(RECIPIENT_EMAIL, snapshot);
+        EmailMessage result =
+                emailMessageFactory.createRidePermitActivationMessage(RECIPIENT_EMAIL, snapshot);
 
         Assertions.assertEquals(RECIPIENT_EMAIL, result.getRecipient());
         Assertions.assertEquals("Ride Permit Activation", result.getSubject());

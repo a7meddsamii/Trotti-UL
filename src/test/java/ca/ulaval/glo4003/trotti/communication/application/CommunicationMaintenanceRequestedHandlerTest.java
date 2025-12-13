@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.MaintenanceRequestedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
@@ -7,8 +9,6 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.repositories.InMemoryContactRepository;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,18 +35,20 @@ class CommunicationMaintenanceRequestedHandlerTest {
         fakeContactRepository = new InMemoryContactRepository();
         handler = new CommunicationMaintenanceRequestedHandler(emailService, emailMessageFactory);
         emailMessage = Mockito.mock(EmailMessage.class);
-        
+
         Contact.setRepository(fakeContactRepository);
-        
-        Contact technician = new Contact(TECHNICIAN_IDUL, TECHNICIAN_NAME, TECHNICIAN_EMAIL, ContactRole.TECHNICIAN);
+
+        Contact technician = new Contact(TECHNICIAN_IDUL, TECHNICIAN_NAME, TECHNICIAN_EMAIL,
+                ContactRole.TECHNICIAN);
         fakeContactRepository.save(technician);
     }
 
     @Test
     void givenMaintenanceRequestedEvent_whenHandle_thenSendsEmailToAllTechnicians() {
-        MaintenanceRequestedEvent event = new MaintenanceRequestedEvent(MAINTENANCE_IDUL, MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE);
-        Mockito.when(emailMessageFactory.createMaintenanceMessage(TECHNICIAN_EMAIL, MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE))
-                .thenReturn(emailMessage);
+        MaintenanceRequestedEvent event = new MaintenanceRequestedEvent(MAINTENANCE_IDUL,
+                MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE);
+        Mockito.when(emailMessageFactory.createMaintenanceMessage(TECHNICIAN_EMAIL,
+                MAINTENANCE_LOCATION, MAINTENANCE_MESSAGE)).thenReturn(emailMessage);
 
         handler.handle(event);
 

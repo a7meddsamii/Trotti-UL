@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitActivatedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.ridepermit.RidePermitSnapshot;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
@@ -8,8 +10,6 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.repositories.InMemoryContactRepository;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,17 +39,17 @@ class RidePermitActivationHandlerTest {
         fakeContactRepository = new InMemoryContactRepository();
         handler = new RidePermitActivationHandler(emailService, emailMessageFactory);
         emailMessage = Mockito.mock(EmailMessage.class);
-        
+
         Contact.setRepository(fakeContactRepository);
-        
+
         Contact contact = new Contact(USER_IDUL, USER_NAME, USER_EMAIL, ContactRole.STUDENT);
         fakeContactRepository.save(contact);
     }
 
     @Test
     void givenRidePermitActivatedEvent_whenHandle_thenSendsActivationEmailToAllUsers() {
-        RidePermitSnapshot snapshot = new RidePermitSnapshot(
-                USER_IDUL, RIDE_PERMIT_ID, SESSION, SESSION_START_DATE, SESSION_EXPIRATION_DATE);
+        RidePermitSnapshot snapshot = new RidePermitSnapshot(USER_IDUL, RIDE_PERMIT_ID, SESSION,
+                SESSION_START_DATE, SESSION_EXPIRATION_DATE);
         RidePermitActivatedEvent event = new RidePermitActivatedEvent(List.of(snapshot));
         Mockito.when(emailMessageFactory.createRidePermitActivationMessage(USER_EMAIL, snapshot))
                 .thenReturn(emailMessage);

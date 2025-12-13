@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
@@ -7,8 +9,6 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.repositories.InMemoryContactRepository;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,17 +36,19 @@ class CommunicationUnlockCodeRequestedHandlerTest {
         fakeContactRepository = new InMemoryContactRepository();
         handler = new CommunicationUnlockCodeRequestedHandler(emailService, emailMessageFactory);
         emailMessage = Mockito.mock(EmailMessage.class);
-        
+
         Contact.setRepository(fakeContactRepository);
-        
+
         Contact contact = new Contact(USER_IDUL, USER_NAME, USER_EMAIL, ContactRole.STUDENT);
         fakeContactRepository.save(contact);
     }
 
     @Test
     void givenUnlockCodeRequestedEvent_whenHandle_thenSendsUnlockCodeEmail() {
-        UnlockCodeRequestedEvent event = new UnlockCodeRequestedEvent(USER_IDUL, RIDE_PERMIT_ID, UNLOCK_CODE, EXPIRATION_DATE);
-        Mockito.when(emailMessageFactory.createUnlockCodeMessage(USER_EMAIL, USER_NAME, UNLOCK_CODE))
+        UnlockCodeRequestedEvent event = new UnlockCodeRequestedEvent(USER_IDUL, RIDE_PERMIT_ID,
+                UNLOCK_CODE, EXPIRATION_DATE);
+        Mockito.when(
+                emailMessageFactory.createUnlockCodeMessage(USER_EMAIL, USER_NAME, UNLOCK_CODE))
                 .thenReturn(emailMessage);
 
         handler.handle(event);

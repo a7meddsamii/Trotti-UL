@@ -28,7 +28,8 @@ class InMemoryContactRepositoryTest {
     void setup() {
         repository = new InMemoryContactRepository();
         studentContact = new Contact(STUDENT_IDUL, STUDENT_NAME, STUDENT_EMAIL, STUDENT_ROLE);
-        technicianContact = new Contact(TECHNICIAN_IDUL, TECHNICIAN_NAME, TECHNICIAN_EMAIL, TECHNICIAN_ROLE);
+        technicianContact =
+                new Contact(TECHNICIAN_IDUL, TECHNICIAN_NAME, TECHNICIAN_EMAIL, TECHNICIAN_ROLE);
     }
 
     @Test
@@ -51,7 +52,8 @@ class InMemoryContactRepositoryTest {
 
     @Test
     void givenContactsWithSameRole_whenFindAllByRole_thenReturnsAllMatchingContacts() {
-        Contact anotherStudent = new Contact(Idul.from("student789"), "Bob Student", Email.from("bob@ulaval.ca"), STUDENT_ROLE);
+        Contact anotherStudent = new Contact(Idul.from("student789"), "Bob Student",
+                Email.from("bob@ulaval.ca"), STUDENT_ROLE);
         repository.save(studentContact);
         repository.save(anotherStudent);
         repository.save(technicianContact);

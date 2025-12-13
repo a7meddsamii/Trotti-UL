@@ -37,7 +37,8 @@ class ContactTest {
 
     @Test
     void givenIdul_whenFindByIdul_thenCallsRepositoryFindByIdul() {
-        Contact expectedContact = new Contact(CONTACT_IDUL, CONTACT_NAME, CONTACT_EMAIL, CONTACT_ROLE);
+        Contact expectedContact =
+                new Contact(CONTACT_IDUL, CONTACT_NAME, CONTACT_EMAIL, CONTACT_ROLE);
         Mockito.when(contactRepository.findByIdul(CONTACT_IDUL)).thenReturn(expectedContact);
 
         Contact result = Contact.findByIdul(CONTACT_IDUL);

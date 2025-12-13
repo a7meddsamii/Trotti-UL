@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.communication.application;
 
+import ca.ulaval.glo4003.trotti.account.domain.values.Email;
+import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.billing.payment.TransactionCompletedEvent;
 import ca.ulaval.glo4003.trotti.communication.domain.EmailMessageFactory;
 import ca.ulaval.glo4003.trotti.communication.domain.entities.Contact;
@@ -7,8 +9,6 @@ import ca.ulaval.glo4003.trotti.communication.domain.services.EmailService;
 import ca.ulaval.glo4003.trotti.communication.domain.values.ContactRole;
 import ca.ulaval.glo4003.trotti.communication.domain.values.EmailMessage;
 import ca.ulaval.glo4003.trotti.communication.infrastructure.repositories.InMemoryContactRepository;
-import ca.ulaval.glo4003.trotti.account.domain.values.Email;
-import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -36,17 +36,20 @@ class CommunicationTransactionCompletedHandlerTest {
         fakeContactRepository = new InMemoryContactRepository();
         handler = new CommunicationTransactionCompletedHandler(emailService, emailMessageFactory);
         emailMessage = Mockito.mock(EmailMessage.class);
-        
+
         Contact.setRepository(fakeContactRepository);
-        
-        Contact contact = new Contact(CUSTOMER_IDUL, CUSTOMER_NAME, CUSTOMER_EMAIL, ContactRole.STUDENT);
+
+        Contact contact =
+                new Contact(CUSTOMER_IDUL, CUSTOMER_NAME, CUSTOMER_EMAIL, ContactRole.STUDENT);
         fakeContactRepository.save(contact);
     }
 
     @Test
     void givenTransactionCompletedEvent_whenHandle_thenSendsTransactionCompletedEmail() {
-        TransactionCompletedEvent event = new TransactionCompletedEvent(CUSTOMER_IDUL, TRANSACTION_ID, TRANSACTION_SUCCESS, TRANSACTION_DESCRIPTION);
-        Mockito.when(emailMessageFactory.createTransactionCompletedMessage(CUSTOMER_EMAIL, TRANSACTION_ID, TRANSACTION_STATUS, TRANSACTION_DESCRIPTION))
+        TransactionCompletedEvent event = new TransactionCompletedEvent(CUSTOMER_IDUL,
+                TRANSACTION_ID, TRANSACTION_SUCCESS, TRANSACTION_DESCRIPTION);
+        Mockito.when(emailMessageFactory.createTransactionCompletedMessage(CUSTOMER_EMAIL,
+                TRANSACTION_ID, TRANSACTION_STATUS, TRANSACTION_DESCRIPTION))
                 .thenReturn(emailMessage);
 
         handler.handle(event);
