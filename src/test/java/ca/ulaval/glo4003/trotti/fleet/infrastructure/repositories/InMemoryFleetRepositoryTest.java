@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories;
 
+import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
-import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidFleetException;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.mappers.FleetPersistenceMapper;
 import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.records.FleetRecord;
@@ -28,18 +28,18 @@ class InMemoryFleetRepositoryTest {
     }
 
     @Test
-    void givenNoFleet_whenGetFleet_thenExceptionIsThrown() {
-        Executable getFleetAction = () -> fleetRepository.getFleet();
-        Assertions.assertThrows(InvalidFleetException.class, getFleetAction);
+    void givenNoFleet_whenFind_thenExceptionIsThrown() {
+        Executable getFleetAction = () -> fleetRepository.find();
+        Assertions.assertThrows(NotFoundException.class, getFleetAction);
     }
 
     @Test
-    void givenFleet_whenGetFleet_thenFleetIsReturned() {
+    void givenFleet_whenFindIsReturned() {
         Mockito.when(fleetPersistenceMapper.toDomain(fleetRecord)).thenReturn(fleet);
         Mockito.when(fleetPersistenceMapper.toRecord(fleet)).thenReturn(fleetRecord);
         fleetRepository.save(fleet);
 
-        Fleet retrievedFleet = fleetRepository.getFleet();
+        Fleet retrievedFleet = fleetRepository.find();
 
         Assertions.assertEquals(fleet, retrievedFleet);
     }

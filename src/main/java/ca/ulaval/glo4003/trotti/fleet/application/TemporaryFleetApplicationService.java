@@ -24,20 +24,22 @@ public class TemporaryFleetApplicationService implements FleetApplicationService
     }
 
     public ScooterId retrieveScooter(UndockScooterDto undockScooterDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         LocalDateTime now = LocalDateTime.now(clock);
         ScooterId scooterId =
                 fleet.rentScooter(undockScooterDto.location(), undockScooterDto.slotNumber(), now);
+		
         fleetRepository.save(fleet);
 
         return scooterId;
     }
 
     public void returnScooter(DockScooterDto dockScooterDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         LocalDateTime now = LocalDateTime.now(clock);
         fleet.returnScooter(dockScooterDto.scooterId(), dockScooterDto.location(),
                 dockScooterDto.slotNumber(), now);
+		
         fleetRepository.save(fleet);
     }
 }
