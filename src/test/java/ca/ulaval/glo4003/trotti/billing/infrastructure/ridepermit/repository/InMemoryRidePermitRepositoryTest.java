@@ -7,16 +7,13 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class InMemoryRidePermitRepositoryTest {
 
@@ -42,17 +39,10 @@ class InMemoryRidePermitRepositoryTest {
         riderId1 = Idul.from(RIDER_1_IDUL);
         riderId2 = Idul.from(RIDER_2_IDUL);
 
-        session1 = new Session(
-                Semester.WINTER,
-                LocalDate.of(2026, 1, 1),
-                LocalDate.of(2026, 4, 30)
-        );
+        session1 =
+                new Session(Semester.WINTER, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 30));
 
-        session2 = new Session(
-                Semester.FALL,
-                LocalDate.of(2025, 9, 1),
-                LocalDate.of(2025, 12, 20)
-        );
+        session2 = new Session(Semester.FALL, LocalDate.of(2025, 9, 1), LocalDate.of(2025, 12, 20));
 
         permitId1 = RidePermitId.randomId();
         permit1 = new RidePermit(permitId1, riderId1, session1, DAILY_LIMIT);

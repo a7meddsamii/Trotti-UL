@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitState
 import ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.dto.DailyBillingUsagePersistenceDto;
 import ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.dto.RidePermitPersistenceDto;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -24,27 +23,21 @@ public class RidePermitPersistenceMapper {
             usageDtos.put(date.toString(), toUsageDto(usage));
         });
 
-        return new RidePermitPersistenceDto(
-                ridePermit.getId().toString(),
+        return new RidePermitPersistenceDto(ridePermit.getId().toString(),
                 ridePermit.getRiderId().toString(),
                 String.valueOf(ridePermit.getSession().getSemester().getCode()),
-                ridePermit.getSession().getStartDate(),
-                ridePermit.getSession().getEndDate(),
+                ridePermit.getSession().getStartDate(), ridePermit.getSession().getEndDate(),
                 ridePermit.getMaximumTravelingTimePerDay().toMinutes(),
-                ridePermit.getPermitState().name(),
-                usageDtos
-        );
+                ridePermit.getPermitState().name(), usageDtos);
     }
 
     public RidePermit toDomain(RidePermitPersistenceDto dto) {
         RidePermitId id = RidePermitId.from(dto.id());
         Idul riderId = Idul.from(dto.riderId());
-        Session session = new Session(
-                Semester.fromString(dto.semesterCode()),
-                dto.sessionStartDate(),
-                dto.sessionEndDate()
-        );
-        Duration maximumTravelingTimePerDay = Duration.ofMinutes(dto.maximumTravelingTimePerDayMinutes());
+        Session session = new Session(Semester.fromString(dto.semesterCode()),
+                dto.sessionStartDate(), dto.sessionEndDate());
+        Duration maximumTravelingTimePerDay =
+                Duration.ofMinutes(dto.maximumTravelingTimePerDayMinutes());
 
         Map<LocalDate, DailyBillingUsage> dailyUsages = new HashMap<>();
         dto.dailyBillingUsages().forEach((dateStr, usageDto) -> {
@@ -59,13 +52,9 @@ public class RidePermitPersistenceMapper {
 
     private DailyBillingUsagePersistenceDto toUsageDto(DailyBillingUsage usage) {
         return new DailyBillingUsagePersistenceDto(
-                usage.getMaximumTravelingTimePerDay().toMinutes(),
-                usage.getDate(),
-                usage.getTravelingTime().toMinutes(),
-                usage.getBalance().getAmount(),
-                usage.getBalance().getCurrency().name(),
-                usage.isMaximumTravelingTimeExceeded()
-        );
+                usage.getMaximumTravelingTimePerDay().toMinutes(), usage.getDate(),
+                usage.getTravelingTime().toMinutes(), usage.getBalance().getAmount(),
+                usage.getBalance().getCurrency().name(), usage.isMaximumTravelingTimeExceeded());
     }
 
     private DailyBillingUsage toUsageDomain(DailyBillingUsagePersistenceDto dto) {
@@ -73,12 +62,7 @@ public class RidePermitPersistenceMapper {
         Duration travelingTime = Duration.ofMinutes(dto.travelingTimeMinutes());
         Money balance = Money.of(dto.balanceAmount(), Currency.valueOf(dto.balanceCurrency()));
 
-        return new DailyBillingUsage(
-                maxTime,
-                dto.date(),
-                travelingTime,
-                balance,
-                dto.maximumTravelingTimeExceeded()
-        );
+        return new DailyBillingUsage(maxTime, dto.date(), travelingTime, balance,
+                dto.maximumTravelingTimeExceeded());
     }
 }

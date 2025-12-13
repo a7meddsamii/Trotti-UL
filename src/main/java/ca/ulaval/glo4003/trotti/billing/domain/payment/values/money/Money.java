@@ -67,9 +67,13 @@ public class Money {
         return this.amount.compareTo(BigDecimal.ZERO) < 0;
     }
 
-    public double getAmount() {return amount.doubleValue();}
+    public double getAmount() {
+        return amount.doubleValue();
+    }
 
-    public Currency getCurrency() {return currency;}
+    public Currency getCurrency() {
+        return currency;
+    }
 
     @Override
     public boolean equals(Object o) {
