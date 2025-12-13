@@ -24,7 +24,7 @@ public class MaintenanceStatus {
         return new MaintenanceStatus(true, techId);
     }
 
-    public boolean startedBy(Idul techId) {
+    public boolean isStartedBy(Idul techId) {
         return active && technicianId != null && technicianId.equals(techId);
     }
 
@@ -32,7 +32,7 @@ public class MaintenanceStatus {
         return active;
     }
 
-    public Idul technicianId() {
+    public Idul getTechnicianId() {
         return technicianId;
     }
 }

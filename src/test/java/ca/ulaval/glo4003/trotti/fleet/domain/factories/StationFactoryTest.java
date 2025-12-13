@@ -10,8 +10,8 @@ import org.junit.jupiter.api.function.Executable;
 
 class StationFactoryTest {
 
-    private static final Location A_LOCATION = Location.of("PEPS", "Station A");
-    private static final int A_CAPACITY = 10;
+    private static final Location LOCATION = Location.of("PEPS", "Station A");
+    private static final int CAPACITY = 10;
 
     private StationFactory stationFactory;
 
@@ -22,17 +22,17 @@ class StationFactoryTest {
 
     @Test
     void givenValidLocationAndCapacity_whenCreate_thenStationHasCorrectLocationAndCapacity() {
-        Station station = stationFactory.create(A_LOCATION, A_CAPACITY);
+        Station station = stationFactory.create(LOCATION, CAPACITY);
 
-        Assertions.assertEquals(A_LOCATION, station.getLocation());
-        Assertions.assertEquals(A_CAPACITY, station.getDockingArea().getCapacity());
+        Assertions.assertEquals(LOCATION, station.getLocation());
+        Assertions.assertEquals(CAPACITY, station.getDockingArea().getCapacity());
     }
 
     @Test
     void givenNonPositiveCapacity_whenCreate_thenThrowsInvalidStationOperation() {
         int invalidCapacity = 0;
 
-        Executable action = () -> stationFactory.create(A_LOCATION, invalidCapacity);
+        Executable action = () -> stationFactory.create(LOCATION, invalidCapacity);
 
         Assertions.assertThrows(InvalidStationOperation.class, action);
     }

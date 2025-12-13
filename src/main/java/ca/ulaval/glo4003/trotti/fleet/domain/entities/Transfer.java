@@ -2,29 +2,49 @@ package ca.ulaval.glo4003.trotti.fleet.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Transfer {
+    private final TransferId transferId;
     private final Idul technicianId;
-    private final List<Scooter> scootersToMove;
+    private final Map<ScooterId, Boolean> scootersTransferCompletedState;
 
-    public Transfer(Idul technicianId, List<Scooter> scootersToMove) {
+    public Transfer(
+            TransferId transferId,
+            Idul technicianId,
+            Map<ScooterId, Boolean> scootersTransferCompletedState) {
+        this.transferId = transferId;
         this.technicianId = technicianId;
-        this.scootersToMove = scootersToMove;
+        this.scootersTransferCompletedState = scootersTransferCompletedState;
     }
 
-    public List<Scooter> unload(Idul technicianId, int numberOfScooters) {
+    public List<ScooterId> unload(Idul technicianId, int numberOfScooters) {
         validateUnloadOperation(technicianId, numberOfScooters);
-        List<Scooter> scootersToDeposit =
-                new ArrayList<>(scootersToMove.subList(0, numberOfScooters));
-        scootersToMove.subList(0, numberOfScooters).clear();
+        List<ScooterId> scootersToDeposit =
+                getRemainingScootersToMove().subList(0, numberOfScooters);
+        scootersToDeposit.forEach(scooterId -> scootersTransferCompletedState.put(scooterId, true));
+
         return scootersToDeposit;
     }
 
-    public boolean isCompleted() {
-        return scootersToMove.isEmpty();
+    private boolean isCompleted() {
+        return getRemainingScootersToMove().isEmpty();
+    }
+
+    private List<ScooterId> getRemainingScootersToMove() {
+        List<ScooterId> remainingScooters = new ArrayList<>();
+
+        for (Map.Entry<ScooterId, Boolean> entry : scootersTransferCompletedState.entrySet()) {
+            if (!entry.getValue()) {
+                remainingScooters.add(entry.getKey());
+            }
+        }
+
+        return remainingScooters;
     }
 
     private void validateUnloadOperation(Idul technicianId, int numberOfScooters) {
@@ -33,13 +53,13 @@ public class Transfer {
                     "Technician " + technicianId + " is not assigned to this transfer");
         }
 
-        if (numberOfScooters <= 0 || numberOfScooters > scootersToMove.size()) {
-            throw new InvalidTransferException(
-                    "Invalid number of scooters to unload: " + numberOfScooters);
+        if (isCompleted()) {
+            throw new InvalidTransferException("Transfer is already completed");
         }
-    }
 
-    public List<Scooter> getScootersToMove() {
-        return Collections.unmodifiableList(scootersToMove);
+        if (numberOfScooters <= 0 || numberOfScooters > getRemainingScootersToMove().size()) {
+            throw new InvalidTransferException(
+                    "Not enough scooters remaining to unload: " + numberOfScooters);
+        }
     }
 }
