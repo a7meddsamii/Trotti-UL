@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.trotti.fleet.application;
 
-import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.RentScooterDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.ReturnScooterDto;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
