@@ -33,8 +33,8 @@ class CommunicationAccountCreatedHandlerTest {
                 ACCOUNT_EMAIL, ACCOUNT_ROLE, List.of());
 
         handler.handle(event);
-        Contact savedContact = fakeContactRepository.findByIdul(ACCOUNT_IDUL);
 
+        Contact savedContact = fakeContactRepository.findByIdul(ACCOUNT_IDUL);
         Assertions.assertNotNull(savedContact);
         Assertions.assertEquals(ACCOUNT_IDUL, savedContact.getIdul());
     }
