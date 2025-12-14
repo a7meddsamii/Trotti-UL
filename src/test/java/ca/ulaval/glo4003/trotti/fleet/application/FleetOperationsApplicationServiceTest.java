@@ -37,7 +37,7 @@ class FleetOperationsApplicationServiceTest {
         fleetRepository = Mockito.mock(FleetRepository.class);
         fleet = Mockito.mock(Fleet.class);
 
-        Mockito.when(fleetRepository.getFleet()).thenReturn(fleet);
+        Mockito.when(fleetRepository.find()).thenReturn(fleet);
 
         fleetOperationsApplicationService =
                 new FleetOperationsApplicationService(fleetRepository, clock);

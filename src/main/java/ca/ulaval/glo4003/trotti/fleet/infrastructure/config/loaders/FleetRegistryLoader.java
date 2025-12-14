@@ -1,10 +1,10 @@
-package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
+package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.config.providers.stations.StationProvider;
+import ca.ulaval.glo4003.trotti.fleet.infrastructure.config.providers.stations.StationProvider;
 import java.nio.file.Path;
 
-public class TripRegistryLoader extends Bootstrapper {
+public class FleetRegistryLoader extends Bootstrapper {
     private static final Path STATION_DATA_FILE_PATH =
             Path.of("/app/data/campus-delivery-location.json");
 

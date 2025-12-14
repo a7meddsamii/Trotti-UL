@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.trip.MaintenanceRequestedE
 import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.TransferNotFoundException;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.TransferFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.TransferRepository;
@@ -36,20 +37,20 @@ public class FleetMaintenanceApplicationService {
     }
 
     public void startMaintenance(StartMaintenanceDto startMaintenanceDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         fleet.startMaintenance(startMaintenanceDto.location(), startMaintenanceDto.technicianId(),
                 now());
         fleetRepository.save(fleet);
     }
 
     public void endMaintenance(EndMaintenanceDto endMaintenanceDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         fleet.endMaintenance(endMaintenanceDto.location(), endMaintenanceDto.technicianId(), now());
         fleetRepository.save(fleet);
     }
 
     public void requestMaintenance(RequestMaintenanceDto requestMaintenanceDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         fleet.ensureStationNotUnderMaintenance(requestMaintenanceDto.location());
 
         eventBus.publish(new MaintenanceRequestedEvent(requestMaintenanceDto.requesterId(),
@@ -57,7 +58,7 @@ public class FleetMaintenanceApplicationService {
     }
 
     public TransferId startTransfer(StartTransferDto startTransferDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         List<ScooterId> scooterIds = fleet.retrieveScooters(startTransferDto.sourceStation(),
                 startTransferDto.sourceSlots());
         Transfer transfer = transferFactory.create(startTransferDto.technicianId(), scooterIds);
@@ -68,10 +69,10 @@ public class FleetMaintenanceApplicationService {
     }
 
     public void unloadTransfer(UnloadTransferDto dto) {
-        Transfer transfer = transferRepository.findById(dto.transferId());
+        Transfer transfer = transferRepository.findById(dto.transferId()).orElseThrow(() -> new TransferNotFoundException(dto.transferId()));
         List<ScooterId> scooterIdsToDeposit =
                 transfer.unload(dto.technicianId(), dto.destinationSlots().size());
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         fleet.depositScooters(dto.destinationStation(), dto.destinationSlots(), scooterIdsToDeposit,
                 now());
         transferRepository.save(transfer);

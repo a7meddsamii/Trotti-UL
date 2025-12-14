@@ -18,6 +18,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +67,7 @@ class FleetMaintenanceApplicationServiceTest {
         fleet = Mockito.mock(Fleet.class);
         transfer = Mockito.mock(Transfer.class);
 
-        Mockito.when(fleetRepository.getFleet()).thenReturn(fleet);
+        Mockito.when(fleetRepository.find()).thenReturn(fleet);
 
         fleetMaintenanceApplicationService = new FleetMaintenanceApplicationService(fleetRepository,
                 transferRepository, transferFactory, eventBus, clock);
@@ -111,7 +113,7 @@ class FleetMaintenanceApplicationServiceTest {
         UnloadTransferDto dto = new UnloadTransferDto(TRANSFER_ID, TECHNICIAN_ID,
                 DESTINATION_LOCATION, DESTINATION_SLOTS);
 
-        Mockito.when(transferRepository.findById(TRANSFER_ID)).thenReturn(transfer);
+        Mockito.when(transferRepository.findById(TRANSFER_ID)).thenReturn(Optional.ofNullable(transfer));
         Mockito.when(transfer.unload(TECHNICIAN_ID, DESTINATION_SLOTS.size()))
                 .thenReturn(SCOOTER_IDS);
 

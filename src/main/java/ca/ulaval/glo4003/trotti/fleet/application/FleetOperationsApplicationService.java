@@ -22,7 +22,7 @@ public class FleetOperationsApplicationService {
     }
 
     public ScooterId rentScooter(RentScooterDto rentScooterDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         ScooterId scooterId =
                 fleet.rentScooter(rentScooterDto.location(), rentScooterDto.slotNumber(), now());
         fleetRepository.save(fleet);
@@ -31,19 +31,19 @@ public class FleetOperationsApplicationService {
     }
 
     public void returnScooter(ReturnScooterDto returnScooterDto) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         fleet.returnScooter(returnScooterDto.scooterId(), returnScooterDto.location(),
                 returnScooterDto.slotNumber(), now());
         fleetRepository.save(fleet);
     }
 
     public List<SlotNumber> getAvailableSlots(Location location) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
         return fleet.getAvailableSlots(location);
     }
 
     public List<SlotNumber> getOccupiedSlots(Location location) {
-        Fleet fleet = fleetRepository.getFleet();
+        Fleet fleet = fleetRepository.find();
 
         return fleet.getOccupiedSlots(location);
     }
