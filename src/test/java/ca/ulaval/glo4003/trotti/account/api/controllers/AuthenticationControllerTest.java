@@ -24,7 +24,7 @@ class AuthenticationControllerTest {
     @BeforeEach
     void setup() {
         accountApplicationService = Mockito.mock(AccountApplicationService.class);
-        request = new LoginRequest(AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD);
+        request = new LoginRequest(AccountFixture.EMAIL_STRING, AccountFixture.RAW_PASSWORD);
         expectedToken = SessionToken.from("jwt-token");
         LoginDto loginDto = new LoginDto(Email.from(request.email()), request.password());
         Mockito.when(accountApplicationService.login(loginDto)).thenReturn(expectedToken);

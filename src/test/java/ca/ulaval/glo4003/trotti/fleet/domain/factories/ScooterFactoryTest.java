@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class ScooterFactoryTest {
 
-    private static final Location A_STATION_LOCATION = Location.of("PEPS", "Station A");
+    private static final Location STATION_LOCATION = Location.of("PEPS", "Station A");
     private static final int SCOOTER_COUNT = 5;
     private static final BatteryLevel FULL_CHARGE = BatteryLevel.from(BigDecimal.valueOf(100));
 
@@ -24,14 +24,14 @@ class ScooterFactoryTest {
 
     @Test
     void whenCreateScooters_thenReturnsCorrectNumberOf() {
-        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, STATION_LOCATION);
 
         Assertions.assertEquals(SCOOTER_COUNT, scooters.size());
     }
 
     @Test
     void whenCreateScooters_thenAllHaveUniqueIds() {
-        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, STATION_LOCATION);
 
         long uniqueIds = scooters.stream().map(Scooter::getScooterId).distinct().count();
 
@@ -40,17 +40,17 @@ class ScooterFactoryTest {
 
     @Test
     void whenCreateScooters_thenAllAreAtStationLocation() {
-        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, STATION_LOCATION);
 
         boolean allAtStation = scooters.stream()
-                .allMatch(scooter -> scooter.getLocation().equals(A_STATION_LOCATION));
+                .allMatch(scooter -> scooter.getLocation().equals(STATION_LOCATION));
 
         Assertions.assertTrue(allAtStation);
     }
 
     @Test
     void whenCreateScooters_thenAllHaveFullBattery() {
-        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, A_STATION_LOCATION);
+        List<Scooter> scooters = scooterFactory.create(SCOOTER_COUNT, STATION_LOCATION);
 
         boolean allFullyCharged = scooters.stream()
                 .allMatch(scooter -> scooter.getBattery().getBatteryLevel().equals(FULL_CHARGE));
@@ -60,7 +60,7 @@ class ScooterFactoryTest {
 
     @Test
     void whenCreateWithZeroCount_thenReturnsEmptyList() {
-        List<Scooter> scooters = scooterFactory.create(0, A_STATION_LOCATION);
+        List<Scooter> scooters = scooterFactory.create(0, STATION_LOCATION);
 
         Assertions.assertTrue(scooters.isEmpty());
     }

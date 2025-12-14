@@ -15,9 +15,9 @@ class JakartaEmailServiceAdapterIntegrationTest {
     private static final String HOST = "localhost";
     private static final String PORT = "3025";
     private static final String FROM = "no-reply@test.com";
-    private static final String A_SUBJECT = "a_subject";
-    private static final String A_BODY = "a_body";
-    private static final String A_EMAIL = "JhonDoe@ulaval.ca";
+    private static final String SUBJECT = "a_subject";
+    private static final String BODY = "a_body";
+    private static final String EMAIL = "JhonDoe@ulaval.ca";
 
     private static GreenMail greenMail;
     private JakartaEmailServiceAdapter emailService;
@@ -44,17 +44,17 @@ class JakartaEmailServiceAdapterIntegrationTest {
 
     @Test
     void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
-        EmailMessage emailMessage = EmailMessage.builder().withRecipient(Email.from(A_EMAIL))
-                .withBody(A_BODY).withSubject(A_SUBJECT).build();
+        EmailMessage emailMessage = EmailMessage.builder().withRecipient(Email.from(EMAIL))
+                .withBody(BODY).withSubject(SUBJECT).build();
 
         emailService.send(emailMessage);
 
         MimeMessage[] mimeMessages = greenMail.getReceivedMessages();
         Assertions.assertEquals(1, mimeMessages.length);
         MimeMessage receivedMessage = mimeMessages[0];
-        Assertions.assertEquals(A_EMAIL, receivedMessage.getAllRecipients()[0].toString());
-        Assertions.assertEquals(A_SUBJECT, receivedMessage.getSubject());
-        Assertions.assertEquals(A_BODY, receivedMessage.getContent());
+        Assertions.assertEquals(EMAIL, receivedMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(SUBJECT, receivedMessage.getSubject());
+        Assertions.assertEquals(BODY, receivedMessage.getContent());
     }
 
 }

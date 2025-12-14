@@ -14,8 +14,8 @@ import org.junit.jupiter.api.function.Executable;
 
 class TransferTest {
 
-    private static final Idul TECHNICIAN_ID = Idul.from("tech123");
-    private static final Idul WRONG_TECHNICIAN_ID = Idul.from("tech1231231");
+    private static final Idul TECHNICIID = Idul.from("tech123");
+    private static final Idul WRONG_TECHNICIID = Idul.from("tech1231231");
     private static final int AMOUNT_TO_UNLOAD = 1;
 
     private TransferId transferId;
@@ -32,12 +32,12 @@ class TransferTest {
         scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, false);
         scootersTransferCompletedState.put(scooterId2, false);
-        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
     }
 
     @Test
     void givenWrongTechnician_whenUnload_thenThrowsInvalidTransferException() {
-        Executable action = () -> transfer.unload(WRONG_TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
+        Executable action = () -> transfer.unload(WRONG_TECHNICIID, AMOUNT_TO_UNLOAD);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
@@ -46,7 +46,7 @@ class TransferTest {
     void givenAmountToUnloadLessThanOne_whenUnload_thenThrowsInvalidTransferException() {
         int unloadCount = 0;
 
-        Executable action = () -> transfer.unload(TECHNICIAN_ID, unloadCount);
+        Executable action = () -> transfer.unload(TECHNICIID, unloadCount);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
@@ -56,9 +56,9 @@ class TransferTest {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, true);
         scootersTransferCompletedState.put(scooterId2, true);
-        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
 
-        Executable action = () -> transfer.unload(TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
+        Executable action = () -> transfer.unload(TECHNICIID, AMOUNT_TO_UNLOAD);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
@@ -67,26 +67,26 @@ class TransferTest {
     void givenAmountToUnloadGreaterThanScootersStillInTransfer_whenUnload_thenThrowsInvalidTransferException() {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, false);
-        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
         int unloadCount = scootersTransferCompletedState.size() + 1;
 
-        Executable action = () -> transfer.unload(TECHNICIAN_ID, unloadCount);
+        Executable action = () -> transfer.unload(TECHNICIID, unloadCount);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
     void givenValidAmountOfScooterToUnload_whenUnload_thenCorrectAmountIsReturned() {
-        List<ScooterId> unloaded = transfer.unload(TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
+        List<ScooterId> unloaded = transfer.unload(TECHNICIID, AMOUNT_TO_UNLOAD);
         Assertions.assertEquals(AMOUNT_TO_UNLOAD, unloaded.size());
     }
 
     @Test
     void givenCompletedScooterDeposit_whenUnload_thenRemainingScootersAreCorrect() {
-        int removedAmount = transfer.unload(TECHNICIAN_ID, 1).size();
+        int removedAmount = transfer.unload(TECHNICIID, 1).size();
         int expectedRemainingAmount = scootersTransferCompletedState.size() - removedAmount;
 
-        List<ScooterId> remainingScooters = transfer.unload(TECHNICIAN_ID, expectedRemainingAmount);
+        List<ScooterId> remainingScooters = transfer.unload(TECHNICIID, expectedRemainingAmount);
 
         Assertions.assertEquals(expectedRemainingAmount, remainingScooters.size());
     }

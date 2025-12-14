@@ -16,11 +16,11 @@ import org.mockito.Mockito;
 
 class AdminCreationNodeTest {
 
-    private static final String A_NAME = AccountFixture.A_NAME;
-    private static final LocalDate A_BIRTHDATE = AccountFixture.A_BIRTHDATE;
-    private static final Gender A_GENDER = AccountFixture.A_GENDER;
-    private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
-    private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
+    private static final String NAME = AccountFixture.NAME;
+    private static final LocalDate BIRTHDATE = AccountFixture.BIRTHDATE;
+    private static final Gender GENDER = AccountFixture.GENDER;
+    private static final Idul IDUL = AccountFixture.IDUL;
+    private static final Email EMAIL = AccountFixture.EMAIL;
     private static final Role NOT_ADMIN_ROLE = Role.EMPLOYEE;
 
     private Set<Permission> availablePermissions;
@@ -41,14 +41,14 @@ class AdminCreationNodeTest {
     void givenAdminRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
-                A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
+        Account expected = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
+                GENDER, IDUL, EMAIL, role, availablePermissions);
 
-        Assertions.assertEquals(A_NAME, expected.getName());
-        Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(A_GENDER, expected.getGender());
-        Assertions.assertEquals(AN_IDUL, expected.getIdul());
-        Assertions.assertEquals(A_EMAIL, expected.getEmail());
+        Assertions.assertEquals(NAME, expected.getName());
+        Assertions.assertEquals(BIRTHDATE, expected.getBirthDate());
+        Assertions.assertEquals(GENDER, expected.getGender());
+        Assertions.assertEquals(IDUL, expected.getIdul());
+        Assertions.assertEquals(EMAIL, expected.getEmail());
         Assertions.assertEquals(role, expected.getRole());
         Assertions.assertNotNull(expected.getPermissions());
     }
@@ -57,11 +57,11 @@ class AdminCreationNodeTest {
     void givenNoAdminRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
         role = NOT_ADMIN_ROLE;
 
-        adminCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
+        adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
                 role, availablePermissions);
 
-        Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, role, availablePermissions);
+        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role, availablePermissions);
     }
 
     @Test
@@ -69,8 +69,8 @@ class AdminCreationNodeTest {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
-        Executable executable = () -> adminCreationNode.createAdminManagedAccount(A_NAME,
-                A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
+        Executable executable = () -> adminCreationNode.createAdminManagedAccount(NAME,
+                BIRTHDATE, GENDER, IDUL, EMAIL, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);
     }

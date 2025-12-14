@@ -15,7 +15,7 @@ class GuavaUnlockCodeStoreTest {
 
     private static final Idul IDUL = Idul.from("ABCD");
     private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
-    private static final String A_CODE = "1234";
+    private static final String CODE = "1234";
 
     private UnlockCodeStore store;
     private Clock fixedClock;
@@ -56,7 +56,7 @@ class GuavaUnlockCodeStoreTest {
 
     @Test
     void givenNoStoredCode_whenValidate_thenThrowsNotFoundException() {
-        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);
+        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, CODE);
 
         Assertions.assertThrows(NotFoundException.class, validateAction);
     }
@@ -75,7 +75,7 @@ class GuavaUnlockCodeStoreTest {
         store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
         store.revoke(IDUL, RIDE_PERMIT_ID);
 
-        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);
+        Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, CODE);
 
         Assertions.assertThrows(NotFoundException.class, validateAction);
     }

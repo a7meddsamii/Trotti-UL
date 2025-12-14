@@ -13,48 +13,48 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 public class ScooterTest {
-    private static final ScooterId AN_ID = ScooterId.randomId();
+    private static final ScooterId ID = ScooterId.randomId();
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final LocalDateTime FUTURE_TIME = LocalDateTime.of(2024, 1, 1, 13, 0);
-    private static final Location A_LOCATION = Location.of("building A", "spot name");
+    private static final Location LOCATION = Location.of("building A", "spot name");
     private Scooter scooter;
     private Battery battery;
 
     @BeforeEach
     void setup() {
         battery = Mockito.mock(Battery.class);
-        scooter = new Scooter(AN_ID, battery, A_LOCATION);
+        scooter = new Scooter(ID, battery, LOCATION);
         Mockito.when(battery.hasEnoughCharge()).thenReturn(true);
     }
 
     @Test
     void givenScooterAlreadyDocked_whenEndUsage_thenThrowsException() {
-        Executable dockAt = () -> scooter.endUsage(A_LOCATION, CURRENT_TIME);
+        Executable dockAt = () -> scooter.endUsage(LOCATION, CURRENT_TIME);
 
         Assertions.assertThrows(InvalidLocationException.class, dockAt);
     }
 
     @Test
     void givenStationLocationAndDockingTime_whenEndUsage_thenBatteryStartsCharging() {
-        scooter = new Scooter(AN_ID, battery, Location.empty());
+        scooter = new Scooter(ID, battery, Location.empty());
 
-        scooter.endUsage(A_LOCATION, CURRENT_TIME);
+        scooter.endUsage(LOCATION, CURRENT_TIME);
 
         Mockito.verify(battery).changeBatteryState(BatteryState.CHARGING, CURRENT_TIME);
     }
 
     @Test
     void givenStationLocation_whenEndUsage_thenStationLocationIsSetToGivenLocation() {
-        scooter = new Scooter(AN_ID, battery, Location.empty());
+        scooter = new Scooter(ID, battery, Location.empty());
 
-        scooter.endUsage(A_LOCATION, CURRENT_TIME);
+        scooter.endUsage(LOCATION, CURRENT_TIME);
 
-        Assertions.assertEquals(A_LOCATION, scooter.getLocation());
+        Assertions.assertEquals(LOCATION, scooter.getLocation());
     }
 
     @Test
     void givenScooterAlreadyUndocked_whenBeginUsage_thenThrowsException() {
-        scooter = new Scooter(AN_ID, battery, Location.empty());
+        scooter = new Scooter(ID, battery, Location.empty());
 
         Executable undock = () -> scooter.beginUsage(CURRENT_TIME);
 

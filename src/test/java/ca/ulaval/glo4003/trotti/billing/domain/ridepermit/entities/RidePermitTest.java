@@ -25,11 +25,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class RidePermitTest {
 
     private static final Duration DAILY_LIMIT = Duration.ofMinutes(60);
-    private static final Duration A_TRAVEL_DURATION = Duration.ofMinutes(30);
+    private static final Duration TRAVEL_DURATION = Duration.ofMinutes(30);
     private static final Duration DIFFERENT_TRAVEL_DURATION = Duration.ofMinutes(50);
     private static final Duration ZERO_DURATION = Duration.ZERO;
-    private static final LocalDateTime A_DATE_TIME = LocalDateTime.of(2025, 1, 1, 12, 0);
-    private static final RidePermitState A_STATE = RidePermitState.ACTIVE;
+    private static final LocalDateTime DATE_TIME = LocalDateTime.of(2025, 1, 1, 12, 0);
+    private static final RidePermitState STATE = RidePermitState.ACTIVE;
     private static final Money ZERO_CAD = Money.zeroCad();
 
     private static final LocalDate TODAY = LocalDate.now();
@@ -52,8 +52,8 @@ class RidePermitTest {
     void givenEmptyAndNonEmptyUsages_whenGettingDailyBillingUsages_thenEmptyFilteredOut() {
         Map<LocalDate, DailyBillingUsage> initial = new HashMap<>();
         initial.put(TODAY, emptyUsage(DAILY_LIMIT, TODAY));
-        initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, A_TRAVEL_DURATION));
-        ridePermit = new RidePermit(ridePermitId, IDUL, session, DAILY_LIMIT, initial, A_STATE);
+        initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, TRAVEL_DURATION));
+        ridePermit = new RidePermit(ridePermitId, IDUL, session, DAILY_LIMIT, initial, STATE);
 
         Map<LocalDate, DailyBillingUsage> usages = ridePermit.getDailyBillingUsages();
 
@@ -64,7 +64,7 @@ class RidePermitTest {
 
     @Test
     void givenDateWithoutUsage_whenAddDailyTravelTime_thenUsageCreatedAndVisible() {
-        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, A_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, DATE_TIME, TRAVEL_DURATION);
 
         Map<LocalDate, DailyBillingUsage> usages = ridePermit.getDailyBillingUsages();
 
@@ -73,18 +73,18 @@ class RidePermitTest {
 
     @Test
     void givenZeroDurationAdded_whenAddDailyTravelTime_thenUsageRemainsFilteredOut() {
-        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, ZERO_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, DATE_TIME, ZERO_DURATION);
         assertTrue(ridePermit.getDailyBillingUsages().isEmpty());
     }
 
     @Test
     void givenDate_whenAddDailyTravelTime_thenCorrectDailyBillingUsageIsUpdated() {
-        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, A_TRAVEL_DURATION);
-        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME.plusDays(2), A_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, DATE_TIME, TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, DATE_TIME.plusDays(2), TRAVEL_DURATION);
 
-        ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
+        ridePermit.addDailyTravelTime(IDUL, DATE_TIME, DIFFERENT_TRAVEL_DURATION);
 
-        Mockito.verify(ridePermit).addDailyTravelTime(IDUL, A_DATE_TIME, DIFFERENT_TRAVEL_DURATION);
+        Mockito.verify(ridePermit).addDailyTravelTime(IDUL, DATE_TIME, DIFFERENT_TRAVEL_DURATION);
     }
 
     @Test
@@ -92,7 +92,7 @@ class RidePermitTest {
         Idul invalidIdul = Idul.from("abcde");
 
         Executable addDailyTravelTime =
-                () -> ridePermit.addDailyTravelTime(invalidIdul, A_DATE_TIME, A_TRAVEL_DURATION);
+                () -> ridePermit.addDailyTravelTime(invalidIdul, DATE_TIME, TRAVEL_DURATION);
 
         Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }
@@ -102,7 +102,7 @@ class RidePermitTest {
         Duration negativeDuration = Duration.ofMinutes(-1);
 
         Executable addDailyTravelTime =
-                () -> ridePermit.addDailyTravelTime(IDUL, A_DATE_TIME, negativeDuration);
+                () -> ridePermit.addDailyTravelTime(IDUL, DATE_TIME, negativeDuration);
 
         Assertions.assertThrows(InvalidRidePermitOperation.class, addDailyTravelTime);
     }
@@ -189,7 +189,7 @@ class RidePermitTest {
             Session permitSession) {
         Map<LocalDate, DailyBillingUsage> initial = new HashMap<>();
         initial.put(TODAY, emptyUsage(DAILY_LIMIT, TODAY));
-        initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, A_TRAVEL_DURATION));
+        initial.put(YESTERDAY, nonEmptyUsage(DAILY_LIMIT, YESTERDAY, TRAVEL_DURATION));
         ridePermit = new RidePermit(ridePermitId, IDUL, permitSession, DAILY_LIMIT, initial,
                 ridePermitState);
     }

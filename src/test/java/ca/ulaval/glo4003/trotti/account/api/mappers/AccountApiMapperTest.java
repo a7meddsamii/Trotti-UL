@@ -14,8 +14,8 @@ import org.mockito.Mockito;
 
 class AccountApiMapperTest {
     public static final String HASHED_PASSWORD = "hashed-password";
-    public static final String AN_INVALID_BIRTHDATE_FORMAT = "not-a-date";
-    private static final String A_WRONG_FORMATTED_BIRTHDATE = "2000/01/01";
+    public static final String INVALID_BIRTHDATE_FORMAT = "not-a-date";
+    private static final String WRONG_FORMATTED_BIRTHDATE = "2000/01/01";
 
     private PasswordHasher passwordHasher;
     private AccountApiMapper accountApiMapper;
@@ -29,7 +29,7 @@ class AccountApiMapperTest {
     @Test
     void givenValidRequest_whenToAccountDto_thenReturnFullyMappedAccountDto() {
         CreateAccountRequest request = buildValidRequest();
-        Mockito.when(passwordHasher.hash(AccountFixture.A_RAW_PASSWORD))
+        Mockito.when(passwordHasher.hash(AccountFixture.RAW_PASSWORD))
                 .thenReturn(HASHED_PASSWORD);
 
         RegistrationDto dto = accountApiMapper.toPasswordRegistrationDto(request);
@@ -44,10 +44,10 @@ class AccountApiMapperTest {
 
     @Test
     void givenInvalidDateFormat_whenToAccountDto_thenThrowsInvalidParameterException() {
-        CreateAccountRequest request = new CreateAccountRequest(AccountFixture.A_NAME,
-                AN_INVALID_BIRTHDATE_FORMAT, AccountFixture.A_GENDER_STRING,
-                AccountFixture.AN_IDUL_STRING, AccountFixture.AN_EMAIL_STRING,
-                AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
+        CreateAccountRequest request = new CreateAccountRequest(AccountFixture.NAME,
+                INVALID_BIRTHDATE_FORMAT, AccountFixture.GENDER_STRING,
+                AccountFixture.IDUL_STRING, AccountFixture.EMAIL_STRING,
+                AccountFixture.RAW_PASSWORD, AccountFixture.ROLE_STRING);
 
         Executable toAccountDtoExecutable =
                 () -> accountApiMapper.toPasswordRegistrationDto(request);
@@ -57,10 +57,10 @@ class AccountApiMapperTest {
 
     @Test
     void givenWrongFormattedBirthDate_whenToAccountDto_thenThrowsInvalidParameterException() {
-        CreateAccountRequest request = new CreateAccountRequest(AccountFixture.A_NAME,
-                A_WRONG_FORMATTED_BIRTHDATE, AccountFixture.A_GENDER_STRING,
-                AccountFixture.AN_IDUL_STRING, AccountFixture.AN_EMAIL_STRING,
-                AccountFixture.A_RAW_PASSWORD, AccountFixture.A_ROLE_STRING);
+        CreateAccountRequest request = new CreateAccountRequest(AccountFixture.NAME,
+                WRONG_FORMATTED_BIRTHDATE, AccountFixture.GENDER_STRING,
+                AccountFixture.IDUL_STRING, AccountFixture.EMAIL_STRING,
+                AccountFixture.RAW_PASSWORD, AccountFixture.ROLE_STRING);
 
         Executable executable = () -> accountApiMapper.toPasswordRegistrationDto(request);
 
@@ -68,9 +68,9 @@ class AccountApiMapperTest {
     }
 
     private CreateAccountRequest buildValidRequest() {
-        return new CreateAccountRequest(AccountFixture.A_NAME, AccountFixture.A_STRING_BIRTHDATE,
-                AccountFixture.A_GENDER_STRING, AccountFixture.AN_IDUL_STRING,
-                AccountFixture.AN_EMAIL_STRING, AccountFixture.A_RAW_PASSWORD,
-                AccountFixture.A_ROLE_STRING);
+        return new CreateAccountRequest(AccountFixture.NAME, AccountFixture.STRING_BIRTHDATE,
+                AccountFixture.GENDER_STRING, AccountFixture.IDUL_STRING,
+                AccountFixture.EMAIL_STRING, AccountFixture.RAW_PASSWORD,
+                AccountFixture.ROLE_STRING);
     }
 }

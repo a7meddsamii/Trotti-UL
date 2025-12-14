@@ -21,7 +21,7 @@ import org.junit.jupiter.api.io.TempDir;
 class SessionProviderIntegrationTest {
     private static final LocalDate DATE_INSIDE_SESSION = LocalDate.of(2025, 10, 15);
     private static final LocalDate DATE_OUTSIDE_ALL_AVAILABLE_SESSIONS = LocalDate.of(2023, 10, 16);
-    private static final LocalDate A_DATE = LocalDate.of(2025, 10, 15);
+    private static final LocalDate DATE = LocalDate.of(2025, 10, 15);
 
     @TempDir
     private Path testingResourcePath;
@@ -84,7 +84,7 @@ class SessionProviderIntegrationTest {
     void givenMalformedSessionsJson_whenGettingSession_thenThrowsException() throws IOException {
         Files.writeString(temporaryFile, JsonSessionTestCaseData.MISSING_SEMESTER_CODE_JSON);
 
-        Executable getSession = () -> sessionProvider.getSession(A_DATE);
+        Executable getSession = () -> sessionProvider.getSession(DATE);
 
         Assertions.assertThrows(SessionException.class, getSession);
     }

@@ -17,7 +17,7 @@ class DockingAreaTest {
     private static final SlotNumber SLOT_1 = new SlotNumber(1);
     private static final SlotNumber SLOT_2 = new SlotNumber(2);
     private static final SlotNumber INVALID_SLOT = new SlotNumber(99);
-    private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
+    private static final LocalDateTime TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
 
     private DockingArea dockingArea;
     private ScooterSlot slot1;
@@ -88,9 +88,9 @@ class DockingAreaTest {
         Mockito.when(slot1.getDockedScooter()).thenReturn(scooter);
         Mockito.when(slot2.getDockedScooter()).thenReturn(scooter);
 
-        dockingArea.turnOffElectricity(A_TIME);
+        dockingArea.turnOffElectricity(TIME);
 
-        Mockito.verify(scooter, Mockito.times(2)).pauseCharging(A_TIME);
+        Mockito.verify(scooter, Mockito.times(2)).pauseCharging(TIME);
     }
 
     @Test
@@ -100,8 +100,8 @@ class DockingAreaTest {
         Mockito.when(slot1.getDockedScooter()).thenReturn(scooter);
         Mockito.when(slot2.getDockedScooter()).thenReturn(scooter);
 
-        dockingArea.turnOnElectricity(A_TIME);
+        dockingArea.turnOnElectricity(TIME);
 
-        Mockito.verify(scooter, Mockito.times(2)).resumeCharging(A_TIME);
+        Mockito.verify(scooter, Mockito.times(2)).resumeCharging(TIME);
     }
 }

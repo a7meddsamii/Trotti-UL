@@ -10,8 +10,8 @@ import org.mockito.Mockito;
 
 class EmailMessageTest {
 
-    private static final String A_SUBJECT = "a_subject";
-    private static final String A_BODY = "a_body";
+    private static final String SUBJECT = "a_subject";
+    private static final String BODY = "a_body";
 
     private Email email;
 
@@ -23,27 +23,27 @@ class EmailMessageTest {
     @Test
     void givenOnlyRecipientAndSubject_whenCreatingEmailMessage_thenReturnEmailMessage() {
         EmailMessage emailMessage =
-                EmailMessage.builder().withRecipient(email).withSubject(A_SUBJECT).build();
+                EmailMessage.builder().withRecipient(email).withSubject(SUBJECT).build();
 
         Assertions.assertEquals(email, emailMessage.getRecipient());
-        Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
+        Assertions.assertEquals(SUBJECT, emailMessage.getSubject());
         Assertions.assertNull(emailMessage.getBody());
     }
 
     @Test
     void givenValidParams_whenCreatingEmailMessage_thenReturnEmailMessage() {
         EmailMessage emailMessage = EmailMessage.builder().withRecipient(email)
-                .withSubject(A_SUBJECT).withBody(A_BODY).build();
+                .withSubject(SUBJECT).withBody(BODY).build();
 
         Assertions.assertEquals(email, emailMessage.getRecipient());
-        Assertions.assertEquals(A_SUBJECT, emailMessage.getSubject());
-        Assertions.assertEquals(A_BODY, emailMessage.getBody());
+        Assertions.assertEquals(SUBJECT, emailMessage.getSubject());
+        Assertions.assertEquals(BODY, emailMessage.getBody());
     }
 
     @Test
     void givenNoRecipient_whenCreatingEmailMessage_thenThrowsException() {
         Executable emailCreation =
-                () -> EmailMessage.builder().withBody(A_BODY).withSubject(A_SUBJECT).build();
+                () -> EmailMessage.builder().withBody(BODY).withSubject(SUBJECT).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }
@@ -51,7 +51,7 @@ class EmailMessageTest {
     @Test
     void givenNoSubject_whenCreatingEmailMessage_thenThrowsException() {
         Executable emailCreation =
-                () -> EmailMessage.builder().withBody(A_BODY).withRecipient(email).build();
+                () -> EmailMessage.builder().withBody(BODY).withRecipient(email).build();
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreation);
     }

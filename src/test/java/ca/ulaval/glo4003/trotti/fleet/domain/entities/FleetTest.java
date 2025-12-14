@@ -14,10 +14,10 @@ import org.mockito.Mockito;
 
 class FleetTest {
 
-    private static final Location A_LOCATION = Location.of("Vachon", "porte1");
+    private static final Location LOCATION = Location.of("Vachon", "porte1");
     private static final SlotNumber SLOT_1 = new SlotNumber(1);
     private static final SlotNumber SLOT_2 = new SlotNumber(2);
-    private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
+    private static final LocalDateTime TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
 
     private Station station;
@@ -38,57 +38,57 @@ class FleetTest {
         fleetDisplacedScootersView = new HashMap<>();
         Mockito.when(scooter.getScooterId()).thenReturn(scooterId);
         Mockito.when(secondScooter.getScooterId()).thenReturn(secondScooterId);
-        fleet = new Fleet(Map.of(A_LOCATION, station), fleetDisplacedScootersView);
+        fleet = new Fleet(Map.of(LOCATION, station), fleetDisplacedScootersView);
     }
 
     @Test
     void givenAvailableScooterAtStation_whenRentScooter_thenScooterIdIsReturned() {
-        Mockito.when(station.takeScooter(SLOT_1, A_TIME)).thenReturn(scooter);
+        Mockito.when(station.takeScooter(SLOT_1, TIME)).thenReturn(scooter);
 
-        ScooterId result = fleet.rentScooter(A_LOCATION, SLOT_1, A_TIME);
+        ScooterId result = fleet.rentScooter(LOCATION, SLOT_1, TIME);
 
         Assertions.assertEquals(scooterId, result);
     }
 
     @Test
     void givenStationTakeFails_whenRentScooter_thenThrowsInvalidStationOperation() {
-        Mockito.when(station.takeScooter(SLOT_1, A_TIME))
+        Mockito.when(station.takeScooter(SLOT_1, TIME))
                 .thenThrow(new InvalidStationOperation("fail"));
 
-        Executable action = () -> fleet.rentScooter(A_LOCATION, SLOT_1, A_TIME);
+        Executable action = () -> fleet.rentScooter(LOCATION, SLOT_1, TIME);
 
         Assertions.assertThrows(InvalidStationOperation.class, action);
     }
 
     @Test
     void givenUnknownScooterId_whenReturnScooter_thenThrowsInvalidStationOperation() {
-        Executable action = () -> fleet.returnScooter(scooterId, A_LOCATION, SLOT_2, A_TIME);
+        Executable action = () -> fleet.returnScooter(scooterId, LOCATION, SLOT_2, TIME);
 
         Assertions.assertThrows(InvalidStationOperation.class, action);
     }
 
     @Test
     void givenRentedScooter_whenReturnScooter_thenStationParksScooter() {
-        Mockito.when(station.takeScooter(SLOT_1, A_TIME)).thenReturn(scooter);
-        fleet.rentScooter(A_LOCATION, SLOT_1, A_TIME);
+        Mockito.when(station.takeScooter(SLOT_1, TIME)).thenReturn(scooter);
+        fleet.rentScooter(LOCATION, SLOT_1, TIME);
 
-        fleet.returnScooter(scooterId, A_LOCATION, SLOT_2, A_TIME);
+        fleet.returnScooter(scooterId, LOCATION, SLOT_2, TIME);
 
-        Mockito.verify(station).parkScooter(SLOT_2, scooter, A_TIME);
+        Mockito.verify(station).parkScooter(SLOT_2, scooter, TIME);
     }
 
     @Test
     void givenValidMaintenanceInfo_whenStartMaintenance_thenStationStartsMaintenance() {
-        fleet.startMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
+        fleet.startMaintenance(LOCATION, TECHNICIAN, TIME);
 
-        Mockito.verify(station).startMaintenance(TECHNICIAN, A_TIME);
+        Mockito.verify(station).startMaintenance(TECHNICIAN, TIME);
     }
 
     @Test
     void givenValidMaintenanceInfo_whenEndMaintenance_thenStationEndsMaintenance() {
-        fleet.endMaintenance(A_LOCATION, TECHNICIAN, A_TIME);
+        fleet.endMaintenance(LOCATION, TECHNICIAN, TIME);
 
-        Mockito.verify(station).endMaintenance(TECHNICIAN, A_TIME);
+        Mockito.verify(station).endMaintenance(TECHNICIAN, TIME);
     }
 
     @Test
@@ -97,7 +97,7 @@ class FleetTest {
         List<ScooterId> expectedScooterIds = List.of(scooterId);
         Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
 
-        List<ScooterId> retrievedScooters = fleet.retrieveScooters(A_LOCATION, slots);
+        List<ScooterId> retrievedScooters = fleet.retrieveScooters(LOCATION, slots);
 
         Assertions.assertEquals(expectedScooterIds, retrievedScooters);
     }
@@ -107,7 +107,7 @@ class FleetTest {
         List<SlotNumber> slots = List.of(SLOT_1);
         Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
 
-        fleet.retrieveScooters(A_LOCATION, slots);
+        fleet.retrieveScooters(LOCATION, slots);
 
         Assertions.assertTrue(fleetDisplacedScootersView.containsKey(scooterId));
     }
@@ -118,10 +118,10 @@ class FleetTest {
         List<ScooterId> displacedScooterIds =
                 List.of(scooter.getScooterId(), secondScooter.getScooterId());
         List<Scooter> scooters = List.of(scooter, secondScooter);
-        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
+        fleet = new Fleet(Map.of(LOCATION, station), givenDisplacedScooters(scooters));
 
         Executable action =
-                () -> fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
+                () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
@@ -132,11 +132,11 @@ class FleetTest {
         List<Scooter> scooters = List.of(scooter, secondScooter);
         List<ScooterId> displacedScooterIds =
                 List.of(scooter.getScooterId(), secondScooter.getScooterId());
-        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
+        fleet = new Fleet(Map.of(LOCATION, station), givenDisplacedScooters(scooters));
 
-        fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
+        fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
-        Mockito.verify(station).parkScooters(slots, scooters, A_TIME);
+        Mockito.verify(station).parkScooters(slots, scooters, TIME);
     }
 
     @Test
@@ -145,9 +145,9 @@ class FleetTest {
         List<Scooter> scooters = List.of(scooter, secondScooter);
         List<ScooterId> displacedScooterIds =
                 List.of(scooter.getScooterId(), secondScooter.getScooterId());
-        fleet = new Fleet(Map.of(A_LOCATION, station), givenDisplacedScooters(scooters));
+        fleet = new Fleet(Map.of(LOCATION, station), givenDisplacedScooters(scooters));
 
-        fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
+        fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
         Assertions.assertFalse(fleetDisplacedScootersView.containsKey(scooterId));
         Assertions.assertFalse(fleetDisplacedScootersView.containsKey(secondScooterId));
@@ -159,7 +159,7 @@ class FleetTest {
         List<ScooterId> displacedScooterIds = List.of(scooterId);
 
         Executable action =
-                () -> fleet.depositScooters(A_LOCATION, slots, displacedScooterIds, A_TIME);
+                () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }

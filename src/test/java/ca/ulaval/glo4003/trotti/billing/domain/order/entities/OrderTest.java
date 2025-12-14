@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.*;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.Duration;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,7 +16,7 @@ class OrderTest {
             MaximumDailyTravelTime.from(Duration.ofHours(2));
     private static final MaximumDailyTravelTime SECOND_MAXIMUM_TRAVEL_TIME =
             MaximumDailyTravelTime.from(Duration.ofHours(5));
-    private static final Idul AN_IDUL = Idul.from("a1234567");
+    private static final Idul IDUL = Idul.from("a1234567");
     private static final OrderId ORDER_ID = OrderId.randomId();
     private RidePermitItem firstItem;
     private RidePermitItem secondItem;
@@ -35,15 +34,15 @@ class OrderTest {
         duplicateOfFirst = new RidePermitItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME,
                 session, BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
-        order = new Order(ORDER_ID, AN_IDUL);
+        order = new Order(ORDER_ID, IDUL);
     }
 
     @Test
     void givenItemsNotAlreadyInOrder_whenAdding_thenItemsAreAddedAndTrueReturned() {
         boolean added = order.add(firstItem);
 
-        assertTrue(added);
-        assertEquals(List.of(firstItem), order.getItems());
+        Assertions.assertTrue(added);
+        Assertions.assertEquals(List.of(firstItem), order.getItems());
     }
 
     @Test
@@ -52,8 +51,8 @@ class OrderTest {
 
         boolean added = order.add(duplicateOfFirst);
 
-        assertFalse(added);
-        assertEquals(1, order.getItems().size());
+        Assertions.assertFalse(added);
+        Assertions.assertEquals(1, order.getItems().size());
     }
 
     @Test
@@ -63,8 +62,8 @@ class OrderTest {
 
         boolean removed = order.remove(firstItemId);
 
-        assertTrue(removed);
-        assertEquals(List.of(secondItem), order.getItems());
+        Assertions.assertTrue(removed);
+        Assertions.assertEquals(List.of(secondItem), order.getItems());
     }
 
     @Test
@@ -74,8 +73,8 @@ class OrderTest {
 
         boolean removed = order.remove(unknownId);
 
-        assertFalse(removed);
-        assertEquals(List.of(firstItem), order.getItems());
+        Assertions.assertFalse(removed);
+        Assertions.assertEquals(List.of(firstItem), order.getItems());
     }
 
     @Test
@@ -85,7 +84,7 @@ class OrderTest {
 
         order.clear();
 
-        assertTrue(order.getItems().isEmpty());
+        Assertions.assertTrue(order.getItems().isEmpty());
     }
 
     @Test
@@ -96,7 +95,7 @@ class OrderTest {
 
         Money total = order.getTotalCost();
 
-        assertEquals(expected, total);
+        Assertions.assertEquals(expected, total);
     }
 
     @Test
@@ -104,6 +103,6 @@ class OrderTest {
 
         Money total = order.getTotalCost();
 
-        assertEquals(Money.zeroCad(), total);
+        Assertions.assertEquals(Money.zeroCad(), total);
     }
 }
