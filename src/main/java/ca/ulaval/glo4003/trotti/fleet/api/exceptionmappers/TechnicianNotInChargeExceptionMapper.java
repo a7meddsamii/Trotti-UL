@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.trip.api.exceptionmappers;
+package ca.ulaval.glo4003.trotti.fleet.api.exceptionmappers;
 
 import ca.ulaval.glo4003.trotti.commons.api.exceptionmappers.ExceptionResponseFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidTransferException;

@@ -139,30 +139,4 @@ class FleetControllerTest {
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(SLOTS, response.getEntity());
     }
-
-    @Test
-    void givenRentScooterRequest_whenRentScooter_thenScooterIsRentedAndReturned() {
-        RentScooterRequest request = Mockito.mock(RentScooterRequest.class);
-        RentScooterDto dto = Mockito.mock(RentScooterDto.class);
-        Mockito.when(fleetApiMapper.toRentScooterDto(request)).thenReturn(dto);
-        Mockito.when(operationsService.rentScooter(dto)).thenReturn(SCOOTER_ID);
-
-        Response response = controller.rentScooter(request);
-
-        Mockito.verify(operationsService).rentScooter(dto);
-        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        Assertions.assertEquals(SCOOTER_ID, response.getEntity());
-    }
-
-    @Test
-    void givenReturnScooterRequest_whenReturnScooter_thenScooterIsReturned() {
-        DropOffScooterRequest request = Mockito.mock(DropOffScooterRequest.class);
-        ReturnScooterDto dto = Mockito.mock(ReturnScooterDto.class);
-        Mockito.when(fleetApiMapper.toReturnScooterDto(request)).thenReturn(dto);
-
-        Response response = controller.returnScooter(request);
-
-        Mockito.verify(operationsService).returnScooter(dto);
-        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
-    }
 }

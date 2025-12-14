@@ -101,21 +101,4 @@ public class FleetController implements FleetResource {
 
         return Response.ok(occupiedSlots).build();
     }
-
-    @Override
-    public Response rentScooter(RentScooterRequest request) {
-        RentScooterDto rentScooterDto = fleetApiMapper.toRentScooterDto(request);
-        ScooterId scooterId = operationsService.rentScooter(rentScooterDto);
-
-        return Response.ok(scooterId).build();
-    }
-
-    @Override
-    public Response returnScooter(DropOffScooterRequest request) {
-        ReturnScooterDto returnScooterDto = fleetApiMapper.toReturnScooterDto(request);
-        operationsService.returnScooter(returnScooterDto);
-
-        return Response.noContent().build();
-    }
-
 }

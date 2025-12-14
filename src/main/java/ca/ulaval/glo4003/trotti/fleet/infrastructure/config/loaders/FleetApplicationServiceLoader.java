@@ -2,13 +2,13 @@ package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.fleet.application.FleetApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetOperationsApplicationService;
-import ca.ulaval.glo4003.trotti.fleet.application.TemporaryFleetApplicationService;
+import ca.ulaval.glo4003.trotti.fleet.application.ScooterRentalApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.TransferFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.TransferRepository;
+
 import java.time.Clock;
 
 public class FleetApplicationServiceLoader extends Bootstrapper {
@@ -16,7 +16,7 @@ public class FleetApplicationServiceLoader extends Bootstrapper {
     public void load() {
         loadFleetOperationsService();
         loadFleetMaintenanceService();
-        loadFleetApplicationService();
+        loadFleetOperationsApplicationService();
     }
 
     private void loadFleetOperationsService() {
@@ -43,15 +43,13 @@ public class FleetApplicationServiceLoader extends Bootstrapper {
         this.resourceLocator.register(FleetMaintenanceApplicationService.class, service);
     }
 
-    /**
-     * @deprecated replace TemporaryFleetApplicationService by FleetApplicationService when the
-     *             implementation is ready
-     */
-    private void loadFleetApplicationService() {
+
+    private void loadFleetOperationsApplicationService() {
         FleetRepository fleetRepository = this.resourceLocator.resolve(FleetRepository.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
-        FleetApplicationService fleetApplicationService =
-                new TemporaryFleetApplicationService(fleetRepository, clock);
-        this.resourceLocator.register(FleetApplicationService.class, fleetApplicationService);
+		FleetOperationsApplicationService fleetOperationsApplicationService =
+                new FleetOperationsApplicationService(fleetRepository, clock);
+		this.resourceLocator.register(FleetOperationsApplicationService.class, fleetOperationsApplicationService);
+        this.resourceLocator.register(ScooterRentalApplicationService.class, fleetOperationsApplicationService);
     }
 }

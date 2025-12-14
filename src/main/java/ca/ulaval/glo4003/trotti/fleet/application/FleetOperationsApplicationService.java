@@ -11,7 +11,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class FleetOperationsApplicationService {
+public class FleetOperationsApplicationService implements ScooterRentalApplicationService {
 
     private final FleetRepository fleetRepository;
     private final Clock clock;

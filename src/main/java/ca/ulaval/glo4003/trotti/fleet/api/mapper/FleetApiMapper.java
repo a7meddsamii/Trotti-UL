@@ -1,39 +1,28 @@
 package ca.ulaval.glo4003.trotti.fleet.api.mapper;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.DropOffScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.EndMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.MaintenanceRequestRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.RentScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartTransferRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.UnloadTransferRequest;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.EndMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.RentScooterDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.RequestMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.ReturnScooterDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.StartMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.StartTransferDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.UnloadTransferDto;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
+
 import java.util.List;
 
 public class FleetApiMapper {
 
-    public RentScooterDto toRentScooterDto(RentScooterRequest request) {
-        Location location = Location.of(request.location());
-        SlotNumber slotNumber = SlotNumber.from(request.slotNumber());
+    public RentScooterDto toRentScooterDto(RetrieveScooterRequest request) {
+        Location location = request.location();
+        SlotNumber slotNumber = request.slotNumber();
 
         return new RentScooterDto(location, slotNumber);
     }
 
-    public ReturnScooterDto toReturnScooterDto(DropOffScooterRequest request) {
-        Location location = Location.of(request.location());
-        SlotNumber slotNumber = SlotNumber.from(Integer.parseInt(request.slotNumber()));
-        ScooterId scooterId = ScooterId.from(request.scooterId());
+    public ReturnScooterDto toReturnScooterDto(ReturnScooterRequest request) {
+        Location location = request.location();
+        SlotNumber slotNumber = request.slotNumber();
+        ScooterId scooterId = request.scooterId();
 
         return new ReturnScooterDto(scooterId, location, slotNumber);
     }

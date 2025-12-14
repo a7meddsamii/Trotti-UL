@@ -89,21 +89,4 @@ public interface FleetResource {
     @RolesAllowed({"TECHNICIAN", "EMPLOYEE", "STUDENT"})
     @Operation(summary = "Obtenir les slots occupés")
     Response getOccupiedSlots(@PathParam("location") String location);
-
-    @POST
-    @Path("/scooters/rent")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"STUDENT", "EMPLOYEE"})
-    @Operation(summary = "Louer un scooter")
-    @ApiResponse(responseCode = "200", description = "Scooter loué avec succès")
-    Response rentScooter(@Valid RentScooterRequest request);
-
-    @POST
-    @Path("/scooters/return")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"STUDENT", "EMPLOYEE"})
-    @Operation(summary = "Retourner un scooter")
-    @ApiResponse(responseCode = "204", description = "Scooter retourné avec succès")
-    Response returnScooter(@Valid DropOffScooterRequest request);
 }

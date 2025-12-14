@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.trotti.fleet.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
+import ca.ulaval.glo4003.trotti.fleet.api.mapper.FleetApiMapper;
 import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.mappers.FleetPersistenceMapper;
 import ca.ulaval.glo4003.trotti.fleet.infrastructure.repositories.mappers.TransferPersistenceMapper;
-import ca.ulaval.glo4003.trotti.trip.api.mappers.FleetApiMapper;
 
 public class FleetMapperLoader extends Bootstrapper {
     @Override

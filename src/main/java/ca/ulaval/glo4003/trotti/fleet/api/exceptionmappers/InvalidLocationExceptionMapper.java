@@ -1,15 +1,15 @@
-package ca.ulaval.glo4003.trotti.trip.api.exceptionmappers;
+package ca.ulaval.glo4003.trotti.fleet.api.exceptionmappers;
 
 import ca.ulaval.glo4003.trotti.commons.api.exceptionmappers.ExceptionResponseFactory;
-import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidBatteryValue;
+import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.InvalidLocationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class InvalidBatteryValueMapper implements ExceptionMapper<InvalidBatteryValue> {
+public class InvalidLocationExceptionMapper implements ExceptionMapper<InvalidLocationException> {
     @Override
-    public Response toResponse(InvalidBatteryValue exception) {
+    public Response toResponse(InvalidLocationException exception) {
         return ExceptionResponseFactory.errorResponse(Response.Status.BAD_REQUEST,
                 exception.getMessage());
     }
