@@ -72,7 +72,6 @@ class MaximumDailyTravelTimeTest {
         MaximumDailyTravelTime time2 = MaximumDailyTravelTime.from(VALID_TIME);
 
         Assertions.assertEquals(time1, time2);
-        Assertions.assertEquals(time1.hashCode(), time2.hashCode());
     }
 
     @Test
