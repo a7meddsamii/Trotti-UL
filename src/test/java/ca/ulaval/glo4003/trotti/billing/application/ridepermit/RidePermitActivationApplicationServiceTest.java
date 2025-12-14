@@ -17,6 +17,8 @@ import org.mockito.Mockito;
 
 class RidePermitActivationApplicationServiceTest {
 
+    private static final LocalDate VALID_DATE = LocalDate.of(2026,1,15);
+
     private RidePermitAssembler ridePermitAssembler;
     private RidePermitRepository ridePermitRepository;
     private RidePermitActivationFilter ridePermitActivationFilter;
@@ -36,7 +38,6 @@ class RidePermitActivationApplicationServiceTest {
 
     @Test
     void givenRidePermitsToActivate_whenActivateRidePermit_thenPermitsActivatedAndEventPublished() {
-        LocalDate currentDate = LocalDate.of(2026, 1, 15);
         RidePermit permit1 = Mockito.mock(RidePermit.class);
         RidePermit permit2 = Mockito.mock(RidePermit.class);
         List<RidePermit> foundPermits = List.of(permit1, permit2);
@@ -44,8 +45,8 @@ class RidePermitActivationApplicationServiceTest {
         List<RidePermitSnapshot> snapshots = List.of(Mockito.mock(RidePermitSnapshot.class),
                 Mockito.mock(RidePermitSnapshot.class));
 
-        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
-        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(VALID_DATE);
+        Mockito.when(ridePermitRepository.findAllByDate(VALID_DATE)).thenReturn(foundPermits);
         Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
                 .thenReturn(activatedPermits);
         Mockito.when(ridePermitAssembler.toRidePermitSnapshots(activatedPermits))
@@ -65,12 +66,11 @@ class RidePermitActivationApplicationServiceTest {
 
     @Test
     void givenNoRidePermitsToActivate_whenActivateRidePermit_thenNoEventPublished() {
-        LocalDate currentDate = LocalDate.of(2026, 1, 15);
         List<RidePermit> foundPermits = List.of();
         List<RidePermit> activatedPermits = List.of();
 
-        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
-        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(VALID_DATE);
+        Mockito.when(ridePermitRepository.findAllByDate(VALID_DATE)).thenReturn(foundPermits);
         Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
                 .thenReturn(activatedPermits);
 
@@ -82,13 +82,12 @@ class RidePermitActivationApplicationServiceTest {
 
     @Test
     void givenRidePermitsFoundButNoneToActivate_whenActivateRidePermit_thenNoEventPublished() {
-        LocalDate currentDate = LocalDate.of(2026, 1, 15);
         RidePermit permit1 = Mockito.mock(RidePermit.class);
         List<RidePermit> foundPermits = List.of(permit1);
         List<RidePermit> activatedPermits = List.of();
 
-        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(currentDate);
-        Mockito.when(ridePermitRepository.findAllByDate(currentDate)).thenReturn(foundPermits);
+        Mockito.when(ridePermitActivationFilter.getCurrentSessionDate()).thenReturn(VALID_DATE);
+        Mockito.when(ridePermitRepository.findAllByDate(VALID_DATE)).thenReturn(foundPermits);
         Mockito.when(ridePermitActivationFilter.getActivatedRidePermits(foundPermits))
                 .thenReturn(activatedPermits);
 
