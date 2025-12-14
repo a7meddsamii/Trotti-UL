@@ -35,30 +35,25 @@ public class InMemoryRidePermitRepository implements RidePermitRepository {
     public Optional<RidePermit> findByRiderIdAndRidePermitId(Idul riderId,
             RidePermitId ridePermitId) {
         return database.values().stream()
-                .filter(dto -> dto.id().equals(ridePermitId)
-                        && dto.riderId().equals(riderId))
+                .filter(dto -> dto.id().equals(ridePermitId) && dto.riderId().equals(riderId))
                 .findFirst().map(mapper::toDomain);
     }
 
     @Override
     public List<RidePermit> findAllByIdul(Idul idul) {
-        return database.values().stream()
-                .filter(dto -> dto.riderId().equals(idul))
-                .map(mapper::toDomain)
-                .collect(Collectors.toList());
+        return database.values().stream().filter(dto -> dto.riderId().equals(idul))
+                .map(mapper::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllByDate(LocalDate date) {
         return database.values().stream().map(mapper::toDomain)
-                .filter(permit -> permit.getSession().contains(date))
-                .collect(Collectors.toList());
+                .filter(permit -> permit.getSession().contains(date)).collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllBySession(Session session) {
-        return database.values().stream().filter(
-                dto -> dto.session().equals(session))
+        return database.values().stream().filter(dto -> dto.session().equals(session))
                 .map(mapper::toDomain).collect(Collectors.toList());
     }
 }

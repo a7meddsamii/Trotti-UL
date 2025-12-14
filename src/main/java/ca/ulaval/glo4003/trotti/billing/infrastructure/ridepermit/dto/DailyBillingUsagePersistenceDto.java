@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.dto;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
-
 import java.time.Duration;
 import java.time.LocalDate;
 
