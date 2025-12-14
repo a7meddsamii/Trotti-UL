@@ -53,7 +53,7 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void givenNullRequest_whenLogin_thenThrowsInvalidParameterException() {
+    void givenNullRequest_whenLogin_thenThrowsException() {
         Executable loginAttempt = () -> authenticationController.login(null);
 
         Assertions.assertThrows(InvalidParameterException.class, loginAttempt);

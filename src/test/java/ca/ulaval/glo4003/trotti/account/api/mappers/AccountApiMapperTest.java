@@ -21,7 +21,7 @@ class AccountApiMapperTest {
     }
 
     @Test
-    void givenInvalidDateFormat_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
+    void givenInvalidDateFormat_whenToPasswordRegistrationDto_thenThrowsException() {
         CreateAccountRequest request =
                 new CreateAccountRequestFixture().withBirthDate(INVALID_BIRTHDATE).build();
 
@@ -32,7 +32,7 @@ class AccountApiMapperTest {
     }
 
     @Test
-    void givenWrongFormattedBirthDate_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
+    void givenWrongFormattedBirthDate_whenToPasswordRegistrationDto_thenThrowsException() {
         CreateAccountRequest request =
                 new CreateAccountRequestFixture().withBirthDate(WRONG_FORMATTED_BIRTHDATE).build();
 
@@ -43,7 +43,7 @@ class AccountApiMapperTest {
     }
 
     @Test
-    void givenNullRequest_whenToPasswordRegistrationDto_thenThrowsInvalidParameterException() {
+    void givenNullRequest_whenToPasswordRegistrationDto_thenThrowsException() {
         Executable toPasswordRegistrationDto =
                 () -> accountApiMapper.toPasswordRegistrationDto(null);
 

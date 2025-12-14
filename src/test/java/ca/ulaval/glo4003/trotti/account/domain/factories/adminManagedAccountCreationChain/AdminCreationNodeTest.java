@@ -66,7 +66,7 @@ class AdminCreationNodeTest {
     }
 
     @Test
-    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsAuthorizationException() {
+    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsException() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 

@@ -46,7 +46,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenExistingEmail_whenCreateAccount_thenThrowAlreadyExistsException() {
+    void givenExistingEmail_whenCreateAccount_thenThrowsException() {
         mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(account));
@@ -58,7 +58,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenExistingIdul_whenCreateAccount_thenThrowAlreadyExistsException() {
+    void givenExistingIdul_whenCreateAccount_thenThrowsException() {
         mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.empty());
@@ -72,7 +72,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenNonExistentEmail_whenLogin_thenThrowAuthenticationException() {
+    void givenNonExistentEmail_whenLogin_thenThrowsException() {
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.empty());
         LoginDto loginDto = new LoginDto(AccountFixture.AN_EMAIL, AccountFixture.A_RAW_PASSWORD);
@@ -83,7 +83,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenExistingEmail_whenCreateAdminManagedAccount_thenThrowAlreadyExistsException() {
+    void givenExistingEmail_whenCreateAdminManagedAccount_thenThrowsException() {
         mockAuthenticationProviderToReturnAccountDto();
         Mockito.when(accountRepository.findByEmail(AccountFixture.AN_EMAIL))
                 .thenReturn(Optional.of(account));
@@ -95,7 +95,7 @@ class AccountApplicationServiceTest {
     }
 
     @Test
-    void givenNonExistentCreatorAccount_whenCreateAdminManagedAccount_thenThrowAuthenticationException() {
+    void givenNonExistentCreatorAccount_whenCreateAdminManagedAccount_thenThrowsException() {
         mockAuthenticationProviderToReturnAccountDto();
         mockRepositoryToReturnNoExistingAccount();
         Mockito.when(accountRepository.findByIdul(AccountFixture.AN_IDUL))

@@ -18,14 +18,14 @@ class IdulTest {
     }
 
     @Test
-    void givenNullIdul_whenCreate_thenThrowsInvalidParameterException() {
+    void givenNullIdul_whenCreate_thenThrowsException() {
         Executable idulCreation = () -> Idul.from(null);
 
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test
-    void givenEmptyIdul_whenCreate_thenThrowsInvalidParameterException() {
+    void givenEmptyIdul_whenCreate_thenThrowsException() {
         Executable idulCreation = () -> Idul.from(StringUtils.EMPTY);
 
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);

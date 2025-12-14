@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class PaymentMethodFactoryTest {
+class PaymentMethodFactoryTest {
 
     private static final String VALID_CARD_NUMBER = "4111111111111111";
     private static final String VALID_CARD_HOLDER = "Equipe Archi";
@@ -30,7 +30,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenValidCardAndFutureDate_whenCreateCreditCard_ThenReturnPaymentMethod() {
+    void givenValidCardAndFutureDate_whenCreateCreditCard_ThenReturnsPaymentMethod() {
         YearMonth futureDate = YearMonth.now().plusMonths(1);
 
         PaymentMethod result = paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,
@@ -40,7 +40,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenInvalidCardNumber_whenCreateCreditCard_thenThrowException() {
+    void givenInvalidCardNumber_whenCreateCreditCard_thenThrowsException() {
         YearMonth futureDate = YearMonth.now().plusMonths(1);
 
         Executable executable = () -> paymentMethodFactory.createCreditCard(INVALID_CARD_NUMBER,
@@ -50,7 +50,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenExpiredCard_whenCreateCreditCard_thenThrowException() {
+    void givenExpiredCard_whenCreateCreditCard_thenThrowsException() {
         YearMonth expiredDate = YearMonth.now().minusMonths(1);
 
         Executable executable = () -> paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,
@@ -62,7 +62,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenCurrentMonthExpirationDate_whenCreateCreditCard_thenReturnPaymentMethod() {
+    void givenCurrentMonthExpirationDate_whenCreateCreditCard_thenReturnsPaymentMethod() {
         YearMonth currentMonth = YearMonth.now();
 
         PaymentMethod result = paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,

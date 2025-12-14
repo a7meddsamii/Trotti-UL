@@ -36,14 +36,14 @@ class TransferTest {
     }
 
     @Test
-    void givenWrongTechnician_whenUnload_thenThrowsInvalidTransferException() {
+    void givenWrongTechnician_whenUnload_thenThrowsException() {
         Executable action = () -> transfer.unload(WRONG_TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
-    void givenAmountToUnloadLessThanOne_whenUnload_thenThrowsInvalidTransferException() {
+    void givenAmountToUnloadLessThanOne_whenUnload_thenThrowsException() {
         int unloadCount = 0;
 
         Executable action = () -> transfer.unload(TECHNICIAN_ID, unloadCount);
@@ -52,7 +52,7 @@ class TransferTest {
     }
 
     @Test
-    void givenTransferAlreadyCompleted_whenUnload_thenThrowsInvalidTransferException() {
+    void givenTransferAlreadyCompleted_whenUnload_thenThrowsException() {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, true);
         scootersTransferCompletedState.put(scooterId2, true);
@@ -64,7 +64,7 @@ class TransferTest {
     }
 
     @Test
-    void givenAmountToUnloadGreaterThanScootersStillInTransfer_whenUnload_thenThrowsInvalidTransferException() {
+    void givenAmountToUnloadGreaterThanScootersStillInTransfer_whenUnload_thenThrowsException() {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, false);
         transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);

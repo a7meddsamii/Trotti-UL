@@ -31,6 +31,18 @@ public class Transfer {
         return scootersToDeposit;
     }
 
+    public TransferId getTransferId() {
+        return transferId;
+    }
+
+    public Idul getTechnicianId() {
+        return technicianId;
+    }
+
+    public Map<ScooterId, Boolean> getScootersTransferCompletedState() {
+        return scootersTransferCompletedState;
+    }
+
     private boolean isCompleted() {
         return getRemainingScootersToMove().isEmpty();
     }
