@@ -121,7 +121,7 @@ class RidePermitApplicationServiceTest {
     }
 
     @Test
-    void givenNonExistingPermit_whenAddTravelTime_thenThrowsNotFoundException() {
+    void givenNonExistingPermit_whenAddTravelTime_thenThrowsException() {
         AddTravelTimeDto addTimeDto = createAddTravelTimeDto();
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
@@ -156,7 +156,7 @@ class RidePermitApplicationServiceTest {
     }
 
     @Test
-    void givenNonExistingPermit_whenIsRidePermitActive_thenThrowsNotFoundException() {
+    void givenNonExistingPermit_whenIsRidePermitActive_thenThrowsException() {
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
         Executable executable = () -> ridePermitApplicationService
