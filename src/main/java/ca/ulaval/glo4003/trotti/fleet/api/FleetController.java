@@ -13,13 +13,13 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-public class FleetStationController implements FleetStationResource {
+public class FleetController implements FleetResource {
 
     private final FleetMaintenanceApplicationService maintenanceService;
     private final FleetOperationsApplicationService operationsService;
     private final FleetApiMapper fleetApiMapper;
 
-    public FleetStationController(
+    public FleetController(
             FleetMaintenanceApplicationService maintenanceService,
             FleetOperationsApplicationService operationsService,
             FleetApiMapper fleetApiMapper) {

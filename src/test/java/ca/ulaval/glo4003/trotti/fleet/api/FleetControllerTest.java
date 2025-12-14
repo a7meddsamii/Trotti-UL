@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class FleetStationControllerTest {
+class FleetControllerTest {
 
     private static final Idul TECHNICIAN_IDUL = Idul.from("tech-123");
     private static final Idul REQUESTER_IDUL = Idul.from("user-456");
@@ -31,7 +31,7 @@ class FleetStationControllerTest {
     private FleetOperationsApplicationService operationsService;
     private FleetApiMapper fleetApiMapper;
 
-    private FleetStationResource controller;
+    private FleetResource controller;
 
     @BeforeEach
     void setUp() {
@@ -40,7 +40,7 @@ class FleetStationControllerTest {
         fleetApiMapper = Mockito.mock(FleetApiMapper.class);
 
         controller =
-                new FleetStationController(maintenanceService, operationsService, fleetApiMapper);
+                new FleetController(maintenanceService, operationsService, fleetApiMapper);
     }
 
     @Test

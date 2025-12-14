@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/fleet/stations")
 @Tag(name = "Fleet Stations", description = "Endpoints pour la gestion de la flotte")
-public interface FleetStationResource {
+public interface FleetResource {
 
     @POST
     @Path("/transfers")
