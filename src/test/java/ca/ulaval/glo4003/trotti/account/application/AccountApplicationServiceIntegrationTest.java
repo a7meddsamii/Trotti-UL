@@ -25,7 +25,7 @@ import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAcco
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
-import ca.ulaval.glo4003.trotti.config.events.InMemoryEventBus;
+
 import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +56,7 @@ class AccountApplicationServiceIntegrationTest {
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(accountTable, accountMapper);
         
-        eventBus = new InMemoryEventBus();
+        eventBus = Mockito.mock(EventBus.class);
         accountFactory = createRealAccountFactory();
 
         employeeRegistryProvider = Mockito.mock(EmployeeRegistryProvider.class);

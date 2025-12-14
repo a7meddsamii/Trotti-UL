@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.trotti.billing.infrastructure.order.repository.InMemory
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-import ca.ulaval.glo4003.trotti.config.events.InMemoryEventBus;
+
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -44,7 +44,7 @@ class OrderApplicationServiceIntegrationTest {
         orderRepository = new InMemoryOrderRepository();
         orderAssembler = new OrderAssembler();
         orderItemFactory = new OrderItemFactory();
-        eventBus = new InMemoryEventBus();
+        eventBus = Mockito.mock(EventBus.class);
         
         paymentMethodFactory = Mockito.mock(PaymentMethodFactory.class);
         paymentGateway = Mockito.mock(PaymentGateway.class);
