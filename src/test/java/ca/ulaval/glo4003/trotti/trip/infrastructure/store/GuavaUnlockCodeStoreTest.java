@@ -55,14 +55,14 @@ class GuavaUnlockCodeStoreTest {
     }
 
     @Test
-    void givenNoStoredCode_whenValidate_thenThrowsNotFoundException() {
+    void givenNoStoredCode_whenValidate_thenThrowsException() {
         Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, A_CODE);
 
         Assertions.assertThrows(NotFoundException.class, validateAction);
     }
 
     @Test
-    void givenNonMatchingStoredCode_whenValidate_thenThrowsNotFoundException() {
+    void givenNonMatchingStoredCode_whenValidate_thenThrowsException() {
         store.get(IDUL, RIDE_PERMIT_ID, fixedClock);
 
         Executable validateAction = () -> store.validate(IDUL, RIDE_PERMIT_ID, "wrongCode");

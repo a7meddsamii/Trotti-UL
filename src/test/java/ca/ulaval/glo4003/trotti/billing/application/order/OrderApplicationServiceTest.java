@@ -83,7 +83,7 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenNoOngoingOrder_whenGetOngoingOrder_thenThrowsNotFoundException() {
+    void givenNoOngoingOrder_whenGetOngoingOrder_thenThrowsException() {
         Mockito.when(orderRepository.findOngoingOrderFor(BUYER_ID)).thenReturn(Optional.empty());
 
         Executable lookingForNonExistingOngoingOrder =

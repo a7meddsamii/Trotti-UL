@@ -25,7 +25,7 @@ class MoneyTest {
     }
 
     @Test
-    void givenMoneyWithDifferentCurrency_whenPlus_thenThrowException() {
+    void givenMoneyWithDifferentCurrency_whenPlus_thenThrowsException() {
         Money moneyInDifferentCurrency = Money.of(ONE_HUNDRED, Currency.OTHER);
 
         Executable executable = () -> money.plus(moneyInDifferentCurrency);
@@ -34,7 +34,7 @@ class MoneyTest {
     }
 
     @Test
-    void givenMoneyWithDifferentCurrency_whenMinus_thenThrowException() {
+    void givenMoneyWithDifferentCurrency_whenMinus_thenThrowsException() {
         Money moneyInDifferentCurrency = Money.of(ONE_HUNDRED, Currency.OTHER);
 
         Executable executable = () -> money.minus(moneyInDifferentCurrency);

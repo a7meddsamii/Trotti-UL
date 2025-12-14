@@ -56,7 +56,7 @@ class CreditCardPaymentGatewayTest {
     }
 
     @Test
-    void givenNewBuyerWithoutCreditCard_whenPay_thenThrowException() {
+    void givenNewBuyerWithoutCreditCard_whenPay_thenThrowsException() {
         Idul buyerId = Idul.from("BUYER_002");
         when(creditCard.isEmpty()).thenReturn(true);
         PaymentIntent paymentIntent = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);

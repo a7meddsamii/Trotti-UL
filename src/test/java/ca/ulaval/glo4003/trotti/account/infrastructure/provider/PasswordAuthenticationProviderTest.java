@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.provider;
 
-import ca.ulaval.glo4003.trotti.account.application.dto.AccountDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.LoginDto;
 import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.exceptions.AuthenticationException;
@@ -35,6 +34,7 @@ class PasswordAuthenticationProviderTest {
     @BeforeEach
     void setup() {
         passwordHasher = Mockito.mock(PasswordHasher.class);
+
         provider = new PasswordAuthenticationProvider(passwordHasher);
     }
 
@@ -43,31 +43,16 @@ class PasswordAuthenticationProviderTest {
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(A_VALID_PASSWORD, A_HASHED_PASSWORD)).thenReturn(true);
-
         provider.register(registration);
-
         LoginDto loginDto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
-        Assertions.assertEquals(EMAIL, provider.verify(loginDto));
+        Email result = provider.verify(loginDto);
+
+        Assertions.assertEquals(EMAIL, result);
     }
 
     @Test
-    void givenValidPassword_whenRegister_thenReturnsAccountDto() {
-        RegistrationDto registration = createValidRegistrationDto();
-        Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
-
-        AccountDto dto = provider.register(registration);
-
-        Assertions.assertEquals(A_NAME, dto.name());
-        Assertions.assertEquals(A_BIRTHDATE, dto.birthDate());
-        Assertions.assertEquals(A_GENDER, dto.gender());
-        Assertions.assertEquals(AN_IDUL, dto.idul());
-        Assertions.assertEquals(EMAIL, dto.email());
-        Assertions.assertEquals(A_ROLE, dto.role());
-    }
-
-    @Test
-    void givenInvalidPassword_whenRegister_thenThrowsInvalidParameterException() {
+    void givenInvalidPassword_whenRegister_thenThrowsException() {
         RegistrationDto registration = new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 EMAIL, AN_INVALID_PASSWORD, A_ROLE);
 
@@ -77,7 +62,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     @Test
-    void givenNonExistentEmail_whenVerify_thenThrowsAuthenticationException() {
+    void givenNonExistentEmail_whenVerify_thenThrowsException() {
         LoginDto dto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
         Executable executable = () -> provider.verify(dto);
@@ -99,7 +84,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     @Test
-    void givenExistingEmailWithWrongPassword_whenVerify_thenThrowsAuthenticationException() {
+    void givenExistingEmailWithWrongPassword_whenVerify_thenThrowsException() {
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD))

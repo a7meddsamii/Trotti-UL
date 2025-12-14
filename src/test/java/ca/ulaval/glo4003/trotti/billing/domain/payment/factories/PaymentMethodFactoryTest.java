@@ -40,7 +40,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenInvalidCardNumber_whenCreateCreditCard_thenThrowException() {
+    void givenInvalidCardNumber_whenCreateCreditCard_thenThrowsException() {
         YearMonth futureDate = YearMonth.now().plusMonths(1);
 
         Executable executable = () -> paymentMethodFactory.createCreditCard(INVALID_CARD_NUMBER,
@@ -50,7 +50,7 @@ public class PaymentMethodFactoryTest {
     }
 
     @Test
-    void givenExpiredCard_whenCreateCreditCard_thenThrowException() {
+    void givenExpiredCard_whenCreateCreditCard_thenThrowsException() {
         YearMonth expiredDate = YearMonth.now().minusMonths(1);
 
         Executable executable = () -> paymentMethodFactory.createCreditCard(VALID_CARD_NUMBER,

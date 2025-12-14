@@ -60,21 +60,21 @@ class TripApiMapperTest {
     }
 
     @Test
-    void givenNullStartTripRequest_whenToStartTripDto_thenThrowsInvalidParameterException() {
+    void givenNullStartTripRequest_whenToStartTripDto_thenThrowsException() {
         Executable action = () -> mapper.toStartTripDto(travelerIdul, null);
 
         Assertions.assertThrows(InvalidParameterException.class, action);
     }
 
     @Test
-    void givenNullEndTripRequest_whenToEndTripDto_thenThrowsInvalidParameterException() {
+    void givenNullEndTripRequest_whenToEndTripDto_thenThrowsException() {
         Executable action = () -> mapper.toEndTripDto(travelerIdul, null);
 
         Assertions.assertThrows(InvalidParameterException.class, action);
     }
 
     @Test
-    void givenInvalidSlotNumberInEndTripRequest_whenToEndTripDto_thenThrowsInvalidParameterException() {
+    void givenInvalidSlotNumberInEndTripRequest_whenToEndTripDto_thenThrowsException() {
         EndTripRequest request = createEndTripRequestWithInvalidSlotNumber();
 
         Executable action = () -> mapper.toEndTripDto(travelerIdul, request);
