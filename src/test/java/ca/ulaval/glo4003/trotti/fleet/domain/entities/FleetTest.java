@@ -62,7 +62,7 @@ class FleetTest {
 
     @Test
     void givenUnknownScooterId_whenReturnScooter_thenThrowsException() {
-        Executable action = () -> fleet.returnScooter(scooterId, LOCATION, SLOT_2, A_TIME);
+        Executable action = () -> fleet.returnScooter(scooterId, LOCATION, SLOT_2, TIME);
 
         Assertions.assertThrows(InvalidStationOperation.class, action);
     }
