@@ -106,7 +106,7 @@ public class Station {
     }
 
     public void ensureNotUnderMaintenance() {
-        if (maintenanceStatus.isActive()) {
+        if (this.maintenanceStatus.isActive()) {
             throw new StationMaintenanceException("Station is under maintenance");
         }
     }
