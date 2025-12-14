@@ -14,8 +14,7 @@ public class StationOperationEntry {
 
     public StationOperationEntry(
             FleetApiMapper fleetApiMapper,
-            ScooterRentalApplicationService scooterRentalApplicationService
-	) {
+            ScooterRentalApplicationService scooterRentalApplicationService) {
         this.fleetApiMapper = fleetApiMapper;
         this.scooterRentalApplicationService = scooterRentalApplicationService;
     }

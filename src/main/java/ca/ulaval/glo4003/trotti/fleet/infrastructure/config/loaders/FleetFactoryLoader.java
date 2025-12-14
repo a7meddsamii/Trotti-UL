@@ -10,7 +10,7 @@ public class FleetFactoryLoader extends Bootstrapper {
     public void load() {
         loadStationFactory();
         loadScooterFactory();
-		loadTransferFactory();
+        loadTransferFactory();
     }
 
     private void loadStationFactory() {
@@ -20,8 +20,8 @@ public class FleetFactoryLoader extends Bootstrapper {
     private void loadScooterFactory() {
         this.resourceLocator.register(ScooterFactory.class, new ScooterFactory());
     }
-	
-	private void loadTransferFactory() {
-		this.resourceLocator.register(TransferFactory.class, new TransferFactory());
-	}
+
+    private void loadTransferFactory() {
+        this.resourceLocator.register(TransferFactory.class, new TransferFactory());
+    }
 }
