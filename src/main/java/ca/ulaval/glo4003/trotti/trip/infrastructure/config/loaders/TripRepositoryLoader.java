@@ -1,11 +1,12 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 
-import java.time.Clock;
 
 public class TripRepositoryLoader extends Bootstrapper {
     @Override

@@ -12,6 +12,10 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TripHistoryResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;

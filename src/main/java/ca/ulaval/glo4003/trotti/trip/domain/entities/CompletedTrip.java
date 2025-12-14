@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

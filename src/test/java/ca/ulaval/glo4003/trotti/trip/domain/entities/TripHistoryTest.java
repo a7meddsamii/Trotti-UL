@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
