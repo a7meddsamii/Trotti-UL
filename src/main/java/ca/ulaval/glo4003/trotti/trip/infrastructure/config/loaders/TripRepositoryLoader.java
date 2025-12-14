@@ -2,10 +2,11 @@ package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.*;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTransferRepository;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripCommandRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
@@ -25,10 +26,11 @@ public class TripRepositoryLoader extends Bootstrapper {
     private void loadTripRepository() {
         TripPersistenceMapper tripMapper =
                 this.resourceLocator.resolve(TripPersistenceMapper.class);
-        Clock clock = this.resourceLocator.resolve(Clock.class);
 
-        InMemoryTripCommandRepository inMemoryTripRepository =
-                new InMemoryTripCommandRepository(clock, tripMapper);
+        TripHistoryFilter tripHistoryFilter = new TripHistoryFilter();
+
+        InMemoryTripRepository inMemoryTripRepository =
+                new InMemoryTripRepository(tripMapper, tripHistoryFilter);
 
         this.resourceLocator.register(TripCommandRepository.class, inMemoryTripRepository);
         this.resourceLocator.register(TripQueryRepository.class, inMemoryTripRepository);

@@ -58,6 +58,28 @@ public class TripHistorySearchCriteria {
                 throw new InvalidParameterException("Idul must be provided");
             }
 
+
+            if (startDate != null && endDate != null) {
+                if (startDate.isAfter(endDate)) {
+                    throw new InvalidParameterException("startDate must be before endDate");
+                }
+
+                return new TripHistorySearchCriteria(idul, startDate, endDate);
+            }
+
+            if (startDate != null) {
+                endDate = startDate.plusMonths(1).minusDays(1);
+            }
+            else if (endDate != null) {
+                startDate = endDate.minusMonths(1).plusDays(1);
+            }
+            else {
+                startDate = LocalDate.now()
+                        .minusMonths(1)
+                        .withDayOfMonth(1);
+                endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+            }
+
             return new TripHistorySearchCriteria(idul, startDate, endDate);
         }
     }
