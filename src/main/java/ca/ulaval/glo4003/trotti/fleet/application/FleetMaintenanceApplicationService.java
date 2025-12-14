@@ -2,7 +2,11 @@ package ca.ulaval.glo4003.trotti.fleet.application;
 
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.MaintenanceRequestedEvent;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.EndMaintenanceDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.RequestMaintenanceDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.StartMaintenanceDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.StartTransferDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.UnloadTransferDto;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Fleet;
 import ca.ulaval.glo4003.trotti.fleet.domain.entities.Transfer;
 import ca.ulaval.glo4003.trotti.fleet.domain.exceptions.TransferNotFoundException;
