@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class InMemoryRidePermitRepository implements RidePermitRepository {
-    private final Map<String, RidePermitPersistenceDto> database = new HashMap<>();
+    private final Map<RidePermitId, RidePermitPersistenceDto> database = new HashMap<>();
     private final RidePermitPersistenceMapper mapper = new RidePermitPersistenceMapper();
 
     @Override
@@ -28,36 +28,37 @@ public class InMemoryRidePermitRepository implements RidePermitRepository {
 
     @Override
     public Optional<RidePermit> findById(RidePermitId ridePermitId) {
-        return Optional.ofNullable(database.get(ridePermitId.toString())).map(mapper::toDomain);
+        return Optional.ofNullable(database.get(ridePermitId)).map(mapper::toDomain);
     }
 
     @Override
     public Optional<RidePermit> findByRiderIdAndRidePermitId(Idul riderId,
             RidePermitId ridePermitId) {
         return database.values().stream()
-                .filter(dto -> dto.id().equals(ridePermitId.toString())
-                        && dto.riderId().equals(riderId.toString()))
+                .filter(dto -> dto.id().equals(ridePermitId)
+                        && dto.riderId().equals(riderId))
                 .findFirst().map(mapper::toDomain);
     }
 
     @Override
     public List<RidePermit> findAllByIdul(Idul idul) {
-        return database.values().stream().filter(dto -> dto.riderId().equals(idul.toString()))
-                .map(mapper::toDomain).collect(Collectors.toList());
+        return database.values().stream()
+                .filter(dto -> dto.riderId().equals(idul))
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllByDate(LocalDate date) {
         return database.values().stream().map(mapper::toDomain)
-                .filter(permit -> permit.getSession().contains(date)).collect(Collectors.toList());
+                .filter(permit -> permit.getSession().contains(date))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<RidePermit> findAllBySession(Session session) {
         return database.values().stream().filter(
-                dto -> dto.semesterCode().equals(String.valueOf(session.getSemester().getCode()))
-                        && dto.sessionStartDate().equals(session.getStartDate())
-                        && dto.sessionEndDate().equals(session.getEndDate()))
+                dto -> dto.session().equals(session))
                 .map(mapper::toDomain).collect(Collectors.toList());
     }
 }

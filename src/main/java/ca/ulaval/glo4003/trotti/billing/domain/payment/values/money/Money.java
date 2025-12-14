@@ -71,10 +71,6 @@ public class Money {
         return amount.doubleValue();
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
