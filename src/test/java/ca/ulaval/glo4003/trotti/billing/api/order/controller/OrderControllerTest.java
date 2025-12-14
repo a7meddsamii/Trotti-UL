@@ -9,15 +9,13 @@ import ca.ulaval.glo4003.trotti.billing.application.order.dto.AddItemDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.ConfirmOrderDto;
 import ca.ulaval.glo4003.trotti.billing.application.order.dto.OrderDto;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
-import ca.ulaval.glo4003.trotti.commons.domain.Id;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import jakarta.ws.rs.core.Response;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.util.UUID;
 
 class OrderControllerTest {
 

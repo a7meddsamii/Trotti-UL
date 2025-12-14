@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 
 class RidePermitActivationApplicationServiceTest {
 
-    private static final LocalDate VALID_DATE = LocalDate.of(2026,1,15);
+    private static final LocalDate VALID_DATE = LocalDate.of(2026, 1, 15);
 
     private RidePermitAssembler ridePermitAssembler;
     private RidePermitRepository ridePermitRepository;

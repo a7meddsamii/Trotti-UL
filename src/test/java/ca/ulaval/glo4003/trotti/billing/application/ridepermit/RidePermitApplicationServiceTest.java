@@ -14,7 +14,6 @@ import java.time.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,8 +103,8 @@ class RidePermitApplicationServiceTest {
 
         ridePermitApplicationService.createRidePermits(VALID_RIDER_IDUL, createRidePermitDtoList);
 
-        Mockito.verify(ridePermitFactory).create(Mockito.eq(VALID_RIDER_IDUL),
-                Mockito.any(), Mockito.any(), Mockito.any());
+        Mockito.verify(ridePermitFactory).create(Mockito.eq(VALID_RIDER_IDUL), Mockito.any(),
+                Mockito.any(), Mockito.any());
     }
 
     @Test
@@ -126,7 +125,8 @@ class RidePermitApplicationServiceTest {
         AddTravelTimeDto addTimeDto = createAddTravelTimeDto();
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
-        Executable executable = () -> ridePermitApplicationService.addTravelTime(VALID_RIDER_IDUL, addTimeDto);
+        Executable executable =
+                () -> ridePermitApplicationService.addTravelTime(VALID_RIDER_IDUL, addTimeDto);
 
         Assertions.assertThrows(NotFoundException.class, executable);
     }
@@ -137,7 +137,8 @@ class RidePermitApplicationServiceTest {
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.of(permit));
         Mockito.when(permit.isActiveForRides(VALID_RIDER_IDUL, fixedDate)).thenReturn(true);
 
-        boolean result = ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
+        boolean result =
+                ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
 
         Assertions.assertTrue(result);
     }
@@ -158,8 +159,8 @@ class RidePermitApplicationServiceTest {
     void givenNonExistingPermit_whenIsRidePermitActive_thenThrowsNotFoundException() {
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
-        Executable executable =
-                () -> ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
+        Executable executable = () -> ridePermitApplicationService
+                .isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
 
         Assertions.assertThrows(NotFoundException.class, executable);
     }
