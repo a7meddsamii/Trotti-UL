@@ -1,17 +1,25 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.ridepermit.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.Semester;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities.RidePermit;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class InMemoryRidePermitRepositoryTest {
+
+    private static final String RIDER_1_IDUL = "rider001";
+    private static final String RIDER_2_IDUL = "rider002";
+    private static final Duration DAILY_LIMIT = Duration.ofMinutes(60);
 
     private RidePermit permit1;
     private RidePermit permit2;
@@ -28,21 +36,19 @@ class InMemoryRidePermitRepositoryTest {
     void setup() {
         ridePermitRepository = new InMemoryRidePermitRepository();
 
-        permit1 = Mockito.mock(RidePermit.class);
-        permit2 = Mockito.mock(RidePermit.class);
-        permitId1 = Mockito.mock(RidePermitId.class);
-        permitId2 = Mockito.mock(RidePermitId.class);
-        riderId1 = Mockito.mock(Idul.class);
-        riderId2 = Mockito.mock(Idul.class);
-        session1 = Mockito.mock(Session.class);
-        session2 = Mockito.mock(Session.class);
+        riderId1 = Idul.from(RIDER_1_IDUL);
+        riderId2 = Idul.from(RIDER_2_IDUL);
 
-        Mockito.when(permit1.getId()).thenReturn(permitId1);
-        Mockito.when(permit2.getId()).thenReturn(permitId2);
-        Mockito.when(permit1.getRiderId()).thenReturn(riderId1);
-        Mockito.when(permit2.getRiderId()).thenReturn(riderId2);
-        Mockito.when(permit1.getSession()).thenReturn(session1);
-        Mockito.when(permit2.getSession()).thenReturn(session2);
+        session1 =
+                new Session(Semester.WINTER, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 30));
+
+        session2 = new Session(Semester.FALL, LocalDate.of(2025, 9, 1), LocalDate.of(2025, 12, 20));
+
+        permitId1 = RidePermitId.randomId();
+        permit1 = new RidePermit(permitId1, riderId1, session1, DAILY_LIMIT);
+
+        permitId2 = RidePermitId.randomId();
+        permit2 = new RidePermit(permitId2, riderId2, session2, DAILY_LIMIT);
     }
 
     @Test
@@ -51,13 +57,15 @@ class InMemoryRidePermitRepositoryTest {
 
         Optional<RidePermit> result = ridePermitRepository.findById(permitId1);
 
-        Assertions.assertTrue(result.isPresent());
-        Assertions.assertEquals(permit1, result.get());
+        Assertions.assertEquals(permit1.getId(), result.get().getId());
+        Assertions.assertEquals(permit1.getRiderId(), result.get().getRiderId());
     }
 
     @Test
     void givenUnknownPermitId_whenFindById_thenReturnsEmpty() {
-        Optional<RidePermit> result = ridePermitRepository.findById(permitId1);
+        RidePermitId unknownId = RidePermitId.randomId();
+
+        Optional<RidePermit> result = ridePermitRepository.findById(unknownId);
 
         Assertions.assertTrue(result.isEmpty());
     }
@@ -77,8 +85,8 @@ class InMemoryRidePermitRepositoryTest {
         List<RidePermit> result = ridePermitRepository.findAllByIdul(riderId1);
 
         Assertions.assertEquals(1, result.size());
-        Assertions.assertTrue(result.contains(permit1));
-        Assertions.assertFalse(result.contains(permit2));
+        Assertions.assertEquals(permit1.getId(), result.get(0).getId());
+
     }
 
     @Test
@@ -88,7 +96,7 @@ class InMemoryRidePermitRepositoryTest {
         List<RidePermit> result = ridePermitRepository.findAllBySession(session1);
 
         Assertions.assertEquals(1, result.size());
-        Assertions.assertTrue(result.contains(permit1));
-        Assertions.assertFalse(result.contains(permit2));
+        Assertions.assertEquals(permit1.getId(), result.get(0).getId());
+
     }
 }
