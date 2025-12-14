@@ -116,7 +116,7 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenNoCart_whenRemovingItem_thenThrowsNotFoundException() {
+    void givenNoCart_whenRemovingItem_thenThrowsException() {
         Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
                 .thenReturn(Optional.empty());
 
@@ -141,7 +141,7 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenNoCart_whenClearingCart_thenThrowsNotFoundException() {
+    void givenNoCart_whenClearingCart_thenThrowsException() {
         Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
                 .thenReturn(Optional.empty());
 
@@ -166,7 +166,7 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenNoCart_whenGettingCart_thenThrowsNotFoundException() {
+    void givenNoCart_whenGettingCart_thenThrowsException() {
         Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
                 .thenReturn(Optional.empty());
 
@@ -263,7 +263,7 @@ class OrderApplicationServiceTest {
     }
 
     @Test
-    void givenNoCart_whenCheckout_thenThrowsNotFoundException() {
+    void givenNoCart_whenCheckout_thenThrowsException() {
         ConfirmOrderDto confirmDto = createConfirmOrderDto();
         Mockito.when(orderRepository.findOngoingOrderFor(VALID_BUYER_ID))
                 .thenReturn(Optional.empty());
