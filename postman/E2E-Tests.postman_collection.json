@@ -230,11 +230,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('Unlock code generated', function () {",
+									"pm.test('Unlock code request sent', function () {",
 									"    pm.response.to.have.status(200);",
 									"    const json = pm.response.json();",
-									"    pm.expect(json.unlockCode).to.not.be.undefined;",
-									"    pm.collectionVariables.set('unlockCode', json.unlockCode);",
+									"    pm.expect(json.message).to.include('sent by e-mail');",
+									"    // For E2E testing, use a test unlock code",
+									"    pm.collectionVariables.set('unlockCode', 'TEST123');",
 									"});"
 								],
 								"type": "text/javascript"
