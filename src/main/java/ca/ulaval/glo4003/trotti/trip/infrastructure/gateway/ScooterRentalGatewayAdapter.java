@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.gateway;
 
-import ca.ulaval.glo4003.trotti.fleet.api.dto.RetrieveScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.ReturnScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.RetrieveScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.ReturnScooterRequest;
 import ca.ulaval.glo4003.trotti.fleet.api.gatewayentry.StationOperationEntry;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
