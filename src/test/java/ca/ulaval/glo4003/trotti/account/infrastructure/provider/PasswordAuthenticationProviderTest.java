@@ -52,7 +52,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     @Test
-    void givenInvalidPassword_whenRegister_thenThrowsInvalidParameterException() {
+    void givenInvalidPassword_whenRegister_thenThrowsException() {
         RegistrationDto registration = new RegistrationDto(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
                 EMAIL, AN_INVALID_PASSWORD, A_ROLE);
 
@@ -62,7 +62,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     @Test
-    void givenNonExistentEmail_whenVerify_thenThrowsAuthenticationException() {
+    void givenNonExistentEmail_whenVerify_thenThrowsException() {
         LoginDto dto = new LoginDto(EMAIL, A_VALID_PASSWORD);
 
         Executable executable = () -> provider.verify(dto);
@@ -84,7 +84,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     @Test
-    void givenExistingEmailWithWrongPassword_whenVerify_thenThrowsAuthenticationException() {
+    void givenExistingEmailWithWrongPassword_whenVerify_thenThrowsException() {
         RegistrationDto registration = createValidRegistrationDto();
         Mockito.when(passwordHasher.hash(A_VALID_PASSWORD)).thenReturn(A_HASHED_PASSWORD);
         Mockito.when(passwordHasher.matches(NON_MATCHING_PASSWORD, A_HASHED_PASSWORD))

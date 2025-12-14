@@ -80,7 +80,7 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenNotOwnerOfRidePermit_whenGenerateUnlockCode_thenThrowsNotFoundException() {
+    void givenNotOwnerOfRidePermit_whenGenerateUnlockCode_thenThrowsException() {
         Mockito.when(ridePermitGateway.isOwnerOfRidePermit(IDUL, RIDE_PERMIT_ID)).thenReturn(false);
 
         Executable serviceCall = () -> service.generateUnlockCode(IDUL, RIDE_PERMIT_ID);
@@ -89,7 +89,7 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenTravelerHasOngoingTrip_whenStartTrip_thenThrowsTripException() {
+    void givenTravelerHasOngoingTrip_whenStartTrip_thenThrowsException() {
         StartTripDto startDto = Mockito.mock(StartTripDto.class);
         Mockito.when(startDto.idul()).thenReturn(IDUL);
         Mockito.when(startDto.ridePermitId()).thenReturn(RIDE_PERMIT_ID);
@@ -128,7 +128,7 @@ class TripApplicationServiceTest {
     }
 
     @Test
-    void givenNoOngoingTrip_whenEndTrip_thenThrowsTripException() {
+    void givenNoOngoingTrip_whenEndTrip_thenThrowsException() {
         EndTripDto endDto = Mockito.mock(EndTripDto.class);
         Location location = Mockito.mock(Location.class);
         Mockito.when(endDto.idul()).thenReturn(IDUL);

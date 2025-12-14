@@ -31,28 +31,28 @@ class EmailTest {
     }
 
     @Test
-    void givenEmailWithWrongDomain_whenCreateEmail_thenThrowsInvalidParameterException() {
+    void givenEmailWithWrongDomain_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(INVALID_DOMAIN_EMAIL);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenEmptyEmail_whenCreateEmail_thenThrowsInvalidParameterException() {
+    void givenEmptyEmail_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(StringUtils.EMPTY);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenNullEmail_whenCreateEmail_thenThrowsInvalidParameterException() {
+    void givenNullEmail_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(null);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenEmailWithDoubleAt_whenCreateEmail_thenThrowsInvalidParameterException() {
+    void givenEmailWithDoubleAt_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(DOUBLE_AT_EMAIL);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);

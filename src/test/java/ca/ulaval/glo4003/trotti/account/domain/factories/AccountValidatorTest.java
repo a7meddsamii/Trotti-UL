@@ -33,7 +33,7 @@ class AccountValidatorTest {
     }
 
     @Test
-    void givenBirthDateYoungerThanMinimumAge_whenValidateBirthDate_thenThrowsInvalidParameterException() {
+    void givenBirthDateYoungerThanMinimumAge_whenValidateBirthDate_thenThrowsException() {
         Executable tooYoungException =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 

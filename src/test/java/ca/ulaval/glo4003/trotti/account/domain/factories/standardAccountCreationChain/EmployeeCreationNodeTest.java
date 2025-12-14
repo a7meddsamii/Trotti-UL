@@ -63,7 +63,7 @@ class EmployeeCreationNodeTest {
     }
 
     @Test
-    void givenEmployeeNotInRegister_whenCreateStandardAccount_thenThrowsAuthorizationException() {
+    void givenEmployeeNotInRegister_whenCreateStandardAccount_thenThrowsException() {
         role = Role.EMPLOYEE;
         Mockito.when(employeeRegistryProvider.exists(Mockito.any(Idul.class))).thenReturn(false);
 

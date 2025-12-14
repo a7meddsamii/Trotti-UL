@@ -48,7 +48,7 @@ class GenderTest {
     }
 
     @Test
-    void givenInvalidString_whenFromString_thenThrowsInvalidParameterException() {
+    void givenInvalidString_whenFromString_thenThrowsException() {
         Executable executable = () -> Gender.fromString(INVALID_STRING);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
@@ -63,7 +63,7 @@ class GenderTest {
     }
 
     @Test
-    void givenInvalidString_whenFromString_thenThrowsInvalidParameterExceptionWithAcceptedValuesInMessage() {
+    void givenInvalidString_whenFromString_thenThrowsExceptionWithAcceptedValuesInMessage() {
         Executable executable = () -> Gender.fromString(INVALID_STRING);
 
         InvalidParameterException exception =

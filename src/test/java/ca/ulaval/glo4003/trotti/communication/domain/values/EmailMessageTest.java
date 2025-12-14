@@ -41,7 +41,7 @@ class EmailMessageTest {
     }
 
     @Test
-    void givenMissingRecipient_whenBuildingEmailMessage_thenThrowsInvalidParameterException() {
+    void givenMissingRecipient_whenBuildingEmailMessage_thenThrowsException() {
         Executable emailCreation = () -> EmailMessage.builder().withSubject(EMAIL_SUBJECT)
                 .withBody(EMAIL_BODY).build();
 
@@ -49,7 +49,7 @@ class EmailMessageTest {
     }
 
     @Test
-    void givenMissingSubject_whenBuildingEmailMessage_thenThrowsInvalidParameterException() {
+    void givenMissingSubject_whenBuildingEmailMessage_thenThrowsException() {
         Executable emailCreation = () -> EmailMessage.builder().withRecipient(emailRecipient)
                 .withBody(EMAIL_BODY).build();
 
