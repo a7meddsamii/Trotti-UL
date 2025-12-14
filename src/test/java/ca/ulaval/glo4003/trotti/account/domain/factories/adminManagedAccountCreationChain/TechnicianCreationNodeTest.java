@@ -28,7 +28,7 @@ class TechnicianCreationNodeTest {
     private TechnicianCreationNode technicianCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         availablePermissions = Mockito.mock(Set.class);
         nextNode = Mockito.mock(AdminManagedAccountCreationNode.class);
         role = Role.TECHNICIAN;
@@ -37,7 +37,7 @@ class TechnicianCreationNodeTest {
     }
 
     @Test
-    void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
+    void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenTechnicianAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
         Account expected = technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
@@ -64,7 +64,7 @@ class TechnicianCreationNodeTest {
     }
 
     @Test
-    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsAuthorizationException() {
+    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsException() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 

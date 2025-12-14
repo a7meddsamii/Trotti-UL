@@ -8,16 +8,21 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class JakartaEmailServiceAdapterIntegrationTest {
 
-    private static final String HOST = "localhost";
-    private static final String PORT = "3025";
-    private static final String FROM = "no-reply@test.com";
-    private static final String SUBJECT = "a_subject";
-    private static final String BODY = "a_body";
-    private static final String EMAIL = "JhonDoe@ulaval.ca";
+    private static final String SMTP_HOST = "localhost";
+    private static final String SMTP_PORT = "3025";
+    private static final String FROM_EMAIL = "no-reply@test.com";
+    private static final String EMAIL_SUBJECT = "Account Creation Confirmation";
+    private static final String EMAIL_BODY = "Welcome to TrottiUL! Your account has been created.";
+    private static final String RECIPIENT_EMAIL = "student@ulaval.ca";
+    private static final int EXPECTED_MESSAGE_COUNT = 1;
 
     private static GreenMail greenMail;
     private JakartaEmailServiceAdapter emailService;
@@ -36,25 +41,27 @@ class JakartaEmailServiceAdapterIntegrationTest {
     @BeforeEach
     void setup() {
         Session session = Session.getInstance(System.getProperties());
-        session.getProperties().put("mail.smtp.host", HOST);
-        session.getProperties().put("mail.smtp.port", PORT);
-        session.getProperties().put("FromMail", FROM);
+        session.getProperties().put("mail.smtp.host", SMTP_HOST);
+        session.getProperties().put("mail.smtp.port", SMTP_PORT);
+        session.getProperties().put("FromMail", FROM_EMAIL);
+
         emailService = new JakartaEmailServiceAdapter(session);
     }
 
     @Test
-    void givenAEmailMessage_whenEmailSent_thenEmailSent() throws MessagingException, IOException {
-        EmailMessage emailMessage = EmailMessage.builder().withRecipient(Email.from(EMAIL))
-                .withBody(BODY).withSubject(SUBJECT).build();
+    void givenValidEmailMessage_whenSendingEmail_thenEmailIsDeliveredCorrectly()
+            throws MessagingException, IOException {
+        EmailMessage emailMessage =
+                EmailMessage.builder().withRecipient(Email.from(RECIPIENT_EMAIL))
+                        .withSubject(EMAIL_SUBJECT).withBody(EMAIL_BODY).build();
 
         emailService.send(emailMessage);
+        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+        MimeMessage receivedMessage = receivedMessages[0];
 
-        MimeMessage[] mimeMessages = greenMail.getReceivedMessages();
-        Assertions.assertEquals(1, mimeMessages.length);
-        MimeMessage receivedMessage = mimeMessages[0];
-        Assertions.assertEquals(EMAIL, receivedMessage.getAllRecipients()[0].toString());
-        Assertions.assertEquals(SUBJECT, receivedMessage.getSubject());
-        Assertions.assertEquals(BODY, receivedMessage.getContent());
+        Assertions.assertEquals(EXPECTED_MESSAGE_COUNT, receivedMessages.length);
+        Assertions.assertEquals(RECIPIENT_EMAIL, receivedMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(EMAIL_SUBJECT, receivedMessage.getSubject());
+        Assertions.assertEquals(EMAIL_BODY, receivedMessage.getContent());
     }
-
 }

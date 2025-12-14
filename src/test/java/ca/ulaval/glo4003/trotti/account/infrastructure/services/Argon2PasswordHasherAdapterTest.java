@@ -29,12 +29,12 @@ class Argon2PasswordHasherAdapterTest {
     }
 
     @Test
-    void givenCorrectPasswordAndStoredHash_whenVerify_thenReturnTrue() {
+    void givenCorrectPasswordAndStoredHash_whenMatches_thenReturnTrue() {
         String hashedPassword = argon2Hasher.hash(PLAIN_PASSWORD);
 
-        boolean ok = argon2Hasher.matches(PLAIN_PASSWORD, hashedPassword);
+        boolean result = argon2Hasher.matches(PLAIN_PASSWORD, hashedPassword);
 
-        Assertions.assertTrue(ok);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -46,7 +46,7 @@ class Argon2PasswordHasherAdapterTest {
     }
 
     @Test
-    void givenUnicodePassword_whenHashAndVerify_thenWorks() {
+    void givenUnicodePassword_whenHashAndMatches_thenWorks() {
         String hashedPassword = argon2Hasher.hash(NON_ASCII_PASSWORD);
 
         Assertions.assertTrue(argon2Hasher.matches(NON_ASCII_PASSWORD, hashedPassword));
@@ -54,11 +54,11 @@ class Argon2PasswordHasherAdapterTest {
     }
 
     @Test
-    void givenWrongPassword_whenVerify_thenReturnFalse() {
+    void givenWrongPassword_whenMatches_thenReturnFalse() {
         String storedHash = argon2Hasher.hash(PLAIN_PASSWORD);
 
-        boolean ok = argon2Hasher.matches(WRONG_PASSWORD, storedHash);
+        boolean result = argon2Hasher.matches(WRONG_PASSWORD, storedHash);
 
-        Assertions.assertFalse(ok);
+        Assertions.assertFalse(result);
     }
 }

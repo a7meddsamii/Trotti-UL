@@ -1,23 +1,25 @@
 package ca.ulaval.glo4003.trotti.billing.domain.order.entities;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.*;
+import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class OrderTest {
 
-    private static final MaximumDailyTravelTime FIRST_MAXIMUM_TRAVEL_TIME =
+    private static final MaximumDailyTravelTime FIRST_MAXIMUM_TRAVEL_TIME_DURATION =
             MaximumDailyTravelTime.from(Duration.ofHours(2));
-    private static final MaximumDailyTravelTime SECOND_MAXIMUM_TRAVEL_TIME =
+    private static final MaximumDailyTravelTime SECOND_MAXIMUM_TRAVEL_TIME_DURATION =
             MaximumDailyTravelTime.from(Duration.ofHours(5));
-    private static final Idul IDUL = Idul.from("a1234567");
-    private static final OrderId ORDER_ID = OrderId.randomId();
+    private static final Idul VALID_IDUL = Idul.from("user123");
+    private static final OrderId VALID_ORDER_ID = OrderId.randomId();
+
     private RidePermitItem firstItem;
     private RidePermitItem secondItem;
     private RidePermitItem duplicateOfFirst;
@@ -26,15 +28,15 @@ class OrderTest {
 
     @BeforeEach
     void setUp() {
-        Session session = Mockito.mock(Session.class);
-        firstItem = new RidePermitItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME, session,
-                BillingFrequency.MONTHLY);
-        secondItem = new RidePermitItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME, session,
-                BillingFrequency.PER_TRIP);
-        duplicateOfFirst = new RidePermitItem(firstItem.getItemId(), FIRST_MAXIMUM_TRAVEL_TIME,
+        Session session = createSession();
+        firstItem = new RidePermitItem(ItemId.randomId(), FIRST_MAXIMUM_TRAVEL_TIME_DURATION,
                 session, BillingFrequency.MONTHLY);
+        secondItem = new RidePermitItem(ItemId.randomId(), SECOND_MAXIMUM_TRAVEL_TIME_DURATION,
+                session, BillingFrequency.PER_TRIP);
+        duplicateOfFirst = new RidePermitItem(firstItem.getItemId(),
+                FIRST_MAXIMUM_TRAVEL_TIME_DURATION, session, BillingFrequency.MONTHLY);
         firstItemId = firstItem.getItemId();
-        order = new Order(ORDER_ID, IDUL);
+        order = new Order(VALID_ORDER_ID, VALID_IDUL);
     }
 
     @Test
@@ -104,5 +106,18 @@ class OrderTest {
         Money total = order.getTotalCost();
 
         Assertions.assertEquals(Money.zeroCad(), total);
+    }
+
+    @Test
+    void givenPendingOrder_whenConfirming_thenStatusBecomesCompleted() {
+        Assertions.assertEquals(OrderStatus.PENDING, order.getStatus());
+
+        order.confirm();
+
+        Assertions.assertEquals(OrderStatus.COMPLETED, order.getStatus());
+    }
+
+    private Session createSession() {
+        return new Session(Semester.WINTER, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 30));
     }
 }

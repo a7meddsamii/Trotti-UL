@@ -14,8 +14,8 @@ import org.junit.jupiter.api.function.Executable;
 
 class TransferTest {
 
-    private static final Idul TECHNICIID = Idul.from("tech123");
-    private static final Idul WRONG_TECHNICIID = Idul.from("tech1231231");
+    private static final Idul TECHNICIAN_ID = Idul.from("tech123");
+    private static final Idul WRONG_TECHNICIAN_ID = Idul.from("tech1231231");
     private static final int AMOUNT_TO_UNLOAD = 1;
 
     private TransferId transferId;
@@ -32,61 +32,61 @@ class TransferTest {
         scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, false);
         scootersTransferCompletedState.put(scooterId2, false);
-        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
     }
 
     @Test
-    void givenWrongTechnician_whenUnload_thenThrowsInvalidTransferException() {
-        Executable action = () -> transfer.unload(WRONG_TECHNICIID, AMOUNT_TO_UNLOAD);
+    void givenWrongTechnician_whenUnload_thenThrowsException() {
+        Executable action = () -> transfer.unload(WRONG_TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
-    void givenAmountToUnloadLessThanOne_whenUnload_thenThrowsInvalidTransferException() {
+    void givenAmountToUnloadLessThanOne_whenUnload_thenThrowsException() {
         int unloadCount = 0;
 
-        Executable action = () -> transfer.unload(TECHNICIID, unloadCount);
+        Executable action = () -> transfer.unload(TECHNICIAN_ID, unloadCount);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
-    void givenTransferAlreadyCompleted_whenUnload_thenThrowsInvalidTransferException() {
+    void givenTransferAlreadyCompleted_whenUnload_thenThrowsException() {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, true);
         scootersTransferCompletedState.put(scooterId2, true);
-        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
 
-        Executable action = () -> transfer.unload(TECHNICIID, AMOUNT_TO_UNLOAD);
+        Executable action = () -> transfer.unload(TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
-    void givenAmountToUnloadGreaterThanScootersStillInTransfer_whenUnload_thenThrowsInvalidTransferException() {
+    void givenAmountToUnloadGreaterThanScootersStillInTransfer_whenUnload_thenThrowsException() {
         Map<ScooterId, Boolean> scootersTransferCompletedState = new HashMap<>();
         scootersTransferCompletedState.put(scooterId1, false);
-        transfer = new Transfer(transferId, TECHNICIID, scootersTransferCompletedState);
+        transfer = new Transfer(transferId, TECHNICIAN_ID, scootersTransferCompletedState);
         int unloadCount = scootersTransferCompletedState.size() + 1;
 
-        Executable action = () -> transfer.unload(TECHNICIID, unloadCount);
+        Executable action = () -> transfer.unload(TECHNICIAN_ID, unloadCount);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
 
     @Test
     void givenValidAmountOfScooterToUnload_whenUnload_thenCorrectAmountIsReturned() {
-        List<ScooterId> unloaded = transfer.unload(TECHNICIID, AMOUNT_TO_UNLOAD);
+        List<ScooterId> unloaded = transfer.unload(TECHNICIAN_ID, AMOUNT_TO_UNLOAD);
         Assertions.assertEquals(AMOUNT_TO_UNLOAD, unloaded.size());
     }
 
     @Test
     void givenCompletedScooterDeposit_whenUnload_thenRemainingScootersAreCorrect() {
-        int removedAmount = transfer.unload(TECHNICIID, 1).size();
+        int removedAmount = transfer.unload(TECHNICIAN_ID, 1).size();
         int expectedRemainingAmount = scootersTransferCompletedState.size() - removedAmount;
 
-        List<ScooterId> remainingScooters = transfer.unload(TECHNICIID, expectedRemainingAmount);
+        List<ScooterId> remainingScooters = transfer.unload(TECHNICIAN_ID, expectedRemainingAmount);
 
         Assertions.assertEquals(expectedRemainingAmount, remainingScooters.size());
     }

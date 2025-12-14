@@ -57,7 +57,7 @@ class RidePermitActivationFilterTest {
     }
 
     @Test
-	void givenNoCurrentSession_whenGettingActivatedRidePermits_thenThrowException() {
+	void givenNoCurrentSession_whenGettingActivatedRidePermits_thenThrowsException() {
 		when(schoolSessionProvider.getSession(CURRENT_DATE)).thenReturn(Optional.empty());
 		RidePermit permit = mock(RidePermit.class);
 		List<RidePermit> permits = List.of(permit);
@@ -87,7 +87,7 @@ class RidePermitActivationFilterTest {
     }
 
     @Test
-    void givenNoCurrentSession_whenGettingDeactivatedRidePermits_thenThrowException() {
+    void givenNoCurrentSession_whenGettingDeactivatedRidePermits_thenThrowsException() {
         RidePermit permit = mock(RidePermit.class);
         List<RidePermit> permits = List.of(permit);
 
@@ -115,7 +115,7 @@ class RidePermitActivationFilterTest {
     }
 
     @Test
-	void givenNoPreviousSession_whenGettingPreviousSession_thenThrowException() {
+	void givenNoPreviousSession_whenGettingPreviousSession_thenThrowsException() {
 		when(schoolSessionProvider.getPreviousSession(CURRENT_DATE)).thenReturn(Optional.empty());
 		
 		Executable executable = () -> filter.getPreviousSession();

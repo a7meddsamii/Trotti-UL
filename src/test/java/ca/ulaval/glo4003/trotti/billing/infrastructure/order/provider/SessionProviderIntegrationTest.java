@@ -19,9 +19,9 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 
 class SessionProviderIntegrationTest {
-    private static final LocalDate DATE_INSIDE_SESSION = LocalDate.of(2025, 10, 15);
-    private static final LocalDate DATE_OUTSIDE_ALL_AVAILABLE_SESSIONS = LocalDate.of(2023, 10, 16);
-    private static final LocalDate DATE = LocalDate.of(2025, 10, 15);
+    private static final LocalDate DATE_INSIDE_FALL_SESSION = LocalDate.of(2025, 10, 15);
+    private static final LocalDate DATE_BEFORE_AVAILABLE_SESSIONS = LocalDate.of(2023, 10, 16);
+    private static final LocalDate VALID_DATE = LocalDate.of(2025, 10, 15);
 
     @TempDir
     private Path testingResourcePath;
@@ -42,10 +42,10 @@ class SessionProviderIntegrationTest {
             throws IOException {
         Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
 
-        Optional<Session> session = sessionProvider.getSession(DATE_INSIDE_SESSION);
+        Optional<Session> session = sessionProvider.getSession(DATE_INSIDE_FALL_SESSION);
 
         Assertions.assertTrue(session.isPresent());
-        Assertions.assertTrue(session.get().contains(DATE_INSIDE_SESSION));
+        Assertions.assertTrue(session.get().contains(DATE_INSIDE_FALL_SESSION));
     }
 
     @Test
@@ -75,7 +75,7 @@ class SessionProviderIntegrationTest {
             throws IOException {
         Files.writeString(temporaryFile, JsonSessionTestCaseData.VALID_SESSIONS_JSON);
 
-        Optional<Session> session = sessionProvider.getSession(DATE_OUTSIDE_ALL_AVAILABLE_SESSIONS);
+        Optional<Session> session = sessionProvider.getSession(DATE_BEFORE_AVAILABLE_SESSIONS);
 
         Assertions.assertTrue(session.isEmpty());
     }
@@ -84,7 +84,7 @@ class SessionProviderIntegrationTest {
     void givenMalformedSessionsJson_whenGettingSession_thenThrowsException() throws IOException {
         Files.writeString(temporaryFile, JsonSessionTestCaseData.MISSING_SEMESTER_CODE_JSON);
 
-        Executable getSession = () -> sessionProvider.getSession(DATE);
+        Executable getSession = () -> sessionProvider.getSession(VALID_DATE);
 
         Assertions.assertThrows(SessionException.class, getSession);
     }

@@ -17,7 +17,7 @@ class AccountPersistenceMapperTest {
     }
 
     @Test
-    void givenAccount_whenToEntity_thenReturnPersistenceEntity() {
+    void givenAccount_whenToDTO_thenReturnPersistenceEntity() {
         Account account = new AccountFixture().build();
 
         AccountRecord persistenceEntity = accountMapper.toDTO(account);

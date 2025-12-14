@@ -29,16 +29,16 @@ class AdminCreationNodeTest {
     private AdminCreationNode adminCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
+        role = Role.ADMIN;
         availablePermissions = Mockito.mock(Set.class);
         nextNode = Mockito.mock(AdminManagedAccountCreationNode.class);
-        role = Role.ADMIN;
         adminCreationNode = new AdminCreationNode();
         adminCreationNode.setNext(nextNode);
     }
 
     @Test
-    void givenAdminRoleAndCorrectPermissions_whenCreateCompanyAccount_thenAdminAccountIsCreated() {
+    void givenAdminRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
         Account expected = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
@@ -54,7 +54,7 @@ class AdminCreationNodeTest {
     }
 
     @Test
-    void givenNoAdminRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoAdminRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = NOT_ADMIN_ROLE;
 
         adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
@@ -65,7 +65,7 @@ class AdminCreationNodeTest {
     }
 
     @Test
-    void givenNoPermissions_whenCreateCompanyAccount_thenThrowsAuthorizationException() {
+    void givenNoPermissions_whenCreateAdminManagedAccount_thenThrowsException() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 

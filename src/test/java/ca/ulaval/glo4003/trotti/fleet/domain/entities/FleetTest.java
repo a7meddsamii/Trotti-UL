@@ -51,7 +51,7 @@ class FleetTest {
     }
 
     @Test
-    void givenStationTakeFails_whenRentScooter_thenThrowsInvalidStationOperation() {
+    void givenStationTakeFails_whenRentScooter_thenThrowsException() {
         Mockito.when(station.takeScooter(SLOT_1, TIME))
                 .thenThrow(new InvalidStationOperation("fail"));
 
@@ -61,8 +61,8 @@ class FleetTest {
     }
 
     @Test
-    void givenUnknownScooterId_whenReturnScooter_thenThrowsInvalidStationOperation() {
-        Executable action = () -> fleet.returnScooter(scooterId, LOCATION, SLOT_2, TIME);
+    void givenUnknownScooterId_whenReturnScooter_thenThrowsException() {
+        Executable action = () -> fleet.returnScooter(scooterId, LOCATION, SLOT_2, A_TIME);
 
         Assertions.assertThrows(InvalidStationOperation.class, action);
     }
@@ -113,7 +113,7 @@ class FleetTest {
     }
 
     @Test
-    void givenMismatchedSlotsAndScooters_whenDepositScooters_thenThrowsInvalidTransferException() {
+    void givenMismatchedSlotsAndScooters_whenDepositScooters_thenThrowsException() {
         List<SlotNumber> slots = List.of(SLOT_1);
         List<ScooterId> displacedScooterIds =
                 List.of(scooter.getScooterId(), secondScooter.getScooterId());
@@ -154,7 +154,7 @@ class FleetTest {
     }
 
     @Test
-    void givenScooterNotCurrentlyDisplaced_whenDepositScooters_thenThrowsInvalidTransferException() {
+    void givenScooterNotCurrentlyDisplaced_whenDepositScooters_thenThrowsException() {
         List<SlotNumber> slots = List.of(SLOT_1);
         List<ScooterId> displacedScooterIds = List.of(scooterId);
 

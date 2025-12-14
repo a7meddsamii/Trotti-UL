@@ -57,24 +57,24 @@ class JwtSessionTokenProviderAdapterTest {
     }
 
     @Test
-    void givenExpiredToken_whenDeserialize_thenThrowAuthenticationException() {
+    void givenExpiredToken_whenDeserialize_thenThrowsException() {
         SessionToken token = jwtSessionTokenProviderAdapter.generateToken(IDUL, ROLE, PERMISSIONS);
         Clock futureClock =
                 Clock.fixed(NOW.plus(EXPIRATION_DURATION).plusSeconds(1), ZoneId.of("UTC"));
         JwtSessionTokenProviderAdapter futureAdapter =
                 new JwtSessionTokenProviderAdapter(EXPIRATION_DURATION, futureClock, secretKey);
 
-        Executable action = () -> futureAdapter.deserialize(token);
+        Executable deserialize = () -> futureAdapter.deserialize(token);
 
-        Assertions.assertThrows(AuthenticationException.class, action);
+        Assertions.assertThrows(AuthenticationException.class, deserialize);
     }
 
     @Test
-    void givenMalformedToken_whenDeserialize_thenThrowAuthenticationException() {
+    void givenMalformedToken_whenDeserialize_thenThrowsException() {
         SessionToken malformedToken = SessionToken.from("invalid.token.value");
 
-        Executable action = () -> jwtSessionTokenProviderAdapter.deserialize(malformedToken);
+        Executable deserialize = () -> jwtSessionTokenProviderAdapter.deserialize(malformedToken);
 
-        Assertions.assertThrows(AuthenticationException.class, action);
+        Assertions.assertThrows(AuthenticationException.class, deserialize);
     }
 }

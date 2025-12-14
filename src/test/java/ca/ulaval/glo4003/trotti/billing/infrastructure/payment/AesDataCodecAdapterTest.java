@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.payment;
 
 import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.CodecException;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.security.DataCodec;
@@ -38,14 +38,14 @@ class AesDataCodecAdapterTest {
     }
 
     @Test
-    void givenNullString_whenEncode_thenThrowException() {
+    void givenNullString_whenEncode_thenThrowsException() {
         Executable encodeAction = () -> aesDataCodec.encode(null);
 
         Assertions.assertThrows(CodecException.class, encodeAction);
     }
 
     @Test
-    void givenInvalidEncodedString_whenDecode_thenThrowException() {
+    void givenInvalidEncodedString_whenDecode_thenThrowsException() {
         Executable decodeAction = () -> aesDataCodec.decode(INVALID_ENCODED_STRING);
 
         Assertions.assertThrows(CodecException.class, decodeAction);

@@ -23,7 +23,7 @@ class StudentCreationNodeTest {
     private StudentCreationNode studentCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         nextNode = Mockito.mock(StandardAccountCreationNode.class);
         studentCreationNode = new StudentCreationNode();
         studentCreationNode.setNext(nextNode);
@@ -33,20 +33,20 @@ class StudentCreationNodeTest {
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
         role = Role.STUDENT;
 
-        Account expected = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER,
+        Account result = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER,
                 IDUL, EMAIL, role);
 
-        Assertions.assertEquals(NAME, expected.getName());
-        Assertions.assertEquals(BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(GENDER, expected.getGender());
-        Assertions.assertEquals(IDUL, expected.getIdul());
-        Assertions.assertEquals(EMAIL, expected.getEmail());
-        Assertions.assertEquals(role, expected.getRole());
-        Assertions.assertNotNull(expected.getPermissions());
+        Assertions.assertEquals(NAME, result.getName());
+        Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(GENDER, result.getGender());
+        Assertions.assertEquals(IDUL, result.getIdul());
+        Assertions.assertEquals(EMAIL, result.getEmail());
+        Assertions.assertEquals(role, result.getRole());
+        Assertions.assertNotNull(result.getPermissions());
     }
 
     @Test
-    void givenNoStudentRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
         studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,

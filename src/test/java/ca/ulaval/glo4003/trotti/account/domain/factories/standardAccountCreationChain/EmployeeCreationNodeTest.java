@@ -27,7 +27,7 @@ class EmployeeCreationNodeTest {
     private EmployeeRegistryProvider employeeRegistryProvider;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         nextNode = Mockito.mock(StandardAccountCreationNode.class);
         employeeRegistryProvider = Mockito.mock(EmployeeRegistryProvider.class);
         employeeCreationNode = new EmployeeCreationNode(employeeRegistryProvider);
@@ -52,7 +52,7 @@ class EmployeeCreationNodeTest {
     }
 
     @Test
-    void givenNoEmployeeRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoEmployeeRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
         employeeCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
@@ -63,15 +63,15 @@ class EmployeeCreationNodeTest {
     }
 
     @Test
-    void givenEmployeeNotInRegister_whenCreateStandardAccount_thenThrowsUnableToCreateAccountException() {
+    void givenEmployeeNotInRegister_whenCreateStandardAccount_thenThrowsException() {
         role = Role.EMPLOYEE;
         Mockito.when(employeeRegistryProvider.exists(Mockito.any(Idul.class))).thenReturn(false);
 
-        Executable CreatingAccountWithEmployeeNotInRegistry = () -> employeeCreationNode
+        Executable creatingAccountWithEmployeeNotInRegistry = () -> employeeCreationNode
                 .createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
 
         Assertions.assertThrows(AuthorizationException.class,
-                CreatingAccountWithEmployeeNotInRegistry);
+                creatingAccountWithEmployeeNotInRegistry);
     }
 
 }
