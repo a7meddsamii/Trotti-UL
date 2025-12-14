@@ -7,7 +7,8 @@ import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripCommandApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripQueryApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
@@ -16,13 +17,16 @@ import jakarta.ws.rs.core.Response;
 
 public class TripController implements TripResource {
 
-    private final TripApplicationService tripApplicationService;
+    private final TripCommandApplicationService tripCommandApplicationService;
+    private final TripQueryApplicationService tripQueryApplicationService;
     private final TripApiMapper tripApiMapper;
 
     public TripController(
-            TripApplicationService tripApplicationService,
+            TripCommandApplicationService tripCommandApplicationService,
+            TripQueryApplicationService tripQueryApplicationService,
             TripApiMapper tripApiMapper) {
-        this.tripApplicationService = tripApplicationService;
+        this.tripCommandApplicationService = tripCommandApplicationService;
+        this.tripQueryApplicationService = tripQueryApplicationService;
         this.tripApiMapper = tripApiMapper;
     }
 
@@ -31,7 +35,7 @@ public class TripController implements TripResource {
 
         StartTripDto startTripDto = tripApiMapper.toStartTripDto(userId, request);
 
-        tripApplicationService.startTrip(startTripDto);
+        tripCommandApplicationService.startTrip(startTripDto);
 
         return Response.ok().build();
     }
@@ -40,7 +44,7 @@ public class TripController implements TripResource {
     public Response endTrip(Idul userId, EndTripRequest request) {
         EndTripDto endTripDto = tripApiMapper.toEndTripDto(userId, request);
 
-        tripApplicationService.endTrip(endTripDto);
+        tripCommandApplicationService.endTrip(endTripDto);
 
         return Response.ok().build();
     }
@@ -48,7 +52,7 @@ public class TripController implements TripResource {
     @Override
     public Response requestUnlockCode(Idul userId, String ridePermitIdValue) {
         RidePermitId ridePermitId = RidePermitId.from(ridePermitIdValue);
-        tripApplicationService.generateUnlockCode(userId, ridePermitId);
+        tripCommandApplicationService.generateUnlockCode(userId, ridePermitId);
 
         return Response.ok().entity(
                 new UnlockCodeResponse("Unlock Code is generated successfully and sent by e-mail."))
@@ -59,9 +63,9 @@ public class TripController implements TripResource {
     public Response getTripHistory(Idul userId, TripQueryRequest request) {
         TripHistorySearchCriteria searchCriteria = tripApiMapper.toTripHistorySearchCriteria(userId, request);
 
-        TripHistory trips = tripApplicationService.getTripHistory(searchCriteria);
+        TripHistory tripHistory = tripQueryApplicationService.getTripHistory(searchCriteria);
 
-        return Response.ok().entity(tripApiMapper.toTripHistoryResponse(trips)).build();
+        return Response.ok().entity(tripApiMapper.toTripHistoryResponse(tripHistory)).build();
     }
 
 }

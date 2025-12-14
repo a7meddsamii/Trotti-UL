@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryTripRepository implements TripRepository, TripQueryRepository {
+public class InMemoryTripCommandRepository implements TripCommandRepository, TripQueryRepository {
     private Map<TripId, TripRecord> tripTable = new HashMap<>();
 
     private final Clock clock;
     private final TripPersistenceMapper mapper;
 
-    public InMemoryTripRepository(Clock clock, TripPersistenceMapper mapper) {
+    public InMemoryTripCommandRepository(Clock clock, TripPersistenceMapper mapper) {
         this.mapper = mapper;
         this.clock = clock;
     }

@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripCommandApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import jakarta.ws.rs.core.Response;
@@ -22,7 +22,7 @@ class TripControllerTest {
     private static final String SLOT_NUMBER = "3";
     private static final String RIDE_PERMIT_ID = "rideId";
 
-    private TripApplicationService tripApplicationService;
+    private TripCommandApplicationService tripCommandApplicationService;
     private TripApiMapper tripApiMapper;
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
@@ -31,12 +31,12 @@ class TripControllerTest {
 
     @BeforeEach
     void setUp() {
-        tripApplicationService = Mockito.mock(TripApplicationService.class);
+        tripCommandApplicationService = Mockito.mock(TripCommandApplicationService.class);
         tripApiMapper = Mockito.mock(TripApiMapper.class);
         startTripDto = Mockito.mock(StartTripDto.class);
         endTripDto = Mockito.mock(EndTripDto.class);
 
-        resource = new TripController(tripApplicationService, tripApiMapper);
+        resource = new TripController(tripCommandApplicationService, tripApiMapper);
 
         Mockito.when(tripApiMapper.toStartTripDto(TRAVELER_IDUL, startTripRequest()))
                 .thenReturn(startTripDto);

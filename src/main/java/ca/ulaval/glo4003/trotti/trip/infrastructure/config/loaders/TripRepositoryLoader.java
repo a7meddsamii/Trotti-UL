@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.repositories.*;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryScooterRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryStationRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTransferRepository;
-import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripCommandRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.ScooterPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.StationPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TransferPersistenceMapper;
@@ -27,10 +27,10 @@ public class TripRepositoryLoader extends Bootstrapper {
                 this.resourceLocator.resolve(TripPersistenceMapper.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
 
-        InMemoryTripRepository inMemoryTripRepository =
-                new InMemoryTripRepository(clock, tripMapper);
+        InMemoryTripCommandRepository inMemoryTripRepository =
+                new InMemoryTripCommandRepository(clock, tripMapper);
 
-        this.resourceLocator.register(TripRepository.class, inMemoryTripRepository);
+        this.resourceLocator.register(TripCommandRepository.class, inMemoryTripRepository);
         this.resourceLocator.register(TripQueryRepository.class, inMemoryTripRepository);
     }
 

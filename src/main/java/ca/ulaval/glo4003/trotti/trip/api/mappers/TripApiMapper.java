@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 public class TripApiMapper {
 
+    private static final String NOTHING = "N/A";
+
     public StartTripDto toStartTripDto(Idul idul, StartTripRequest request) {
         if (request == null) {
             throw new InvalidParameterException("StartTripRequest cannot be null");
@@ -55,12 +57,12 @@ public class TripApiMapper {
                 tripHistory.calculateNumberOfTrips(),
                 tripHistory.calculateAverageTripDuration(),
                 tripHistory.getFavoriteStartLocation() != null ?
-                        tripHistory.getFavoriteStartLocation().getBuilding() : "N/A",
+                        tripHistory.getFavoriteStartLocation().getBuilding() : NOTHING,
                 tripHistory.getFavoriteEndLocation() != null ?
-                        tripHistory.getFavoriteEndLocation().getBuilding() : "N/A",
+                        tripHistory.getFavoriteEndLocation().getBuilding() : NOTHING,
                 tripHistory.getCompletedTrips().stream()
                         .map(this::toTripDtoResponse)
-                        .collect(Collectors.toList())
+                        .toList()
                 );
     }
 

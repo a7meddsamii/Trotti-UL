@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class InMemoryTripRepositoryTest {
+class InMemoryTripCommandRepositoryTest {
 
     private static final Idul MATCHING_TRAVELER_ID = Idul.from("abcd");
     private static final Idul NON_MATCHING_TRAVELER_ID = Idul.from("efgh");
@@ -27,7 +27,7 @@ class InMemoryTripRepositoryTest {
     private Trip trip;
     private TripRecord tripRecord;
     private TripPersistenceMapper mapper;
-    private InMemoryTripRepository repository;
+    private InMemoryTripCommandRepository repository;
 
     private void setUpTripRepository() {
         trip = Mockito.mock(Trip.class);
@@ -39,7 +39,7 @@ class InMemoryTripRepositoryTest {
         Mockito.when(mapper.toDomain(Mockito.any())).thenReturn(trip);
         Mockito.when(trip.getIdul()).thenReturn(MATCHING_TRAVELER_ID);
         Mockito.when(trip.getStatus()).thenReturn(STATUS);
-        repository = new InMemoryTripRepository(Clock.systemDefaultZone(), mapper);
+        repository = new InMemoryTripCommandRepository(Clock.systemDefaultZone(), mapper);
     }
 
     private void setUpTripQueryRepository() {
@@ -51,7 +51,7 @@ class InMemoryTripRepositoryTest {
         );
 
         mapper = new TripPersistenceMapper();
-        repository = new InMemoryTripRepository(clock, mapper);
+        repository = new InMemoryTripCommandRepository(clock, mapper);
     }
 
     @Test
