@@ -59,4 +59,8 @@ public class DailyBillingUsage {
     public Money getBalance() {
         return balance;
     }
+
+    public boolean isMaximumTravelingTimeExceeded() {
+        return maximumTravelingTimeExceeded;
+    }
 }
