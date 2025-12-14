@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.account.api.security.authentication.Authenticati
 import ca.ulaval.glo4003.trotti.account.api.security.authorization.AuthorizationFilter;
 import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUserParamProvider;
 import ca.ulaval.glo4003.trotti.config.ApplicationContext;
+import ca.ulaval.glo4003.trotti.config.locator.ComponentLocator;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -31,9 +32,11 @@ public class JerseyConfiguration extends ResourceConfig {
 
     public JerseyConfiguration() {
         ApplicationContext.getInstance().initiate();
+        ComponentLocator locator = ComponentLocator.getInstance();
+        AuthenticationFilter authenticationFilter = locator.resolve(AuthenticationFilter.class);
 
         register(JerseyBinder.class);
-        register(AuthenticationFilter.class);
+        register(authenticationFilter);
         register(AuthorizationFilter.class);
         register(AuthenticatedUserParamProvider.class);
         register(ServerLifeCycleListener.class);

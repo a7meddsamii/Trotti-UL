@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.trotti.account.infrastructure.config.loaders;
 
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.SecurityContextFactory;
+import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSecurityContextFactoryAdapter;
 import ca.ulaval.glo4003.trotti.account.api.security.authentication.jwtsecuritycontext.JwtSessionTokenProviderAdapter;
 import ca.ulaval.glo4003.trotti.account.application.AuthenticationProvider;
 import ca.ulaval.glo4003.trotti.account.domain.provider.EmployeeRegistryProvider;
@@ -39,6 +41,7 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         this.loadSessionTokenProvider();
         this.loadAuthentificationProvider();
         this.loadEmployeeRegistryProvider();
+        this.loadSecurityContextFactory();
     }
 
     private void loadPasswordHasherService() {
@@ -77,6 +80,11 @@ public class AccountForeignServiceLoader extends Bootstrapper {
         EmployeeRegistryProvider employeeRegistryProvider =
                 new JsonEmployeeRegistryProvider(EMPLOYEE_PATH);
         this.resourceLocator.register(EmployeeRegistryProvider.class, employeeRegistryProvider);
+    }
+
+    private void loadSecurityContextFactory() {
+        SecurityContextFactory securityContextFactory = new JwtSecurityContextFactoryAdapter();
+        this.resourceLocator.register(SecurityContextFactory.class, securityContextFactory);
     }
 
 }

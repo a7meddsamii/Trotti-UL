@@ -23,6 +23,7 @@ public class AccountConfiguration extends Configuration {
         new AccountFactoryLoader().load();
         new AccountApplicationLoader().load();
         new AccountResourceLoader().load();
+        new AccountApiFilterLoader().load();
         new InitialAdminLoader().load();
     }
 }

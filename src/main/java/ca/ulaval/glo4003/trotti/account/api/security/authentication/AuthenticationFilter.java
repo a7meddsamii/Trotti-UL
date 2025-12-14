@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.account.domain.services.SessionTokenProvider;
 import ca.ulaval.glo4003.trotti.account.domain.values.AuthenticatedIdentity;
 import ca.ulaval.glo4003.trotti.account.domain.values.SessionToken;
 import jakarta.annotation.Priority;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -17,10 +16,14 @@ import jakarta.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
-    @Inject
-    private SessionTokenProvider sessionTokenProvider;
-    @Inject
-    private SecurityContextFactory securityContextFactory;
+    private final SessionTokenProvider sessionTokenProvider;
+    private final SecurityContextFactory securityContextFactory;
+
+    public AuthenticationFilter(SessionTokenProvider sessionTokenProvider,
+                                SecurityContextFactory securityContextFactory) {
+        this.sessionTokenProvider = sessionTokenProvider;
+        this.securityContextFactory = securityContextFactory;
+    }
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) {
