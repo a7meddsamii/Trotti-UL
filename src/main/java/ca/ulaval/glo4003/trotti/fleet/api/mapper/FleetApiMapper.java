@@ -25,14 +25,14 @@ public class FleetApiMapper {
 
     public RentScooterDto toRentScooterDto(RentScooterRequest request) {
         Location location = Location.of(request.location());
-        SlotNumber slotNumber = new SlotNumber(request.slotNumber());
+        SlotNumber slotNumber = SlotNumber.from(request.slotNumber());
 
         return new RentScooterDto(location, slotNumber);
     }
 
     public ReturnScooterDto toReturnScooterDto(DropOffScooterRequest request) {
         Location location = Location.of(request.location());
-        SlotNumber slotNumber = new SlotNumber(Integer.parseInt(request.slotNumber()));
+        SlotNumber slotNumber = SlotNumber.from(Integer.parseInt(request.slotNumber()));
         ScooterId scooterId = ScooterId.from(request.scooterId());
 
         return new ReturnScooterDto(scooterId, location, slotNumber);

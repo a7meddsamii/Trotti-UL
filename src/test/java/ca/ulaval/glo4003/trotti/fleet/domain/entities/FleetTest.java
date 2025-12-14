@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 class FleetTest {
 
     private static final Location A_LOCATION = Location.of("Vachon", "porte1");
-    private static final SlotNumber SLOT_1 = new SlotNumber(1);
-    private static final SlotNumber SLOT_2 = new SlotNumber(2);
+    private static final SlotNumber SLOT_1 = SlotNumber.from(1);
+    private static final SlotNumber SLOT_2 = SlotNumber.from(2);
     private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
 

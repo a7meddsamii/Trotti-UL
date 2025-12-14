@@ -107,7 +107,7 @@ class FleetDataFactoryTest {
         fleetDataFactory.run(List.of(record));
 
         for (int i = 0; i < mockScooters.size(); i++) {
-            SlotNumber expectedSlot = new SlotNumber(i);
+            SlotNumber expectedSlot = SlotNumber.from(i);
             Scooter expectedScooter = mockScooters.get(i);
             verify(mockStation).parkScooter(eq(expectedSlot), eq(expectedScooter),
                     any(LocalDateTime.class));

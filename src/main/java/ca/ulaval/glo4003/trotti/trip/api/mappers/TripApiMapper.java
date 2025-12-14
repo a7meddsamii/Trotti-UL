@@ -77,7 +77,7 @@ public class TripApiMapper {
     private SlotNumber parseSlotNumber(String slotNumberValue) {
         try {
             int number = Integer.parseInt(slotNumberValue);
-            return new SlotNumber(number);
+            return SlotNumber.from(number);
         } catch (NumberFormatException e) {
             throw new InvalidParameterException("Slot number must be an integer value");
         }

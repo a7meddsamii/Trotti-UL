@@ -46,9 +46,9 @@ class FleetApiMapperTest {
         assertEquals(Location.of(STATION_LOCATION), result.sourceStation());
         assertEquals(idul, result.technicianId());
         assertEquals(SLOT_NUMBERS.size(), result.sourceSlots().size());
-        assertEquals(new SlotNumber(1), result.sourceSlots().get(0));
-        assertEquals(new SlotNumber(2), result.sourceSlots().get(1));
-        assertEquals(new SlotNumber(3), result.sourceSlots().get(2));
+        assertEquals(SlotNumber.from(1), result.sourceSlots().get(0));
+        assertEquals(SlotNumber.from(2), result.sourceSlots().get(1));
+        assertEquals(SlotNumber.from(3), result.sourceSlots().get(2));
     }
 
     @Test
@@ -61,9 +61,9 @@ class FleetApiMapperTest {
         assertEquals(idul, result.technicianId());
         assertEquals(Location.of(STATION_LOCATION), result.destinationStation());
         assertEquals(SLOT_NUMBERS.size(), result.destinationSlots().size());
-        assertEquals(new SlotNumber(1), result.destinationSlots().get(0));
-        assertEquals(new SlotNumber(2), result.destinationSlots().get(1));
-        assertEquals(new SlotNumber(3), result.destinationSlots().get(2));
+        assertEquals(SlotNumber.from(1), result.destinationSlots().get(0));
+        assertEquals(SlotNumber.from(2), result.destinationSlots().get(1));
+        assertEquals(SlotNumber.from(3), result.destinationSlots().get(2));
     }
 
     @Test

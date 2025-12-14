@@ -37,8 +37,8 @@ class FleetMaintenanceApplicationServiceTest {
     private static final Location DESTINATION_LOCATION = Location.of("PEPS", "Destination Station");
     private static final Idul TECHNICIAN_ID = Idul.from("abcd");
     private static final Idul REQUESTER_ID = Idul.from("efgh");
-    private static final SlotNumber SLOT_ONE = new SlotNumber(1);
-    private static final SlotNumber SLOT_TWO = new SlotNumber(2);
+    private static final SlotNumber SLOT_ONE = SlotNumber.from(1);
+    private static final SlotNumber SLOT_TWO = SlotNumber.from(2);
     private static final List<SlotNumber> SOURCE_SLOTS = List.of(SLOT_ONE, SLOT_TWO);
     private static final List<SlotNumber> DESTINATION_SLOTS = List.of(SLOT_ONE, SLOT_TWO);
 

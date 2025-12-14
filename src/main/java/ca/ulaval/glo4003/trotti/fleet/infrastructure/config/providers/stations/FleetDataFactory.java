@@ -58,7 +58,7 @@ public final class FleetDataFactory {
 
         for (int i = 0; i < scooters.size(); i++) {
             Scooter scooter = scooters.get(i);
-            station.parkScooter(new SlotNumber(i), scooter, dockingTime);
+            station.parkScooter(SlotNumber.from(i), scooter, dockingTime);
         }
 
         return station;

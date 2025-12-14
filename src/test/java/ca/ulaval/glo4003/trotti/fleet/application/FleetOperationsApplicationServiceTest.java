@@ -23,7 +23,7 @@ class FleetOperationsApplicationServiceTest {
             LocalDateTime.ofInstant(FIXED_INSTANT, ZoneOffset.UTC);
 
     private static final Location LOCATION = Location.of("PEPS", "Station A");
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
+    private static final SlotNumber SLOT_NUMBER = SlotNumber.from(1);
     private static final ScooterId SCOOTER_ID = Mockito.mock(ScooterId.class);
 
     private FleetRepository fleetRepository;
@@ -97,7 +97,7 @@ class FleetOperationsApplicationServiceTest {
 
     @Test
     void givenLocation_whenGetAvailableSlots_thenAvailableSlotsAreReturned() {
-        List<SlotNumber> availableSlots = List.of(new SlotNumber(2), new SlotNumber(3));
+        List<SlotNumber> availableSlots = List.of(SlotNumber.from(2), SlotNumber.from(3));
         Mockito.when(fleet.getAvailableSlots(LOCATION)).thenReturn(availableSlots);
 
         List<SlotNumber> result = fleetOperationsApplicationService.getAvailableSlots(LOCATION);
@@ -107,7 +107,7 @@ class FleetOperationsApplicationServiceTest {
 
     @Test
     void givenLocation_whenGetOccupiedSlots_thenOccupiedSlotsAreReturned() {
-        List<SlotNumber> occupiedSlots = List.of(new SlotNumber(1));
+        List<SlotNumber> occupiedSlots = List.of(SlotNumber.from(1));
         Mockito.when(fleet.getOccupiedSlots(LOCATION)).thenReturn(occupiedSlots);
 
         List<SlotNumber> result = fleetOperationsApplicationService.getOccupiedSlots(LOCATION);

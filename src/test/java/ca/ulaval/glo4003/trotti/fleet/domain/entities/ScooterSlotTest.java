@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 
 class ScooterSlotTest {
 
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
+    private static final SlotNumber SLOT_NUMBER = SlotNumber.from(1);
 
     private ScooterSlot scooterSlot;
     private Scooter scooter;

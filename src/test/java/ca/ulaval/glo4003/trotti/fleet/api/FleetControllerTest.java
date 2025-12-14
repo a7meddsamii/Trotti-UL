@@ -37,7 +37,7 @@ class FleetControllerTest {
     private static final Location LOCATION = Location.of(LOCATION_STRING);
     private static final TransferId TRANSFER_ID = TransferId.randomId();
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
-    private static final List<SlotNumber> SLOTS = List.of(new SlotNumber(1), new SlotNumber(2));
+    private static final List<SlotNumber> SLOTS = List.of(SlotNumber.from(1), SlotNumber.from(2));
 
     private FleetMaintenanceApplicationService maintenanceService;
     private FleetOperationsApplicationService operationsService;

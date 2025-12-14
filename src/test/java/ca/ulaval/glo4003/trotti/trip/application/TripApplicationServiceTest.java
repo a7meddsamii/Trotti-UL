@@ -33,7 +33,7 @@ class TripApplicationServiceTest {
     private static final Idul IDUL = Idul.from("abcd");
     private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
     private static final String UNLOCK_CODE = "9999";
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(3);
+    private static final SlotNumber SLOT_NUMBER = SlotNumber.from(3);
 
     private UnlockCodeStore unlockCodeStore;
     private TripRepository tripRepository;

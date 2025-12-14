@@ -33,7 +33,7 @@ class FleetApiMapperTest {
     private static final int SLOT_ONE = 1;
     private static final List<Integer> INTEGER_SLOTS = List.of(SLOT_ZERO, SLOT_ONE);
     private static final List<SlotNumber> SLOT_NUMBERS =
-            List.of(new SlotNumber(SLOT_ZERO), new SlotNumber(SLOT_ONE));
+            List.of(SlotNumber.from(SLOT_ZERO), SlotNumber.from(SLOT_ONE));
     private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final TransferId TRANSFER_ID = TransferId.randomId();
     private static final Idul TECHNICIAN_IDUL = Idul.from("tech-123");
@@ -53,7 +53,7 @@ class FleetApiMapperTest {
         RentScooterDto dto = fleetApiMapper.toRentScooterDto(request);
 
         Assertions.assertEquals(Location.of(LOCATION_STRING), dto.location());
-        Assertions.assertEquals(new SlotNumber(SLOT_ZERO), dto.slotNumber());
+        Assertions.assertEquals(SlotNumber.from(SLOT_ZERO), dto.slotNumber());
     }
 
     @Test
@@ -64,7 +64,7 @@ class FleetApiMapperTest {
         ReturnScooterDto dto = fleetApiMapper.toReturnScooterDto(request);
 
         Assertions.assertEquals(Location.of(LOCATION_STRING), dto.location());
-        Assertions.assertEquals(new SlotNumber(SLOT_ONE), dto.slotNumber());
+        Assertions.assertEquals(SlotNumber.from(SLOT_ONE), dto.slotNumber());
         Assertions.assertEquals(SCOOTER_ID, dto.scooterId());
     }
 
