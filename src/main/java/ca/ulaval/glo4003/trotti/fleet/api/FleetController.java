@@ -1,28 +1,16 @@
 package ca.ulaval.glo4003.trotti.fleet.api;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.DropOffScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.EndMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.MaintenanceRequestRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.RentScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartTransferRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.UnloadTransferRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
 import ca.ulaval.glo4003.trotti.fleet.api.mapper.FleetApiMapper;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetOperationsApplicationService;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.EndMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.RentScooterDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.RequestMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.ReturnScooterDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.StartMaintenanceDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.StartTransferDto;
-import ca.ulaval.glo4003.trotti.fleet.application.dto.UnloadTransferDto;
+import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 
 public class FleetController implements FleetResource {

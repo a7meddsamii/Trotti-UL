@@ -23,7 +23,6 @@ class FleetApiMapperTest {
     private static final List<Integer> INTEGER_SLOTS = List.of(SLOT_ZERO, SLOT_ONE);
     private static final List<SlotNumber> SLOT_NUMBERS =
             List.of(SlotNumber.from(SLOT_ZERO), SlotNumber.from(SLOT_ONE));
-    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final TransferId TRANSFER_ID = TransferId.randomId();
     private static final Idul TECHNICIAN_IDUL = Idul.from("tech-123");
     private static final Idul REQUESTER_IDUL = Idul.from("user-456");

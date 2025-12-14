@@ -4,13 +4,7 @@ import ca.ulaval.glo4003.trotti.account.api.security.authorization.RequiresPermi
 import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUser;
 import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.DropOffScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.EndMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.MaintenanceRequestRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.RentScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartMaintenanceRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.StartTransferRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.request.UnloadTransferRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
