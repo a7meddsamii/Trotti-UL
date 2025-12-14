@@ -18,11 +18,12 @@ import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class RidePermitApplicationServiceTest {
     private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
-    private static final Idul VALID_RIDER_IDUL = Mockito.mock(Idul.class);
+    private static final Idul VALID_RIDER_IDUL = Idul.from("rider001");
     private static final String VALID_RIDE_PERMIT_ID_VALUE = UUID.randomUUID().toString();
 
     private RidePermitFactory ridePermitFactory;
@@ -82,15 +83,15 @@ class RidePermitApplicationServiceTest {
     }
 
     @Test
-    void givenNonExistingPermit_whenGetRidePermit_thenThrowsNotFoundException() {
+    void givenNonExistingPermit_whenGetRidePermit_thenThrowsException() {
         Mockito.when(
                 ridePermitRepository.findByRiderIdAndRidePermitId(VALID_RIDER_IDUL, ridePermitId))
                 .thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(NotFoundException.class,
-                () -> ridePermitApplicationService.getRidePermit(VALID_RIDER_IDUL, ridePermitId));
+        Executable executable =
+                () -> ridePermitApplicationService.getRidePermit(VALID_RIDER_IDUL, ridePermitId);
 
-        Assertions.assertNotNull(exception);
+        Assertions.assertThrows(NotFoundException.class, executable);
     }
 
     @Test
@@ -103,7 +104,7 @@ class RidePermitApplicationServiceTest {
 
         ridePermitApplicationService.createRidePermits(VALID_RIDER_IDUL, createRidePermitDtoList);
 
-        Mockito.verify(ridePermitFactory, Mockito.times(1)).create(Mockito.eq(VALID_RIDER_IDUL),
+        Mockito.verify(ridePermitFactory).create(Mockito.eq(VALID_RIDER_IDUL),
                 Mockito.any(), Mockito.any(), Mockito.any());
     }
 
@@ -125,10 +126,9 @@ class RidePermitApplicationServiceTest {
         AddTravelTimeDto addTimeDto = createAddTravelTimeDto();
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(NotFoundException.class,
-                () -> ridePermitApplicationService.addTravelTime(VALID_RIDER_IDUL, addTimeDto));
+        Executable executable = () -> ridePermitApplicationService.addTravelTime(VALID_RIDER_IDUL, addTimeDto);
 
-        Assertions.assertNotNull(exception);
+        Assertions.assertThrows(NotFoundException.class, executable);
     }
 
     @Test
@@ -137,8 +137,7 @@ class RidePermitApplicationServiceTest {
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.of(permit));
         Mockito.when(permit.isActiveForRides(VALID_RIDER_IDUL, fixedDate)).thenReturn(true);
 
-        boolean result =
-                ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
+        boolean result = ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
 
         Assertions.assertTrue(result);
     }
@@ -159,11 +158,10 @@ class RidePermitApplicationServiceTest {
     void givenNonExistingPermit_whenIsRidePermitActive_thenThrowsNotFoundException() {
         Mockito.when(ridePermitRepository.findById(ridePermitId)).thenReturn(Optional.empty());
 
-        Exception exception =
-                Assertions.assertThrows(NotFoundException.class, () -> ridePermitApplicationService
-                        .isRidePermitActive(VALID_RIDER_IDUL, ridePermitId));
+        Executable executable =
+                () -> ridePermitApplicationService.isRidePermitActive(VALID_RIDER_IDUL, ridePermitId);
 
-        Assertions.assertNotNull(exception);
+        Assertions.assertThrows(NotFoundException.class, executable);
     }
 
     private AddTravelTimeDto createAddTravelTimeDto() {
