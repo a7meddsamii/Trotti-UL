@@ -10,22 +10,23 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 
 public class StationOperationEntry {
     private final FleetApiMapper fleetApiMapper;
-    private final ScooterRentalApplicationService temporaryScooterRentalApplicationService;
+    private final ScooterRentalApplicationService scooterRentalApplicationService;
 
     public StationOperationEntry(
             FleetApiMapper fleetApiMapper,
-            ScooterRentalApplicationService temporaryScooterRentalApplicationService) {
+            ScooterRentalApplicationService scooterRentalApplicationService
+	) {
         this.fleetApiMapper = fleetApiMapper;
-        this.temporaryScooterRentalApplicationService = temporaryScooterRentalApplicationService;
+        this.scooterRentalApplicationService = scooterRentalApplicationService;
     }
 
     public ScooterId retrieveScooter(RetrieveScooterRequest retrieveScooterRequest) {
         RentScooterDto undockScooterDto = fleetApiMapper.toRentScooterDto(retrieveScooterRequest);
-        return temporaryScooterRentalApplicationService.rentScooter(undockScooterDto);
+        return scooterRentalApplicationService.rentScooter(undockScooterDto);
     }
 
     public void returnScooter(ReturnScooterRequest returnScooterRequest) {
         ReturnScooterDto dockScooterDto = fleetApiMapper.toReturnScooterDto(returnScooterRequest);
-        temporaryScooterRentalApplicationService.returnScooter(dockScooterDto);
+        scooterRentalApplicationService.returnScooter(dockScooterDto);
     }
 }
