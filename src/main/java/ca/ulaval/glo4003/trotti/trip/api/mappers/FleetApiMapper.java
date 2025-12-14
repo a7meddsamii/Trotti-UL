@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.RetrieveScooterRequest;
-import ca.ulaval.glo4003.trotti.fleet.api.dto.ReturnScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.RetrieveScooterRequest;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.request.ReturnScooterRequest;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.DockScooterDto;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.UndockScooterDto;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
