@@ -1,71 +1,59 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.order.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderStatus;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class InMemoryOrderRepositoryTest {
+
+    private static final Idul BUYER_IDUL = Idul.from("user1234");
+
     private Order pendingOrder;
-    private Order paidOrder;
-    private OrderId pendingOrderId;
-    private OrderId paidOrderId;
-    private Idul buyerId;
+    private Order completedOrder;
 
     private InMemoryOrderRepository orderRepository;
 
     @BeforeEach
     void setup() {
         orderRepository = new InMemoryOrderRepository();
+        pendingOrder = new Order(OrderId.randomId(), BUYER_IDUL);
+        completedOrder = new Order(OrderId.randomId(), BUYER_IDUL);
+        completedOrder.confirm();
 
-        pendingOrder = Mockito.mock(Order.class);
-        paidOrder = Mockito.mock(Order.class);
-        pendingOrderId = Mockito.mock(OrderId.class);
-        paidOrderId = Mockito.mock(OrderId.class);
-        buyerId = Mockito.mock(Idul.class);
-
-        Mockito.when(pendingOrder.getOrderId()).thenReturn(pendingOrderId);
-        Mockito.when(paidOrder.getOrderId()).thenReturn(paidOrderId);
-        Mockito.when(pendingOrder.getBuyerId()).thenReturn(buyerId);
-        Mockito.when(paidOrder.getBuyerId()).thenReturn(buyerId);
-        Mockito.when(pendingOrder.getStatus()).thenReturn(OrderStatus.PENDING);
-        Mockito.when(paidOrder.getStatus()).thenReturn(OrderStatus.COMPLETED);
     }
 
     @Test
     void givenOrder_whenSave_thenOngoingOrderCanBeFound() {
         orderRepository.save(pendingOrder);
 
-        Optional<Order> result = orderRepository.findOngoingOrderFor(buyerId);
+        Optional<Order> result = orderRepository.findOngoingOrderFor(BUYER_IDUL);
 
-        assertTrue(result.isPresent());
-        assertEquals(pendingOrder, result.get());
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals(pendingOrder, result.get());
     }
 
     @Test
     void givenOnlyNonPendingOrders_whenFindOngoingOrderFor_thenReturnsEmpty() {
-        orderRepository.save(paidOrder);
+        orderRepository.save(completedOrder);
 
-        Optional<Order> result = orderRepository.findOngoingOrderFor(buyerId);
+        Optional<Order> result = orderRepository.findOngoingOrderFor(BUYER_IDUL);
 
-        assertTrue(result.isEmpty());
+        Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
     void givenPendingAndNonPendingOrders_whenFindOngoingOrderFor_thenReturnsPendingOne() {
-        orderRepository.save(paidOrder);
+        orderRepository.save(completedOrder);
         orderRepository.save(pendingOrder);
 
-        Optional<Order> result = orderRepository.findOngoingOrderFor(buyerId);
+        Optional<Order> result = orderRepository.findOngoingOrderFor(BUYER_IDUL);
 
-        assertTrue(result.isPresent());
-        assertEquals(pendingOrder, result.get());
+        Assertions.assertTrue(result.isPresent());
+        Assertions.assertEquals(pendingOrder, result.get());
     }
 
 }

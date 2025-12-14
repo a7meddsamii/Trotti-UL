@@ -1,6 +1,4 @@
-package ca.ulaval.glo4003.trotti.billing.infrastructure.payment.security;
-
-import static org.mockito.Mockito.when;
+package ca.ulaval.glo4003.trotti.billing.infrastructure.payment;
 
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.exceptions.MissingPaymentMethodException;
@@ -9,7 +7,6 @@ import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.CreditCard;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentIntent;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMethodType;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
-import ca.ulaval.glo4003.trotti.billing.infrastructure.payment.CreditCardPaymentGateway;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import java.time.Clock;
 import java.time.YearMonth;
@@ -19,10 +16,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class CreditCardPaymentGatewayTest {
+
+    private static final Idul BUYER_1_IDUL = Idul.from("buyer001");
+    private static final Idul BUYER_2_IDUL = Idul.from("buyer002");
+    private static final Idul BUYER_3_IDUL = Idul.from("buyer003");
 
     @Mock
     private CreditCard creditCard;
@@ -34,21 +36,21 @@ class CreditCardPaymentGatewayTest {
     private OrderId orderId;
 
     private Clock clock = Clock.systemDefaultZone();
-
     private CreditCardPaymentGateway creditCardPaymentGateway;
 
     @BeforeEach
     void setup() {
+
         creditCardPaymentGateway = new CreditCardPaymentGateway(clock);
     }
 
     @Test
     void givenPaymentIntentWithCreditCard_whenPay_thenPaymentSucceeds() {
-        Idul buyerId = Idul.from("BUYER_001");
-        when(creditCard.isEmpty()).thenReturn(false);
-        when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
-        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
-        PaymentIntent paymentIntent = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
+        Mockito.when(creditCard.isEmpty()).thenReturn(false);
+        Mockito.when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        Mockito.when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
+        PaymentIntent paymentIntent =
+                PaymentIntent.of(BUYER_1_IDUL, orderId, amount, creditCard, false);
 
         PaymentReceipt result = creditCardPaymentGateway.pay(paymentIntent);
 
@@ -56,10 +58,10 @@ class CreditCardPaymentGatewayTest {
     }
 
     @Test
-    void givenNewBuyerWithoutCreditCard_whenPay_thenThrowsException() {
-        Idul buyerId = Idul.from("BUYER_002");
-        when(creditCard.isEmpty()).thenReturn(true);
-        PaymentIntent paymentIntent = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
+    void givenNewBuyerWithoutCreditCard_whenPay_thenThrowException() {
+        Mockito.when(creditCard.isEmpty()).thenReturn(true);
+        PaymentIntent paymentIntent =
+                PaymentIntent.of(BUYER_2_IDUL, orderId, amount, creditCard, false);
 
         Executable executable = () -> creditCardPaymentGateway.pay(paymentIntent);
 
@@ -68,15 +70,16 @@ class CreditCardPaymentGatewayTest {
 
     @Test
     void givenBuyerWithStoredCard_whenPayWithoutProvidingCard_thenPaymentSucceeds() {
-        Idul buyerId = Idul.from("BUYER_003");
-        when(creditCard.isEmpty()).thenReturn(false);
-        when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
-        when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
-        PaymentIntent firstPayment = PaymentIntent.of(buyerId, orderId, amount, creditCard, false);
+        Mockito.when(creditCard.isEmpty()).thenReturn(false);
+        Mockito.when(creditCard.isType(PaymentMethodType.CREDIT_CARD)).thenReturn(true);
+        Mockito.when(creditCard.getExpiryDate()).thenReturn(YearMonth.now(clock));
+        PaymentIntent firstPayment =
+                PaymentIntent.of(BUYER_3_IDUL, orderId, amount, creditCard, false);
         creditCardPaymentGateway.pay(firstPayment);
 
-        when(creditCard.isEmpty()).thenReturn(true);
-        PaymentIntent secondPayment = PaymentIntent.of(buyerId, orderId, amount, creditCard, true);
+        Mockito.when(creditCard.isEmpty()).thenReturn(true);
+        PaymentIntent secondPayment =
+                PaymentIntent.of(BUYER_3_IDUL, orderId, amount, creditCard, true);
 
         PaymentReceipt result = creditCardPaymentGateway.pay(secondPayment);
 

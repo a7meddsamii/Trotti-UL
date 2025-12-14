@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.billing.infrastructure.order.provider;
 
-public class JsonSessionTestCaseData {
+class JsonSessionTestCaseData {
     final static String VALID_SESSIONS_JSON = """
             [
               {

@@ -6,21 +6,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class BillingFrequencyTest {
-    private static final String PER_TRIP_STRING = "per trip";
-    private static final String PER_TRIP_ALT = "per_trip";
-    private static final String PER_TRIP_NORMALIZED = "per-trip";
-    private static final String MONTHLY_STRING = "monthly";
+    private static final String PER_TRIP_STANDARD = "per trip";
+    private static final String PER_TRIP_UNDERSCORE = "per_trip";
+    private static final String PER_TRIP_HYPHEN = "per-trip";
+    private static final String MONTHLY_STANDARD = "monthly";
     private static final String MONTHLY_ALT = "per month";
     private static final String MONTHLY_UNDERSCORE = "per_month";
-    private static final String MONTHLY_NORMALIZED = "per-month";
-    private static final String INVALID_STRING = "weekly";
+    private static final String MONTHLY_HYPHEN = "per-month";
+    private static final String INVALID_VALUE = "weekly";
 
     @Test
-    void givenPerTripVariants_whenFromString_thenReturnPerTripEnum() {
-        BillingFrequency fromRegularPerTripString = BillingFrequency.fromString(PER_TRIP_STRING);
-        BillingFrequency fromAlternatePerTripString = BillingFrequency.fromString(PER_TRIP_ALT);
-        BillingFrequency fromNormalizedPerTripString =
-                BillingFrequency.fromString(PER_TRIP_NORMALIZED);
+    void givenPerTripVariants_whenFromString_thenReturnsPerTripEnum() {
+        BillingFrequency fromRegularPerTripString = BillingFrequency.fromString(PER_TRIP_STANDARD);
+        BillingFrequency fromAlternatePerTripString =
+                BillingFrequency.fromString(PER_TRIP_UNDERSCORE);
+        BillingFrequency fromNormalizedPerTripString = BillingFrequency.fromString(PER_TRIP_HYPHEN);
 
         Assertions.assertEquals(BillingFrequency.PER_TRIP, fromRegularPerTripString);
         Assertions.assertEquals(BillingFrequency.PER_TRIP, fromAlternatePerTripString);
@@ -28,13 +28,12 @@ class BillingFrequencyTest {
     }
 
     @Test
-    void givenMonthlyVariants_whenFromString_thenReturnMonthlyEnum() {
-        BillingFrequency fromRegularMonthlyString = BillingFrequency.fromString(MONTHLY_STRING);
+    void givenMonthlyVariants_whenFromString_thenReturnsMonthlyEnum() {
+        BillingFrequency fromRegularMonthlyString = BillingFrequency.fromString(MONTHLY_STANDARD);
         BillingFrequency fromAlternateMonthlyString = BillingFrequency.fromString(MONTHLY_ALT);
         BillingFrequency fromUnderscoreMonthlyString =
                 BillingFrequency.fromString(MONTHLY_UNDERSCORE);
-        BillingFrequency fromNormalizedMonthlyString =
-                BillingFrequency.fromString(MONTHLY_NORMALIZED);
+        BillingFrequency fromNormalizedMonthlyString = BillingFrequency.fromString(MONTHLY_HYPHEN);
 
         Assertions.assertEquals(BillingFrequency.MONTHLY, fromRegularMonthlyString);
         Assertions.assertEquals(BillingFrequency.MONTHLY, fromAlternateMonthlyString);
@@ -43,8 +42,8 @@ class BillingFrequencyTest {
     }
 
     @Test
-    void givenInvalidString_whenFromString_thenThrowsException() {
-        Executable executable = () -> BillingFrequency.fromString(INVALID_STRING);
+    void givenInvalidValue_whenFromString_thenThrowsException() {
+        Executable executable = () -> BillingFrequency.fromString(INVALID_VALUE);
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
     }
