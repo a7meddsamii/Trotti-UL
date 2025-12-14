@@ -12,10 +12,10 @@ public class SlotNumber {
         }
         this.value = value;
     }
-	
-	public static SlotNumber from(int value) {
-		return new SlotNumber(value);
-	}
+
+    public static SlotNumber from(int value) {
+        return new SlotNumber(value);
+    }
 
     public int getValue() {
         return value;

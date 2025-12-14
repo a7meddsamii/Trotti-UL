@@ -60,7 +60,8 @@ public class FleetApiMapper {
 
     public StartTransferDto toStartTransferDto(Idul technicianId, StartTransferRequest request) {
         Location sourceStation = Location.of(request.sourceStation());
-        List<SlotNumber> sourceSlots = request.sourceSlots().stream().map(SlotNumber::new).toList();
+        List<SlotNumber> sourceSlots =
+                request.sourceSlots().stream().map(SlotNumber::from).toList();
 
         return new StartTransferDto(technicianId, sourceStation, sourceSlots);
     }
@@ -70,7 +71,7 @@ public class FleetApiMapper {
         TransferId id = TransferId.from(transferId);
         Location destinationStation = Location.of(request.destinationStation());
         List<SlotNumber> destinationSlots =
-                request.destinationSlots().stream().map(SlotNumber::new).toList();
+                request.destinationSlots().stream().map(SlotNumber::from).toList();
 
         return new UnloadTransferDto(id, technicianId, destinationStation, destinationSlots);
     }
