@@ -99,7 +99,6 @@ public class FleetController implements FleetResource {
     @Override
     public Response rentScooter(RentScooterRequest request) {
         RentScooterDto rentScooterDto = fleetApiMapper.toRentScooterDto(request);
-
         ScooterId scooterId = operationsService.rentScooter(rentScooterDto);
 
         return Response.ok(scooterId).build();
@@ -108,7 +107,6 @@ public class FleetController implements FleetResource {
     @Override
     public Response returnScooter(DropOffScooterRequest request) {
         ReturnScooterDto returnScooterDto = fleetApiMapper.toReturnScooterDto(request);
-
         operationsService.returnScooter(returnScooterDto);
 
         return Response.noContent().build();
