@@ -1,11 +1,9 @@
 package ca.ulaval.glo4003.trotti;
 
-
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Application;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory;
-
 
 public class JerseyTestApi {
     private final Application application;
@@ -24,7 +22,7 @@ public class JerseyTestApi {
         api = new JerseyTest(new InMemoryTestContainerFactory()) {
             @Override
             public Application configure() {
-                return JerseyTestApi.this.application;
+                return application;
             }
         };
 
@@ -43,11 +41,9 @@ public class JerseyTestApi {
         }
     }
 
-
     public WebTarget path(String path) {
         return api.target(path);
     }
-
 
     public WebTarget uri(String uri) {
         return api.client().target(uri);
