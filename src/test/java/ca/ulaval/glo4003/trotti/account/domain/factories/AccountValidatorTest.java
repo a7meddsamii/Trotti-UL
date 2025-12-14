@@ -33,7 +33,7 @@ class AccountValidatorTest {
     }
 
     @Test
-    void givenBirthDateYoungerThanMinimumAge_whenCreateAccount_thenThrowsInvalidParameterException() {
+    void givenBirthDateYoungerThanMinimumAge_whenValidateBirthDate_thenThrowsException() {
         Executable tooYoungException =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_YOUNGER_THAN_MINIMUM_AGE);
 
@@ -41,7 +41,7 @@ class AccountValidatorTest {
     }
 
     @Test
-    void givenBirthDateExactlyMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
+    void givenBirthDateExactlyMinimumAge_whenValidateBirthDate_thenDoesNotThrowException() {
         Executable exactAgeValidation =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_EXACTLY_MINIMUM_AGE);
 
@@ -49,7 +49,7 @@ class AccountValidatorTest {
     }
 
     @Test
-    void givenBirthDateOlderThanMinimumAge_whenCreateAccount_thenDoesNotThrowException() {
+    void givenBirthDateOlderThanMinimumAge_whenValidateBirthDate_thenDoesNotThrowException() {
         Executable olderAgeValidation =
                 () -> accountValidator.validateBirthDate(BIRTHDATE_OLDER_THAN_MINIMUM_AGE);
 

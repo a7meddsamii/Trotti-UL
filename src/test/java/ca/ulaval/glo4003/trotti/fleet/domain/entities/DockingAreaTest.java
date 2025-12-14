@@ -45,7 +45,7 @@ class DockingAreaTest {
     }
 
     @Test
-    void givenInvalidSlot_whenDock_thenThrowsDockingException() {
+    void givenInvalidSlot_whenDock_thenThrowsException() {
         Executable dock = () -> dockingArea.dock(INVALID_SLOT, scooter);
 
         Assertions.assertThrows(DockingException.class, dock);

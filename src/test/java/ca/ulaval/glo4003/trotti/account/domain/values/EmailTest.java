@@ -12,7 +12,6 @@ class EmailTest {
     private static final String ANOTHER_VALID_ULAVAL_EMAIL = "marie.dupont@ulaval.ca";
     private static final String INVALID_DOMAIN_EMAIL = "john.david@gmail.com";
     private static final String DOUBLE_AT_EMAIL = "glovac@hon@ulaval.ca";
-    private static final String NULL_EMAIL = null;
 
     @Test
     void givenTwoSameValidEmails_whenCompare_thenTheyAreEqual() {
@@ -32,32 +31,28 @@ class EmailTest {
     }
 
     @Test
-    void givenEmailWithWrongdomain_whenCreateEmail_thenThrowInvalidParameterException() {
-
+    void givenEmailWithWrongDomain_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(INVALID_DOMAIN_EMAIL);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenEmptyEmail_whenCreateEmail_thenThrowInvalidParameterException() {
-
+    void givenEmptyEmail_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(StringUtils.EMPTY);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenNullEmail_whenCreateEmail_thenThrowInvalidParameterException() {
-
-        Executable emailCreationAttempt = () -> Email.from(NULL_EMAIL);
+    void givenNullEmail_whenCreateEmail_thenThrowsException() {
+        Executable emailCreationAttempt = () -> Email.from(null);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);
     }
 
     @Test
-    void givenEmailWithDoubleAt_whenCreateEmail_thenThrowInvalidParameterException() {
-
+    void givenEmailWithDoubleAt_whenCreateEmail_thenThrowsException() {
         Executable emailCreationAttempt = () -> Email.from(DOUBLE_AT_EMAIL);
 
         Assertions.assertThrows(InvalidParameterException.class, emailCreationAttempt);

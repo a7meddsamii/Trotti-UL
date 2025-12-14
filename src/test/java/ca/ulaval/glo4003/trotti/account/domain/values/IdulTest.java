@@ -9,27 +9,23 @@ import org.junit.jupiter.api.function.Executable;
 
 class IdulTest {
     private static final String VALID_IDUL = "CM1B2G45";
-    private static final String NULL_IDUL = null;
 
     @Test
     void givenValidIdul_whenCreate_thenIdulIsCreated() {
-
         Executable idulCreation = () -> Idul.from(VALID_IDUL);
 
         Assertions.assertDoesNotThrow(idulCreation);
     }
 
     @Test
-    void givenNullIdul_whenCreate_thenThrowInvalidIdulException() {
-
-        Executable idulCreation = () -> Idul.from(NULL_IDUL);
+    void givenNullIdul_whenCreate_thenThrowsException() {
+        Executable idulCreation = () -> Idul.from(null);
 
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);
     }
 
     @Test
-    void givenEmptyIdul_whenCreate_thenThrowInvalidIdulException() {
-
+    void givenEmptyIdul_whenCreate_thenThrowsException() {
         Executable idulCreation = () -> Idul.from(StringUtils.EMPTY);
 
         Assertions.assertThrows(InvalidParameterException.class, idulCreation);

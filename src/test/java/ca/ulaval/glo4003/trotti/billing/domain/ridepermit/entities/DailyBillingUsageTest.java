@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.trotti.billing.domain.ridepermit.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Currency;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.money.Money;
 import java.time.Duration;
 import java.time.LocalDate;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DailyBillingUsageTest {
@@ -15,8 +14,7 @@ class DailyBillingUsageTest {
     private static final Duration THIRTY_MINUTES = Duration.ofMinutes(30);
     private static final Duration THIRTY_FIVE_MINUTES = Duration.ofMinutes(35);
     private static final Duration FIFTY_MINUTES = Duration.ofMinutes(50);
-    private static final Duration SIXTY_MINUTES = Duration.ofMinutes(60);
-    private static final Duration ONE_HOUR = SIXTY_MINUTES;
+    private static final Duration ONE_HOUR = Duration.ofHours(1);
     private static final Duration ZERO_DURATION = Duration.ZERO;
 
     private static final Money ZERO_CAD = Money.zeroCad();
@@ -27,7 +25,10 @@ class DailyBillingUsageTest {
     @Test
     void givenNewInstance_whenNoTravelTimeAndZeroBalance_thenIsEmptyTrue() {
         DailyBillingUsage usage = newUsage(ONE_HOUR);
-        assertTrue(usage.isEmpty());
+
+        boolean result = usage.isEmpty();
+
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -37,8 +38,19 @@ class DailyBillingUsageTest {
 
         usage.addTravelTime(THIRTY_MINUTES);
 
-        assertEquals(ONE_HOUR, usage.getTravelingTime());
-        assertEquals(ZERO_CAD, usage.getBalance());
+        Assertions.assertEquals(ONE_HOUR, usage.getTravelingTime());
+        Assertions.assertEquals(ZERO_CAD, usage.getBalance());
+    }
+
+    @Test
+    void givenTravelTimeAdded_whenExactlyAtLimit_thenNoFeeAdded() {
+        DailyBillingUsage usage = newUsage(ONE_HOUR);
+        usage.addTravelTime(THIRTY_MINUTES);
+
+        usage.addTravelTime(THIRTY_MINUTES);
+
+        Assertions.assertEquals(ONE_HOUR, usage.getTravelingTime());
+        Assertions.assertEquals(ZERO_CAD, usage.getBalance());
     }
 
     @Test
@@ -48,8 +60,8 @@ class DailyBillingUsageTest {
 
         usage.addTravelTime(THIRTY_MINUTES);
 
-        assertEquals(EXCEED_FEE, usage.getBalance());
-        assertFalse(usage.isEmpty());
+        Assertions.assertEquals(EXCEED_FEE, usage.getBalance());
+        Assertions.assertFalse(usage.isEmpty());
     }
 
     @Test
@@ -59,7 +71,7 @@ class DailyBillingUsageTest {
 
         usage.addTravelTime(TEN_MINUTES);
 
-        assertEquals(EXCEED_FEE, usage.getBalance());
+        Assertions.assertEquals(EXCEED_FEE, usage.getBalance());
     }
 
     @Test
@@ -71,7 +83,7 @@ class DailyBillingUsageTest {
 
         usage.addTravelTime(TEN_MINUTES);
 
-        assertEquals(balanceAfterFirstExceed, usage.getBalance());
+        Assertions.assertEquals(balanceAfterFirstExceed, usage.getBalance());
     }
 
     @Test
@@ -82,21 +94,27 @@ class DailyBillingUsageTest {
 
         usage.addTravelTime(TEN_MINUTES);
 
-        assertEquals(SIXTY_MINUTES, usage.getTravelingTime());
+        Assertions.assertEquals(ONE_HOUR, usage.getTravelingTime());
     }
 
     @Test
     void givenMatchingDate_whenIsOnDate_thenReturnsTrue() {
         DailyBillingUsage usage =
                 new DailyBillingUsage(THIRTY_MINUTES, TODAY, ZERO_DURATION, ZERO_CAD, false);
-        assertTrue(usage.isOnDate(TODAY));
+
+        boolean result = usage.isOnDate(TODAY);
+
+        Assertions.assertTrue(result);
     }
 
     @Test
     void givenDifferentDate_whenIsOnDate_thenReturnsFalse() {
         DailyBillingUsage usage = new DailyBillingUsage(THIRTY_MINUTES, TODAY.minusDays(1),
                 ZERO_DURATION, ZERO_CAD, false);
-        assertFalse(usage.isOnDate(TODAY));
+
+        boolean result = usage.isOnDate(TODAY);
+
+        Assertions.assertFalse(result);
     }
 
     private DailyBillingUsage newUsage(Duration maxPerDay) {
