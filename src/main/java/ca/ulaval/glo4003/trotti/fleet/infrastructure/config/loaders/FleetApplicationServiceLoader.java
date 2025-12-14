@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.fleet.application.ScooterRentalApplicationServic
 import ca.ulaval.glo4003.trotti.fleet.domain.factories.TransferFactory;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.FleetRepository;
 import ca.ulaval.glo4003.trotti.fleet.domain.repositories.TransferRepository;
-
 import java.time.Clock;
 
 public class FleetApplicationServiceLoader extends Bootstrapper {
@@ -43,13 +42,14 @@ public class FleetApplicationServiceLoader extends Bootstrapper {
         this.resourceLocator.register(FleetMaintenanceApplicationService.class, service);
     }
 
-
     private void loadFleetOperationsApplicationService() {
         FleetRepository fleetRepository = this.resourceLocator.resolve(FleetRepository.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
-		FleetOperationsApplicationService fleetOperationsApplicationService =
+        FleetOperationsApplicationService fleetOperationsApplicationService =
                 new FleetOperationsApplicationService(fleetRepository, clock);
-		this.resourceLocator.register(FleetOperationsApplicationService.class, fleetOperationsApplicationService);
-        this.resourceLocator.register(ScooterRentalApplicationService.class, fleetOperationsApplicationService);
+        this.resourceLocator.register(FleetOperationsApplicationService.class,
+                fleetOperationsApplicationService);
+        this.resourceLocator.register(ScooterRentalApplicationService.class,
+                fleetOperationsApplicationService);
     }
 }

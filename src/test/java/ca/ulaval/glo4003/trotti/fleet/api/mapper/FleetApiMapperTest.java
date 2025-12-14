@@ -4,14 +4,12 @@ import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class FleetApiMapperTest {
 

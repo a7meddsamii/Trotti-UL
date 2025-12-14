@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
-
 import java.util.List;
 
 public class FleetController implements FleetResource {

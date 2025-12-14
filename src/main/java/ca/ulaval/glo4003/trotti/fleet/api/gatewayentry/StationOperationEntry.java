@@ -14,20 +14,18 @@ public class StationOperationEntry {
 
     public StationOperationEntry(
             FleetApiMapper fleetApiMapper,
-            ScooterRentalApplicationService temporaryScooterRentalApplicationService
-	) {
+            ScooterRentalApplicationService temporaryScooterRentalApplicationService) {
         this.fleetApiMapper = fleetApiMapper;
         this.temporaryScooterRentalApplicationService = temporaryScooterRentalApplicationService;
     }
 
     public ScooterId retrieveScooter(RetrieveScooterRequest retrieveScooterRequest) {
-		RentScooterDto undockScooterDto =
-                fleetApiMapper.toRentScooterDto(retrieveScooterRequest);
+        RentScooterDto undockScooterDto = fleetApiMapper.toRentScooterDto(retrieveScooterRequest);
         return temporaryScooterRentalApplicationService.rentScooter(undockScooterDto);
     }
 
     public void returnScooter(ReturnScooterRequest returnScooterRequest) {
-		ReturnScooterDto dockScooterDto = fleetApiMapper.toReturnScooterDto(returnScooterRequest);
+        ReturnScooterDto dockScooterDto = fleetApiMapper.toReturnScooterDto(returnScooterRequest);
         temporaryScooterRentalApplicationService.returnScooter(dockScooterDto);
     }
 }
