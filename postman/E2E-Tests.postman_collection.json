@@ -53,9 +53,9 @@
 								"exec": [
 									"pm.test('Login successful', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const responseText = pm.response.text();",
-									"    pm.expect(responseText).to.include('eyJ');",
-									"    pm.collectionVariables.set('e2eStudentToken', responseText.replace(/\"/g, ''));",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.token).to.not.be.undefined;",
+									"    pm.collectionVariables.set('e2eStudentToken', json.token);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -90,11 +90,11 @@
 								"exec": [
 									"pm.test('Pass added to cart', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.items).to.have.lengthOf(1);",
-									"    pm.expect(jsonData.items[0].maximumDailyTravelTime).to.equal(30);",
-									"    pm.expect(jsonData.items[0].session).to.equal('A25');",
-									"    pm.expect(jsonData.items[0].billingFrequency).to.equal('MONTHLY');",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.items).to.have.lengthOf(1);",
+									"    pm.expect(json.items[0].maximumDailyTravelTime).to.equal(30);",
+									"    pm.expect(json.items[0].session).to.equal('A25');",
+									"    pm.expect(json.items[0].billingFrequency).to.equal('MONTHLY');",
 									"});"
 								],
 								"type": "text/javascript"
@@ -133,8 +133,8 @@
 								"exec": [
 									"pm.test('Payment processed successfully', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.transactionId).to.not.be.undefined;",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.transactionId).to.not.be.undefined;",
 									"});"
 								],
 								"type": "text/javascript"
@@ -173,11 +173,11 @@
 								"exec": [
 									"pm.test('Ride permit created', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.lengthOf.above(0);",
-									"    pm.expect(jsonData[0].maximumDailyTravelTime).to.equal(30);",
-									"    pm.expect(jsonData[0].session).to.equal('A25');",
-									"    pm.collectionVariables.set('e2eRidePermitId', jsonData[0].id);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.lengthOf.above(0);",
+									"    pm.expect(json[0].maximumDailyTravelTime).to.equal(30);",
+									"    pm.expect(json[0].session).to.equal('A25');",
+									"    pm.collectionVariables.set('e2eRidePermitId', json[0].id);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -208,11 +208,9 @@
 								"exec": [
 									"pm.test('Unlock code generated', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    if (jsonData.message && jsonData.message.includes('Code:')) {",
-									"        const code = jsonData.message.split('Code: ')[1];",
-									"        pm.collectionVariables.set('e2eUnlockCode', code);",
-									"    }",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.unlockCode).to.not.be.undefined;",
+									"    pm.collectionVariables.set('e2eUnlockCode', json.unlockCode);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -243,10 +241,10 @@
 								"exec": [
 									"pm.test('Trip started successfully', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.status).to.equal('ONGOING');",
-									"    pm.expect(jsonData.startLocation).to.equal('VACHON');",
-									"    pm.expect(jsonData.ridePermitId).to.equal(pm.collectionVariables.get('e2eRidePermitId'));",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('ONGOING');",
+									"    pm.expect(json.startLocation).to.equal('VACHON');",
+									"    pm.expect(json.ridePermitId).to.equal(pm.collectionVariables.get('e2eRidePermitId'));",
 									"});"
 								],
 								"type": "text/javascript"
@@ -285,10 +283,10 @@
 								"exec": [
 									"pm.test('Trip completed successfully', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.status).to.equal('COMPLETED');",
-									"    pm.expect(jsonData.endLocation).to.equal('PEPS');",
-									"    pm.expect(jsonData.duration).to.not.be.undefined;",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('COMPLETED');",
+									"    pm.expect(json.endLocation).to.equal('PEPS');",
+									"    pm.expect(json.duration).to.not.be.undefined;",
 									"});"
 								],
 								"type": "text/javascript"
@@ -326,6 +324,15 @@
 							"script": {
 								"exec": [
 									"pm.test('Trip appears in history', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"    pm.expect(json.length).to.be.greaterThan(0);",
+									"    const completedTrip = json.find(trip => trip.status === 'COMPLETED');",
+									"    pm.expect(completedTrip).to.not.be.undefined;",
+									"    pm.expect(completedTrip.startLocation).to.equal('VACHON');",
+									"    pm.expect(completedTrip.endLocation).to.equal('PEPS');",
+									"});"unction () {",
 									"    pm.response.to.have.status(200);",
 									"    const jsonData = pm.response.json();",
 									"    pm.expect(jsonData).to.be.an('array');",
@@ -369,8 +376,8 @@
 								"exec": [
 									"pm.test('Login successful', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const responseText = pm.response.text();",
-									"    pm.collectionVariables.set('paymentStudentToken', responseText.replace(/\"/g, ''));",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('paymentStudentToken', json.token);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -699,8 +706,8 @@
 								"exec": [
 									"pm.test('Admin login successful', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const responseText = pm.response.text();",
-									"    pm.collectionVariables.set('adminToken', responseText.replace(/\"/g, ''));",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('adminToken', json.token);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -773,8 +780,8 @@
 								"exec": [
 									"pm.test('Technician login successful', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const responseText = pm.response.text();",
-									"    pm.collectionVariables.set('technicianToken', responseText.replace(/\"/g, ''));",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('technicianToken', json.token);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1159,8 +1166,8 @@
 								"exec": [
 									"pm.test('Employee login successful', function () {",
 									"    pm.response.to.have.status(200);",
-									"    const responseText = pm.response.text();",
-									"    pm.collectionVariables.set('employeeToken', responseText.replace(/\"/g, ''));",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('employeeToken', json.token);",
 									"});"
 								],
 								"type": "text/javascript"
