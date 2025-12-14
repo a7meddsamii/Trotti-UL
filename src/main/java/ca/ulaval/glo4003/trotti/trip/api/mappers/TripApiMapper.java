@@ -3,18 +3,18 @@ package ca.ulaval.glo4003.trotti.trip.api.mappers;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TripHistoryResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
-import ca.ulaval.glo4003.trotti.trip.domain.values.Location;
-import ca.ulaval.glo4003.trotti.trip.domain.values.SlotNumber;
-import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
-
+import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TripApiMapper {
