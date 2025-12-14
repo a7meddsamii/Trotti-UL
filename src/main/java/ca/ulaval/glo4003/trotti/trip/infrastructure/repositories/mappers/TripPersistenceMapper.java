@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers;
 
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
-import ca.ulaval.glo4003.trotti.commons.domain.Id;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;

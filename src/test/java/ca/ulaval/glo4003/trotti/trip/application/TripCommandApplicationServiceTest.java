@@ -11,9 +11,7 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
-import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
@@ -44,7 +42,6 @@ class TripCommandApplicationServiceTest {
     private ScooterRentalGateway scooterRentalGateway;
     private EventBus eventBus;
     private Clock clock;
-    private TripMapper tripMapper;
     private TripCommandApplicationService service;
 
     @BeforeEach
@@ -56,10 +53,9 @@ class TripCommandApplicationServiceTest {
         scooterRentalGateway = Mockito.mock(ScooterRentalGateway.class);
         eventBus = Mockito.mock(EventBus.class);
         clock = Clock.systemDefaultZone();
-        tripMapper = Mockito.mock(TripMapper.class);
 
-        service = new TripCommandApplicationService(unlockCodeStore, tripCommandRepository, tripQueryRepository, ridePermitGateway,
-                scooterRentalGateway, eventBus, clock, tripMapper);
+        service = new TripCommandApplicationService(unlockCodeStore, tripCommandRepository, ridePermitGateway,
+                scooterRentalGateway, eventBus, clock);
     }
 
     @Test
@@ -179,15 +175,15 @@ class TripCommandApplicationServiceTest {
                         && e.getEndLocation().equals(endLocation.toString())));
     }
 
-    @Test
-    void givenTripHistorySearchCriteria_whenGetTripHistory_thenOrchestratesProperly() {
-        TripHistorySearchCriteria searchCriteria = Mockito.mock(TripHistorySearchCriteria.class);
-        TripHistory expectedTripHistory = Mockito.mock(TripHistory.class);
-        Mockito.when(tripQueryRepository.findAllBySearchCriteria(searchCriteria)).thenReturn(expectedTripHistory);
-
-        TripHistory tripHistory = service.getTripHistory(searchCriteria);
-
-        Mockito.verify(tripQueryRepository, Mockito.times(1)).findAllBySearchCriteria(searchCriteria);
-        Assertions.assertEquals(expectedTripHistory, tripHistory);
-    }
+//    @Test
+//    void givenTripHistorySearchCriteria_whenGetTripHistory_thenOrchestratesProperly() {
+//        TripHistorySearchCriteria searchCriteria = Mockito.mock(TripHistorySearchCriteria.class);
+//        TripHistory expectedTripHistory = Mockito.mock(TripHistory.class);
+//        Mockito.when(tripQueryRepository.findAllBySearchCriteria(searchCriteria)).thenReturn(expectedTripHistory);
+//
+//        TripHistory tripHistory = service.getTripHistory(searchCriteria);
+//
+//        Mockito.verify(tripQueryRepository, Mockito.times(1)).findAllBySearchCriteria(searchCriteria);
+//        Assertions.assertEquals(expectedTripHistory, tripHistory);
+//    }
 }
