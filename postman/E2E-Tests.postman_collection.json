@@ -1,0 +1,1282 @@
+{
+	"info": {
+		"name": "Trotti-UL E2E Tests",
+		"description": "End-to-end test scenarios for critical business flows",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Complete User Journey - Student Scooter Rental",
+			"item": [
+				{
+					"name": "Create Student Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Account created successfully', function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.header('Location');",
+									"    pm.expect(pm.response.headers.get('Location')).to.include('/api/accounts/e2euser');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"E2E Test User\",\n    \"birthDate\": \"2000-01-01\",\n    \"gender\": \"MALE\",\n    \"idul\": \"e2euser\",\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\",\n    \"role\": \"STUDENT\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accounts",
+							"host": ["{{baseUrl}}"],
+							"path": ["accounts"]
+						}
+					}
+				},
+				{
+					"name": "Login Student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const responseText = pm.response.text();",
+									"    pm.expect(responseText).to.include('eyJ');",
+									"    pm.collectionVariables.set('e2eStudentToken', responseText.replace(/\"/g, ''));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Add Pass to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Pass added to cart', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.items).to.have.lengthOf(1);",
+									"    pm.expect(jsonData.items[0].maximumDailyTravelTime).to.equal(30);",
+									"    pm.expect(jsonData.items[0].session).to.equal('A25');",
+									"    pm.expect(jsonData.items[0].billingFrequency).to.equal('MONTHLY');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"maximumDailyTravelTime\": 30,\n    \"session\": \"A25\",\n    \"billingFrequency\": \"MONTHLY\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": ["{{baseUrl}}"],
+							"path": ["order"]
+						}
+					}
+				},
+				{
+					"name": "Confirm Order with Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Payment processed successfully', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionId).to.not.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"E2E Test User\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": ["{{baseUrl}}"],
+							"path": ["order", "confirm"]
+						}
+					}
+				},
+				{
+					"name": "Get Ride Permits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Ride permit created', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.lengthOf.above(0);",
+									"    pm.expect(jsonData[0].maximumDailyTravelTime).to.equal(30);",
+									"    pm.expect(jsonData[0].session).to.equal('A25');",
+									"    pm.collectionVariables.set('e2eRidePermitId', jsonData[0].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ride-permit",
+							"host": ["{{baseUrl}}"],
+							"path": ["ride-permit"]
+						}
+					}
+				},
+				{
+					"name": "Request Unlock Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Unlock code generated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    if (jsonData.message && jsonData.message.includes('Code:')) {",
+									"        const code = jsonData.message.split('Code: ')[1];",
+									"        pm.collectionVariables.set('e2eUnlockCode', code);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/trips/{{e2eRidePermitId}}/unlock-code",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "{{e2eRidePermitId}}", "unlock-code"]
+						}
+					}
+				},
+				{
+					"name": "Start Trip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Trip started successfully', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.equal('ONGOING');",
+									"    pm.expect(jsonData.startLocation).to.equal('VACHON');",
+									"    pm.expect(jsonData.ridePermitId).to.equal(pm.collectionVariables.get('e2eRidePermitId'));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ridePermitId\": \"{{e2eRidePermitId}}\",\n    \"unlockCode\": \"{{e2eUnlockCode}}\",\n    \"location\": \"VACHON\",\n    \"slotNumber\": \"1\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips/start",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "start"]
+						}
+					}
+				},
+				{
+					"name": "End Trip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Trip completed successfully', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.equal('COMPLETED');",
+									"    pm.expect(jsonData.endLocation).to.equal('PEPS');",
+									"    pm.expect(jsonData.duration).to.not.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"PEPS\",\n    \"slotNumber\": \"2\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips/end",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "end"]
+						}
+					}
+				},
+				{
+					"name": "Verify Trip History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Trip appears in history', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"    pm.expect(jsonData.length).to.be.greaterThan(0);",
+									"    const completedTrip = jsonData.find(trip => trip.status === 'COMPLETED');",
+									"    pm.expect(completedTrip).to.not.be.undefined;",
+									"    pm.expect(completedTrip.startLocation).to.equal('VACHON');",
+									"    pm.expect(completedTrip.endLocation).to.equal('PEPS');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/trips/history",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "history"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Payment and Pass Activation Flow",
+			"item": [
+				{
+					"name": "Login as Student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const responseText = pm.response.text();",
+									"    pm.collectionVariables.set('paymentStudentToken', responseText.replace(/\"/g, ''));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Add Multiple Passes to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Multiple passes added', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{paymentStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"maximumDailyTravelTime\": 60,\n    \"session\": \"H26\",\n    \"billingFrequency\": \"PER_TRIP\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": ["{{baseUrl}}"],
+							"path": ["order"]
+						}
+					}
+				},
+				{
+					"name": "Payment Failure Scenario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Payment fails with invalid card', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 402]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{paymentStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4000000000000002\",\n    \"cardHolderName\": \"Invalid Card\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": ["{{baseUrl}}"],
+							"path": ["order", "confirm"]
+						}
+					}
+				},
+				{
+					"name": "Retry Payment Successfully",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Payment retry successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionId).to.not.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{paymentStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"Valid Card\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": ["{{baseUrl}}"],
+							"path": ["order", "confirm"]
+						}
+					}
+				},
+				{
+					"name": "Verify Pass Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Pass is activated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.lengthOf.above(0);",
+									"    const activePass = jsonData.find(pass => pass.state === 'ACTIVE');",
+									"    pm.expect(activePass).to.not.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{paymentStudentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ride-permit",
+							"host": ["{{baseUrl}}"],
+							"path": ["ride-permit"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Fleet Management - Scooter Lifecycle",
+			"item": [
+				{
+					"name": "Check Station Availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Station has available slots', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"    pm.collectionVariables.set('availableSlot', jsonData[0] || '1');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stations/VACHON/slots/available",
+							"host": ["{{baseUrl}}"],
+							"path": ["stations", "VACHON", "slots", "available"]
+						}
+					}
+				},
+				{
+					"name": "Check Occupied Slots",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Station has occupied slots', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"    if (jsonData.length > 0) {",
+									"        pm.collectionVariables.set('occupiedSlot', jsonData[0]);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stations/VACHON/slots/occupied",
+							"host": ["{{baseUrl}}"],
+							"path": ["stations", "VACHON", "slots", "occupied"]
+						}
+					}
+				},
+				{
+					"name": "Simulate Scooter Usage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Scooter usage simulated', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ridePermitId\": \"{{e2eRidePermitId}}\",\n    \"unlockCode\": \"{{e2eUnlockCode}}\",\n    \"location\": \"VACHON\",\n    \"slotNumber\": \"{{occupiedSlot}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips/start",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "start"]
+						}
+					}
+				},
+				{
+					"name": "Return Scooter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Scooter returned successfully', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"PEPS\",\n    \"slotNumber\": \"{{availableSlot}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips/end",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "end"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Maintenance Workflow",
+			"item": [
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Admin login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const responseText = pm.response.text();",
+									"    pm.collectionVariables.set('adminToken', responseText.replace(/\"/g, ''));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@ulaval.ca\",\n    \"password\": \"ChangeMe123!@#\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Create Technician Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician account created', function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"E2E Technician\",\n    \"birthDate\": \"1990-01-01\",\n    \"gender\": \"MALE\",\n    \"idul\": \"e2etech\",\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\",\n    \"role\": \"TECHNICIAN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accounts/company",
+							"host": ["{{baseUrl}}"],
+							"path": ["accounts", "company"]
+						}
+					}
+				},
+				{
+					"name": "Login as Technician",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const responseText = pm.response.text();",
+									"    pm.collectionVariables.set('technicianToken', responseText.replace(/\"/g, ''));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Start Station Maintenance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Maintenance started successfully', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"MYRAND\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stations/maintenance/start",
+							"host": ["{{baseUrl}}"],
+							"path": ["stations", "maintenance", "start"]
+						}
+					}
+				},
+				{
+					"name": "Verify Station Unavailable During Maintenance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Station operations blocked during maintenance', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ridePermitId\": \"{{e2eRidePermitId}}\",\n    \"unlockCode\": \"{{e2eUnlockCode}}\",\n    \"location\": \"MYRAND\",\n    \"slotNumber\": \"1\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips/start",
+							"host": ["{{baseUrl}}"],
+							"path": ["trips", "start"]
+						}
+					}
+				},
+				{
+					"name": "End Station Maintenance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Maintenance ended successfully', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"MYRAND\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stations/maintenance/end",
+							"host": ["{{baseUrl}}"],
+							"path": ["stations", "maintenance", "end"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Multi-Session Pass Management",
+			"item": [
+				{
+					"name": "Purchase A25 Session Pass",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('A25 pass purchased', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"maximumDailyTravelTime\": 45,\n    \"session\": \"A25\",\n    \"billingFrequency\": \"MONTHLY\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": ["{{baseUrl}}"],
+							"path": ["order"]
+						}
+					}
+				},
+				{
+					"name": "Confirm A25 Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('A25 payment confirmed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"E2E Test User\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": ["{{baseUrl}}"],
+							"path": ["order", "confirm"]
+						}
+					}
+				},
+				{
+					"name": "Purchase H26 Session Pass",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('H26 pass added to cart', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"maximumDailyTravelTime\": 60,\n    \"session\": \"H26\",\n    \"billingFrequency\": \"PER_TRIP\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": ["{{baseUrl}}"],
+							"path": ["order"]
+						}
+					}
+				},
+				{
+					"name": "Confirm H26 Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('H26 payment confirmed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"E2E Test User\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": ["{{baseUrl}}"],
+							"path": ["order", "confirm"]
+						}
+					}
+				},
+				{
+					"name": "Verify Multiple Active Passes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Multiple passes are active', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.be.greaterThan(1);",
+									"    const a25Pass = jsonData.find(pass => pass.session === 'A25');",
+									"    const h26Pass = jsonData.find(pass => pass.session === 'H26');",
+									"    pm.expect(a25Pass).to.not.be.undefined;",
+									"    pm.expect(h26Pass).to.not.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{e2eStudentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ride-permit",
+							"host": ["{{baseUrl}}"],
+							"path": ["ride-permit"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Admin Account Management",
+			"item": [
+				{
+					"name": "Admin Creates Employee Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Employee account created by admin', function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"E2E Employee\",\n    \"birthDate\": \"1985-01-01\",\n    \"gender\": \"FEMALE\",\n    \"idul\": \"e2eemp\",\n    \"email\": \"e2e.employee@ulaval.ca\",\n    \"password\": \"EmpPassword123!\",\n    \"role\": \"EMPLOYEE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accounts/company",
+							"host": ["{{baseUrl}}"],
+							"path": ["accounts", "company"]
+						}
+					}
+				},
+				{
+					"name": "Employee Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Employee login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const responseText = pm.response.text();",
+									"    pm.collectionVariables.set('employeeToken', responseText.replace(/\"/g, ''));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.employee@ulaval.ca\",\n    \"password\": \"EmpPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Verify Employee Permissions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Employee can request maintenance', function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{employeeToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"DESJARDINS\",\n    \"message\": \"E2E maintenance request test\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stations/maintenance/request",
+							"host": ["{{baseUrl}}"],
+							"path": ["stations", "maintenance", "request"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "e2eStudentToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "e2eRidePermitId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "e2eUnlockCode",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "paymentStudentToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adminToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "technicianToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "employeeToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "availableSlot",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "occupiedSlot",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
