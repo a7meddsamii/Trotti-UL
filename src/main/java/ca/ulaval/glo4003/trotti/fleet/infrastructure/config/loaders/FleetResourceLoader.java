@@ -19,15 +19,10 @@ public class FleetResourceLoader extends Bootstrapper {
                 resourceLocator.resolve(FleetMaintenanceApplicationService.class);
         FleetOperationsApplicationService operationsService =
                 resourceLocator.resolve(FleetOperationsApplicationService.class);
-        FleetApiMapper fleetApiMapper =
-                resourceLocator.resolve(FleetApiMapper.class);
+        FleetApiMapper fleetApiMapper = resourceLocator.resolve(FleetApiMapper.class);
 
         FleetResource fleetController =
-                new FleetController(
-                        maintenanceService,
-                        operationsService,
-                        fleetApiMapper
-                );
+                new FleetController(maintenanceService, operationsService, fleetApiMapper);
 
         resourceLocator.register(FleetResource.class, fleetController);
     }

@@ -39,8 +39,7 @@ class FleetControllerTest {
         operationsService = Mockito.mock(FleetOperationsApplicationService.class);
         fleetApiMapper = Mockito.mock(FleetApiMapper.class);
 
-        controller =
-                new FleetController(maintenanceService, operationsService, fleetApiMapper);
+        controller = new FleetController(maintenanceService, operationsService, fleetApiMapper);
     }
 
     @Test
