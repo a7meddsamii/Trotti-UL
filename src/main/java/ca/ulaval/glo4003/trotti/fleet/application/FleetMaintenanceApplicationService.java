@@ -69,7 +69,8 @@ public class FleetMaintenanceApplicationService {
     }
 
     public void unloadTransfer(UnloadTransferDto dto) {
-        Transfer transfer = transferRepository.findById(dto.transferId()).orElseThrow(() -> new TransferNotFoundException(dto.transferId()));
+        Transfer transfer = transferRepository.findById(dto.transferId())
+                .orElseThrow(() -> new TransferNotFoundException(dto.transferId()));
         List<ScooterId> scooterIdsToDeposit =
                 transfer.unload(dto.technicianId(), dto.destinationSlots().size());
         Fleet fleet = fleetRepository.find();
