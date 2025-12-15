@@ -41,16 +41,16 @@ class AdminCreationNodeTest {
     void givenAdminRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account expected = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
+        Account result = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
                 GENDER, IDUL, EMAIL, role, availablePermissions);
 
-        Assertions.assertEquals(NAME, expected.getName());
-        Assertions.assertEquals(BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(GENDER, expected.getGender());
-        Assertions.assertEquals(IDUL, expected.getIdul());
-        Assertions.assertEquals(EMAIL, expected.getEmail());
-        Assertions.assertEquals(role, expected.getRole());
-        Assertions.assertNotNull(expected.getPermissions());
+        Assertions.assertEquals(NAME, result.getName());
+        Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(GENDER, result.getGender());
+        Assertions.assertEquals(IDUL, result.getIdul());
+        Assertions.assertEquals(EMAIL, result.getEmail());
+        Assertions.assertEquals(role, result.getRole());
+        Assertions.assertNotNull(result.getPermissions());
     }
 
     @Test
