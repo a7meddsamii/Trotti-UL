@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.trotti.trip.api.dto.requests;
 
-import jakarta.ws.rs.QueryParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.ws.rs.QueryParam;
 import java.time.LocalDate;
 
 public record TripQueryRequest(
@@ -15,4 +14,3 @@ public record TripQueryRequest(
 		LocalDate endDate
 ) {
 }
-

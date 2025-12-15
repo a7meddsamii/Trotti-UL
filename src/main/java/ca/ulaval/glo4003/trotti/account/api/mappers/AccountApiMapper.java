@@ -4,9 +4,7 @@ import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
 import ca.ulaval.glo4003.trotti.account.application.dto.RegistrationDto;
 import ca.ulaval.glo4003.trotti.account.domain.values.*;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 public class AccountApiMapper {
 

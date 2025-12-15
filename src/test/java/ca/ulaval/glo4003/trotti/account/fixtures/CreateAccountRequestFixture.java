@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.account.fixtures;
 
 import ca.ulaval.glo4003.trotti.account.api.dto.CreateAccountRequest;
-
 import java.time.LocalDate;
 
 public class CreateAccountRequestFixture {

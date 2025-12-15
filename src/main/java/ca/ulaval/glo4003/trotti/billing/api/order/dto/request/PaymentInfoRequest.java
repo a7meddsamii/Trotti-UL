@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.billing.api.order.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.time.YearMonth;
 
 @Schema(

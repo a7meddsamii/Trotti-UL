@@ -54,8 +54,7 @@ class TripApiMapperTest {
         Assertions.assertEquals(travelerIdul, dto.idul());
         Assertions.assertEquals(expectedRidePermitId, dto.ridePermitId());
         Assertions.assertEquals(Location.of(VALID_LOCATION), dto.location());
-        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER),
-                dto.slotNumber());
+        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER), dto.slotNumber());
         Assertions.assertNotNull(dto.unlockCode());
     }
 
@@ -67,8 +66,7 @@ class TripApiMapperTest {
 
         Assertions.assertEquals(travelerIdul, dto.idul());
         Assertions.assertEquals(Location.of(VALID_LOCATION), dto.location());
-        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER),
-                dto.slotNumber());
+        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER), dto.slotNumber());
     }
 
     @Test
