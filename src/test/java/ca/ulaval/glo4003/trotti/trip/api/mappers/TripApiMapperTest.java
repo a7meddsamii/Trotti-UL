@@ -28,8 +28,8 @@ class TripApiMapperTest {
 
     private static final String VALID_IDUL_VALUE = "Equipe10";
     private static final String VALID_LOCATION = "VACHON";
-    private static final String VALID_SLOT_NUMBER = "3";
-    private static final String INVALID_SLOT_NUMBER = "not-a-number";
+    private static final int VALID_SLOT_NUMBER = 3;
+    private static final int INVALID_SLOT_NUMBER = -1;
     private static final String UNLOCK_CODE_VALUE = "23123";
     private static final LocalDate START_DATE = LocalDate.of(2024, 1, 1);
     private static final LocalDate END_DATE = LocalDate.of(2024, 12, 31);
@@ -54,7 +54,7 @@ class TripApiMapperTest {
         Assertions.assertEquals(travelerIdul, dto.idul());
         Assertions.assertEquals(expectedRidePermitId, dto.ridePermitId());
         Assertions.assertEquals(Location.of(VALID_LOCATION), dto.location());
-        Assertions.assertEquals(SlotNumber.from(Integer.parseInt(VALID_SLOT_NUMBER)),
+        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER),
                 dto.slotNumber());
         Assertions.assertNotNull(dto.unlockCode());
     }
@@ -67,7 +67,7 @@ class TripApiMapperTest {
 
         Assertions.assertEquals(travelerIdul, dto.idul());
         Assertions.assertEquals(Location.of(VALID_LOCATION), dto.location());
-        Assertions.assertEquals(SlotNumber.from(Integer.parseInt(VALID_SLOT_NUMBER)),
+        Assertions.assertEquals(SlotNumber.from(VALID_SLOT_NUMBER),
                 dto.slotNumber());
     }
 
