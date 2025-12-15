@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.dto.requests;
 
 import jakarta.ws.rs.QueryParam;
-
 import java.time.LocalDate;
 
 public class TripQueryRequest {

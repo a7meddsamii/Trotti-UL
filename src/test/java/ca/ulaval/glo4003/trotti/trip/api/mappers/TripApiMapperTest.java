@@ -7,20 +7,22 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TripHistoryResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 
 class TripApiMapperTest {
 
@@ -29,6 +31,8 @@ class TripApiMapperTest {
     private static final String VALID_SLOT_NUMBER = "3";
     private static final String INVALID_SLOT_NUMBER = "not-a-number";
     private static final String UNLOCK_CODE_VALUE = "23123";
+    private static final LocalDate START_DATE = LocalDate.of(2024, 1, 1);
+    private static final LocalDate END_DATE = LocalDate.of(2024, 12, 31);
 
     private Idul travelerIdul;
     private TripApiMapper mapper;
@@ -92,8 +96,8 @@ class TripApiMapperTest {
 
     @Test
     void givenTwoTrips_whenMapping_thenCorrectAggregateValuesAreReturned() {
-        CompletedTrip t1 = trip( "Vachon", "Desjardins", 10);
-        CompletedTrip t2 = trip( "Vachon", "Pouliot", 20);
+        CompletedTrip t1 = trip("Vachon", "Desjardins", 10);
+        CompletedTrip t2 = trip("Vachon", "Pouliot", 20);
 
         TripHistory history = new TripHistory(List.of(t1, t2));
 
@@ -106,8 +110,7 @@ class TripApiMapperTest {
         Assertions.assertEquals("Vachon", response.favoriteStartStation());
 
         Assertions.assertTrue(
-                List.of("Desjardins", "Pouliot").contains(response.favoriteEndStation())
-        );
+                List.of("Desjardins", "Pouliot").contains(response.favoriteEndStation()));
 
         Assertions.assertEquals(2, response.trips().size());
     }
@@ -146,23 +149,28 @@ class TripApiMapperTest {
         return new EndTripRequest(VALID_LOCATION, INVALID_SLOT_NUMBER);
     }
 
-    private CompletedTrip trip(
-                               String startBuilding,
-                               String endBuilding,
-                               int minutes) {
+    private CompletedTrip trip(String startBuilding, String endBuilding, int minutes) {
 
         TripId tripId = TripId.randomId();
         Idul idul = Idul.from("UL123");
         LocalDateTime start = LocalDateTime.of(2025, 1, 1, 12, 0);
         LocalDateTime end = start.plusMinutes(minutes);
 
-        return new CompletedTrip(
-                tripId,
-                idul,
-                start,
-                Location.of(startBuilding, "S1"),
-                end,
-                Location.of(endBuilding, "E1")
-        );
+        return new CompletedTrip(tripId, idul, start, Location.of(startBuilding, "S1"), end,
+                Location.of(endBuilding, "E1"));
+    }
+
+    @Test
+    void givenValidTripQueryRequest_whenToTripHistorySearchCriteria_thenMapsCorrectly() {
+        TripQueryRequest request = new TripQueryRequest();
+        request.startDate = START_DATE.toString();
+        request.endDate = END_DATE.toString();
+
+        TripHistorySearchCriteria criteria =
+                mapper.toTripHistorySearchCriteria(travelerIdul, request);
+
+        Assertions.assertEquals(travelerIdul, criteria.getIdul());
+        Assertions.assertEquals(START_DATE, criteria.getStartDate());
+        Assertions.assertEquals(END_DATE, criteria.getEndDate());
     }
 }

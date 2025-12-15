@@ -23,17 +23,21 @@ public class TripApplicationServiceLoader extends Bootstrapper {
         ScooterRentalGateway scooterRentalGateway =
                 this.resourceLocator.resolve(ScooterRentalGateway.class);
         UnlockCodeStore unlockCodeStore = this.resourceLocator.resolve(UnlockCodeStore.class);
-        TripCommandRepository tripCommandRepository = this.resourceLocator.resolve(TripCommandRepository.class);
-        TripQueryRepository tripQueryRepository = this.resourceLocator.resolve(TripQueryRepository.class);
+        TripCommandRepository tripCommandRepository =
+                this.resourceLocator.resolve(TripCommandRepository.class);
+        TripQueryRepository tripQueryRepository =
+                this.resourceLocator.resolve(TripQueryRepository.class);
         EventBus eventBus = this.resourceLocator.resolve(EventBus.class);
         Clock clock = this.resourceLocator.resolve(Clock.class);
         TripMapper tripMapper = this.resourceLocator.resolve(TripMapper.class);
         TripCommandApplicationService tripCommandApplicationService =
-                new TripCommandApplicationService(unlockCodeStore, tripCommandRepository, ridePermitGateway,
-                        scooterRentalGateway, eventBus, clock);
+                new TripCommandApplicationService(unlockCodeStore, tripCommandRepository,
+                        ridePermitGateway, scooterRentalGateway, eventBus, clock);
         TripQueryApplicationService tripQueryApplicationService =
                 new TripQueryApplicationService(tripQueryRepository);
-        this.resourceLocator.register(TripCommandApplicationService.class, tripCommandApplicationService);
-        this.resourceLocator.register(TripQueryApplicationService.class, tripQueryApplicationService);
+        this.resourceLocator.register(TripCommandApplicationService.class,
+                tripCommandApplicationService);
+        this.resourceLocator.register(TripQueryApplicationService.class,
+                tripQueryApplicationService);
     }
 }

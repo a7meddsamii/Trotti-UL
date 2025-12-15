@@ -36,7 +36,8 @@ public class TripResourceLoader extends Bootstrapper {
         TripQueryApplicationService tripQueryApplicationService =
                 resourceLocator.resolve(TripQueryApplicationService.class);
 
-        TripResource tripController = new TripController(tripCommandApplicationService, tripQueryApplicationService, tripApiMapper);
+        TripResource tripController = new TripController(tripCommandApplicationService,
+                tripQueryApplicationService, tripApiMapper);
         resourceLocator.register(TripResource.class, tripController);
     }
 }

@@ -3,8 +3,8 @@ package ca.ulaval.glo4003.trotti.trip.api.controllers;
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
 import ca.ulaval.glo4003.trotti.trip.application.TripCommandApplicationService;
@@ -61,7 +61,8 @@ public class TripController implements TripResource {
 
     @Override
     public Response getTripHistory(Idul userId, TripQueryRequest request) {
-        TripHistorySearchCriteria searchCriteria = tripApiMapper.toTripHistorySearchCriteria(userId, request);
+        TripHistorySearchCriteria searchCriteria =
+                tripApiMapper.toTripHistorySearchCriteria(userId, request);
 
         TripHistory tripHistory = tripQueryApplicationService.getTripHistory(searchCriteria);
 

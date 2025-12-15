@@ -1,29 +1,26 @@
 package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.account.fixtures.AccountFixture;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 class TripHistoryTest {
     private static final LocalDateTime ANOTHER_ENDTIME_TIME = LocalDateTime.of(2025, 1, 1, 10, 6);
-    private static final CompletedTrip ANOTHER_COMPLETED_TRIP = new CompletedTrip(
-            Mockito.mock(TripId.class),
-            AccountFixture.AN_IDUL,
-            CompletedTripTest.A_START_TIME,
-            CompletedTripTest.AN_END_LOCATION,
-            ANOTHER_ENDTIME_TIME,
-            CompletedTripTest.A_START_LOCATION
-    );
+    private static final CompletedTrip ANOTHER_COMPLETED_TRIP =
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL,
+                    CompletedTripTest.A_START_TIME, CompletedTripTest.AN_END_LOCATION,
+                    ANOTHER_ENDTIME_TIME, CompletedTripTest.A_START_LOCATION);
     private static final List<CompletedTrip> A_COMPLETED_TRIP_LIST = new ArrayList<CompletedTrip>();
-    private static final List<CompletedTrip> EMPTY_COMPLETED_TRIP_LIST =  new ArrayList<CompletedTrip>();
+    private static final List<CompletedTrip> EMPTY_COMPLETED_TRIP_LIST =
+            new ArrayList<CompletedTrip>();
 
     private TripHistory tripHistory;
     private TripHistory emptyTripHistory;

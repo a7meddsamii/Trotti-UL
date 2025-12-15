@@ -1,7 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
@@ -66,7 +69,6 @@ class InMemoryTripRepositoryTest {
         Assertions.assertEquals(List.of(), result);
     }
 
-
     private void setUpTripRepository() {
         trip = Mockito.mock(Trip.class);
         filter = Mockito.mock(TripHistoryFilter.class);
@@ -81,4 +83,40 @@ class InMemoryTripRepositoryTest {
         repository = new InMemoryTripRepository(mapper, filter);
     }
 
+    @Test
+    void givenTrips_whenFindAllBySearchCriteria_thenUsesFilterAndMapperAndReturnsTripHistory() {
+        setUpTripRepository();
+        repository.save(trip);
+        Mockito.when(filter.matches(Mockito.any(), Mockito.any())).thenReturn(true);
+        CompletedTrip completedTrip = Mockito.mock(CompletedTrip.class);
+        Mockito.when(mapper.toCompletedTrip(Mockito.any())).thenReturn(completedTrip);
+        TripHistorySearchCriteria criteria = Mockito.mock(TripHistorySearchCriteria.class);
+        int expectedNumberOfCompletedTrips = 1;
+
+        TripHistory tripHistory = repository.findAllBySearchCriteria(criteria);
+
+        Assertions.assertNotNull(tripHistory);
+        Assertions.assertEquals(expectedNumberOfCompletedTrips,
+                tripHistory.getCompletedTrips().size());
+        Assertions.assertEquals(completedTrip, tripHistory.getCompletedTrips().getFirst());
+        Mockito.verify(filter).matches(tripRecord, criteria);
+        Mockito.verify(mapper).toCompletedTrip(tripRecord);
+    }
+
+    @Test
+    void givenTripDoesNotMatch_whenFindAllBySearchCriteria_thenMapperNotCalled() {
+        setUpTripRepository();
+        repository.save(trip);
+        Mockito.when(filter.matches(Mockito.any(), Mockito.any())).thenReturn(false);
+        TripHistorySearchCriteria criteria = Mockito.mock(TripHistorySearchCriteria.class);
+        int expectedNumberOfCompletedTrips = 0;
+
+        TripHistory tripHistory = repository.findAllBySearchCriteria(criteria);
+
+        Assertions.assertNotNull(tripHistory);
+        Assertions.assertEquals(expectedNumberOfCompletedTrips,
+                tripHistory.getCompletedTrips().size());
+        Mockito.verify(filter).matches(tripRecord, criteria);
+        Mockito.verify(mapper, Mockito.never()).toCompletedTrip(Mockito.any());
+    }
 }

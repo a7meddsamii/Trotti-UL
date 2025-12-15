@@ -2,8 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.domain.entities;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
-
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -16,12 +15,13 @@ public class CompletedTrip {
     private final LocalDateTime endTime;
     private final Location endLocation;
 
-    public CompletedTrip(TripId tripId,
-                         Idul idul,
-                         LocalDateTime startTime,
-                         Location startLocation,
-                         LocalDateTime endTime,
-                         Location endLocation) {
+    public CompletedTrip(
+            TripId tripId,
+            Idul idul,
+            LocalDateTime startTime,
+            Location startLocation,
+            LocalDateTime endTime,
+            Location endLocation) {
         this.tripId = tripId;
         this.idul = idul;
         this.startTime = startTime;

@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.domain.values;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
-
 import java.time.LocalDate;
 
 public class TripHistorySearchCriteria {
@@ -58,7 +57,6 @@ public class TripHistorySearchCriteria {
                 throw new InvalidParameterException("Idul must be provided");
             }
 
-
             if (startDate != null && endDate != null) {
                 if (startDate.isAfter(endDate)) {
                     throw new InvalidParameterException("startDate must be before endDate");
@@ -69,14 +67,10 @@ public class TripHistorySearchCriteria {
 
             if (startDate != null) {
                 endDate = startDate.plusMonths(1).minusDays(1);
-            }
-            else if (endDate != null) {
+            } else if (endDate != null) {
                 startDate = endDate.minusMonths(1).plusDays(1);
-            }
-            else {
-                startDate = LocalDate.now()
-                        .minusMonths(1)
-                        .withDayOfMonth(1);
+            } else {
+                startDate = LocalDate.now().minusMonths(1).withDayOfMonth(1);
                 endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
             }
 

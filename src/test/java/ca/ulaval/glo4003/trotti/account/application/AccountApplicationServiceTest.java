@@ -47,7 +47,7 @@ class AccountApplicationServiceTest {
                 sessionTokenProvider, authenticationProvider, eventBus);
     }
 
-     @Test
+    @Test
     void givenValidPasswordRegistrationDto_whenCreateAccount_thenAccountIsSavedInRepository() {
         mockRepositoryToReturnNoExistingAccount();
         mockAuthenticationProviderToReturnAccountDto();
@@ -57,15 +57,15 @@ class AccountApplicationServiceTest {
         Mockito.verify(accountRepository).save(account);
     }
 
-     @Test
-     void givenValidPasswordRegistrationDto_whenCreateAccount_thenReturnIdul() {
+    @Test
+    void givenValidPasswordRegistrationDto_whenCreateAccount_thenReturnIdul() {
         mockRepositoryToReturnNoExistingAccount();
         mockAuthenticationProviderToReturnAccountDto();
 
         Idul idul = accountApplicationService.createAccount(registrationDto);
 
         Assertions.assertEquals(registrationDto.idul(), idul);
-     }
+    }
 
     @Test
     void givenExistingEmail_whenCreateAccount_thenThrowAlreadyExistsException() {
@@ -93,15 +93,15 @@ class AccountApplicationServiceTest {
         Assertions.assertThrows(AlreadyExistsException.class, accountCreationAttempt);
     }
 
-     @Test
-     void givenValidPasswordRegistrationDto_whenCreateAccount_thenRegisterIsCalled() {
+    @Test
+    void givenValidPasswordRegistrationDto_whenCreateAccount_thenRegisterIsCalled() {
         mockRepositoryToReturnNoExistingAccount();
         mockAuthenticationProviderToReturnAccountDto();
 
         accountApplicationService.createAccount(registrationDto);
 
         Mockito.verify(authenticationProvider).register(registrationDto);
-     }
+    }
 
     @Test
     void givenNonExistentEmail_whenLogin_thenThrowAuthenticationException() {

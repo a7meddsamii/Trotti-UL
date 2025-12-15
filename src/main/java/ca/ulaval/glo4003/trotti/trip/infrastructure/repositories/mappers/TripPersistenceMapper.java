@@ -33,10 +33,10 @@ public class TripPersistenceMapper {
 
     public CompletedTrip toCompletedTrip(TripRecord record) {
         return new CompletedTrip(TripId.from(record.tripId().toString()),
-                Idul.from(record.idul().toString()),
-                record.startTime(),
-                Location.of(record.startLocation().getBuilding(), record.startLocation().getSpotName()),
-                record.endTime(),
-                Location.of(record.endLocation().getBuilding(), record.endLocation().getSpotName()));
+                Idul.from(record.idul().toString()), record.startTime(),
+                Location.of(record.startLocation().getBuilding(),
+                        record.startLocation().getSpotName()),
+                record.endTime(), Location.of(record.endLocation().getBuilding(),
+                        record.endLocation().getSpotName()));
     }
 }

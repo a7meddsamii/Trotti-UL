@@ -6,20 +6,14 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterExcept
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.TripHistoryResponse;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
-
-import java.time.Duration;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TripApiMapper {
 
@@ -37,12 +31,10 @@ public class TripApiMapper {
                 slotNumber);
     }
 
-    public TripHistorySearchCriteria toTripHistorySearchCriteria(Idul idul, TripQueryRequest request) {
-        return TripHistorySearchCriteria.builder()
-                .withIdul(idul)
-                .withStartDate(request.getStartDate())
-                .withEndDate(request.getEndDate())
-                .build();
+    public TripHistorySearchCriteria toTripHistorySearchCriteria(Idul idul,
+            TripQueryRequest request) {
+        return TripHistorySearchCriteria.builder().withIdul(idul)
+                .withStartDate(request.getStartDate()).withEndDate(request.getEndDate()).build();
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {
@@ -58,27 +50,20 @@ public class TripApiMapper {
 
     public TripHistoryResponse toTripHistoryResponse(TripHistory tripHistory) {
         return new TripHistoryResponse(tripHistory.calculateTotalTripsDuration(),
-                tripHistory.calculateNumberOfTrips(),
-                tripHistory.calculateAverageTripDuration(),
-                tripHistory.getFavoriteStartLocation() != null ?
-                        tripHistory.getFavoriteStartLocation().getBuilding() : NOTHING,
-                tripHistory.getFavoriteEndLocation() != null ?
-                        tripHistory.getFavoriteEndLocation().getBuilding() : NOTHING,
-                tripHistory.getCompletedTrips().stream()
-                        .map(this::toTripDtoResponse)
-                        .toList()
-                );
+                tripHistory.calculateNumberOfTrips(), tripHistory.calculateAverageTripDuration(),
+                tripHistory.getFavoriteStartLocation() != null
+                        ? tripHistory.getFavoriteStartLocation().getBuilding()
+                        : NOTHING,
+                tripHistory.getFavoriteEndLocation() != null
+                        ? tripHistory.getFavoriteEndLocation().getBuilding()
+                        : NOTHING,
+                tripHistory.getCompletedTrips().stream().map(this::toTripDtoResponse).toList());
     }
 
     private TripHistoryResponse.TripResponse toTripDtoResponse(CompletedTrip trip) {
-        return new TripHistoryResponse.TripResponse(
-                trip.getTripId().toString(),
-                trip.getStartLocation().getBuilding(),
-                trip.getEndLocation().getBuilding(),
-                trip.getStartTime(),
-                trip.getEndTime(),
-                trip.calculateDuration().toMinutes()
-        );
+        return new TripHistoryResponse.TripResponse(trip.getTripId().toString(),
+                trip.getStartLocation().getBuilding(), trip.getEndLocation().getBuilding(),
+                trip.getStartTime(), trip.getEndTime(), trip.calculateDuration().toMinutes());
     }
 
     private SlotNumber parseSlotNumber(String slotNumberValue) {

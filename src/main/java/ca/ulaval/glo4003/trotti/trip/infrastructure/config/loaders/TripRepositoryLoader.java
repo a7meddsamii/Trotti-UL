@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 
-
 public class TripRepositoryLoader extends Bootstrapper {
     @Override
     public void load() {

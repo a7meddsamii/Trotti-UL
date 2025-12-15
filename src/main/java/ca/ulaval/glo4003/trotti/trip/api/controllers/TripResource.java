@@ -6,8 +6,8 @@ import ca.ulaval.glo4003.trotti.account.domain.values.Permission;
 import ca.ulaval.glo4003.trotti.commons.api.dto.ApiErrorResponse;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
-import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
+import ca.ulaval.glo4003.trotti.trip.api.dto.requests.TripQueryRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.responses.UnlockCodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -97,5 +97,6 @@ public interface TripResource {
                             description = "Historique des voyages récupéré avec succès"),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized: token manquant ou erroné")})
-    Response getTripHistory(@Parameter(hidden = true) @AuthenticatedUser Idul userId, @BeanParam TripQueryRequest request);
+    Response getTripHistory(@Parameter(hidden = true) @AuthenticatedUser Idul userId,
+            @BeanParam TripQueryRequest request);
 }

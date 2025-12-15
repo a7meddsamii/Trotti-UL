@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
@@ -21,7 +22,7 @@ class TripControllerTest {
     private static final String UNLOCK_CODE = "23123";
     private static final String LOCATION = "VACHON";
     private static final String SLOT_NUMBER = "3";
-    private static final String RIDE_PERMIT_ID = "rideId";
+    private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private TripCommandApplicationService tripCommandApplicationService;
     private TripQueryApplicationService tripQueryApplicationService;
@@ -39,7 +40,8 @@ class TripControllerTest {
         startTripDto = Mockito.mock(StartTripDto.class);
         endTripDto = Mockito.mock(EndTripDto.class);
 
-        resource = new TripController(tripCommandApplicationService, tripQueryApplicationService, tripApiMapper);
+        resource = new TripController(tripCommandApplicationService, tripQueryApplicationService,
+                tripApiMapper);
 
         Mockito.when(tripApiMapper.toStartTripDto(TRAVELER_IDUL, startTripRequest()))
                 .thenReturn(startTripDto);
@@ -65,6 +67,15 @@ class TripControllerTest {
     void whenGetTripHistory_thenReturnsOkResponse() {
         Response response = resource.getTripHistory(TRAVELER_IDUL, null);
 
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void whenRequestUnlockCode_thenReturnsOkResponse() {
+        Response response = resource.requestUnlockCode(TRAVELER_IDUL, RIDE_PERMIT_ID);
+
+        Mockito.verify(tripCommandApplicationService, Mockito.times(1))
+                .generateUnlockCode(Mockito.eq(TRAVELER_IDUL), Mockito.any(RidePermitId.class));
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
