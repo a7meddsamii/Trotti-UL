@@ -100,7 +100,7 @@ class FleetMaintenanceApplicationServiceTest {
     void givenStartTransferDto_whenStartTransfer_thenTransferIsCreatedAndSaved() {
         StartTransferDto dto = new StartTransferDto(TECHNICIAN_ID, SOURCE_LOCATION, SOURCE_SLOTS);
 
-        Mockito.when(fleet.retrieveScooters(SOURCE_LOCATION, SOURCE_SLOTS)).thenReturn(SCOOTER_IDS);
+        Mockito.when(fleet.retrieveScooters(Mockito.eq(SOURCE_LOCATION), Mockito.eq(SOURCE_SLOTS), Mockito.any(LocalDateTime.class))).thenReturn(SCOOTER_IDS);
         Mockito.when(transferFactory.create(TECHNICIAN_ID, SCOOTER_IDS)).thenReturn(transfer);
         Mockito.when(transfer.getTransferId()).thenReturn(TRANSFER_ID);
 

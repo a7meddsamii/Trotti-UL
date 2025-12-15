@@ -62,4 +62,13 @@ public class Scooter {
 
         this.battery.resumeCharging(resumedTime);
     }
+
+    public void undockForTransfer(LocalDateTime undockingTime) {
+        if (this.location.isEmpty()) {
+            throw new InvalidLocationException("scooter seems to already be undocked");
+        }
+
+        this.location = Location.empty();
+        this.battery.changeBatteryState(BatteryState.IDLE, undockingTime);
+    }
 }

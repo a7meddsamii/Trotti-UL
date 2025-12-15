@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.fleet.api;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.response.TransferResponse;
 import ca.ulaval.glo4003.trotti.fleet.api.mapper.FleetApiMapper;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetMaintenanceApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.application.FleetOperationsApplicationService;
@@ -24,7 +25,6 @@ class FleetControllerTest {
     private static final String LOCATION_STRING = "STATION-A";
     private static final Location LOCATION = Location.of(LOCATION_STRING);
     private static final TransferId TRANSFER_ID = TransferId.randomId();
-    private static final ScooterId SCOOTER_ID = ScooterId.randomId();
     private static final List<SlotNumber> SLOTS = List.of(SlotNumber.from(1), SlotNumber.from(2));
 
     private FleetMaintenanceApplicationService maintenanceService;
@@ -46,14 +46,17 @@ class FleetControllerTest {
     void givenStartTransferRequest_whenStartTransfer_thenTransferIsCreatedAndReturned() {
         StartTransferRequest request = Mockito.mock(StartTransferRequest.class);
         StartTransferDto dto = Mockito.mock(StartTransferDto.class);
+        TransferResponse transferResponse = new TransferResponse(TRANSFER_ID.toString());
+        
         Mockito.when(fleetApiMapper.toStartTransferDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
         Mockito.when(maintenanceService.startTransfer(dto)).thenReturn(TRANSFER_ID);
+        Mockito.when(fleetApiMapper.toTransferResponse(TRANSFER_ID)).thenReturn(transferResponse);
 
         Response response = controller.startTransfer(TECHNICIAN_IDUL, request);
 
         Mockito.verify(maintenanceService).startTransfer(dto);
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        Assertions.assertEquals(TRANSFER_ID, response.getEntity());
+        Assertions.assertEquals(transferResponse, response.getEntity());
     }
 
     @Test

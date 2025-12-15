@@ -92,8 +92,10 @@ public class Station {
         return dockingArea.findAvailableSlots();
     }
 
-    public List<Scooter> retrieveScootersForTransfer(List<SlotNumber> slotNumbers) {
-        return slotNumbers.stream().map(this.dockingArea::undock).toList();
+    public List<Scooter> retrieveScootersForTransfer(List<SlotNumber> slotNumbers, LocalDateTime retrievalTime) {
+        List<Scooter> scooters = slotNumbers.stream().map(this.dockingArea::undock).toList();
+        scooters.forEach(scooter -> scooter.undockForTransfer(retrievalTime));
+        return scooters;
     }
 
     public void parkScooters(List<SlotNumber> slotNumbers, List<Scooter> scooters,

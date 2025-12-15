@@ -95,9 +95,9 @@ class FleetTest {
     void givenLocationAndSlotNumbers_whenRetrieveScooters_thenReturnsScootersIds() {
         List<SlotNumber> slots = List.of(SLOT_1);
         List<ScooterId> expectedScooterIds = List.of(scooterId);
-        Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
+        Mockito.when(station.retrieveScootersForTransfer(slots, TIME)).thenReturn(List.of(scooter));
 
-        List<ScooterId> retrievedScooters = fleet.retrieveScooters(LOCATION, slots);
+        List<ScooterId> retrievedScooters = fleet.retrieveScooters(LOCATION, slots, TIME);
 
         Assertions.assertEquals(expectedScooterIds, retrievedScooters);
     }
@@ -105,9 +105,9 @@ class FleetTest {
     @Test
     void givenLocationAndSlotNumbers_whenRetrieveScooters_thenPickedScootersAreDisplaced() {
         List<SlotNumber> slots = List.of(SLOT_1);
-        Mockito.when(station.retrieveScootersForTransfer(slots)).thenReturn(List.of(scooter));
+        Mockito.when(station.retrieveScootersForTransfer(slots, TIME)).thenReturn(List.of(scooter));
 
-        fleet.retrieveScooters(LOCATION, slots);
+        fleet.retrieveScooters(LOCATION, slots, TIME);
 
         Assertions.assertTrue(fleetDisplacedScootersView.containsKey(scooterId));
     }

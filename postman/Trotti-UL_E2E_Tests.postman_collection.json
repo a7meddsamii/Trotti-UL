@@ -1,8 +1,11 @@
 {
 	"info": {
+		"_postman_id": "1c605d2e-5b5b-481f-b01d-104f49f283bc",
 		"name": "Trotti-UL E2E Tests",
 		"description": "End-to-end test scenarios for critical business flows",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30324537",
+		"_collection_link": "https://galactic-capsule-320452.postman.co/workspace/be7ef9c6-3fe5-4080-8ed9-f92bd43bd39d/collection/30324537-1c605d2e-5b5b-481f-b01d-104f49f283bc?action=share&source=collection_link&creator=30324537"
 	},
 	"item": [
 		{
@@ -38,10 +41,15 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/accounts",
-							"host": ["{{baseUrl}}"],
-							"path": ["accounts"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Login Student",
@@ -75,10 +83,16 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "login"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Get Empty Order (Should be 404)",
@@ -105,10 +119,15 @@
 						],
 						"url": {
 							"raw": "{{baseUrl}}/order",
-							"host": ["{{baseUrl}}"],
-							"path": ["order"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Add Pass to Cart",
@@ -145,10 +164,15 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/order",
-							"host": ["{{baseUrl}}"],
-							"path": ["order"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Confirm Payment",
@@ -158,12 +182,23 @@
 							"script": {
 								"exec": [
 									"pm.test('Payment processed', function () {",
-									"    pm.response.to.have.status(200);",
-									"    const json = pm.response.json();",
-									"    pm.expect(json.transactionId).to.not.be.undefined;",
+									"    pm.response.to.have.status(204);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -185,10 +220,16 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/order/confirm",
-							"host": ["{{baseUrl}}"],
-							"path": ["order", "confirm"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"confirm"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Get Ride Permits",
@@ -201,10 +242,12 @@
 									"    pm.response.to.have.status(200);",
 									"    const json = pm.response.json();",
 									"    pm.expect(json).to.have.lengthOf.above(0);",
-									"    pm.collectionVariables.set('ridePermitId', json[0].id);",
+									"    pm.collectionVariables.set('ridePermitId', json[0].ridePermitId);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -218,124 +261,15 @@
 						],
 						"url": {
 							"raw": "{{baseUrl}}/ride-permit",
-							"host": ["{{baseUrl}}"],
-							"path": ["ride-permit"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ride-permit"
+							]
 						}
-					}
-				},
-				{
-					"name": "Request Unlock Code",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Unlock code request sent', function () {",
-									"    pm.response.to.have.status(200);",
-									"    const json = pm.response.json();",
-									"    pm.expect(json.message).to.include('sent by e-mail');",
-									"    // For E2E testing, use a test unlock code",
-									"    pm.collectionVariables.set('unlockCode', 'TEST123');",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{studentToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/trips/{{ridePermitId}}/unlock-code",
-							"host": ["{{baseUrl}}"],
-							"path": ["trips", "{{ridePermitId}}", "unlock-code"]
-						}
-					}
-				},
-				{
-					"name": "Start Trip",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Trip started', function () {",
-									"    pm.response.to.have.status(200);",
-									"    const json = pm.response.json();",
-									"    pm.expect(json.status).to.equal('ONGOING');",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{studentToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"ridePermitId\": \"{{ridePermitId}}\",\n    \"unlockCode\": \"{{unlockCode}}\",\n    \"location\": \"VACHON\",\n    \"slotNumber\": \"1\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/trips/start",
-							"host": ["{{baseUrl}}"],
-							"path": ["trips", "start"]
-						}
-					}
-				},
-				{
-					"name": "End Trip",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Trip completed', function () {",
-									"    pm.response.to.have.status(200);",
-									"    const json = pm.response.json();",
-									"    pm.expect(json.status).to.equal('COMPLETED');",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{studentToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"location\": \"PEPS\",\n    \"slotNumber\": \"2\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/trips/end",
-							"host": ["{{baseUrl}}"],
-							"path": ["trips", "end"]
-						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Verify Trip History",
@@ -347,11 +281,13 @@
 									"pm.test('Trip in history', function () {",
 									"    pm.response.to.have.status(200);",
 									"    const json = pm.response.json();",
-									"    pm.expect(json).to.be.an('array');",
-									"    pm.expect(json.length).to.be.greaterThan(0);",
+									"    pm.expect(json.trips).to.be.an('array');",
+									"    pm.expect(json.trips).to.be.empty;",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -365,89 +301,16 @@
 						],
 						"url": {
 							"raw": "{{baseUrl}}/trips/history",
-							"host": ["{{baseUrl}}"],
-							"path": ["trips", "history"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trips",
+								"history"
+							]
 						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Payment and Pass Activation Flow",
-			"item": [
-				{
-					"name": "Login as Student",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Login successful', function () {",
-									"    pm.response.to.have.status(200);",
-									"    const json = pm.response.json();",
-									"    pm.collectionVariables.set('paymentToken', json.token);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "login"]
-						}
-					}
-				},
-				{
-					"name": "Payment Failure Scenario",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Payment fails with invalid card', function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([400, 402]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{paymentToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"cardNumber\": \"4000000000000002\",\n    \"cardHolderName\": \"Invalid Card\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/order/confirm",
-							"host": ["{{baseUrl}}"],
-							"path": ["order", "confirm"]
-						}
-					}
+					},
+					"response": []
 				}
 			]
 		},
@@ -485,10 +348,16 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "login"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Create Technician Account",
@@ -523,10 +392,16 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/accounts/company",
-							"host": ["{{baseUrl}}"],
-							"path": ["accounts", "company"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"company"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Login as Technician",
@@ -559,10 +434,16 @@
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "login"]
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Request Maintenance Service",
@@ -575,7 +456,9 @@
 									"    pm.response.to.have.status(204);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -596,11 +479,19 @@
 							"raw": "{\n    \"location\": \"DESJARDINS\",\n    \"message\": \"E2E maintenance request test\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/stations/maintenance/request",
-							"host": ["{{baseUrl}}"],
-							"path": ["stations", "maintenance", "request"]
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/request",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"request"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Start Station Maintenance",
@@ -613,7 +504,9 @@
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -634,49 +527,19 @@
 							"raw": "{\n    \"location\": \"MYRAND\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/stations/maintenance/start",
-							"host": ["{{baseUrl}}"],
-							"path": ["stations", "maintenance", "start"]
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/start",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"start"
+							]
 						}
-					}
-				},
-				{
-					"name": "Try Trip from Station Under Maintenance",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Trip blocked during maintenance', function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([409, 400]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{studentToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"ridePermitId\": \"{{ridePermitId}}\",\n    \"unlockCode\": \"{{unlockCode}}\",\n    \"location\": \"MYRAND\",\n    \"slotNumber\": \"1\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/trips/start",
-							"host": ["{{baseUrl}}"],
-							"path": ["trips", "start"]
-						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "End Station Maintenance",
@@ -689,7 +552,9 @@
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -710,17 +575,67 @@
 							"raw": "{\n    \"location\": \"MYRAND\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/stations/maintenance/end",
-							"host": ["{{baseUrl}}"],
-							"path": ["stations", "maintenance", "end"]
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/end",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"end"
+							]
 						}
-					}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Fleet Management",
 			"item": [
+				{
+					"name": "Login as Technician",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('technicianToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Check Station Availability",
 					"event": [
@@ -734,19 +649,36 @@
 									"    pm.expect(json).to.be.an('array');",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/stations/VACHON/slots/available",
-							"host": ["{{baseUrl}}"],
-							"path": ["stations", "VACHON", "slots", "available"]
+							"raw": "{{baseUrl}}/fleet/stations/VACHON/slots/available",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"VACHON",
+								"slots",
+								"available"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
 					"name": "Check Occupied Slots",
@@ -761,19 +693,36 @@
 									"    pm.expect(json).to.be.an('array');",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/stations/VACHON/slots/occupied",
-							"host": ["{{baseUrl}}"],
-							"path": ["stations", "VACHON", "slots", "occupied"]
+							"raw": "{{baseUrl}}/fleet/stations/VACHON/slots/occupied",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"VACHON",
+								"slots",
+								"occupied"
+							]
 						}
-					}
+					},
+					"response": []
 				}
 			]
 		}

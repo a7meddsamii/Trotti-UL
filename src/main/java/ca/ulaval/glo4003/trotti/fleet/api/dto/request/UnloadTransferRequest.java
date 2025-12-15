@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 public record UnloadTransferRequest(
-        @NotBlank String transferId,
         @NotBlank String destinationStation,
         @NotEmpty List<@Min(0) Integer> destinationSlots
 ) {}

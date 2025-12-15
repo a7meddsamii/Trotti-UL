@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import java.time.LocalDate;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
@@ -29,8 +30,8 @@ public class TripApiMapper {
 
     public TripHistorySearchCriteria toTripHistorySearchCriteria(Idul idul,
             TripQueryRequest request) {
-        return TripHistorySearchCriteria.builder().withIdul(idul).withStartDate(request.startDate())
-                .withEndDate(request.endDate()).build();
+        return TripHistorySearchCriteria.builder().withIdul(idul)
+                .withStartDate(request.getStartDate()).withEndDate(request.getEndDate()).build();
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {

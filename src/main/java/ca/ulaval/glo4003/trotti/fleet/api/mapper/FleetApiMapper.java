@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.trotti.fleet.api.mapper;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.api.dto.request.*;
+import ca.ulaval.glo4003.trotti.fleet.api.dto.response.TransferResponse;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
@@ -62,5 +63,9 @@ public class FleetApiMapper {
                 request.destinationSlots().stream().map(SlotNumber::from).toList();
 
         return new UnloadTransferDto(id, technicianId, destinationStation, destinationSlots);
+    }
+
+    public TransferResponse toTransferResponse(TransferId transferId) {
+        return new TransferResponse(transferId.toString());
     }
 }
