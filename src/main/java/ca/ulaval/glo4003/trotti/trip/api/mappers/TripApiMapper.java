@@ -30,7 +30,7 @@ public class TripApiMapper {
     public TripHistorySearchCriteria toTripHistorySearchCriteria(Idul idul,
             TripQueryRequest request) {
         return TripHistorySearchCriteria.builder().withIdul(idul)
-                .withStartDate(request.getStartDate()).withEndDate(request.getEndDate()).build();
+                .withStartDate(request.startDate()).withEndDate(request.endDate()).build();
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {
