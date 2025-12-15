@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class RidePermitActivationHandlerTest {
+class RidePermitActivationHandlerIntegrationTest {
 
     private static final Idul USER_IDUL = Idul.from("jdoe123");
     private static final Email USER_EMAIL = Email.from("john.doe@ulaval.ca");

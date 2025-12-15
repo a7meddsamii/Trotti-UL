@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CommunicationAccountCreatedHandlerTest {
+class CommunicationAccountCreatedHandlerIntegrationTest {
 
     private static final String ACCOUNT_NAME = "John Doe";
     private static final String ACCOUNT_EMAIL = "john.doe@ulaval.ca";
