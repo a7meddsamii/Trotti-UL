@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.trotti.trip.api.mappers;
 
 import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
@@ -22,7 +21,7 @@ public class TripApiMapper {
     public StartTripDto toStartTripDto(Idul idul, StartTripRequest request) {
         RidePermitId ridePermitId = RidePermitId.from(request.ridePermitId());
         Location location = Location.of(request.location());
-        SlotNumber slotNumber = parseSlotNumber(request.slotNumber());
+        SlotNumber slotNumber = SlotNumber.from(request.slotNumber());
 
         return new StartTripDto(idul, ridePermitId, String.valueOf(request.unlockCode()), location,
                 slotNumber);
@@ -30,14 +29,13 @@ public class TripApiMapper {
 
     public TripHistorySearchCriteria toTripHistorySearchCriteria(Idul idul,
             TripQueryRequest request) {
-        return TripHistorySearchCriteria.builder().withIdul(idul)
-                .withStartDate(request.getStartDate()).withEndDate(request.getEndDate()).build();
+        return TripHistorySearchCriteria.builder().withIdul(idul).withStartDate(request.startDate())
+                .withEndDate(request.endDate()).build();
     }
 
     public EndTripDto toEndTripDto(Idul idul, EndTripRequest request) {
-
         Location location = Location.of(request.location());
-        SlotNumber slotNumber = parseSlotNumber(request.slotNumber());
+        SlotNumber slotNumber = SlotNumber.from(request.slotNumber());
 
         return new EndTripDto(idul, location, slotNumber);
     }
@@ -58,14 +56,5 @@ public class TripApiMapper {
         return new TripHistoryResponse.TripResponse(trip.getTripId().toString(),
                 trip.getStartLocation().getBuilding(), trip.getEndLocation().getBuilding(),
                 trip.getStartTime(), trip.getEndTime(), trip.calculateDuration().toMinutes());
-    }
-
-    private SlotNumber parseSlotNumber(String slotNumberValue) {
-        try {
-            int number = Integer.parseInt(slotNumberValue);
-            return SlotNumber.from(number);
-        } catch (NumberFormatException e) {
-            throw new InvalidParameterException("Slot number must be an integer value");
-        }
     }
 }

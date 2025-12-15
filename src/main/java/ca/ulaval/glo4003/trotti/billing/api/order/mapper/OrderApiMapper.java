@@ -10,12 +10,10 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTi
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Session;
 import ca.ulaval.glo4003.trotti.billing.domain.payment.values.method.PaymentMethodType;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
-import ca.ulaval.glo4003.trotti.commons.domain.exceptions.InvalidParameterException;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 
 public class OrderApiMapper {
@@ -54,21 +52,9 @@ public class OrderApiMapper {
     }
 
     public ConfirmOrderDto toConfirmOrderDto(PaymentInfoRequest paymentInfoRequest) {
-        if (paymentInfoRequest == null) {
-            throw new InvalidParameterException(
-                    "Payment information is required to confirm the order");
-        }
-
-        YearMonth yearMonth;
-        try {
-            yearMonth = YearMonth.parse(paymentInfoRequest.expirationDate());
-        } catch (Exception e) {
-            throw new InvalidParameterException(
-                    "Expiration date format is invalid. Expected format is YYYY-MM");
-        }
 
         return new ConfirmOrderDto(PaymentMethodType.CREDIT_CARD, paymentInfoRequest.cardNumber(),
-                paymentInfoRequest.cardHolderName(), yearMonth);
+                paymentInfoRequest.cardHolderName(), paymentInfoRequest.expirationDate());
     }
 
     public FreeRidePermitItemGrantDto toFreeRidePermitItemGrantDto(Idul buyerId) {

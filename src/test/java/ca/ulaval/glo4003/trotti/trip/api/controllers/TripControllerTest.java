@@ -21,7 +21,7 @@ class TripControllerTest {
     private static final Idul TRAVELER_IDUL = Idul.from(IDUL_VALUE);
     private static final String UNLOCK_CODE = "23123";
     private static final String LOCATION = "VACHON";
-    private static final String SLOT_NUMBER = "3";
+    private static final int SLOT_NUMBER = 3;
     private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
     private TripCommandApplicationService tripCommandApplicationService;
@@ -84,6 +84,6 @@ class TripControllerTest {
     }
 
     private EndTripRequest endTripRequest() {
-        return new EndTripRequest(LOCATION, RIDE_PERMIT_ID);
+        return new EndTripRequest(LOCATION, SLOT_NUMBER);
     }
 }
