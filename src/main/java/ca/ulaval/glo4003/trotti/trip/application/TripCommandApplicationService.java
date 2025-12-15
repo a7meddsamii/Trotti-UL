@@ -9,45 +9,39 @@ import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.application.dto.TripDto;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class TripApplicationService {
+public class TripCommandApplicationService {
 
     private final UnlockCodeStore unlockCodeStore;
-    private final TripRepository tripRepository;
+    private final TripCommandRepository tripCommandRepository;
     private final RidePermitGateway ridePermitGateway;
     private final ScooterRentalGateway scooterRentalGateway;
     private final EventBus eventBus;
     private final Clock clock;
-    private final TripMapper tripMapper;
 
-    public TripApplicationService(
+    public TripCommandApplicationService(
             UnlockCodeStore unlockCodeStore,
-            TripRepository tripRepository,
+            TripCommandRepository tripCommandRepository,
             RidePermitGateway ridePermitGateway,
             ScooterRentalGateway scooterRentalGateway,
             EventBus eventBus,
-            Clock clock,
-            TripMapper tripMapper) {
+            Clock clock) {
         this.unlockCodeStore = unlockCodeStore;
-        this.tripRepository = tripRepository;
+        this.tripCommandRepository = tripCommandRepository;
         this.ridePermitGateway = ridePermitGateway;
         this.scooterRentalGateway = scooterRentalGateway;
         this.eventBus = eventBus;
         this.clock = clock;
-        this.tripMapper = tripMapper;
     }
 
     public void generateUnlockCode(Idul idul, RidePermitId ridePermitId) {
@@ -66,7 +60,7 @@ public class TripApplicationService {
     public void startTrip(StartTripDto tripDto) {
         unlockCodeStore.validate(tripDto.idul(), tripDto.ridePermitId(), tripDto.unlockCode());
 
-        if (tripRepository.exists(tripDto.idul(), TripStatus.ONGOING)) {
+        if (tripCommandRepository.exists(tripDto.idul(), TripStatus.ONGOING)) {
             throw new TripException("Traveler already has an ongoing trip");
         }
 
@@ -76,30 +70,24 @@ public class TripApplicationService {
         Trip onGoingTrip = Trip.start(tripDto.ridePermitId(), tripDto.idul(), scooterId,
                 LocalDateTime.now(clock), tripDto.location());
 
-        tripRepository.save(onGoingTrip);
+        tripCommandRepository.save(onGoingTrip);
         unlockCodeStore.revoke(tripDto.idul(), tripDto.ridePermitId());
     }
 
     public void endTrip(EndTripDto tripDto) {
-        if (!tripRepository.exists(tripDto.idul(), TripStatus.ONGOING)) {
+        if (!tripCommandRepository.exists(tripDto.idul(), TripStatus.ONGOING)) {
             throw new TripException("Traveler has no ongoing trip to end");
         }
 
-        Trip trip = tripRepository.findBy(tripDto.idul(), TripStatus.ONGOING).getFirst();
+        Trip trip = tripCommandRepository.findBy(tripDto.idul(), TripStatus.ONGOING).getFirst();
 
         scooterRentalGateway.returnScooter(tripDto.location(), tripDto.slotNumber(),
                 trip.getScooterId());
         trip.complete(tripDto.location(), LocalDateTime.now(clock));
-        tripRepository.save(trip);
+        tripCommandRepository.save(trip);
 
         eventBus.publish(new TripCompletedEvent(trip.getIdul(), trip.getRidePermitId().toString(),
                 trip.getScooterId().toString(), trip.getStartTime(), trip.getEndTime(),
                 trip.getStartLocation().toString(), trip.getEndLocation().toString()));
-    }
-
-    public List<TripDto> getTripHistory(Idul idul) {
-        List<Trip> trips = tripRepository.findBy(idul, TripStatus.COMPLETED);
-
-        return trips.stream().map(tripMapper::toDto).toList();
     }
 }

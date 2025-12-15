@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
 import java.util.List;
 
-public interface TripRepository {
+public interface TripCommandRepository {
 
     boolean exists(Idul idul, TripStatus status);
 

@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
@@ -28,5 +29,14 @@ public class TripPersistenceMapper {
                         : Location.of(record.endLocation().getBuilding(),
                                 record.endLocation().getSpotName()),
                 record.tripStatus());
+    }
+
+    public CompletedTrip toCompletedTrip(TripRecord record) {
+        return new CompletedTrip(TripId.from(record.tripId().toString()),
+                Idul.from(record.idul().toString()), record.startTime(),
+                Location.of(record.startLocation().getBuilding(),
+                        record.startLocation().getSpotName()),
+                record.endTime(), Location.of(record.endLocation().getBuilding(),
+                        record.endLocation().getSpotName()));
     }
 }

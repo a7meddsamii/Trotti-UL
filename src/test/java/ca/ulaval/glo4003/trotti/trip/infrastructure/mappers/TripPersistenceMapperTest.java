@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
@@ -74,6 +75,20 @@ class TripPersistenceMapperTest {
         Assertions.assertEquals(record.idul(), trip.getIdul());
         Assertions.assertEquals(record.scooterId(), trip.getScooterId());
         Assertions.assertEquals(record.tripStatus(), trip.getStatus());
+    }
+
+    @Test
+    void givenTripRecord_whenToCompletedTrip_thenReturnEquivalentCompletedTrip() {
+        TripRecord record = new TripRecord(TRIP_ID, IDUL, RIDE_PERMIT_ID, SCOOTER_ID, START_TIME,
+                START_LOCATION, END_TIME, END_LOCATION, TRIP_STATUS);
+
+        CompletedTrip completedTrip = mapper.toCompletedTrip(record);
+
+        Assertions.assertEquals(record.startLocation(), completedTrip.getStartLocation());
+        Assertions.assertEquals(record.endLocation(), completedTrip.getEndLocation());
+        Assertions.assertEquals(record.startTime(), completedTrip.getStartTime());
+        Assertions.assertEquals(record.endTime(), completedTrip.getEndTime());
+        Assertions.assertEquals(record.idul(), completedTrip.getIdul());
     }
 
 }
