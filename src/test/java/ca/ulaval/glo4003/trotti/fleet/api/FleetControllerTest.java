@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.trotti.fleet.application.FleetMaintenanceApplicationSer
 import ca.ulaval.glo4003.trotti.fleet.application.FleetOperationsApplicationService;
 import ca.ulaval.glo4003.trotti.fleet.application.dto.*;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
-import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.TransferId;
 import jakarta.ws.rs.core.Response;
@@ -47,7 +46,7 @@ class FleetControllerTest {
         StartTransferRequest request = Mockito.mock(StartTransferRequest.class);
         StartTransferDto dto = Mockito.mock(StartTransferDto.class);
         TransferResponse transferResponse = new TransferResponse(TRANSFER_ID.toString());
-        
+
         Mockito.when(fleetApiMapper.toStartTransferDto(TECHNICIAN_IDUL, request)).thenReturn(dto);
         Mockito.when(maintenanceService.startTransfer(dto)).thenReturn(TRANSFER_ID);
         Mockito.when(fleetApiMapper.toTransferResponse(TRANSFER_ID)).thenReturn(transferResponse);

@@ -76,8 +76,7 @@ class FleetApiMapperTest {
 
     @Test
     void givenUnloadTransferRequest_whenMapped_thenDtoContainsMappedValues() {
-        UnloadTransferRequest request =
-                new UnloadTransferRequest(LOCATION_STRING, INTEGER_SLOTS);
+        UnloadTransferRequest request = new UnloadTransferRequest(LOCATION_STRING, INTEGER_SLOTS);
 
         UnloadTransferDto dto = fleetApiMapper.toUnloadTransferDto(TECHNICIAN_IDUL,
                 TRANSFER_ID.toString(), request);
