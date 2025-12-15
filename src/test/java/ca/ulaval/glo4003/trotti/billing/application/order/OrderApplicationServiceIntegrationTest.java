@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.trotti.billing.domain.order.entities.Order;
 import ca.ulaval.glo4003.trotti.billing.domain.order.factory.OrderItemFactory;
 import ca.ulaval.glo4003.trotti.billing.domain.order.repository.OrderRepository;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.BillingFrequency;
-import ca.ulaval.glo4003.trotti.billing.domain.order.values.ItemId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.MaximumDailyTravelTime;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.OrderId;
 import ca.ulaval.glo4003.trotti.billing.domain.order.values.Semester;
@@ -16,7 +15,6 @@ import ca.ulaval.glo4003.trotti.billing.infrastructure.order.repository.InMemory
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -45,12 +43,12 @@ class OrderApplicationServiceIntegrationTest {
         orderAssembler = new OrderAssembler();
         orderItemFactory = new OrderItemFactory();
         eventBus = Mockito.mock(EventBus.class);
-        
+
         paymentMethodFactory = Mockito.mock(PaymentMethodFactory.class);
         paymentGateway = Mockito.mock(PaymentGateway.class);
-        
+
         addItemDto = createAddItemDto();
-        
+
         orderApplicationService = new OrderApplicationService(orderRepository, orderAssembler,
                 orderItemFactory, paymentMethodFactory, paymentGateway, eventBus);
     }
@@ -99,7 +97,8 @@ class OrderApplicationServiceIntegrationTest {
     @Test
     void givenOngoingOrder_whenRemoveItem_thenItemRemovedAndOrderSaved() {
         Order existingOrder = new Order(OrderId.randomId(), BUYER_ID);
-        var item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(), addItemDto.billingFrequency());
+        var item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(),
+                addItemDto.session(), addItemDto.billingFrequency());
         existingOrder.add(item);
         orderRepository.save(existingOrder);
         int initialItemCount = existingOrder.getItems().size();
@@ -114,7 +113,8 @@ class OrderApplicationServiceIntegrationTest {
     @Test
     void givenOngoingOrder_whenRemoveAllItems_thenOrderClearedAndSaved() {
         Order existingOrder = new Order(OrderId.randomId(), BUYER_ID);
-        var item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(), addItemDto.session(), addItemDto.billingFrequency());
+        var item = orderItemFactory.create(addItemDto.maximumDailyTravelTime(),
+                addItemDto.session(), addItemDto.billingFrequency());
         existingOrder.add(item);
         orderRepository.save(existingOrder);
 
@@ -126,10 +126,8 @@ class OrderApplicationServiceIntegrationTest {
     }
 
     private AddItemDto createAddItemDto() {
-        return new AddItemDto(
-                MaximumDailyTravelTime.baseTravelTime(),
+        return new AddItemDto(MaximumDailyTravelTime.baseTravelTime(),
                 new Session(Semester.FALL, LocalDate.now(), LocalDate.now().plusMonths(4)),
-                BillingFrequency.MONTHLY
-        );
+                BillingFrequency.MONTHLY);
     }
 }

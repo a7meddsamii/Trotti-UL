@@ -25,7 +25,6 @@ import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.InMemoryAcco
 import ca.ulaval.glo4003.trotti.account.infrastructure.repositories.records.AccountRecord;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
-
 import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,7 @@ class AccountApplicationServiceIntegrationTest {
         Map<Idul, AccountRecord> accountTable = new HashMap<>();
         AccountPersistenceMapper accountMapper = new AccountPersistenceMapper();
         accountRepository = new InMemoryAccountRepository(accountTable, accountMapper);
-        
+
         eventBus = Mockito.mock(EventBus.class);
         accountFactory = createRealAccountFactory();
 
@@ -161,14 +160,13 @@ class AccountApplicationServiceIntegrationTest {
         LoginDto loginDto = new LoginDto(AccountFixture.EMAIL, AccountFixture.RAW_PASSWORD);
         Mockito.when(authenticationProvider.verify(loginDto)).thenReturn(AccountFixture.EMAIL);
         SessionToken expectedToken = SessionToken.from("test-token");
-        Mockito.when(sessionTokenProvider.generateToken(AccountFixture.IDUL,
-                AccountFixture.ROLE, AccountFixture.SET_OF_PERMISSION))
-                .thenReturn(expectedToken);
+        Mockito.when(sessionTokenProvider.generateToken(AccountFixture.IDUL, AccountFixture.ROLE,
+                AccountFixture.SET_OF_PERMISSION)).thenReturn(expectedToken);
 
         SessionToken actualToken = accountApplicationService.login(loginDto);
 
-        Mockito.verify(sessionTokenProvider).generateToken(AccountFixture.IDUL,
-                AccountFixture.ROLE, AccountFixture.SET_OF_PERMISSION);
+        Mockito.verify(sessionTokenProvider).generateToken(AccountFixture.IDUL, AccountFixture.ROLE,
+                AccountFixture.SET_OF_PERMISSION);
         Assertions.assertEquals(expectedToken, actualToken);
     }
 
@@ -179,9 +177,9 @@ class AccountApplicationServiceIntegrationTest {
     }
 
     private void mockAuthenticationProviderToReturnAccountDto() {
-        AccountDto dto = new AccountDto(AccountFixture.NAME, AccountFixture.BIRTHDATE,
-                AccountFixture.GENDER, AccountFixture.IDUL, AccountFixture.EMAIL,
-                AccountFixture.ROLE);
+        AccountDto dto =
+                new AccountDto(AccountFixture.NAME, AccountFixture.BIRTHDATE, AccountFixture.GENDER,
+                        AccountFixture.IDUL, AccountFixture.EMAIL, AccountFixture.ROLE);
         Mockito.when(authenticationProvider.register(registrationDto)).thenReturn(dto);
     }
 

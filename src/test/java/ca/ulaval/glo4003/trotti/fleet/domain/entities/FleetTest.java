@@ -120,8 +120,7 @@ class FleetTest {
         List<Scooter> scooters = List.of(scooter, secondScooter);
         fleet = new Fleet(Map.of(LOCATION, station), givenDisplacedScooters(scooters));
 
-        Executable action =
-                () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
+        Executable action = () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }
@@ -158,8 +157,7 @@ class FleetTest {
         List<SlotNumber> slots = List.of(SLOT_1);
         List<ScooterId> displacedScooterIds = List.of(scooterId);
 
-        Executable action =
-                () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
+        Executable action = () -> fleet.depositScooters(LOCATION, slots, displacedScooterIds, TIME);
 
         Assertions.assertThrows(InvalidTransferException.class, action);
     }

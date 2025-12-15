@@ -41,8 +41,8 @@ class AdminCreationNodeTest {
     void givenAdminRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenAdminAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account result = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
-                GENDER, IDUL, EMAIL, role, availablePermissions);
+        Account result = adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role, availablePermissions);
 
         Assertions.assertEquals(NAME, result.getName());
         Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
@@ -57,11 +57,11 @@ class AdminCreationNodeTest {
     void givenNoAdminRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = NOT_ADMIN_ROLE;
 
-        adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
-                role, availablePermissions);
+        adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role,
+                availablePermissions);
 
-        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, role, availablePermissions);
+        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
+                role, availablePermissions);
     }
 
     @Test
@@ -69,8 +69,8 @@ class AdminCreationNodeTest {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
-        Executable executable = () -> adminCreationNode.createAdminManagedAccount(NAME,
-                BIRTHDATE, GENDER, IDUL, EMAIL, role, availablePermissions);
+        Executable executable = () -> adminCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
+                GENDER, IDUL, EMAIL, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);
     }

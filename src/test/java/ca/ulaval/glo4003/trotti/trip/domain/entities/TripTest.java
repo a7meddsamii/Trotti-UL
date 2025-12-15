@@ -29,14 +29,12 @@ class TripTest {
 
     @BeforeEach
     void setup() {
-        trip = Trip.start(RIDE_PERMIT_ID, TRAVELER_ID, SCOOTER_ID, START_TIME,
-                START_LOCATION);
+        trip = Trip.start(RIDE_PERMIT_ID, TRAVELER_ID, SCOOTER_ID, START_TIME, START_LOCATION);
     }
 
     @Test
     void whenStart_thenTripIsOngoing() {
-        Trip trip = Trip.start(RIDE_PERMIT_ID, TRAVELER_ID, SCOOTER_ID, START_TIME,
-                START_LOCATION);
+        Trip trip = Trip.start(RIDE_PERMIT_ID, TRAVELER_ID, SCOOTER_ID, START_TIME, START_LOCATION);
 
         Assertions.assertEquals(TripStatus.ONGOING, trip.getStatus());
     }

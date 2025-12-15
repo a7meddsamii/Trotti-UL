@@ -47,14 +47,13 @@ class UnlockCodeTest {
 
     @Test
     void givenSameCodeValueSameIdulAndRidePermitId_whenMatches_thenReturnsTrue() {
-        Assertions.assertTrue(
-                unlockCode.matches(TRAVELER_ID, RIDE_PERMIT_ID, unlockCode.getCode()));
+        Assertions
+                .assertTrue(unlockCode.matches(TRAVELER_ID, RIDE_PERMIT_ID, unlockCode.getCode()));
     }
 
     @Test
     void givenDifferentCodeValue_whenMatches_thenReturnsFalse() {
-        UnlockCode differentUnlockCode =
-                UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
+        UnlockCode differentUnlockCode = UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
 
         Assertions.assertFalse(
                 unlockCode.matches(TRAVELER_ID, RIDE_PERMIT_ID, differentUnlockCode.getCode()));

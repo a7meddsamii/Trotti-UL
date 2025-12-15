@@ -51,11 +51,10 @@ class PasswordAuthenticationProviderTest {
         Assertions.assertEquals(EMAIL, result);
     }
 
-
     @Test
     void givenInvalidPassword_whenRegister_thenThrowsException() {
-        RegistrationDto registration = new RegistrationDto(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, INVALID_PASSWORD, ROLE);
+        RegistrationDto registration =
+                new RegistrationDto(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, INVALID_PASSWORD, ROLE);
 
         Executable executable = () -> provider.register(registration);
 
@@ -99,8 +98,7 @@ class PasswordAuthenticationProviderTest {
     }
 
     private RegistrationDto createValidRegistrationDto() {
-        return new RegistrationDto(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, VALID_PASSWORD,
-                ROLE);
+        return new RegistrationDto(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, VALID_PASSWORD, ROLE);
     }
 
 }

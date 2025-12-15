@@ -23,7 +23,8 @@ import org.mockito.Mockito;
 class RidePermitApplicationServiceIntegrationTest {
     private static final Instant FIXED_INSTANT = Instant.parse("2025-01-01T10:00:00Z");
     private static final Idul RIDER_IDUL = Idul.from("IDUL123");
-    private static final Session TEST_SESSION = new Session(Semester.FALL, LocalDate.of(2025, 9, 1), LocalDate.of(2025, 12, 20));
+    private static final Session TEST_SESSION =
+            new Session(Semester.FALL, LocalDate.of(2025, 9, 1), LocalDate.of(2025, 12, 20));
 
     private RidePermitFactory ridePermitFactory;
     private RidePermitRepository ridePermitRepository;
@@ -40,18 +41,20 @@ class RidePermitApplicationServiceIntegrationTest {
         ridePermitRepository = new InMemoryRidePermitRepository();
         ridePermitAssembler = new RidePermitAssembler();
         clock = Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
-        
+
         paymentGateway = Mockito.mock(PaymentGateway.class);
-        
-        createRidePermitDto = new CreateRidePermitDto(TEST_SESSION, Duration.ofHours(2), BillingFrequency.MONTHLY);
-        
+
+        createRidePermitDto = new CreateRidePermitDto(TEST_SESSION, Duration.ofHours(2),
+                BillingFrequency.MONTHLY);
+
         this.ridePermitApplicationService = new RidePermitApplicationService(ridePermitFactory,
                 ridePermitRepository, paymentGateway, ridePermitAssembler, clock);
     }
 
     @Test
     void givenRiderId_whenGetRidePermits_thenReturnsRidePermitDtos() {
-        RidePermit ridePermit = ridePermitFactory.create(RIDER_IDUL, TEST_SESSION, Duration.ofHours(2), BillingFrequency.MONTHLY);
+        RidePermit ridePermit = ridePermitFactory.create(RIDER_IDUL, TEST_SESSION,
+                Duration.ofHours(2), BillingFrequency.MONTHLY);
         ridePermitRepository.save(ridePermit);
 
         List<RidePermitDto> result = ridePermitApplicationService.getRidePermits(RIDER_IDUL);
@@ -75,11 +78,13 @@ class RidePermitApplicationServiceIntegrationTest {
 
     @Test
     void givenAddTravelTimeDto_whenAddTravelTime_thenAddsTravelTimeToRidePermit() {
-        RidePermit ridePermit = ridePermitFactory.create(RIDER_IDUL, TEST_SESSION, Duration.ofHours(2), BillingFrequency.MONTHLY);
+        RidePermit ridePermit = ridePermitFactory.create(RIDER_IDUL, TEST_SESSION,
+                Duration.ofHours(2), BillingFrequency.MONTHLY);
         ridePermitRepository.save(ridePermit);
         LocalDateTime startDateTime = LocalDateTime.of(2025, 9, 15, 10, 0);
         Duration travelTime = Duration.ofMinutes(30);
-        AddTravelTimeDto addTravelTimeDto = new AddTravelTimeDto(ridePermit.getId(), startDateTime, travelTime);
+        AddTravelTimeDto addTravelTimeDto =
+                new AddTravelTimeDto(ridePermit.getId(), startDateTime, travelTime);
 
         ridePermitApplicationService.addTravelTime(RIDER_IDUL, addTravelTimeDto);
 

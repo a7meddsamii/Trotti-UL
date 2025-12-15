@@ -39,8 +39,8 @@ class EmployeeCreationNodeTest {
         role = Role.EMPLOYEE;
         Mockito.when(employeeRegistryProvider.exists(Mockito.any(Idul.class))).thenReturn(true);
 
-        Account expected = employeeCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER,
-                IDUL, EMAIL, role);
+        Account expected = employeeCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role);
 
         Assertions.assertEquals(NAME, expected.getName());
         Assertions.assertEquals(BIRTHDATE, expected.getBirthDate());
@@ -55,11 +55,9 @@ class EmployeeCreationNodeTest {
     void givenNoEmployeeRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        employeeCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
-                role);
+        employeeCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
 
-        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, role);
+        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
     }
 
     @Test

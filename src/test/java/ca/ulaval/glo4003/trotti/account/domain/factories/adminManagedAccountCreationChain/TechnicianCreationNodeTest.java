@@ -40,8 +40,8 @@ class TechnicianCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenTechnicianAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account result = technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE,
-                GENDER, IDUL, EMAIL, role, availablePermissions);
+        Account result = technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER,
+                IDUL, EMAIL, role, availablePermissions);
 
         Assertions.assertEquals(NAME, result.getName());
         Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
@@ -56,11 +56,11 @@ class TechnicianCreationNodeTest {
     void givenNoTechnicianRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = Role.EMPLOYEE;
 
-        technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, role, availablePermissions);
+        technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role,
+                availablePermissions);
 
-        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, role, availablePermissions);
+        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
+                role, availablePermissions);
     }
 
     @Test

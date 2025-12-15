@@ -33,8 +33,8 @@ class StudentCreationNodeTest {
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
         role = Role.STUDENT;
 
-        Account result = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER,
-                IDUL, EMAIL, role);
+        Account result = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role);
 
         Assertions.assertEquals(NAME, result.getName());
         Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
@@ -49,11 +49,9 @@ class StudentCreationNodeTest {
     void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
-                role);
+        studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
 
-        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
-                EMAIL, role);
+        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
     }
 
 }

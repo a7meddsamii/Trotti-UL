@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.TripCompletedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.events.trip.UnlockCodeRequestedEvent;
 import ca.ulaval.glo4003.trotti.commons.domain.exceptions.NotFoundException;
-
 import ca.ulaval.glo4003.trotti.fleet.domain.values.Location;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
@@ -54,7 +53,7 @@ class TripApplicationServiceIntegrationTest {
         eventBus = Mockito.mock(EventBus.class);
         tripMapper = new TripMapper();
         clock = Clock.systemDefaultZone();
-        
+
         ridePermitGateway = Mockito.mock(RidePermitGateway.class);
         scooterRentalGateway = Mockito.mock(ScooterRentalGateway.class);
 
@@ -145,8 +144,7 @@ class TripApplicationServiceIntegrationTest {
         Mockito.when(endDto.idul()).thenReturn(IDUL);
         Mockito.when(endDto.location()).thenReturn(endLocation);
         Mockito.when(endDto.slotNumber()).thenReturn(SLOT_NUMBER);
-        Trip ongoingTrip = Trip.start(RIDE_PERMIT_ID, IDUL, scooterId,
-                startTime, endLocation);
+        Trip ongoingTrip = Trip.start(RIDE_PERMIT_ID, IDUL, scooterId, startTime, endLocation);
         tripRepository.save(ongoingTrip);
 
         service.endTrip(endDto);
