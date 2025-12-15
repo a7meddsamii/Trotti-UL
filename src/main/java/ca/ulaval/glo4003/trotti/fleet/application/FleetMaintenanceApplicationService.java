@@ -64,7 +64,7 @@ public class FleetMaintenanceApplicationService {
     public TransferId startTransfer(StartTransferDto startTransferDto) {
         Fleet fleet = fleetRepository.find();
         List<ScooterId> scooterIds = fleet.retrieveScooters(startTransferDto.sourceStation(),
-                startTransferDto.sourceSlots());
+                startTransferDto.sourceSlots(), now());
         Transfer transfer = transferFactory.create(startTransferDto.technicianId(), scooterIds);
         transferRepository.save(transfer);
         fleetRepository.save(fleet);

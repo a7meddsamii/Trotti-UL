@@ -33,7 +33,7 @@ public class FleetController implements FleetResource {
                 fleetApiMapper.toStartTransferDto(technicianId, request);
         TransferId transferId = maintenanceService.startTransfer(startTransferDto);
 
-        return Response.ok(transferId).build();
+        return Response.ok(fleetApiMapper.toTransferResponse(transferId)).build();
     }
 
     @Override

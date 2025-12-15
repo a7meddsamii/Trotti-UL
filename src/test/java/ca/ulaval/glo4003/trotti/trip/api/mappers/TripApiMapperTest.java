@@ -160,7 +160,9 @@ class TripApiMapperTest {
 
     @Test
     void givenValidTripQueryRequest_whenToTripHistorySearchCriteria_thenMapsCorrectly() {
-        TripQueryRequest request = new TripQueryRequest(START_DATE, END_DATE);
+        TripQueryRequest request = new TripQueryRequest();
+        request.startDate = START_DATE.toString();
+        request.endDate = END_DATE.toString();
 
         TripHistorySearchCriteria criteria =
                 mapper.toTripHistorySearchCriteria(travelerIdul, request);

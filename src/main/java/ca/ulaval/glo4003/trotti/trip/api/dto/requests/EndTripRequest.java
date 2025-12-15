@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.trotti.trip.api.dto.requests;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public record EndTripRequest(
         @NotBlank(message = "Location code is required") String location,
-        @NotBlank(message = "Slot number is required") int slotNumber
+        @Min(value = 0, message = "Slot number must be positive") int slotNumber
 ) {
 }

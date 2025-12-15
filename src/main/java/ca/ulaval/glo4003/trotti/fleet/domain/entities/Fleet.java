@@ -52,9 +52,10 @@ public class Fleet {
         station.endMaintenance(technicianId, endTime);
     }
 
-    public List<ScooterId> retrieveScooters(Location location, List<SlotNumber> slotNumbers) {
+    public List<ScooterId> retrieveScooters(Location location, List<SlotNumber> slotNumbers,
+            LocalDateTime retrievalTime) {
         Station station = stations.get(location);
-        List<Scooter> scooters = station.retrieveScootersForTransfer(slotNumbers);
+        List<Scooter> scooters = station.retrieveScootersForTransfer(slotNumbers, retrievalTime);
         scooters.forEach(scooter -> displacedScooters.put(scooter.getScooterId(), scooter));
 
         return scooters.stream().map(Scooter::getScooterId).toList();

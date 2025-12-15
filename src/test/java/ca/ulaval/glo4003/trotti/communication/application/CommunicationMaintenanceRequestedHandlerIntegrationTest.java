@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class CommunicationMaintenanceRequestedHandlerTest {
+class CommunicationMaintenanceRequestedHandlerIntegrationTest {
 
     private static final Idul MAINTENANCE_IDUL = Idul.from("stud123");
     private static final String MAINTENANCE_LOCATION = "VACHON Building";

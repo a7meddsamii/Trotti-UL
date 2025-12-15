@@ -17,7 +17,7 @@ class CompletedTripTest {
     private static final Location END_LOCATION = Location.of("PEPS", "Station #1");
 
     private static final CompletedTrip A_COMPLETED_TRIP =
-            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, START_TIME,
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.IDUL, START_TIME,
                     START_LOCATION, END_TIME, END_LOCATION);
 
     @Test

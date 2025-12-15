@@ -16,11 +16,11 @@ import org.mockito.Mockito;
 
 class TechnicianCreationNodeTest {
 
-    private static final String A_NAME = AccountFixture.A_NAME;
-    private static final LocalDate A_BIRTHDATE = AccountFixture.A_BIRTHDATE;
-    private static final Gender A_GENDER = AccountFixture.A_GENDER;
-    private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
-    private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
+    private static final String NAME = AccountFixture.NAME;
+    private static final LocalDate BIRTHDATE = AccountFixture.BIRTHDATE;
+    private static final Gender GENDER = AccountFixture.GENDER;
+    private static final Idul IDUL = AccountFixture.IDUL;
+    private static final Email EMAIL = AccountFixture.EMAIL;
 
     private Set<Permission> availablePermissions;
     private AdminManagedAccountCreationNode nextNode;
@@ -40,14 +40,14 @@ class TechnicianCreationNodeTest {
     void givenTechnicianRoleAndCorrectPermissions_whenCreateAdminManagedAccount_thenTechnicianAccountIsCreated() {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class))).thenReturn(true);
 
-        Account result = technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE,
-                A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
+        Account result = technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER,
+                IDUL, EMAIL, role, availablePermissions);
 
-        Assertions.assertEquals(A_NAME, result.getName());
-        Assertions.assertEquals(A_BIRTHDATE, result.getBirthDate());
-        Assertions.assertEquals(A_GENDER, result.getGender());
-        Assertions.assertEquals(AN_IDUL, result.getIdul());
-        Assertions.assertEquals(A_EMAIL, result.getEmail());
+        Assertions.assertEquals(NAME, result.getName());
+        Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(GENDER, result.getGender());
+        Assertions.assertEquals(IDUL, result.getIdul());
+        Assertions.assertEquals(EMAIL, result.getEmail());
         Assertions.assertEquals(role, result.getRole());
         Assertions.assertNotNull(result.getPermissions());
     }
@@ -56,11 +56,11 @@ class TechnicianCreationNodeTest {
     void givenNoTechnicianRole_whenCreateAdminManagedAccount_thenNextNodeIsCalled() {
         role = Role.EMPLOYEE;
 
-        technicianCreationNode.createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, role, availablePermissions);
+        technicianCreationNode.createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role,
+                availablePermissions);
 
-        Mockito.verify(nextNode).createAdminManagedAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, role, availablePermissions);
+        Mockito.verify(nextNode).createAdminManagedAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL,
+                role, availablePermissions);
     }
 
     @Test
@@ -68,8 +68,8 @@ class TechnicianCreationNodeTest {
         Mockito.when(availablePermissions.contains(Mockito.any(Permission.class)))
                 .thenReturn(false);
 
-        Executable executable = () -> technicianCreationNode.createAdminManagedAccount(A_NAME,
-                A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL, role, availablePermissions);
+        Executable executable = () -> technicianCreationNode.createAdminManagedAccount(NAME,
+                BIRTHDATE, GENDER, IDUL, EMAIL, role, availablePermissions);
 
         Assertions.assertThrows(AuthorizationException.class, executable);
     }

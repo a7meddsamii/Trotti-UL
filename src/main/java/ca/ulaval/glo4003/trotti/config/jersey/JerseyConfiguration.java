@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.trotti.account.api.security.authentication.Authenticati
 import ca.ulaval.glo4003.trotti.account.api.security.authorization.AuthorizationFilter;
 import ca.ulaval.glo4003.trotti.account.api.security.identity.AuthenticatedUserParamProvider;
 import ca.ulaval.glo4003.trotti.config.ApplicationContext;
+import ca.ulaval.glo4003.trotti.config.json.CustomJsonProvider;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.config.scheduler.ServerLifeCycleListener;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -14,7 +15,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.validation.ValidationFeature;
 
@@ -38,7 +38,7 @@ public class JerseyConfiguration extends ResourceConfig {
         register(AuthenticatedUserParamProvider.class);
         register(ServerLifeCycleListener.class);
         register(ValidationFeature.class);
-        register(JacksonFeature.class);
+        register(CustomJsonProvider.class);
         register(OpenApiResource.class);
         packages(BASE_PACKAGE);
     }

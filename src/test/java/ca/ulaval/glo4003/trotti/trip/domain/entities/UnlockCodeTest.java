@@ -10,15 +10,15 @@ import org.junit.jupiter.api.Test;
 class UnlockCodeTest {
 
     private static final String NUMERIC_REGEX = "\\d+";
-    private static final Idul A_TRAVELER_ID = Idul.from("travelerId");
-    private static final RidePermitId A_RIDE_PERMIT_ID = RidePermitId.randomId();
+    private static final Idul TRAVELER_ID = Idul.from("travelerId");
+    private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
 
     private UnlockCode unlockCode;
     private Clock clock = Clock.systemDefaultZone();
 
     @BeforeEach
     void setup() {
-        unlockCode = UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
+        unlockCode = UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
     }
 
     @Test
@@ -39,25 +39,24 @@ class UnlockCodeTest {
 
     @Test
     void whenCreatingTwoUnlockCodes_thenTheyAreDifferent() {
-        UnlockCode firstUnlockCode = UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
-        UnlockCode secondUnlockCode = UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
+        UnlockCode firstUnlockCode = UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
+        UnlockCode secondUnlockCode = UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
 
         Assertions.assertNotEquals(firstUnlockCode.getCode(), secondUnlockCode.getCode());
     }
 
     @Test
     void givenSameCodeValueSameIdulAndRidePermitId_whenMatches_thenReturnsTrue() {
-        Assertions.assertTrue(
-                unlockCode.matches(A_TRAVELER_ID, A_RIDE_PERMIT_ID, unlockCode.getCode()));
+        Assertions
+                .assertTrue(unlockCode.matches(TRAVELER_ID, RIDE_PERMIT_ID, unlockCode.getCode()));
     }
 
     @Test
     void givenDifferentCodeValue_whenMatches_thenReturnsFalse() {
-        UnlockCode differentUnlockCode =
-                UnlockCode.generate(A_TRAVELER_ID, A_RIDE_PERMIT_ID, clock);
+        UnlockCode differentUnlockCode = UnlockCode.generate(TRAVELER_ID, RIDE_PERMIT_ID, clock);
 
         Assertions.assertFalse(
-                unlockCode.matches(A_TRAVELER_ID, A_RIDE_PERMIT_ID, differentUnlockCode.getCode()));
+                unlockCode.matches(TRAVELER_ID, RIDE_PERMIT_ID, differentUnlockCode.getCode()));
     }
 
 }

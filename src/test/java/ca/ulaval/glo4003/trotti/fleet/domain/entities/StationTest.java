@@ -130,7 +130,7 @@ class StationTest {
         Mockito.when(dockingArea.undock(SLOT_NUMBER)).thenReturn(scooter);
         Mockito.when(dockingArea.undock(SLOT_NUMBER_2)).thenReturn(scooter2);
 
-        List<Scooter> result = station.retrieveScootersForTransfer(slots);
+        List<Scooter> result = station.retrieveScootersForTransfer(slots, CURRENT_TIME);
 
         Assertions.assertEquals(List.of(scooter, scooter2), result);
     }

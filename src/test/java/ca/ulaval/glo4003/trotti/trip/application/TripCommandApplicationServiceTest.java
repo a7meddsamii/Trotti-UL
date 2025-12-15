@@ -17,7 +17,6 @@ import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
 import java.time.Clock;
@@ -37,7 +36,6 @@ class TripCommandApplicationServiceTest {
 
     private UnlockCodeStore unlockCodeStore;
     private TripCommandRepository tripCommandRepository;
-    private TripQueryRepository tripQueryRepository;
     private RidePermitGateway ridePermitGateway;
     private ScooterRentalGateway scooterRentalGateway;
     private EventBus eventBus;
@@ -48,7 +46,6 @@ class TripCommandApplicationServiceTest {
     void setup() {
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
         tripCommandRepository = Mockito.mock(TripCommandRepository.class);
-        tripQueryRepository = Mockito.mock(TripQueryRepository.class);
         ridePermitGateway = Mockito.mock(RidePermitGateway.class);
         scooterRentalGateway = Mockito.mock(ScooterRentalGateway.class);
         eventBus = Mockito.mock(EventBus.class);

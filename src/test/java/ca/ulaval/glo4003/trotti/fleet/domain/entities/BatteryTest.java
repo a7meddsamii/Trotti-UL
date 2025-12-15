@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class BatteryTest {
-    private static final BatteryLevel A_BATTERY_LEVEL = BatteryLevel.from(BigDecimal.valueOf(50));
+    private static final BatteryLevel BATTERY_LEVEL = BatteryLevel.from(BigDecimal.valueOf(50));
     private static final LocalDateTime LAST_BATTERY_UPDATE = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final BatteryLevel BELOW_MINIMUM_OPERATIONAL_LEVEL =
@@ -22,7 +22,7 @@ class BatteryTest {
 
     @BeforeEach
     void setup() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
     }
 
     @Test
@@ -37,7 +37,7 @@ class BatteryTest {
 
     @Test
     void givenDischargingBattery_whenChangeBatteryState_thenComputesLostCharge() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
         BatteryLevel oldBatteryLevel = battery.getBatteryLevel();
 
         battery.changeBatteryState(BatteryState.CHARGING, CURRENT_TIME);
@@ -48,7 +48,7 @@ class BatteryTest {
 
     @Test
     void givenChargingBattery_whenChangeBatteryState_thenComputesGainedCharge() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
         BatteryLevel oldBatteryLevel = battery.getBatteryLevel();
 
         battery.changeBatteryState(BatteryState.DISCHARGING, CURRENT_TIME);
@@ -84,7 +84,7 @@ class BatteryTest {
 
     @Test
     void givenChargingBattery_whenPauseCharging_thenChangesToIdleState() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.CHARGING);
 
         battery.pauseCharging(CURRENT_TIME);
 
@@ -93,7 +93,7 @@ class BatteryTest {
 
     @Test
     void givenNonChargingBattery_whenPauseCharging_thenStateUnchanged() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
 
         battery.pauseCharging(CURRENT_TIME);
 
@@ -102,7 +102,7 @@ class BatteryTest {
 
     @Test
     void givenIdleBattery_whenResumeCharging_thenChangesToChargingState() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.IDLE);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.IDLE);
 
         battery.resumeCharging(CURRENT_TIME);
 
@@ -111,7 +111,7 @@ class BatteryTest {
 
     @Test
     void givenNonIdleBattery_whenResumeCharging_thenStateUnchanged() {
-        battery = new Battery(A_BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
+        battery = new Battery(BATTERY_LEVEL, LAST_BATTERY_UPDATE, BatteryState.DISCHARGING);
 
         battery.resumeCharging(CURRENT_TIME);
 

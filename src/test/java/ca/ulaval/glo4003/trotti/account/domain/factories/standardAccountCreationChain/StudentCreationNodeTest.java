@@ -12,11 +12,11 @@ import org.mockito.Mockito;
 
 class StudentCreationNodeTest {
 
-    private static final String A_NAME = AccountFixture.A_NAME;
-    private static final LocalDate A_BIRTHDATE = AccountFixture.A_BIRTHDATE;
-    private static final Gender A_GENDER = AccountFixture.A_GENDER;
-    private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
-    private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
+    private static final String NAME = AccountFixture.NAME;
+    private static final LocalDate BIRTHDATE = AccountFixture.BIRTHDATE;
+    private static final Gender GENDER = AccountFixture.GENDER;
+    private static final Idul IDUL = AccountFixture.IDUL;
+    private static final Email EMAIL = AccountFixture.EMAIL;
 
     private StandardAccountCreationNode nextNode;
     private Role role;
@@ -33,14 +33,14 @@ class StudentCreationNodeTest {
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
         role = Role.STUDENT;
 
-        Account result = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
-                AN_IDUL, A_EMAIL, role);
+        Account result = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role);
 
-        Assertions.assertEquals(A_NAME, result.getName());
-        Assertions.assertEquals(A_BIRTHDATE, result.getBirthDate());
-        Assertions.assertEquals(A_GENDER, result.getGender());
-        Assertions.assertEquals(AN_IDUL, result.getIdul());
-        Assertions.assertEquals(A_EMAIL, result.getEmail());
+        Assertions.assertEquals(NAME, result.getName());
+        Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(GENDER, result.getGender());
+        Assertions.assertEquals(IDUL, result.getIdul());
+        Assertions.assertEquals(EMAIL, result.getEmail());
         Assertions.assertEquals(role, result.getRole());
         Assertions.assertNotNull(result.getPermissions());
     }
@@ -49,11 +49,9 @@ class StudentCreationNodeTest {
     void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                role);
+        studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
 
-        Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, role);
+        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
     }
 
 }

@@ -19,10 +19,10 @@ class TripHistoryTest {
     private static final Location START_LOCATION = Location.of("VACHON", "Station #1");
     private static final Location END_LOCATION = Location.of("PEPS", "Station #1");
     private static final CompletedTrip COMPLETED_TRIP =
-            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, START_TIME,
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.IDUL, START_TIME,
                     START_LOCATION, END_TIME, END_LOCATION);
     private static final CompletedTrip ANOTHER_COMPLETED_TRIP =
-            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, START_TIME,
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.IDUL, START_TIME,
                     END_LOCATION, ANOTHER_ENDTIME_TIME, START_LOCATION);
     private static final List<CompletedTrip> COMPLETED_TRIP_LIST = new ArrayList<CompletedTrip>();
     private static final List<CompletedTrip> EMPTY_COMPLETED_TRIP_LIST =
