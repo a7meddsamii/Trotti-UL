@@ -9,20 +9,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class CompletedTripTest {
+class CompletedTripTest {
 
-    public static final LocalDateTime A_START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
-    public static final LocalDateTime AN_END_TIME = LocalDateTime.of(2025, 1, 1, 10, 15);
-    public static final Location A_START_LOCATION = Location.of("VACHON", "Station #1");
-    public static final Location AN_END_LOCATION = Location.of("PEPS", "Station #1");
+    private static final LocalDateTime START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
+    private static final LocalDateTime END_TIME = LocalDateTime.of(2025, 1, 1, 10, 15);
+    private static final Location START_LOCATION = Location.of("VACHON", "Station #1");
+    private static final Location END_LOCATION = Location.of("PEPS", "Station #1");
 
-    public static final CompletedTrip A_COMPLETED_TRIP =
-            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, A_START_TIME,
-                    A_START_LOCATION, AN_END_TIME, AN_END_LOCATION);
+    private static final CompletedTrip A_COMPLETED_TRIP =
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, START_TIME,
+                    START_LOCATION, END_TIME, END_LOCATION);
 
     @Test
     void givenStartTimeAndEndTime_whenCalculateDuration_thenCorrectlyCalculatesDuration() {
-        Duration expectedDuration = Duration.between(A_START_TIME, AN_END_TIME);
+        Duration expectedDuration = Duration.between(START_TIME, END_TIME);
 
         Duration duration = A_COMPLETED_TRIP.calculateDuration();
 

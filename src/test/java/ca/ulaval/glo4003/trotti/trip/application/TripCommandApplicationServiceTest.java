@@ -174,17 +174,4 @@ class TripCommandApplicationServiceTest {
                         && e.getStartLocation().equals(endLocation.toString())
                         && e.getEndLocation().equals(endLocation.toString())));
     }
-
-    // @Test
-    // void givenTripHistorySearchCriteria_whenGetTripHistory_thenOrchestratesProperly() {
-    // TripHistorySearchCriteria searchCriteria = Mockito.mock(TripHistorySearchCriteria.class);
-    // TripHistory expectedTripHistory = Mockito.mock(TripHistory.class);
-    // Mockito.when(tripQueryRepository.findAllBySearchCriteria(searchCriteria)).thenReturn(expectedTripHistory);
-    //
-    // TripHistory tripHistory = service.getTripHistory(searchCriteria);
-    //
-    // Mockito.verify(tripQueryRepository,
-    // Mockito.times(1)).findAllBySearchCriteria(searchCriteria);
-    // Assertions.assertEquals(expectedTripHistory, tripHistory);
-    // }
 }

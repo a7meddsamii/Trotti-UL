@@ -14,11 +14,18 @@ import org.mockito.Mockito;
 
 class TripHistoryTest {
     private static final LocalDateTime ANOTHER_ENDTIME_TIME = LocalDateTime.of(2025, 1, 1, 10, 6);
+    private static final LocalDateTime START_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
+    private static final LocalDateTime END_TIME = LocalDateTime.of(2025, 1, 1, 10, 15);
+    private static final Location START_LOCATION = Location.of("VACHON", "Station #1");
+    private static final Location END_LOCATION = Location.of("PEPS", "Station #1");
+    private static final CompletedTrip COMPLETED_TRIP =
+            new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL, START_TIME,
+                    START_LOCATION, END_TIME, END_LOCATION);
     private static final CompletedTrip ANOTHER_COMPLETED_TRIP =
             new CompletedTrip(Mockito.mock(TripId.class), AccountFixture.AN_IDUL,
-                    CompletedTripTest.A_START_TIME, CompletedTripTest.AN_END_LOCATION,
-                    ANOTHER_ENDTIME_TIME, CompletedTripTest.A_START_LOCATION);
-    private static final List<CompletedTrip> A_COMPLETED_TRIP_LIST = new ArrayList<CompletedTrip>();
+                    START_TIME, END_LOCATION,
+                    ANOTHER_ENDTIME_TIME, START_LOCATION);
+    private static final List<CompletedTrip> COMPLETED_TRIP_LIST = new ArrayList<CompletedTrip>();
     private static final List<CompletedTrip> EMPTY_COMPLETED_TRIP_LIST =
             new ArrayList<CompletedTrip>();
 
@@ -27,12 +34,12 @@ class TripHistoryTest {
 
     @BeforeEach
     void setUp() {
-        A_COMPLETED_TRIP_LIST.clear();
+        COMPLETED_TRIP_LIST.clear();
         EMPTY_COMPLETED_TRIP_LIST.clear();
-        A_COMPLETED_TRIP_LIST.add(CompletedTripTest.A_COMPLETED_TRIP);
-        A_COMPLETED_TRIP_LIST.add(CompletedTripTest.A_COMPLETED_TRIP);
-        A_COMPLETED_TRIP_LIST.add(ANOTHER_COMPLETED_TRIP);
-        tripHistory = new TripHistory(A_COMPLETED_TRIP_LIST);
+        COMPLETED_TRIP_LIST.add(COMPLETED_TRIP);
+        COMPLETED_TRIP_LIST.add(COMPLETED_TRIP);
+        COMPLETED_TRIP_LIST.add(ANOTHER_COMPLETED_TRIP);
+        tripHistory = new TripHistory(COMPLETED_TRIP_LIST);
         emptyTripHistory = new TripHistory(EMPTY_COMPLETED_TRIP_LIST);
     }
 
@@ -56,7 +63,7 @@ class TripHistoryTest {
 
     @Test
     void givenCompletedTripList_whenGetFavoriteStartLocation_thenReturnExpectedLocation() {
-        Location expectedLocation = CompletedTripTest.A_START_LOCATION;
+        Location expectedLocation = START_LOCATION;
 
         Location location = tripHistory.getFavoriteStartLocation();
 
@@ -65,7 +72,7 @@ class TripHistoryTest {
 
     @Test
     void givenCompletedTripList_whenGetFavoriteEndLocation_thenReturnExpectedLocation() {
-        Location expectedLocation = CompletedTripTest.AN_END_LOCATION;
+        Location expectedLocation = END_LOCATION;
 
         Location location = tripHistory.getFavoriteEndLocation();
 

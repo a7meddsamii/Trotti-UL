@@ -75,14 +75,14 @@ class TripApiMapperTest {
     void givenNullStartTripRequest_whenToStartTripDto_thenThrowsException() {
         Executable action = () -> mapper.toStartTripDto(travelerIdul, null);
 
-        Assertions.assertThrows(InvalidParameterException.class, action);
+        Assertions.assertThrows(NullPointerException.class, action);
     }
 
     @Test
     void givenNullEndTripRequest_whenToEndTripDto_thenThrowsException() {
         Executable action = () -> mapper.toEndTripDto(travelerIdul, null);
 
-        Assertions.assertThrows(InvalidParameterException.class, action);
+        Assertions.assertThrows(NullPointerException.class, action);
     }
 
     @Test
