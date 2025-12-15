@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.trotti.trip.api.controllers;
 
+import ca.ulaval.glo4003.trotti.billing.domain.ridepermit.values.RidePermitId;
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.EndTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.dto.requests.StartTripRequest;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripCommandApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripQueryApplicationService;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
 import jakarta.ws.rs.core.Response;
@@ -19,10 +21,11 @@ class TripControllerTest {
     private static final Idul TRAVELER_IDUL = Idul.from(IDUL_VALUE);
     private static final String UNLOCK_CODE = "23123";
     private static final String LOCATION = "VACHON";
-    private static final String SLOT_NUMBER = "3";
-    private static final String RIDE_PERMIT_ID = "rideId";
+    private static final int SLOT_NUMBER = 3;
+    private static final String RIDE_PERMIT_ID = RidePermitId.randomId().toString();
 
-    private TripApplicationService tripApplicationService;
+    private TripCommandApplicationService tripCommandApplicationService;
+    private TripQueryApplicationService tripQueryApplicationService;
     private TripApiMapper tripApiMapper;
     private StartTripDto startTripDto;
     private EndTripDto endTripDto;
@@ -31,12 +34,14 @@ class TripControllerTest {
 
     @BeforeEach
     void setUp() {
-        tripApplicationService = Mockito.mock(TripApplicationService.class);
+        tripCommandApplicationService = Mockito.mock(TripCommandApplicationService.class);
+        tripQueryApplicationService = Mockito.mock(TripQueryApplicationService.class);
         tripApiMapper = Mockito.mock(TripApiMapper.class);
         startTripDto = Mockito.mock(StartTripDto.class);
         endTripDto = Mockito.mock(EndTripDto.class);
 
-        resource = new TripController(tripApplicationService, tripApiMapper);
+        resource = new TripController(tripCommandApplicationService, tripQueryApplicationService,
+                tripApiMapper);
 
         Mockito.when(tripApiMapper.toStartTripDto(TRAVELER_IDUL, startTripRequest()))
                 .thenReturn(startTripDto);
@@ -58,11 +63,27 @@ class TripControllerTest {
         Assertions.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
+    @Test
+    void whenGetTripHistory_thenReturnsOkResponse() {
+        Response response = resource.getTripHistory(TRAVELER_IDUL, null);
+
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void whenRequestUnlockCode_thenReturnsOkResponse() {
+        Response response = resource.requestUnlockCode(TRAVELER_IDUL, RIDE_PERMIT_ID);
+
+        Mockito.verify(tripCommandApplicationService, Mockito.times(1))
+                .generateUnlockCode(Mockito.eq(TRAVELER_IDUL), Mockito.any(RidePermitId.class));
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
     private StartTripRequest startTripRequest() {
         return new StartTripRequest(RIDE_PERMIT_ID, UNLOCK_CODE, LOCATION, SLOT_NUMBER);
     }
 
     private EndTripRequest endTripRequest() {
-        return new EndTripRequest(LOCATION, RIDE_PERMIT_ID);
+        return new EndTripRequest(LOCATION, SLOT_NUMBER);
     }
 }

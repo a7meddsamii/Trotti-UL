@@ -12,18 +12,18 @@ import org.mockito.Mockito;
 
 class StudentCreationNodeTest {
 
-    private static final String A_NAME = AccountFixture.A_NAME;
-    private static final LocalDate A_BIRTHDATE = AccountFixture.A_BIRTHDATE;
-    private static final Gender A_GENDER = AccountFixture.A_GENDER;
-    private static final Idul AN_IDUL = AccountFixture.AN_IDUL;
-    private static final Email A_EMAIL = AccountFixture.AN_EMAIL;
+    private static final String NAME = AccountFixture.NAME;
+    private static final LocalDate BIRTHDATE = AccountFixture.BIRTHDATE;
+    private static final Gender GENDER = AccountFixture.GENDER;
+    private static final Idul IDUL = AccountFixture.IDUL;
+    private static final Email EMAIL = AccountFixture.EMAIL;
 
     private StandardAccountCreationNode nextNode;
     private Role role;
     private StudentCreationNode studentCreationNode;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         nextNode = Mockito.mock(StandardAccountCreationNode.class);
         studentCreationNode = new StudentCreationNode();
         studentCreationNode.setNext(nextNode);
@@ -33,27 +33,25 @@ class StudentCreationNodeTest {
     void givenStudentRole_whenCreateStandardAccount_thenStudentAccountIsCreated() {
         role = Role.STUDENT;
 
-        Account expected = studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER,
-                AN_IDUL, A_EMAIL, role);
+        Account result = studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL,
+                EMAIL, role);
 
-        Assertions.assertEquals(A_NAME, expected.getName());
-        Assertions.assertEquals(A_BIRTHDATE, expected.getBirthDate());
-        Assertions.assertEquals(A_GENDER, expected.getGender());
-        Assertions.assertEquals(AN_IDUL, expected.getIdul());
-        Assertions.assertEquals(A_EMAIL, expected.getEmail());
-        Assertions.assertEquals(role, expected.getRole());
-        Assertions.assertNotNull(expected.getPermissions());
+        Assertions.assertEquals(NAME, result.getName());
+        Assertions.assertEquals(BIRTHDATE, result.getBirthDate());
+        Assertions.assertEquals(GENDER, result.getGender());
+        Assertions.assertEquals(IDUL, result.getIdul());
+        Assertions.assertEquals(EMAIL, result.getEmail());
+        Assertions.assertEquals(role, result.getRole());
+        Assertions.assertNotNull(result.getPermissions());
     }
 
     @Test
-    void givenNoStudentRole_whenCreateCompanyAccount_thenNextNodeIsCalled() {
+    void givenNoStudentRole_whenCreateStandardAccount_thenNextNodeIsCalled() {
         role = Role.TECHNICIAN;
 
-        studentCreationNode.createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL, A_EMAIL,
-                role);
+        studentCreationNode.createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
 
-        Mockito.verify(nextNode).createStandardAccount(A_NAME, A_BIRTHDATE, A_GENDER, AN_IDUL,
-                A_EMAIL, role);
+        Mockito.verify(nextNode).createStandardAccount(NAME, BIRTHDATE, GENDER, IDUL, EMAIL, role);
     }
 
 }

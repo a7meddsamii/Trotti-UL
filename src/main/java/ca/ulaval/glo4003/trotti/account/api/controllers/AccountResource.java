@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -41,7 +42,7 @@ public interface AccountResource {
                                     schema = @Schema(implementation = ApiErrorResponse.class))),
                     @ApiResponse(responseCode = "409",
                             description = "Conflit: Un compte existe déjà avec l'IDUL/le courriel utilisé")})
-    Response createAccount(@Valid CreateAccountRequest request);
+    Response createAccount(@NotNull @Valid CreateAccountRequest request);
 
     @POST
     @Path("/company")

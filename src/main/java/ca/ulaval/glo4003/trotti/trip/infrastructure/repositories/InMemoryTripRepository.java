@@ -1,22 +1,30 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.repositories;
 
 import ca.ulaval.glo4003.trotti.commons.domain.Idul;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.CompletedTrip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.entities.TripHistory;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.values.TripHistorySearchCriteria;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripId;
 import ca.ulaval.glo4003.trotti.trip.domain.values.TripStatus;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.records.TripRecord;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryTripRepository implements TripRepository {
+public class InMemoryTripRepository implements TripCommandRepository, TripQueryRepository {
     private Map<TripId, TripRecord> tripTable = new HashMap<>();
-    private final TripPersistenceMapper mapper;
 
-    public InMemoryTripRepository(TripPersistenceMapper mapper) {
+    private final TripPersistenceMapper mapper;
+    private final TripHistoryFilter filter;
+
+    public InMemoryTripRepository(TripPersistenceMapper mapper, TripHistoryFilter filter) {
         this.mapper = mapper;
+        this.filter = filter;
     }
 
     @Override
@@ -44,5 +52,14 @@ public class InMemoryTripRepository implements TripRepository {
                 .filter(tripRecord -> tripRecord.idul().equals(idul)
                         && tripRecord.tripStatus().equals(tripStatus))
                 .map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public TripHistory findAllBySearchCriteria(TripHistorySearchCriteria criteria) {
+        List<CompletedTrip> completedTrips =
+                tripTable.values().stream().filter(trip -> filter.matches(trip, criteria))
+                        .map(mapper::toCompletedTrip).toList();
+
+        return new TripHistory(completedTrips);
     }
 }

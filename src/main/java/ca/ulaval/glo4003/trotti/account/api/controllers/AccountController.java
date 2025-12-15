@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 public class AccountController implements AccountResource {
+
     private static final String ACCOUNTS_ENDPOINT = "/api/accounts";
     private static final String PATH_SEPARATOR = "/";
 

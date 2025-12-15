@@ -1,0 +1,767 @@
+{
+	"info": {
+		"_postman_id": "1c605d2e-5b5b-481f-b01d-104f49f283bc",
+		"name": "Trotti-UL E2E Tests",
+		"description": "End-to-end test scenarios for critical business flows",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30324537",
+		"_collection_link": "https://galactic-capsule-320452.postman.co/workspace/be7ef9c6-3fe5-4080-8ed9-f92bd43bd39d/collection/30324537-1c605d2e-5b5b-481f-b01d-104f49f283bc?action=share&source=collection_link&creator=30324537"
+	},
+	"item": [
+		{
+			"name": "Complete User Journey",
+			"item": [
+				{
+					"name": "Create Student Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Account created successfully', function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.header('Location');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"E2E Test User\",\n    \"birthDate\": \"2000-01-01\",\n    \"gender\": \"MALE\",\n    \"idul\": \"e2euser\",\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\",\n    \"role\": \"STUDENT\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.token).to.not.be.undefined;",
+									"    pm.collectionVariables.set('studentToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.user@ulaval.ca\",\n    \"password\": \"TestPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Empty Order (Should be 404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('No order exists initially', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Pass to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Pass added to cart', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.items).to.have.lengthOf(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"maximumDailyTravelTime\": 30,\n    \"session\": \"A25\",\n    \"billingFrequency\": \"MONTHLY\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Payment processed', function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4111111111111111\",\n    \"cardHolderName\": \"E2E Test User\",\n    \"expirationDate\": \"2025-12\",\n    \"cvv\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/confirm",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ride Permits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Ride permit created', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.lengthOf.above(0);",
+									"    pm.collectionVariables.set('ridePermitId', json[0].ridePermitId);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ride-permit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ride-permit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Trip History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Trip in history', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.trips).to.be.an('array');",
+									"    pm.expect(json.trips).to.be.empty;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/trips/history",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trips",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Maintenance Workflow",
+			"item": [
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Admin login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('adminToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@ulaval.ca\",\n    \"password\": \"ChangeMe123!@#\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Technician Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician account created', function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"E2E Technician\",\n    \"birthDate\": \"1990-01-01\",\n    \"gender\": \"MALE\",\n    \"idul\": \"e2etech\",\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\",\n    \"role\": \"TECHNICIAN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accounts/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Technician",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('technicianToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Maintenance Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Maintenance request submitted', function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{studentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"DESJARDINS\",\n    \"message\": \"E2E maintenance request test\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/request",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Station Maintenance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Maintenance started', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"MYRAND\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/start",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End Station Maintenance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Maintenance ended', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location\": \"MYRAND\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fleet/stations/maintenance/end",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"maintenance",
+								"end"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fleet Management",
+			"item": [
+				{
+					"name": "Login as Technician",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Technician login successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('technicianToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e2e.tech@ulaval.ca\",\n    \"password\": \"TechPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Station Availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Station has slots', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/fleet/stations/VACHON/slots/available",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"VACHON",
+								"slots",
+								"available"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Occupied Slots",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Station has occupied slots', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{technicianToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/fleet/stations/VACHON/slots/occupied",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fleet",
+								"stations",
+								"VACHON",
+								"slots",
+								"occupied"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "studentToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ridePermitId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "unlockCode",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "paymentToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adminToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "technicianToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

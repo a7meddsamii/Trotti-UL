@@ -33,7 +33,7 @@ class SemesterTest {
     }
 
     @Test
-    void givenInvalidString_whenFromString_thenThrowsException() {
+    void givenInvalidValue_whenFromString_thenThrowsException() {
         Executable executable = () -> Semester.fromString("Invalid");
 
         Assertions.assertThrows(InvalidParameterException.class, executable);
