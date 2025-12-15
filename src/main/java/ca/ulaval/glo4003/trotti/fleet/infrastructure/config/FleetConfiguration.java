@@ -28,5 +28,6 @@ public class FleetConfiguration extends Configuration {
         new FleetStationsLoader().load();
         new FleetApplicationServiceLoader().load();
         new FleetGatewayEntryLoader().load();
+        new FleetResourceLoader().load();
     }
 }

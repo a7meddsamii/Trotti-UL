@@ -93,4 +93,18 @@ public class Fleet {
 
         return scootersToDeposit;
     }
+
+    public List<SlotNumber> getAvailableSlots(Location location) {
+        Station station = stations.get(location);
+        return station.getAvailableSlots();
+    }
+
+    public List<SlotNumber> getOccupiedSlots(Location location) {
+        Station station = stations.get(location);
+        return station.getOccupiedSlots();
+    }
+
+    public void ensureStationNotUnderMaintenance(Location location) {
+        stations.get(location).ensureNotUnderMaintenance();
+    }
 }

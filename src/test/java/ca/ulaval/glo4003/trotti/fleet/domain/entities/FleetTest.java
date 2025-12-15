@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 class FleetTest {
 
     private static final Location A_LOCATION = Location.of("Vachon", "porte1");
-    private static final SlotNumber SLOT_1 = new SlotNumber(1);
-    private static final SlotNumber SLOT_2 = new SlotNumber(2);
+    private static final SlotNumber SLOT_1 = SlotNumber.from(1);
+    private static final SlotNumber SLOT_2 = SlotNumber.from(2);
     private static final LocalDateTime A_TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
     private static final Idul TECHNICIAN = Idul.from("tech123");
 
@@ -173,4 +173,27 @@ class FleetTest {
 
         return displacedScooters;
     }
+
+    @Test
+    void givenLocation_whenGetAvailableSlots_thenReturnsStationAvailableSlots() {
+        List<SlotNumber> availableSlots = List.of(SLOT_1, SLOT_2);
+        Mockito.when(station.getAvailableSlots()).thenReturn(availableSlots);
+
+        List<SlotNumber> result = fleet.getAvailableSlots(A_LOCATION);
+
+        Assertions.assertEquals(availableSlots, result);
+        Mockito.verify(station).getAvailableSlots();
+    }
+
+    @Test
+    void givenLocation_whenGetOccupiedSlots_thenReturnsStationOccupiedSlots() {
+        List<SlotNumber> occupiedSlots = List.of(SLOT_1);
+        Mockito.when(station.getOccupiedSlots()).thenReturn(occupiedSlots);
+
+        List<SlotNumber> result = fleet.getOccupiedSlots(A_LOCATION);
+
+        Assertions.assertEquals(occupiedSlots, result);
+        Mockito.verify(station).getOccupiedSlots();
+    }
+
 }

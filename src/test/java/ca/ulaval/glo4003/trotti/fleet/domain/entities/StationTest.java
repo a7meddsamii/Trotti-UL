@@ -13,8 +13,8 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
-    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
+    private static final SlotNumber SLOT_NUMBER = SlotNumber.from(1);
+    private static final SlotNumber SLOT_NUMBER_2 = SlotNumber.from(2);
     private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
     private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
@@ -168,4 +168,21 @@ class StationTest {
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
         Mockito.verify(dockingArea).dock(SLOT_NUMBER_2, scooter2);
     }
+
+    @Test
+    void givenStationUnderMaintenance_whenEnsureNotUnderMaintenance_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationNotUnderMaintenance_whenEnsureNotUnderMaintenance_thenDoesNotThrow() {
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertDoesNotThrow(action);
+    }
+
 }
