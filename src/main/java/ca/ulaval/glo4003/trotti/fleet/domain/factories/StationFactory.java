@@ -30,7 +30,7 @@ public class StationFactory {
         Map<SlotNumber, ScooterSlot> scooterSlots = new HashMap<>();
 
         for (int i = 0; i < capacity; i++) {
-            SlotNumber slotNumber = new SlotNumber(i);
+            SlotNumber slotNumber = SlotNumber.from(i);
             scooterSlots.put(slotNumber, new ScooterSlot(slotNumber));
         }
 

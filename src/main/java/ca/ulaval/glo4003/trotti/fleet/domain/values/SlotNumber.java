@@ -6,11 +6,15 @@ import java.util.Objects;
 public class SlotNumber {
     private final int value;
 
-    public SlotNumber(int value) {
+    private SlotNumber(int value) {
         if (value < 0) {
             throw new InvalidParameterException("Slot number must be positive.");
         }
         this.value = value;
+    }
+
+    public static SlotNumber from(int value) {
+        return new SlotNumber(value);
     }
 
     public int getValue() {

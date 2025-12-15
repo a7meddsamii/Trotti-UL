@@ -14,9 +14,9 @@ import org.mockito.Mockito;
 
 class DockingAreaTest {
 
-    private static final SlotNumber SLOT_1 = new SlotNumber(1);
-    private static final SlotNumber SLOT_2 = new SlotNumber(2);
-    private static final SlotNumber INVALID_SLOT = new SlotNumber(99);
+    private static final SlotNumber SLOT_1 = SlotNumber.from(1);
+    private static final SlotNumber SLOT_2 = SlotNumber.from(2);
+    private static final SlotNumber INVALID_SLOT = SlotNumber.from(99);
     private static final LocalDateTime TIME = LocalDateTime.of(2024, 1, 1, 12, 0);
 
     private DockingArea dockingArea;

@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.trotti.trip.infrastructure.config.loaders;
 
 import ca.ulaval.glo4003.trotti.config.bootstrapper.Bootstrapper;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
+import ca.ulaval.glo4003.trotti.trip.infrastructure.filter.TripHistoryFilter;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.InMemoryTripRepository;
 import ca.ulaval.glo4003.trotti.trip.infrastructure.repositories.mappers.TripPersistenceMapper;
 
@@ -15,8 +17,12 @@ public class TripRepositoryLoader extends Bootstrapper {
         TripPersistenceMapper tripMapper =
                 this.resourceLocator.resolve(TripPersistenceMapper.class);
 
-        TripRepository tripRepository = new InMemoryTripRepository(tripMapper);
+        TripHistoryFilter tripHistoryFilter = new TripHistoryFilter();
 
-        this.resourceLocator.register(TripRepository.class, tripRepository);
+        InMemoryTripRepository inMemoryTripRepository =
+                new InMemoryTripRepository(tripMapper, tripHistoryFilter);
+
+        this.resourceLocator.register(TripCommandRepository.class, inMemoryTripRepository);
+        this.resourceLocator.register(TripQueryRepository.class, inMemoryTripRepository);
     }
 }

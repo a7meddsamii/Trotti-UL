@@ -13,10 +13,10 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 class StationTest {
-    private static final SlotNumber SLOT_NUMBER = new SlotNumber(1);
-    private static final SlotNumber SLOT_NUMBER_2 = new SlotNumber(2);
-    private static final Idul TECHNICIID = Idul.from("anIdul");
-    private static final Idul OTHER_TECHNICIID = Idul.from("otherTech");
+    private static final SlotNumber SLOT_NUMBER = SlotNumber.from(1);
+    private static final SlotNumber SLOT_NUMBER_2 = SlotNumber.from(2);
+    private static final Idul TECHNICIAN_ID = Idul.from("anIdul");
+    private static final Idul OTHER_TECHNICIAN_ID = Idul.from("otherTech");
     private static final LocalDateTime CURRENT_TIME = LocalDateTime.of(2024, 1, 1, 12, 30);
     private static final int EXPECTED_INITIAL_CAPACITY = 8;
     private static final int CAPACITY = 10;
@@ -56,7 +56,7 @@ class StationTest {
 
     @Test
     void givenStationUnderMaintenance_whenTakeScooter_thenThrowsException() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Executable action = () -> station.takeScooter(SLOT_NUMBER, CURRENT_TIME);
 
@@ -73,7 +73,7 @@ class StationTest {
 
     @Test
     void givenStationUnderMaintenance_whenParkScooter_thenThrowsException() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Executable action = () -> station.parkScooter(SLOT_NUMBER, scooter, CURRENT_TIME);
 
@@ -82,7 +82,7 @@ class StationTest {
 
     @Test
     void givenStationNotUnderMaintenance_whenStartMaintenance_thenSwitchToUnderMaintenanceStatus() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Mockito.verify(dockingArea).turnOffElectricity(CURRENT_TIME);
         Assertions.assertTrue(station.getMaintenanceStatus().isActive());
@@ -90,34 +90,34 @@ class StationTest {
 
     @Test
     void givenStationAlreadyUnderMaintenance_whenStartMaintenance_thenThrowsException() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Executable action = () -> station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        Executable action = () -> station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenStationNotUnderMaintenance_whenEndMaintenance_thenThrowsException() {
-        Executable action = () -> station.endMaintenance(TECHNICIID, CURRENT_TIME);
+        Executable action = () -> station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenDifferentTechnician_whenEndMaintenance_thenThrowsException() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        Executable action = () -> station.endMaintenance(OTHER_TECHNICIID, CURRENT_TIME);
+        Executable action = () -> station.endMaintenance(OTHER_TECHNICIAN_ID, CURRENT_TIME);
 
         Assertions.assertThrows(StationMaintenanceException.class, action);
     }
 
     @Test
     void givenStationUnderMaintenance_whenEndMaintenance_thenSwitchMaintenanceStatusToCompleted() {
-        station.startMaintenance(TECHNICIID, CURRENT_TIME);
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
-        station.endMaintenance(TECHNICIID, CURRENT_TIME);
+        station.endMaintenance(TECHNICIAN_ID, CURRENT_TIME);
 
         Mockito.verify(dockingArea).turnOnElectricity(CURRENT_TIME);
         Assertions.assertFalse(station.getMaintenanceStatus().isActive());
@@ -168,4 +168,21 @@ class StationTest {
         Mockito.verify(dockingArea).dock(SLOT_NUMBER, scooter);
         Mockito.verify(dockingArea).dock(SLOT_NUMBER_2, scooter2);
     }
+
+    @Test
+    void givenStationUnderMaintenance_whenEnsureNotUnderMaintenance_thenThrowsException() {
+        station.startMaintenance(TECHNICIAN_ID, CURRENT_TIME);
+
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertThrows(StationMaintenanceException.class, action);
+    }
+
+    @Test
+    void givenStationNotUnderMaintenance_whenEnsureNotUnderMaintenance_thenDoesNotThrow() {
+        Executable action = () -> station.ensureNotUnderMaintenance();
+
+        Assertions.assertDoesNotThrow(action);
+    }
+
 }
