@@ -6,7 +6,8 @@ import ca.ulaval.glo4003.trotti.heartbeat.api.controllers.HeartbeatResource;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripController;
 import ca.ulaval.glo4003.trotti.trip.api.controllers.TripResource;
 import ca.ulaval.glo4003.trotti.trip.api.mappers.TripApiMapper;
-import ca.ulaval.glo4003.trotti.trip.application.TripApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripCommandApplicationService;
+import ca.ulaval.glo4003.trotti.trip.application.TripQueryApplicationService;
 
 public class TripResourceLoader extends Bootstrapper {
     @Override
@@ -21,10 +22,13 @@ public class TripResourceLoader extends Bootstrapper {
 
     private void loadTripResource() {
         TripApiMapper tripApiMapper = resourceLocator.resolve(TripApiMapper.class);
-        TripApplicationService tripApplicationService =
-                resourceLocator.resolve(TripApplicationService.class);
+        TripCommandApplicationService tripCommandApplicationService =
+                resourceLocator.resolve(TripCommandApplicationService.class);
+        TripQueryApplicationService tripQueryApplicationService =
+                resourceLocator.resolve(TripQueryApplicationService.class);
 
-        TripResource tripController = new TripController(tripApplicationService, tripApiMapper);
+        TripResource tripController = new TripController(tripCommandApplicationService,
+                tripQueryApplicationService, tripApiMapper);
         resourceLocator.register(TripResource.class, tripController);
     }
 }

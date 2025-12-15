@@ -11,13 +11,13 @@ import ca.ulaval.glo4003.trotti.fleet.domain.values.ScooterId;
 import ca.ulaval.glo4003.trotti.fleet.domain.values.SlotNumber;
 import ca.ulaval.glo4003.trotti.trip.application.dto.EndTripDto;
 import ca.ulaval.glo4003.trotti.trip.application.dto.StartTripDto;
-import ca.ulaval.glo4003.trotti.trip.application.mappers.TripMapper;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.Trip;
 import ca.ulaval.glo4003.trotti.trip.domain.entities.UnlockCode;
 import ca.ulaval.glo4003.trotti.trip.domain.exceptions.TripException;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.RidePermitGateway;
 import ca.ulaval.glo4003.trotti.trip.domain.gateway.ScooterRentalGateway;
-import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripCommandRepository;
+import ca.ulaval.glo4003.trotti.trip.domain.repositories.TripQueryRepository;
 import ca.ulaval.glo4003.trotti.trip.domain.store.UnlockCodeStore;
 import ca.ulaval.glo4003.trotti.trip.domain.values.*;
 import java.time.Clock;
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-class TripApplicationServiceTest {
+class TripCommandApplicationServiceTest {
 
     private static final Idul IDUL = Idul.from("abcd");
     private static final RidePermitId RIDE_PERMIT_ID = RidePermitId.randomId();
@@ -36,26 +36,26 @@ class TripApplicationServiceTest {
     private static final SlotNumber SLOT_NUMBER = SlotNumber.from(3);
 
     private UnlockCodeStore unlockCodeStore;
-    private TripRepository tripRepository;
+    private TripCommandRepository tripCommandRepository;
+    private TripQueryRepository tripQueryRepository;
     private RidePermitGateway ridePermitGateway;
     private ScooterRentalGateway scooterRentalGateway;
     private EventBus eventBus;
     private Clock clock;
-    private TripMapper tripMapper;
-    private TripApplicationService service;
+    private TripCommandApplicationService service;
 
     @BeforeEach
     void setup() {
         unlockCodeStore = Mockito.mock(UnlockCodeStore.class);
-        tripRepository = Mockito.mock(TripRepository.class);
+        tripCommandRepository = Mockito.mock(TripCommandRepository.class);
+        tripQueryRepository = Mockito.mock(TripQueryRepository.class);
         ridePermitGateway = Mockito.mock(RidePermitGateway.class);
         scooterRentalGateway = Mockito.mock(ScooterRentalGateway.class);
         eventBus = Mockito.mock(EventBus.class);
         clock = Clock.systemDefaultZone();
-        tripMapper = Mockito.mock(TripMapper.class);
 
-        service = new TripApplicationService(unlockCodeStore, tripRepository, ridePermitGateway,
-                scooterRentalGateway, eventBus, clock, tripMapper);
+        service = new TripCommandApplicationService(unlockCodeStore, tripCommandRepository,
+                ridePermitGateway, scooterRentalGateway, eventBus, clock);
     }
 
     @Test
@@ -94,7 +94,7 @@ class TripApplicationServiceTest {
         Mockito.when(startDto.idul()).thenReturn(IDUL);
         Mockito.when(startDto.ridePermitId()).thenReturn(RIDE_PERMIT_ID);
         Mockito.when(startDto.unlockCode()).thenReturn(UNLOCK_CODE);
-        Mockito.when(tripRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
+        Mockito.when(tripCommandRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
                 .thenReturn(true);
         Mockito.doNothing().when(unlockCodeStore).validate(IDUL, RIDE_PERMIT_ID, UNLOCK_CODE);
 
@@ -113,7 +113,7 @@ class TripApplicationServiceTest {
         Mockito.when(startDto.location()).thenReturn(location);
         Mockito.when(startDto.slotNumber()).thenReturn(SLOT_NUMBER);
         Mockito.doNothing().when(unlockCodeStore).validate(IDUL, RIDE_PERMIT_ID, UNLOCK_CODE);
-        Mockito.when(tripRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
+        Mockito.when(tripCommandRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
                 .thenReturn(false);
 
         ScooterId scooterId = Mockito.mock(ScooterId.class);
@@ -123,7 +123,7 @@ class TripApplicationServiceTest {
         service.startTrip(startDto);
 
         Mockito.verify(scooterRentalGateway).retrieveScooter(location, SLOT_NUMBER);
-        Mockito.verify(tripRepository).save(Mockito.any());
+        Mockito.verify(tripCommandRepository).save(Mockito.any());
         Mockito.verify(unlockCodeStore).revoke(IDUL, RIDE_PERMIT_ID);
     }
 
@@ -134,7 +134,7 @@ class TripApplicationServiceTest {
         Mockito.when(endDto.idul()).thenReturn(IDUL);
         Mockito.when(endDto.location()).thenReturn(location);
         Mockito.when(endDto.slotNumber()).thenReturn(SLOT_NUMBER);
-        Mockito.when(tripRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
+        Mockito.when(tripCommandRepository.exists(Mockito.eq(IDUL), Mockito.any(TripStatus.class)))
                 .thenReturn(false);
 
         Executable serviceCall = () -> service.endTrip(endDto);
@@ -160,8 +160,8 @@ class TripApplicationServiceTest {
         Mockito.when(endDto.idul()).thenReturn(IDUL);
         Mockito.when(endDto.location()).thenReturn(endLocation);
         Mockito.when(endDto.slotNumber()).thenReturn(SLOT_NUMBER);
-        Mockito.when(tripRepository.exists(IDUL, TripStatus.ONGOING)).thenReturn(true);
-        Mockito.when(tripRepository.findBy(IDUL, TripStatus.ONGOING))
+        Mockito.when(tripCommandRepository.exists(IDUL, TripStatus.ONGOING)).thenReturn(true);
+        Mockito.when(tripCommandRepository.findBy(IDUL, TripStatus.ONGOING))
                 .thenReturn(java.util.List.of(trip));
 
         service.endTrip(endDto);
@@ -174,5 +174,4 @@ class TripApplicationServiceTest {
                         && e.getStartLocation().equals(endLocation.toString())
                         && e.getEndLocation().equals(endLocation.toString())));
     }
-
 }
