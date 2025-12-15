@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-public class RidePermitIdTest {
+class RidePermitIdTest {
     private static final String VALID_VALUE = UUID.randomUUID().toString();
     private static final String INVALID_VALUE = "invalid_uuid";
 

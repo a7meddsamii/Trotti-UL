@@ -33,14 +33,14 @@ class BatteryLevelTest {
     }
 
     @Test
-    void givenBelowMinimum_whenFrom_thenThrowException() {
+    void givenBelowMinimum_whenFrom_thenThrowsException() {
         Executable creationWithNegativeValue = () -> BatteryLevel.from(BELOW_MINIMUM_VALUE);
 
         Assertions.assertThrows(InvalidBatteryValue.class, creationWithNegativeValue);
     }
 
     @Test
-    void givenValueAboveMaximum_whenFrom_thenThrowException() {
+    void givenValueAboveMaximum_whenFrom_thenThrowsException() {
         Executable creationWithAbove100 = () -> BatteryLevel.from(ABOVE_MAXIMUM_VALUE);
 
         Assertions.assertThrows(InvalidBatteryValue.class, creationWithAbove100);

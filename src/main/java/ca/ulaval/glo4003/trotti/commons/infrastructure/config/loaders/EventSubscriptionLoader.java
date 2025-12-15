@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.trotti.commons.infrastructure.config.loaders;
 
-import ca.ulaval.glo4003.trotti.account.api.handler.AccountEventHandler;
+import ca.ulaval.glo4003.trotti.account.api.handlers.AccountEventHandler;
 import ca.ulaval.glo4003.trotti.billing.api.order.handler.OrderEventHandler;
 import ca.ulaval.glo4003.trotti.billing.api.ridepermit.handler.RidePermitEventHandler;
 import ca.ulaval.glo4003.trotti.commons.domain.events.EventBus;

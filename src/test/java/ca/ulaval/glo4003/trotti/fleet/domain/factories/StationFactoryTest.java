@@ -29,7 +29,7 @@ class StationFactoryTest {
     }
 
     @Test
-    void givenNonPositiveCapacity_whenCreate_thenThrowsInvalidStationOperation() {
+    void givenNonPositiveCapacity_whenCreate_thenThrowsException() {
         int invalidCapacity = 0;
 
         Executable action = () -> stationFactory.create(LOCATION, invalidCapacity);

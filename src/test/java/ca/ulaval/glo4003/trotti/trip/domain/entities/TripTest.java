@@ -57,7 +57,7 @@ public class TripTest {
     }
 
     @Test
-    void givenCompletedTrip_whenComplete_thenThrowTripException() {
+    void givenCompletedTrip_whenComplete_thenThrowsException() {
         trip.complete(A_END_LOCATION, END_TIME);
 
         Executable executable = () -> trip.complete(A_END_LOCATION, END_TIME);
@@ -66,7 +66,7 @@ public class TripTest {
     }
 
     @Test
-    void givenOngoingTrip_whenCalculateDuration_thenThrowTripException() {
+    void givenOngoingTrip_whenCalculateDuration_thenThrowsException() {
         Executable executable = () -> trip.calculateDuration();
 
         Assertions.assertThrows(TripException.class, executable);
@@ -82,7 +82,7 @@ public class TripTest {
     }
 
     @Test
-    void givenOnGoingTripAndInvalidEndTime_whenComplete_thenThrowTripException() {
+    void givenOnGoingTripAndInvalidEndTime_whenComplete_thenThrowsException() {
         LocalDateTime invalidEndTime = START_TIME.minusMinutes(5);
 
         Executable executable = () -> trip.complete(A_END_LOCATION, invalidEndTime);
