@@ -61,28 +61,28 @@ public class InMemoryTripRepository implements TripRepository, TripQueryReposito
         LocalDate now = LocalDate.now(clock);
 
         LocalDate defaultStart = now.minusMonths(1).withDayOfMonth(1);
-        LocalDate defaultEnd   = now.minusMonths(1).withDayOfMonth(
+        LocalDate defaultEnd = now.minusMonths(1).withDayOfMonth(
                 now.minusMonths(1).lengthOfMonth()
         );
 
-        LocalDate startDate = criteria.getStartDate() != null
-                ? criteria.getStartDate()
-                : defaultStart;
+        LocalDate startDate = criteria.getStartDate();
+        LocalDate endDate = criteria.getEndDate();
 
-        LocalDate endDate = criteria.getEndDate() != null
-                ? criteria.getEndDate()
-                : defaultEnd;
+        if (startDate == null && endDate == null) {
+            startDate = defaultStart;
+            endDate = defaultEnd;
+        }
+
+        final LocalDate filterStart = startDate;
+        final LocalDate filterEnd = endDate;
 
         List<CompletedTrip> completedTrips = tripTable.values().stream()
                 .filter(trip -> {
                     boolean matchesIdul = trip.idul().equals(criteria.getIdul());
-
                     LocalDate tripStart = trip.startTime().toLocalDate();
-                    LocalDate tripEnd   = trip.endTime().toLocalDate();
-
-                    boolean matchesStartDate = !tripStart.isBefore(startDate);
-                    boolean matchesEndDate   = !tripEnd.isAfter(endDate);
-
+                    LocalDate tripEnd = trip.endTime().toLocalDate();
+                    boolean matchesStartDate = filterStart == null || !tripStart.isBefore(filterStart);
+                    boolean matchesEndDate = filterEnd == null || !tripEnd.isAfter(filterEnd);
                     return matchesIdul && matchesStartDate && matchesEndDate;
                 })
                 .map(mapper::toCompletedTrip)
