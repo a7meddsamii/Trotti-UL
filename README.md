@@ -8,6 +8,11 @@ Laval University’s electric scooter rental service for optimal transportation.
 - [Features](#features)
     - [Account management](#account-management)
     - [Buy electric scooter passes](#buy-electric-scooter-passes)
+    - [Ride activation & unlock](#ride-activation--unlock)
+    - [Scooter usage at stations](#scooter-usage-at-stations)
+    - [Trip Completion](#trip-completion)
+    - [Trip history & usage summary](#trip-history--usage-summary)
+    - [Station maintenance & technician operations](#station-maintenance--technician-operations)
 - [Installation](#installation)
 
 
@@ -43,6 +48,62 @@ The **Scooter Pass** module enables students to purchase passes for using electr
 - Handle failed transactions and store payment info for future trips
 - Receive a transaction invoice
 - Pass is valid for a  single academic session (from session start to the next session)
+
+### Ride activation & unlock
+
+- Account is activated after a successful purchase
+- User receives an email notification when the account is activated
+- User is authorized to perform scooter trips only if the active session matches the purchased pass
+- User can request a unique unlock code to start a trip
+  - Code is numeric (4 to 6 digits)
+  - Code is valid for 60 seconds
+  - Code is sent by email
+  - A new code is required for each trip
+
+### Scooter usage at stations
+
+- User can unlock a scooter at a station using a valid unlock code
+- Scooters are identified by station and location number (e.g., Station X – spot #1)
+- Scooter can only be unlocked if battery level is above 15%
+- Stations are initialized with 80% of their maximum scooter capacity
+- Only operational stations allow scooter unlock and return
+
+### Trip completion
+
+- User can return a scooter to any available spot on campus
+- Trips under 15 minutes do not generate additional fees
+- Trips are recorded in the user’s trip history
+- Each trip includes:
+  - Departure time
+  - Departure station
+  - Arrival station
+  - Travel duration
+- If daily unlimited usage is exceeded, an additional $5 fee is applied
+
+### Trip history & usage summary
+
+- User can view their trip history for the last month by default
+- User can consult full details of each trip
+- A usage summary is provided, including:
+  - Total travel time
+  - Average travel time per trip
+  - Number of trips
+  - Favorite station
+
+### Station maintenance & technician operations
+
+- Users or project managers can report station issues
+- Maintenance requests are sent by email to all technicians
+- A station under maintenance is paused:
+  - No trips can start
+  - No scooters can be returned
+  - Battery charging is stopped
+- Only a technician can manually restore a station to service
+- Technicians can transfer scooters between stations during maintenance
+  - Transfers are not considered trips
+  - Scooters are placed in an *In Transfer* state
+  - No battery discharge occurs during transport
+- Technicians have unrestricted access to the service while employed
 
 
 ## Installation
